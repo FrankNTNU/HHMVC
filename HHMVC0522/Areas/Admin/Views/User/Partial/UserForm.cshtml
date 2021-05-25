@@ -1,0 +1,153 @@
+﻿
+@model DTO.UserDTO
+<div class="box-body">
+    <div class="form-group">
+        <label>使用者名稱</label>
+        @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "使用者名稱(作為登入帳號使用)" })
+        @Html.ValidationMessageFor(x => x.UserName)
+    </div>
+    <div class="form-group">
+        <label>密碼</label>
+        @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @placeholder = "密碼", @type = "password" })
+        @Html.ValidationMessageFor(x => x.Password)
+    </div>
+    @if (DTO.UserStatic.isAdmin)
+    {
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="isAdmin" checked="@Model.isAdmin" value="true">
+            <label class="form-check-label">是否為管理員</label>
+        </div>
+    }
+    <div class="form-group">
+        <label>名稱</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "顯示名稱(他人看到的名稱)" })
+        @Html.ValidationMessageFor(x => x.Name)
+    </div>
+    <label>E-mail</label>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+        </div>
+        @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "電子郵件", @type = "email" })
+    </div>
+    @Html.ValidationMessageFor(x => x.Email)
+
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>生日</label>
+                <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                    @Html.TextBoxFor(x => x.BirthDate, new { @class= "form-control datetimepicker-input", @placeholder="01/01/2000", @target= "#reservationdate" })
+                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+            @Html.ValidationMessageFor(x => x.BirthDate)
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>性別</label>
+                <div class="form-check" style="padding:0">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.RadioButtonFor(x => x.Gender, "true")
+                            <label class="form-check-label">男</label>
+                        </div>
+                        <div class="col-sm-6">
+
+                            @Html.RadioButtonFor(x => x.Gender, "false")
+                            <label class="form-check-label">女</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @Html.ValidationMessageFor(x => x.Gender)
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>身高</label>
+                @Html.TextBoxFor(x => x.Height, new { @class = "form-control", @placeholder = "身高(公分)" })
+                @Html.ValidationMessageFor(x => x.Height)
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>身份證字號</label>
+                @Html.TextBoxFor(x => x.TaiwanID, new { @class = "form-control", @placeholder = "身分證字號" })
+                @Html.ValidationMessageFor(x => x.TaiwanID)
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>手機號碼</label>
+        @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "手機/電話號碼" })
+        @Html.ValidationMessageFor(x => x.Phone)
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- select -->
+            <div class="form-group">
+                <label>運動強度</label>
+                @Html.DropDownList("ActivityLevelID", Model.ActivityLevels, "選擇運動強度", new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.ActivityLevelID)
+            </div>
+        </div>
+        @if (DTO.UserStatic.isAdmin)
+        {
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>狀態</label>
+                    @Html.DropDownList("StatusID", Model.Statuses, "選擇使用者狀態", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.StatusID)
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>狀態</label>
+                    @Html.DropDownList("StatusID", Model.Statuses, "選擇使用者狀態", new { @class = "form-control", @readonly = "true" })
+                    @Html.ValidationMessageFor(x => x.StatusID)
+                </div>
+            </div>
+        }
+
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(x => x.UserImage)
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" name="UserImage" class="custom-file-input" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#UserImage')[0].src = window.URL.createObjectURL(this.files[0])" />
+                        <label class="custom-file-label" for="UserImage">選擇圖片</label>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            @if (Model != null && Model.ImagePath != null) // Update image.
+            {
+                <img src="~/Areas/Admin/Content/UserImage/@Model.ImagePath" width="200" height="200" id="UserImage"/>
+
+
+            }
+            else // Add image.
+            {
+                <img src="" width="200" height="200" id="UserImage" />
+            }
+        </div>
+    </div>
+
+    <input type="number" hidden name="ID" value="@Model.ID" />
+    <div class="card-footer">
+        <button class="btn btn-primary" type="submit">儲存</button>
+    </div>
+
+</div>
+

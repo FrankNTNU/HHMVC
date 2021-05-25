@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "PostList";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@model List<DTO.PostDTO>
+<section class="content-header">
+    <h1>所有貼文</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>貼文</a></li>
+        <li class="breadcrumb-item active"><a>所有貼文</a></li>
+    </ol>
+</section>
+<br />
+<div class="card-footer">
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Post/AddPost'">新增貼文</button>
+</div>
+@*@using DTO
+@{
+    CountDTO countDTO = (CountDTO)ViewData["AllCounts"];
+}*@
+<div class="card">
+    <!--</div>-->
+    <!-- /.row -->
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>標題</th>
+                    <th>分類</th>
+                    <th>新增日期</th>
+                    <th>更新</th>
+                    <th>刪除</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr id="a_@item.ID">
+                        <td>@item.Title</td>
+                        <td>
+                            @item.CategoryName
+                        </td>
+                        <td>
+                            @item.AddDate.ToString("dd.MM.yyyy, dddd")
+                        </td>
+                        <td align="center" valign="middle">
+                            @if (DTO.UserStatic.isAdmin || DTO.UserStatic.UserID == item.MemberID)
+                            {
+                                <a href="/Admin/Post/UpdatePost/@item.ID">
+                                    <img src="~/Areas/Admin/Content/icon/update-icon.png" />
+                                </a>
+                            }
+
+                        </td>
+                        <td align="center" valign="middle">
+                            @if (DTO.UserStatic.isAdmin || DTO.UserStatic.UserID == item.MemberID)
+                            {
+                                <a href="#">
+                                    <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Post/DeletePost/', @item.ID)" />
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>標題</th>
+                    <th>分類</th>
+                    <th>新增日期</th>
+                    <th>更新</th>
+                    <th>刪除</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
+    <!-- /.card-body -->
+</div>
+<script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>
+<!-- /.card -->

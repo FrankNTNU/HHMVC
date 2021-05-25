@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "UpdatePost";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<section class="content-header">
+    <h1>更新貼文</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>貼文</a></li>
+        <li class="breadcrumb-item active"><a>更新貼文</a></li>
+    </ol>
+</section>
+<br />
+<div class="card-footer">
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Post/PostList'">所有貼文</button>
+</div>
+<section class="content">
+    <div class="row">
+        <div class="col-md-9">
+            @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
+            <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
+            <div class="box box-primary">
+                @using (Html.BeginForm("UpdatePost", "Post", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    @Html.Partial("Partial/PostForm")
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+

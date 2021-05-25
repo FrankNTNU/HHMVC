@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "UserList";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@model List<DTO.UserDTO>
+<section class="content-header">
+    <h1>所有使用者</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>使用者</a></li>
+        <li class="breadcrumb-item active"><a>所有使用者</a></li>
+    </ol>
+</section>
+<br />
+<div class="card-footer">
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/User/AddUser'">新增使用者</button>
+</div>
+
+<div class="card">
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>名稱</th>
+                    <th>使用者帳號</th>
+                    <th>圖片</th>
+                    <th>修改</th>
+                    <th>刪除</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr id="a_@item.ID">
+                        <td>@item.Name</td>
+                        <td>
+                            @item.UserName
+                        </td>
+                        <td><img src="~/Areas/Admin/Content/UserImage/@item.ImagePath" width="50" height="50" /></td>
+                        <td align="center" valign="middle">
+                            <a href="/Admin/User/UpdateUser/@item.ID">
+                                <img src="~/Areas/Admin/Content/icon/update-icon.png" />
+                            </a>
+                        </td>
+                        <td align="center" valign="middle">
+                            <a href="#">
+                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/User/DeleteUser/', @item.ID)" />
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>名稱</th>
+                    <th>使用者帳號</th>
+                    <th>圖片</th>
+                    <th>修改</th>
+                    <th>刪除</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
+    <!-- /.card-body -->
+</div>
+<script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>
+<!-- /.card -->

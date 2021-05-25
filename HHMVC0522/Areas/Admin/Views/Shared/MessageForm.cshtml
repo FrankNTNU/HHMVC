@@ -1,0 +1,50 @@
+﻿@using UI.Areas.Admin
+
+@if (ViewBag.ProcessState == BLL.General.Messages.AddSuccess)
+{
+    <div class="alert alert-success">
+        <strong>執行成功</strong>
+    </div>
+}
+else if (ViewBag.ProcessState == BLL.General.Messages.EmptyArea)
+{
+    <div class="alert alert-warning">
+        <strong>請填入所有欄位</strong>
+    </div>
+}
+else if (ViewBag.ProcessState == BLL.General.Messages.UpdateSuccess)
+{
+    <div class="alert alert-success">
+        <strong>更新成功</strong>
+    </div>
+}
+else if (ViewBag.ProcessState == BLL.General.Messages.ImageMissing)
+{
+    <div class="alert alert-danger">
+        <strong>請選擇圖片</strong>
+    </div>
+}
+else if (ViewBag.ProcessState == BLL.General.Messages.ExtensionError)
+{
+    <div class="alert alert-danger">
+        <strong>檔案格式有誤</strong>
+    </div>
+}
+else if (ViewBag.ProcessState == BLL.General.Messages.GeneralError)
+{
+    <div class="alert alert-danger">
+        <strong>發生錯誤</strong>
+    </div>
+}
+else if (ViewBag.ProcessState == BLL.General.Messages.LoginError)
+{
+    <div class="alert alert-danger">
+        <strong>帳號或密碼錯誤</strong>
+    </div>
+}
+else if (ViewBag.ProcessState == BLL.General.Messages.WrongImageSize)
+{
+    <div class="alert alert-warning">
+        <strong>上傳圖片寬與高必須一致</strong>
+    </div>
+}

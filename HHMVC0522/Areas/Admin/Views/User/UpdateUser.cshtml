@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "UpdateUser";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<section class="content-header">
+    <h1>更新使用者</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>使用者</a></li>
+        <li class="breadcrumb-item active"><a>更新使用者</a></li>
+    </ol>
+</section>
+<br />
+<div class="card-footer">
+    @if (DTO.UserStatic.isAdmin)
+    {
+        <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/User/UserList'">所有使用者</button>
+    }
+
+</div>
+<section class="content">
+    <div class="row">
+        <div class="col-md-9">
+            @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
+            <div class="box box-primary">
+                @using (Html.BeginForm("UpdateUser", "User", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    @Html.Partial("Partial/UserForm")
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
