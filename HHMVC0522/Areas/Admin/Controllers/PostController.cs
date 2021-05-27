@@ -57,7 +57,7 @@ namespace UI.Areas.Admin.Controllers
                 foreach (HttpPostedFileBase postedFile in model.PostImage)
                 {
                     Bitmap image = new Bitmap(postedFile.InputStream);
-                    Bitmap resizedImage = new Bitmap(image, 750, 422);
+                    Bitmap resizedImage = new Bitmap(image, 740, 416);
                     string uniqueNumber = Guid.NewGuid().ToString();
                     string fileName = uniqueNumber + postedFile.FileName;
                     resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/PostImages/" + fileName));
@@ -115,7 +115,7 @@ namespace UI.Areas.Admin.Controllers
                     foreach (HttpPostedFileBase postedFile in model.PostImage)
                     {
                         Bitmap image = new Bitmap(postedFile.InputStream);
-                        Bitmap resizedImage = new Bitmap(image, 750, 422);
+                        Bitmap resizedImage = new Bitmap(image, 740, 690);
                         string uniqueNumber = Guid.NewGuid().ToString();
                         string fileName = uniqueNumber + postedFile.FileName;
                         resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/PostImages/" + fileName));
@@ -124,16 +124,17 @@ namespace UI.Areas.Admin.Controllers
                         imageList.Add(dto);
                     }
                     model.PostImages = imageList;
-                    if (postBLL.UpdatePost(model))
-                    {
-                        ViewBag.ProcessState = General.Messages.UpdateSuccess;
-                    }
-                    else
-                    {
-                        ViewBag.ProcessState = General.Messages.GeneralError;
-                    }
+                    
                 }
-                
+                if (postBLL.UpdatePost(model))
+                {
+                    ViewBag.ProcessState = General.Messages.UpdateSuccess;
+                }
+                else
+                {
+                    ViewBag.ProcessState = General.Messages.GeneralError;
+                }
+
             }
             else
             {

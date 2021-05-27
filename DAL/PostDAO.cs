@@ -19,22 +19,12 @@ namespace DAL
                 db.SaveChanges();
                 return post.ID;
             }
-            catch (DbEntityValidationException e)
+            catch (Exception ex)
             {
-
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-                throw;
+                throw ex;
             }
         }
+
 
         public List<PostDTO> GetPosts()
         {
@@ -44,21 +34,62 @@ namespace DAL
                             {
                                 ID = p.ID,
                                 Title = p.Title,
+                                ShortContent = p.ShortContent,
                                 CategoryName = p.PostCategory.Name,
                                 AddDate = p.AddDate,
-                                MemberID = p.MemberID
+                                MemberID = p.MemberID,
                             }).OrderByDescending(x => x.AddDate).ToList();
             foreach (var item in postList)
             {
                 PostDTO dto = new PostDTO();
                 dto.Title = item.Title;
                 dto.ID = item.ID;
+                dto.ShortContent = item.ShortContent;
                 dto.CategoryName = item.CategoryName;
                 dto.AddDate = item.AddDate;
                 dto.MemberID = (int)item.MemberID;
+                dto.ImagePath = db.PostImages.First(x => x.PostID == item.ID).ImagePath;
                 dtoList.Add(dto);
             }            
             return dtoList;
+        }
+
+        public void AddComment(Comment comment)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PostDTO GetPostDetailWithID(int ID)
+        {
+            Post post = db.Posts.First(x => x.ID == ID);
+            PostDTO dto = new PostDTO();
+            dto.ID = ID;
+            dto.Title = post.Title;
+            dto.ShortContent = post.ShortContent;
+            dto.PostContent = post.PostContent;
+            dto.AddDate = post.AddDate;
+            dto.PostImages = GetPostImagesWithPostID(ID);
+            dto.CategoryName = post.PostCategory.Name;
+            dto.MemberName = post.Member.Name;
+            dto.MemberImage = post.Member.Image;
+            dto.CommentList = GetCommentsWithPostID(ID);
+            return dto;        
+        }
+
+        private List<CommentDTO> GetCommentsWithPostID(int postID)
+        {
+            List<Comment> comments = db.Comments.Where(x => x.PostID == postID && x.IsApproved == true).OrderByDescending(x => x.AddDate).ToList();
+            List<CommentDTO> commentDTOList = new List<CommentDTO>();
+            foreach (var item in comments)
+            {
+                CommentDTO dto = new CommentDTO();
+                dto.MemberName = item.Member.Name;
+                dto.AddDate = item.AddDate;
+                dto.Title = item.Title;
+                dto.CommentContent = item.CommentContent;
+                commentDTOList.Add(dto);
+            }
+            return commentDTOList;
         }
 
         public string DeletePostImage(int ID)
@@ -112,7 +143,7 @@ namespace DAL
                 post.ShortContent = model.ShortContent;
                 post.PostContent = model.PostContent;
                 post.CategoryID = model.CategoryID;
-                post.Title = model.Title;
+                post.AddDate = DateTime.Now;
                 db.SaveChanges();
             }
         }

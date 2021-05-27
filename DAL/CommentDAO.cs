@@ -19,7 +19,6 @@ namespace DAL
         public List<CommentDTO> GetAllComments()
         {
             List<CommentDTO> dtoList = new List<CommentDTO>();
-
             using (HealthHelperEntities db = new HealthHelperEntities())
             {
                 var list = (from c in db.Comments
@@ -29,7 +28,6 @@ namespace DAL
                                 Title = c.Title,
                                 Content = c.CommentContent,
                                 TargetCommentTitle = c.Post.Title,
-                                CategoryName = c.CommentCategory.Name,
                                 AddDate = c.AddDate,
                                 IsApproved = c.IsApproved
                             }).OrderBy(x => x.AddDate).ToList();
@@ -39,10 +37,88 @@ namespace DAL
                     dto.ID = item.ID;
                     dto.Title = item.Title;
                     dto.CommentContent = item.Content;
-                    dto.CategoryName = item.CategoryName;
                     dto.TargetCommentTitle = item.TargetCommentTitle;
                     dto.AddDate = item.AddDate;
                     dto.IsApproved = item.IsApproved;
+                    dtoList.Add(dto);
+                }
+            }
+            return dtoList;
+        }
+
+        public void DeleteComment(int ID)
+        {
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                Comment comment = db.Comments.First(x => x.ID == ID);
+                db.Comments.Remove(comment);
+                db.SaveChanges();
+            }
+        }
+
+        public void ApproveComment(int ID)
+        {
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                Comment comment = db.Comments.First(x => x.ID == ID);
+                comment.IsApproved = true;
+                db.SaveChanges();
+            }
+        }
+
+        public List<CommentDTO> GetAllComments(int userID)
+        {
+            List<CommentDTO> dtoList = new List<CommentDTO>();
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                var list = (from c in db.Comments
+                            where c.MemberID == userID
+                            select new
+                            {
+                                ID = c.ID,
+                                Title = c.Title,
+                                Content = c.CommentContent,
+                                TargetCommentTitle = c.Post.Title,
+                                AddDate = c.AddDate,
+                                IsApproved = c.IsApproved
+                            }).OrderBy(x => x.AddDate).ToList();
+                foreach (var item in list)
+                {
+                    CommentDTO dto = new CommentDTO();
+                    dto.ID = item.ID;
+                    dto.Title = item.Title;
+                    dto.CommentContent = item.Content;
+                    dto.TargetCommentTitle = item.TargetCommentTitle;
+                    dto.AddDate = item.AddDate;
+                    dto.IsApproved = item.IsApproved;
+                    dtoList.Add(dto);
+                }
+            }
+            return dtoList;
+        }
+
+        public List<CommentDTO> GetUnapprovedComments()
+        {
+            List<CommentDTO> dtoList = new List<CommentDTO>();
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                var list = db.Comments.Where(x => x.IsApproved == false)
+                    .Select(x => new
+                    {
+                        ID = x.ID,
+                        PostTitle = x.Post.Title,
+                        Content = x.CommentContent,
+                        AddDate = x.AddDate,
+                        MemberName = x.Member.Name
+                    }).OrderBy(x => x.AddDate).ToList();
+                foreach (var item in list)
+                {
+                    CommentDTO dto = new CommentDTO();
+                    dto.ID = item.ID;
+                    dto.Title = item.PostTitle;
+                    dto.CommentContent = item.Content;
+                    dto.AddDate = item.AddDate;
+                    dto.MemberName = item.MemberName;
                     dtoList.Add(dto);
                 }
             }

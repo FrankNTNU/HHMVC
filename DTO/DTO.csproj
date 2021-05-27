@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="CommentDTO.cs" />
     <Compile Include="CountDTO.cs" />
+    <Compile Include="LayoutDTO.cs" />
     <Compile Include="PostCategoryDTO.cs" />
     <Compile Include="PostDTO.cs" />
     <Compile Include="PostImageDTO.cs" />

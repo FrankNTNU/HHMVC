@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Threading;
 
 namespace UI.Areas.Admin.Controllers
 {
@@ -39,8 +40,9 @@ namespace UI.Areas.Admin.Controllers
                     }
                     else
                     {
-                        FormsAuthentication.RedirectFromLoginPage("regular", true);
-                        return Redirect("/Admin/User/UpdateUser/" + UserStatic.UserID);
+                        //FormsAuthentication.RedirectFromLoginPage("regular", true);
+                        ViewBag.ProcessState = General.Messages.NotAdmin;
+                        return View(model);
                     }
                 }
                 else

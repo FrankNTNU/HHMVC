@@ -78,10 +78,6 @@
     <Compile Include="Comment.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="CommentCategory.cs">
-      <DependentUpon>HHModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CommentCategoryDAO.cs" />
     <Compile Include="CommentDAO.cs" />
     <Compile Include="DietLog.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
@@ -163,29 +159,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <EntityDeploy Include="HHModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HHModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
     <None Include="HHModel.edmx.diagram">
       <DependentUpon>HHModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="HHModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>HHModel.Context.cs</LastGenOutput>
-      <DependentUpon>HHModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="HHModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>HHModel.edmx</DependentUpon>
-      <LastGenOutput>HHModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -195,6 +177,18 @@
       <Project>{dad2ea66-6fe9-43db-b186-e3bfb93fd117}</Project>
       <Name>DTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HHModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HHModel.edmx</DependentUpon>
+      <LastGenOutput>HHModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="HHModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HHModel.edmx</DependentUpon>
+      <LastGenOutput>HHModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

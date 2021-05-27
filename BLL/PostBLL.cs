@@ -15,6 +15,10 @@ namespace BLL
         {
             return postDAO.GetPosts();
         }
+        public List<PostDTO> GetRecentPosts(int number)
+        {
+            return postDAO.GetPosts().Take(number).ToList();
+        }
         public bool AddPost(PostDTO model)
         {
             Post post = new Post();
@@ -28,6 +32,25 @@ namespace BLL
             SavePostImages(model.PostImages, ID);
             return true;
         }
+
+        internal PostDTO GetPostDetailPageItemWithID(int ID)
+        {
+            return postDAO.GetPostDetailWithID(ID);
+        }
+
+        public bool AddComment(LayoutDTO model)
+        {
+            Comment comment = new Comment();
+            comment.PostID = model.PostDetail.ID;
+            comment.Name = model.Comment.Name;
+            comment.Title = model.Comment.Title;
+            comment.CommentContent = model.Comment.CommentContent;
+            comment.AddDate = DateTime.Now;
+            comment.IsApproved = false;
+            postDAO.AddComment(comment);
+            return true;
+        }
+
         void SavePostImages(List<PostImageDTO> list, int PostID)
         {
             List<PostImage> imageList = new List<PostImage>();
@@ -40,7 +63,7 @@ namespace BLL
             }
             foreach (PostImage item in imageList)
             {
-                int imageID = postDAO.AddImage(item);
+                postDAO.AddImage(item);
             }
         }
 

@@ -19,8 +19,11 @@ namespace DAL
         public int WorkoutID { get; set; }
         public System.DateTime EditTime { get; set; }
         public double WorkoutHours { get; set; }
+        public System.DateTime WorkoutTime { get; set; }
+        public int StatusID { get; set; }
     
         public virtual Member Member { get; set; }
+        public virtual Status Status { get; set; }
         public virtual Workout Workout { get; set; }
     }
 }

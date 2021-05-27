@@ -17,18 +17,18 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Member()
         {
-            this.Comments = new HashSet<Comment>();
             this.DietLogs = new HashSet<DietLog>();
             this.LikedMeals = new HashSet<LikedMeal>();
+            this.Posts = new HashSet<Post>();
             this.WorkoutPreferences = new HashSet<WorkoutPreference>();
             this.WeightLogs = new HashSet<WeightLog>();
             this.WorkoutLogs = new HashSet<WorkoutLog>();
-            this.Posts = new HashSet<Post>();
+            this.Comments = new HashSet<Comment>();
         }
     
         public int ID { get; set; }
         public string TaiwanID { get; set; }
-        public string Name { get; set; }
+        public string UserName { get; set; }
         public double Height { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
@@ -40,16 +40,16 @@ namespace DAL
         public string Image { get; set; }
         public int StatusID { get; set; }
         public int ActivityLevelID { get; set; }
-        public string UserName { get; set; }
+        public string Name { get; set; }
     
         public virtual ActivityLevel ActivityLevel { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comment> Comments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DietLog> DietLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LikedMeal> LikedMeals { get; set; }
         public virtual Status Status { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Post> Posts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkoutPreference> WorkoutPreferences { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -57,6 +57,6 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkoutLog> WorkoutLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

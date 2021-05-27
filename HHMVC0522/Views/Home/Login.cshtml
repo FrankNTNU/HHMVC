@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/HomeLayout.cshtml";
+}
+@model DTO.UserDTO
+
+<section id="subintro">
+    <div class="container">
+        <div class="row">
+            <div class="span10">
+                <h3><strong>登入</strong></h3>
+            </div>
+            <div class="span2">
+                <ul class="breadcrumb notop">
+                    <li><a href="#">會員</a><span class="divider">/</span></li>
+                    <li class="active">登入頁面</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="maincontent">
+    
+    <form class="form-horizontal" method="post" action="@Url.Action("Login")">
+        <div class="control-group" style="width:350px">
+            <label class="controls">@Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")</label>
+        </div>
+     
+        <div class="control-group">
+            <label class="controls" style="left:10px">
+                @Html.ValidationMessageFor(x => x.UserName)
+            </label>
+            <label class="control-label" for="inputEmail"><strong>帳號</strong></label>
+            <div class="controls" style="border:2px solid lightgray; width:320px">
+                <input type="text" id="inputEmail" placeholder="使用者登入帳號" name="UserName">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="controls">
+                @Html.ValidationMessageFor(x => x.Password)
+            </label>
+            <label class="control-label" for="inputPassword"><strong>密碼</strong></label>
+            <div class="controls" style="border:2px solid lightgray; width:320px">
+                <input type="password" id="inputPassword" placeholder="密碼" name="Password">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="controls">
+                <button type="submit" class="btn btn-color">登入</button>
+            </div>
+        </div>
+        <div class="row"></div>
+    </form>
+</section>
+

@@ -76,6 +76,7 @@ namespace UI.Areas.Admin.Controllers
             return View(dto);
         }
         [HttpPost]
+        [Authorize(Users = "admin")]
         public ActionResult UpdateUser(UserDTO model)
         {
             if (!ModelState.IsValid)

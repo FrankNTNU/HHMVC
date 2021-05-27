@@ -26,7 +26,6 @@ namespace DAL
         }
     
         public virtual DbSet<ActivityLevel> ActivityLevels { get; set; }
-        public virtual DbSet<CommentCategory> CommentCategories { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<DietLog> DietLogs { get; set; }
         public virtual DbSet<LikedMeal> LikedMeals { get; set; }
@@ -35,6 +34,9 @@ namespace DAL
         public virtual DbSet<MealTag> MealTags { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Nutrient> Nutrients { get; set; }
+        public virtual DbSet<PostCategory> PostCategories { get; set; }
+        public virtual DbSet<PostImage> PostImages { get; set; }
+        public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TimesOfDay> TimesOfDays { get; set; }
@@ -43,8 +45,5 @@ namespace DAL
         public virtual DbSet<WorkoutLog> WorkoutLogs { get; set; }
         public virtual DbSet<WorkoutPreference> WorkoutPreferences { get; set; }
         public virtual DbSet<Workout> Workouts { get; set; }
-        public virtual DbSet<PostCategory> PostCategories { get; set; }
-        public virtual DbSet<PostImage> PostImages { get; set; }
-        public virtual DbSet<Post> Posts { get; set; }
     }
 }

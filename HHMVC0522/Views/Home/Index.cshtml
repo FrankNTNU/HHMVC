@@ -3,6 +3,104 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/HomeLayout.cshtml";
 }
+@model DTO.LayoutDTO
+<section id="intro">
+    <div class="container">
+        <div class="row">
+            <div class="span6">
+                <h3><strong><span class="highlight color">HealthHelper</span> 健康管理助手</strong></h3>
+                <p class="lead">
+                    協助生活忙碌的您紀錄飲食、運動紀錄，管理與查看熱量、營養、活動量的歷史資訊，妥善控管個人健康狀況。
+                </p>
+                <ul class="list list-ok strong bigger">
+                    <li>完整的個人每日的飲食、運動紀錄，最完善的熱量及營養控管平台</li>
+                    <li>提供最新的營養資訊、留言板促進社群互動，並分享健康生活紀錄</li>
+                    <li>飲食、運動紀錄資訊以精美報表製圖取代數字呈現，資訊一目瞭然</li>
+                </ul>
 
-<p>首頁內容...</p>
+            </div>
+            <div class="span6">
 
+                <div class="group section-wrap upper" id="upper">
+                    <div class="section-2 group">
+                        <ul id="images" class="rs-slider">
+                            <li class="group">
+                                <a href="#">
+                                    <img src="~/Content/img/slides/health1.jpg" alt="" />
+                                </a>
+                            </li>
+                            @*<li class="group">
+                                    <a href="#" class="slide-parent">
+                                        <img src="~/Content/img/slides/refine/slide2.png" alt="" />
+                                    </a>
+                                </li>
+                                <li class="group">
+                                    <img src="~/Content/img/slides/refine/slide3.png" alt="" />
+                                </li>*@
+                        </ul>
+                    </div>
+                    <!-- /.section-2 -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+    <div class="container">
+        <div class="row">
+            <div class="span10">
+                <h3><strong>最新貼文</strong></h3>
+            </div>
+            <div class="span2">
+                <ul class="breadcrumb notop">
+                    <li><a href="#">首頁</a><span class="divider">/</span></li>
+                    <li class="active">最新貼文</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<section id="maincontent">
+    <div class="container">
+        <!--<div class="row">
+            <div class="span12">-->
+        <!-- portfolio filter -->
+        <!--<ul class="filter">
+            <li class="all active"><a href="#">All categories</a></li>
+            <li class="web"><a href="#">Web design</a></li>
+            <li class="brand"><a href="#">Brand identity</a></li>
+            <li class="graphic"><a href="#">Graphic design</a></li>
+        </ul>-->
+        <!-- /portolfio filter -->
+        <!--</div>
+        </div>-->
+        <div class="row">
+            <ul class="portfolio-area da-thumbs">
+                @foreach (var item in Model.Posts)
+                {
+                    <li class="portfolio-item" data-id="id-0" data-type="web">
+                        <div class="span4">
+                            <div class="thumbnail">
+                                <div class="image-wrapp">
+                                    <a href="@Url.RouteUrl("PostDetail", new { @ID = item.ID, @postDetail = "PostDetail"})">
+                                        <img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="Portfolio name" title="" />
+                                    </a>
+                                </div>
+                                <div class="desc" style="height: 5em; overflow: hidden;">
+                                    <h5 style="font-size:1.2em;"><i class="icon-file"></i> <strong>@item.Title</strong></h5>
+                                    <p >@item.AddDate</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                }
+
+
+
+            </ul>
+
+        </div>
+
+    </div>
+</section>

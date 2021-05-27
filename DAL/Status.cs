@@ -18,6 +18,7 @@ namespace DAL
         public Status()
         {
             this.Members = new HashSet<Member>();
+            this.WorkoutLogs = new HashSet<WorkoutLog>();
         }
     
         public int ID { get; set; }
@@ -25,5 +26,7 @@ namespace DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Member> Members { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkoutLog> WorkoutLogs { get; set; }
     }
 }

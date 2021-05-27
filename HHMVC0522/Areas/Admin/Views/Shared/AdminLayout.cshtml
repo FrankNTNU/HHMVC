@@ -176,12 +176,15 @@
                                         <p>所有留言</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="/Admin/Comment/UnapprovedComments" class="nav-link">
-                                        <i class="far fa-comment nav-icon"></i>
-                                        <p>待審查留言</p>
-                                    </a>
-                                </li>
+                                @if (DTO.UserStatic.isAdmin)
+                                {
+                                    <li class="nav-item">
+                                        <a href="/Admin/Comment/UnapprovedComments" class="nav-link">
+                                            <i class="far fa-comment nav-icon"></i>
+                                            <p>待審查留言</p>
+                                        </a>
+                                    </li>
+                                }
                             </ul>
                         </li>
                         

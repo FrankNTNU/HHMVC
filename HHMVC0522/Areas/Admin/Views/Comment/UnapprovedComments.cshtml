@@ -1,22 +1,23 @@
 ﻿
 @{
-    ViewBag.Title = "AllComments";
+    ViewBag.Title = "UnapprovedComments";
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
 
+
 @model List<DTO.CommentDTO>
 <section class="content-header">
-    <h1>所有留言</h1>
+    <h1>待審查留言</h1>
     <ol class="breadcrumb float-sm-left">
         <li class="breadcrumb-item"><a>後臺頁面</a></li>
         <li class="breadcrumb-item"><a>留言</a></li>
-        <li class="breadcrumb-item active"><a>所有留言</a></li>
+        <li class="breadcrumb-item active"><a>待審查留言</a></li>
     </ol>
 </section>
 <br />
-@*<div class="card-footer">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Comment/AddComment'">新增留言</button>
-</div>*@
+<div class="card-footer">
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Comment/AllComments'">所有留言</button>
+</div>
 @*@using DTO
     @{
         CountDTO countDTO = (CountDTO)ViewData["AllCounts"];
@@ -29,9 +30,9 @@
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>標題</th>
-                    <th>內容</th>
                     <th>文章標題</th>
+                    <th>內容</th>
+                    <th>留言者</th>
                     <th>新增日期</th>
                     <th>核准</th>
                     <th>刪除</th>
@@ -40,45 +41,35 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr id="a_@item.ID">
-                    <td>@item.Title</td>
-                    <td>
-                        @item.CommentContent
-                    </td>
-                    <td>
-                        @item.TargetCommentTitle
-                    </td>
-                    <td>
-                        @item.AddDate.ToString("dd.MM.yyyy, dddd")
-                    </td>
-                    @if (!item.IsApproved)
-                    {
+                    <tr id="a_@item.ID">
+                        <td>@item.Title</td>
+                        <td>
+                            @item.CommentContent
+                        </td>
+                        <td>
+                            @item.MemberName
+                        </td>
+                        <td>
+                            @item.AddDate.ToString("dd.MM.yyyy, dddd")
+                        </td>
                         <td align="center" valign="middle">
                             <a href="/Admin/Comment/ApproveComment/@item.ID">
-                                <img src="~/Areas/Admin/Content/icon/approve.png" />
+                               <img src="~/Areas/Admin/Content/icon/approve.png" />
                             </a>
                         </td>
-                    }
-                    else
-                    {
                         <td align="center" valign="middle">
-                            已核准
+                           <a href="#">
+                               <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Comment/DeleteComment/', @item.ID)" />
+                           </a>
                         </td>
-                    }
-
-                    <td align="center" valign="middle">
-                        <a href="#">
-                            <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Comment/DeleteComment/', @item.ID)" />
-                        </a>
-                    </td>
-                </tr>
+                    </tr>
                 }
             </tbody>
             <tfoot>
                 <tr>
-                    <th>標題</th>
-                    <th>內容</th>
                     <th>文章標題</th>
+                    <th>內容</th>
+                    <th>留言者</th>
                     <th>新增日期</th>
                     <th>核准</th>
                     <th>刪除</th>
