@@ -64,9 +64,9 @@
   <ItemGroup>
     <Compile Include="ActivityLevelBLL.cs" />
     <Compile Include="CommentBLL.cs" />
-    <Compile Include="CommentCategoryBLL.cs" />
     <Compile Include="DietLogBLL.cs" />
     <Compile Include="General.cs" />
+    <Compile Include="LayoutBLL.cs" />
     <Compile Include="PostBLL.cs" />
     <Compile Include="PostCategoryBLL.cs" />
     <Compile Include="PostImageBLL.cs" />

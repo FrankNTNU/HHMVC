@@ -22,5 +22,25 @@ namespace BLL
         {
             return commentDAO.GetAllComments();
         }
+
+        public List<CommentDTO> GetUnapprovedComments()
+        {
+            return commentDAO.GetUnapprovedComments();
+        }
+
+        public List<CommentDTO> GetAllComments(int userID)
+        {
+            return commentDAO.GetAllComments(userID);
+        }
+
+        public void ApproveComment(int ID)
+        {
+            commentDAO.ApproveComment(ID);
+        }
+
+        public void DeleteComment(int ID)
+        {
+            commentDAO.DeleteComment(ID);
+        }
     }
 }

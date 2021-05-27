@@ -12,10 +12,16 @@ namespace HHMVC0522
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "PostDetail",
+                url: "{controller}/{postDetail}/{ID}",
+                defaults: new { controller = "Home", action = "PostDetail", ID = UrlParameter.Optional, postDetail = UrlParameter.Optional }
             );
         }
     }

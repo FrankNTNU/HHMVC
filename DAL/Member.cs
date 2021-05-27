@@ -23,6 +23,7 @@ namespace DAL
             this.WorkoutPreferences = new HashSet<WorkoutPreference>();
             this.WeightLogs = new HashSet<WeightLog>();
             this.WorkoutLogs = new HashSet<WorkoutLog>();
+            this.Comments = new HashSet<Comment>();
         }
     
         public int ID { get; set; }
@@ -55,5 +56,7 @@ namespace DAL
         public virtual ICollection<WeightLog> WeightLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkoutLog> WorkoutLogs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

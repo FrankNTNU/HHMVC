@@ -13,15 +13,14 @@ namespace DTO
         public string CommentTitle { get; set; }
         public string CommentContent { get; set; }
         public int MemberID { get; set; }
+        public string MemberName { get; set; }
         public DateTime AddDate { get; set; }
         public bool IsApproved { get; set; }
-        public int MealID { get; set; }
         public int Rating { get; set; }
-        public int CategoryID { get; set; }
-        public string CategoryName { get; set; }
         public string Feedback { get; set; }
         public int CommentID { get; set; }
         public string TargetCommentTitle { get; set; }
+        public string Name { get; set; } // Allow leave a comment anonymously
 
          
     }

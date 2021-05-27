@@ -69,24 +69,14 @@
                                     <nav>
                                         <ul class="nav topnav">
                                             <li class="dropdown active">
-                                                <a href="index.html">首頁</a>
+                                                <a href="/Home/Index">首頁</a>
                                             </li>
                                             <li class="dropdown">
                                                 <a href="#">文章</a>
                                                 <ul class="dropdown-menu">
-                                                    <li><a href="scaffolding.html">Scaffolding</a></li>
-                                                    <li><a href="base-css.html">Base CSS</a></li>
-                                                    <li><a href="components.html">Components</a></li>
-                                                    <li><a href="icons.html">Icons</a></li>
-                                                    <li><a href="list.html">Styled lists</a></li>
-                                                    <li class="dropdown">
-                                                        <a href="#">3rd level</a>
-                                                        <ul class="dropdown-menu sub-menu">
-                                                            <li><a href="#">Example menu</a></li>
-                                                            <li><a href="#">Example menu</a></li>
-                                                            <li><a href="#">Example menu</a></li>
-                                                        </ul>
-                                                    </li>
+                                                    <li><a href="scaffolding.html">貼文</a></li>
+                                                    <li><a href="base-css.html">消息</a></li>
+                                                    <li><a href="components.html">公告</a></li>
                                                 </ul>
                                             </li>
                                             <li class="dropdown">
@@ -108,14 +98,22 @@
                                                 </ul>
                                             </li>
                                             <li class="dropdown">
-                                                <a href="#">個人資訊</a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="blog_left_sidebar.html">Blog left sidebar</a></li>
-                                                    <li><a href="blog_right_sidebar.html">Blog right sidebar</a></li>
-                                                    <li><a href="post_left_sidebar.html">Post left sidebar</a></li>
-                                                    <li><a href="post_right_sidebar.html">Post right sidebar</a></li>
-                                                </ul>
+                                                @if (DTO.UserStatic.UserID != 0)
+                                                {
+                                    <a href="#">個人資訊</a> }
+                                else
+                                {
+                    <a href="/Home/Login">登入</a>}
+
+
                                             </li>
+                                            @if (DTO.UserStatic.UserID != 0)
+                                            {
+                                <li>
+
+                                    <a href="/Home/Logout">登出</a>
+                                </li>}
+
                                             <li>
                                                 <a href="/Admin/Login/Index">後臺</a>
                                             </li>
@@ -125,7 +123,7 @@
                             </div>
                             <!-- end menu -->
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -134,10 +132,8 @@
 
     <!-- Footer
     ================================================== -->
-    <section id="intro"></section>
-    <section id="maincontent">
-        @RenderBody()
-    </section>
+
+    @RenderBody()
     <footer class="footer">
         <div class="container">
             <div class="row">
@@ -147,7 +143,7 @@
                         <div class="footerlogo">
                             <h6><a href="/Home/Index" style="font-size:0.65em">HealthHelper</a></h6>
                             <!-- <img src="assets/img/logo.png" alt="" /> -->
-                           
+
                         </div>
                         <!-- end logo -->
                         <address>
@@ -241,6 +237,22 @@
 
     <!-- Template Custom Javascript File -->
     <script src="~/Content/js/custom.js"></script>
+    <!-- Active js -->
+    <script src="~/Content/js/active.js"></script>
+    <script src="~/Content/toastr/toastr.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var result = "@ViewData["CommentState"]";
+            if (result != "") {
+                if (result == "Success") {
+                    toastr.success(result);
+                }
+                else {
+                    toastr.error(result);
+                }
+            }
+        })
+    </script>
 </body>
 
 </html>

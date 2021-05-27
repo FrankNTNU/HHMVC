@@ -48,3 +48,9 @@ else if (ViewBag.ProcessState == BLL.General.Messages.WrongImageSize)
         <strong>上傳圖片寬與高必須一致</strong>
     </div>
 }
+else if (ViewBag.ProcessState == BLL.General.Messages.NotAdmin)
+{
+    <div class="alert alert-warning">
+        <strong>後臺頁面僅開放管理員</strong>
+    </div>
+}

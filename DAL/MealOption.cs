@@ -17,7 +17,6 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MealOption()
         {
-            this.Comments = new HashSet<Comment>();
             this.DietLogs = new HashSet<DietLog>();
             this.LikedMeals = new HashSet<LikedMeal>();
             this.MealTags = new HashSet<MealTag>();
@@ -29,8 +28,6 @@ namespace DAL
         public byte[] Image { get; set; }
         public Nullable<int> NutrientID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comment> Comments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DietLog> DietLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

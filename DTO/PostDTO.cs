@@ -33,7 +33,7 @@ namespace DTO
         [Display(Name = "圖片")]
         public List<HttpPostedFileBase> PostImage { get; set; }
         public bool IsUpdate { get; set; } = false;
-
+        public string MemberImage { get; set; }
 
     }
 }

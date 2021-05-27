@@ -24,6 +24,10 @@ namespace DTO
         public bool isAdmin { get; set; }
         [Required(ErrorMessage = "請輸入身高"), Range(100, 250, ErrorMessage ="請輸入合理的身高數值")]
         public double Height { get; set; }
+        [DataType(DataType.Date)]
+        
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        [Range(typeof(DateTime), "01/01/1900", "12/31/2020", ErrorMessage = "請輸入合理的日期")]
         [Required(ErrorMessage = "請輸入生日")]
         public DateTime BirthDate { get; set; }
         public DateTime JoinDate { get; set; }
