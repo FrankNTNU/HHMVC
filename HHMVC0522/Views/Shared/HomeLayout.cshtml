@@ -36,6 +36,7 @@
       Author: BootstrapMade.com
       Author URL: https://bootstrapmade.com
     ======================================================= -->
+    @RenderSection("Styles", required: false)
 </head>
 
 <body>
@@ -100,19 +101,20 @@
                                             <li class="dropdown">
                                                 @if (DTO.UserStatic.UserID != 0)
                                                 {
-                                    <a href="#">個人資訊</a> }
-                                else
-                                {
-                    <a href="/Home/Login">登入</a>}
+                                                    <a href="#">個人資訊</a> }
+                                                else
+                                                {
+                                                    <a href="/Home/Login">登入</a>}
 
 
                                             </li>
                                             @if (DTO.UserStatic.UserID != 0)
                                             {
-                                <li>
+                                                <li>
 
-                                    <a href="/Home/Logout">登出</a>
-                                </li>}
+                                                    <a href="/Home/Logout">登出</a>
+                                                </li>
+}
 
                                             <li>
                                                 <a href="/Admin/Login/Index">後臺</a>
@@ -253,6 +255,8 @@
             }
         })
     </script>
+
+    @RenderSection("scripts", required: false)
 </body>
 
 </html>
