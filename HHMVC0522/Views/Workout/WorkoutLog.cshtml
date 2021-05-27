@@ -8,6 +8,7 @@
 @section Styles
 {
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui-timepicker/jquery-ui-timepicker-addon.css" />
     <style>
         .box {
             border: solid 2px gray;
@@ -18,6 +19,10 @@
         .operate {
             min-height: 200px;
             margin: 0 2px;
+        }
+
+        #wrapper {
+            float:left;
         }
     </style>
 }
@@ -50,14 +55,16 @@
     <div class="box operate" style="width: 40%;"></div>
 </div>
 <div class="box" style="width:100%; min-height:300px;">
-    <table id="wlTable">
+    <table id="wlTable" class="display">
     </table>
 </div>
 
 @section Scripts
 {
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
+    <script type="text/javascript" src="~/Content/moment-js/moment.min.js"></script>
+    <script type="text/javascript" src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Content/jquery-ui-timepicker/jquery-ui-timepicker-addon.js"></script>
     <script>
 
         $(function () {
@@ -89,10 +96,16 @@
                     {
                         targets: [1, 3],
                         render: function (date) {
-                            return moment(date).format("MM/DD/yyyy hh:mm");
+                            return moment(date).format("MM月DD日yyyy年 hh:mm");
                         }
                     }
-                ]
+                ],
+                order: [[1, "desc"]],
+                lengthChange: false,
+                pageLength: 10,
+                initComplete: function () {
+                    $(".dataTables_wrapper").prepend("<div id='wrapper' class='form-group form-inline'><label id='picker'>123</label><input type='text' class='form-control' /></div>");
+                }
             });
 
             $("#wName").change(function () {
