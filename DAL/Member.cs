@@ -17,13 +17,13 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Member()
         {
+            this.Comments = new HashSet<Comment>();
             this.DietLogs = new HashSet<DietLog>();
             this.LikedMeals = new HashSet<LikedMeal>();
             this.Posts = new HashSet<Post>();
             this.WorkoutPreferences = new HashSet<WorkoutPreference>();
             this.WeightLogs = new HashSet<WeightLog>();
             this.WorkoutLogs = new HashSet<WorkoutLog>();
-            this.Comments = new HashSet<Comment>();
         }
     
         public int ID { get; set; }
@@ -44,6 +44,8 @@ namespace DAL
     
         public virtual ActivityLevel ActivityLevel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comment> Comments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DietLog> DietLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LikedMeal> LikedMeals { get; set; }
@@ -56,7 +58,5 @@ namespace DAL
         public virtual ICollection<WeightLog> WeightLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkoutLog> WorkoutLogs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comment> Comments { get; set; }
     }
 }
