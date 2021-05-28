@@ -6,24 +6,46 @@
 <!DOCTYPE HTML>
 <!--
     Editorial by HTML5 UP
-    html5up.net | 
+    html5up.net |
     Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
 <head>
-    <title>Editorial by HTML5 UP</title>
+    <title>HealthHelper 你的健康管理助手</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="~/Content/css/main.css" />
+    <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
+    <link href="~/Content/toastr/toastr.min.css" rel="stylesheet" />
+    @*<link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />*@
+    <style>
+        
+    </style>
 </head>
 <body class="is-preload">
+    <div id="main">
+        <div class="inner">
+            <!-- Header -->
+            <header id="header" style="        background-color: #fad7d2
+">
+                <div class="row">
 
+                    <div class="col-md-2" style="padding-left:50px">
+                        <a href="/Home2/Index" style="text-decoration: none;"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" width="60"></a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="/Home2/Index" class="logo"><strong style="font-size:2em">HealthHelper</strong> <div class="hidden-md" style="font-size:1.2em">你的健康管理助手</div></a>
+                    </div>
+                </div>
+            </header>
+        </div>
+    </div>
     <!-- Wrapper -->
+    <!-- Main -->
+    @RenderBody()
+    @RenderSection("Styles", required: false)
+    @RenderSection("Scripts", required: false)
     <div id="wrapper">
-
-        <!-- Main -->
-        @RenderBody()
-
         <!-- Sidebar -->
         <div id="sidebar">
             <div class="inner">
@@ -31,26 +53,36 @@
                 <!-- Search -->
                 <section id="search" class="alt">
                     <form method="post" action="#">
-                        <input type="text" name="query" id="query" placeholder="Search" />
+                        <input type="text" name="query" id="query" placeholder="搜尋" />
                     </form>
                 </section>
 
                 <!-- Menu -->
                 <nav id="menu">
                     <header class="major">
-                        <h2>Menu</h2>
+                        <h2>選單</h2>
                     </header>
-                    <ul>
-                        <li><a href="index.html">Homepage</a></li>
-                        <li><a href="generic.html">Generic</a></li>
-                        <li><a href="elements.html">Elements</a></li>
+                    <ul style="font-size:1.5em">
+                        <li><a href="index.html">首頁</a></li>
+                        @if (DTO.UserStatic.UserID == 0)
+                        {
+                            <li><a href="/Home2/Login">登入</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="elements.html">會員資訊</a></li>
+                            <li><a href="/Home2/Logout">登出</a></li>
+
+                        }
+                        <li><a href="/Admin/Login/Index">後台</a></li>
+
                         <li>
-                            <span class="opener">Submenu</span>
+                            <span class="opener">貼文</span>
                             <ul>
-                                <li><a href="#">Lorem Dolor</a></li>
-                                <li><a href="#">Ipsum Adipiscing</a></li>
-                                <li><a href="#">Tempus Magna</a></li>
-                                <li><a href="#">Feugiat Veroeros</a></li>
+                                <li><a href="#">最新貼文</a></li>
+                                <li><a href="#">消息與公告</a></li>
+                                <li><a href="/Post/AddPost">發布貼文</a></li>
+                                <li><a href="#">你的貼文</a></li>
                             </ul>
                         </li>
                         <li><a href="#">Etiam Dolore</a></li>
@@ -126,6 +158,23 @@
     <script src="~/Content/js/breakpoints.min.js"></script>
     <script src="~/Content/js/util.js"></script>
     <script src="~/Content/js/main.js"></script>
+    <script src="~/Content/toastr/toastr.min.js"></script>
+    @*<script src="~/Content/js/bootstrap.min.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var result = "@ViewData["CommentState"]";
+            if (result != "") {
+
+                if (result == "Success") {
+                    toastr.success("動作成功");
+                }
+                else {
+                    toastr.error("失敗");
+                }
+            }
+        })
+    </script>
 
 </body>
 </html>

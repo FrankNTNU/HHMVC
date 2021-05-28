@@ -34,7 +34,7 @@ namespace UI.Controllers
                 if (user.ID != 0)
                 {
                     UserStatic.UserID = user.ID;
-                    UserStatic.isAdmin = user.IsAdmin;
+                    UserStatic.IsAdmin = user.IsAdmin;
                     UserStatic.NameSurname = user.Name;
                     UserStatic.ImagePath = user.ImagePath;
                     UserStatic.StatusID = user.StatusID;

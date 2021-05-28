@@ -3,136 +3,74 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
+@model DTO.LayoutDTO
 
 <div id="main">
     <div class="inner">
 
-        <!-- Header -->
-        <header id="header">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" width="50"></a>
-            <a href="index.html" class="logo"><strong>Editorial</strong> by HTML5 UP</a>
-
-            <ul class="icons">
-                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-                <li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-                <li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
-            </ul>
-        </header>
 
         <!-- Banner -->
         <section id="banner">
-            <div class="content">
-                <header>
-                    <h1>
-                        Hi, @DTO.UserStatic.NameSurname<br />
-                        歡迎回到HealthHelper，<br />你的健康管理助手
-                    </h1>
-                    <p>A free and fully responsive site template</p>
-                </header>
-                <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. Pellentesque sapien ac quam. Lorem ipsum dolor sit nullam.</p>
-                <ul class="actions">
-                    <li><a href="#" class="button big">Learn More</a></li>
-                </ul>
-            </div>
-            <span class="image object">
-                <img src="~/Content/img/slides/health1.jpg" alt="" />
-            </span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 col-12-medium">
+                        @if (DTO.UserStatic.UserID != 0)
+                        {
+                            <h1>
+                                Hi, @DTO.UserStatic.NameSurname<br />
+                                歡迎回到HealthHelper，<br />你的健康管理助手
+                            </h1>
+                        }
+                        else
+                        {
+                            <h1>
+                                歡迎來到<span style="font-size:0.9em">HealthHelper</span>
+
+                            </h1>
+                            <h2>登入以啟用更多功能</h2>
+                        }
+
+                    <ul>
+                        <li>完整的個人每日的飲食、運動紀錄，最完善的熱量及營養控管平台</li>
+                        <li>提供最新的營養資訊、留言板促進社群互動，並分享健康生活紀錄</li>
+                        <li>飲食、運動紀錄資訊以精美報表製圖取代數字呈現，資訊一目瞭然</li>
+                    </ul>
+                        <ul class="actions">
+                            <li><a href="#" class="button big">Learn More</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6 col-12-medium">
+                        <img src="~/Content/img/slides/health1.jpg" alt="" style="max-width:100%" />
+
+                    </div>
+                </div>
+                </div>
         </section>
+
+
 
         <!-- Section -->
         <section>
             <header class="major">
-                <h2>Erat lacinia</h2>
+                <h2>最新貼文</h2>
             </header>
-            <div class="features">
-                <article>
-                    <span class="icon fa-gem"></span>
-                    <div class="content">
-                        <h3>Portitor ullamcorper</h3>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+            <div class="container">
+                <div class="row">
+                    @foreach (var item in Model.Posts)
+                    {
+                    <div class="col-4 col-6-small col-12-xsmall">
+                       
+                            <a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="image"><img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="" style="max-width:100%"/></a>
+                            <h3>@item.Title</h3>
+                            <p>@item.ShortContent</p>
+                            <ul class="actions">
+                                <li><a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="button">More</a></li> 
+                            </ul>
+                        
                     </div>
-                </article>
-                <article>
-                    <span class="icon solid fa-paper-plane"></span>
-                    <div class="content">
-                        <h3>Sapien veroeros</h3>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    </div>
-                </article>
-                <article>
-                    <span class="icon solid fa-rocket"></span>
-                    <div class="content">
-                        <h3>Quam lorem ipsum</h3>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    </div>
-                </article>
-                <article>
-                    <span class="icon solid fa-signal"></span>
-                    <div class="content">
-                        <h3>Sed magna finibus</h3>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- Section -->
-        <section>
-            <header class="major">
-                <h2>Ipsum sed dolor</h2>
-            </header>
-            <div class="posts">
-                <article>
-                    <a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-                    <h3>Interdum aenean</h3>
-                    <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </article>
-                <article>
-                    <a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
-                    <h3>Nulla amet dolore</h3>
-                    <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </article>
-                <article>
-                    <a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
-                    <h3>Tempus ullamcorper</h3>
-                    <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </article>
-                <article>
-                    <a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
-                    <h3>Sed etiam facilis</h3>
-                    <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </article>
-                <article>
-                    <a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
-                    <h3>Feugiat lorem aenean</h3>
-                    <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </article>
-                <article>
-                    <a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
-                    <h3>Amet varius aliquam</h3>
-                    <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </article>
-            </div>
+                    }
+                </div>
+            </div>  
         </section>
 
     </div>

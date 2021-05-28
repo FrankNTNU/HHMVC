@@ -34,11 +34,11 @@ namespace UI.Controllers
                 if (user.ID != 0)
                 {
                     UserStatic.UserID = user.ID;
-                    UserStatic.isAdmin = user.IsAdmin;
+                    UserStatic.IsAdmin = user.IsAdmin;
                     UserStatic.NameSurname = user.Name;
                     UserStatic.ImagePath = user.ImagePath;
                     UserStatic.StatusID = user.StatusID;
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home2");
                 }
                 else
                 {
@@ -100,10 +100,39 @@ namespace UI.Controllers
             return View(layoutDTO);
         }
         CommentBLL commentBLL = new CommentBLL();
-        public ActionResult DeleteComment(int ID)
+        public ActionResult DeleteComment(int ID, int postID)
         {
             commentBLL.DeleteComment(ID);
-            return RedirectToAction("PostDetail");
+            ViewData["CommentState"] = "Success";
+            ModelState.Clear();
+            return RedirectToAction("PostDetail/" + postID, "Home2");
+        }
+
+        public ActionResult UpdateComment(int ID, string title, string content, int postID)
+        {
+            CommentDTO commentDTO = new CommentDTO();
+            commentDTO.ID = ID;
+            commentDTO.Title = title;
+            commentDTO.CommentContent = content;
+            if (commentDTO.Title != null && commentDTO.CommentContent != null)
+            {
+
+                if (commentBLL.UpdateComment(commentDTO))
+                {
+                    ViewData["CommentState"] = "Success";
+                    ModelState.Clear();
+                }
+                else
+                {
+                    ViewData["CommentState"] = "Error";
+                }
+            }
+            else
+            {
+                ViewData["CommentState"] = "Error";
+            }
+            return RedirectToAction("PostDetail/" + postID, "Home2");
+
         }
     }
 }

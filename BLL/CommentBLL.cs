@@ -37,7 +37,11 @@ namespace BLL
         {
             commentDAO.ApproveComment(ID);
         }
-
+        public bool UpdateComment(CommentDTO model)
+        {
+            commentDAO.UpdateComment(model);
+            return true;
+        }
         public void DeleteComment(int ID)
         {
             commentDAO.DeleteComment(ID);

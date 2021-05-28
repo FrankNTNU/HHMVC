@@ -1,0 +1,194 @@
+﻿
+@{
+    ViewBag.Title = "PostDetail";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+<style>
+    
+</style>
+@model DTO.LayoutDTO
+<!-- Content -->
+<div id="main">
+    <div class="inner">
+        <section>
+
+            <div class="row">
+
+
+                <div class="col-6 col-12-small">
+                    <header class="major">
+                        <h2 style="font-size:1.5em;">@Model.PostDetail.Title</h2>
+                    </header>
+
+                    <div class="row">
+                        <div class="col-2">
+                            <img src="~/Areas/Admin/Content/UserImage/@Model.PostDetail.MemberImage" style="width:50px" />
+
+                        </div>
+                        <div class="col=10">
+                            <h2 style="display:inline"><span> @Model.PostDetail.MemberName</span></h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <strong style="font-size:1.2em">日期:</strong>
+
+                        </div>
+                        <div class="col-10">
+
+                            <div>@Model.PostDetail.AddDate.ToString("yyyy/MM/dd dddd")</div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <strong style="font-size:1.2em">大綱:</strong>
+
+                        </div>
+                        <div class="col-10">
+
+                            <div class="image main" style="font-size:1.2em">@Model.PostDetail.ShortContent</div>
+
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="col-6 col-12-small"><span class="image main" style="float:right"><img src="~/Areas/Admin/Content/PostImages/@Model.PostDetail.PostImages[0].ImagePath" alt="" style="max-width:100%;float:right" /></span></div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    @Html.Raw(Model.PostDetail.PostContent)
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:50px">
+                <div class="col-6 col-12-medium">
+                    <header class="major">
+                        <h2>
+                            @Model.CommentCount 則留言
+                        </h2>
+                    </header>
+
+
+                </div>
+
+            </div>
+            @using (Html.BeginForm("PostDetail", "Home2", Model, FormMethod.Post))
+            {
+                foreach (var item in Model.PostDetail.CommentList)
+                {
+                    <input hidden="hidden" value="@Model.PostDetail.ID" name="Model.PostDetail.ID">
+
+                    <input hidden="hidden" value="@item.ID" name="Model.Comment.ID">
+                    <div class="row">
+                        <div class="col-1 col-2-medium col-12-small">
+                            <img src="~/Areas/Admin/Content/UserImage/@item.MemberImage" style="width:50px" />
+
+                        </div>
+                        <div class="col-6 col-10-medium col-12-small">
+
+
+                            <h3>@item.MemberName</h3>
+                            <div>@item.AddDate.ToString("yyyy/MM/dd dddd")</div>
+
+                            @if (DTO.UserStatic.UserID == item.MemberID)
+                            {
+                                @*@Html.TextBoxFor(model => model.Comment.Title, new { @value = item.Title })
+                                @Html.TextAreaFor(model => model.Comment.CommentContent, new { @value = item.CommentContent })*@
+                                <input type="text" name="Model.Comment.Title" id="demo-email" value="@item.Title" placeholder="你的留言標題" style="margin:5px 0 5px 0" maxlength="25"/>
+                            <textarea name="Model.Comment.CommentContent" id="demo-message" placeholder="你的留言內容" rows="2" style="margin:5px 0 5px 0">@item.CommentContent</textarea>
+
+                                
+                            <div class="row">
+                                <div class="col-2 col-2-medium col-3-small">
+                                    @*@Html.ActionLink("修改", "PostDetail", null, new { onclick = "alert('已修改完成，待核准中')", @class = "button primary" })*@
+
+                                    <div style="font-size:1.1em"><input type="submit" value="修改" class="primary" formaction=@Url.Action("PostDetail") formmethod="post" onclick="alert('已經修改，等待核准中...')" id="editBtn"/></div>
+                                </div>
+                                @*@Html.ActionLink("修改", "UpdateComment", "Home2", new { ID = item.ID, title = item.Title, content = item.CommentContent, postID = Model.PostDetail.ID }, new { onclick = "alert('已經修改，待核准中')", @class = "button primary" })*@
+                                <div class="col-2 col-2-medium col-3-small" style="font-size:1.1em">
+                                    @Html.ActionLink("刪除", "DeleteComment", new { ID = item.ID, PostID = Model.PostDetail.ID }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "button" })
+                                </div>
+                            </div>
+                                <div class="row"><p></p></div>
+
+                                @*<li style="font-size:1.1em"><input type="submit" value="刪除" class="btn-default" formaction=@Url.Action("DeleteComment/" + item.ID, new { PostID = Model.PostDetail.ID }) formmethod="post" style="" /></li>*@
+
+
+
+
+                            }
+                            else
+                            {
+                                <div><strong>@item.Title</strong></div>
+                                <p>@item.CommentContent</p>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            @if (DTO.UserStatic.UserID != 0)
+            {
+                <header class="major">
+                    <h2>
+                        新增留言
+                    </h2>
+                </header>
+                <form action="@Url.Action("PostDetail")" method="post">
+                    <input hidden value="@Model.PostDetail.ID" name="PostDetail.ID" />
+
+                    <div class="row gtr-uniform">
+                        <div class="col-6 col-12-xsmall">
+                            <label>暱稱</label>
+                            @Html.ValidationMessageFor(x => x.Comment.Name)
+                            <input type="text" name="Comment.Name" id="demo-name" value="" placeholder="留言用暱稱" />
+                        </div>
+                        <div class="col-6 col-12-xsmall">
+                            <label>標題</label>
+                            @Html.ValidationMessageFor(x => x.Comment.Title)
+                            <input type="text" name="Comment.Title" id="demo-email" value="" placeholder="你的留言標題" />
+                        </div>
+
+
+
+                        <!-- Break -->
+                        <div class="col-12">
+                            <label>內容</label>
+                            @Html.ValidationMessageFor(x => x.Comment.CommentContent)
+
+                            <textarea name="Comment.CommentContent" id="demo-message" placeholder="你的留言內容" rows="6"></textarea>
+                        </div>
+                        <!-- Break -->
+                        <div class="col-12">
+                            <ul class="actions">
+                                <li style="font-size:1.1em"><input type="submit" value="提交" class="primary" /></li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+            }
+        </section>
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+     
+        $(document).ready(function () {
+
+            var result = "@ViewData["CommentState"]";
+            if (result != "") {
+
+                if (result == "Success") {
+                    toastr.success("動作成功");
+                }
+                else {
+                    toastr.error("失敗");
+                }
+            }
+        })
+        
+    </script>
+}

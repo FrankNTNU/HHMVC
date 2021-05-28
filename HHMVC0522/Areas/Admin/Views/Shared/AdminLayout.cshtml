@@ -57,7 +57,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="/Home/Index" class="brand-link">
+            <a href="/Home2/Index" class="brand-link">
                 <img src="~/Areas/Admin/Content/tempimage/hLogo.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">HealthHelper</span>
             </a>
@@ -92,8 +92,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
     with font-awesome or any other icon font library -->
-                        @if (UserStatic.isAdmin)
-                        {
+                        
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-user"></i>
@@ -117,27 +116,9 @@
                                     </li>
                                 </ul>
                             </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-book"></i>
-                                    <p>
-                                        使用者
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="/Admin/User/UpdateUser/@UserStatic.UserID" class="nav-link">
-                                            <i class="far fa-user nav-icon"></i>
-                                            <p>更新使用者</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        }
+                        
+                           
+                        
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-book"></i>
@@ -176,15 +157,14 @@
                                         <p>所有留言</p>
                                     </a>
                                 </li>
-                                @if (DTO.UserStatic.isAdmin)
-                                {
+                               
                                     <li class="nav-item">
                                         <a href="/Admin/Comment/UnapprovedComments" class="nav-link">
                                             <i class="far fa-comment nav-icon"></i>
                                             <p>待審查留言</p>
                                         </a>
                                     </li>
-                                }
+                               
                             </ul>
                         </li>
                         

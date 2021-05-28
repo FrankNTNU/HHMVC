@@ -520,6 +520,7 @@
     <Content Include="Areas\Admin\Content\webfonts\fa-regular-400.svg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-solid-900.svg" />
     <Content Include="Content\color\default.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\fontawesome-all.min.css" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\font\fontawesome\fontawesome-webfont.svg" />
@@ -603,8 +604,10 @@
     <Content Include="Content\img\slides\refine\slide3.png" />
     <Content Include="Content\img\small-avatar.png" />
     <Content Include="Content\img\ui.totop.png" />
+    <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\js\breakpoints.min.js" />
     <Content Include="Content\js\browser.min.js" />
+    <Content Include="Content\js\DeleteRecord.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\main.js" />
     <Content Include="Content\js\util.js" />
@@ -629,6 +632,7 @@
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
     <Compile Include="Controllers\Home2Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -738,6 +742,10 @@
     <Content Include="Views\Shared\ModalMessage.cshtml" />
     <Content Include="Views\Shared\HomeLayout2.cshtml" />
     <Content Include="Views\Home2\Index.cshtml" />
+    <Content Include="Views\Home2\Login.cshtml" />
+    <Content Include="Views\Home2\PostDetail.cshtml" />
+    <Content Include="Views\Post\AddPost.cshtml" />
+    <Content Include="Views\Home2\UpdateComment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

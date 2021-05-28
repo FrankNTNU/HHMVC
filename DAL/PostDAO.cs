@@ -89,6 +89,8 @@ namespace DAL
                 dto.AddDate = item.AddDate;
                 dto.Title = item.Title;
                 dto.CommentContent = item.CommentContent;
+                dto.MemberImage = item.Member.Image;
+                dto.IsApproved = item.IsApproved;
                 commentDTOList.Add(dto);
             }
             return commentDTOList;

@@ -26,6 +26,7 @@ namespace DTO
         [Required(ErrorMessage = "請輸入名稱")]
         public string Name { get; set; } // Allow leave a comment anonymously
         public bool IsUpdate { get; set; }
+        public string MemberImage { get; set; }
 
          
     }
