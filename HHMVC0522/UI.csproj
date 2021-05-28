@@ -603,11 +603,40 @@
     <Content Include="Content\img\slides\refine\slide3.png" />
     <Content Include="Content\img\small-avatar.png" />
     <Content Include="Content\img\ui.totop.png" />
+    <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
+    <Content Include="Content\jquery-3.6.0\jquery-3.6.0.js" />
+    <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
+    <Content Include="Content\jquery-3.6.0\jquery-3.6.0.slim.js" />
+    <Content Include="Content\jquery-3.6.0\jquery-3.6.0.slim.min.js" />
+    <Content Include="Content\jquery-ui-timepicker\jquery-ui-timepicker-addon.css" />
+    <Content Include="Content\jquery-ui-timepicker\jquery-ui-timepicker-addon.js" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\AUTHORS.txt" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\external\jquery\jquery.js" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\index.html" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.css" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.js" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.min.css" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.min.js" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.structure.css" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.structure.min.css" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.theme.css" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.theme.min.css" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\LICENSE.txt" />
     <Content Include="Content\js\breakpoints.min.js" />
     <Content Include="Content\js\browser.min.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\main.js" />
     <Content Include="Content\js\util.js" />
+    <Content Include="Content\moment-js\moment-with-locales.js" />
+    <Content Include="Content\moment-js\moment-with-locales.min.js" />
+    <Content Include="Content\moment-js\moment.js" />
+    <Content Include="Content\moment-js\moment.min.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\toastr\toastr.css" />
     <Content Include="Content\toastr\toastr.min.css" />
@@ -629,6 +658,7 @@
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
     <Compile Include="Controllers\Home2Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\WorkoutController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -730,6 +760,11 @@
     <Content Include="Content\webfonts\fa-solid-900.ttf" />
     <Content Include="Content\webfonts\fa-solid-900.woff" />
     <Content Include="Content\webfonts\fa-solid-900.woff2" />
+    <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.map" />
+    <Content Include="Content\jquery-3.6.0\jquery-3.6.0.slim.min.map" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\package.json" />
+    <Content Include="Content\moment-js\moment-with-locales.min.js.map" />
+    <Content Include="Content\moment-js\moment.min.js.map" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\HomeLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -738,6 +773,7 @@
     <Content Include="Views\Shared\ModalMessage.cshtml" />
     <Content Include="Views\Shared\HomeLayout2.cshtml" />
     <Content Include="Views\Home2\Index.cshtml" />
+    <Content Include="Views\Workout\WorkoutLog.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -756,6 +792,10 @@
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{d88083b0-5646-4be9-b204-03ccabcbd1af}</Project>
       <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{E0109ED6-2BD4-4F84-B81A-6F39A8B7992D}</Project>
+      <Name>DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\DTO\DTO.csproj">
       <Project>{DAD2EA66-6FE9-43DB-B186-E3BFB93FD117}</Project>
