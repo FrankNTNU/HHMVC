@@ -1,6 +1,7 @@
 ﻿using DAL;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -36,11 +37,34 @@ namespace UI.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult GetWorkoutAlWc(int wid)
         {
             var workout = dbContext.Workouts.SingleOrDefault(w => w.ID == wid);
 
             return Json(new { Al = workout.ActivityLevel.Description, Wc = workout.WorkoutCategory.Name});
         }
+
+
+        public JsonResult GetTodayWorkout()
+        {
+
+            DateTime d = new DateTime(2021, 6, 8).Date;
+
+            var q = dbContext.WorkoutLogs
+                .Where(wl => wl.MemberID == 83 && wl.StatusID == 4
+                    && DbFunctions.TruncateTime(wl.WorkoutTime) == d)
+                .Select(wl => new
+                {
+                    wl.ID,
+                    wl.WorkoutTime,
+                    wl.Workout.Name,
+                    wl.WorkoutHours
+                });
+
+            return Json(q.ToList());
+        }
+
+
     }
 }
