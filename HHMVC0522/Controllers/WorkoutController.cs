@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace UI.Controllers
 {
-    [Authorize]
+    
     public class WorkoutController : Controller
     {
         HealthHelperEntities dbContext = new HealthHelperEntities();

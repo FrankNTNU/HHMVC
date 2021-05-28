@@ -11,7 +11,9 @@
 {
 
     <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">*@
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/r-2.2.7/datatables.min.css" />*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/r-2.2.7/datatables.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui-timepicker/jquery-ui-timepicker-addon.css" />
     <style>
         .box {
@@ -22,18 +24,21 @@
 
         .operate {
             min-height: 200px;
-            margin: 0 2px;
+            margin: 0 0;
+            box-sizing: border-box;
         }
 
         #mainDiv {
-            width: 80%;
-            margin: auto;
-            margin-top: 5%;
+            width: 70%;
+            margin:auto;
+            margin-top:80px;
+            /*width: 500px;*/
+            /*top: 80px;*/
         }
 
         label {
-            display:inline-block;
-            text-align:left;
+            display: inline-block;
+            text-align: left;
         }
 
         #wHours, #wTime {
@@ -46,19 +51,28 @@
         }
 
         #new {
-            float:right;
+            float: right;
             font-size: 14px;
         }
 
         #wlTable_filter label input {
-            display:inline-block;
-            width:120px;
-            float:right;
+            display: inline-block;
+            width: 120px;
+            float: right;
         }
 
         #wlTable_filter label {
-            display:flex;
-            align-items:center;
+            display: flex;
+            align-items: center;
+        }
+
+        #wlTable_filter {
+            margin-left: auto;
+        }
+
+        #wlTable_wrapper {
+            display: flex;
+            flex-wrap: wrap;
         }
     </style>
 }
@@ -69,10 +83,9 @@
 }
 
 <div id="mainDiv">
-
-    <div style="display:flex; width:100%; padding:5px 0" class="form-inline">
-        <div class="box operate" style="width: 30%; "></div>
-        <div class="box operate" style="width: 40%;">
+    <div class="row col-12">
+        <div class="box operate col-4 col-12-medium col-12-small">123</div>
+        <div class="box operate col-4 col-12-medium col-12-small">
             <div class="form-group" style="margin-bottom:2px; width:100%; height:45px; display:block">
                 <label for="wName">運動項目</label>
                 @Html.DropDownList("wName", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
@@ -90,25 +103,27 @@
                 <div id="new" class="button primary fit">新增</div>
             </div>
         </div>
-        <div class="box operate" style="width: 40%;"></div>
-    </div>
-    <div class="box" style="width:100%; min-height:150px; margin-bottom:5px"></div>
-    <div class="box" style="width:100%; min-height:300px;">
-        <table id="wlTable" class="display">
-        </table>
+        <div class="box operate col-4 col-12-medium col-12-small">123</div>
+        <div class="box col-12" style="min-height:150px; margin-bottom:5px">123</div>
+        <div class="box col-12">
+            <table id="wlTable" class="display responsive nowrap" style="width:100%">
+            </table>
+        </div>
     </div>
 </div>
 
 @section Scripts
 {
     <script type="text/javascript" src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>*@
+    @*<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.24/r-2.2.7/datatables.min.js"></script>*@
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/r-2.2.7/datatables.min.js"></script>
     <script type="text/javascript" src="~/Content/moment-js/moment.min.js"></script>
     <script type="text/javascript" src="~/Content/jquery-ui-timepicker/jquery-ui-timepicker-addon.js"></script>
     <script>
 
 
-        var minDate = null, maxDate = null;
+        var minDate = null, maxDate = null; 
 
         $(function () {
 
@@ -146,6 +161,7 @@
                 order: [[1, "desc"]],
                 lengthChange: false,
                 pageLength: 10,
+                responsive: true,
                 initComplete: function () {
 
                     let wrap = document.createElement("div");
@@ -243,10 +259,10 @@
                 maxDate.setDate(maxDate.getDate() + 1);
                 table.draw();
             });
-            
+
         });
 
-        
+
 
         // Custom filtering function which will search data in column four between two values
         $.fn.dataTable.ext.search.push(
