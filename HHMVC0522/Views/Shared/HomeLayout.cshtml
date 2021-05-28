@@ -21,8 +21,8 @@
 
     <link href="~/Content/css/style.css" rel="stylesheet">
     <link href="~/Content/color/default.css" rel="stylesheet">
-
-
+    <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
+    <link href="~/Content/toastr/toastr.min.css" rel="stylesheet" />
     <!-- fav and touch icons -->
     <link rel="shortcut icon" href="~/Content/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/Content/ico/apple-touch-icon-144-precomposed.png">
@@ -112,7 +112,8 @@
                                 <li>
 
                                     <a href="/Home/Logout">登出</a>
-                                </li>}
+                                </li>
+}
 
                                             <li>
                                                 <a href="/Admin/Login/Index">後臺</a>
@@ -234,12 +235,14 @@
     <script src="~/Content/js/cbpAnimatedHeader.min.js"></script>
     <script src="~/Content/js/jquery.refineslide.js"></script>
     <script src="~/Content/js/jquery.ui.totop.js"></script>
-
+    <script src="~/Content/toastr/toastr.min.js"></script>
     <!-- Template Custom Javascript File -->
     <script src="~/Content/js/custom.js"></script>
     <!-- Active js -->
     <script src="~/Content/js/active.js"></script>
     <script src="~/Content/toastr/toastr.min.js"></script>
+    <script src="~/Content/JS/DeleteRecord.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
             var result = "@ViewData["CommentState"]";

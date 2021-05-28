@@ -29,7 +29,7 @@ namespace UI.Areas.Admin.Controllers
                 if (user.ID != 0)
                 {
                     UserStatic.UserID = user.ID;
-                    UserStatic.isAdmin = user.isAdmin;
+                    UserStatic.isAdmin = user.IsAdmin;
                     UserStatic.NameSurname = user.Name;
                     UserStatic.ImagePath = user.ImagePath;
                     UserStatic.StatusID = user.StatusID;

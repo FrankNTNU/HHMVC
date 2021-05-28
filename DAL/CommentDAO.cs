@@ -46,6 +46,20 @@ namespace DAL
             return dtoList;
         }
 
+        public void AddComment(Comment comment)
+        {
+            try
+            {
+                db.Comments.Add(comment);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         public void DeleteComment(int ID)
         {
             using (HealthHelperEntities db = new HealthHelperEntities())
@@ -95,6 +109,15 @@ namespace DAL
                 }
             }
             return dtoList;
+        }
+
+        public void UpdateComment(LayoutDTO model)
+        {
+            Comment comment = db.Comments.First(x => x.ID == model.Comment.ID);
+            comment.Title = model.Comment.Title;
+            comment.CommentContent = model.Comment.CommentContent;
+            comment.IsApproved = false;
+            db.SaveChanges();
         }
 
         public List<CommentDTO> GetUnapprovedComments()

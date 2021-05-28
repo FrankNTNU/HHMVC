@@ -54,9 +54,9 @@ namespace DAL
             return dtoList;
         }
 
-        public void AddComment(Comment comment)
+        public int CountComments(int ID)
         {
-            throw new NotImplementedException();
+            return db.Comments.Where(x => x.PostID == ID && x.IsApproved == true).Count();
         }
 
         public PostDTO GetPostDetailWithID(int ID)
@@ -83,6 +83,8 @@ namespace DAL
             foreach (var item in comments)
             {
                 CommentDTO dto = new CommentDTO();
+                dto.ID = item.ID;
+                dto.MemberID = item.MemberID;
                 dto.MemberName = item.Member.Name;
                 dto.AddDate = item.AddDate;
                 dto.Title = item.Title;

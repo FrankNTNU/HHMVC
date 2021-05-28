@@ -21,6 +21,7 @@ namespace BLL
         {
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO.PostDetail = postBLL.GetPostDetailPageItemWithID(ID);
+            layoutDTO.CommentCount = postBLL.CountComments(ID);
             return layoutDTO;
         }
     }

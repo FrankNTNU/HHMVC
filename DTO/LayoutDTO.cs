@@ -11,6 +11,7 @@ namespace DTO
         public List<PostDTO> Posts { get; set; }
         public PostDTO PostDetail { get; set; }
         public CommentDTO Comment { get; set; }
+        public int CommentCount { get; set; }
        
     }
 }

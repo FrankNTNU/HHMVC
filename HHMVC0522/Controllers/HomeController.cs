@@ -34,13 +34,11 @@ namespace UI.Controllers
                 if (user.ID != 0)
                 {
                     UserStatic.UserID = user.ID;
-                    UserStatic.isAdmin = user.isAdmin;
+                    UserStatic.isAdmin = user.IsAdmin;
                     UserStatic.NameSurname = user.Name;
                     UserStatic.ImagePath = user.ImagePath;
                     UserStatic.StatusID = user.StatusID;
-
                     return RedirectToAction("Index", "Home");
-
                 }
                 else
                 {
@@ -55,6 +53,7 @@ namespace UI.Controllers
         }
         public ActionResult Logout()
         {
+            int id = UserStatic.UserID;
             UserStatic.UserID = 0;
             return RedirectToAction("Index");
         }
@@ -67,9 +66,22 @@ namespace UI.Controllers
         [HttpPost]
         public ActionResult PostDetail(LayoutDTO model)
         {
+            
             if (model.Comment.Name != null && model.Comment.Title != null && model.Comment.CommentContent != null)
             {
                 if (postBLL.AddComment(model))
+                {
+                    ViewData["CommentState"] = "Success";
+                    ModelState.Clear();
+                }
+                else
+                {
+                    ViewData["CommentState"] = "Error";
+                }
+            }
+            else if (model.Comment.Title != null && model.Comment.CommentContent != null)
+            {
+                if (postBLL.UpdateComment(model))
                 {
                     ViewData["CommentState"] = "Success";
                     ModelState.Clear();
@@ -83,14 +95,15 @@ namespace UI.Controllers
             {
                 ViewData["CommentState"] = "Error";
             }
-            //HomeLayoutDTO layoutDTO = new HomeLayoutDTO();
-            //layoutDTO = layoutBLL.GetLayoutData();
-            //ViewData["LayoutDTO"] = layoutDTO;
-            //GeneralDTO dto = new GeneralDTO();
-            //model = generalBLL.GetPostDetailPageItemWithID(model.PostID);
             LayoutDTO layoutDTO = new LayoutDTO();
-            layoutDTO = layoutBLL.GetPosts();
+            layoutDTO = layoutBLL.GetPostDetailPageItemWithID(model.PostDetail.ID);
             return View(layoutDTO);
+        }
+        CommentBLL commentBLL = new CommentBLL();
+        public ActionResult DeleteComment(int ID)
+        {
+            commentBLL.DeleteComment(ID);
+            return RedirectToAction("PostDetail");
         }
     }
 }

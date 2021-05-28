@@ -26,7 +26,7 @@
         <div class="control-group" style="width:350px">
             <label class="controls">@Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")</label>
         </div>
-     
+
         <div class="control-group">
             <label class="controls" style="left:10px">
                 @Html.ValidationMessageFor(x => x.UserName)
@@ -43,7 +43,7 @@
             </label>
             <label class="control-label" for="inputPassword"><strong>密碼</strong></label>
             <div class="controls" style="border:2px solid lightgray; width:320px">
-                <input type="password" id="inputPassword" placeholder="密碼" name="Password">
+                <input type="password" id="inputPassword" placeholder="密碼" name="Password" />
             </div>
         </div>
         <div class="row justify-content-center">
@@ -51,6 +51,7 @@
                 <button type="submit" class="btn btn-color">登入</button>
             </div>
         </div>
+        
         <div class="row"></div>
     </form>
 </section>

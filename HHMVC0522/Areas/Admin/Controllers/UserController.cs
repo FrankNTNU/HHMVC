@@ -99,7 +99,7 @@ namespace UI.Areas.Admin.Controllers
                             model.ActivityLevels = ActivityLevelBLL.GetActivityLevelsForDropDown();
                             return View(model);
                         }
-                        Bitmap resizedImage = new Bitmap(userImage, 128, 128);
+                        Bitmap resizedImage = new Bitmap(userImage, 256, 256);
                         string uniqueNumber = Guid.NewGuid().ToString();
                         string fileName = uniqueNumber + postedFile.FileName;
                         resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/UserImage/" + fileName));

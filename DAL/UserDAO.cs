@@ -21,7 +21,7 @@ namespace DAL
                 dto.UserName = user.UserName;
                 dto.Name = user.Name;
                 dto.ImagePath = user.Image;
-                dto.isAdmin = user.IsAdmin;
+                dto.IsAdmin = user.IsAdmin;
                 dto.StatusID = user.StatusID;
             }
             return dto;
@@ -41,7 +41,7 @@ namespace DAL
                 dto.Email = user.Email;
                 dto.Phone = user.Phone;
                 dto.Gender = user.Gender;
-                dto.isAdmin = user.IsAdmin;
+                dto.IsAdmin = user.IsAdmin;
                 dto.BirthDate = user.Birthdate;
                 dto.JoinDate = user.JoinDate;
                 dto.ImagePath = user.Image;
@@ -66,7 +66,7 @@ namespace DAL
                 }
                 user.Email = model.Email;
                 user.Password = model.Password;
-                user.IsAdmin = model.isAdmin;
+                user.IsAdmin = model.IsAdmin;
                 user.Height = model.Height;
                 user.ActivityLevelID = model.ActivityLevelID;
                 user.Birthdate = model.BirthDate;

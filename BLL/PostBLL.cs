@@ -33,21 +33,28 @@ namespace BLL
             return true;
         }
 
+        internal int CountComments(int ID)
+        {
+            return postDAO.CountComments(ID);
+        }
+
         internal PostDTO GetPostDetailPageItemWithID(int ID)
         {
             return postDAO.GetPostDetailWithID(ID);
         }
-
+        CommentDAO commentDAO = new CommentDAO();
         public bool AddComment(LayoutDTO model)
         {
             Comment comment = new Comment();
             comment.PostID = model.PostDetail.ID;
+            comment.MemberID = UserStatic.UserID;
             comment.Name = model.Comment.Name;
             comment.Title = model.Comment.Title;
             comment.CommentContent = model.Comment.CommentContent;
             comment.AddDate = DateTime.Now;
             comment.IsApproved = false;
-            postDAO.AddComment(comment);
+            comment.Rating = 1;
+            commentDAO.AddComment(comment);
             return true;
         }
 
@@ -82,6 +89,12 @@ namespace BLL
             {
                 SavePostImages(model.PostImages, model.ID);
             }
+            return true;
+        }
+
+        public bool UpdateComment(LayoutDTO model)
+        {
+            commentDAO.UpdateComment(model);
             return true;
         }
 

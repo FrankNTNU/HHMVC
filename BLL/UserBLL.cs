@@ -30,7 +30,7 @@ namespace BLL
             user.Email = model.Email;
             user.Image = model.ImagePath;
             user.Name = model.Name;
-            user.IsAdmin = model.isAdmin;
+            user.IsAdmin = model.IsAdmin;
             user.JoinDate = DateTime.Now;
             user.Birthdate = model.BirthDate;
             user.TaiwanID = model.TaiwanID;

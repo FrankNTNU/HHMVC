@@ -9,16 +9,16 @@
 <section id="subintro">
     <div class="container">
         <div class="row">
-                <div class="span4">
-                    <h3><strong>文章內容</strong></h3>
-                </div>
-                <div class="span8">
-                    <ul class="breadcrumb notop">
-                        <li><a href="#">貼文</a><span class="divider">/</span></li>
-                        <li class="active">貼文內容</li>
-                    </ul>
-                </div>
-            
+            <div class="span4">
+                <h3><strong>文章內容</strong></h3>
+            </div>
+            <div class="span8">
+                <ul class="breadcrumb notop">
+                    <li><a href="#">貼文</a><span class="divider">/</span></li>
+                    <li class="active">貼文內容</li>
+                </ul>
+            </div>
+
         </div>
     </div>
 </section>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="clearfix">
                     </div>
-                    
+
                     <div class="row">
                         <div class="span2">
                             <div class="post-icon">
@@ -61,52 +61,86 @@
                 </article>
 
                 <!-- end article full post -->
-                <h4>@Model.PostDetail.CommentCount Comments</h4>
-                <ul class="media-list">
-                    @foreach (var item in Model.PostDetail.CommentList)
-                    {
+                @using (Html.BeginForm("PostDetail", "Home", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+
+                    <h4>@Model.CommentCount Comments</h4>
+                    <ul class="media-list">
+                        @foreach (var item in Model.PostDetail.CommentList)
+                        {
                         <li class="media">
-                            <a class="pull-left" href="#">
-                                <img class="img-circle" src="" alt="" />
-                            </a>
-                            <div class="media-body">
-                                <h5 class="media-heading"><a href="#">@item.MemberName</a></h5>
-                                <span>@item.AddDate.ToString("yyyy/MM/dd dddd")</span>
-                                <p>
-                                    @item.CommentContent
-                                </p>
+                            <input hidden value="@item.ID" class="form-control" name="Comment.ID" style='border: 2px solid lightgray; width:350px' />
+                            <input hidden value="@Model.PostDetail.ID" name="PostDetail.ID" />
 
-                            </div>
+
+                            <h5 class="media-heading"><a href="#">@item.MemberName</a></h5>
+                            <span>@item.AddDate.ToString("yyyy/MM/dd dddd")</span>
+                            @if (item.MemberID != DTO.UserStatic.UserID)
+                            {
+                                <p>@item.Title</p>
+                                <p>@item.CommentContent</p>
+                            }
+
+                            @if (item.MemberID == DTO.UserStatic.UserID)
+                            {
+                                <div class="span12" style="margin:0">
+                                    @Html.ValidationMessageFor(x => x.Comment.Title)
+                                    <input type="text" value="@item.Title" class="form-control" name="Comment.Title" style='border: 2px solid lightgray; width:350px' />
+                                </div>
+                                <div class="span12" style="margin:0">
+                                    @Html.ValidationMessageFor(x => x.Comment.CommentContent)
+                                    <textarea rows="3" class="form-control" name="Comment.CommentContent" style='border: 2px solid lightgray; width:350px;'>@item.CommentContent</textarea>
+
+                                </div>
+                                <div class="span6" style="margin:0">
+                                    <button class="btn btn-color btn-rounded" id="editBtn">修改</button>
+                                    <button class="btn btn-danger btn-rounded">刪除</button>
+                                </div>
+
+
+                            }
+
                         </li>
-                    }
-                </ul>
-                <div class="comment-post">
-                    <h4>發布留言</h4>
-                    <form action="" method="post" class="comment-form" name="comment-form">
-                        <div class="row">
-                            <input hidden value="@Model.PostDetail.ID" name="PostID" />
+                        }
+                    </ul>
 
-                            <div class="span4">
-                                <label>姓名 <span>*</span></label>
-                                <input type="text" placeholder="你的名稱" class="form-control-plaintext" name="Name"/>
-                            </div>
-                            
-                            <div class="span4">
-                                <label>標題 <span>*</span></label>
-                                <input type="text" placeholder="你的留言標題" class="form-control" name="Title"/>
-                            </div>
-                            <div class="span8">
-                                <label>留言內容 <span>*</span></label>
-                                <textarea rows="9" placeholder="你的留言內容" class="form-control" name="CommentContent"></textarea>
+                }
+                @*<form action="@Url.Action("PostDetail", Model)" method="post" class="comment-form" id="commentForm">
+                </form>*@
+                @if (DTO.UserStatic.UserID != 0)
+                {
+                    <div class="comment-post">
+                        <h4>發布留言</h4>
+                        <form action="@Url.Action("PostDetail")" method="post" class="comment-form">
+                            <div class="row">
+                                <input hidden value="@Model.PostDetail.ID" name="PostDetail.ID" />
+
+                                <div class="span4">
+                                    @Html.ValidationMessageFor(x => x.Comment.Name)
+                                    <label>姓名 <span>*</span></label>
+                                    <input type="text" placeholder="你的名稱" class="form-control-plaintext" name="Comment.Name" />
+                                </div>
+
+                                <div class="span4">
+                                    @Html.ValidationMessageFor(x => x.Comment.Title)
+                                    <label>標題 <span>*</span></label>
+                                    <input type="text" placeholder="你的留言標題" class="form-control" name="Comment.Title" />
+                                </div>
+                                <div class="span8">
+                                    @Html.ValidationMessageFor(x => x.Comment.CommentContent)
+                                    <label>留言內容 <span>*</span></label>
+                                    <textarea rows="9" placeholder="你的留言內容" class="form-control" name="Comment.CommentContent"></textarea>
+
+                                </div>
+                                <div class="span6">
+                                    <button class="btn btn-color btn-rounded" type="submit"><strong>遞交</strong></button>
+                                </div>
 
                             </div>
-                            <div class="span6">
-                                <button class="btn btn-color btn-rounded" type="submit"><strong>遞交</strong></button>
-                            </div>
+                        </form>
+                    </div>
+                }
 
-                        </div>
-                    </form>
-                </div>
             </div>
 
             <div class="span4">
@@ -137,28 +171,28 @@
                         <h4>Recent posts</h4>
                         <ul class="recent-posts">
                             <li>
-                                <a href="#"><img src="assets/img/dummies/post-50.jpg" alt="" /> Lorem ipsum dolor sit amet munere commodo ut nam</a>
+                                <a href="#"><img src="" alt="" /> Lorem ipsum dolor sit amet munere commodo ut nam</a>
                                 <div class="clear">
                                 </div>
                                 <span class="date"><i class="icon-calendar"></i> 6 June, 2013</span>
                                 <span class="comment"><i class="icon-comment"></i> 4 Comments</span>
                             </li>
                             <li>
-                                <a href="#"><img src="assets/img/dummies/post-50.jpg" alt="" /> Sea nostrum omittantur ne mea malis nominavi insolens</a>
+                                <a href="#"><img src="" alt="" /> Sea nostrum omittantur ne mea malis nominavi insolens</a>
                                 <div class="clear">
                                 </div>
                                 <span class="date"><i class="icon-calendar"></i> 6 June, 2013</span>
                                 <span class="comment"><i class="icon-comment"></i> 2 Comments</span>
                             </li>
                             <li>
-                                <a href="#"><img src="assets/img/dummies/post-50.jpg" alt="" /> Eius graece recusabo no pri odio tale quo id, mea at saepe</a>
+                                <a href="#"><img src="" alt="" /> Eius graece recusabo no pri odio tale quo id, mea at saepe</a>
                                 <div class="clear">
                                 </div>
                                 <span class="date"><i class="icon-calendar"></i> 4 June, 2013</span>
                                 <span class="comment"><i class="icon-comment"></i> 12 Comments</span>
                             </li>
                             <li>
-                                <a href="#"><img src="assets/img/dummies/post-50.jpg" alt="" /> Malorum deserunt at nec usu ad graeco elaboraret at rebum</a>
+                                <a href="#"><img src="" alt="" /> Malorum deserunt at nec usu ad graeco elaboraret at rebum</a>
                                 <div class="clear">
                                 </div>
                                 <span class="date"><i class="icon-calendar"></i> 3 June, 2013</span>
@@ -183,3 +217,50 @@
 </section>
 <!-- Footer
 ================================================== -->
+<script src="~/Content/js/jquery.js"></script>
+<script>
+
+    @*var titleText;
+    var contentText;
+    $(document).ready(function () {
+        $(".media-list").on("click", "#editBtn", function () {
+            titleText = $("#titleTextbox").text();
+            $("#titleTextbox").empty();
+            $("#titleTextbox").append("<input type = 'text' style='border: 2px solid lightgray; width:350px' name='Comment.Title' value=" + titleText + ">");
+            contentText = $("#contentTextbox").text();
+            $("#contentTextbox").empty();
+            $("#contentTextbox").append("<textarea type = 'text' style='border: 2px solid lightgray; width:350px' name='Comment.CommentContent'>"+contentText.trim()+"</textarea>");
+            $(this).replaceWith("<button class='btn btn-primary btn-rounded' id='updateBtn'>更新</button>")
+
+        });
+    });
+    var data = @Html.Raw(Json.Encode(Model));
+    $(document).ready(function () {
+        $(".media-list").on("click", "#updateBtn", function (e) {
+            $("#titleTextbox").replaceAll();
+            $("#contentTextbox").replaceAll();
+            $("#titleTextbox").text(titleText);
+            $("#contentTextbox").text(contentText);
+            $("#IsUpdate").val(true);
+            $(this).replaceWith("<button class='btn btn-color btn-rounded' id='editBtn'>修改</button>");
+
+        });});
+    $(document).ready(function () {
+        $("#commentForm").submit(function (e) {
+            e.preventDefault();
+            console.log(this);
+            console.log(data);
+            $.ajax({
+                url: "/Home/PostDetail",
+                type: "POST",
+                data: data
+
+            });
+        })
+ });*@
+
+
+
+
+
+</script>

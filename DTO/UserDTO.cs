@@ -21,7 +21,7 @@ namespace DTO
         public string ImagePath { get; set; }
         [Required(ErrorMessage = "請輸入名稱")]
         public string Name { get; set; }
-        public bool isAdmin { get; set; }
+        public bool IsAdmin { get; set; }
         [Required(ErrorMessage = "請輸入身高"), Range(100, 250, ErrorMessage ="請輸入合理的身高數值")]
         public double Height { get; set; }
         [DataType(DataType.Date)]
