@@ -621,6 +621,24 @@
     <Content Include="Content\img\slides\refine\slide3.png" />
     <Content Include="Content\img\small-avatar.png" />
     <Content Include="Content\img\ui.totop.png" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\AUTHORS.txt" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\external\jquery\jquery.js" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\index.html" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.css" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.js" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.min.css" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.min.js" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.structure.css" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.structure.min.css" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.theme.css" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.theme.min.css" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\LICENSE.txt" />
     <Content Include="Content\js\active.js" />
     <Content Include="Content\jquery-ui-timepicker\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\js\animate.js" />
@@ -664,24 +682,6 @@
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.slim.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.slim.min.js" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\AUTHORS.txt" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\external\jquery\jquery.js" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_444444_256x240.png" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_555555_256x240.png" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_777620_256x240.png" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_777777_256x240.png" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_cc0000_256x240.png" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\index.html" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.css" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.js" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.min.css" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.min.js" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.structure.css" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.structure.min.css" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.theme.css" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.theme.min.css" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\LICENSE.txt" />
     <Content Include="Content\jquery-ui-timepicker\jquery-ui-timepicker-addon.js" />
     <Content Include="Content\moment-js\moment-with-locales.js" />
     <Content Include="Content\moment-js\moment-with-locales.min.js" />
@@ -756,6 +756,7 @@
     <Content Include="Content\font\fontawesome\FontAwesome.otf" />
     <Content Include="Areas\Admin\Views\Comment\UnapprovedComments.cshtml" />
     <Content Include="Content\toastr\toastr.js.map" />
+    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\package.json" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\HomeLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -768,7 +769,6 @@
     <Content Include="Views\Workout\WorkoutLog.cshtml" />
     <Content Include="Content\moment-js\moment.min.js.map" />
     <Content Include="Content\moment-js\moment-with-locales.min.js.map" />
-    <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\package.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
