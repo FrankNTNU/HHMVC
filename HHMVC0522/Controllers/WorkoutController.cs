@@ -26,6 +26,7 @@ namespace UI.Controllers
                 .Select(wl => new
                 {
                     wl.ID,
+                    wl.WorkoutID,
                     wl.EditTime,
                     wl.Workout.Name,
                     wl.WorkoutTime,
@@ -50,7 +51,7 @@ namespace UI.Controllers
         public JsonResult GetTodayWorkout()
         {
 
-            DateTime d = new DateTime(2021, 6, 8).Date;
+            DateTime d = DateTime.Now.Date;
 
             var q = dbContext.WorkoutLogs
                 .Where(wl => wl.MemberID == 83 && wl.StatusID == 4
@@ -64,6 +65,79 @@ namespace UI.Controllers
                 });
 
             return Json(q.ToList());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult AddWorkoutLog(WorkoutLog wl)
+        {
+
+            wl.MemberID = 83;
+            wl.EditTime = DateTime.Now;
+
+            dbContext.WorkoutLogs.Add(wl);
+
+            try
+            {
+                dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "failed", Error = ex.Message });
+            }
+
+            return Json(new { Result = "success", Error = "none" });
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult DeleteWorkoutLog(int ID)
+        {
+
+            WorkoutLog workoutlog = dbContext.WorkoutLogs.SingleOrDefault(wl => wl.ID == ID && wl.MemberID == 83);
+            dbContext.WorkoutLogs.Remove(workoutlog);
+
+            try
+            {
+                dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "failed", Error = ex.Message });
+            }
+
+            return Json(new { Result = "success", Error = "none" });
+
+        }
+
+
+        //todo
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult EditWorkoutLog(WorkoutLog wlToEdit)
+        {
+
+            WorkoutLog workoutlog = dbContext.WorkoutLogs.SingleOrDefault(wl => wl.ID == wlToEdit.ID);
+            workoutlog.MemberID = 83;
+            workoutlog.EditTime = DateTime.Now;
+
+            workoutlog.WorkoutID = wlToEdit.WorkoutID;
+            workoutlog.WorkoutTime = wlToEdit.WorkoutTime;
+            workoutlog.WorkoutHours = wlToEdit.WorkoutHours;
+            workoutlog.StatusID = wlToEdit.StatusID;
+
+            try
+            {
+                dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "failed", Error = ex.Message });
+            }
+
+            return Json(new { Result = "success", Error = "none" });
+
         }
 
 

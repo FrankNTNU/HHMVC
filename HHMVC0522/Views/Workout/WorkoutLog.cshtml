@@ -53,7 +53,8 @@
             text-align: left;
         }
 
-        #wHours, #wTime {
+        #wHoursForNew, #wTimeForNew
+        , #wHoursForEdit, #wTimeForEdit {
             display: inline-block;
         }
 
@@ -62,7 +63,7 @@
             width: 200px;
         }
 
-        #new {
+        #new, #Edit, #Delete {
             float: right;
             font-size: 14px;
         }
@@ -106,8 +107,8 @@
             </div>
         </div>
         <div class="myBox operate col-4 col-6-medium col-12-small">
-            <div class="form-group" style="margin-bottom:2px; width:100%; height:45px; display:block">
-                <label for="wName">運動項目</label>
+            <div class="form-group" style="margin-bottom:2px; width:100%; display:block">
+                <label for="wNameForNew">運動項目</label>
                 @Html.DropDownList("wNameForNew", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
             </div>
             <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
@@ -115,17 +116,17 @@
             </div>
             <div class="form-group" style="margin-bottom:2px; display:block">
                 <label for="wTimeForNew">運動時間</label>
-                <input type="text" class="form-control" id="wTime" style="width:140px; display:inline-block" autocomplete="off" />
+                <input type="text" class="form-control" id="wTimeForNew" style="width:160px; display:inline-block" autocomplete="off" />
             </div>
             <div class="form-group" style="margin-bottom:2px; display:block">
                 <label for="wHoursForNew">運動多久</label>
-                <input type="text" class="form-control" id="wHours" style="width:100px" placeholder="小時" />
-                <div id="new" class="button primary fit">新增</div>
+                <input type="text" class="form-control" id="wHoursForNew" style="width:100px" placeholder="小時" />
             </div>
+            <div id="new" class="button primary fit">新增</div>
         </div>
         <div class="myBox operate col-4 col-6-medium col-12-small">
-            <div class="form-group" style="margin-bottom:2px; width:100%; height:45px; display:block">
-                <label for="wName">運動項目</label>
+            <div class="form-group" style="margin-bottom:2px; width:100%; display:block">
+                <label for="wNameForEdit">運動項目</label>
                 @Html.DropDownList("wNameForEdit", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
             </div>
             <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
@@ -133,12 +134,22 @@
             </div>
             <div class="form-group" style="margin-bottom:2px; display:block">
                 <label for="wTimeForEdit">運動時間</label>
-                <input type="text" class="form-control" id="wTime" style="width:140px; display:inline-block" autocomplete="off" />
+                <input type="text" class="form-control" id="wTimeForEdit" style="width:160px; display:inline-block" autocomplete="off" />
             </div>
             <div class="form-group" style="margin-bottom:2px; display:block">
                 <label for="wHoursForEdit">運動多久</label>
-                <input type="text" class="form-control" id="wHours" style="width:100px" placeholder="小時" />
-                <div id="new" class="button primary fit">修改</div>
+                <input type="text" class="form-control" id="wHoursForEdit" style="width:100px" placeholder="小時" />
+                <div style="display:inline-block">
+                    <select id="wStatusForEdit">
+                        <option value="4">預定中</option>
+                        <option value="5">執行成功</option>
+                        <option value="6">執行失敗</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display:flex; column-gap:5px">
+                <div id="Edit" class="button primary fit">修改</div>
+                <div id="Delete" class="button primary fit">刪除</div>
             </div>
         </div>
         <div class="myBox col-12" style="min-height:150px; position:relative">
@@ -177,6 +188,8 @@
             var form = $('#wlForm');
             token = $('input[name="__RequestVerificationToken"]', form).val();
 
+            let beforeEditStatus = null;
+
             //===================================================================
             //Initiate Datatable
 
@@ -189,6 +202,7 @@
                 },
                 columns: [
                     { data: "ID", title: "ID" },
+                    { data: "WorkoutID", title: "WorkoutID" },
                     { data: "EditTime", title: "編輯時間" },
                     { data: "Name", title: "運動項目" },
                     { data: "WorkoutTime", title: "運動時間" },
@@ -197,18 +211,18 @@
                 ],
                 columnDefs: [
                     {
-                        targets: [0],
+                        targets: [0, 1],
                         visible: false,
                         searchable: false
                     },
                     {
-                        targets: [1, 3],
+                        targets: [2, 4],
                         render: function (date) {
-                            return moment(date).format("MM月DD日yyyy年 hh:mm");
+                            return moment(date).format("MM月DD日yyyy年 HH:mm");
                         }
                     }
                 ],
-                order: [[1, "desc"]],
+                order: [[2, "desc"]],
                 lengthChange: false,
                 pageLength: 10,
                 responsive: true,
@@ -227,7 +241,8 @@
                     input1.type = "text";
                     input1.className = "form-control";
                     input1.id = "start";
-                    $(input1).css("display", "inline-block").css("width", "120px");
+                    $(input1).css("display", "inline-block").css("width", "120px")
+                        .attr("autocomplete", "off");
 
                     let lbl2 = document.createElement("label");
                     lbl2.innerHTML = " 到 ";
@@ -237,7 +252,8 @@
                     input2.type = "text";
                     input2.className = "form-control";
                     input2.id = "end";
-                    $(input2).css("display", "inline-block").css("width", "120px");
+                    $(input2).css("display", "inline-block").css("width", "120px")
+                        .attr("autocomplete", "off");;
 
                     $(wrap).append(lbl1).append(input1).append(lbl2).append(input2);
                     $(".dataTables_wrapper").prepend($(wrap));
@@ -287,39 +303,63 @@
             $("#wNameForEdit").change();
 
             //=============================================================
-            //Initiate DateTimePicker
+            //Initiate DateTimePicker For New
 
-            let d = new Date();
-            d = new Date(d.toDateString());
-            let ms = d.getTime() + 24 * 60 * 60 * 1000 * 7;
+            let today = new Date();
+            today = new Date(today.toDateString());
+
+            let ms = today.getTime() + 24 * 60 * 60 * 1000 * 7;
             let d7 = new Date(ms);
 
-            $("#wTime").datetimepicker({
+            $("#wTimeForNew").datetimepicker({
                 minDate: new Date(),
                 maxDate: d7
             });
 
-            $("#wTime").change(function () {
+            $("#wTimeForNew").change(function () {
 
+                let wTime = new Date($(this).datetimepicker().val());
 
-                if ($(this).datetimepicker("getDate").toDateString() == d.toDateString()) {
+                if (wTime.toDateString() == today.toDateString()) {
 
                     $("#new").text("新增");
+                    $("#new").attr("data-status", 5);
 
                 } else {
 
                     $("#new").text("預定");
-
+                    $("#new").attr("data-status", 4);
                 }
 
             });
 
-            $("#new").click(function () {
-                if ($(this).text() == "新增") {
-                    $.ajax();
-                } else if ($(this).text() == "預定") {
+            //=============================================================
+            //Initiate DateTimePicker For Edit
 
+            ms = today.getTime() + 24 * 60 * 60 * 1000 * 1;
+            let d1 = new Date(ms);
+
+            ms = today.getTime() - 24 * 60 * 60 * 1000 * 7;
+            let d7b = new Date(ms);
+
+            $("#wTimeForEdit").datetimepicker({
+                minDate: d7b,
+                maxDate: d7
+            });
+
+            $("#wTimeForEdit").change(function () {
+
+                let wTime = new Date($(this).datetimepicker().val());
+
+                if (wTime.getTime() >= d1.getTime()) {
+
+                    $("#wStatusForEdit").val(4).attr("disabled", true);
+                    $("#wStatusForEdit option").eq(0).removeAttr("disabled");
+                } else {
+                    $("#wStatusForEdit").val(5).removeAttr("disabled");
+                    $("#wStatusForEdit option").eq(0).attr("disabled", true);
                 }
+
             });
 
             //=============================================================
@@ -362,7 +402,11 @@
                         let w = document.createElement("span");
                         let wh = document.createElement("span");
 
-                        $(wt).text(moment(data[i].WorkoutTime).format("MM月DD日yyyy年 hh:mm"))
+                        $(wt).addClass("wsTime");
+                        $(w).addClass("wsName");
+                        $(wh).addClass("wsHours");
+
+                        $(wt).text(moment(data[i].WorkoutTime).format("MM月DD日yyyy年 HH:mm"))
                         $(w).text(data[i].Name).css("margin-left", "2em");
                         $(wh).text(data[i].WorkoutHours + "hrs").css("margin-left", "1em");
 
@@ -385,18 +429,203 @@
             });
 
             //=================================================================
+            //Check Schedule
+            $("body").on("click", "#checkRow .button", function () {
+
+                if ($(this).attr("disabled")) {
+                    return;
+                }
+
+                //console.log($(this).parent().find(".wsTime").text());
+                //console.log($(this).parent().find(".wsName").text());
+                //console.log($(this).parent().find(".wsHours").text());
+                var option = $("#wNameForNew")
+                    .children(`option:contains(${$(this).parent().find(".wsName").text()})`);
+
+                let wlid = $(this).attr("data-wlid");
+
+                let wTime = moment($(this).parent().find(".wsTime").text(), "MM月DD日yyyy年 HH:mm");
+
+                let wHours = $(this).parent().find(".wsHours").text();
+                wHours = wHours.substring(0, wHours.length - 3);
+
+                //alert(wHours);
+                //alert(moment(wTime).format("YYYY-MM-DD HH:mm"));
+
+                $.ajax({
+                    url: "EditWorkoutLog",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        ID: wlid,
+                        WorkoutID: option.val(),
+                        WorkoutTime: moment(wTime).format("YYYY-MM-DD HH:mm"),
+                        WorkoutHours: parseFloat(wHours),
+                        StatusID: 5
+                    },
+                    success: function (data) {
+                        alert(data.Result);
+                        table.ajax.reload();
+
+                        $("#checkRow .button[data-wlid=" + wlid + "]").removeClass("primary")
+                            .text("執行成功").attr("disabled", true);
+                    }
+                });
+                
+            });
+
+            //=================================================================
             //Add New WorkoutLog
 
             $("#new").click(function () {
+
+                let status = $(this).attr("data-status");
+
+                let wTime = new Date($("#wTimeForNew").datetimepicker().val());
+
                 $.ajax({
-                    url: "GetTodayWorkout",
+                    url: "AddWorkoutLog",
                     type: "post",
                     data: {
-                        __RequestVerificationToken: token
+                        __RequestVerificationToken: token,
+                        WorkoutID: $("#wNameForNew").val(),
+                        WorkoutTime: moment(wTime).format("YYYY-MM-DD HH:mm"),
+                        WorkoutHours: parseFloat($("#wHoursForNew").val()),
+                        StatusID: status
                     },
                     success: function (data) {
+                        alert(data.Result);
+                        table.ajax.reload();
                     }
                 });
+            });
+
+            //===================================================================
+            //Delete WorkoutLog
+            $("#Delete").click(function () {
+
+                if (!confirm("確定刪除嗎？")) {
+                    return;
+                }
+                
+                let wlid = $(this).attr("data-wlid");
+                
+                $.ajax({
+                    url: "DeleteWorkoutLog",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        ID: wlid
+                    },
+                    success: function (data) {
+                        alert(data.Result);
+                        table.ajax.reload();
+                    }
+                });
+            });
+
+            //===================================================================
+            //Eidt Workout
+            $("#Edit").click(function () {
+
+                if ($(this).attr("disabled")) {
+                    return;
+                }
+
+                let wlid = $(this).attr("data-wlid");
+
+                let wTime = new Date($("#wTimeForEdit").datetimepicker().val());
+                
+                $.ajax({
+                    url: "EditWorkoutLog",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        ID: wlid,
+                        WorkoutID: $("#wNameForEdit").val(),
+                        WorkoutTime: moment(wTime).format("YYYY-MM-DD HH:mm"),
+                        WorkoutHours: parseFloat($("#wHoursForEdit").val()),
+                        StatusID: $("#wStatusForEdit").val()
+                    },
+                    success: function (data) {
+                        alert(data.Result);
+                        table.ajax.reload();
+
+                        if (wTime.toDateString() == today.toDateString()
+                            && beforeEditStatus == 4) {
+
+                            if ($("#wStatusForEdit").val() == 5) {
+
+                                $("#checkRow .button[data-wlid=" + wlid + "]").removeClass("primary")
+                                    .text("執行成功").attr("disabled", true);
+
+                            } else if ($("#wStatusForEdit").val() == 6) {
+
+                                $("#checkRow .button[data-wlid=" + wlid + "]").removeClass("primary")
+                                    .text("執行失敗").attr("disabled", true);
+                            }
+                            
+                        }
+                    }
+                });
+            });
+
+            //===================================================================
+            //Row Selection
+
+            $('#wlTable').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+
+                let rowData = table.row(this).data();
+
+                let status = null;
+
+                if (rowData.Status == "預定中") {
+                    status = 4;
+                } else if (rowData.Status == "執行成功") {
+                    status = 5;
+                } else if (rowData.Status == "執行失敗") {
+                    status = 6;
+                }
+
+                beforeEditStatus = status;
+
+                $("#wNameForEdit").val(rowData.WorkoutID);
+                $("#wTimeForEdit").val(moment(rowData.WorkoutTime).format("MM/DD/yyyy HH:mm"));
+                $("#wTimeForEdit").change();
+                $("#wHoursForEdit").val(rowData.WorkoutHours);
+                $("#wStatusForEdit").val(status);
+                $('#Edit').attr("data-wlid", rowData.ID);
+                $('#Delete').attr("data-wlid", rowData.ID);
+
+                let workoutTime = new Date(moment(rowData.WorkoutTime).format("MM/DD/yyyy"));
+                
+                if (workoutTime.getTime() < d7b.getTime()
+                    || workoutTime.getTime() > d7.getTime()) {
+
+                    $("#wNameForEdit").attr("disabled", true);
+                    $("#wTimeForEdit").attr("disabled", true);
+                    $("#wHoursForEdit").attr("disabled", true);
+                    $("#wStatusForEdit").attr("disabled", true);
+                    $("#Edit").text("無法修改").removeClass("primary").attr("disabled", true);
+                    
+                } else {
+                    $("#wNameForEdit").removeAttr("disabled", true);
+                    $("#wTimeForEdit").removeAttr("disabled", true);
+                    $("#wHoursForEdit").removeAttr("disabled", true);
+
+                    if ($("#wStatusForEdit").val() != 4) {
+                        $("#wStatusForEdit").removeAttr("disabled", true);
+                    }
+
+                    $("#Edit").text("修改").addClass("primary");
+                }
             });
         });
 
@@ -415,7 +644,7 @@
                     max = maxDate.getTime();
                 }
 
-                var date = moment(data[3], "MM月DD日yyyy年").valueOf();
+                var date = moment(data[4], "MM月DD日yyyy年").valueOf();
 
                 if (
                     (min === null && max === null) ||
