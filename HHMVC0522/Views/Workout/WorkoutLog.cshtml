@@ -42,8 +42,10 @@
             width: 100%;
         }
 
-        #check {
-            list-style-type:circle;
+        .innerRow {
+            position: relative;
+            left: 10px;
+            padding: 10px;
         }
 
         label {
@@ -55,7 +57,7 @@
             display: inline-block;
         }
 
-        #wName {
+        #wNameForNew, #wNameForEdit {
             display: inline-block;
             width: 200px;
         }
@@ -74,10 +76,11 @@
         #wlTable_filter label {
             display: flex;
             align-items: center;
+            margin-left: 3px;
         }
 
         #wlTable_filter {
-            margin-left: auto;
+            /*margin-left: auto;*/
         }
 
         #wlTable_paginate {
@@ -98,28 +101,56 @@
 
 <div id="mainDiv">
     <div id="mainRow" class="row">
-        <div class="myBox operate col-4 col-12-medium col-12-small">
+        <div id="check" class="myBox operate col-4 col-12-medium col-12-small">
+            <div id="checkRow" class="row innerRow">
+            </div>
         </div>
-        <div class="myBox operate col-4 col-12-medium col-12-small">
+        <div class="myBox operate col-4 col-6-medium col-12-small">
             <div class="form-group" style="margin-bottom:2px; width:100%; height:45px; display:block">
                 <label for="wName">運動項目</label>
-                @Html.DropDownList("wName", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
+                @Html.DropDownList("wNameForNew", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
             </div>
             <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
-                <span id="Al"></span>，【<span id="Wc"></span>】類型
+                <span id="AlForNew"></span>，【<span id="WcForNew"></span>】類型
             </div>
             <div class="form-group" style="margin-bottom:2px; display:block">
-                <label for="wTime">運動時間</label>
+                <label for="wTimeForNew">運動時間</label>
                 <input type="text" class="form-control" id="wTime" style="width:140px; display:inline-block" autocomplete="off" />
             </div>
             <div class="form-group" style="margin-bottom:2px; display:block">
-                <label for="wHours">運動多久</label>
+                <label for="wHoursForNew">運動多久</label>
                 <input type="text" class="form-control" id="wHours" style="width:100px" placeholder="小時" />
                 <div id="new" class="button primary fit">新增</div>
             </div>
         </div>
-        <div class="myBox operate col-4 col-12-medium col-12-small">123</div>
-        <div class="myBox col-12" style="min-height:150px">123</div>
+        <div class="myBox operate col-4 col-6-medium col-12-small">
+            <div class="form-group" style="margin-bottom:2px; width:100%; height:45px; display:block">
+                <label for="wName">運動項目</label>
+                @Html.DropDownList("wNameForEdit", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
+            </div>
+            <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
+                <span id="AlForEdit"></span>，【<span id="WcForEdit"></span>】類型
+            </div>
+            <div class="form-group" style="margin-bottom:2px; display:block">
+                <label for="wTimeForEdit">運動時間</label>
+                <input type="text" class="form-control" id="wTime" style="width:140px; display:inline-block" autocomplete="off" />
+            </div>
+            <div class="form-group" style="margin-bottom:2px; display:block">
+                <label for="wHoursForEdit">運動多久</label>
+                <input type="text" class="form-control" id="wHours" style="width:100px" placeholder="小時" />
+                <div id="new" class="button primary fit">修改</div>
+            </div>
+        </div>
+        <div class="myBox col-12" style="min-height:150px; position:relative">
+            <div class="row innerRow">
+                <div class="col-2 col-6-medium col-12-small">1</div>
+                <div class="col-2 col-6-medium col-12-small">2</div>
+                <div class="col-2 col-6-medium col-12-small">3</div>
+                <div class="col-2 col-6-medium col-12-small">4</div>
+                <div class="col-2 col-6-medium col-12-small">5</div>
+                <div class="col-2 col-6-medium col-12-small">6</div>
+            </div>
+        </div>
         <div class="myBox col-12">
             <table id="wlTable" class="display responsive nowrap" style="width:100%">
             </table>
@@ -145,6 +176,9 @@
 
             var form = $('#wlForm');
             token = $('input[name="__RequestVerificationToken"]', form).val();
+
+            //===================================================================
+            //Initiate Datatable
 
             let table = $("#wlTable").DataTable({
                 ajax: {
@@ -182,7 +216,8 @@
 
                     let wrap = document.createElement("div");
                     $(wrap).addClass("form-group").addClass("form-inline")
-                        .css("display", "inline-block").css("float", "left");
+                        .css("display", "inline-block").css("float", "left")
+                        .css("margin-bottom", "3px");
 
                     let lbl1 = document.createElement("label");
                     lbl1.innerHTML = "運動時間 從 ";
@@ -214,8 +249,9 @@
             });
 
             //==========================================================
+            // New and Edit WorkoutLog DropdownList
 
-            $("#wName").change(function () {
+            $("#wNameForNew").change(function () {
                 let v = $(this).val();
                 $.ajax({
                     url: "GetWorkoutAlWc",
@@ -225,15 +261,33 @@
                         wid: v
                     },
                     success: function (data) {
-                        $("#Al").text(data.Al);
-                        $("#Wc").text(data.Wc);
+                        $("#AlForNew").text(data.Al);
+                        $("#WcForNew").text(data.Wc);
                     }
                 });
             });
 
-            $("#wName").change();
+            $("#wNameForEdit").change(function () {
+                let v = $(this).val();
+                $.ajax({
+                    url: "GetWorkoutAlWc",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        wid: v
+                    },
+                    success: function (data) {
+                        $("#AlForEdit").text(data.Al);
+                        $("#WcForEdit").text(data.Wc);
+                    }
+                });
+            });
+
+            $("#wNameForNew").change();
+            $("#wNameForEdit").change();
 
             //=============================================================
+            //Initiate DateTimePicker
 
             let d = new Date();
             d = new Date(d.toDateString());
@@ -268,7 +322,8 @@
                 }
             });
 
-            //=======================================================
+            //=============================================================
+            //DataTable Date Filter
 
             $("body").on("change", "#start", function () {
                 minDate = $(this).datepicker("getDate");
@@ -281,6 +336,8 @@
                 table.draw();
             });
 
+            //==============================================================
+            //Show Workout Schedule
 
             $.ajax({
                 url: "GetTodayWorkout",
@@ -289,12 +346,17 @@
                     __RequestVerificationToken: token
                 },
                 success: function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        let ws = document.createElement("div");
 
-                        $(ws).attr("data-wlid", data[i].ID);
-                        $(ws).css("display", "flex").css("flex-wrap", "wrap")
-                            .css("height", "3em").css("width", "20em");
+                    for (var i = 0; i < data.length; i++) {
+
+                        let wsWrapper = document.createElement("div");
+                        $(wsWrapper).css("display", "flex").css("align-items", "center")
+                            .css("border-bottom", "solid 2px #f56a6a")
+                            .css("padding-right", "1.5em")
+                            .addClass("col-12").addClass("col-6-medium").addClass("col-12-small");
+
+                        let wsDetail = document.createElement("div");
+                        $(wsDetail).css("display", "inline-block");
 
                         let wt = document.createElement("span");
                         let w = document.createElement("span");
@@ -304,12 +366,37 @@
                         $(w).text(data[i].Name).css("margin-left", "2em");
                         $(wh).text(data[i].WorkoutHours + "hrs").css("margin-left", "1em");
 
-                        $(ws).append(wt).append(w).append(wh);
+                        $(wsDetail).append(wt).append("<br/>").append(w).append(wh);
 
-                        $("#check").append(ws);
+                        let chkBtn = document.createElement("div");
+                        $(chkBtn).addClass("button").addClass("primary");
+                        $(chkBtn).attr("data-wlid", data[i].ID);
+                        $(chkBtn).text("確認執行");
+                        $(chkBtn).css("padding", "0px 5px").css("display", "inline-block")
+                            .css("margin-left", "auto");
+
+                        $(wsWrapper).append(wsDetail).append(chkBtn);
+
+                        $("#checkRow").append(wsWrapper);
+
                     }
                     
                 }
+            });
+
+            //=================================================================
+            //Add New WorkoutLog
+
+            $("#new").click(function () {
+                $.ajax({
+                    url: "GetTodayWorkout",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token
+                    },
+                    success: function (data) {
+                    }
+                });
             });
         });
 

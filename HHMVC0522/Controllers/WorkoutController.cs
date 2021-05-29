@@ -45,7 +45,8 @@ namespace UI.Controllers
             return Json(new { Al = workout.ActivityLevel.Description, Wc = workout.WorkoutCategory.Name});
         }
 
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult GetTodayWorkout()
         {
 
