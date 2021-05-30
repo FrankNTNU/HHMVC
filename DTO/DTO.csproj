@@ -64,15 +64,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityLevelDetailDTO.cs" />
+    <Compile Include="ActivityLevelDTO.cs" />
     <Compile Include="CommentDTO.cs" />
     <Compile Include="CountDTO.cs" />
+    <Compile Include="GiftDTO.cs" />
     <Compile Include="LayoutDTO.cs" />
+    <Compile Include="MealDetailDTO.cs" />
+    <Compile Include="MealDTO.cs" />
+    <Compile Include="MemberDetailDTO.cs" />
+    <Compile Include="MemberDTO.cs" />
+    <Compile Include="NutrientDTO.cs" />
     <Compile Include="PostCategoryDTO.cs" />
     <Compile Include="PostDTO.cs" />
     <Compile Include="PostImageDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatusDetailDTO.cs" />
+    <Compile Include="TagCategoryDetailDTO.cs" />
+    <Compile Include="TagCategoryDTO.cs" />
     <Compile Include="UserDTO.cs" />
     <Compile Include="UserStatic.cs" />
+    <Compile Include="WeightLogDetailDTO.cs" />
+    <Compile Include="WeightLogDTO.cs" />
+    <Compile Include="WorkoutCategoryDetailDTO.cs" />
+    <Compile Include="WorkoutCategoryDTO.cs" />
+    <Compile Include="WorkoutDetailDTO.cs" />
+    <Compile Include="WorkoutDTO.cs" />
+    <Compile Include="WorkoutLogDetailDTO.cs" />
+    <Compile Include="WorkoutLogDTO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

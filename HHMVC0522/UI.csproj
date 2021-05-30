@@ -103,6 +103,7 @@
     <Content Include="Areas\Admin\Content\CSS\icheck-bootstrap.min.css" />
     <Content Include="Areas\Admin\Content\CSS\responsive.bootstrap4.min.css" />
     <Content Include="Areas\Admin\Content\CSS\tempusdominus-bootstrap-4.min.css" />
+    <Content Include="Areas\Admin\Content\GiftImages\161845921140825_P11774857.jpg" />
     <Content Include="Areas\Admin\Content\icon\approve.png" />
     <Content Include="Areas\Admin\Content\icon\close-icon.png" />
     <Content Include="Areas\Admin\Content\icon\update-icon.png" />
@@ -605,6 +606,9 @@
     <Content Include="Content\img\small-avatar.png" />
     <Content Include="Content\img\ui.totop.png" />
     <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Areas\Admin\Views\Gift\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\Creat.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\Update.cshtml" />
     <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
@@ -655,7 +659,10 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GiftController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MealController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NutrientController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
@@ -791,9 +798,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Content\MealOptionImages\" />
     <Folder Include="Areas\Admin\Content\PostImages\" />
+    <Folder Include="Areas\Admin\Content\TagCategoriesImages\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
+    <Folder Include="Areas\Admin\Views\Meal\" />
+    <Folder Include="Areas\Admin\Views\Nutrient\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
