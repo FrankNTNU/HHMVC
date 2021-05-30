@@ -140,6 +140,22 @@ namespace UI.Controllers
 
         }
 
+        public JsonResult GetSchedule()
+        {
+            DateTime tomorrow = DateTime.Now.AddDays(1).Date;
+            DateTime d8a = DateTime.Now.AddDays(8).Date;
 
+            var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID == 83
+                && DbFunctions.TruncateTime(wl.WorkoutTime) >= tomorrow
+                && DbFunctions.TruncateTime(wl.WorkoutTime) < d8a && wl.StatusID == 4)
+                .Select(wl => new 
+                { 
+                    wl.WorkoutTime,
+                    wl.Workout.Name,
+                    wl.WorkoutHours
+                }).OrderBy(wl => wl.WorkoutTime);
+
+            return Json(q.ToList());
+        }
     }
 }

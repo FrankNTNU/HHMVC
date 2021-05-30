@@ -92,6 +92,52 @@
             display: flex;
             flex-wrap: wrap;
         }
+
+        .scheduleBox {
+            display:flex;
+            justify-content:center;
+            padding:0px;
+        }
+
+        .schedule {
+            width: 100%;
+            text-align: center;
+            border: solid 2px plum;
+            border-radius: 10px;
+            font-weight: bold;
+            min-height: 120px;
+            margin: 5px;
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            padding:5px;
+        }
+
+        .schedule.tomorrow {
+            width:70%;
+        }
+
+        .schedule > .item {
+            border:solid 2px plum; 
+            border-radius:10px; 
+            width:10em; 
+            display:inline-block; 
+            margin-right: 5px;
+            margin-top:5px;
+        }
+
+        .schedule > .title {
+            border-bottom: solid 2px plum;
+            flex-basis: 100%;
+            height:2em;
+        }
+
+        @@media screen and (max-width:738px)
+        {
+            .schedule.tomorrow {
+                width: 100%;
+            }
+        }
     </style>
 }
 
@@ -102,6 +148,45 @@
 
 <div id="mainDiv">
     <div id="mainRow" class="row">
+        <div class="myBox col-12" style="min-height:150px; position:relative">
+            <div class="row innerRow">
+                <div class="col-12 col-12-medium col-12-small scheduleBox">
+                    <div class="schedule tomorrow">
+                        <div class="title">明天</div>
+                    </div>
+                </div>
+                <div class="col-4 col-6-medium col-12-small scheduleBox">
+                    <div class="schedule">
+                        <div class="title">明天</div>
+                    </div>
+                </div>
+                <div class="col-4 col-6-medium col-12-small scheduleBox">
+                    <div class="schedule">
+                        <div class="title">明天</div>
+                    </div>
+                </div>
+                <div class="col-4 col-6-medium col-12-small scheduleBox">
+                    <div class="schedule">
+                        <div class="title">明天</div>
+                    </div>
+                </div>
+                <div class="col-4 col-6-medium col-12-small scheduleBox">
+                    <div class="schedule">
+                        <div class="title">明天</div>
+                    </div>
+                </div>
+                <div class="col-4 col-6-medium col-12-small scheduleBox">
+                    <div class="schedule">
+                        <div class="title">明天</div>
+                    </div>
+                </div>
+                <div class="col-4 col-6-medium col-12-small scheduleBox">
+                    <div class="schedule future">
+                        <div class="title">明天</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="check" class="myBox operate col-4 col-12-medium col-12-small">
             <div id="checkRow" class="row innerRow">
             </div>
@@ -150,16 +235,6 @@
             <div style="display:flex; column-gap:5px">
                 <div id="Edit" class="button primary fit">修改</div>
                 <div id="Delete" class="button primary fit">刪除</div>
-            </div>
-        </div>
-        <div class="myBox col-12" style="min-height:150px; position:relative">
-            <div class="row innerRow">
-                <div class="col-2 col-6-medium col-12-small">1</div>
-                <div class="col-2 col-6-medium col-12-small">2</div>
-                <div class="col-2 col-6-medium col-12-small">3</div>
-                <div class="col-2 col-6-medium col-12-small">4</div>
-                <div class="col-2 col-6-medium col-12-small">5</div>
-                <div class="col-2 col-6-medium col-12-small">6</div>
             </div>
         </div>
         <div class="myBox col-12">
@@ -310,10 +385,12 @@
 
             let ms = today.getTime() + 24 * 60 * 60 * 1000 * 7;
             let d7 = new Date(ms);
+            ms = today.getTime() + 24 * 60 * 60 * 1000 * 8 - 1;
+            let d8 = new Date(ms);
 
             $("#wTimeForNew").datetimepicker({
                 minDate: new Date(),
-                maxDate: d7
+                maxDate: d8
             });
 
             $("#wTimeForNew").change(function () {
@@ -344,7 +421,7 @@
 
             $("#wTimeForEdit").datetimepicker({
                 minDate: d7b,
-                maxDate: d7
+                maxDate: d8
             });
 
             $("#wTimeForEdit").change(function () {
@@ -356,7 +433,7 @@
                     $("#wStatusForEdit").val(4).attr("disabled", true);
                     $("#wStatusForEdit option").eq(0).removeAttr("disabled");
                 } else {
-                    $("#wStatusForEdit").val(5).removeAttr("disabled");
+                    //$("#wStatusForEdit").val(5).removeAttr("disabled");
                     $("#wStatusForEdit option").eq(0).attr("disabled", true);
                 }
 
@@ -376,8 +453,16 @@
                 table.draw();
             });
 
+            $("body").on("blur", "#start", function () {
+                table.draw();
+            });
+
+            $("body").on("blur", "#end", function () {
+                table.draw();
+            });
+
             //==============================================================
-            //Show Workout Schedule
+            //Show Today Schedule
 
             $.ajax({
                 url: "GetTodayWorkout",
@@ -436,9 +521,6 @@
                     return;
                 }
 
-                //console.log($(this).parent().find(".wsTime").text());
-                //console.log($(this).parent().find(".wsName").text());
-                //console.log($(this).parent().find(".wsHours").text());
                 var option = $("#wNameForNew")
                     .children(`option:contains(${$(this).parent().find(".wsName").text()})`);
 
@@ -448,9 +530,6 @@
 
                 let wHours = $(this).parent().find(".wsHours").text();
                 wHours = wHours.substring(0, wHours.length - 3);
-
-                //alert(wHours);
-                //alert(moment(wTime).format("YYYY-MM-DD HH:mm"));
 
                 $.ajax({
                     url: "EditWorkoutLog",
@@ -475,14 +554,105 @@
             });
 
             //=================================================================
+            //Show Week Schedule
+
+            $(".schedule .title").each(function (i, ele) {
+
+                if (i == 0) {
+                    $(ele).text("明天");
+                    return;
+                }
+
+                let tempDay = new Date(today);
+                tempDay.setDate(tempDay.getDate() + i + 1);
+                $(ele).text(intToWeekday(tempDay.getDay()));
+            });
+
+            $.ajax({
+                url: "GetSchedule",
+                type: "post",
+                data: {
+                    __RequestVerificationToken: token
+                },
+                success: function (data) {
+
+                    let today = new Date();
+                    today = new Date(today.toDateString());
+                    let tomorrow = new Date(today);
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    let d2a = new Date(today);
+                    d2a.setDate(d2a.getDate() + 2);
+                    let d3a = new Date(today);
+                    d3a.setDate(d3a.getDate() + 3);
+                    let d4a = new Date(today);
+                    d4a.setDate(d4a.getDate() + 4);
+                    let d5a = new Date(today);
+                    d5a.setDate(d5a.getDate() + 5);
+                    let d6a = new Date(today);
+                    d6a.setDate(d6a.getDate() + 6);
+                    let d7a = new Date(today);
+                    d7a.setDate(d7a.getDate() + 7);
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        let tempDay = new Date(moment(data[i].WorkoutTime).format("YYYY-MM-DD HH:mm"));
+
+                        let tempDiv = document.createElement("div");
+                        $(tempDiv).addClass("item");
+                        $(tempDiv).html(
+                            `<span>${moment(data[i].WorkoutTime).format("HH:mm")}</span><br />
+                            <span>${data[i].Name}</span><br />
+                            <span>${data[i].WorkoutHours}hrs</span><br />
+                            `);
+
+                        if (tempDay.toDateString() == tomorrow.toDateString()) {
+                            
+                            $(".schedule").eq(0).append(tempDiv);
+
+                        } else if (tempDay.toDateString() == d2a.toDateString()) {
+                            
+                            $(".schedule").eq(1).append(tempDiv);
+
+                        } else if (tempDay.toDateString() == d3a.toDateString()) {
+
+                            $(".schedule").eq(2).append(tempDiv);
+
+                        } else if (tempDay.toDateString() == d4a.toDateString()) {
+
+                            $(".schedule").eq(3).append(tempDiv);
+
+                        } else if (tempDay.toDateString() == d5a.toDateString()) {
+
+                            $(".schedule").eq(4).append(tempDiv);
+
+                        } else if (tempDay.toDateString() == d6a.toDateString()) {
+
+                            $(".schedule").eq(5).append(tempDiv);
+
+                        } else if (tempDay.toDateString() == d7a.toDateString()) {
+
+                            $(".schedule").eq(6).append(tempDiv);
+                        }
+
+                        
+                        //console.log(d7a.toDateString());
+                        //console.log(new Date(moment(data[i].WorkoutTime).format("YYYY-MM-DD HH:mm")).toDateString());
+                        
+                    }
+                }
+            });
+
+
+            //=================================================================
             //Add New WorkoutLog
 
             $("#new").click(function () {
 
-                let status = $(this).attr("data-status");
-
                 let wTime = new Date($("#wTimeForNew").datetimepicker().val());
-
+                let status = $(this).attr("data-status");
+                let wName = $("#wNameForNew option:selected").text();
+                let wHours = parseFloat($("#wHoursForNew").val());
+                
                 $.ajax({
                     url: "AddWorkoutLog",
                     type: "post",
@@ -496,6 +666,29 @@
                     success: function (data) {
                         alert(data.Result);
                         table.ajax.reload();
+
+                        if (status == 4 && wTime.getTime() <= d8.getTime()) {
+                            
+                            for (var i = 0; i < 7; i++) {
+                                let tempDay = new Date();
+                                tempDay = new Date(tempDay.toDateString());
+                                tempDay.setDate(tempDay.getDate() + i + 1);
+
+                                if (tempDay.toDateString() == wTime.toDateString()) {
+
+                                    let tempDiv = document.createElement("div");
+                                    $(tempDiv).addClass("item");
+                                    $(tempDiv).html(
+                                        `<span>${moment(wTime).format("HH:mm")}</span><br />
+                                        <span>${wName}</span><br />
+                                        <span>${wHours}hrs</span><br />
+                                        `);
+
+                                    $(".schedule").eq(i).append(tempDiv);
+                                }
+                            }
+
+                        }
                     }
                 });
             });
@@ -605,9 +798,10 @@
                 $('#Delete').attr("data-wlid", rowData.ID);
 
                 let workoutTime = new Date(moment(rowData.WorkoutTime).format("MM/DD/yyyy"));
-                
+
+                //todo
                 if (workoutTime.getTime() < d7b.getTime()
-                    || workoutTime.getTime() > d7.getTime()) {
+                    || workoutTime.getTime() > d8.getTime()) {
 
                     $("#wNameForEdit").attr("disabled", true);
                     $("#wTimeForEdit").attr("disabled", true);
@@ -657,6 +851,28 @@
                 return false;
             }
         );
+
+        function intToWeekday(wd) {
+
+            switch (wd) {
+                case 0:
+                    return "星期日";
+                case 1:
+                    return "星期一";
+                case 2:
+                    return "星期二";
+                case 3:
+                    return "星期三";
+                case 4:
+                    return "星期四";
+                case 5:
+                    return "星期五";
+                case 6:
+                    return "星期六";
+            }
+        }
+
+        
     </script>
 }
 
