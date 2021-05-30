@@ -86,7 +86,7 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            return Json(new { Result = "success", Error = "none" });
+            return Json(new { Result = "success", Error = "none", ID = wl.ID });
 
         }
 
@@ -140,6 +140,9 @@ namespace UI.Controllers
 
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult GetSchedule()
         {
             DateTime tomorrow = DateTime.Now.AddDays(1).Date;
@@ -150,6 +153,7 @@ namespace UI.Controllers
                 && DbFunctions.TruncateTime(wl.WorkoutTime) < d8a && wl.StatusID == 4)
                 .Select(wl => new 
                 { 
+                    wl.ID,
                     wl.WorkoutTime,
                     wl.Workout.Name,
                     wl.WorkoutHours

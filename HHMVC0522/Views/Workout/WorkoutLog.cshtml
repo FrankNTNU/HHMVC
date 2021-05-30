@@ -599,6 +599,7 @@
 
                         let tempDiv = document.createElement("div");
                         $(tempDiv).addClass("item");
+                        $(tempDiv).attr("data-wlid", data[i].ID);
                         $(tempDiv).html(
                             `<span>${moment(data[i].WorkoutTime).format("HH:mm")}</span><br />
                             <span>${data[i].Name}</span><br />
@@ -664,6 +665,9 @@
                         StatusID: status
                     },
                     success: function (data) {
+
+                        alert(data.ID);
+
                         alert(data.Result);
                         table.ajax.reload();
 
@@ -678,6 +682,7 @@
 
                                     let tempDiv = document.createElement("div");
                                     $(tempDiv).addClass("item");
+                                    $(tempDiv).attr("data-wlid", data.ID);
                                     $(tempDiv).html(
                                         `<span>${moment(wTime).format("HH:mm")}</span><br />
                                         <span>${wName}</span><br />
@@ -713,6 +718,8 @@
                     success: function (data) {
                         alert(data.Result);
                         table.ajax.reload();
+
+                        $(".schedule .item[data-wlid=" + wlid + "]").remove();
                     }
                 });
             });
