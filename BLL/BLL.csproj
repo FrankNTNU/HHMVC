@@ -66,6 +66,7 @@
     <Compile Include="CommentBLL.cs" />
     <Compile Include="DietLogBLL.cs" />
     <Compile Include="General.cs" />
+    <Compile Include="GiftBLL.cs" />
     <Compile Include="LayoutBLL.cs" />
     <Compile Include="PostBLL.cs" />
     <Compile Include="PostCategoryBLL.cs" />

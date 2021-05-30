@@ -1,0 +1,38 @@
+﻿@model List<DTO.GiftDTO> 
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>禮物頁面</h2>
+
+<div>
+    <button></button>
+</div>
+<div class="card">
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td>編號</td>
+                    <td>名稱</td>
+                    <td>圖片</td>
+                    <td>所需點數</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ID</td>
+                        <td>@item.Name</td>
+                        <td><img src="~/Areas/Admin/Content/GiftImages/@item.Image" /></td>
+                        <td>@item.Point</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    </div>
+

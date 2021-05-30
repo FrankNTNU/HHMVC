@@ -12,18 +12,20 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class TimesOfDay
+    public partial class Program
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TimesOfDay()
-        {
-            this.DietLogs = new HashSet<DietLog>();
-        }
-    
         public int ID { get; set; }
+        public int MemberID { get; set; }
+        public int StatusID { get; set; }
         public string Name { get; set; }
+        public System.DateTime StartDate { get; set; }
+        public System.DateTime EndDate { get; set; }
+        public int TargetWeight { get; set; }
+        public int ActivityLevelID { get; set; }
+        public int InitialWeight { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DietLog> DietLogs { get; set; }
+        public virtual ActivityLevel ActivityLevel { get; set; }
+        public virtual Member Member { get; set; }
+        public virtual Status Status { get; set; }
     }
 }
