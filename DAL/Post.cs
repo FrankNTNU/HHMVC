@@ -9,6 +9,7 @@
 
 namespace DAL
 {
+    using DTO;
     using System;
     using System.Collections.Generic;
     
@@ -36,5 +37,7 @@ namespace DAL
         public virtual PostCategory PostCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PostImage> PostImages { get; set; }
+
+       
     }
 }

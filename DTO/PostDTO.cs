@@ -12,9 +12,9 @@ namespace DTO
     public class PostDTO
     {
         public int ID { get; set; }
-        [Required(ErrorMessage = "請輸入標題")]
+        [Required(ErrorMessage = "請輸入標題"), MaxLength(50, ErrorMessage = "標題字數不得超過50字")]
         public string Title { get; set; }
-        [Required(ErrorMessage = "請輸入大綱")]
+        [Required(ErrorMessage = "請輸入大綱"), MaxLength(100, ErrorMessage = "大綱長度不得超過100字")]
         public string ShortContent { get; set; }
         [Required(ErrorMessage = "請輸入內容")]
         public string PostContent { get; set; }

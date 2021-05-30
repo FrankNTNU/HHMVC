@@ -155,5 +155,11 @@ namespace DAL
             }
             return dtoList;
         }
+        public void DeleteCommentByPostID(int postID)
+        {
+            List<Comment> comments = db.Comments.Where(x => x.PostID == postID).ToList();
+            db.Comments.RemoveRange(comments);
+            db.SaveChanges();
+        }
     }
 }

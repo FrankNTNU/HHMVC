@@ -54,6 +54,12 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -514,6 +520,7 @@
     <Content Include="Areas\Admin\Content\JS\sweetalert2.min.js" />
     <Content Include="Areas\Admin\Content\JS\tempusdominus-bootstrap-4.min.js" />
     <Content Include="Areas\Admin\Content\JS\vfs_fonts.js" />
+    <Content Include="Areas\Admin\Content\tempimage\healthImg.png" />
     <Content Include="Areas\Admin\Content\tempimage\hLogoRed.jpg" />
     <Content Include="Areas\Admin\Content\UserImage\happyLuby.jpg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-brands-400.svg" />
@@ -640,6 +647,7 @@
     <Content Include="Content\moment-js\moment-with-locales.min.js" />
     <Content Include="Content\moment-js\moment.js" />
     <Content Include="Content\moment-js\moment.min.js" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\toastr\toastr.css" />
     <Content Include="Content\toastr\toastr.min.css" />
@@ -659,9 +667,9 @@
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
+    <Compile Include="Controllers\FrontPostController.cs" />
     <Compile Include="Controllers\Home2Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\WorkoutController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -779,9 +787,12 @@
     <Content Include="Views\Home2\Index.cshtml" />
     <Content Include="Views\Home2\Login.cshtml" />
     <Content Include="Views\Home2\PostDetail.cshtml" />
-    <Content Include="Views\Post\AddPost.cshtml" />
-    <Content Include="Views\Home2\UpdateComment.cshtml" />
     <Content Include="Views\Workout\WorkoutLog.cshtml" />
+    <Content Include="Views\FrontPost\AddPost.cshtml" />
+    <Content Include="Views\FrontPost\UserPostList.cshtml" />
+    <Content Include="Views\FrontPost\NewsList.cshtml" />
+    <Content Include="Views\FrontPost\AllPosts.cshtml" />
+    <Content Include="Views\FrontPost\UpdatePost.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -809,6 +820,9 @@
       <Project>{DAD2EA66-6FE9-43DB-B186-E3BFB93FD117}</Project>
       <Name>DTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

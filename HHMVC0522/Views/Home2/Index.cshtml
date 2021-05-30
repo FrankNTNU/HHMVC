@@ -4,47 +4,83 @@
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 @model DTO.LayoutDTO
-
+<link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <div id="main">
     <div class="inner">
 
 
         <!-- Banner -->
         <section id="banner">
-            <div class="container">
-                <div class="row">
-                    <div class="col-6 col-12-medium">
-                        @if (DTO.UserStatic.UserID != 0)
-                        {
-                            <h1>
-                                Hi, @DTO.UserStatic.NameSurname<br />
-                                歡迎回到HealthHelper，<br />你的健康管理助手
-                            </h1>
-                        }
-                        else
-                        {
-                            <h1>
-                                歡迎來到<span style="font-size:0.9em">HealthHelper</span>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    @if (DTO.UserStatic.UserID != 0)
+                    {
+                        <h1>
+                            Hi, @DTO.UserStatic.NameSurname<br />
+                            歡迎回到HealthHelper，<br />你的健康管理助手
+                        </h1>
+                    }
+                    else
+                    {
+                        <h1>
+                            歡迎來到<span style="font-size:0.9em">HealthHelper</span>
 
-                            </h1>
-                            <h2>登入以啟用更多功能</h2>
-                        }
+                        </h1>
+                        <h2>登入以啟用更多功能</h2>
+                    }
 
                     <ul>
-                        <li>完整的個人每日的飲食、運動紀錄，最完善的熱量及營養控管平台</li>
-                        <li>提供最新的營養資訊、留言板促進社群互動，並分享健康生活紀錄</li>
-                        <li>飲食、運動紀錄資訊以精美報表製圖取代數字呈現，資訊一目瞭然</li>
+                        <li><p>完整的個人每日的飲食、運動紀錄，最完善的熱量及營養控管平台</p></li>
+                        <li><p>提供最新的營養資訊、留言板促進社群互動，並分享健康生活紀錄</p></li>
+                        <li><p>飲食、運動紀錄資訊以精美報表製圖取代數字呈現，資訊一目瞭然</p></li>
                     </ul>
-                        <ul class="actions">
-                            <li><a href="#" class="button big">Learn More</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-6 col-12-medium">
-                        <img src="~/Content/img/slides/health1.jpg" alt="" style="max-width:100%" />
+                    <ul class="actions">
+                        <li><a href="#" class="button big">Learn More</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <a href="#" class="image" style="width:auto; margin:auto">
+                                    <img class="d-block w-100" src="~/Areas/Admin/Content/tempimage/healthImg.png" alt="First slide">
 
+                                    <div class="carousel-caption d-md-block">
+                                        <h5>歡迎來到HealthHelper</h5>
+                                        <p>現在就加入健康管理助手</p>
+                                    </div>
+                                </a>
+
+                            </div>
+                            @foreach (var item in Model.Posts)
+                            {
+                                <div class="carousel-item">
+                                    <a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="image" style="        width: auto;
+        margin: auto
+">
+                                        <img class="d-block w-100" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="First slide">
+
+                                        <div class="carousel-caption d-md-block">
+                                            <h5>@item.Title</h5>
+                                            <p>@item.ShortContent</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+
+                        </div>
                     </div>
                 </div>
-                </div>
+            </div>
         </section>
 
 
@@ -54,24 +90,42 @@
             <header class="major">
                 <h2>最新貼文</h2>
             </header>
-            <div class="container">
-                <div class="row">
-                    @foreach (var item in Model.Posts)
-                    {
-                    <div class="col-4 col-6-small col-12-xsmall">
-                       
-                            <a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="image"><img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="" style="max-width:100%"/></a>
-                            <h3>@item.Title</h3>
-                            <p>@item.ShortContent</p>
-                            <ul class="actions">
-                                <li><a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="button">More</a></li> 
-                            </ul>
-                        
+            <div class="row">
+                @foreach (var item in Model.Posts)
+                {
+                    <div class="col-12 col-md-6 col-lg-4">
+
+
+                        <a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="image">
+                            @if (item.ImagePath != "~/Content/img/slides/health1.jpg")
+                            {
+                                <img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="" style="max-width:100%" />
+                            }
+
+                            else
+                            {
+                                <img src="~/Content/img/slides/health1.jpg" alt="" style="max-width:100%" />
+                            }
+                        </a>
+                        <h3>@item.Title</h3>
+                        <p>@item.ShortContent</p>
+                        @*<ul class="actions">
+                                <li><a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="button">More</a></li>
+                            </ul>*@
+
                     </div>
-                    }
-                </div>
-            </div>  
+                }
+            </div>
         </section>
 
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script>
+    $('.carousel').carousel({
+        interval:2000
+    })
+</script>

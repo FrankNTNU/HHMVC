@@ -106,8 +106,23 @@ namespace BLL
 
         public List<PostImageDTO> DeletePost(int ID)
         {
+            commentDAO.DeleteCommentByPostID(ID);
             List<PostImageDTO> imageList = postDAO.DeletePost(ID);
             return imageList;
+        }
+        public List<PostDTO> GetUserPosts(int userID)
+        {
+            return postDAO.GetUserPosts(userID);
+        }
+
+        public List<PostDTO> GetNews()
+        {
+            return postDAO.GetNews();
+        }
+
+        public List<PostDTO> GetPosts(int categoryID, string text)
+        {
+            return postDAO.GetPosts(categoryID, text);
         }
     }
 }

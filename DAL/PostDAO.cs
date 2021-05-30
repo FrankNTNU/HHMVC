@@ -48,12 +48,37 @@ namespace DAL
                 dto.CategoryName = item.CategoryName;
                 dto.AddDate = item.AddDate;
                 dto.MemberID = (int)item.MemberID;
-                dto.ImagePath = db.PostImages.First(x => x.PostID == item.ID).ImagePath;
+                dto.ImagePath = db.PostImages.Where(x => x.PostID == item.ID).Select(x => x.ImagePath).DefaultIfEmpty("~/Content/img/slides/health1.jpg").First();
                 dtoList.Add(dto);
             }            
             return dtoList;
         }
-
+        public List<PostDTO> GetUserPosts(int userID)
+        {
+            List<PostDTO> dtoList = new List<PostDTO>();
+            var postList = (from p in db.Posts
+                            where p.MemberID == userID
+                            select new
+                            {
+                                ID = p.ID,
+                                Title = p.Title,
+                                ShortContent = p.ShortContent,
+                                CategoryName = p.PostCategory.Name,
+                                AddDate = p.AddDate,
+                            }).OrderByDescending(x => x.AddDate).ToList();
+            foreach (var item in postList)
+            {
+                PostDTO dto = new PostDTO();
+                dto.Title = item.Title;
+                dto.ID = item.ID;
+                dto.ShortContent = item.ShortContent;
+                dto.CategoryName = item.CategoryName;
+                dto.AddDate = item.AddDate;
+                dto.ImagePath = db.PostImages.First(x => x.PostID == item.ID).ImagePath;
+                dtoList.Add(dto);
+            }
+            return dtoList;
+        }
         public int CountComments(int ID)
         {
             return db.Comments.Where(x => x.PostID == ID && x.IsApproved == true).Count();
@@ -69,11 +94,60 @@ namespace DAL
             dto.PostContent = post.PostContent;
             dto.AddDate = post.AddDate;
             dto.PostImages = GetPostImagesWithPostID(ID);
-            dto.CategoryName = post.PostCategory.Name;
+            if (dto.PostImages.Count == 0)
+            {
+                dto.ImagePath = "~/Content/img/slides/health1.jpg";
+            }
+            dto.CategoryID = post.CategoryID;
             dto.MemberName = post.Member.Name;
             dto.MemberImage = post.Member.Image;
+            dto.MemberID = (int)post.MemberID;
+            dto.ImagePath = db.PostImages.First(x => x.PostID == post.ID).ImagePath;
             dto.CommentList = GetCommentsWithPostID(ID);
             return dto;        
+        }
+
+        public List<PostDTO> GetPosts(int categoryID, string text)
+        {
+            List<Post> posts;
+            if (text == "")
+            {
+                posts = db.Posts.Where(x => x.CategoryID == categoryID).ToList();
+            }
+            else
+            {
+                 posts = db.Posts.Where(x => x.CategoryID == categoryID && (x.Title.ToUpper().Contains(text.ToUpper()) || x.ShortContent.ToUpper().Contains(text.ToUpper()))).ToList();
+            }
+            
+            List<PostDTO> postList = new List<PostDTO>();
+            foreach (var item in posts)
+            {
+                PostDTO dto = new PostDTO();
+                dto = GetPostDetailWithID(item.ID);
+                postList.Add(dto);
+            }
+            return postList;
+        }
+        public static int UserPost = 1;
+        public static int News = 2;
+        public static int Notice = 3;
+        public List<PostDTO> GetNews()
+        {
+            List<Post> news = db.Posts.Where(x => x.CategoryID == News || x.CategoryID == Notice).ToList();
+            List<PostDTO> newsList = new List<PostDTO>();
+            foreach (var item in news)
+            {
+                PostDTO dto = new PostDTO();
+                dto.ID = item.ID;
+                dto.Title = item.Title;
+                dto.ShortContent = item.ShortContent;
+                dto.PostContent = item.PostContent;
+                dto.CategoryName = item.PostCategory.Name;
+                dto.ImagePath = db.PostImages.First(x => x.PostID == item.ID).ImagePath;
+                dto.AddDate = item.AddDate;
+                newsList.Add(dto);
+            }
+            return newsList;
         }
 
         private List<CommentDTO> GetCommentsWithPostID(int postID)

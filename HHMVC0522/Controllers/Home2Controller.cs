@@ -59,6 +59,7 @@ namespace UI.Controllers
         }
         public ActionResult PostDetail(int ID)
         {
+            layoutBLL = new LayoutBLL();
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPostDetailPageItemWithID(ID);
             return View(layoutDTO);

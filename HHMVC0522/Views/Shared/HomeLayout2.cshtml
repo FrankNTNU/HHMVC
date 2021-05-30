@@ -1,7 +1,5 @@
 ﻿
-@{
-    Layout = null;
-}
+@{ Layout = null; }
 
 <!DOCTYPE HTML>
 <!--
@@ -19,22 +17,23 @@
     <link href="~/Content/toastr/toastr.min.css" rel="stylesheet" />
     @*<link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />*@
     <style>
-        
+        a.toggle {
+            color: red;
+        }
     </style>
 </head>
 <body class="is-preload">
     <div id="main">
         <div class="inner">
             <!-- Header -->
-            <header id="header" style="        background-color: #fad7d2
-">
+            <header id="header" style=" background-color: #fad7d2">
                 <div class="row">
 
-                    <div class="col-md-2" style="padding-left:50px">
+                    <div class="col-3 col-md-2" style="padding-left:50px">
                         <a href="/Home2/Index" style="text-decoration: none;"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" width="60"></a>
                     </div>
-                    <div class="col-md-6">
-                        <a href="/Home2/Index" class="logo"><strong style="font-size:2em">HealthHelper</strong> <div class="hidden-md" style="font-size:1.2em">你的健康管理助手</div></a>
+                    <div class="col-7 col-md-6" style="font-size:0.9em">
+                        <a href="/Home2/Index" class="logo"><strong style="font-size:2.1em" id="logoText">HealthHelper</strong> <div class="hidden-md" style="font-size:1.1em">你的健康管理助手</div></a>
                     </div>
                 </div>
             </header>
@@ -44,18 +43,13 @@
     <!-- Main -->
     @RenderBody()
     @RenderSection("Styles", required: false)
-    @RenderSection("Scripts", required: false)
     <div id="wrapper">
         <!-- Sidebar -->
         <div id="sidebar">
             <div class="inner">
 
                 <!-- Search -->
-                <section id="search" class="alt">
-                    <form method="post" action="#">
-                        <input type="text" name="query" id="query" placeholder="搜尋" />
-                    </form>
-                </section>
+              
 
                 <!-- Menu -->
                 <nav id="menu">
@@ -63,26 +57,25 @@
                         <h2>選單</h2>
                     </header>
                     <ul style="font-size:1.5em">
-                        <li><a href="index.html">首頁</a></li>
+                        <li><a href="/Home2/Index">首頁</a></li>
                         @if (DTO.UserStatic.UserID == 0)
                         {
-                            <li><a href="/Home2/Login">登入</a></li>
-                        }
+            <li><a href="/Home2/Login">登入</a></li> }
                         else
                         {
-                            <li><a href="elements.html">會員資訊</a></li>
-                            <li><a href="/Home2/Logout">登出</a></li>
-
-                        }
+            <li><a href="elements.html">會員資訊</a></li>
+                            <li><a href="/Home2/Logout">登出</a></li>}
                         <li><a href="/Admin/Login/Index">後台</a></li>
 
                         <li>
                             <span class="opener">貼文</span>
                             <ul>
-                                <li><a href="#">最新貼文</a></li>
-                                <li><a href="#">消息與公告</a></li>
-                                <li><a href="/Post/AddPost">發布貼文</a></li>
-                                <li><a href="#">你的貼文</a></li>
+                                <li><a href="/FrontPost/AllPosts">所有貼文</a></li>
+                                <li><a href="/FrontPost/NewsList">消息與公告</a></li>
+                                @if (DTO.UserStatic.UserID != 0)
+                                {
+                    <li><a href="/FrontPost/AddPost">發布貼文</a></li>
+                                    <li><a href="/FrontPost/UserPostList">你的貼文</a></li>}
                             </ul>
                         </li>
                         <li><a href="#">Etiam Dolore</a></li>
@@ -159,7 +152,8 @@
     <script src="~/Content/js/util.js"></script>
     <script src="~/Content/js/main.js"></script>
     <script src="~/Content/toastr/toastr.min.js"></script>
-    @*<script src="~/Content/js/bootstrap.min.js"></script>*@
+    @RenderSection("Scripts", required: false)
+
     <script type="text/javascript">
         $(document).ready(function () {
 

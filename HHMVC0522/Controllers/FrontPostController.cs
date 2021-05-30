@@ -1,5 +1,6 @@
 ﻿using BLL;
 using DTO;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,30 +9,26 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace UI.Areas.Admin.Controllers
+namespace UI.Controllers
 {
-    public class PostController : BaseController
+    public class FrontPostController : Controller
     {
-        // GET: Admin/Post
-        PostBLL postBLL = new PostBLL();
+        // GET: FrontPost
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult PostList()
+        public ActionResult UserPostList()
         {
-            //CountDTO countDTO = new CountDTO();
-            //countDTO = bll.GetAllCounts();
-            //ViewData["AllCounts"] = countDTO;
-            List<PostDTO> postList = new List<PostDTO>();
-            postList = postBLL.GetPosts();
+            List<PostDTO> postList = postBLL.GetUserPosts(UserStatic.UserID);
             return View(postList);
         }
+        PostBLL postBLL = new PostBLL();
         public ActionResult AddPost()
         {
-            PostDTO model = new PostDTO();
-            model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
-            return View(model);
+            PostDTO postDTO = new PostDTO();
+            postDTO.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
+            return View(postDTO);
         }
         [HttpPost]
         [ValidateInput(false)]
@@ -40,6 +37,8 @@ namespace UI.Areas.Admin.Controllers
             if (model.PostImage[0] == null)
             {
                 ViewBag.ProcessState = General.Messages.ImageMissing;
+                model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
+                return View(model);
             }
             else if (ModelState.IsValid)
             {
@@ -56,33 +55,38 @@ namespace UI.Areas.Admin.Controllers
                 List<PostImageDTO> imageList = new List<PostImageDTO>();
                 foreach (HttpPostedFileBase postedFile in model.PostImage)
                 {
-                    Bitmap image = new Bitmap(postedFile.InputStream); // 把上傳圖片轉成Bitmap
-                    Bitmap resizedImage = new Bitmap(image, 740, 416); // 設定長寬
-                    string uniqueNumber = Guid.NewGuid().ToString(); // 設定唯一字串
-                    string fileName = uniqueNumber + postedFile.FileName; // 圖片路徑  = 唯一字串 + 圖片檔名
-                    resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/PostImages/" + fileName)); // 存在資料夾
+                    Bitmap image = new Bitmap(postedFile.InputStream);
+                    Bitmap resizedImage = new Bitmap(image, 740, 416);
+                    string uniqueNumber = Guid.NewGuid().ToString();
+                    string fileName = uniqueNumber + postedFile.FileName;
+                    resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/PostImages/" + fileName));
                     PostImageDTO dto = new PostImageDTO();
-                    dto.ImagePath = fileName; // 把圖片路徑存在DTO的屬性
+                    dto.ImagePath = fileName;
                     imageList.Add(dto);
                 }
                 model.PostImages = imageList;
                 if (postBLL.AddPost(model))
                 {
-                    ViewBag.ProcessState = General.Messages.AddSuccess;
+                    ViewData["CommentState"] = "Success";
                     ModelState.Clear();
+                    ViewBag.ProcessState = General.Messages.AddSuccess;
+
                     model = new PostDTO();
                 }
                 else
                 {
                     ViewBag.ProcessState = General.Messages.GeneralError;
+                    model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
+                    return View(model);
                 }
             }
             else
             {
                 ViewBag.ProcessState = General.Messages.EmptyArea;
+                model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
+                return View(model);
             }
-            model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
-            return View(model);
+            return RedirectToAction("Index", "Home2");
         }
         public ActionResult UpdatePost(int ID)
         {
@@ -115,7 +119,7 @@ namespace UI.Areas.Admin.Controllers
                     foreach (HttpPostedFileBase postedFile in model.PostImage)
                     {
                         Bitmap image = new Bitmap(postedFile.InputStream);
-                        Bitmap resizedImage = new Bitmap(image, 740, 690);
+                        Bitmap resizedImage = new Bitmap(image, 740, 416);
                         string uniqueNumber = Guid.NewGuid().ToString();
                         string fileName = uniqueNumber + postedFile.FileName;
                         resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/PostImages/" + fileName));
@@ -124,7 +128,7 @@ namespace UI.Areas.Admin.Controllers
                         imageList.Add(dto);
                     }
                     model.PostImages = imageList;
-                    
+
                 }
                 if (postBLL.UpdatePost(model))
                 {
@@ -143,9 +147,24 @@ namespace UI.Areas.Admin.Controllers
             model = postBLL.GetPostWithID(model.ID);
             model.Categories = selectList;
             model.IsUpdate = true;
-            return View(model);
+            return RedirectToAction("PostDetail/" + model.ID, "Home2");
         }
-        public JsonResult DeletePostImage(int ID)
+        int pageSize = 5;
+        public ActionResult NewsList(int page = 1)
+        {
+            int currentPage = page < 1 ? 1 : page;
+            List<PostDTO> newsList = postBLL.GetNews();
+            var result = newsList.ToPagedList(currentPage, pageSize);
+            return View(result);
+        }
+        public ActionResult AllPosts(int page = 1)
+        {
+            int currentPage = page < 1 ? 1 : page;
+            List<PostDTO> postList = postBLL.GetPosts();
+            var result = postList.ToPagedList(currentPage, pageSize);
+            return View(result);
+        }
+        public ActionResult DeletePostImage(int ID)
         {
             string imagePath = postBLL.DeletePostImage(ID);
             string imageFullPath = Server.MapPath("~/Areas/Admin/Content/PostImages/" + imagePath);
@@ -153,9 +172,9 @@ namespace UI.Areas.Admin.Controllers
             {
                 System.IO.File.Delete(imageFullPath);
             }
-            return Json("");
+            return RedirectToAction("Index", "Home2");
         }
-        public JsonResult DeletePost(int ID)
+        public ActionResult DeletePost(int ID)
         {
             List<PostImageDTO> imageList = postBLL.DeletePost(ID);
             foreach (PostImageDTO item in imageList)
@@ -166,7 +185,13 @@ namespace UI.Areas.Admin.Controllers
                     System.IO.File.Delete(imageFullPath);
                 }
             }
-            return Json("");
+            return RedirectToAction("Index", "Home2");
+        }
+        public JsonResult GetSearchPost(string SearchCategory, string SearchText)
+        {
+            List<PostDTO> postList = new List<PostDTO>();
+            postList = postBLL.GetPosts(Int32.Parse(SearchCategory), SearchText);
+            return Json(postList, JsonRequestBehavior.AllowGet);
         }
     }
 }

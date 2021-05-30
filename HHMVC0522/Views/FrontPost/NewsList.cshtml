@@ -1,0 +1,48 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "NewsList";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+
+@model IPagedList<DTO.PostDTO>
+<div id="main">
+    <div class="inner">
+        <section>
+            <header class="major">
+                <h2>
+                    共有 @Model.TotalItemCount 則新聞公告，第 @Model.PageNumber / @Model.PageCount 頁
+                </h2>
+            </header>
+            @foreach (var item in Model)
+            {
+                <div class="row">
+                    <div class="col-3 col-4-medium col-5-small col-12-xsmall">
+                        <a href="@Url.Action("PostDetail", "Home2", new { @ID = item.ID })" class="image"><img class="image" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" style="max-width:100%" /></a>
+                    </div>
+                    <div class="col-9 col-8-medium col-7-small col-12-xsmall">
+                        <div class="row">
+                            <div class="col-2 col-3-medium">
+                                <h3>標題</h3>
+                                <p style="font-size:1.2em">文章大要 </p>
+                            </div>
+                            <div class="col-9 col-9-medium">
+                                <h3>@item.Title<span>@item.AddDate</span></h3>
+
+                                <p style="font-size:1.2em">@item.ShortContent</p>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="row"><p></p></div>
+            }
+            @Html.PagedListPager(Model, page => Url.Action("NewsList", new { page }))
+
+
+        </section>
+    </div>
+</div>
