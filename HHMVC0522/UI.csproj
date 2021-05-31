@@ -658,6 +658,7 @@
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
     <Compile Include="Controllers\Home2Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\WeightController.cs" />
     <Compile Include="Controllers\WorkoutController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -774,6 +775,9 @@
     <Content Include="Views\Shared\HomeLayout2.cshtml" />
     <Content Include="Views\Home2\Index.cshtml" />
     <Content Include="Views\Workout\WorkoutLog.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Weight\WeightLog.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

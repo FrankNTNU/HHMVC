@@ -1,0 +1,217 @@
+﻿
+@{
+    ViewBag.Title = "WeightLog";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+
+@section Styles
+{
+    <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/r-2.2.7/datatables.min.css" />
+    <style>
+        #mainDiv {
+            width: 100%;
+            margin: auto;
+            margin-top: 80px;
+            position: relative;
+            /*width: 500px;*/
+            /*top: 80px;*/
+        }
+
+        #mainRow {
+            position: relative;
+            left: 20px;
+            width: 100%;
+        }
+
+        .myBox {
+            border: solid 2px gray;
+            border-radius: 10px;
+            padding: 10px;
+        }
+    </style>
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "weightForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+
+<div id="main">
+    <div class="inner">
+        <header id="header">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" width="50"></a>
+            <a href="index.html" class="logo"><strong>Editorial</strong> by HTML5 UP</a>
+
+            <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
+            </ul>
+        </header>
+        <div id="mainDiv">
+            <div id="mainRow" class="row">
+                <div class="myBox col-5 col-5-medium col-5-small" style="display:flex; flex-direction:column">
+                    <div class="myBox" style="width:100%; min-height:250px; margin:auto">
+
+                    </div>
+                    <div class="myBox" style="width: 100%; min-height: 200px; margin: auto">
+
+                    </div>
+                </div>
+                <div class="myBox col-7 col-7-medium col-7-small" style="min-height:450px">
+                    <table id="weightTable" class="display responsive nowrap" style="width:100%">
+                    </table>
+                </div>
+                <div class="myBox col-12" style="min-height:400px">
+                    <div style="width:100%; display:flex; align-items:center">
+                        <span style="margin-left:auto">年度：</span>
+                        <select style="display:inline-block; width:100px">
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                        </select>
+                        <div id="btnReload" class="button primary" style="display:inline-block; font-size:1em; margin-left:10px">
+                            更新圖表
+                        </div>
+                    </div>
+                    <div id="highChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/r-2.2.7/datatables.min.js"></script>
+    <script type="text/javascript" src="~/Content/moment-js/moment.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script>
+        $(function () {
+
+            var form = $('#weightForm');
+            token = $('input[name="__RequestVerificationToken"]', form).val();
+
+            let table = $("#weightTable").DataTable({
+                ajax: {
+                    url: "GetWeightLog",
+                    type: "post",
+                    data: { __RequestVerificationToken: token },
+                    dataSrc: ""
+                },
+                columns: [
+                    { data: "ID", title: "ID" },
+                    { data: "UpdatedDate", title: "記錄時間" },
+                    { data: "Weight", title: "體重" }
+                ],
+                columnDefs: [
+                    {
+                        targets: [0],
+                        visible: false,
+                        searchable: false
+                    },
+                    {
+                        targets: [1],
+                        render: function (date) {
+                            return moment(date).format("MM月DD日yyyy年 HH:mm");
+                        }
+                    }
+                ],
+                order: [[1, "desc"]],
+                lengthChange: false,
+                pageLength: 7,
+                responsive: true
+            });
+
+            let chart = Highcharts.chart('highChart', {
+
+                title: {
+                    text: '近1年的體重變化'
+                },
+
+                subtitle: {
+                    text: 'HealthHelper'
+                },
+
+                yAxis: {
+                    title: {
+                        text: 'Weight(kgs)'
+                    }
+                },
+
+                xAxis: {
+                    accessibility: {
+                        rangeDescription: 'Range: 2010 to 2017'
+                    },
+                    type: "datetime",
+                    labels: {
+                        formatter: function () {
+                            return Highcharts.dateFormat('%b/%Y', this.value);
+                        }
+                    }
+                },
+
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: Date.UTC(2010, 0, 1),
+                        pointInterval: 3600 * 1000 * 24 * 30
+                    }
+                },
+
+                series: [{
+                    name: '會員',
+                    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+
+            });
+
+            $("#btnReload").click(function () {
+
+                alert(123);
+
+                $.ajax({
+                    url: "GetWeightLogForChart",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                    },
+                    success: function (data) {
+
+                        chart.series[0].setData(data);
+
+                    }
+                });
+            });
+        });
+    </script>
+}
