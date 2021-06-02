@@ -161,5 +161,12 @@ namespace UI.Controllers
 
             return Json(q.ToList());
         }
+
+        //======================================================
+        //Today Workout Page
+        public ActionResult WorkoutSchedule()
+        {
+            return View();
+        }
     }
 }

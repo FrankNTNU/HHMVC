@@ -136,7 +136,7 @@
 
         $(function () {
 
-            alert(@ViewBag.initialWeightLog);
+            console.log(@ViewBag.initialWeightLog);
 
             var form = $('#weightForm');
             token = $('input[name="__RequestVerificationToken"]', form).val();
@@ -254,7 +254,7 @@
             //======================================================
             //Initiate Highchart
 
-            let initialMonthRange = GetMonthArray(`1月${today.getFullYear()}`, `${today.getMonth() + 1}月${today.getFullYear()}年`);
+            let initialMonthRange = GetMonthArray(`01月${today.getFullYear()}年`, moment(today).format("MM月yyyy年"));
 
             let chart = Highcharts.chart('highChart', {
 
@@ -277,7 +277,7 @@
                         rangeDescription: 'Range: 2010 to 2017'
                     },
                     categories: initialMonthRange
-                    
+
                 },
 
                 legend: {
@@ -296,7 +296,7 @@
 
                 series: [{
                     name: '會員',
-                    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+                    data: @Html.Raw(ViewBag.initialWeightLog)
                 }],
 
                 responsive: {
@@ -328,7 +328,7 @@
                 let monthArray = GetMonthArray($("#chartStart").val(), $("#chartEnd").val());
 
                 chart.xAxis[0].update({ categories: monthArray });
-                
+
                 $.ajax({
                     url: "GetWeightLogForChart",
                     type: "post",
@@ -357,7 +357,7 @@
                 }
 
                 rowData = table.row(this).data();
-                
+
                 $("#wgtDateForEdit").text(moment(rowData.UpdatedDate).format("MM月DD日yyyy年"));
                 $("#wgtForEdit").val(rowData.Weight);
 
@@ -424,12 +424,16 @@
                 startYear: 2018,
                 finalYear: 2025
             });
+
             $("#chartEnd").monthpicker({
                 pattern: 'mm月yyyy年',
                 startYear: 2018,
                 finalYear: 2025
             });
 
+            $("#chartStart").val(`01月${today.getFullYear()}年`);
+
+            $("#chartEnd").val(moment(today).format("MM月yyyy年"));
             //========================================================
             //Session Test
 

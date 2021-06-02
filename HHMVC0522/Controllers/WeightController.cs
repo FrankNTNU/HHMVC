@@ -17,7 +17,7 @@ namespace UI.Controllers
         public ActionResult WeightLog()
         {
             DateTime startMonth = new DateTime(DateTime.Now.Year, 1, 1);
-            DateTime endMonth = DateTime.Now;
+            DateTime endMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1, 0, 0, 0);
 
             var q = from wgt in db.WeightLogs.Where(wgt => wgt.MemberID == 83).ToList()
                     where startMonth <= wgt.UpdatedDate && wgt.UpdatedDate < endMonth
@@ -51,15 +51,30 @@ namespace UI.Controllers
 
             endMonth = endMonth.AddMonths(1);
 
-            var q = from wgt in db.WeightLogs.Where(wgt => wgt.MemberID == 83).ToList()
-                    where startMonth <= wgt.UpdatedDate && wgt.UpdatedDate < endMonth
-                    group wgt by wgt.UpdatedDate.ToString("yyMM") into g
-                    orderby g.Key ascending
-                    select g.Average(wgt => wgt.Weight);
+            var q1 = from wgt in db.WeightLogs.Where(wgt => wgt.MemberID == 83).ToList()
+                     where startMonth <= wgt.UpdatedDate && wgt.UpdatedDate < endMonth
+                     group wgt by int.Parse(wgt.UpdatedDate.ToString("yyMM")) into g
+                     orderby g.Key ascending
+                     select new KeyValuePair<int, double>(g.Key, g.Average(wgt => wgt.Weight));
 
-            return Json(q.ToList());
+            Dictionary<int, double> monthDict = q1.ToDictionary(g => g.Key, g => g.Value);
+            
+            int smonth = int.Parse(startMonth.ToString("yyMM"));
+            int emonth = int.Parse(endMonth.ToString("yyMM"));
+            for (; smonth < emonth; smonth++)
+            {
+                if (smonth % 100 > 12) 
+                {
+                    smonth = smonth / 100 * 100 + 101;
+                }
 
-            //return Json(new { start = startMonth, end = endMonth });
+                if (smonth != emonth && !monthDict.Keys.Contains(smonth))
+                {
+                    monthDict.Add(smonth, 0d);
+                }
+            }
+
+            return Json(monthDict.OrderBy(d => d.Key).Select(d => d.Value).ToList());
         }
 
         [HttpPost]
@@ -110,6 +125,7 @@ namespace UI.Controllers
 
             return Json(new { Result = "success", Error = "none"});
         }
+
 
         //======================================================
         //Session Test
