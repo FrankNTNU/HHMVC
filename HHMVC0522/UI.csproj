@@ -54,6 +54,9 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -608,6 +611,7 @@
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.slim.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.slim.min.js" />
+    <Content Include="Content\jquery-ui-monthpicker\jquery.mtz.monthpicker.js" />
     <Content Include="Content\jquery-ui-timepicker\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\jquery-ui-timepicker\jquery-ui-timepicker-addon.js" />
     <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\AUTHORS.txt" />
