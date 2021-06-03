@@ -67,6 +67,13 @@
             display: flex;
             flex-wrap: wrap;
         }
+
+        @@media screen and (max-width:584px) {
+
+            #btnReload {
+                margin-left:auto;
+            }
+        }
     </style>
 }
 
@@ -115,12 +122,12 @@
                     </table>
                 </div>
                 <div class="myBox col-12" style="min-height:400px">
-                    <div style="width:100%; display:flex; align-items:center">
+                    <div style="width:100%; display:flex; flex-wrap:wrap; align-items:center; grid-row-gap:10px; column-gap:10px">
                         <div style="font-size: 1.2em; font-weight: 600; color: black; margin-left:auto">從</div>
                         <input type="text" id="chartStart" style="width:150px">
                         <div style="font-size: 1.2em; font-weight: 600; color: black">到</div>
-                        <input type="text" id="chartEnd" style="width:150px">
-                        <div id="btnReload" class="button primary" style="display:inline-block; font-size:1em; margin-left:10px">
+                        <input type="text" id="chartEnd" style="width:150px;">
+                        <div id="btnReload" class="button primary" style="display:inline-block; font-size:1em;">
                             更新圖表
                         </div>
                     </div>

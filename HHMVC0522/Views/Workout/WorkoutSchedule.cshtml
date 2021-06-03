@@ -72,8 +72,8 @@
             min-height: 120px;
             margin: 5px;
             display: flex;
-            align-items: flex-start;
-            flex-wrap: wrap;
+            flex-direction:column;
+            align-items:center;
             padding: 5px;
         }
 
@@ -84,15 +84,34 @@
         .schedule > .item {
             border: solid 2px plum;
             border-radius: 10px;
-            width: 10em;
+            width: 90%;
             display: inline-block;
-            margin-right: 5px;
-            margin-top: 5px;
+            margin: 5px 0;
+        }
+
+        .schedule > .item:nth-child(2n) {
+            background-color: plum;
+            color: white;
+        }
+
+        .schedule > .item > div:nth-child(1) {
+            display: inline-block;
+            width:3em;
+        }
+
+        .schedule > .item > div:nth-child(2) {
+            display: inline-block;
+            width: 10em;
+        }
+
+        .schedule > .item > div:nth-child(3) {
+            display: inline-block;
+            width: 4em;
         }
 
         .schedule > .title {
             border-bottom: solid 2px plum;
-            flex-basis: 100%;
+            width: 100%;
             height: 2em;
         }
 
@@ -111,6 +130,12 @@
             font-weight: 600;
             color: #f56a6a;
             font-style: italic;
+        }
+
+        .calConsume {
+            font-size: 1.2em;
+            font-style: italic;
+            color: #f56a6a;
         }
     </style>
 }
@@ -240,16 +265,20 @@
                         let wt = document.createElement("span");
                         let w = document.createElement("span");
                         let wh = document.createElement("span");
+                        let consume = document.createElement("span");
 
-                        $(wt).addClass("wsTime");
-                        $(w).addClass("wsName");
-                        $(wh).addClass("wsHours");
+                        //$(wt).addClass("wsTime");
+                        //$(w).addClass("wsName");
+                        //$(wh).addClass("wsHours");
 
                         $(wt).text(moment(data[i].WorkoutTime).format("MM月DD日yyyy年 HH:mm"))
                         $(w).text(data[i].Name).css("margin-left", "2em");
                         $(wh).text(data[i].WorkoutHours + "hrs").css("margin-left", "1em");
+                        $(consume).html(`估計消耗<span class="calConsume">${data[i].Consume}</span>卡路里`).css("margin-left", "4em");;
 
-                        $(wsDetail).append(wt).append("<br/>").append(w).append(wh);
+                        $(wsDetail).append(wt).append("<br/>")
+                            .append(w).append(wh).append("<br/>")
+                            .append(consume);
 
                         let chkBtn = document.createElement("div");
                         $(chkBtn).addClass("button")
@@ -373,10 +402,9 @@
                         $(tempDiv).addClass("item");
                         $(tempDiv).attr("data-wlid", data[i].ID);
                         $(tempDiv).html(
-                            `<span>${moment(data[i].WorkoutTime).format("HH:mm")}</span><br />
-                                                    <span>${data[i].Name}</span><br />
-                                                    <span>${data[i].WorkoutHours}hrs</span><br />
-                                                    `);
+                            `<div>${moment(data[i].WorkoutTime).format("HH:mm")}</div>
+                                                    <div>${data[i].Name}</div>
+                                                    <div>${data[i].WorkoutHours}hrs</div>`);
 
                         if (tempDay.toDateString() == tomorrow.toDateString()) {
 

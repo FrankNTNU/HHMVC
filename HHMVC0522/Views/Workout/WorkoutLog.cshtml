@@ -104,6 +104,15 @@
         .ui-timepicker-div dl dt { all:initial; width:30%; display:inline-block; margin-bottom:10px }
         .ui-timepicker-div dl dd { all:initial; width:60%; display:inline-block; margin-bottom:10px }
 
+        .calConsume {
+            font-size: 1.2em;
+            font-style: italic;
+            color: #f56a6a;
+        }
+
+        #consumeForNew, #consumeForEdit {
+            height: 2em;
+        }
     </style>
 }
 
@@ -145,8 +154,10 @@
                         <label for="wHoursForNew">運動多久</label>
                         <input type="text" class="form-control" id="wHoursForNew" style="width:120px" placeholder="小時" />
                     </div>
-                    <div id="new" class="button primary fit" style="margin-top:auto">新增</div>
-                </div>
+                    <div id="consumeForNew" style="margin-bottom:2px; display:block">
+                    </div>
+                        <div id="new" class="button primary fit" style="margin-top:auto">新增</div>
+                    </div>
                 <div class="myBox operate col-6 col-6-medium col-12-small" style="display:flex; flex-direction:column">
                     <div class="form-group" style="margin-bottom:2px; width:100%; display:block">
                         <label for="wNameForEdit">運動項目</label>
@@ -170,16 +181,18 @@
                             </select>
                         </div>
                     </div>
+                    <div id="consumeForEdit" style="margin-bottom:2px; display:block">
+                    </div>
                     <div style="display:flex; column-gap:5px; margin-top:auto">
                         <div id="Edit" class="button primary fit">修改</div>
                         <div id="Delete" class="button primary fit">刪除</div>
                     </div>
                 </div>
-                <div class="myBox col-12">
-                    <table id="wlTable" class="display responsive nowrap" style="width:100%">
-                    </table>
+                    <div class="myBox col-12">
+                        <table id="wlTable" class="display responsive nowrap" style="width:100%">
+                        </table>
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>
@@ -206,6 +219,38 @@
             let beforeEditStatus = null;
 
             //===================================================================
+            //Estimate Cal
+            $("#wHoursForNew").change(function () {
+                $.ajax({
+                    url: "GetEstimateCal",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        wid: $("#wNameForNew").val(),
+                        whours: $("#wHoursForNew").val()
+                    },
+                    success: function (data) {
+                        $("#consumeForNew").html(`估計消耗<span class="calConsume">${data.Consume}</span>卡路里`);
+                    }
+                });
+            });
+
+            $("#wHoursForEdit").change(function () {
+                $.ajax({
+                    url: "GetEstimateCal",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        wid: $("#wNameForEdit").val(),
+                        whours: $("#wHoursForEdit").val()
+                    },
+                    success: function (data) {
+                        $("#consumeForEdit").html(`估計消耗<span class="calConsume">${data.Consume}</span>卡路里`);
+                    }
+                });
+            });
+
+            //===================================================================
             //Initiate Datatable
 
             let table = $("#wlTable").DataTable({
@@ -222,6 +267,7 @@
                     { data: "Name", title: "運動項目" },
                     { data: "WorkoutTime", title: "運動時間" },
                     { data: "WorkoutHours", title: "運動多久" },
+                    { data: "Consume", title: "運動消耗" },
                     { data: "Status", title: "紀錄狀態" },
                 ],
                 columnDefs: [
@@ -603,6 +649,7 @@
                     $("#Edit").text("修改").addClass("primary").removeAttr("disabled", true);
                 }
 
+                $("#wHoursForEdit").change();
             });
         });
 

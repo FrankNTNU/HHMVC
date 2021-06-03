@@ -13,6 +13,9 @@ namespace UI.Controllers
     {
         HealthHelperEntities dbContext = new HealthHelperEntities();
 
+        //==========================================================
+        //WorkoutLog Page
+
         public ActionResult WorkoutLog()
         {
             return View(dbContext.Workouts.ToList());
@@ -22,7 +25,18 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GetWorkoutLog()
         {
-            var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID == 83)
+            DateTime today = DateTime.Now.Date;
+
+            DateTime tomorrow = today.AddDays(1);
+
+            var q1 = dbContext.WeightLogs
+                .Where(wgt => wgt.MemberID == 83 && wgt.UpdatedDate < tomorrow)
+                .OrderByDescending(wgt => wgt.UpdatedDate)
+                .FirstOrDefault();
+
+            decimal weight = (decimal)q1.Weight;
+
+            var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID == 83).ToList()
                 .Select(wl => new
                 {
                     wl.ID,
@@ -31,6 +45,7 @@ namespace UI.Controllers
                     wl.Workout.Name,
                     wl.WorkoutTime,
                     wl.WorkoutHours,
+                    Consume = (wl.Workout.Calories * wl.WorkoutHours * (double)weight).ToString("0.00"),
                     Status = wl.Status.Name
                 });
 
@@ -118,11 +133,27 @@ namespace UI.Controllers
 
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult GetEstimateCal(int wid, double whours)
+        {
+            return Json(new { Consume = EstimateCal(wid, whours) });
+        }
 
+        [NonAction]
+        public string EstimateCal(int wid, double whours)
+        {
+            DateTime today = DateTime.Now.Date;
+            DateTime tomorrow = today.AddDays(1);
 
+            var cal = dbContext.Workouts.SingleOrDefault(w => w.ID == wid).Calories;
+            var weight = GetCurrentWeight(tomorrow);
+
+            return (cal * whours * (double)weight).ToString("0.00");
+        }
 
         //======================================================
-        //Today Workout Page
+        //WorkoutSchedule Page
 
         //todo
         public ActionResult WorkoutSchedule()
@@ -174,6 +205,8 @@ namespace UI.Controllers
             return Json(q.ToList());
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult CheckTodaySchedule(int ID)
         {
 
@@ -210,18 +243,22 @@ namespace UI.Controllers
             var q = dbContext.WorkoutLogs
                 .Where(wl => wl.MemberID == 83
                     && DbFunctions.TruncateTime(wl.WorkoutTime) == d).OrderBy(wl => wl.WorkoutTime)
+                .AsEnumerable()
                 .Select(wl => new
                 {
                     wl.ID,
                     wl.WorkoutTime,
                     wl.Workout.Name,
                     wl.WorkoutHours,
-                    wl.StatusID
+                    wl.StatusID,
+                    Consume = EstimateCal(wl.WorkoutID, wl.WorkoutHours)
                 });
 
             return Json(q.ToList());
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult GetTodayConsume()
         {
             decimal q = TodayConsume();
@@ -235,15 +272,9 @@ namespace UI.Controllers
         private decimal TodayConsume()
         {
             DateTime today = DateTime.Now.Date;
-
             DateTime tomorrow = today.AddDays(1);
 
-            var q1 = dbContext.WeightLogs
-                .Where(wgt => wgt.MemberID == 83 && wgt.UpdatedDate < tomorrow)
-                .OrderByDescending(wgt => wgt.UpdatedDate)
-                .FirstOrDefault();
-
-            decimal weight = (decimal)q1.Weight;
+            decimal weight = GetCurrentWeight(tomorrow);
 
             var q2 = dbContext.WorkoutLogs.Where(wl => wl.MemberID == 83
                     && DbFunctions.TruncateTime(wl.WorkoutTime) == today
@@ -251,6 +282,18 @@ namespace UI.Controllers
                 .Sum(wl => wl.Workout.Calories * wl.WorkoutHours * (double)weight);
 
             return (decimal)q2;
+        }
+
+        [NonAction]
+        private decimal GetCurrentWeight(DateTime tomorrow)
+        {
+            var q1 = dbContext.WeightLogs
+                .Where(wgt => wgt.MemberID == 83 && wgt.UpdatedDate < tomorrow)
+                .OrderByDescending(wgt => wgt.UpdatedDate)
+                .FirstOrDefault();
+
+            decimal weight = (decimal)q1.Weight;
+            return weight;
         }
 
         //todo
