@@ -2,7 +2,7 @@
 @model List<Workout>
 
 @{
-    ViewBag.Title = "WorkoutLog";
+    ViewBag.Title = "WorkoutSchedule";
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 
@@ -10,12 +10,16 @@
 {
 
     <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
-    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">*@
-    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/r-2.2.7/datatables.min.css" />*@
-    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/r-2.2.7/datatables.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui-timepicker/jquery-ui-timepicker-addon.css" />*@
 
     <style>
+        .mainTitle {
+            font-size: 3em;
+            font-weight: 600;
+            font-style: italic;
+            color: #f56a6a;
+            padding: 0;
+        }
+
         .myBox {
             border: solid 2px gray;
             border-radius: 10px;
@@ -30,7 +34,7 @@
         #mainDiv {
             width: 100%;
             margin: auto;
-            margin-top: 80px;
+            margin-top: 20px;
             position: relative;
             /*width: 500px;*/
             /*top: 80px;*/
@@ -53,45 +57,6 @@
             text-align: left;
         }
 
-        #wHoursForNew, #wTimeForNew, #wHoursForEdit, #wTimeForEdit {
-            display: inline-block;
-        }
-
-        #wNameForNew, #wNameForEdit {
-            display: inline-block;
-            width: 200px;
-        }
-
-        #new, #Edit, #Delete {
-            float: right;
-            font-size: 14px;
-        }
-
-        #wlTable_filter label input {
-            display: inline-block;
-            width: 120px;
-            float: right;
-        }
-
-        #wlTable_filter label {
-            display: flex;
-            align-items: center;
-            margin-left: 3px;
-        }
-
-        #wlTable_filter {
-            /*margin-left: auto;*/
-        }
-
-        #wlTable_paginate {
-            margin-left: auto;
-        }
-
-        #wlTable_wrapper {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
         .scheduleBox {
             display: flex;
             justify-content: center;
@@ -112,24 +77,24 @@
             padding: 5px;
         }
 
-            .schedule.tomorrow {
-                width: 70%;
-            }
+        .schedule.tomorrow {
+            width: 70%;
+        }
 
-            .schedule > .item {
-                border: solid 2px plum;
-                border-radius: 10px;
-                width: 10em;
-                display: inline-block;
-                margin-right: 5px;
-                margin-top: 5px;
-            }
+        .schedule > .item {
+            border: solid 2px plum;
+            border-radius: 10px;
+            width: 10em;
+            display: inline-block;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
 
-            .schedule > .title {
-                border-bottom: solid 2px plum;
-                flex-basis: 100%;
-                height: 2em;
-            }
+        .schedule > .title {
+            border-bottom: solid 2px plum;
+            flex-basis: 100%;
+            height: 2em;
+        }
 
         @@media screen and (max-width:738px) {
             .schedule.tomorrow {
@@ -137,30 +102,20 @@
             }
         }
 
-        .ui-timepicker-div dl {
-            all: initial;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center
+        #todayDiv {
+            font-size: 1em;
         }
 
-            .ui-timepicker-div dl dt {
-                all: initial;
-                width: 30%;
-                display: inline-block;
-                margin-bottom: 10px
-            }
-
-            .ui-timepicker-div dl dd {
-                all: initial;
-                width: 60%;
-                display: inline-block;
-                margin-bottom: 10px
-            }
+        #todayConsume {
+            font-size: 3em;
+            font-weight: 600;
+            color: #f56a6a;
+            font-style: italic;
+        }
     </style>
 }
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "wlForm" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "wsForm" }))
 {
     @Html.AntiForgeryToken()
 }
@@ -181,6 +136,7 @@
 
         <div id="mainDiv">
             <div id="mainRow" class="row">
+                <div class="mainTitle col-12">運動排程</div>
                 <div class="myBox col-12" style="min-height:150px; position:relative">
                     <div class="row innerRow">
                         <div class="col-12 col-12-medium col-12-small scheduleBox">
@@ -220,10 +176,15 @@
                         </div>
                     </div>
                 </div>
-                <div id="check" class="myBox operate col-6 col-12-medium col-12-small">
+                <div id="todayDiv" class="myBox operate col-6 col-6-medium col-12-small">
+                    今日已消耗　<span id="todayConsume"></span>　卡路里
+                    <div id="container" style="width: 100%; margin: 0 auto"></div>
+                </div>
+                <div id="check" class="myBox operate col-6 col-6-medium col-12-small">
                     <div id="checkRow" class="row innerRow">
                     </div>
                 </div>
+                <div id="testSetDate" class="button">測試setData</div>
             </div>
         </div>
     </div>
@@ -232,12 +193,13 @@
 @section Scripts
 {
     <script type="text/javascript" src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-    @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>*@
-    @*<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.24/r-2.2.7/datatables.min.js"></script>*@
-    @*<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/r-2.2.7/datatables.min.js"></script>*@
     <script type="text/javascript" src="~/Content/moment-js/moment.min.js"></script>
-    @*<script type="text/javascript" src="~/Content/jquery-ui-timepicker/jquery-ui-timepicker-addon.js"></script>*@
-    <script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    @*<script src="https://code.highcharts.com/modules/exporting.js"></script>*@
+
+<script>
 
         //=================================================================
         //global variable
@@ -250,7 +212,7 @@
         //==================================================================
         $(function () {
 
-            var form = $('#wlForm');
+            var form = $('#wsForm');
             token = $('input[name="__RequestVerificationToken"]', form).val();
 
             //==============================================================
@@ -290,11 +252,22 @@
                         $(wsDetail).append(wt).append("<br/>").append(w).append(wh);
 
                         let chkBtn = document.createElement("div");
-                        $(chkBtn).addClass("button").addClass("primary");
-                        $(chkBtn).attr("data-wlid", data[i].ID);
-                        $(chkBtn).text("確認執行");
+                        $(chkBtn).addClass("button")
                         $(chkBtn).css("padding", "0px 5px").css("display", "inline-block")
                             .css("margin-left", "auto");
+
+                        if (data[i].StatusID == 4) {
+                            $(chkBtn).addClass("primary")
+                            $(chkBtn).attr("data-wlid", data[i].ID);
+                            $(chkBtn).text("確認執行");
+                        } else if (data[i].StatusID == 5) {
+                            $(chkBtn).attr("data-wlid", data[i].ID).attr("disabled", true);
+                            $(chkBtn).text("執行成功");
+                        } else if (data[i].StatusID == 6) {
+                            $(chkBtn).attr("data-wlid", data[i].ID).attr("disabled", true);
+                            $(chkBtn).text("執行失敗");
+                        }
+
 
                         $(wsWrapper).append(wsDetail).append(chkBtn);
 
@@ -313,33 +286,40 @@
                     return;
                 }
 
-                var option = $("#wNameForNew")
-                    .children(`option:contains(${$(this).parent().find(".wsName").text()})`);
+                //var option = $("#wNameForNew")
+                //    .children(`option:contains(${$(this).parent().find(".wsName").text()})`);
+
+                //let wTime = moment($(this).parent().find(".wsTime").text(), "MM月DD日yyyy年 HH:mm");
+
+                //let wHours = $(this).parent().find(".wsHours").text();
+                //wHours = wHours.substring(0, wHours.length - 3);
 
                 let wlid = $(this).attr("data-wlid");
 
-                let wTime = moment($(this).parent().find(".wsTime").text(), "MM月DD日yyyy年 HH:mm");
-
-                let wHours = $(this).parent().find(".wsHours").text();
-                wHours = wHours.substring(0, wHours.length - 3);
-
                 $.ajax({
-                    url: "EditWorkoutLog",
+                    url: "CheckTodaySchedule",
                     type: "post",
                     data: {
                         __RequestVerificationToken: token,
-                        ID: wlid,
-                        WorkoutID: option.val(),
-                        WorkoutTime: moment(wTime).format("YYYY-MM-DD HH:mm"),
-                        WorkoutHours: parseFloat(wHours),
-                        StatusID: 5
+                        ID: wlid
+                        //WorkoutID: option.val(),
+                        //WorkoutTime: moment(wTime).format("YYYY-MM-DD HH:mm"),
+                        //WorkoutHours: parseFloat(wHours),
+                        //StatusID: 5
                     },
                     success: function (data) {
                         alert(data.Result);
-                        table.ajax.reload();
 
                         $("#checkRow .button[data-wlid=" + wlid + "]").removeClass("primary")
                             .text("執行成功").attr("disabled", true);
+
+                        chart.series[2].setData([{
+                            color: "#2894FF",
+                            radius: '62%',
+                            innerRadius: '38%',
+                            y: data.ConsumePercent
+                        }]);
+
                     }
                 });
 
@@ -394,9 +374,9 @@
                         $(tempDiv).attr("data-wlid", data[i].ID);
                         $(tempDiv).html(
                             `<span>${moment(data[i].WorkoutTime).format("HH:mm")}</span><br />
-                                            <span>${data[i].Name}</span><br />
-                                            <span>${data[i].WorkoutHours}hrs</span><br />
-                                            `);
+                                                    <span>${data[i].Name}</span><br />
+                                                    <span>${data[i].WorkoutHours}hrs</span><br />
+                                                    `);
 
                         if (tempDay.toDateString() == tomorrow.toDateString()) {
 
@@ -430,6 +410,340 @@
                     }
                 }
             });
+
+            //========================================================================
+            //Today Consume
+            $.ajax({
+                url: "GetTodayConsume",
+                type: "post",
+                data: {
+                    __RequestVerificationToken: token
+                },
+                success: function (data) {
+                    $("#todayConsume").text(data.TodayConsume);
+                }
+            });
+
+
+            //=========================================================================
+            //initiate gauge
+
+            Highcharts.Legend.prototype.colorizeItem = function (item, visible) {
+                item.legendGroup[visible ? 'removeClass' : 'addClass']('highcharts-legend-item-hidden');
+                if (!this.chart.styledMode) {
+                    var legend = this,
+                        options = legend.options,
+                        legendItem = item.legendItem,
+                        legendLine = item.legendLine,
+                        legendSymbol = item.legendSymbol,
+                        hiddenColor = legend.itemHiddenStyle.color,
+                        textColor = visible ?
+                            options.itemStyle.color :
+                            hiddenColor,
+                        symbolColor = visible ?
+                            (item.color || hiddenColor) :
+                            hiddenColor,
+                        markerOptions = item.options && item.options.marker,
+                        symbolAttr = {
+                            fill: symbolColor
+                        };
+                    if (legendItem) {
+                        legendItem.css({
+                            fill: textColor,
+                            color: textColor,// #1553, oldIE
+                            fontSize: "20px"
+                        });
+                    }
+                    if (legendLine) {
+                        legendLine.attr({
+                            stroke: symbolColor
+                        });
+                    }
+                    if (legendSymbol) {
+                        // Apply marker options
+                        if (markerOptions) { // #585
+
+                            symbolAttr = item.pointAttribs();
+                            if (!visible) {
+                                // #6769
+                                symbolAttr.stroke = symbolAttr.fill = hiddenColor;
+                            }
+                        }
+                        legendSymbol.attr(symbolAttr);
+                    }
+                }
+                Highcharts.fireEvent(this, 'afterColorizeItem', {
+                    item: item,
+                    visible: visible
+                });
+            }
+
+
+            var chart = Highcharts.chart('container', {
+
+                chart: {
+                    type: 'solidgauge',
+                    height: '110%'
+                },
+
+                ////  ****** NEW ADDITION ***************
+                legend: {
+                    enabled: true
+                },
+                ////  ***********************************
+
+                title: {
+                    text: '今日熱量',
+                    style: {
+                        fontSize: '24px'
+                    }
+                },
+
+                tooltip: {
+                    borderWidth: 0,
+                    backgroundColor: 'none',
+                    shadow: false,
+                    style: {
+                        fontSize: '16px'
+                    },
+                    pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>',
+                    positioner: function (labelWidth) {
+                        return {
+                            x: (this.chart.chartWidth - labelWidth) / 2,
+                            y: (this.chart.plotHeight / 2) + 15
+                        };
+                    }
+                },
+
+                pane: {
+                    startAngle: 0,
+                    endAngle: 360,
+                    background: [{ // Track for Move
+                        outerRadius: '112%',
+                        innerRadius: '88%',
+                        backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[0])
+                            .setOpacity(0.3)
+                            .get(),
+                        borderWidth: 0
+                    }, { // Track for Exercise
+                        outerRadius: '87%',
+                        innerRadius: '63%',
+                        backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[1])
+                            .setOpacity(0.3)
+                            .get(),
+                        borderWidth: 0
+                    }, { // Track for Stand
+                        outerRadius: '62%',
+                        innerRadius: '38%',
+                        backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[2])
+                            .setOpacity(0.3)
+                            .get(),
+                        borderWidth: 0
+                    }]
+                },
+
+                yAxis: {
+                    min: 0,
+                    max: 100,
+                    lineWidth: 0,
+                    tickPositions: []
+                },
+
+                plotOptions: {
+                    solidgauge: {
+                        dataLabels: {
+                            enabled: false
+                        },
+                        linecap: 'round',
+                        stickyTracking: false,
+                        rounded: true,
+
+                        ////  ****** NEW ADDITION ***************
+                        showInLegend: true
+                        ////  ***********************************
+
+                    }
+                },
+
+                series: [{
+                    name: 'TDEE',
+                    marker: {
+                        fillColor: "#f56a6a"
+                    },
+                    data: [{
+                        color: "#f56a6a",
+                        radius: '112%',
+                        innerRadius: '88%',
+                        y: @ViewBag.TDEE
+                    }]
+                }, {
+                    name: '熱量攝取',
+                    marker: {
+                        fillColor: "plum"
+                    },
+                    data: [{
+                        color: "plum",
+                        radius: '87%',
+                        innerRadius: '63%',
+                        y: @ViewBag.Ingest
+                    }]
+                }, {
+                    name: '運動消耗',
+                    marker: {
+                        fillColor: "#2894FF"
+                    },
+                    data: [{
+                        color: "#2894FF",
+                        radius: '62%',
+                        innerRadius: '38%',
+                        y: @ViewBag.Consume
+                    }]
+                }]
+            });
+
+            //=========================================================================
+            //Test SetData
+            $("#testSetDate").click(function () {
+                chart.series[2].setData([{
+                    //color: "#2894FF",
+                    //radius: '62%',
+                    //innerRadius: '38%',
+                    y: 100
+                }]);
+            });
+
+            //=========================================================================
+            //initiate highChart
+
+            //var colors = Highcharts.getOptions().colors,
+            //    categories = ['HIGH', 'MODERATE', 'CRITICAL'],
+            //    data = [{
+            //        y: 33.33,
+            //        color: '#a6b9c1',
+            //        drilldown: {
+            //            name: 'MSIE versions',
+            //            categories: ['MSIE 6.0', 'MSIE 7.0'],
+            //            data: [0.5, 0.5],
+            //            color: ['#30add9', '#306885']
+            //        }
+            //    }, {
+            //        y: 33.33,
+            //        color: '#a6b9c1',
+            //        drilldown: {
+            //            name: 'Firefox versions',
+            //            categories: ['Firefox v31', 'Firefox v32'],
+            //            data: [0.5, 0.5],
+            //            color: ['#30add9', '#306885']
+            //        }
+            //    }, {
+            //        y: 33.33,
+            //        color: '#a6b9c1',
+            //        drilldown: {
+            //            name: 'Chrome versions',
+            //            categories: ['Chrome v30.0', 'Chrome v31.0', 'Chrome v32.0'],
+            //            data: [0.34, 0.33, 0.33],
+            //            color: ['#23377b', '#30add9', '#306885']
+            //        }
+            //    }],
+            //    browserData = [],
+            //    versionsData = [],
+            //    i,
+            //    j,
+            //    dataLen = data.length,
+            //    drillDataLen,
+            //    brightness;
+
+
+            //// Build the data arrays
+            //for (i = 0; i < dataLen; i += 1) {
+
+            //    // add browser data
+            //    browserData.push({
+            //        name: categories[i],
+            //        y: data[i].y,
+            //        color: data[i].color
+            //    });
+
+            //    // add version data
+            //    drillDataLen = data[i].drilldown.data.length;
+            //    for (j = 0; j < drillDataLen; j += 1) {
+            //        versionsData.push({
+            //            name: data[i].drilldown.categories[j],
+            //            y: data[i].drilldown.data[j],
+            //            color: data[i].drilldown.color[j]
+            //        });
+            //    }
+            //}
+
+            //// Create the chart
+            //$('#container').highcharts({
+            //    chart: {
+            //        type: 'pie'
+            //    },
+            //    title: {
+            //        text: '',
+            //        align: 'center',
+            //        verticalAlign: 'middle',
+            //        y: 20
+            //    },
+            //    subtitle: {
+            //        text: '今日卡路里',
+            //        style: {
+            //            "font-size": "2em"
+            //        }
+            //    },
+            //    plotOptions: {
+            //        pie: {
+            //            shadow: false,
+            //            // borderWidth:10,
+            //            center: ['50%', '50%'],
+            //            slicedOffset: 10,
+            //            states: {
+            //                hover: false
+            //            }
+            //        }
+            //    },
+            //    tooltip: {
+            //        enabled: false
+            //    },
+            //    series: [{
+            //        name: 'Browsers',
+            //        data: browserData,
+            //        size: '60%',
+            //        innerSize: '50%',
+            //        dataLabels: {
+            //            formatter: function () {
+            //                return this.point.name;
+            //            },
+            //            color: '#3f377f',
+            //            //rotation: -25,
+            //            //  rotation: rotate(),
+            //            distance: -30
+            //        }
+            //    }, {
+            //        name: 'Versions',
+            //        data: [{ name: "consume", y: 0.3, color: "#f56a6a" },
+            //            { name: "ingestDeduct", y: 0.3, color: "#f56a7a" },
+            //            { name: "ingestDeduct", y: 0.3, color: "#f56a8a" },
+            //        ],
+            //        // borderWidth:0,
+            //        size: '90%',
+            //        innerSize: '66%',
+            //        dataLabels: {
+            //            //	useHTML:true,
+            //            formatter: function () {
+            //                return this.point.name;
+            //            },
+            //            color: '#000'
+            //            //inside:true
+
+            //        },
+            //        allowPointSelect: false,
+            //        stickyTracking: false
+            //    }]
+            //});
+
+
         });
 
         function intToWeekday(wd) {
@@ -451,7 +765,7 @@
                     return "星期六";
             }
         }
-    </script>
+</script>
 }
 
 

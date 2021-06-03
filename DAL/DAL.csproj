@@ -83,6 +83,12 @@
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DietLogDAO.cs" />
+    <Compile Include="Gift.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GiftCart.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="HHContext.cs" />
     <Compile Include="HHModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -100,6 +106,9 @@
       <DependentUpon>HHModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="LikedMeal.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LikedPost.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="MealOption.cs">
@@ -126,6 +135,9 @@
     <Compile Include="PostCategoryDAO.cs" />
     <Compile Include="PostDAO.cs" />
     <Compile Include="PostImage.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -181,8 +193,8 @@
   <ItemGroup>
     <Content Include="HHModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>HHModel.edmx</DependentUpon>
       <LastGenOutput>HHModel.Context.cs</LastGenOutput>
+      <DependentUpon>HHModel.edmx</DependentUpon>
     </Content>
     <Content Include="HHModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

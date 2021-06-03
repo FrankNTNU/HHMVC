@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace UI.Controllers
 {
-    
+
     public class WorkoutController : Controller
     {
         HealthHelperEntities dbContext = new HealthHelperEntities();
@@ -43,28 +43,7 @@ namespace UI.Controllers
         {
             var workout = dbContext.Workouts.SingleOrDefault(w => w.ID == wid);
 
-            return Json(new { Al = workout.ActivityLevel.Description, Wc = workout.WorkoutCategory.Name});
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public JsonResult GetTodayWorkout()
-        {
-
-            DateTime d = DateTime.Now.Date;
-
-            var q = dbContext.WorkoutLogs
-                .Where(wl => wl.MemberID == 83 && wl.StatusID == 4
-                    && DbFunctions.TruncateTime(wl.WorkoutTime) == d)
-                .Select(wl => new
-                {
-                    wl.ID,
-                    wl.WorkoutTime,
-                    wl.Workout.Name,
-                    wl.WorkoutHours
-                });
-
-            return Json(q.ToList());
+            return Json(new { Al = workout.ActivityLevel.Description, Wc = workout.WorkoutCategory.Name });
         }
 
         [HttpPost]
@@ -112,7 +91,6 @@ namespace UI.Controllers
         }
 
 
-        //todo
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult EditWorkoutLog(WorkoutLog wlToEdit)
@@ -141,6 +119,40 @@ namespace UI.Controllers
         }
 
 
+
+
+        //======================================================
+        //Today Workout Page
+
+        //todo
+        public ActionResult WorkoutSchedule()
+        {
+            decimal TDEE = 2000;
+            decimal todayIngest = TodayIngest();
+            decimal todayConsume = TodayConsume();
+
+            if (TDEE >= todayIngest && TDEE >= TodayConsume())
+            {
+                ViewBag.TDEE = 100;
+                ViewBag.Ingest = Math.Round(todayIngest / TDEE * 100, 1);
+                ViewBag.Consume = Math.Round(todayConsume / TDEE * 100, 1);
+            }
+            else if (todayIngest >= TDEE && todayIngest >= todayConsume)
+            {
+                ViewBag.Ingest = 100;
+                ViewBag.Consume = Math.Round(todayConsume / todayIngest * 100, 1);
+                ViewBag.TDEE = Math.Round(TDEE / todayIngest * 100, 1);
+            }
+            else
+            {
+                ViewBag.Consume = 100;
+                ViewBag.TDEE = Math.Round(TDEE / todayConsume * 100, 1);
+                ViewBag.Ingest = Math.Round(todayIngest / todayConsume * 100, 1);
+            }
+
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult GetSchedule()
@@ -151,8 +163,8 @@ namespace UI.Controllers
             var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID == 83
                 && DbFunctions.TruncateTime(wl.WorkoutTime) >= tomorrow
                 && DbFunctions.TruncateTime(wl.WorkoutTime) < d8a && wl.StatusID == 4)
-                .Select(wl => new 
-                { 
+                .Select(wl => new
+                {
                     wl.ID,
                     wl.WorkoutTime,
                     wl.Workout.Name,
@@ -162,11 +174,98 @@ namespace UI.Controllers
             return Json(q.ToList());
         }
 
-        //======================================================
-        //Today Workout Page
-        public ActionResult WorkoutSchedule()
+        public JsonResult CheckTodaySchedule(int ID)
         {
-            return View();
+
+            var workoutLog = dbContext.WorkoutLogs.SingleOrDefault(wl => wl.ID == ID);
+
+            workoutLog.StatusID = 5;
+
+            try
+            {
+                dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "failed", Error = ex.Message });
+            }
+
+            int TDEE = 2000;
+
+            decimal todayConsume = TodayConsume();
+
+            decimal ConsumePercent = Math.Round(todayConsume / TDEE * 100, 1);
+
+            return Json(new { Result = "success", Error = "none", ConsumePercent = ConsumePercent });
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult GetTodayWorkout()
+        {
+
+            DateTime d = DateTime.Now.Date;
+
+            var q = dbContext.WorkoutLogs
+                .Where(wl => wl.MemberID == 83
+                    && DbFunctions.TruncateTime(wl.WorkoutTime) == d).OrderBy(wl => wl.WorkoutTime)
+                .Select(wl => new
+                {
+                    wl.ID,
+                    wl.WorkoutTime,
+                    wl.Workout.Name,
+                    wl.WorkoutHours,
+                    wl.StatusID
+                });
+
+            return Json(q.ToList());
+        }
+
+        public JsonResult GetTodayConsume()
+        {
+            decimal q = TodayConsume();
+
+            return Json(new { TodayConsume = q.ToString("0.00") });
+        }
+
+
+        //todo 消耗熱量需乘上會員體重
+        [NonAction]
+        private decimal TodayConsume()
+        {
+            DateTime today = DateTime.Now.Date;
+
+            DateTime tomorrow = today.AddDays(1);
+
+            var q1 = dbContext.WeightLogs
+                .Where(wgt => wgt.MemberID == 83 && wgt.UpdatedDate < tomorrow)
+                .OrderByDescending(wgt => wgt.UpdatedDate)
+                .FirstOrDefault();
+
+            decimal weight = (decimal)q1.Weight;
+
+            var q2 = dbContext.WorkoutLogs.Where(wl => wl.MemberID == 83
+                    && DbFunctions.TruncateTime(wl.WorkoutTime) == today
+                    && wl.StatusID == 5)
+                .Sum(wl => wl.Workout.Calories * wl.WorkoutHours * (double)weight);
+
+            return (decimal)q2;
+        }
+
+        //todo
+        [NonAction]
+        private decimal TodayIngest()
+        {
+            DateTime today = DateTime.Now.Date;
+
+            string strToday = today.ToString("MMddyyyy");
+
+            var q1 = dbContext.DietLogs.Where(dt => dt.MemberID == 83
+                && dt.Date == strToday)
+                .Sum(dt => dt.Portion * dt.MealOption.Calories);
+
+            return (decimal)q1;
         }
     }
 }

@@ -12,18 +12,13 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class TimesOfDay
+    public partial class LikedPost
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TimesOfDay()
-        {
-            this.DietLogs = new HashSet<DietLog>();
-        }
-    
         public int ID { get; set; }
-        public string Name { get; set; }
+        public Nullable<int> MemberID { get; set; }
+        public Nullable<int> PostID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DietLog> DietLogs { get; set; }
+        public virtual Member Member { get; set; }
+        public virtual Post Post { get; set; }
     }
 }
