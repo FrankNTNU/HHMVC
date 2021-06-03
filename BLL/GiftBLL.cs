@@ -31,7 +31,8 @@ namespace BLL
             gift.Image = dto.Image;
             gift.Points = dto.Point;
             gift.Quantity = dto.Quantity;
-            gift.Deadline = dto.Deadline;
+            gift.AddDate = dto.AddDate;
+            gift.EndDate = dto.EndDate;
             dao.Add(gift);
         }
         public void Delete(int id)

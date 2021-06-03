@@ -17,6 +17,7 @@ namespace DAL
         public Post()
         {
             this.Comments = new HashSet<Comment>();
+            this.LikedPosts = new HashSet<LikedPost>();
             this.PostImages = new HashSet<PostImage>();
         }
     
@@ -28,8 +29,10 @@ namespace DAL
         public Nullable<int> ViewCount { get; set; }
         public Nullable<int> MemberID { get; set; }
         public System.DateTime AddDate { get; set; }
+        public Nullable<int> LikeCount { get; set; }
     
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<LikedPost> LikedPosts { get; set; }
         public virtual Member Member { get; set; }
         public virtual PostCategory PostCategory { get; set; }
         public virtual ICollection<PostImage> PostImages { get; set; }

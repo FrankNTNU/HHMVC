@@ -16,7 +16,9 @@ namespace DTO
         public HttpPostedFileBase UpLoadImage { get; set; } // Uploaded image
         public int Point { get; set; }
         public int Quantity { get; set; }
-        public string Deadline { get; set; }
+        //public string Deadline { get; set; }
+        public DateTime AddDate { get; set; }
+        public DateTime EndDate { get; set; }
 
     }
 }

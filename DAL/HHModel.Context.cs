@@ -28,8 +28,10 @@ namespace DAL
         public DbSet<ActivityLevel> ActivityLevels { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<DietLog> DietLogs { get; set; }
+        public DbSet<GiftCart> GiftCarts { get; set; }
         public DbSet<Gift> Gifts { get; set; }
         public DbSet<LikedMeal> LikedMeals { get; set; }
+        public DbSet<LikedPost> LikedPosts { get; set; }
         public DbSet<MealOption> MealOptions { get; set; }
         public DbSet<MealTagCategory> MealTagCategories { get; set; }
         public DbSet<MealTag> MealTags { get; set; }

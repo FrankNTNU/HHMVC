@@ -68,6 +68,7 @@
     <Compile Include="General.cs" />
     <Compile Include="GiftBLL.cs" />
     <Compile Include="LayoutBLL.cs" />
+    <Compile Include="MealBLL.cs" />
     <Compile Include="PostBLL.cs" />
     <Compile Include="PostCategoryBLL.cs" />
     <Compile Include="PostImageBLL.cs" />

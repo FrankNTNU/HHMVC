@@ -1,0 +1,130 @@
+﻿@model IEnumerable<DTO.MealDetailDTO>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="card">
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <tr>
+                <th>
+                    餐點名稱
+                </th>
+                <th>
+                    熱量
+                </th>
+                <th>
+                    餐點圖片
+                </th>
+                <th>
+                    餐點分量
+                </th>
+                <th>
+                    標籤
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.Fat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Protein)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Carbs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sugar)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VitA)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VitB)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VitC)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VitD)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VitE)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Na)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.K)
+                </th>*@
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Calories)
+                    </td>
+                    <td>
+                    @*<img src="~/Areas/Admin/Content/MealOptionImages/@item.MealOptionImage" />*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TagName)<br />
+                        <img src="~/Areas/Admin/Content/TagCategoriesImages/@item.TagImage" />
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.Fat)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Protein)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Carbs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sugar)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VitA)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VitB)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VitC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VitD)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VitE)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Na)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.K)
+                    </td>*@
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+            
+        </table>
+</div>>
+</div>

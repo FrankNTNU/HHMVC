@@ -72,6 +72,7 @@
     <Compile Include="LayoutDTO.cs" />
     <Compile Include="MealDetailDTO.cs" />
     <Compile Include="MealDTO.cs" />
+    <Compile Include="MealTagDTO.cs" />
     <Compile Include="MemberDetailDTO.cs" />
     <Compile Include="MemberDTO.cs" />
     <Compile Include="NutrientDTO.cs" />

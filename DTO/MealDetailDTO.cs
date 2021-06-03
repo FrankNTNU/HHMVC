@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace DTO
 {
@@ -12,9 +13,16 @@ namespace DTO
         public string Name { get; set; }
         public int Calories { get; set; }
         public List<TagCategoryDetailDTO> Tags { get; set; }
-        public byte[] Image { get; set; }
-        public NutrientDTO Nutrient { get; set; }
+        public string MealOptionImage { get; set; }
+        public HttpPostedFileBase MealOptionUpLoadImage { get; set; } // Uploaded image
+        
+        public string UnitName { get; set; }
+        public TagCategoryDetailDTO TagCategoryDetail { get; set; }
+        public string TagName { get; set; }
+        public string TagImage { get; set; }
+        public HttpPostedFileBase TagUpLoadImage { get; set; } // Uploaded image
 
+        public NutrientDTO Nutrient { get; set; }
         public int NutrientID { get; set; }
         public float Fat { get; set; }
         public float Protein { get; set; }

@@ -20,7 +20,8 @@
                     <td>圖片</td>
                     <td>所需點數</td>
                     <td>庫存量</td>
-                    <td>活動期限</td>
+                    <td>上架時間</td>
+                    <td>下架時間</td>
                     <td></td>
                 </tr>
             </thead>
@@ -33,7 +34,8 @@
                         <td><img src="~/Areas/Admin/Content/GiftImages/@item.Image" /></td>
                         <td>@item.Point</td>
                         <td>@item.Quantity</td>
-                        <td>@item.Deadline</td>
+                        <td>@item.AddDate</td>
+                        <td>@item.EndDate</td>
                         <td>
                             @Html.ActionLink("修改", "Update", new { id = item.ID }) |
                             @Html.ActionLink("刪除", "Delete", new { id = item.ID }, new

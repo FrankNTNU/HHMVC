@@ -24,7 +24,7 @@ namespace DAL
         public int ID { get; set; }
         public string Name { get; set; }
         public double Calories { get; set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
         public Nullable<int> NutrientID { get; set; }
         public string UnitName { get; set; }
     

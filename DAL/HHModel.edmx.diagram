@@ -4,29 +4,31 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8cca80fd64314c0c88c67f30e7d7d5b5" Name="Diagram1">
-        <EntityTypeShape EntityType="HealthHelperModel.ActivityLevel" Width="1.5" PointX="0.75" PointY="16.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Comment" Width="1.5" PointX="8.25" PointY="15.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.DietLog" Width="1.5" PointX="5.25" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Gift" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.LikedMeal" Width="1.5" PointX="5.25" PointY="19.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.MealOption" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.MealTagCategory" Width="1.5" PointX="6" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.MealTag" Width="1.5" PointX="8.25" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Member" Width="1.5" PointX="3" PointY="14.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Nutrient" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.PostCategory" Width="1.5" PointX="6" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.PostImage" Width="1.5" PointX="10.5" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Post" Width="1.5" PointX="8.25" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Program" Width="1.5" PointX="8.25" PointY="20.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Status" Width="1.5" PointX="0.75" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.TimesOfDay" Width="1.5" PointX="3" PointY="21.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.WeightLog" Width="1.5" PointX="5.25" PointY="34.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.WorkoutCategory" Width="1.5" PointX="3.75" PointY="25.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.WorkoutLog" Width="1.5" PointX="11.25" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.WorkoutPreference" Width="1.5" PointX="5.25" PointY="22.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Workout" Width="1.5" PointX="6" PointY="16" IsExpanded="true" />
+      <Diagram DiagramId="06eec8aa7917496d89f29f4c6fdfbfe7" Name="Diagram1">
+        <EntityTypeShape EntityType="HealthHelperModel.ActivityLevel" Width="1.5" PointX="0.75" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Comment" Width="1.5" PointX="8.25" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.DietLog" Width="1.5" PointX="5.25" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.GiftCart" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Gift" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.LikedMeal" Width="1.5" PointX="5.25" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.LikedPost" Width="1.5" PointX="8.25" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.MealOption" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.MealTagCategory" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.MealTag" Width="1.5" PointX="5.25" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Member" Width="1.5" PointX="3" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Nutrient" Width="1.5" PointX="0.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.PostCategory" Width="1.5" PointX="6" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.PostImage" Width="1.5" PointX="10.5" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Post" Width="1.5" PointX="8.25" PointY="22.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Program" Width="1.5" PointX="11.25" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Status" Width="1.5" PointX="0.75" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.sysdiagram" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.TimesOfDay" Width="1.5" PointX="3" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.WeightLog" Width="1.5" PointX="5.25" PointY="39.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.WorkoutCategory" Width="1.5" PointX="3.75" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.WorkoutLog" Width="1.5" PointX="11.25" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.WorkoutPreference" Width="1.5" PointX="5.25" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Workout" Width="1.5" PointX="6" PointY="17.75" IsExpanded="true" />
         <AssociationConnector Association="HealthHelperModel.FK_Members_ActivityLevels" ManuallyRouted="false" />
         <AssociationConnector Association="HealthHelperModel.FK_Programs_ActivityLevels" ManuallyRouted="false" />
         <AssociationConnector Association="HealthHelperModel.FK_Workouts_ActivityLevels" ManuallyRouted="false" />
@@ -37,6 +39,8 @@
         <AssociationConnector Association="HealthHelperModel.FK_DietLog_TimesOfDay" ManuallyRouted="false" />
         <AssociationConnector Association="HealthHelperModel.FK_LikedMeals_MealOptions" ManuallyRouted="false" />
         <AssociationConnector Association="HealthHelperModel.FK_LikedMeals_Members" ManuallyRouted="false" />
+        <AssociationConnector Association="HealthHelperModel.FK_LikedPosts_Members" ManuallyRouted="false" />
+        <AssociationConnector Association="HealthHelperModel.FK_LikedPosts_Posts" ManuallyRouted="false" />
         <AssociationConnector Association="HealthHelperModel.FK_MealOptions_Nutrient" ManuallyRouted="false" />
         <AssociationConnector Association="HealthHelperModel.FK_MealTags_MealOptions" ManuallyRouted="false" />
         <AssociationConnector Association="HealthHelperModel.FK_MealTags_MealTagCategories" ManuallyRouted="false" />

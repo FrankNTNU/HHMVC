@@ -19,6 +19,7 @@ namespace DAL
             this.Comments = new HashSet<Comment>();
             this.DietLogs = new HashSet<DietLog>();
             this.LikedMeals = new HashSet<LikedMeal>();
+            this.LikedPosts = new HashSet<LikedPost>();
             this.Posts = new HashSet<Post>();
             this.WorkoutPreferences = new HashSet<WorkoutPreference>();
             this.Programs = new HashSet<Program>();
@@ -47,6 +48,7 @@ namespace DAL
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<DietLog> DietLogs { get; set; }
         public virtual ICollection<LikedMeal> LikedMeals { get; set; }
+        public virtual ICollection<LikedPost> LikedPosts { get; set; }
         public virtual Status Status { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<WorkoutPreference> WorkoutPreferences { get; set; }

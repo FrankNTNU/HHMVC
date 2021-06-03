@@ -609,6 +609,7 @@
     <Content Include="Areas\Admin\Views\Gift\List.cshtml" />
     <Content Include="Areas\Admin\Views\Gift\Creat.cshtml" />
     <Content Include="Areas\Admin\Views\Gift\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\List.cshtml" />
     <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
@@ -803,7 +804,6 @@
     <Folder Include="Areas\Admin\Content\TagCategoriesImages\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
-    <Folder Include="Areas\Admin\Views\Meal\" />
     <Folder Include="Areas\Admin\Views\Nutrient\" />
     <Folder Include="Models\" />
   </ItemGroup>

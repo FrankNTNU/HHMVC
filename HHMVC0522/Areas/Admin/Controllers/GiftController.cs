@@ -54,14 +54,15 @@ namespace UI.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Update(GiftDTO dto)
         {
-            Bitmap image = new Bitmap(dto.UpLoadImage.InputStream);
-            Bitmap resizedImage = new Bitmap(image, 500, 500);
-            string uniqueNumber = Guid.NewGuid().ToString();
-            string fileName = uniqueNumber + dto.UpLoadImage.FileName;
-            resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/GiftImages/" + fileName));
-            
-            
-            dto.Image = fileName;
+            if (dto.UpLoadImage != null)
+            {
+                Bitmap image = new Bitmap(dto.UpLoadImage.InputStream);
+                Bitmap resizedImage = new Bitmap(image, 500, 500);
+                string uniqueNumber = Guid.NewGuid().ToString();
+                string fileName = uniqueNumber + dto.UpLoadImage.FileName;
+                resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/GiftImages/" + fileName));
+                dto.Image = fileName;
+            }
             GiftBLL bll = new GiftBLL();
             string oldImagePass = bll.Update(dto);
             string imageFullPath = Server.MapPath("~/Areas/Admin/Content/GiftImages/" + oldImagePass);

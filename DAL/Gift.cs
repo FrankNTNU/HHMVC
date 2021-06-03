@@ -19,6 +19,7 @@ namespace DAL
         public string Image { get; set; }
         public int Points { get; set; }
         public Nullable<int> Quantity { get; set; }
-        public string Deadline { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
+        public Nullable<System.DateTime> AddDate { get; set; }
     }
 }

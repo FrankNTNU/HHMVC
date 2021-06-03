@@ -87,6 +87,9 @@
     <Compile Include="Gift.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GiftCart.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GiftDAO.cs" />
     <Compile Include="HHContext.cs" />
     <Compile Include="HHModel.Context.cs">
@@ -107,6 +110,10 @@
     <Compile Include="LikedMeal.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="LikedPost.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MealDAO.cs" />
     <Compile Include="MealOption.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
@@ -116,12 +123,14 @@
     <Compile Include="MealTagCategory.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MealTagDAO.cs" />
     <Compile Include="Member.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Nutrient.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="NutrientDAO.cs" />
     <Compile Include="Post.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>

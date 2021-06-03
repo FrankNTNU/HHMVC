@@ -12,17 +12,13 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class MealTagCategory
+    public partial class GiftCart
     {
-        public MealTagCategory()
-        {
-            this.MealTags = new HashSet<MealTag>();
-        }
-    
         public int ID { get; set; }
+        public int MemberID { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
-    
-        public virtual ICollection<MealTag> MealTags { get; set; }
+        public System.DateTime AddDate { get; set; }
+        public System.DateTime EndDate { get; set; }
     }
 }
