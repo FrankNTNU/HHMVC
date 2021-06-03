@@ -12,32 +12,63 @@
                     @DTO.UserStatic.NameSurname 的所有貼文，共有 @Model.Count() 則
                 </h2>
             </header>
+            
+
+
+            <div class="row" id="DataSearching">
                 @foreach (var item in Model)
                 {
-                    <div class="row">
-                        <div class="col-3 col-4-medium col-5-small col-12-xsmall">
-                            <a href="@Url.Action("PostDetail", "Home2", new { @ID = item.ID })" class="image"><img class="image" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" style="max-width:100%" /></a>
-                        </div>
-                        <div class="col-9 col-8-medium col-7-small col-12-xsmall">
-                            <div class="row">
-                                <div class="col-2 col-3-medium">
-                                    <h3>標題</h3>
-                                    <p style="font-size:1.2em">文章大要 </p>
-                                </div>
-                                <div class="col-9 col-9-medium">
-                                    <h3>@item.Title<span>@item.AddDate</span></h3>
 
-                                    <p style="font-size:1.2em">@item.ShortContent</p>
+                    <div class="row" style="margin-bottom:5px">
+                        <div class="col-12 col-lg-4 col-md-4">
+
+
+                            <a href="@Url.Action("PostDetail", "Home2", new { @ID = Model.FirstOrDefault().ID })" class="image"><img class="image" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" style="max-width:100%" /></a>
+
+
+                        </div>
+                        <div class="col-12 col-lg-8 col-md-8">
+                            <div class="row">
+                                <div class="col-4 col-lg-2">
+                                    <p>標題</p>
+                                    <p>時間</p>
+                                    <p>文章大要</p>
+                                </div>
+                                <div class="col-8">
+                                    <p><strong style="font-weight:bolder">@item.Title</strong></p>
+                                    <p>@item.AddDate</p>
+                                    <p>@item.ShortContent</p>
                                 </div>
                             </div>
-                           
-                            
                         </div>
                     </div>
-                    <div class="row"><p></p></div>
-                }
 
-           
+
+                }
+                <div class="row" style="margin-bottom:5px">
+                    <div class="col-12 col-lg-4 col-md-4">
+
+
+                        <a href="@Url.Action("PostDetail", "Home2", new { @ID = Model.FirstOrDefault().ID })" class="image"><img class="image" src="~/Areas/Admin/Content/PostImages/@Model.FirstOrDefault().ImagePath" style="max-width:100%" /></a>
+
+
+                    </div>
+                    <div class="col-12 col-lg-8 col-md-8">
+                        <div class="row">
+                            <div class="col-4 col-lg-2">
+                                <p>標題</p>
+                                <p>時間</p>
+                                <p>文章大要</p>
+                            </div>
+                            <div class="col-8">
+                                <p><strong style="font-weight:bolder">@Model.FirstOrDefault().Title</strong></p>
+                                <p>@Model.FirstOrDefault().AddDate</p>
+                                <p>@Model.FirstOrDefault().ShortContent</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 </div>

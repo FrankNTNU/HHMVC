@@ -19,6 +19,12 @@ namespace BLL
         {
             return postDAO.GetPosts().Take(number).ToList();
         }
+
+        internal List<PostDTO> GetRules()
+        {
+            return postDAO.GetRules();
+        }
+
         public bool AddPost(PostDTO model)
         {
             Post post = new Post();
@@ -123,6 +129,16 @@ namespace BLL
         public List<PostDTO> GetPosts(int categoryID, string text)
         {
             return postDAO.GetPosts(categoryID, text);
+        }
+
+        public void LikePost(int postID, int number)
+        {
+            postDAO.LikePost(postID, number);
+        }
+
+        public bool HasLiked(int userID, int postID)
+        {
+            return postDAO.HasLiked(userID, postID);
         }
     }
 }

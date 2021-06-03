@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="~/Content/css/main.css" />
     <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
     <link href="~/Content/toastr/toastr.min.css" rel="stylesheet" />
-    @*<link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />*@
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         a.toggle {
             color: red;
@@ -29,11 +30,11 @@
             <header id="header" style=" background-color: #fad7d2">
                 <div class="row">
 
-                    <div class="col-3 col-md-2" style="padding-left:50px">
-                        <a href="/Home2/Index" style="text-decoration: none;"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" width="60"></a>
+                    <div class="col-4 col-sm-4 col-lg-2" style="padding-left:30px; vertical-align:central">
+                        <a href="/Home2/Index" style="text-decoration: none;width:100px"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" width="100"></a>
                     </div>
-                    <div class="col-7 col-md-6" style="font-size:0.9em">
-                        <a href="/Home2/Index" class="logo"><strong style="font-size:2.1em" id="logoText">HealthHelper</strong> <div class="hidden-md" style="font-size:1.1em">你的健康管理助手</div></a>
+                    <div class="col-7 col-sm-8" style="font-size:0.9em; padding-top:5px; padding-left:0px">
+                        <a href="/Home2/Index" class="logo" style="text-decoration: none"><strong style="font-size:2em" id="logoText">HealthHelper</strong> <div class="hidden-sm" style="font-size:1.3em">你的健康管理助手</div></a>
                     </div>
                 </div>
             </header>
@@ -49,8 +50,6 @@
             <div class="inner">
 
                 <!-- Search -->
-              
-
                 <!-- Menu -->
                 <nav id="menu">
                     <header class="major">
@@ -60,22 +59,24 @@
                         <li><a href="/Home2/Index">首頁</a></li>
                         @if (DTO.UserStatic.UserID == 0)
                         {
-            <li><a href="/Home2/Login">登入</a></li> }
-                        else
-                        {
-            <li><a href="elements.html">會員資訊</a></li>
-                            <li><a href="/Home2/Logout">登出</a></li>}
+            <li><a href="/Home2/Login">登入</a></li>
+ }
+        else
+        {
+<li><a href="elements.html">會員資訊</a></li>
+                <li><a href="/Home2/Logout">登出</a></li>
+}
                         <li><a href="/Admin/Login/Index">後台</a></li>
 
                         <li>
                             <span class="opener">貼文</span>
                             <ul>
                                 <li><a href="/FrontPost/AllPosts">所有貼文</a></li>
-                                <li><a href="/FrontPost/NewsList">消息與公告</a></li>
                                 @if (DTO.UserStatic.UserID != 0)
                                 {
                     <li><a href="/FrontPost/AddPost">發布貼文</a></li>
-                                    <li><a href="/FrontPost/UserPostList">你的貼文</a></li>}
+                                    <li><a href="/FrontPost/UserPostList">你的貼文</a></li>
+}
                             </ul>
                         </li>
                         <li><a href="#">Etiam Dolore</a></li>
@@ -102,15 +103,15 @@
                     </header>
                     <div class="mini-posts">
                         <article>
-                            <a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
+                            <a href="#" class="image"><img src="" alt="" /></a>
                             <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
                         </article>
                         <article>
-                            <a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
+                            <a href="#" class="image"><img src="" alt="" /></a>
                             <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
                         </article>
                         <article>
-                            <a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
+                            <a href="#" class="image"><img src="" alt="" /></a>
                             <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
                         </article>
                     </div>
@@ -152,7 +153,10 @@
     <script src="~/Content/js/util.js"></script>
     <script src="~/Content/js/main.js"></script>
     <script src="~/Content/toastr/toastr.min.js"></script>
+    <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
+    <script src="~/Content/js/jquery.likebtn.js"></script>
     @RenderSection("Scripts", required: false)
+
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -167,7 +171,9 @@
                     toastr.error("失敗");
                 }
             }
+
         })
+
     </script>
 
 </body>

@@ -14,6 +14,7 @@ namespace BLL
         {
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO.Posts = postBLL.GetRecentPosts(6);
+            layoutDTO.Rules = postBLL.GetRules();
             return layoutDTO;
         }
 

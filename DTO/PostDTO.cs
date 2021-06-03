@@ -34,6 +34,6 @@ namespace DTO
         public List<HttpPostedFileBase> PostImage { get; set; }
         public bool IsUpdate { get; set; } = false;
         public string MemberImage { get; set; }
-
+        public int LikeCount { get; set; } = 0;
     }
 }

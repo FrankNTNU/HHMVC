@@ -24,6 +24,7 @@ namespace DAL
             this.WeightLogs = new HashSet<WeightLog>();
             this.WorkoutLogs = new HashSet<WorkoutLog>();
             this.Comments = new HashSet<Comment>();
+            this.LikedPosts = new HashSet<LikedPost>();
         }
     
         public int ID { get; set; }
@@ -41,6 +42,7 @@ namespace DAL
         public int StatusID { get; set; }
         public int ActivityLevelID { get; set; }
         public string Name { get; set; }
+        public int Points { get; set; }
     
         public virtual ActivityLevel ActivityLevel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -58,5 +60,7 @@ namespace DAL
         public virtual ICollection<WorkoutLog> WorkoutLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LikedPost> LikedPosts { get; set; }
     }
 }

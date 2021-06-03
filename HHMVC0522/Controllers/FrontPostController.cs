@@ -20,8 +20,8 @@ namespace UI.Controllers
         }
         public ActionResult UserPostList()
         {
-            List<PostDTO> postList = postBLL.GetUserPosts(UserStatic.UserID);
-            return View(postList);
+            postListResult = postBLL.GetUserPosts(UserStatic.UserID);
+            return View("ShowPosts");
         }
         PostBLL postBLL = new PostBLL();
         public ActionResult AddPost()
@@ -133,12 +133,13 @@ namespace UI.Controllers
                 if (postBLL.UpdatePost(model))
                 {
                     ViewBag.ProcessState = General.Messages.UpdateSuccess;
+                    return RedirectToAction("PostDetail/" + model.ID, "Home2");
+
                 }
                 else
                 {
                     ViewBag.ProcessState = General.Messages.GeneralError;
                 }
-
             }
             else
             {
@@ -147,22 +148,27 @@ namespace UI.Controllers
             model = postBLL.GetPostWithID(model.ID);
             model.Categories = selectList;
             model.IsUpdate = true;
-            return RedirectToAction("PostDetail/" + model.ID, "Home2");
+            return View(model);
         }
         int pageSize = 5;
-        public ActionResult NewsList(int page = 1)
+        static List<PostDTO> postListResult = new List<PostDTO>();
+        //public ActionResult NewsList(int page = 1)
+        //{
+        //    int currentPage = page < 1 ? 1 : page;
+        //    List<PostDTO> newsList = postBLL.GetNews();
+        //    var result = newsList.ToPagedList(currentPage, pageSize);
+        //    return View(result);
+        //}
+        public ActionResult ShowPosts(int page = 1)
         {
             int currentPage = page < 1 ? 1 : page;
-            List<PostDTO> newsList = postBLL.GetNews();
-            var result = newsList.ToPagedList(currentPage, pageSize);
+            var result = postListResult.ToPagedList(currentPage, pageSize);
             return View(result);
         }
-        public ActionResult AllPosts(int page = 1)
+        public ActionResult AllPosts()
         {
-            int currentPage = page < 1 ? 1 : page;
-            List<PostDTO> postList = postBLL.GetPosts();
-            var result = postList.ToPagedList(currentPage, pageSize);
-            return View(result);
+            postListResult = postBLL.GetPosts();
+            return RedirectToAction("ShowPosts");
         }
         public ActionResult DeletePostImage(int ID)
         {
@@ -187,11 +193,37 @@ namespace UI.Controllers
             }
             return RedirectToAction("Index", "Home2");
         }
-        public JsonResult GetSearchPost(string SearchCategory, string SearchText)
+        public ActionResult GetPostsWithSearchText(string SearchCategory, string SearchText)
         {
-            List<PostDTO> postList = new List<PostDTO>();
-            postList = postBLL.GetPosts(Int32.Parse(SearchCategory), SearchText);
-            return Json(postList, JsonRequestBehavior.AllowGet);
+            postListResult = postBLL.GetPosts(Int32.Parse(SearchCategory), SearchText);
+            return RedirectToAction("ShowPosts");
+        }
+        //public JsonResult GetSearchPost(string SearchCategory, string SearchText)
+        //{
+        //    List<PostDTO> postList = new List<PostDTO>();
+        //    postList = postBLL.GetPosts(Int32.Parse(SearchCategory), SearchText);
+        //    return Json(postList, JsonRequestBehavior.AllowGet);
+        //}
+        public string Like(int postID, int number)
+        {
+            if (!postBLL.HasLiked(UserStatic.UserID, postID) && number > 0) 
+                // Hasn't liked the post and want to like the post.
+            {
+                postBLL.LikePost(postID, number);
+                return "true";
+            }
+            else if (postBLL.HasLiked(UserStatic.UserID, postID) && number < 0)
+            {
+                postBLL.LikePost(postID, number);
+                return "true";
+            }
+            // Has liked the post and want to take the like away.
+            return "false";
+        }
+        public string HasLiked(int postID)
+        {
+            if (postBLL.HasLiked(UserStatic.UserID, postID)) return "true";
+            else return "false";
         }
     }
 }

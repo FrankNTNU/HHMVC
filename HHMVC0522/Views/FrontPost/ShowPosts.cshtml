@@ -1,8 +1,9 @@
-﻿@using PagedList
+﻿
+@using PagedList
 @using PagedList.Mvc
 @{
-    ViewBag.Title = "AllPosts";
-Layout = "~/Views/Shared/HomeLayout2.cshtml";
+    ViewBag.Title = "ShowPosts";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 
@@ -25,50 +26,50 @@ Layout = "~/Views/Shared/HomeLayout2.cshtml";
                     </select>
                 </div>
                 <div class="col-6 col-lg-5 col-md-5">
-                    <input type="text" id="SearchText" class="form-control" placeholder="關鍵字" style="height:40px"/>
+                    <input type="text" id="SearchText" class="form-control" placeholder="關鍵字" style="height:40px" />
 
                 </div>
                 <div class="col-12 col-lg-2 col-md-3" style="margin-bottom: 20px;
         text-align: center
 ">
-                    <input type="submit" class="button primary" id="SearchBtn" value="搜尋" style="width:100%; font-size:0.7em"/>
+                    <input type="submit" class="button primary" id="SearchBtn" value="搜尋" style="width:100%; font-size:0.7em" />
                 </div>
             </div>
             <div class="row" id="DataSearching">
                 @foreach (var item in Model)
                 {
-                        <div class="row" style="margin-bottom:5px;width:100%">
-                            <div class="col-12 col-lg-4 col-md-4 col-sm-4">
-                                <a href="@Url.Action("PostDetail", "Home2", new { @ID = item.ID })" class="image"><img class="image" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" style="max-width:100%" /></a>
+                    <div class="row" style="margin-bottom:5px;width:100%">
+                        <div class="col-12 col-lg-4 col-md-4 col-sm-4">
+                            <a href="@Url.Action("PostDetail", "Home2", new { @ID = item.ID })" class="image"><img class="image" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" style="max-width:100%" /></a>
 
 
-                            </div>
-                            <div class="col-12 col-lg-8 col-md-8 col-sm-8">
-                                <div class="row">
-                                    <div class="col-4 col-md-3 col-lg-2">
-                                        <p class="button small fit" style="        font-weight: bolder;
+                        </div>
+                        <div class="col-12 col-lg-8 col-md-8 col-sm-8">
+                            <div class="row">
+                                <div class="col-4 col-md-3 col-lg-2">
+                                    <p class="button small fit" style="        font-weight: bolder;
         pointer-events: none;
         margin-bottom: 5px">@item.CategoryName</p>
-                                    <p>時間</p>
-                                    <p>文章大要</p>
-                                    
-                                    </div>
-                                    <div class="col-8 col-lg-10">
-                                        <p><strong style="font-weight:bolder">@item.Title </strong><i class="far fa-comment"></i> @item.CommentCount <i class="far fa-heart"></i> @item.LikeCount</p>
-                                        <p>@item.AddDate</p>
-                                        <p>@item.ShortContent</p>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    
+        <p>時間</p>
+        <p>文章大要</p>
 
-                }
-                
+    </div>
+    <div class="col-8 col-lg-10">
+        <p><strong style="font-weight:bolder">@item.Title </strong><i class="far fa-comment"></i> @item.CommentCount <i class="far fa-heart"></i> @item.LikeCount</p>
+        <p>@item.AddDate</p>
+        <p>@item.ShortContent</p>
+
+    </div>
+</div>
+</div>
+</div>
+
+
+}
+
             </div>
             <div style="font-size:1.5em;text-align:center" id="PageInfo">
-                @Html.PagedListPager(Model, page => Url.Action("AllPosts", new { page }))
+                @Html.PagedListPager(Model, page => Url.Action("ShowPosts", new { page }))
             </div>
         </section>
     </div>
@@ -81,7 +82,7 @@ Layout = "~/Views/Shared/HomeLayout2.cshtml";
             var SearchText = $("#SearchText").val();
             var SetData = $("#DataSearching");
             console.log(SetData);
-           
+
 
 
 

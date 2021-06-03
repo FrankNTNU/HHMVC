@@ -9,22 +9,24 @@
         <!-- Header -->
         <div><p></p></div>
         <header class="major">
-            <h2>
+            <p style="font-size:2em; margin-bottom:10px">
                 登入
-            </h2>
+            </p>
         </header>
         @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
         <form action="@Url.Action("Login")" method="post">
-            <div class="row gtr-uniform">
+            <div class="row">
                 <div class="col-12">
-                    <label>帳號</label>
                     @Html.ValidationMessageFor(x => x.UserName)
-                    <input type="text" name="UserName" id="demo-name" value="" placeholder="登入帳號" />
+                    <br /><label>帳號</label>
+
+                    <input type="text" name="UserName" id="demo-name" value="" placeholder="登入帳號" style="height:50px" />
                 </div>
                 <div class="col-12">
-                    <label>密碼</label>
                     @Html.ValidationMessageFor(x => x.Password)
-                    <input type="text" name="Password" id="demo-email" value="" placeholder="你的密碼" />
+                    <br /><label>密碼</label>
+
+                    <input type="text" name="Password" id="demo-email" value="" placeholder="你的密碼" style="height:50px" />
                 </div>
                 <!-- Break -->
                 <!-- Break -->

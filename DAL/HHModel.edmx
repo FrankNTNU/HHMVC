@@ -35,10 +35,10 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MemberID" Type="int" Nullable="false" />
           <Property Name="TimeOfDayID" Type="int" Nullable="false" />
-          <Property Name="EditTime" Type="datetime" Nullable="false" />
+          <Property Name="EditTime" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Portion" Type="float" Nullable="false" />
           <Property Name="MealOptionID" Type="int" Nullable="false" />
-          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Date" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsValid" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="LikedMeals">
@@ -49,6 +49,14 @@
           <Property Name="MemberID" Type="int" Nullable="false" />
           <Property Name="MealOptionID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="LikedPosts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberID" Type="int" />
+          <Property Name="PostID" Type="int" />
+        </EntityType>
         <EntityType Name="MealOptions">
           <Key>
             <PropertyRef Name="ID" />
@@ -58,6 +66,7 @@
           <Property Name="Calories" Type="float" Nullable="false" />
           <Property Name="Image" Type="varbinary(max)" />
           <Property Name="NutrientID" Type="int" />
+          <Property Name="UnitName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="MealTagCategories">
           <Key>
@@ -65,6 +74,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Image" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="MealTags">
           <Key>
@@ -93,6 +103,7 @@
           <Property Name="StatusID" Type="int" Nullable="false" />
           <Property Name="ActivityLevelID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Points" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Nutrient">
           <Key>
@@ -140,6 +151,7 @@
           <Property Name="ViewCount" Type="int" />
           <Property Name="MemberID" Type="int" />
           <Property Name="AddDate" Type="datetime" Nullable="false" />
+          <Property Name="LikeCount" Type="int" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -292,6 +304,30 @@
             </Principal>
             <Dependent Role="LikedMeals">
               <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LikedPosts_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="0..1" />
+          <End Role="LikedPosts" Type="Self.LikedPosts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LikedPosts">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LikedPosts_Posts">
+          <End Role="Posts" Type="Self.Posts" Multiplicity="0..1" />
+          <End Role="LikedPosts" Type="Self.LikedPosts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LikedPosts">
+              <PropertyRef Name="PostID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -492,6 +528,7 @@
           <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DietLog" EntityType="Self.DietLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LikedMeals" EntityType="Self.LikedMeals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LikedPosts" EntityType="Self.LikedPosts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MealOptions" EntityType="Self.MealOptions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MealTagCategories" EntityType="Self.MealTagCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MealTags" EntityType="Self.MealTags" Schema="dbo" store:Type="Tables" />
@@ -535,6 +572,14 @@
           <AssociationSet Name="FK_LikedMeals_Members" Association="Self.FK_LikedMeals_Members">
             <End Role="Members" EntitySet="Members" />
             <End Role="LikedMeals" EntitySet="LikedMeals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LikedPosts_Members" Association="Self.FK_LikedPosts_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="LikedPosts" EntitySet="LikedPosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LikedPosts_Posts" Association="Self.FK_LikedPosts_Posts">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="LikedPosts" EntitySet="LikedPosts" />
           </AssociationSet>
           <AssociationSet Name="FK_MealOptions_Nutrient" Association="Self.FK_MealOptions_Nutrient">
             <End Role="Nutrient" EntitySet="Nutrient" />
@@ -639,10 +684,10 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MemberID" Type="Int32" Nullable="false" />
           <Property Name="TimeOfDayID" Type="Int32" Nullable="false" />
-          <Property Name="EditTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EditTime" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Portion" Type="Double" Nullable="false" />
           <Property Name="MealOptionID" Type="Int32" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Date" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="IsValid" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="MealOption" Relationship="Self.FK_DietLog_MealOptions" FromRole="DietLog" ToRole="MealOptions" />
           <NavigationProperty Name="Member" Relationship="Self.FK_DietLog_Members" FromRole="DietLog" ToRole="Members" />
@@ -671,6 +716,7 @@
           <NavigationProperty Name="LikedMeals" Relationship="Self.FK_LikedMeals_MealOptions" FromRole="MealOptions" ToRole="LikedMeals" />
           <NavigationProperty Name="Nutrient" Relationship="Self.FK_MealOptions_Nutrient" FromRole="MealOptions" ToRole="Nutrient" />
           <NavigationProperty Name="MealTags" Relationship="Self.FK_MealTags_MealOptions" FromRole="MealOptions" ToRole="MealTags" />
+          <Property Name="UnitName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="MealTagCategory">
           <Key>
@@ -679,6 +725,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="MealTags" Relationship="Self.FK_MealTags_MealTagCategories" FromRole="MealTagCategories" ToRole="MealTags" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="MealTag">
           <Key>
@@ -718,6 +765,8 @@
           <NavigationProperty Name="WeightLogs" Relationship="Self.FK_WeightLog_Members" FromRole="Members" ToRole="WeightLog" />
           <NavigationProperty Name="WorkoutLogs" Relationship="Self.FK_WorkoutLog_Members" FromRole="Members" ToRole="WorkoutLog" />
           <NavigationProperty Name="Comments" Relationship="HealthHelperModel.FK_Comments_Members" FromRole="Member" ToRole="Comment" />
+          <Property Name="Points" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LikedPosts" Relationship="HealthHelperModel.FK_LikedPosts_Members" FromRole="Member" ToRole="LikedPost" />
         </EntityType>
         <EntityType Name="Nutrient">
           <Key>
@@ -772,6 +821,8 @@
           <NavigationProperty Name="Member" Relationship="Self.FK_Posts_Members" FromRole="Posts" ToRole="Members" />
           <NavigationProperty Name="PostCategory" Relationship="Self.FK_Posts_PostCategories" FromRole="Posts" ToRole="PostCategories" />
           <NavigationProperty Name="PostImages" Relationship="Self.FK_PostImages_Posts" FromRole="Posts" ToRole="PostImages" />
+          <Property Name="LikeCount" Type="Int32" DefaultValue="0" />
+          <NavigationProperty Name="LikedPosts" Relationship="HealthHelperModel.FK_LikedPosts_Posts" FromRole="Post" ToRole="LikedPost" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -1234,6 +1285,15 @@
             <End Role="Member" EntitySet="Members" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
+          <EntitySet Name="LikedPosts" EntityType="HealthHelperModel.LikedPost" />
+          <AssociationSet Name="FK_LikedPosts_Members" Association="HealthHelperModel.FK_LikedPosts_Members">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="LikedPost" EntitySet="LikedPosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LikedPosts_Posts" Association="HealthHelperModel.FK_LikedPosts_Posts">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="LikedPost" EntitySet="LikedPosts" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Comments_Members">
           <End Type="HealthHelperModel.Member" Role="Member" Multiplicity="1" />
@@ -1244,6 +1304,40 @@
             </Principal>
             <Dependent Role="Comment">
               <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="LikedPost">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberID" Type="Int32" />
+          <Property Name="PostID" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="HealthHelperModel.FK_LikedPosts_Members" FromRole="LikedPost" ToRole="Member" />
+          <NavigationProperty Name="Post" Relationship="HealthHelperModel.FK_LikedPosts_Posts" FromRole="LikedPost" ToRole="Post" />
+        </EntityType>
+        <Association Name="FK_LikedPosts_Members">
+          <End Type="HealthHelperModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="HealthHelperModel.LikedPost" Role="LikedPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LikedPost">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LikedPosts_Posts">
+          <End Type="HealthHelperModel.Post" Role="Post" Multiplicity="0..1" />
+          <End Type="HealthHelperModel.LikedPost" Role="LikedPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LikedPost">
+              <PropertyRef Name="PostID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1304,6 +1398,7 @@
           <EntitySetMapping Name="MealOptions">
             <EntityTypeMapping TypeName="HealthHelperModel.MealOption">
               <MappingFragment StoreEntitySet="MealOptions">
+                <ScalarProperty Name="UnitName" ColumnName="UnitName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Calories" ColumnName="Calories" />
@@ -1315,6 +1410,7 @@
           <EntitySetMapping Name="MealTagCategories">
             <EntityTypeMapping TypeName="HealthHelperModel.MealTagCategory">
               <MappingFragment StoreEntitySet="MealTagCategories">
+                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
@@ -1332,6 +1428,7 @@
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="HealthHelperModel.Member">
               <MappingFragment StoreEntitySet="Members">
+                <ScalarProperty Name="Points" ColumnName="Points" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="TaiwanID" ColumnName="TaiwanID" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
@@ -1390,6 +1487,7 @@
           <EntitySetMapping Name="Posts">
             <EntityTypeMapping TypeName="HealthHelperModel.Post">
               <MappingFragment StoreEntitySet="Posts">
+                <ScalarProperty Name="LikeCount" ColumnName="LikeCount" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ShortContent" ColumnName="ShortContent" />
@@ -1476,6 +1574,15 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Calories" ColumnName="Calories" />
                 <ScalarProperty Name="ActivityLevelID" ColumnName="ActivityLevelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LikedPosts">
+            <EntityTypeMapping TypeName="HealthHelperModel.LikedPost">
+              <MappingFragment StoreEntitySet="LikedPosts">
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

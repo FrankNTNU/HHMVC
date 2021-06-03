@@ -12,6 +12,10 @@
     a.toggle {
         color: red;
     }
+    .image-upload .browseBtn {
+/*        visibility: hidden;
+*/        
+    }
 </style>
 @model DTO.PostDTO
 <!-- Content -->
@@ -32,7 +36,8 @@
                     </header>
                 </div>
             </div>
-            <div class="col-8" style="color:white" id="messageInfo">@Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")</div>
+            <div class="col-8 col-12-small" style="padding:0px"> @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")</div>
+           
             @using (Html.BeginForm("AddPost", "FrontPost", FormMethod.Post, new { @enctype = "multipart/form-data" }))
             {
 
@@ -43,16 +48,16 @@
                         <input hidden value="@DTO.UserStatic.UserID" name="MemberID">
                         <label>顯示名稱</label>
 
-                        <input type="text" id="demo-name" value="@DTO.UserStatic.NameSurname" placeholder="Name" readonly />
+                        <input type="text" id="demo-name" value="@DTO.UserStatic.NameSurname" placeholder="Name" readonly style="height:45px"/>
                     </div>
                     <div class="col-8 col-12-small">
                         <label>標題</label>
-                        <input type="text" name="Title" id="demo-email" value="" placeholder="標題" maxlength="50" />                            @Html.ValidationMessageFor(x => x.Title)
+                        <input type="text" name="Title" id="demo-email" value="" placeholder="標題" maxlength="50" style="height:45px"/>                            @Html.ValidationMessageFor(x => x.Title)
 
                     </div>
                     <div class="col-8 col-12-small">
                         <label>大綱</label>
-                        <input type="text" name="ShortContent" id="demo-email" value="" placeholder="內容大綱" maxlength="100" />                            @Html.ValidationMessageFor(x => x.ShortContent)
+                        <input type="text" name="ShortContent" id="demo-email" value="" placeholder="內容大綱" maxlength="100" style="height:45px"/>                            @Html.ValidationMessageFor(x => x.ShortContent)
 
                     </div>
                     <div class="col-8 col-12-small">
@@ -68,25 +73,21 @@
                         <textarea name="PostContent" id="demo-message" placeholder="輸入你的貼文內容" rows="6" class="ckeditor"></textarea>                            @Html.ValidationMessageFor(x => x.PostContent)
 
                     </div>
-                    <div class="col-8  col-12-xsmall">
+                    <div class="col-8 col-12-xsmall image-upload">
                         
-                        <div class="form-group">
                             <label>圖片(建議長寬比16:9，單邊400px以上大圖)</label>
                             <div class="input-group">
+
                                 
-                                <div class="custom-file">
-
-
-                                    <input type="file" name="PostImage" class="custom-file-input button default" accept="image/gif, image/jpeg, image/png, image/jpg" multiple onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])"/>
-
+                                <label for="file-input">
+                                     <input type="file" id="file-input" name="PostImage" class="button default browseBtn" accept="image/gif, image/jpeg, image/png, image/jpg" multiple onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])" style="padding:10px;height:45px"/>
+                                </label>
                                     
-                                    
-                                    <img class="image" id="PostImage" width="800" height="450" style="max-width:100%; top:10px"/>
+                                   
 
-                                </div>
+                                <img class="image" id="PostImage" width="800" height="450" style="max-width:100%; top:10px" />
                                 <br />
                             </div>
-                        </div>
                     </div>
 
                     <!-- Break -->

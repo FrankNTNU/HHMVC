@@ -640,6 +640,7 @@
     <Content Include="Content\js\breakpoints.min.js" />
     <Content Include="Content\js\browser.min.js" />
     <Content Include="Content\js\DeleteRecord.js" />
+    <Content Include="Content\js\jquery.likebtn.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\main.js" />
     <Content Include="Content\js\util.js" />
@@ -793,6 +794,7 @@
     <Content Include="Views\FrontPost\NewsList.cshtml" />
     <Content Include="Views\FrontPost\AllPosts.cshtml" />
     <Content Include="Views\FrontPost\UpdatePost.cshtml" />
+    <Content Include="Views\FrontPost\ShowPosts.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

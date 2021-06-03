@@ -65,6 +65,8 @@ namespace UI.Controllers
             return View(layoutDTO);
         }
         [HttpPost]
+        [ValidateInput(false)]
+
         public ActionResult PostDetail(LayoutDTO model)
         {
 
@@ -78,6 +80,8 @@ namespace UI.Controllers
                 else
                 {
                     ViewData["CommentState"] = "Error";
+                    ViewBag.ProcessState = General.Messages.GeneralError;
+
                 }
             }
             else if (model.Comment.Title != null && model.Comment.CommentContent != null)
@@ -95,6 +99,8 @@ namespace UI.Controllers
             else
             {
                 ViewData["CommentState"] = "Error";
+                ViewBag.ProcessState = General.Messages.EmptyArea;
+
             }
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPostDetailPageItemWithID(model.PostDetail.ID);

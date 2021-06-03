@@ -48,6 +48,9 @@
         <AssociationConnector Association="HealthHelperModel.FK_Workouts_WorkoutCategories" ManuallyRouted="false" />
         <AssociationConnector Association="HealthHelperModel.FK_WorkoutLog_Workouts" ManuallyRouted="false" />
         <AssociationConnector Association="HealthHelperModel.FK_Comments_Members" />
+        <EntityTypeShape EntityType="HealthHelperModel.LikedPost" Width="1.5" PointX="10.5" PointY="17.25" />
+        <AssociationConnector Association="HealthHelperModel.FK_LikedPosts_Members" />
+        <AssociationConnector Association="HealthHelperModel.FK_LikedPosts_Posts" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
