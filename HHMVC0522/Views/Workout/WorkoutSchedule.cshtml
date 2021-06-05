@@ -57,6 +57,13 @@
             text-align: left;
         }
 
+        #scheduleTitle {
+            font-size: 2em;
+            font-weight: 600;
+            color: plum;
+            text-align: center;
+        }
+
         .scheduleBox {
             display: flex;
             justify-content: center;
@@ -72,57 +79,53 @@
             min-height: 120px;
             margin: 5px;
             display: flex;
-            flex-direction:column;
-            align-items:center;
+            flex-direction: column;
+            align-items: center;
             padding: 5px;
         }
 
-        .schedule.tomorrow {
-            width: 70%;
-        }
+            .schedule.tomorrow {
+                width: 70%;
+            }
 
-        .schedule > .item {
-            border: solid 2px plum;
-            border-radius: 10px;
-            width: 90%;
-            display: inline-block;
-            margin: 5px 0;
-        }
+            .schedule > .item {
+                border: solid 2px plum;
+                border-radius: 10px;
+                width: 90%;
+                display: inline-block;
+                margin: 5px 0;
+            }
 
-        .schedule > .item:nth-child(2n) {
-            background-color: plum;
-            color: white;
-        }
+                .schedule > .item:nth-child(2n) {
+                    background-color: plum;
+                    color: white;
+                }
 
-        .schedule > .item > div:nth-child(1) {
-            display: inline-block;
-            width:3em;
-        }
+                .schedule > .item > div:nth-child(1) {
+                    display: inline-block;
+                    width: 3em;
+                }
 
-        .schedule > .item > div:nth-child(2) {
-            display: inline-block;
-            width: 10em;
-        }
+                .schedule > .item > div:nth-child(2) {
+                    display: inline-block;
+                    width: 10em;
+                }
 
-        .schedule > .item > div:nth-child(3) {
-            display: inline-block;
-            width: 4em;
-        }
+                .schedule > .item > div:nth-child(3) {
+                    display: inline-block;
+                    width: 4em;
+                }
 
-        .schedule > .title {
-            border-bottom: solid 2px plum;
-            width: 100%;
-            height: 2em;
-        }
+            .schedule > .title {
+                border-bottom: solid 2px plum;
+                width: 100%;
+                height: 2em;
+            }
 
         @@media screen and (max-width:738px) {
             .schedule.tomorrow {
                 width: 100%;
             }
-        }
-
-        #todayDiv {
-            font-size: 1em;
         }
 
         #todayConsume {
@@ -136,6 +139,13 @@
             font-size: 1.2em;
             font-style: italic;
             color: #f56a6a;
+        }
+
+        #checkTitle {
+            font-size: 2em;
+            font-weight: 600;
+            color: #f56a6a;
+            text-align: center;
         }
     </style>
 }
@@ -163,6 +173,7 @@
             <div id="mainRow" class="row">
                 <div class="mainTitle col-12">運動排程</div>
                 <div class="myBox col-12" style="min-height:150px; position:relative">
+                    <div id="scheduleTitle">未來7天運動排程</div>
                     <div class="row innerRow">
                         <div class="col-12 col-12-medium col-12-small scheduleBox">
                             <div class="schedule tomorrow">
@@ -201,15 +212,15 @@
                         </div>
                     </div>
                 </div>
-                <div id="todayDiv" class="myBox operate col-6 col-6-medium col-12-small">
+                <div class="myBox operate col-6 col-6-medium col-12-small">
                     今日已消耗　<span id="todayConsume"></span>　卡路里
                     <div id="container" style="width: 100%; margin: 0 auto"></div>
                 </div>
                 <div id="check" class="myBox operate col-6 col-6-medium col-12-small">
+                    <div id="checkTitle">今日運動排程</div>
                     <div id="checkRow" class="row innerRow">
                     </div>
                 </div>
-                <div id="testSetDate" class="button">測試setData</div>
             </div>
         </div>
     </div>
@@ -221,10 +232,11 @@
     <script type="text/javascript" src="~/Content/moment-js/moment.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.src.js"></script>
     <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
     @*<script src="https://code.highcharts.com/modules/exporting.js"></script>*@
 
-<script>
+    <script>
 
         //=================================================================
         //global variable
@@ -257,7 +269,7 @@
                         $(wsWrapper).css("display", "flex").css("align-items", "center")
                             .css("border-bottom", "solid 2px #f56a6a")
                             .css("padding-right", "1.5em")
-                            .addClass("col-12").addClass("col-6-medium").addClass("col-12-small");
+                            .addClass("col-12").addClass("col-12-medium").addClass("col-12-small");
 
                         let wsDetail = document.createElement("div");
                         $(wsDetail).css("display", "inline-block");
@@ -272,9 +284,9 @@
                         //$(wh).addClass("wsHours");
 
                         $(wt).text(moment(data[i].WorkoutTime).format("MM月DD日yyyy年 HH:mm"))
-                        $(w).text(data[i].Name).css("margin-left", "2em");
+                        $(w).text(data[i].Name).css("margin-left", "1em");
                         $(wh).text(data[i].WorkoutHours + "hrs").css("margin-left", "1em");
-                        $(consume).html(`估計消耗<span class="calConsume">${data[i].Consume}</span>卡路里`).css("margin-left", "4em");;
+                        $(consume).html(`估計消耗<span class="calConsume">${data[i].Consume}</span>卡路里`).css("margin-left", "2em");;
 
                         $(wsDetail).append(wt).append("<br/>")
                             .append(w).append(wh).append("<br/>")
@@ -342,10 +354,17 @@
                         $("#checkRow .button[data-wlid=" + wlid + "]").removeClass("primary")
                             .text("執行成功").attr("disabled", true);
 
+                        $("#todayConsume").text(data.TodayConsume);
+
+                        chart.series[0].setData([{
+                            y: data.TDEEPercent
+                        }]);
+
+                        chart.series[1].setData([{
+                            y: data.IngestPercent
+                        }]);
+
                         chart.series[2].setData([{
-                            color: "#2894FF",
-                            radius: '62%',
-                            innerRadius: '38%',
                             y: data.ConsumePercent
                         }]);
 
@@ -629,16 +648,6 @@
                 }]
             });
 
-            //=========================================================================
-            //Test SetData
-            $("#testSetDate").click(function () {
-                chart.series[2].setData([{
-                    //color: "#2894FF",
-                    //radius: '62%',
-                    //innerRadius: '38%',
-                    y: 100
-                }]);
-            });
 
             //=========================================================================
             //initiate highChart
@@ -793,7 +802,7 @@
                     return "星期六";
             }
         }
-</script>
+    </script>
 }
 
 

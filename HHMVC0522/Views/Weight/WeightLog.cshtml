@@ -74,6 +74,13 @@
                 margin-left:auto;
             }
         }
+
+        #newTitle, #editTitle {
+            font-size: 2em;
+            font-weight: 600;
+            color: #f56a6a;
+            text-align: center;
+        }
     </style>
 }
 
@@ -101,6 +108,7 @@
                 <div class="mainTitle col-12">體重紀錄</div>
                 <div class="myBox col-5 col-5-medium col-12-small" style="display:flex; flex-direction:column">
                     <div class="myBox operate">
+                        <div id="newTitle">新增體重紀錄</div>
                         <div class="form-group" style="margin-bottom:10px; margin-top:auto">
                             <label for="wgtForNew" style="width:100%">今天的體重</label>
                             <input type="text" id="wgtForNew" placeholder="現在多重呢" style="display:inline-block; width:80%">
@@ -109,6 +117,7 @@
                         <div id="btnNew" class="button primary fit" style="font-size:1.2em; margin-top:auto">新增</div>
                     </div>
                     <div class="myBox operate">
+                        <div id="editTitle">修改體重紀錄</div>
                         <div class="form-group" style="margin-bottom:10px; margin-top:auto">
                             <label for="wgtForEdit" style="width:100%"><span id="wgtDateForEdit">某一天</span> 的體重</label>
                             <input type="text" id="wgtForEdit" placeholder="當時多重呢" style="display:inline-block; width:80%">
@@ -267,6 +276,24 @@
                 table.draw();
             });
 
+            //========================================================
+            //Initiate MonthPicker
+            $("#chartStart").monthpicker({
+                pattern: 'mm月yyyy年',
+                startYear: 2018,
+                finalYear: 2025
+            });
+
+            $("#chartEnd").monthpicker({
+                pattern: 'mm月yyyy年',
+                startYear: 2018,
+                finalYear: 2025
+            });
+
+            $("#chartStart").val(`01月${today.getFullYear()}年`);
+
+            $("#chartEnd").val(moment(today).format("MM月yyyy年"));
+
             //======================================================
             //Initiate Highchart
 
@@ -275,7 +302,7 @@
             let chart = Highcharts.chart('highChart', {
 
                 title: {
-                    text: '近1年的體重變化'
+                    text: $("#chartStart").val() + " 至 " + $("#chartEnd").val() + " 期間的體重變化"
                 },
 
                 subtitle: {
@@ -395,6 +422,14 @@
             //Add New WeightLog
 
             $("#btnNew").click(function () {
+
+                let patt = /^[0-9]+[.]?[0-9]*$/
+
+                if (!patt.test($("#wgtForNew").val())) {
+                    alert("請輸入有效體重");
+                    return;
+                }
+
                 $.ajax({
                     url: "AddWeightLog",
                     type: "post",
@@ -415,7 +450,12 @@
 
             $("#btnEdit").click(function () {
 
-                //alert(moment(rowData.UpdatedDate).format("YYYY-MM-DD HH:mm"));
+                let patt = /^[0-9]+[.]?[0-9]*$/
+
+                if (!patt.test($("#wgtForEdit").val())) {
+                    alert("請輸入有效體重");
+                    return;
+                }
 
                 $.ajax({
                     url: "EditWeightLog",
@@ -433,23 +473,7 @@
                 });
             });
 
-            //========================================================
-            //Initiate MonthPicker
-            $("#chartStart").monthpicker({
-                pattern: 'mm月yyyy年',
-                startYear: 2018,
-                finalYear: 2025
-            });
-
-            $("#chartEnd").monthpicker({
-                pattern: 'mm月yyyy年',
-                startYear: 2018,
-                finalYear: 2025
-            });
-
-            $("#chartStart").val(`01月${today.getFullYear()}年`);
-
-            $("#chartEnd").val(moment(today).format("MM月yyyy年"));
+            
             //========================================================
             //Session Test
 

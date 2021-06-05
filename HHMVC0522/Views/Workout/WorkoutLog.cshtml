@@ -113,6 +113,13 @@
         #consumeForNew, #consumeForEdit {
             height: 2em;
         }
+
+        #newTitle, #editTitle {
+            font-size: 2em;
+            font-weight: 600;
+            color: #f56a6a;
+            text-align: center;
+        }
     </style>
 }
 
@@ -139,6 +146,7 @@
             <div id="mainRow" class="row">
                 <div class="mainTitle col-12">運動紀錄</div>
                 <div class="myBox operate col-6 col-6-medium col-12-small" style="display:flex; flex-direction:column">
+                    <div id="newTitle">新增 / 預定 運動紀錄</div>
                     <div class="form-group" style="margin-bottom:2px; width:100%; display:block">
                         <label for="wNameForNew">運動項目</label>
                         @Html.DropDownList("wNameForNew", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
@@ -159,6 +167,7 @@
                         <div id="new" class="button primary fit" style="margin-top:auto">新增</div>
                     </div>
                 <div class="myBox operate col-6 col-6-medium col-12-small" style="display:flex; flex-direction:column">
+                    <div id="editTitle">修改 / 刪除 運動紀錄</div>
                     <div class="form-group" style="margin-bottom:2px; width:100%; display:block">
                         <label for="wNameForEdit">運動項目</label>
                         @Html.DropDownList("wNameForEdit", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
@@ -377,7 +386,8 @@
 
             $("#wTimeForNew").datetimepicker({
                 minDate: today,
-                maxDate: d8
+                maxDate: d8,
+                showButtonPanel: false
             });
 
             $("#wTimeForNew").change(function () {
@@ -408,7 +418,8 @@
 
             $("#wTimeForEdit").datetimepicker({
                 minDate: d7b,
-                maxDate: d8
+                maxDate: d8,
+                showButtonPanel: false
             });
 
             $("#wTimeForEdit").change(function () {
@@ -453,6 +464,18 @@
             //Add New WorkoutLog
 
             $("#new").click(function () {
+
+                if (!Date.parse($("#wTimeForNew").datetimepicker().val())) {
+                    alert("請輸入有效日期");
+                    return;
+                }
+
+                let patt = /^[0-9]+[.]?[0-9]*$/
+
+                if (!patt.test($("#wHoursForNew").val())) {
+                    alert("請輸入有效時間長度");
+                    return;
+                }
 
                 let wTime = new Date($("#wTimeForNew").datetimepicker().val());
                 let status = $(this).attr("data-status");
@@ -532,6 +555,18 @@
             $("#Edit").click(function () {
 
                 if ($(this).attr("disabled")) {
+                    return;
+                }
+
+                if (!Date.parse($("#wTimeForEdit").datetimepicker().val())) {
+                    alert("請輸入有效日期");
+                    return;
+                }
+
+                let patt = /^[0-9]+[.]?[0-9]*$/
+
+                if (!patt.test($("#wHoursForEdit").val())) {
+                    alert("請輸入有效時間長度");
                     return;
                 }
 

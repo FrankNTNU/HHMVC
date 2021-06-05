@@ -162,26 +162,41 @@ namespace UI.Controllers
             decimal todayIngest = TodayIngest();
             decimal todayConsume = TodayConsume();
 
-            if (TDEE >= todayIngest && TDEE >= TodayConsume())
+            TodayCaloriesToPercent(ref TDEE, ref todayIngest, ref todayConsume);
+
+            ViewBag.TDEE = TDEE;
+            ViewBag.Ingest = todayIngest;
+            ViewBag.Consume = todayConsume;
+
+            return View();
+        }
+
+        [NonAction]
+        private void TodayCaloriesToPercent(ref decimal TDEE, ref decimal todayIngest, ref decimal todayConsume)
+        {
+            decimal tempTDEE = TDEE;
+            decimal tempIngest = todayIngest;
+            decimal tempConsume = todayConsume;
+
+
+            if (tempTDEE >= tempIngest && tempTDEE >= tempConsume)
             {
-                ViewBag.TDEE = 100;
-                ViewBag.Ingest = Math.Round(todayIngest / TDEE * 100, 1);
-                ViewBag.Consume = Math.Round(todayConsume / TDEE * 100, 1);
+                TDEE = 100;
+                todayIngest = Math.Round(tempIngest / tempTDEE * 100, 1);
+                todayConsume = Math.Round(tempConsume / tempTDEE * 100, 1);
             }
-            else if (todayIngest >= TDEE && todayIngest >= todayConsume)
+            else if (tempIngest >= tempTDEE && tempIngest >= tempConsume)
             {
-                ViewBag.Ingest = 100;
-                ViewBag.Consume = Math.Round(todayConsume / todayIngest * 100, 1);
-                ViewBag.TDEE = Math.Round(TDEE / todayIngest * 100, 1);
+                todayIngest = 100;
+                todayConsume = Math.Round(tempConsume / tempIngest * 100, 1);
+                TDEE = Math.Round(tempTDEE / tempIngest * 100, 1);
             }
             else
             {
-                ViewBag.Consume = 100;
-                ViewBag.TDEE = Math.Round(TDEE / todayConsume * 100, 1);
-                ViewBag.Ingest = Math.Round(todayIngest / todayConsume * 100, 1);
+                todayConsume = 100;
+                TDEE = Math.Round(tempTDEE / tempConsume * 100, 1);
+                todayIngest = Math.Round(tempIngest / tempConsume * 100, 1);
             }
-
-            return View();
         }
 
         [HttpPost]
@@ -223,13 +238,22 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            int TDEE = 2000;
+            decimal TDEEPercent = 2000;
+            decimal IngestPercent = TodayIngest();
+            decimal ConsumePercent = TodayConsume();
+            decimal todayConsume = ConsumePercent;
 
-            decimal todayConsume = TodayConsume();
+            TodayCaloriesToPercent(ref TDEEPercent, ref IngestPercent, ref ConsumePercent);
 
-            decimal ConsumePercent = Math.Round(todayConsume / TDEE * 100, 1);
-
-            return Json(new { Result = "success", Error = "none", ConsumePercent = ConsumePercent });
+            return Json(new 
+            { 
+                Result = "success", 
+                Error = "none", 
+                TDEEPercent = TDEEPercent,
+                IngestPercent = IngestPercent,
+                ConsumePercent = ConsumePercent,
+                TodayConsume = todayConsume
+            });
 
         }
 
@@ -267,7 +291,7 @@ namespace UI.Controllers
         }
 
 
-        //todo 消耗熱量需乘上會員體重
+        //todo
         [NonAction]
         private decimal TodayConsume()
         {
@@ -276,14 +300,21 @@ namespace UI.Controllers
 
             decimal weight = GetCurrentWeight(tomorrow);
 
-            var q2 = dbContext.WorkoutLogs.Where(wl => wl.MemberID == 83
+            var q1 = dbContext.WorkoutLogs.Where(wl => wl.MemberID == 83
                     && DbFunctions.TruncateTime(wl.WorkoutTime) == today
-                    && wl.StatusID == 5)
-                .Sum(wl => wl.Workout.Calories * wl.WorkoutHours * (double)weight);
+                    && wl.StatusID == 5);
 
-            return (decimal)q2;
+            if (q1.ToList().Count == 0)
+            {
+                return 0m;
+            }
+
+            double consume = q1.Sum(wl => wl.Workout.Calories * wl.WorkoutHours * (double)weight);
+
+            return (decimal)consume;
         }
 
+        //todo
         [NonAction]
         private decimal GetCurrentWeight(DateTime tomorrow)
         {
@@ -305,10 +336,16 @@ namespace UI.Controllers
             string strToday = today.ToString("MMddyyyy");
 
             var q1 = dbContext.DietLogs.Where(dt => dt.MemberID == 83
-                && dt.Date == strToday)
-                .Sum(dt => dt.Portion * dt.MealOption.Calories);
+                && dt.Date == strToday);
 
-            return (decimal)q1;
+            if (q1.ToList().Count == 0)
+            {
+                return 0m;
+            }
+
+            double ingest = q1.Sum(dt => dt.Portion * dt.MealOption.Calories);
+
+            return (decimal)ingest;
         }
     }
 }
