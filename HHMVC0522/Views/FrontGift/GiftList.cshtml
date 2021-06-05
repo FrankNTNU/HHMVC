@@ -71,14 +71,14 @@
         $(document).ready(function () {
             $('#searchText').keyup(function () {
                 const text = $(this).val();
-                $('#cartList').html('');
+                $('#cartList').html(''); // 清空內容
                 $('#searchFilter').val("-1");
-                $.ajax({
+                $.ajax({ // 呼叫非同步
                     type: "post",
-                    url: "GetGifts?text=" + text,
+                    url: "GetGifts?text=" + text, // 動作名稱 + 參數
                     contentType: "html",
-                    success: function (result) {
-                        $.each(result, function (index, value) {
+                    success: function (result) { // 做什麼事情
+                        $.each(result, function (index, value) { // 跑回圈
                             var insertedHtml =
                                 '<div class="col-6 col-sm-4 col-md-4 col-lg-3" style="text-align:center">' +
                                     '<a href="GiftDetail/' + value.ID + '" class="image">' +
