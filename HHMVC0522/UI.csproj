@@ -783,6 +783,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Weight\WeightLog.cshtml" />
     <Content Include="Views\Workout\WorkoutSchedule.cshtml" />
+    <Content Include="Views\Workout\WorkoutPreferences.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

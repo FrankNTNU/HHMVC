@@ -1,0 +1,325 @@
+﻿
+@{
+    ViewBag.Title = "WorkoutPreferences";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+    <style>
+        .mainTitle {
+            font-size: 3em;
+            font-weight: 600;
+            font-style: italic;
+            color: #f56a6a;
+            padding: 0;
+        }
+
+        .myBox {
+            border: solid 2px gray;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        #mainDiv {
+            width: 100%;
+            margin: auto;
+            margin-top: 20px;
+            position: relative;
+            /*width: 500px;*/
+            /*top: 80px;*/
+        }
+
+        #mainRow {
+            position: relative;
+            left: 20px;
+            width: 100%;
+        }
+
+        .innerRow {
+            position: relative;
+            left: 10px;
+            padding: 10px;
+        }
+
+        .title {
+            font-size: 2em;
+            font-weight: 600;
+            color: #f56a6a;
+            text-align: center;
+            border-bottom: solid 2px gray;
+        }
+
+        .item {
+            font-size: 1.1em;
+            line-height: 1.2em;
+            width: max-content;
+            height: min-content;
+            margin: 3px;
+            float: left;
+            padding: 5px;
+            /*transition: all 500ms ease-in;*/
+        }
+
+        .drag {
+            /*width: max-content;
+            height: min-content;*/
+            z-index: 100;
+        }
+
+        #submit {
+            font-size: 1.3em;
+            line-height: 1.5em;
+            width: max-content;
+            height: min-content;
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            padding:15px 10px;
+        }
+    </style>
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "wpForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+<div id="main">
+    <div class="inner">
+        <header id="header">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" width="50"></a>
+            <a href="index.html" class="logo"><strong>Editorial</strong> by HTML5 UP</a>
+
+            <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
+            </ul>
+        </header>
+        <div id="mainDiv">
+            <div id="mainRow" class="row">
+                <div class="mainTitle col-12">運動喜好</div>
+                <div class="row col-12" id="wcBox" style="padding:0; position:relative; left:20px;">
+                    <div class="myBox col-5 col-12-medium" style="min-height:250px" id="wcSource">
+                        <div class="title">運動類型</div>
+                    </div>
+                    <div class="myBox col-2 col-12-medium" style="display:flex; align-items:center; justify-content:center">
+                        <i class="fa fa-arrow-left" style="font-size:50px;color:gray"></i>
+                        <i class="fa fa-arrow-right" style="font-size:50px;color:gray"></i>
+                    </div>
+                    <div class="myBox col-5 col-12-medium" style="min-height:250px; position:relative" id="wcTarget">
+                        <div class="title">喜好的運動類型</div>
+                        <div id="submit" class="button primary">確認</div>
+                    </div>
+                </div>
+                <hr class="col-12 my-12" />
+                <div class="myBox col-5 col-12-medium" style="min-height:250px" id="wSource">
+                    <div class="title">運動項目</div>
+                </div>
+                <div class="myBox col-2 col-12-medium" style="display:flex; align-items:center; justify-content:center">
+                    <i class="fa fa-arrow-left" style="font-size:50px;color:gray"></i>
+                    <i class="fa fa-arrow-right" style="font-size:50px;color:gray"></i>
+                </div>
+                <div class="myBox col-5 col-12-medium" style="min-height:250px" id="wTarget">
+                    <div class="title">喜好的運動項目</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script>
+
+        let wcArray = @Html.Raw((string)ViewData["JsonWc"]);
+        let wpArray = @Html.Raw((string)ViewData["JsonWp"]);
+        let wArray = @Html.Raw((string)ViewData["JsonW"]);
+
+        console.log(wcArray);
+        console.log(wpArray);
+        console.log(wArray);
+
+        $(function () {
+
+            //================================================================
+            //Change FontAwesome When window width less than 738
+
+            $(window).resize(function () {
+
+                if ($(window).width() <= 738) {
+                    $("i.fa-arrow-left").removeClass("fa-arrow-left").addClass("fa-arrow-up");
+                    $("i.fa-arrow-right").removeClass("fa-arrow-right").addClass("fa-arrow-down");
+                } else {
+                    $("i.fa-arrow-up").removeClass("fa-arrow-up").addClass("fa-arrow-left");
+                    $("i.fa-arrow-down").removeClass("fa-arrow-down").addClass("fa-arrow-right");
+                }
+            });
+
+            //==================================================================
+            //Load WorkoutCategories and Workout button into div
+
+            for (var i = 0; i < wcArray.length; i++) {
+                let wcDiv = document.createElement("div");
+                wcDiv.innerHTML = wcArray[i].Name;
+                $(wcDiv).attr("data-wc", wcArray[i].ID);
+                $(wcDiv).addClass("item").addClass("drag")
+                    .addClass("button").addClass("primary");
+
+                if ($.inArray(wcArray[i].ID, wpArray) != -1) {
+                    $(wcDiv).appendTo("#wcTarget");
+                } else {
+                    $(wcDiv).appendTo("#wcSource");
+                }
+            }
+
+            for (var i = 0; i < wArray.length; i++) {
+                let wDiv = document.createElement("div");
+                wDiv.innerHTML = wArray[i].Name;
+                $(wDiv).attr("data-wcid", wArray[i].wcid);
+                $(wDiv).addClass("item")
+                    .addClass("button").addClass("primary");
+
+                if ($.inArray(wArray[i].wcid, wpArray) != -1) {
+                    $(wDiv).appendTo("#wTarget");
+                } else {
+                    $(wDiv).appendTo("#wSource");
+                }
+            }
+
+            //============================================================
+            //When mouseover WorkoutCategories button, change Workout button style
+
+            $("#wcSource").on("mouseenter", "div[data-wc]", function () {
+                let wc = $(this).data("wc");
+                $("#wSource > div[data-wcid=" + wc + "]").removeClass("primary");
+            });
+
+            $("#wcSource").on("mouseleave", "div[data-wc]", function () {
+                let wc = $(this).data("wc");
+                $("#wSource > div[data-wcid=" + wc + "]").addClass("primary");
+            });
+
+            $("#wcTarget").on("mouseenter", "div[data-wc]", function () {
+                let wc = $(this).data("wc");
+                $("#wTarget > div[data-wcid=" + wc + "]").removeClass("primary");
+            });
+
+            $("#wcTarget").on("mouseleave", "div[data-wc]", function () {
+                let wc = $(this).data("wc");
+                $("#wTarget > div[data-wcid=" + wc + "]").addClass("primary");
+            });
+
+            //=====================================================================
+            //Set Drag and Drop
+
+            $(".drag").draggable({
+                containment: "#wcBox",
+                helper: "clone",
+                opacity: 0.5
+            });
+
+            $("#wcTarget").droppable({
+                accept: ".item.drag",
+                drop: function (ev, ui) {
+
+                    if ($(this).has(ui.draggable).length > 0) {
+                        let wc = ui.draggable.data("wc");
+                        $("#wTarget > div[data-wcid=" + wc + "]").addClass("primary");
+                        return;
+                    }
+
+                    ui.draggable.clone().fadeOut("fast", function () {
+                        $(this).fadeIn("fast");
+                    }).appendTo($(this)).draggable({
+                        containment: "#wcBox",
+                        helper: "clone",
+                        opacity: 0.5
+                    });
+
+                    ui.draggable.fadeOut("slow", function () {
+                        $(this).remove();
+                    });
+
+                    let wc = ui.draggable.data("wc");
+
+                    $("#wSource > div[data-wcid=" + wc + "]").clone().fadeOut("fast", function () {
+                        $(this).fadeIn("fast");
+                        $(this).addClass("primary");
+                    }).appendTo("#wTarget");
+
+                    $("#wSource > div[data-wcid=" + wc + "]").fadeOut("slow", function () {
+                        $(this).remove();
+                    });
+                }
+            });
+
+            $("#wcSource").droppable({
+                accept: ".item.drag",
+                drop: function (ev, ui) {
+
+                    if ($(this).has(ui.draggable).length > 0) {
+                        let wc = ui.draggable.data("wc");
+                        $("#wSource > div[data-wcid=" + wc + "]").addClass("primary");
+                        return;
+                    }
+
+                    ui.draggable.clone().fadeOut("fast", function () {
+                        $(this).fadeIn("fast");
+                    }).appendTo($(this)).draggable({
+                        containment: "#wcBox",
+                        helper: "clone",
+                        opacity: 0.5
+                    });
+
+                    ui.draggable.fadeOut("slow", function () {
+                        $(this).remove();
+                    });
+
+                    let wc = ui.draggable.data("wc");
+
+                    $("#wTarget > div[data-wcid=" + wc + "]").clone().fadeOut("fast", function () {
+                        $(this).fadeIn("fast");
+                        $(this).addClass("primary");
+                    }).appendTo("#wSource");
+
+                    $("#wTarget > div[data-wcid=" + wc + "]").fadeOut("slow", function () {
+                        $(this).remove();
+                    });
+                }
+            });
+
+            //============================================================
+            //Submit WorkoutPreferences
+
+            $("#submit").click(function () {
+                var form = $('#wpForm');
+                var token = $('input[name="__RequestVerificationToken"]', form).val();
+                let wps = [];
+                $("#wcTarget").children(".item").each(function () {
+                    wps.push($(this).attr("data-wc"));
+                });
+
+                $.ajax({
+                    url: "EditWp",
+                    type: 'POST',
+                    data: {
+                        __RequestVerificationToken: token,
+                        "wps": wps
+                    },
+                    success: function (result) {
+                        alert(result);
+                    }
+                });
+            });
+        });
+
+    </script>
+}
+

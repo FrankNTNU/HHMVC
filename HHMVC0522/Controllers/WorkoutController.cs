@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 
 namespace UI.Controllers
 {
@@ -346,6 +347,74 @@ namespace UI.Controllers
             double ingest = q1.Sum(dt => dt.Portion * dt.MealOption.Calories);
 
             return (decimal)ingest;
+        }
+
+        //====================================================================
+        //WorkoutPreferences Page
+
+        public ActionResult WorkoutPreferences()
+        {
+
+            string JsonWc = JsonConvert.SerializeObject(dbContext.WorkoutCategories.Select(wc => new
+            {
+                wc.ID,
+                wc.Name
+            }).ToList());
+
+            ViewData["JsonWc"] = JsonWc;
+
+            string JsonWp = JsonConvert.SerializeObject(dbContext.WorkoutPreferences
+                .Where(wp => wp.MemberID == 83).Select(wp => wp.WorkoutCategoryID).ToList());
+
+            ViewData["JsonWp"] = JsonWp;
+
+            string JsonW = JsonConvert.SerializeObject(dbContext.Workouts.Select(w => new
+                {
+                    wcid = w.WorkoutCategoryID,
+                    Name = w.Name
+                }).ToList());
+
+            ViewData["JsonW"] = JsonW;
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public string EditWp(int[] wps)
+        {
+            List<WorkoutPreference> wpList = dbContext.WorkoutPreferences.Where(wp => wp.MemberID == 83).ToList();
+
+            for (int i = 0; i < wps.Length; i++)
+            {
+                if (wpList.SingleOrDefault(wp => wp.WorkoutCategoryID == wps[i]) == null)
+                {
+                    dbContext.WorkoutPreferences.Add(new WorkoutPreference
+                    {
+                        MemberID = 83,
+                        WorkoutCategoryID = wps[i],
+                    });
+                }
+            }
+
+            foreach (var wp in wpList)
+            {
+                if (!wps.Contains(wp.WorkoutCategoryID))
+                {
+                    dbContext.WorkoutPreferences.Remove(wp);
+                }
+            }
+
+            try
+            {
+                dbContext.SaveChanges();
+            }
+            catch
+            {
+                return "failed";
+            }
+
+            return "success";
         }
     }
 }
