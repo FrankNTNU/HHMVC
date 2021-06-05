@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewBag.Title = "GiftList";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+@model List<DTO.GiftDTO>
+<div id="main">
+    <div class="inner">
+        <!-- Section -->
+        <section>
+            <header class="row">
+                <div class="row col-12">
+                    <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
+                        <h3 style="margin-bottom: 10px;">
+                            <i class="fas fa-gift" style="width:30px"></i> 禮物商店
+                        </h3>
+                    </div>
+                    <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
+                        @if (DTO.UserStatic.UserID != 0)
+                        {<a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID"><label class="button primary">檢視禮物車</label></a>
+                        }
+                        else
+                        {
+                            <a href="~/Home2/Login"><label class="button primary">登入</label></a>
+
+                            }
+                        </div>
+                </div>
+                @if (DTO.UserStatic.UserID != 0) { 
+            <div class="col-12">
+                <strong>@DTO.UserStatic.NameSurname</strong> 目前擁有 <strong>@DTO.UserStatic.Points </strong>點
+            </div>
+                }
+                
+            </header>
+            <header class="major"><p class="col-12" style="margin-bottom:5px"></p></header>
+            <div class="row" style="margin-bottom:5px">
+                <div class="col-12 col-md-6">
+                    <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
+                </div>
+                <div class="col-12 col-md-6">
+                    <select id="searchFilter" class="form-control">
+                        <option selected disabled value="-1">排序條件</option>
+                        <option value=0>點數: 低 => 高</option>
+                        <option value=1>點數: 高 => 低</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" id="cartList">
+                @foreach (var item in Model)
+                {
+                    <div class="col-6 col-sm-4 col-md-4 col-lg-3" style="text-align:center">
+                        <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
+                            <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%" />
+                        </a>
+                            <div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">
+                                <label style="font-weight: bolder;font-size:1em;display: inline-block;">
+                                    @item.Points 點
+                                </label>
+                             </div>
+                        <strong style="text-align: center">@item.Name</strong>
+                        <p>剩餘 @item.Quantity 件</p>
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#searchText').keyup(function () {
+                const text = $(this).val();
+                $('#cartList').html('');
+                $('#searchFilter').val("-1");
+                $.ajax({
+                    type: "post",
+                    url: "GetGifts?text=" + text,
+                    contentType: "html",
+                    success: function (result) {
+                        $.each(result, function (index, value) {
+                            var insertedHtml =
+                                '<div class="col-6 col-sm-4 col-md-4 col-lg-3" style="text-align:center">' +
+                                    '<a href="GiftDetail/' + value.ID + '" class="image">' +
+                                    '<img src="/Areas/Admin/Content/GiftImages/' + value.Image + '" alt="" style="max-width:100%;max-height:100%"/>' +
+                                    '</a>' +
+                                '<div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">' +
+                                    '<label style="font-weight: bolder;font-size:1em;display: inline-block;">' +
+                                    value.Points +
+                                    '點</label>' +
+                                '</div>' +
+                                '<strong style="text-align: center">' + value.Name + '</strong>' +
+                                '<p>剩餘' +  value.Quantity + ' 件</p>' +
+                                '</div>';
+                            $('#cartList').append(insertedHtml);
+                        })
+                    }
+                })
+                
+            })
+            $('#searchFilter').change(function () {
+                const isAscending = $(this).val();
+                $('#searchText').val("");
+                $('#cartList').html('');
+                $.ajax({
+                    type: "post",
+                    url: "GetOrderedGifts?isAscending=" + isAscending,
+                    contentType: "html",
+                    success: function (result) {
+                        $.each(result, function (index, value) {
+                            var insertedHtml =
+                                '<div class="col-6 col-sm-4 col-md-4 col-lg-3" style="text-align:center">' +
+                                '<a href="GiftDetail/' + value.ID + '" class="image">' +
+                                '<img src="/Areas/Admin/Content/GiftImages/' + value.Image + '" alt="" style="max-width:100%;max-height:100%"/>' +
+                                '</a>' +
+                                '<div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">' +
+                                '<label style="font-weight: bolder;font-size:1em;display: inline-block;">' +
+                                value.Points +
+                                '點</label>' +
+                                '</div>' +
+                                '<strong style="text-align: center">' + value.Name + '</strong>' +
+                                '<p>剩餘' + value.Quantity + ' 件</p>' +
+                                '</div>';
+                            $('#cartList').append(insertedHtml);
+                        })
+                    }
+                })
+            })
+        })
+    </script>
+    }

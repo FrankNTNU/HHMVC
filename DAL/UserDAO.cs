@@ -23,6 +23,7 @@ namespace DAL
                 dto.ImagePath = user.Image;
                 dto.IsAdmin = user.IsAdmin;
                 dto.StatusID = user.StatusID;
+                dto.Points = user.Points;
             }
             return dto;
         }
@@ -140,5 +141,26 @@ namespace DAL
                 throw;
             }
         }
+
+        public void DeductPoints(int userID, int points)
+        {
+            using(HealthHelperEntities db = new HealthHelperEntities())
+            {
+                Member member = db.Members.FirstOrDefault(x => x.ID == userID);
+                member.Points -= points;
+                db.SaveChanges();
+            }
+        }
+        public int GetPoints(int userID)
+        {
+            int points = 0;
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                Member member= db.Members.FirstOrDefault(x => x.ID == userID);
+                points = member.Points;
+            }
+            return points;
+        }
+       
     }
 }

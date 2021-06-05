@@ -243,6 +243,7 @@ namespace DAL
                 dto.CommentContent = item.CommentContent;
                 dto.MemberImage = item.Member.Image;
                 dto.IsApproved = item.IsApproved;
+                dto.Name = item.Name;
                 commentDTOList.Add(dto);
             }
             return commentDTOList;

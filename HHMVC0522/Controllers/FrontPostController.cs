@@ -18,10 +18,49 @@ namespace UI.Controllers
         {
             return View();
         }
+        LayoutBLL layoutBLL;
+        public ActionResult PostDetail(int ID)
+        {
+            layoutBLL = new LayoutBLL();
+            LayoutDTO layoutDTO = new LayoutDTO();
+            postID = ID;
+            layoutDTO = layoutBLL.GetPostDetailPageItemWithID(ID);
+            return View(layoutDTO);
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+
+        public ActionResult PostDetail(LayoutDTO model)
+        {
+            layoutBLL = new LayoutBLL();
+            if (model.Comment.Name != null && model.Comment.Title != null && model.Comment.CommentContent != null)
+            {
+                if (postBLL.AddComment(model))
+                {
+                    ViewData["CommentState"] = "Success";
+                    ModelState.Clear();
+                }
+                else
+                {
+                    ViewData["CommentState"] = "Error";
+                    ViewBag.ProcessState = General.Messages.GeneralError;
+
+                }
+            }
+            else
+            {
+                ViewData["CommentState"] = "Error";
+                ViewBag.ProcessState = General.Messages.EmptyArea;
+
+            }
+            LayoutDTO layoutDTO = new LayoutDTO();
+            layoutDTO = layoutBLL.GetPostDetailPageItemWithID(model.PostDetail.ID);
+            return View(layoutDTO);
+        }
         public ActionResult UserPostList()
         {
             postListResult = postBLL.GetUserPosts(UserStatic.UserID);
-            return View("ShowPosts");
+            return RedirectToAction("ShowPosts");
         }
         PostBLL postBLL = new PostBLL();
         public ActionResult AddPost()
@@ -133,7 +172,7 @@ namespace UI.Controllers
                 if (postBLL.UpdatePost(model))
                 {
                     ViewBag.ProcessState = General.Messages.UpdateSuccess;
-                    return RedirectToAction("PostDetail/" + model.ID, "Home2");
+                    return RedirectToAction("PostDetail/" + model.ID, "FrontPost");
 
                 }
                 else
@@ -224,6 +263,44 @@ namespace UI.Controllers
         {
             if (postBLL.HasLiked(UserStatic.UserID, postID)) return "true";
             else return "false";
+        }
+        CommentBLL commentBLL = new CommentBLL();
+        static int postID;
+        public ActionResult UpdateComment(int commentID)
+        {
+            CommentDTO model = new CommentDTO();
+            model = commentBLL.GetComment(commentID);
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+
+        public ActionResult UpdateComment(CommentDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (commentBLL.UpdateComment(model))
+                {
+                    ViewData["CommentState"] = "Success";
+                    ViewBag.ProcessState = General.Messages.AddSuccess;
+                    ModelState.Clear();
+                    return RedirectToAction("PostDetail/" + postID, "FrontPost");
+
+                }
+                else
+                {
+                    ViewData["CommentState"] = "Error";
+                    ViewBag.ProcessState = General.Messages.GeneralError;
+                    return View(model);
+                }
+            }
+            else
+            {
+                ViewData["CommentState"] = "Error";
+                ViewBag.ProcessState = General.Messages.EmptyArea;
+                return View(model);
+            }
+            
         }
     }
 }

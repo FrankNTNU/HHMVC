@@ -59,5 +59,9 @@ namespace BLL
             string oldImagePath = UserDAO.UpdateUser(model);
             return oldImagePath;
         }
+        public int GetPoints(int userID)
+        {
+            return userDAO.GetPoints(userID);
+        }
     }
 }

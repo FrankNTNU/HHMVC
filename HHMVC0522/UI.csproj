@@ -512,6 +512,7 @@
     <Content Include="Areas\Admin\Content\JS\DeleteRecord.js" />
     <Content Include="Areas\Admin\Content\JS\demo.js" />
     <Content Include="Areas\Admin\Content\JS\jquery.dataTables.min.js" />
+    <Content Include="Areas\Admin\Content\JS\jquery.inputmask.min.js" />
     <Content Include="Areas\Admin\Content\JS\jquery.min.js" />
     <Content Include="Areas\Admin\Content\JS\jszip.min.js" />
     <Content Include="Areas\Admin\Content\JS\moment.min.js" />
@@ -612,6 +613,12 @@
     <Content Include="Content\img\small-avatar.png" />
     <Content Include="Content\img\ui.totop.png" />
     <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Areas\Admin\Views\Gift\GiftList.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\AddGift.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\Partial\GiftForm.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\UpdateGift.cshtml" />
+    <Content Include="Areas\Admin\Content\webfonts\fre3of9x.ttf" />
+    <Content Include="Areas\Admin\Views\Gift\GiftCarts.cshtml" />
     <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
@@ -664,10 +671,12 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GiftController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
+    <Compile Include="Controllers\FrontGiftController.cs" />
     <Compile Include="Controllers\FrontPostController.cs" />
     <Compile Include="Controllers\Home2Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -787,14 +796,15 @@
     <Content Include="Views\Shared\HomeLayout2.cshtml" />
     <Content Include="Views\Home2\Index.cshtml" />
     <Content Include="Views\Home2\Login.cshtml" />
-    <Content Include="Views\Home2\PostDetail.cshtml" />
     <Content Include="Views\Workout\WorkoutLog.cshtml" />
     <Content Include="Views\FrontPost\AddPost.cshtml" />
-    <Content Include="Views\FrontPost\UserPostList.cshtml" />
-    <Content Include="Views\FrontPost\NewsList.cshtml" />
-    <Content Include="Views\FrontPost\AllPosts.cshtml" />
     <Content Include="Views\FrontPost\UpdatePost.cshtml" />
     <Content Include="Views\FrontPost\ShowPosts.cshtml" />
+    <Content Include="Views\FrontGift\GiftList.cshtml" />
+    <Content Include="Views\FrontGift\GiftDetail.cshtml" />
+    <Content Include="Views\FrontPost\PostDetail.cshtml" />
+    <Content Include="Views\FrontPost\UpdateComment.cshtml" />
+    <Content Include="Views\FrontGift\GiftCart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -804,6 +814,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Content\CartImages\" />
+    <Folder Include="Areas\Admin\Content\GiftImages\" />
     <Folder Include="Areas\Admin\Content\PostImages\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />

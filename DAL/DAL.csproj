@@ -83,6 +83,14 @@
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DietLogDAO.cs" />
+    <Compile Include="Gift.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GiftCart.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GiftCartDAO.cs" />
+    <Compile Include="GiftDAO.cs" />
     <Compile Include="HHContext.cs" />
     <Compile Include="HHModel.Context.cs">
       <AutoGen>True</AutoGen>

@@ -17,6 +17,7 @@
     <link href="~/Content/toastr/toastr.min.css" rel="stylesheet" />
     <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    @RenderSection("Styles", required: false)
     <style>
         a.toggle {
             color: red;
@@ -43,7 +44,6 @@
     <!-- Wrapper -->
     <!-- Main -->
     @RenderBody()
-    @RenderSection("Styles", required: false)
     <div id="wrapper">
         <!-- Sidebar -->
         <div id="sidebar">
@@ -56,30 +56,40 @@
                         <h2>選單</h2>
                     </header>
                     <ul style="font-size:1.5em">
-                        <li><a href="/Home2/Index">首頁</a></li>
+                        <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-home" style="width:30px"></i> 首頁</a></li>
                         @if (DTO.UserStatic.UserID == 0)
                         {
-            <li><a href="/Home2/Login">登入</a></li>
+            <li><a href="~/Home2/Login" style="text-decoration:none"> <i class="fas fa-user" style="width:30px"></i> 登入</a></li>
  }
         else
         {
-<li><a href="elements.html">會員資訊</a></li>
-                <li><a href="/Home2/Logout">登出</a></li>
+<li><a href="elements.html" style="text-decoration:none"><i class="fas fa-user" style="width:30px"></i> 會員資訊</a></li>
+                <li><a href="~/Home2/Logout" style="text-decoration:none"><i class="fas fa-sign-out-alt" style="width:30px"></i> 登出</a></li>
 }
-                        <li><a href="/Admin/Login/Index">後台</a></li>
+                        <li><a href="~/Admin/Login/Index" style="text-decoration:none"><i class="fas fa-user-cog" style="width:30px"></i> 後台</a></li>
 
                         <li>
-                            <span class="opener">貼文</span>
+                            <span class="opener"><i class="fas fa-file" style="width:30px"></i> 貼文</span>
                             <ul>
-                                <li><a href="/FrontPost/AllPosts">所有貼文</a></li>
+                                <li><a href="~/FrontPost/AllPosts" style="text-decoration:none"><i class="far fa-file" style="width:40px"></i> 所有貼文</a></li>
                                 @if (DTO.UserStatic.UserID != 0)
                                 {
-                    <li><a href="/FrontPost/AddPost">發布貼文</a></li>
-                                    <li><a href="/FrontPost/UserPostList">你的貼文</a></li>
+                    <li><a href="~/FrontPost/AddPost" style="text-decoration:none"><i class="fas fa-pen-alt" style="width:40px"></i> 發布貼文</a></li>
+                                    <li><a href="~/FrontPost/UserPostList" style="text-decoration:none"><i class="fas fa-user-edit" style="width:40px"></i> 你的貼文</a></li>
 }
                             </ul>
                         </li>
-                        <li><a href="#">Etiam Dolore</a></li>
+                        <li><span class="opener"><i class="fas fa-gifts" style="width:30px"></i> 禮物</span>
+                            <ul>
+                                <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 禮物店</a></li>
+                                @if (DTO.UserStatic.UserID != 0)
+                                {
+                                    <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 已兌換禮物</a></li>
+                                }
+
+                            </ul>
+                        
+                        </li>
                         <li><a href="#">Adipiscing</a></li>
                         <li>
                             <span class="opener">Another Submenu</span>

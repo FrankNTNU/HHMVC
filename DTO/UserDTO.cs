@@ -45,7 +45,8 @@ namespace DTO
         public int ActivityLevelID { get; set; }
         public IEnumerable<SelectListItem> Statuses { get; set; }
         public IEnumerable<SelectListItem> ActivityLevels { get; set; }
-
+        public int Points { get; set; }
+        public List<GiftCartDTO> GiftCarts { get; set; }
 
     }
 }

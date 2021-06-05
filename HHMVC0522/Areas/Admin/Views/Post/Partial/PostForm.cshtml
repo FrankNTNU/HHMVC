@@ -48,10 +48,20 @@
 
         <label>圖片(建議長寬比16:9，單邊400px以上大圖)</label>
         <div class="input-group">
-            <div class="custom-file">
-                <input type="file" name="PostImage" id="gallery-photo-add" class="custom-file-input" accept="image/gif, image/jpeg, image/png, image/jpg" multiple />
-                <label class="custom-file-label" for="PostImage">選擇圖片</label>
+            <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" name="PostImage" class="custom-file-input" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])" />
+                    <label class="custom-file-label" for="PostImage">選擇圖片</label>
+                </div>
+                <br />
             </div>
+            <img src="" width="400" height="225" id="PostImage" />
+            @*<div class="custom-file">
+            <input type="file" name="PostImage" id="gallery-photo-add" class="custom-file-input" accept="image/gif, image/jpeg, image/png, image/jpg" multiple />
+            <label class="custom-file-label" for="PostImage" onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])">選擇圖片</label>
+            <img src="" width="200" height="200" id="PostImage" />
+        </div>*@
+
             <br />
         </div>
     </div>

@@ -98,11 +98,11 @@ namespace BLL
             return true;
         }
 
-        public bool UpdateComment(LayoutDTO model)
-        {
-            commentDAO.UpdateComment(model);
-            return true;
-        }
+        //public bool UpdateComment(LayoutDTO model)
+        //{
+        //    commentDAO.UpdateComment(model);
+        //    return true;
+        //}
 
         public string DeletePostImage(int ID)
         {

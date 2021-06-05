@@ -25,6 +25,7 @@ namespace DAL
             this.WorkoutLogs = new HashSet<WorkoutLog>();
             this.Comments = new HashSet<Comment>();
             this.LikedPosts = new HashSet<LikedPost>();
+            this.GiftCarts = new HashSet<GiftCart>();
         }
     
         public int ID { get; set; }
@@ -62,5 +63,7 @@ namespace DAL
         public virtual ICollection<Comment> Comments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LikedPost> LikedPosts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GiftCart> GiftCarts { get; set; }
     }
 }

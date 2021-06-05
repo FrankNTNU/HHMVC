@@ -119,6 +119,7 @@
         <div class="col-sm-6">
             <div class="form-group">
                 @Html.LabelFor(x => x.UserImage)
+                <label>(建議照片長寬比為1:1)</label>
                 <div class="input-group">
                     <div class="custom-file">
                         <input type="file" name="UserImage" class="custom-file-input" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#UserImage')[0].src = window.URL.createObjectURL(this.files[0])" />

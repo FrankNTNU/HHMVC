@@ -57,53 +57,5 @@ namespace UI.Controllers
             UserStatic.UserID = 0;
             return RedirectToAction("Index");
         }
-        public ActionResult PostDetail(int ID)
-        {
-            LayoutDTO layoutDTO = new LayoutDTO();
-            layoutDTO = layoutBLL.GetPostDetailPageItemWithID(ID);
-            return View(layoutDTO);
-        }
-        [HttpPost]
-        public ActionResult PostDetail(LayoutDTO model)
-        {
-            
-            if (model.Comment.Name != null && model.Comment.Title != null && model.Comment.CommentContent != null)
-            {
-                if (postBLL.AddComment(model))
-                {
-                    ViewData["CommentState"] = "Success";
-                    ModelState.Clear();
-                }
-                else
-                {
-                    ViewData["CommentState"] = "Error";
-                }
-            }
-            else if (model.Comment.Title != null && model.Comment.CommentContent != null)
-            {
-                if (postBLL.UpdateComment(model))
-                {
-                    ViewData["CommentState"] = "Success";
-                    ModelState.Clear();
-                }
-                else
-                {
-                    ViewData["CommentState"] = "Error";
-                }
-            }
-            else
-            {
-                ViewData["CommentState"] = "Error";
-            }
-            LayoutDTO layoutDTO = new LayoutDTO();
-            layoutDTO = layoutBLL.GetPostDetailPageItemWithID(model.PostDetail.ID);
-            return View(layoutDTO);
-        }
-        CommentBLL commentBLL = new CommentBLL();
-        public ActionResult DeleteComment(int ID)
-        {
-            commentBLL.DeleteComment(ID);
-            return RedirectToAction("PostDetail");
-        }
     }
 }

@@ -38,6 +38,7 @@ namespace UI.Controllers
                     UserStatic.NameSurname = user.Name;
                     UserStatic.ImagePath = user.ImagePath;
                     UserStatic.StatusID = user.StatusID;
+                    UserStatic.Points = user.Points;
                     return RedirectToAction("Index", "Home2");
                 }
                 else
@@ -84,18 +85,7 @@ namespace UI.Controllers
 
                 }
             }
-            else if (model.Comment.Title != null && model.Comment.CommentContent != null)
-            {
-                if (postBLL.UpdateComment(model))
-                {
-                    ViewData["CommentState"] = "Success";
-                    ModelState.Clear();
-                }
-                else
-                {
-                    ViewData["CommentState"] = "Error";
-                }
-            }
+           
             else
             {
                 ViewData["CommentState"] = "Error";
@@ -115,31 +105,6 @@ namespace UI.Controllers
             return RedirectToAction("PostDetail/" + postID, "Home2");
         }
 
-        public ActionResult UpdateComment(int ID, string title, string content, int postID)
-        {
-            CommentDTO commentDTO = new CommentDTO();
-            commentDTO.ID = ID;
-            commentDTO.Title = title;
-            commentDTO.CommentContent = content;
-            if (commentDTO.Title != null && commentDTO.CommentContent != null)
-            {
-
-                if (commentBLL.UpdateComment(commentDTO))
-                {
-                    ViewData["CommentState"] = "Success";
-                    ModelState.Clear();
-                }
-                else
-                {
-                    ViewData["CommentState"] = "Error";
-                }
-            }
-            else
-            {
-                ViewData["CommentState"] = "Error";
-            }
-            return RedirectToAction("PostDetail/" + postID, "Home2");
-
-        }
+      
     }
 }

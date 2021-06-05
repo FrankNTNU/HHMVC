@@ -46,5 +46,10 @@ namespace BLL
         {
             commentDAO.DeleteComment(ID);
         }
+
+        public CommentDTO GetComment(int commentID)
+        {
+            return commentDAO.GetComment(commentID);
+        }
     }
 }

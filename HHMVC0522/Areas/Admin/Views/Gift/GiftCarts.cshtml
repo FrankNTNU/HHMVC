@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "GiftCarts";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+@model List<DTO.GiftCartDTO>
+<section class="content-header">
+    <h1>所有禮物車</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>會員禮物車</a></li>
+        <li class="breadcrumb-item active"><a>所有禮物車</a></li>
+    </ol>
+</section>
+<br />
+
+
+<div class="card">
+    <!--</div>-->
+    <!-- /.row -->
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>禮物名稱</th>
+                    <th>會員名稱</th>
+                    <th>兌換日期</th>
+                    <th>下架日期</th>
+                    <th>條碼</th>
+                    <th>刪除</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr id="a_@item.ID">
+                        <td>@item.Name</td>
+                        <td>@item.MemberName</td>
+
+                        <td>
+                            @item.AddDate.ToString("yyyy.MM.dd")
+                        </td>
+                        <td>
+                            @item.EndDate.ToString("yyyy.MM.dd")
+                        </td>
+                        <td>
+                            @item.Barcode
+                        </td>
+
+                        <td align="center" valign="middle">
+
+                            <a href="#">
+                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Gift/DeleteGiftCart/', @item.ID)" />
+                            </a>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>禮物名稱</th>
+                    <th>會員名稱</th>
+                    <th>兌換日期</th>
+                    <th>下架日期</th>
+                    <th>條碼</th>
+                    <th>刪除</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+@Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
+
+<!-- /.card -->
+
+@section Scripts {
+
+    <script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>
+}
+
