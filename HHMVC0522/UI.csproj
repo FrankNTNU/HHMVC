@@ -54,6 +54,12 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -509,6 +515,7 @@
     <Content Include="Areas\Admin\Content\JS\DeleteRecord.js" />
     <Content Include="Areas\Admin\Content\JS\demo.js" />
     <Content Include="Areas\Admin\Content\JS\jquery.dataTables.min.js" />
+    <Content Include="Areas\Admin\Content\JS\jquery.inputmask.min.js" />
     <Content Include="Areas\Admin\Content\JS\jquery.min.js" />
     <Content Include="Areas\Admin\Content\JS\jszip.min.js" />
     <Content Include="Areas\Admin\Content\JS\moment.min.js" />
@@ -517,12 +524,14 @@
     <Content Include="Areas\Admin\Content\JS\sweetalert2.min.js" />
     <Content Include="Areas\Admin\Content\JS\tempusdominus-bootstrap-4.min.js" />
     <Content Include="Areas\Admin\Content\JS\vfs_fonts.js" />
+    <Content Include="Areas\Admin\Content\tempimage\healthImg.png" />
     <Content Include="Areas\Admin\Content\tempimage\hLogoRed.jpg" />
     <Content Include="Areas\Admin\Content\UserImage\happyLuby.jpg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-brands-400.svg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-regular-400.svg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-solid-900.svg" />
     <Content Include="Content\color\default.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\fontawesome-all.min.css" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\font\fontawesome\fontawesome-webfont.svg" />
@@ -606,6 +615,13 @@
     <Content Include="Content\img\slides\refine\slide3.png" />
     <Content Include="Content\img\small-avatar.png" />
     <Content Include="Content\img\ui.totop.png" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Areas\Admin\Views\Gift\GiftList.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\AddGift.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\Partial\GiftForm.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\UpdateGift.cshtml" />
+    <Content Include="Areas\Admin\Content\webfonts\fre3of9x.ttf" />
+    <Content Include="Areas\Admin\Views\Gift\GiftCarts.cshtml" />
     <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
@@ -634,6 +650,8 @@
     <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\LICENSE.txt" />
     <Content Include="Content\js\breakpoints.min.js" />
     <Content Include="Content\js\browser.min.js" />
+    <Content Include="Content\js\DeleteRecord.js" />
+    <Content Include="Content\js\jquery.likebtn.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\main.js" />
     <Content Include="Content\js\util.js" />
@@ -641,6 +659,7 @@
     <Content Include="Content\moment-js\moment-with-locales.min.js" />
     <Content Include="Content\moment-js\moment.js" />
     <Content Include="Content\moment-js\moment.min.js" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\toastr\toastr.css" />
     <Content Include="Content\toastr\toastr.min.css" />
@@ -656,10 +675,13 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GiftController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
+    <Compile Include="Controllers\FrontGiftController.cs" />
+    <Compile Include="Controllers\FrontPostController.cs" />
     <Compile Include="Controllers\Home2Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\WeightController.cs" />
@@ -778,7 +800,16 @@
     <Content Include="Views\Shared\ModalMessage.cshtml" />
     <Content Include="Views\Shared\HomeLayout2.cshtml" />
     <Content Include="Views\Home2\Index.cshtml" />
+    <Content Include="Views\Home2\Login.cshtml" />
     <Content Include="Views\Workout\WorkoutLog.cshtml" />
+    <Content Include="Views\FrontPost\AddPost.cshtml" />
+    <Content Include="Views\FrontPost\UpdatePost.cshtml" />
+    <Content Include="Views\FrontPost\ShowPosts.cshtml" />
+    <Content Include="Views\FrontGift\GiftList.cshtml" />
+    <Content Include="Views\FrontGift\GiftDetail.cshtml" />
+    <Content Include="Views\FrontPost\PostDetail.cshtml" />
+    <Content Include="Views\FrontPost\UpdateComment.cshtml" />
+    <Content Include="Views\FrontGift\GiftCart.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Weight\WeightLog.cshtml" />
@@ -793,6 +824,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Content\CartImages\" />
+    <Folder Include="Areas\Admin\Content\GiftImages\" />
     <Folder Include="Areas\Admin\Content\PostImages\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
@@ -811,6 +844,9 @@
       <Project>{DAD2EA66-6FE9-43DB-B186-E3BFB93FD117}</Project>
       <Name>DTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

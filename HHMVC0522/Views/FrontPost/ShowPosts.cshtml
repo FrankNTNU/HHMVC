@@ -1,0 +1,123 @@
+﻿
+@using PagedList
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "ShowPosts";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+@model IPagedList<DTO.PostDTO>
+<div id="main">
+    <div class="inner">
+        <section>
+            <header class="major">
+                <h3 style="margin-bottom:10px" id="CountInfo">
+                    <i class="far fa-file" ></i> 共有 @Model.TotalItemCount 則文章，第 @Model.PageNumber / @Model.PageCount 頁
+                </h3>
+            </header>
+            <div class="row">
+                <div class="col-6 col-lg-5 col-md-4" style="margin-bottom:20px">
+                    <select id="SearchCategory" class="form-control">
+                        <option selected value="0">所有分類</option>
+                        <option value="1">貼文</option>
+                        <option value="2">新聞</option>
+                        <option value="3">公告</option>
+                    </select>
+                </div>
+                <div class="col-6 col-lg-5 col-md-5">
+                    <input type="text" id="SearchText" class="form-control" placeholder="關鍵字" style="height:40px" />
+
+                </div>
+                <div class="col-12 col-lg-2 col-md-3" style="margin-bottom: 20px;
+        text-align: center
+">
+                    <input type="submit" class="button primary" id="SearchBtn" value="搜尋" style="width:100%; font-size:0.7em" />
+                </div>
+            </div>
+            <div class="row" id="DataSearching">
+                @foreach (var item in Model)
+                {
+                    <div class="row" style="margin-bottom:5px;width:100%">
+                        <div class="col-12 col-lg-4 col-md-4 col-sm-4">
+                            <a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="image"><img class="image" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" style="max-width:100%" /></a>
+
+
+                        </div>
+                        <div class="col-12 col-lg-8 col-md-8 col-sm-8">
+                            <div class="row">
+                                <div class="col-4 col-md-3 col-lg-2">
+                                    <p class="button small fit" style="        font-weight: bolder;
+        pointer-events: none;
+        margin-bottom: 5px">@item.CategoryName</p>
+        <p>時間</p>
+        <p>文章大要</p>
+
+    </div>
+    <div class="col-8 col-lg-10">
+        <p><strong style="font-weight:bolder">@item.Title </strong><i class="far fa-comment"></i> @item.CommentCount <i class="far fa-heart"></i> @item.LikeCount</p>
+        <p>@item.AddDate</p>
+        <p>@item.ShortContent</p>
+
+    </div>
+</div>
+</div>
+</div>
+
+
+}
+
+            </div>
+            <div style="font-size:1.5em;text-align:center" id="PageInfo">
+                @Html.PagedListPager(Model, page => Url.Action("ShowPosts", new { page }))
+            </div>
+        </section>
+    </div>
+</div>
+<script src="~/Content/js/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#SearchBtn").click(function () {
+            var SearchCategory = $("#SearchCategory").val();
+            var SearchText = $("#SearchText").val();
+            var SetData = $("#DataSearching");
+            console.log(SetData);
+
+
+
+
+            if (SearchCategory == null) {
+                alert("請選擇分類");
+            }
+            else {
+                var CountInfo = $("#CountInfo");
+                SetData.html('');
+                $("#PageInfo").html('');
+                window.location.href = '/FrontPost/GetPostsWithSearchText/?SearchCategory=' + SearchCategory + "&SearchText=" + SearchText;
+                //$.ajax({
+                //    type: "post",
+                //    url: "GetSearchPost?SearchCategory=" + SearchCategory + "&SearchText=" + SearchText,
+                //    contentType: "html",
+                //    success: function (result) {
+                //        if (result.length == 0) {
+                //            alert("沒有對應結果");
+                //            CountInfo.html("");
+                //            CountInfo.append("共有 " + result.length + " 則文章符合搜尋結果");
+                //        }
+                //        else {
+                //            CountInfo.html("");
+                //            CountInfo.append("共有 " + result.length + " 則文章符合搜尋結果");
+                //            console.log(result);
+                //            $.each(result, function (index, value) {
+                //                var Data = '<div class="col-12 col-lg-4"><a href=../Home2/PostDetail?ID=' + value.ID + ' class="image"><img class="image" src="../Areas/Admin/Content/PostImages/' + value.ImagePath + '" style="max-width:100%" /></a></div>';
+                //                Data += "<div class='col-12 col-lg-8'><div class='row'><div class='col-4 col-lg-2'><p class='button small fit' style='        font-weight: bolder;pointer-events: none;margin-bottom:5px'>" + value.CategoryName + "</p><p>文章大要 </p></div><div class='col-8'><p><strong> " + value.Title + "</strong> <i class='far fa-comment'></i> " + value.CommentCount + " </span><i class='far fa-heart'></i> " + value.LikeCount + " <p>" + value.ShortContent + "</p></div></div></div>"
+                //                SetData.append(Data);
+                //            })
+                //        }
+                //    }
+                //})
+            }
+
+        })
+    })
+</script>

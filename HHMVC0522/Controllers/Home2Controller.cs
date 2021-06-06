@@ -34,11 +34,12 @@ namespace UI.Controllers
                 if (user.ID != 0)
                 {
                     UserStatic.UserID = user.ID;
-                    UserStatic.isAdmin = user.IsAdmin;
+                    UserStatic.IsAdmin = user.IsAdmin;
                     UserStatic.NameSurname = user.Name;
                     UserStatic.ImagePath = user.ImagePath;
                     UserStatic.StatusID = user.StatusID;
-                    return RedirectToAction("Index", "Home");
+                    UserStatic.Points = user.Points;
+                    return RedirectToAction("Index", "Home2");
                 }
                 else
                 {
@@ -59,11 +60,14 @@ namespace UI.Controllers
         }
         public ActionResult PostDetail(int ID)
         {
+            layoutBLL = new LayoutBLL();
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPostDetailPageItemWithID(ID);
             return View(layoutDTO);
         }
         [HttpPost]
+        [ValidateInput(false)]
+
         public ActionResult PostDetail(LayoutDTO model)
         {
 
@@ -77,33 +81,30 @@ namespace UI.Controllers
                 else
                 {
                     ViewData["CommentState"] = "Error";
+                    ViewBag.ProcessState = General.Messages.GeneralError;
+
                 }
             }
-            else if (model.Comment.Title != null && model.Comment.CommentContent != null)
-            {
-                if (postBLL.UpdateComment(model))
-                {
-                    ViewData["CommentState"] = "Success";
-                    ModelState.Clear();
-                }
-                else
-                {
-                    ViewData["CommentState"] = "Error";
-                }
-            }
+           
             else
             {
                 ViewData["CommentState"] = "Error";
+                ViewBag.ProcessState = General.Messages.EmptyArea;
+
             }
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPostDetailPageItemWithID(model.PostDetail.ID);
             return View(layoutDTO);
         }
         CommentBLL commentBLL = new CommentBLL();
-        public ActionResult DeleteComment(int ID)
+        public ActionResult DeleteComment(int ID, int postID)
         {
             commentBLL.DeleteComment(ID);
-            return RedirectToAction("PostDetail");
+            ViewData["CommentState"] = "Success";
+            ModelState.Clear();
+            return RedirectToAction("PostDetail/" + postID, "Home2");
         }
+
+      
     }
 }

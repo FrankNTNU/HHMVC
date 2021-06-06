@@ -89,6 +89,8 @@
     <Compile Include="GiftCart.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GiftCartDAO.cs" />
+    <Compile Include="GiftDAO.cs" />
     <Compile Include="HHContext.cs" />
     <Compile Include="HHModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -193,8 +195,8 @@
   <ItemGroup>
     <Content Include="HHModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>HHModel.Context.cs</LastGenOutput>
       <DependentUpon>HHModel.edmx</DependentUpon>
+      <LastGenOutput>HHModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="HHModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

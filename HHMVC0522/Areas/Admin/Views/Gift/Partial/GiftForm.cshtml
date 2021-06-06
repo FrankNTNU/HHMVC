@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "AddGift";
+    Layout = null;
+}
+
+
+
+@model DTO.GiftDTO
+<div class="box-body">
+    <div class="form-group">
+        <label>禮物名稱</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "禮物名稱" })
+        @Html.ValidationMessageFor(x => x.Name)
+    </div>
+    <div class="form-group">
+        <label>兌換點數</label>
+        @Html.TextBoxFor(x => x.Points, new { @class = "form-control", @placeholder = "兌換所需點數", @type = "number" })
+        @Html.ValidationMessageFor(x => x.Points)
+    </div>
+    <div class="form-group">
+        <label>庫存數量</label>
+        @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", @placeholder = "庫存數量", @type = "number" })
+        @Html.ValidationMessageFor(x => x.Quantity)
+    </div>
+    <div class="form-group">
+        <label>商家</label>
+        @Html.TextBoxFor(x => x.Store, new { @class = "form-control", @placeholder = "通路商家"})
+        @Html.ValidationMessageFor(x => x.Store)
+    </div>
+    <div class="form-group">
+        <div class="form-group">
+            <label>下架日期</label>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                </div>
+                @*@if (Model.IsUpdate == true)
+                    {
+                        @Html.TextBoxFor(x => x.EndDate, new { @class = "form-control" })
+                    }
+                    else
+                    {
+                        <!--@Html.TextBoxFor(x => x.EndDate, new { @class = "form-control", @data_inputmask_alias = "datetime", @data_inputmask_inputformat = "yyyy/mm/dd", @data_mask = "" })-->
+                    }*@
+
+                @if (!Model.IsUpdate)
+                {
+                    <input type="text" name="EndDate" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="yyyy/mm/dd" data-mask id="EndDate">
+                }
+                else
+                {
+                    @Html.TextBoxFor(x => x.EndDate, new { @class = "form-control" })
+                }
+            </div>
+        </div>
+        @Html.ValidationMessageFor(x => x.EndDate)
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>禮物照片</label>
+                <label>(建議照片長寬比為1:1)</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" name="UploadImage" class="custom-file-input" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#GiftImage')[0].src = window.URL.createObjectURL(this.files[0]); $('#OldGiftImage').hide(); $('#GiftImage').show()" />
+                        <label class="custom-file-label" for="UploadImage">選擇圖片</label>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            @if (Model != null && Model.Image != null) // Update image.
+            {
+                <img src="~/Areas/Admin/Content/GiftImages/@Model.Image" width="200" height="200" id="OldGiftImage" />
+                <img src="" width="200" height="200" id="GiftImage" style="display:none;" />
+
+            }
+            else // Add image.
+            {
+                <img src="" width="200" height="200" id="GiftImage" />
+            }
+        </div>
+    </div>
+
+    <input type="number" hidden name="ID" value="@Model.ID" />
+    <div class="card-footer">
+        <button class="btn btn-primary" type="submit">儲存</button>
+    </div>
+
+</div>
+
+
+
+

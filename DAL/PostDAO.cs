@@ -29,15 +29,18 @@ namespace DAL
         public List<PostDTO> GetPosts()
         {
             List<PostDTO> dtoList = new List<PostDTO>();
-            var postList = (from p in db.Posts
-                            select new
+            List<PostDTO> postList = (from p in db.Posts
+                                      where p.CategoryID != Rules
+                            select new PostDTO
                             {
                                 ID = p.ID,
                                 Title = p.Title,
                                 ShortContent = p.ShortContent,
                                 CategoryName = p.PostCategory.Name,
                                 AddDate = p.AddDate,
-                                MemberID = p.MemberID,
+                                MemberID = (int?)p.MemberID ?? 0,
+                                CommentCount = db.Comments.Where(x => x.PostID == p.ID).Count(),
+                                LikeCount = (int?)p.LikeCount ?? 0
                             }).OrderByDescending(x => x.AddDate).ToList();
             foreach (var item in postList)
             {
@@ -47,13 +50,42 @@ namespace DAL
                 dto.ShortContent = item.ShortContent;
                 dto.CategoryName = item.CategoryName;
                 dto.AddDate = item.AddDate;
-                dto.MemberID = (int)item.MemberID;
-                dto.ImagePath = db.PostImages.First(x => x.PostID == item.ID).ImagePath;
+                dto.MemberID = item.MemberID;
+                dto.CommentCount = item.CommentCount;
+                dto.ImagePath = db.PostImages.Where(x => x.PostID == item.ID).Select(x => x.ImagePath).DefaultIfEmpty("defaultImg.jpg").First();
+                dto.LikeCount = item.LikeCount;
+                
                 dtoList.Add(dto);
             }            
             return dtoList;
         }
+        public List<PostDTO> GetUserPosts(int userID)
+        {
+            List<PostDTO> dtoList = new List<PostDTO>();
+            var postList = (from p in db.Posts
+                            where p.MemberID == userID && p.CategoryID != Rules
 
+                            select new
+                            {
+                                ID = p.ID,
+                                Title = p.Title,
+                                ShortContent = p.ShortContent,
+                                CategoryName = p.PostCategory.Name,
+                                AddDate = p.AddDate,
+                            }).OrderByDescending(x => x.AddDate).ToList();
+            foreach (var item in postList)
+            {
+                PostDTO dto = new PostDTO();
+                dto.Title = item.Title;
+                dto.ID = item.ID;
+                dto.ShortContent = item.ShortContent;
+                dto.CategoryName = item.CategoryName;
+                dto.AddDate = item.AddDate;
+                dto.ImagePath = db.PostImages.Where(x => x.PostID == item.ID).Select(x => x.ImagePath).DefaultIfEmpty("defaultImg.jpg").First();
+                dtoList.Add(dto);
+            }
+            return dtoList;
+        }
         public int CountComments(int ID)
         {
             return db.Comments.Where(x => x.PostID == ID && x.IsApproved == true).Count();
@@ -61,19 +93,139 @@ namespace DAL
 
         public PostDTO GetPostDetailWithID(int ID)
         {
-            Post post = db.Posts.First(x => x.ID == ID);
             PostDTO dto = new PostDTO();
-            dto.ID = ID;
-            dto.Title = post.Title;
-            dto.ShortContent = post.ShortContent;
-            dto.PostContent = post.PostContent;
-            dto.AddDate = post.AddDate;
-            dto.PostImages = GetPostImagesWithPostID(ID);
-            dto.CategoryName = post.PostCategory.Name;
-            dto.MemberName = post.Member.Name;
-            dto.MemberImage = post.Member.Image;
-            dto.CommentList = GetCommentsWithPostID(ID);
+
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                Post post = db.Posts.First(x => x.ID == ID);
+                dto.ID = ID;
+                dto.Title = post.Title;
+                dto.ShortContent = post.ShortContent;
+                dto.PostContent = post.PostContent;
+                dto.AddDate = post.AddDate;
+                dto.PostImages = GetPostImagesWithPostID(ID);
+                dto.CommentCount = db.Comments.Where(x => x.PostID == ID).Count();
+                dto.ImagePath = db.PostImages.Where(x => x.PostID == post.ID).Select(x => x.ImagePath).DefaultIfEmpty("defaultImg.jpg").First();
+                dto.CategoryID = post.CategoryID;
+                dto.CategoryName = post.PostCategory.Name;
+                dto.MemberName = post.Member.Name;
+                dto.MemberImage = post.Member.Image;
+                dto.MemberID = (int)post.MemberID;
+                if (post.LikeCount != null)
+                {
+                    dto.LikeCount = (int)post.LikeCount;
+                }
+                else
+                {
+                    dto.LikeCount = 0;
+                }
+                dto.CommentList = GetCommentsWithPostID(ID);
+            }
             return dto;        
+        }
+
+        public bool HasLiked(int userID, int postID)
+        {
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                return db.LikedPosts.FirstOrDefault(x => x.MemberID == userID && x.PostID == postID) != null;
+            }
+                
+        }
+
+        public void LikePost(int postID, int number)
+        {
+            Post post = db.Posts.First(x => x.ID == postID);
+            if (post.LikeCount == null)
+            {
+                post.LikeCount = 1;
+            }
+            else if (post.LikeCount + number < 0)
+            {
+                post.LikeCount = 0;
+            }
+            else
+            {
+                post.LikeCount += number;
+                if (number > 0) // Like a post.
+                {
+                    LikedPost likedPost = new LikedPost
+                    {
+                        MemberID = UserStatic.UserID,
+                        PostID = postID
+                    };
+                    db.LikedPosts.Add(likedPost);
+                    db.SaveChanges();
+                }
+                else // Remove a like from the post.
+                {
+                    LikedPost likedPost = db.LikedPosts.First(x => x.MemberID == UserStatic.UserID && x.PostID == postID);
+                    db.LikedPosts.Remove(likedPost);
+                    db.SaveChanges();
+
+                }
+            }
+            
+            db.Posts.Attach(post);
+            var entry = db.Entry(post);
+            entry.State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public List<PostDTO> GetPosts(int categoryID, string text)
+        {
+            List<Post> posts;
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                if (categoryID != 0 && text == "") // All results under a category.
+                {
+                    posts = db.Posts.Where(x => x.CategoryID == categoryID).ToList();
+                }
+                else if (categoryID == 0 && text != "") // All results matching search text.
+                {
+                    posts = db.Posts.Where(x => x.Title.ToUpper().Contains(text.ToUpper()) || x.ShortContent.ToUpper().Contains(text.ToUpper())).ToList();
+                }
+                else if (categoryID == 0 && text == "") // All results.
+                {
+                    posts = db.Posts.ToList();
+                }
+                else // All results matching both category and search text.
+                {
+                    posts = db.Posts.Where(x => x.CategoryID == categoryID && (x.Title.ToUpper().Contains(text.ToUpper()) || x.ShortContent.ToUpper().Contains(text.ToUpper()))).ToList();
+                }
+            }
+                
+            
+            List<PostDTO> postList = new List<PostDTO>();
+            foreach (var item in posts)
+            {
+                PostDTO dto = new PostDTO();
+                dto = GetPostDetailWithID(item.ID);
+                postList.Add(dto);
+            }
+            return postList;
+        }
+        public static int UserPost = 1;
+        public static int News = 2;
+        public static int Notice = 3;
+        public static int Rules = 4;
+        public List<PostDTO> GetNews()
+        {
+            List<Post> news = db.Posts.Where(x => x.CategoryID == News || x.CategoryID == Notice).ToList();
+            List<PostDTO> newsList = new List<PostDTO>();
+            foreach (var item in news)
+            {
+                PostDTO dto = new PostDTO();
+                dto.ID = item.ID;
+                dto.Title = item.Title;
+                dto.ShortContent = item.ShortContent;
+                dto.PostContent = item.PostContent;
+                dto.CategoryName = item.PostCategory.Name;
+                dto.ImagePath = db.PostImages.Where(x => x.PostID == item.ID).Select(x => x.ImagePath).DefaultIfEmpty("defaultImg.jpg").First();
+                dto.AddDate = item.AddDate;
+                newsList.Add(dto);
+            }
+            return newsList;
         }
 
         private List<CommentDTO> GetCommentsWithPostID(int postID)
@@ -89,6 +241,9 @@ namespace DAL
                 dto.AddDate = item.AddDate;
                 dto.Title = item.Title;
                 dto.CommentContent = item.CommentContent;
+                dto.MemberImage = item.Member.Image;
+                dto.IsApproved = item.IsApproved;
+                dto.Name = item.Name;
                 commentDTOList.Add(dto);
             }
             return commentDTOList;
@@ -129,13 +284,19 @@ namespace DAL
                     dtoList.Add(dto);
                 }
                 db.PostImages.RemoveRange(imageList);
+                DeleteLikedPosts(ID);
                 Post post = db.Posts.First(x => x.ID == ID);
                 db.Posts.Remove(post);
                 db.SaveChanges();
             }
             return dtoList;
         }
-
+        private void DeleteLikedPosts(int postID)
+        {
+            List<LikedPost> likedPosts = db.LikedPosts.Where(x => x.PostID == postID).ToList();
+            db.LikedPosts.RemoveRange(likedPosts);
+            db.SaveChanges();
+        }
         public void UpdatePost(PostDTO model)
         {
             using (HealthHelperEntities db = new HealthHelperEntities())
@@ -146,10 +307,13 @@ namespace DAL
                 post.PostContent = model.PostContent;
                 post.CategoryID = model.CategoryID;
                 post.AddDate = DateTime.Now;
+                db.Posts.Attach(post);
+                var entry = db.Entry(post);
+                entry.State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
             }
         }
-
+        
         public List<PostImageDTO> GetPostImagesWithPostID(int postID)
         {
             List<PostImageDTO> dtoList = new List<PostImageDTO>();
@@ -180,7 +344,7 @@ namespace DAL
                 dto.ID = post.ID;
                 dto.Title = post.Title;
                 dto.ShortContent = post.ShortContent;
-                dto.PostContent = StripHTML(post.PostContent);
+                dto.PostContent = post.PostContent;
                 dto.CategoryID = post.CategoryID;
                 dto.MemberName = post.Member.Name;
             }
@@ -199,6 +363,42 @@ namespace DAL
             {
 
                 throw ex;
+            }
+        }
+        public List<PostDTO> GetRules()
+        {
+            using (HealthHelperEntities db= new HealthHelperEntities())
+            {
+                List<PostDTO> dtoList = new List<PostDTO>();
+                List<PostDTO> postList = (from p in db.Posts
+                                          where p.CategoryID == Rules
+                                          select new PostDTO
+                                          {
+                                              ID = p.ID,
+                                              Title = p.Title,
+                                              ShortContent = p.ShortContent,
+                                              CategoryName = p.PostCategory.Name,
+                                              AddDate = p.AddDate,
+                                              MemberID = (int?)p.MemberID ?? 0,
+                                              CommentCount = db.Comments.Where(x => x.PostID == p.ID).Count(),
+                                              LikeCount = (int?)p.LikeCount ?? 0
+                                          }).OrderByDescending(x => x.AddDate).ToList();
+                foreach (var item in postList)
+                {
+                    PostDTO dto = new PostDTO();
+                    dto.Title = item.Title;
+                    dto.ID = item.ID;
+                    dto.ShortContent = item.ShortContent;
+                    dto.CategoryName = item.CategoryName;
+                    dto.AddDate = item.AddDate;
+                    dto.MemberID = item.MemberID;
+                    dto.CommentCount = item.CommentCount;
+                    dto.ImagePath = db.PostImages.Where(x => x.PostID == item.ID).Select(x => x.ImagePath).DefaultIfEmpty("defaultImg.jpg").First();
+                    dto.LikeCount = item.LikeCount;
+
+                    dtoList.Add(dto);
+                }
+                return dtoList;
             }
         }
     }

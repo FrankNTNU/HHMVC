@@ -1,73 +1,163 @@
 ﻿
-@{
-    Layout = null;
-}
+@{ Layout = null; }
 
 <!DOCTYPE HTML>
 <!--
     Editorial by HTML5 UP
-    html5up.net | 
+    html5up.net |
     Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
 <head>
-    <title>Editorial by HTML5 UP</title>
+    <title>HealthHelper 你的健康管理助手</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="~/Content/css/main.css" />
+    <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
+    <link href="~/Content/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     @RenderSection("Styles", required: false)
+    <style>
+        a.toggle {
+            color: red;
+        }
+    </style>
 </head>
 <body class="is-preload">
+    <div id="main">
+        <div class="inner">
+            <!-- Header -->
+            <header id="header" style=" background-color: #fad7d2">
+                <div class="row">
 
+                    <div class="col-4 col-sm-4 col-lg-2" style="padding-left:30px; vertical-align:central">
+                        <a href="/Home2/Index" style="text-decoration: none;width:100px"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" width="100"></a>
+                    </div>
+                    <div class="col-7 col-sm-8" style="font-size:0.9em; padding-top:5px; padding-left:0px">
+                        <a href="/Home2/Index" class="logo" style="text-decoration: none"><strong style="font-size:2em" id="logoText">HealthHelper</strong> <div class="hidden-sm" style="font-size:1.3em">你的健康管理助手</div></a>
+                    </div>
+                </div>
+            </header>
+        </div>
+    </div>
     <!-- Wrapper -->
+    <!-- Main -->
+    @RenderBody()
     <div id="wrapper">
-
-        <!-- Main -->
-        @RenderBody()
-
         <!-- Sidebar -->
         <div id="sidebar">
             <div class="inner">
 
                 <!-- Search -->
-                <section id="search" class="alt">
-                    <form method="post" action="#">
-                        <input type="text" name="query" id="query" placeholder="Search" />
-                    </form>
-                </section>
-
                 <!-- Menu -->
                 <nav id="menu">
                     <header class="major">
-                        <h2>Menu</h2>
+                        <h2>選單</h2>
                     </header>
-                    <ul>
-                        <li><a href="index.html">Homepage</a></li>
-                        <li><a href="generic.html">Generic</a></li>
-                        <li><a href="elements.html">Elements</a></li>
+                    <ul style="font-size:1.5em">
+                        <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-home" style="width:30px"></i> 首頁</a></li>
+                        @if (DTO.UserStatic.UserID == 0)
+                        {
+                    <li><a href="~/Home2/Login" style="text-decoration:none"> <i class="fas fa-user" style="width:30px"></i> 登入</a></li> }
+                                else
+                                {
+
+
+
+                    <li>
+                        <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
+                        <ul>
+                            <li><a href="#" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 會員資訊</a></li>
+                            <li><a href="#" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 體重管理</a></li>
+                            <li><a href="#" style="text-decoration:none"><i class="fas fa-chart-area" style="width:30px"></i> 我的綜合圖表</a></li>
+
+
+                        </ul>
+
+                    </li>}
+                        <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-book" style="width:30px"></i> 遊戲規則</a></li>
+
+
+
                         <li>
-                            <span class="opener">Submenu</span>
+                            <span class="opener"><i class="fas fa-utensils" style="width:30px"></i> 飲食</span>
                             <ul>
-                                <li><a href="#">Lorem Dolor</a></li>
-                                <li><a href="#">Ipsum Adipiscing</a></li>
-                                <li><a href="#">Tempus Magna</a></li>
-                                <li><a href="#">Feugiat Veroeros</a></li>
+                                @if (DTO.UserStatic.UserID != 0)
+                                {
+                    <li><a href="#" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 紀錄飲食</a></li>
+
+                                    <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 飲食歷史</a></li>}
+
+                            </ul>
+
+                        </li>
+
+
+                        <li>
+                            <span class="opener"><i class="fas fa-dumbbell" style="width:30px"></i> 運動</span>
+                            <ul>
+                                @if (DTO.UserStatic.UserID != 0)
+                                {
+                    <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 運動紀錄</a></li>
+
+                                    <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 運動排程</a></li>
+                                                    <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 喜好管理</a></li>
+}
+
+                            </ul>
+
+                        </li>
+
+
+                        <li>
+                            <span class="opener"><i class="fas fa-fist-raised" style="width:30px"></i> 挑戰</span>
+                            <ul>
+                                @if (DTO.UserStatic.UserID != 0)
+                                {
+                    <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 參加挑戰</a></li>
+                                    <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 我的挑戰</a></li>
+                                                    <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 過去挑戰</a></li>}
+
+                            </ul>
+
+                        </li>
+
+
+
+
+
+
+
+
+
+                        <li>
+                            <span class="opener"><i class="fas fa-gifts" style="width:30px"></i> 禮物</span>
+                            <ul>
+                                <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 禮物店</a></li>
+                                @if (DTO.UserStatic.UserID != 0)
+                                {
+                    <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 已兌換禮物</a></li>}
+
+                            </ul>
+
+                        </li>
+                        <li>
+                            <span class="opener"><i class="fas fa-file" style="width:30px"></i> 貼文</span>
+                            <ul>
+                                <li><a href="~/FrontPost/AllPosts" style="text-decoration:none"><i class="far fa-file" style="width:40px"></i> 所有貼文</a></li>
+                                @if (DTO.UserStatic.UserID != 0)
+                                {
+                    <li><a href="~/FrontPost/AddPost" style="text-decoration:none"><i class="fas fa-pen-alt" style="width:40px"></i> 發布貼文</a></li>
+                                    <li><a href="~/FrontPost/UserPostList" style="text-decoration:none"><i class="fas fa-user-edit" style="width:40px"></i> 我的貼文</a></li>}
                             </ul>
                         </li>
-                        <li><a href="#">Etiam Dolore</a></li>
-                        <li><a href="#">Adipiscing</a></li>
-                        <li>
-                            <span class="opener">Another Submenu</span>
-                            <ul>
-                                <li><a href="#">Lorem Dolor</a></li>
-                                <li><a href="#">Ipsum Adipiscing</a></li>
-                                <li><a href="#">Tempus Magna</a></li>
-                                <li><a href="#">Feugiat Veroeros</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Maximus Erat</a></li>
-                        <li><a href="#">Sapien Mauris</a></li>
-                        <li><a href="#">Amet Lacinia</a></li>
+                        <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a></li>
+                        <li><a href="~/Admin/Login/Index" style="text-decoration:none"><i class="fas fa-user-cog" style="width:30px"></i> 後台</a></li>
+                        @if (DTO.UserStatic.UserID != 0)
+                        {
+                    <li><a href="~/Home2/Logout" style="text-decoration:none"><i class="fas fa-sign-out-alt" style="width:30px"></i> 登出</a></li>}
+
                     </ul>
                 </nav>
 
@@ -78,15 +168,15 @@
                     </header>
                     <div class="mini-posts">
                         <article>
-                            <a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
+                            <a href="#" class="image"><img src="" alt="" /></a>
                             <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
                         </article>
                         <article>
-                            <a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
+                            <a href="#" class="image"><img src="" alt="" /></a>
                             <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
                         </article>
                         <article>
-                            <a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
+                            <a href="#" class="image"><img src="" alt="" /></a>
                             <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
                         </article>
                     </div>
@@ -128,6 +218,29 @@
     <script src="~/Content/js/breakpoints.min.js"></script>
     <script src="~/Content/js/util.js"></script>
     <script src="~/Content/js/main.js"></script>
-    @RenderSection("scripts", required: false)
+    <script src="~/Content/toastr/toastr.min.js"></script>
+    <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
+    <script src="~/Content/js/jquery.likebtn.js"></script>
+    @RenderSection("Scripts", required: false)
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var result = "@ViewData["CommentState"]";
+            if (result != "") {
+
+                if (result == "Success") {
+                    toastr.success("動作成功");
+                }
+                else {
+                    toastr.error("失敗");
+                }
+            }
+
+        })
+
+    </script>
+
 </body>
 </html>

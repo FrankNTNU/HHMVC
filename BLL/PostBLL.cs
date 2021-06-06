@@ -19,6 +19,12 @@ namespace BLL
         {
             return postDAO.GetPosts().Take(number).ToList();
         }
+
+        internal List<PostDTO> GetRules()
+        {
+            return postDAO.GetRules();
+        }
+
         public bool AddPost(PostDTO model)
         {
             Post post = new Post();
@@ -92,11 +98,11 @@ namespace BLL
             return true;
         }
 
-        public bool UpdateComment(LayoutDTO model)
-        {
-            commentDAO.UpdateComment(model);
-            return true;
-        }
+        //public bool UpdateComment(LayoutDTO model)
+        //{
+        //    commentDAO.UpdateComment(model);
+        //    return true;
+        //}
 
         public string DeletePostImage(int ID)
         {
@@ -106,8 +112,33 @@ namespace BLL
 
         public List<PostImageDTO> DeletePost(int ID)
         {
+            commentDAO.DeleteCommentByPostID(ID);
             List<PostImageDTO> imageList = postDAO.DeletePost(ID);
             return imageList;
+        }
+        public List<PostDTO> GetUserPosts(int userID)
+        {
+            return postDAO.GetUserPosts(userID);
+        }
+
+        public List<PostDTO> GetNews()
+        {
+            return postDAO.GetNews();
+        }
+
+        public List<PostDTO> GetPosts(int categoryID, string text)
+        {
+            return postDAO.GetPosts(categoryID, text);
+        }
+
+        public void LikePost(int postID, int number)
+        {
+            postDAO.LikePost(postID, number);
+        }
+
+        public bool HasLiked(int userID, int postID)
+        {
+            return postDAO.HasLiked(userID, postID);
         }
     }
 }

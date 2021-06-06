@@ -57,7 +57,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="/Home/Index" class="brand-link">
+            <a href="/Home2/Index" class="brand-link">
                 <img src="~/Areas/Admin/Content/tempimage/hLogo.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">HealthHelper</span>
             </a>
@@ -91,53 +91,34 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
-                        @if (UserStatic.isAdmin)
-                        {
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-user"></i>
-                                    <p>
-                                        使用者
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="/Admin/User/UserList" class="nav-link">
-                                            <i class="far fa-user nav-icon"></i>
-                                            <p>所有使用者</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/Admin/User/AddUser" class="nav-link">
-                                            <i class="far fa-user nav-icon"></i>
-                                            <p>新增使用者</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-book"></i>
-                                    <p>
-                                        使用者
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="/Admin/User/UpdateUser/@UserStatic.UserID" class="nav-link">
-                                            <i class="far fa-user nav-icon"></i>
-                                            <p>更新使用者</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        }
+                        with font-awesome or any other icon font library -->
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    使用者
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="~/Admin/User/UserList" class="nav-link">
+                                        <i class="far fa-user nav-icon"></i>
+                                        <p>所有使用者</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/Admin/User/AddUser" class="nav-link">
+                                        <i class="far fa-user nav-icon"></i>
+                                        <p>新增使用者</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-book"></i>
@@ -148,13 +129,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/Admin/Post/PostList" class="nav-link">
+                                    <a href="~/Admin/Post/PostList" class="nav-link">
                                         <i class="far fa-bookmark nav-icon"></i>
                                         <p>所有貼文</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/Admin/Post/AddPost" class="nav-link">
+                                    <a href="~/Admin/Post/AddPost" class="nav-link">
                                         <i class="far fa-bookmark nav-icon"></i>
                                         <p>新增貼文</p>
                                     </a>
@@ -171,23 +152,22 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/Admin/Comment/AllComments" class="nav-link">
+                                    <a href="~/Admin/Comment/AllComments" class="nav-link">
                                         <i class="far fa-comment nav-icon"></i>
                                         <p>所有留言</p>
                                     </a>
                                 </li>
-                                @if (DTO.UserStatic.isAdmin)
-                                {
-                                    <li class="nav-item">
-                                        <a href="/Admin/Comment/UnapprovedComments" class="nav-link">
-                                            <i class="far fa-comment nav-icon"></i>
-                                            <p>待審查留言</p>
-                                        </a>
-                                    </li>
-                                }
+
+                                <li class="nav-item">
+                                    <a href="~/Admin/Comment/UnapprovedComments" class="nav-link">
+                                        <i class="far fa-comment nav-icon"></i>
+                                        <p>待審查留言</p>
+                                    </a>
+                                </li>
+
                             </ul>
                         </li>
-                        
+
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-hamburger"></i>
@@ -198,15 +178,21 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/Admin/Address/AddressList" class="nav-link">
+                                    <a href="~/Admin/Address/AddressList" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>所有餐點</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/Admin/Address/AddAddress" class="nav-link">
+                                    <a href="~/Admin/Address/AddAddress" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>所有標籤</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/Admin/Address/AddAddress" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>餐點營養</p>
                                     </a>
                                 </li>
                             </ul>
@@ -221,13 +207,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/Admin/SocialMedia/SocialMediaList" class="nav-link">
+                                    <a href="~/Admin/SocialMedia/SocialMediaList" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>所有運動項目</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/Admin/SocialMedia/AddSocialMedia" class="nav-link">
+                                    <a href="~/Admin/SocialMedia/AddSocialMedia" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>所有運動類別</p>
                                     </a>
@@ -244,13 +230,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/Admin/Ads/AdsList" class="nav-link">
+                                    <a href="~/Admin/Gift/GiftList" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>使用者飲食紀錄</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/Admin/Ads/AddAds" class="nav-link">
+                                    <a href="~/Admin/Gift/AddGift" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>使用者運動紀錄</p>
                                     </a>
@@ -259,93 +245,35 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-book"></i>
+                                <i class="nav-icon fas fa-gift"></i>
                                 <p>
-                                    Category
+                                    禮物
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/Admin/Category/CategoryList" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Category List</p>
+                                    <a href="~/Admin/Gift/GiftList" class="nav-link">
+                                        <i class="nav-icon fas fa-gift"></i>
+                                        <p>所有禮物</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/Admin/Category/AddCategory" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Category</p>
+                                    <a href="~/Admin/Gift/AddGift" class="nav-link">
+                                        <i class="nav-icon fas fa-gift"></i>
+                                        <p>新增禮物</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/Admin/Gift/GiftCarts" class="nav-link">
+                                        <i class="nav-icon fas fa-gift"></i>
+                                        <p>會員禮物車</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>
-                                    Video
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/Admin/Video/VideoList" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Video List</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Admin/Video/AddVideo" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Video</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>
-                                    Messages
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/Admin/Contact/AllMessages" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>All Messages</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Admin/Contact/UnreadMessages" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Unread Messages</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>
-                                    Log
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/Admin/Log/LogList" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Log List</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -396,6 +324,7 @@
     <script src="~/Areas/Admin/Content/JS/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/Areas/Admin/Content/JS/demo.js"></script>
+    @RenderSection("Scripts", false)
     <script>
         $(function () {
             $("#example1").DataTable({
@@ -447,7 +376,7 @@
         $(function () {
             bsCustomFileInput.init();
         });
-       
+
     </script>
 
 </body>

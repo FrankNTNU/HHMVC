@@ -37,13 +37,28 @@ namespace DAL
                     dto.ID = item.ID;
                     dto.Title = item.Title;
                     dto.CommentContent = item.Content;
-                    dto.TargetCommentTitle = item.TargetCommentTitle;
+                    dto.PostTitle = item.TargetCommentTitle;
                     dto.AddDate = item.AddDate;
                     dto.IsApproved = item.IsApproved;
                     dtoList.Add(dto);
                 }
             }
             return dtoList;
+        }
+
+        public CommentDTO GetComment(int commentID)
+        {
+            CommentDTO commentDTO = new CommentDTO();
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                Comment comment = db.Comments.FirstOrDefault(x => x.ID == commentID);
+                commentDTO.ID = comment.ID;
+                commentDTO.Title = comment.Title;
+                commentDTO.MemberID = comment.MemberID;
+                commentDTO.Name = comment.Name;
+                commentDTO.CommentContent = comment.CommentContent;
+            }
+            return commentDTO;
         }
 
         public void AddComment(Comment comment)
@@ -102,7 +117,7 @@ namespace DAL
                     dto.ID = item.ID;
                     dto.Title = item.Title;
                     dto.CommentContent = item.Content;
-                    dto.TargetCommentTitle = item.TargetCommentTitle;
+                    dto.PostTitle = item.TargetCommentTitle;
                     dto.AddDate = item.AddDate;
                     dto.IsApproved = item.IsApproved;
                     dtoList.Add(dto);
@@ -111,15 +126,23 @@ namespace DAL
             return dtoList;
         }
 
-        public void UpdateComment(LayoutDTO model)
+        //public bool UpdateComment(LayoutDTO model)
+        //{
+        //    Comment comment = db.Comments.First(x => x.ID == model.Comment.ID);
+        //    comment.Title = model.Comment.Title;
+        //    comment.CommentContent = model.Comment.CommentContent;
+        //    comment.IsApproved = false;
+        //    db.SaveChanges();
+        //    return true;
+        //}
+        public void UpdateComment(CommentDTO model)
         {
-            Comment comment = db.Comments.First(x => x.ID == model.Comment.ID);
-            comment.Title = model.Comment.Title;
-            comment.CommentContent = model.Comment.CommentContent;
-            comment.IsApproved = false;
+            Comment comment = db.Comments.First(x => x.ID == model.ID);
+            comment.Name = model.Name;
+            comment.Title = model.Title;
+            comment.CommentContent = model.CommentContent;
             db.SaveChanges();
         }
-
         public List<CommentDTO> GetUnapprovedComments()
         {
             List<CommentDTO> dtoList = new List<CommentDTO>();
@@ -146,6 +169,12 @@ namespace DAL
                 }
             }
             return dtoList;
+        }
+        public void DeleteCommentByPostID(int postID)
+        {
+            List<Comment> comments = db.Comments.Where(x => x.PostID == postID).ToList();
+            db.Comments.RemoveRange(comments);
+            db.SaveChanges();
         }
     }
 }

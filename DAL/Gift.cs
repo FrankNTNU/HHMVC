@@ -18,8 +18,9 @@ namespace DAL
         public string Name { get; set; }
         public string Image { get; set; }
         public int Points { get; set; }
-        public Nullable<int> Quantity { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
-        public Nullable<System.DateTime> AddDate { get; set; }
+        public int Quantity { get; set; }
+        public System.DateTime EndDate { get; set; }
+        public System.DateTime AddDate { get; set; }
+        public string Store { get; set; }
     }
 }

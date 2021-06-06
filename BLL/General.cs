@@ -25,5 +25,11 @@ namespace BLL
             public static bool Male = true;
             public static bool Female = false;
         }
+        public static class Category
+        {
+            public static int UserPost = 1;
+            public static int News = 2;
+            public static int Notice = 3;
+        }
     }
 }

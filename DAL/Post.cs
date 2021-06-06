@@ -27,10 +27,11 @@ namespace DAL
         public string ShortContent { get; set; }
         public string PostContent { get; set; }
         public int CategoryID { get; set; }
-        public Nullable<int> ViewCount { get; set; }
+        public int ViewCount { get; set; }
         public Nullable<int> MemberID { get; set; }
         public System.DateTime AddDate { get; set; }
-        public Nullable<int> LikeCount { get; set; }
+        public int LikeCount { get; set; }
+        public bool IsApproved { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }

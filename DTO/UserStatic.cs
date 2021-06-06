@@ -9,9 +9,10 @@ namespace DTO
     public class UserStatic
     {
         public static int UserID { get; set; }
-        public static bool isAdmin { get; set; }
+        public static bool IsAdmin { get; set; }
         public static string NameSurname { get; set; }
         public static string ImagePath { get; set; }
         public static int StatusID { get; set; }
+        public static int Points { get; set; }
     }
 }
