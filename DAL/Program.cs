@@ -12,19 +12,20 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class GiftCart
+    public partial class Program
     {
         public int ID { get; set; }
         public int MemberID { get; set; }
+        public int StatusID { get; set; }
         public string Name { get; set; }
-        public string Image { get; set; }
-        public System.DateTime AddDate { get; set; }
+        public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
-        public string Store { get; set; }
-        public string Barcode { get; set; }
-        public string BarcodeImage { get; set; }
-        public int GiftID { get; set; }
+        public int TargetWeight { get; set; }
+        public int ActivityLevelID { get; set; }
+        public int InitialWeight { get; set; }
     
+        public virtual ActivityLevel ActivityLevel { get; set; }
         public virtual Member Member { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

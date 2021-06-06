@@ -32,6 +32,7 @@ namespace BLL
         public bool AddCart(GiftDTO model)
         {
             GiftCart cart = new GiftCart();
+            cart.GiftID = model.ID;
             cart.Name = model.Name;
             cart.Store = model.Store;
             cart.MemberID = UserStatic.UserID;
@@ -57,6 +58,9 @@ namespace BLL
         public bool IsSameItemExist(string name)
         {
             return giftCartDAO.IsSameItemExist(name);
+        }
+        public bool IsSameItemExist(int userID, int giftID) {
+            return giftCartDAO.IsSameItemExist(userID, giftID);
         }
     }
 }

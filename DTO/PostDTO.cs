@@ -24,7 +24,7 @@ namespace DTO
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
         public IEnumerable<SelectListItem> Categories { get; set; }
-        public int ViewCount { get; set; }
+        public int ViewCount { get; set; } = 0;
         public int CommentCount { get; set; }
         public List<CommentDTO> CommentList { get; set; }
         public DateTime AddDate { get; set; }
@@ -35,5 +35,6 @@ namespace DTO
         public bool IsUpdate { get; set; } = false;
         public string MemberImage { get; set; }
         public int LikeCount { get; set; } = 0;
+        public bool IsApproved { get; set; }
     }
 }

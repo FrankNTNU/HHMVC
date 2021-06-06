@@ -19,6 +19,7 @@ namespace DAL
                 {
                     GiftCartDTO dto = new GiftCartDTO();
                     dto.ID = item.ID;
+                    dto.GiftID = item.GiftID;
                     dto.Name = item.Name;
                     dto.Store = item.Store;
                     dto.Image = item.Image;
@@ -50,6 +51,7 @@ namespace DAL
                 {
                     GiftCartDTO dto = new GiftCartDTO();
                     dto.ID = item.ID;
+                    dto.GiftID = item.GiftID;
                     dto.Name = item.Name;
                     dto.Store = item.Store;
                     dto.Image = item.Image;
@@ -64,6 +66,16 @@ namespace DAL
                 return dtoList;
             }
         }
+
+        public bool IsSameItemExist(int userID, int giftID)
+        {
+            GiftCart cart;
+            using (HealthHelperEntities db = new HealthHelperEntities()) {
+                cart = db.GiftCarts.FirstOrDefault(x => x.MemberID == userID && x.GiftID == giftID);
+            }
+            return cart != null;
+        }
+
         public List<GiftCartDTO> GetGiftCarts(string text)
         {
             List<GiftCartDTO> dtoList = new List<GiftCartDTO>();
@@ -74,6 +86,7 @@ namespace DAL
                 {
                     GiftCartDTO dto = new GiftCartDTO();
                     dto.ID = item.ID;
+                    dto.GiftID = item.GiftID;
                     dto.Name = item.Name;
                     dto.Store = item.Store;
                     dto.Image = item.Image;
@@ -97,6 +110,7 @@ namespace DAL
                 {
                     GiftCartDTO dto = new GiftCartDTO();
                     dto.ID = item.ID;
+                    dto.GiftID = item.GiftID;
                     dto.Name = item.Name;
                     dto.Store = item.Store;
                     dto.Image = item.Image;

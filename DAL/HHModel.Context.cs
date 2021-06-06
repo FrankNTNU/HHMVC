@@ -48,5 +48,6 @@ namespace DAL
         public virtual DbSet<LikedPost> LikedPosts { get; set; }
         public virtual DbSet<GiftCart> GiftCarts { get; set; }
         public virtual DbSet<Gift> Gifts { get; set; }
+        public virtual DbSet<Program> Programs { get; set; }
     }
 }

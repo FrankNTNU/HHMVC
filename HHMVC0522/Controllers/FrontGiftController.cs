@@ -20,6 +20,8 @@ namespace UI.Controllers
         GiftBLL giftBLL = new GiftBLL();
         public ActionResult GiftList()
         {
+            UserBLL userBLL = new UserBLL();
+            UserStatic.Points = userBLL.GetPoints(UserStatic.UserID);
             List<GiftDTO> giftDTOs = new List<GiftDTO>();
             giftDTOs = giftBLL.GetGifts();
             return View(giftDTOs);
@@ -38,6 +40,12 @@ namespace UI.Controllers
             List<GiftCartDTO> carts = new List<GiftCartDTO>();
             carts = cartBLL.GetGiftCarts(userID);
             return View(carts);
+        }
+        public JsonResult IsSameItemExist(int giftID) 
+        {
+            bool isExist = cartBLL.IsSameItemExist(UserStatic.UserID, giftID);
+            string isItemExist = isExist ? "yes" : "no";
+            return Json(isItemExist, JsonRequestBehavior.AllowGet);
         }
         public ActionResult AddCart(int giftID)
         {

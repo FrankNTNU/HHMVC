@@ -12,17 +12,28 @@
     <div class="inner">
         <section>
             <header class="major">
-                <h3 style="margin-bottom:10px" id="CountInfo">
-                    <i class="far fa-file" ></i> 共有 @Model.TotalItemCount 則文章，第 @Model.PageNumber / @Model.PageCount 頁
-                </h3>
+                <div class="d-flex" style="padding:0px">
+                    <div class="col-8">
+                        <h3 style="margin-bottom:10px" id="CountInfo">
+                            <i class="far fa-file"></i> 共有 @Model.TotalItemCount 則文章，第 @Model.PageNumber / @Model.PageCount 頁
+                        </h3>
+                    </div>
+                    <div class="col-4 d-flex justify-content-end pr-0">
+                        @if (DTO.UserStatic.UserID != 0)
+                        {
+                            <a href="~/FrontPost/AddPost"><label class="button default">發布貼文</label></a>
+                        }
+                    </div>
+                </div>
             </header>
             <div class="row">
                 <div class="col-6 col-lg-5 col-md-4" style="margin-bottom:20px">
                     <select id="SearchCategory" class="form-control">
                         <option selected value="0">所有分類</option>
                         <option value="1">貼文</option>
-                        <option value="2">新聞</option>
+                        <option value="2">資訊</option>
                         <option value="3">公告</option>
+                        <option value="4">規則</option>
                     </select>
                 </div>
                 <div class="col-6 col-lg-5 col-md-5">
@@ -55,7 +66,12 @@
 
     </div>
     <div class="col-8 col-lg-10">
-        <p><strong style="font-weight:bolder">@item.Title </strong><i class="far fa-comment"></i> @item.CommentCount <i class="far fa-heart"></i> @item.LikeCount</p>
+        <p>
+            @if (!item.IsApproved)
+            {
+                <span class="button small primary" style="opacity:0.5;cursor:default;margin-right:10px"> 核准中...</span>
+            }<strong style="font-weight:bolder">@item.Title </strong><i class="far fa-comment"></i> @item.CommentCount <i class="far fa-heart"></i> @item.LikeCount
+        </p>
         <p>@item.AddDate</p>
         <p>@item.ShortContent</p>
 

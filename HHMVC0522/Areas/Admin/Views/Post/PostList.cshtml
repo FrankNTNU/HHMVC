@@ -33,6 +33,8 @@
                     <th>標題</th>
                     <th>分類</th>
                     <th>新增日期</th>
+                    <th>核准</th>
+                    <th>隱蔽</th>
                     <th>更新</th>
                     <th>刪除</th>
                 </tr>
@@ -40,30 +42,56 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr id="a_@item.ID">
-                        <td>@item.Title</td>
-                        <td>
-                            @item.CategoryName
-                        </td>
-                        <td>
-                            @item.AddDate.ToString("dd.MM.yyyy, dddd")
-                        </td>
+                <tr id="a_@item.ID">
+                    <td>@item.Title</td>
+                    <td>
+                        @item.CategoryName
+                    </td>
+                    <td>
+                        @item.AddDate.ToString("dd.MM.yyyy, dddd")
+                    </td>
+                    @if (!item.IsApproved)
+                    {
                         <td align="center" valign="middle">
-                            
-                                <a href="/Admin/Post/UpdatePost/@item.ID">
-                                    <img src="~/Areas/Admin/Content/icon/update-icon.png" />
-                                </a>
-                            
+                            <a href="/Admin/Post/ApprovePost/@item.ID">
+                                <img src="~/Areas/Admin/Content/icon/approve.png" />
+                            </a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td align="center" valign="middle">
+                            已核准
+                        </td>
+                    }
+                    @if (item.IsApproved)
+                    {
+                        <td align="center" valign="middle">
+                            <a href="/Admin/Post/BlockPost/@item.ID">
+                                <img src="~/Areas/Admin/Content/icon/lockIcon.png" />
+                            </a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td align="center" valign="middle">
+                            已隱蔽
+                        </td>
+                    }
+                    <td align="center" valign="middle">
 
-                        </td>
-                        <td align="center" valign="middle">
-                            
-                                <a href="#">
-                                    <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Post/DeletePost/', @item.ID)" />
-                                </a>
-                            
-                        </td>
-                    </tr>
+                        <a href="/Admin/Post/UpdatePost/@item.ID">
+                            <img src="~/Areas/Admin/Content/icon/update-icon.png" />
+                        </a>
+                    </td>
+                    <td align="center" valign="middle">
+
+                        <a href="#">
+                            <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Post/DeletePost/', @item.ID)" />
+                        </a>
+
+                    </td>
+                </tr>
                 }
             </tbody>
             <tfoot>
@@ -71,6 +99,8 @@
                     <th>標題</th>
                     <th>分類</th>
                     <th>新增日期</th>
+                    <th>核准</th>
+                    <th>隱蔽</th>
                     <th>更新</th>
                     <th>刪除</th>
                 </tr>

@@ -46,6 +46,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GiftID" Type="int" Nullable="false" />
           <Property Name="MemberID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Store" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -175,10 +176,25 @@
           <Property Name="ShortContent" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="PostContent" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
-          <Property Name="ViewCount" Type="int" />
+          <Property Name="ViewCount" Type="int" Nullable="false" />
           <Property Name="MemberID" Type="int" />
           <Property Name="AddDate" Type="datetime" Nullable="false" />
-          <Property Name="LikeCount" Type="int" />
+          <Property Name="LikeCount" Type="int" Nullable="false" />
+          <Property Name="IsApproved" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Programs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberID" Type="int" Nullable="false" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+          <Property Name="TargetWeight" Type="int" Nullable="false" />
+          <Property Name="ActivityLevelID" Type="int" Nullable="false" />
+          <Property Name="InitialWeight" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -490,6 +506,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Programs_ActivityLevels">
+          <End Role="ActivityLevels" Type="Self.ActivityLevels" Multiplicity="1" />
+          <End Role="Programs" Type="Self.Programs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActivityLevels">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Programs">
+              <PropertyRef Name="ActivityLevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Programs_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Programs" Type="Self.Programs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Programs">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Programs_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Programs" Type="Self.Programs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Programs">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WeightLog_Members">
           <End Role="Members" Type="Self.Members" Multiplicity="1" />
           <End Role="WeightLog" Type="Self.WeightLog" Multiplicity="*" />
@@ -578,6 +630,7 @@
           <EntitySet Name="PostCategories" EntityType="Self.PostCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PostImages" EntityType="Self.PostImages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Posts" EntityType="Self.Posts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Programs" EntityType="Self.Programs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TimesOfDay" EntityType="Self.TimesOfDay" Schema="dbo" store:Type="Tables" />
@@ -666,6 +719,18 @@
             <End Role="WorkoutCategories" EntitySet="WorkoutCategories" />
             <End Role="WorkoutPreferences" EntitySet="WorkoutPreferences" />
           </AssociationSet>
+          <AssociationSet Name="FK_Programs_ActivityLevels" Association="Self.FK_Programs_ActivityLevels">
+            <End Role="ActivityLevels" EntitySet="ActivityLevels" />
+            <End Role="Programs" EntitySet="Programs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Programs_Members" Association="Self.FK_Programs_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Programs" EntitySet="Programs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Programs_Status" Association="Self.FK_Programs_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Programs" EntitySet="Programs" />
+          </AssociationSet>
           <AssociationSet Name="FK_WeightLog_Members" Association="Self.FK_WeightLog_Members">
             <End Role="Members" EntitySet="Members" />
             <End Role="WeightLog" EntitySet="WeightLog" />
@@ -703,6 +768,7 @@
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Members" Relationship="Self.FK_Members_ActivityLevels" FromRole="ActivityLevels" ToRole="Members" />
           <NavigationProperty Name="Workouts" Relationship="Self.FK_Workouts_ActivityLevels" FromRole="ActivityLevels" ToRole="Workouts" />
+          <NavigationProperty Name="Programs" Relationship="HealthHelperModel.FK_Programs_ActivityLevels" FromRole="ActivityLevel" ToRole="Program" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -813,6 +879,7 @@
           <Property Name="Points" Type="Int32" Nullable="false" />
           <NavigationProperty Name="LikedPosts" Relationship="HealthHelperModel.FK_LikedPosts_Members" FromRole="Member" ToRole="LikedPost" />
           <NavigationProperty Name="GiftCarts" Relationship="HealthHelperModel.FK_GiftCarts_Members" FromRole="Member" ToRole="GiftCart" />
+          <NavigationProperty Name="Programs" Relationship="HealthHelperModel.FK_Programs_Members" FromRole="Member" ToRole="Program" />
         </EntityType>
         <EntityType Name="Nutrient">
           <Key>
@@ -860,15 +927,16 @@
           <Property Name="ShortContent" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PostContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
-          <Property Name="ViewCount" Type="Int32" />
+          <Property Name="ViewCount" Type="Int32" Nullable="false" />
           <Property Name="MemberID" Type="Int32" />
           <Property Name="AddDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Posts" FromRole="Posts" ToRole="Comments" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Posts_Members" FromRole="Posts" ToRole="Members" />
           <NavigationProperty Name="PostCategory" Relationship="Self.FK_Posts_PostCategories" FromRole="Posts" ToRole="PostCategories" />
           <NavigationProperty Name="PostImages" Relationship="Self.FK_PostImages_Posts" FromRole="Posts" ToRole="PostImages" />
-          <Property Name="LikeCount" Type="Int32" DefaultValue="0" />
+          <Property Name="LikeCount" Type="Int32" DefaultValue="0" Nullable="false" />
           <NavigationProperty Name="LikedPosts" Relationship="HealthHelperModel.FK_LikedPosts_Posts" FromRole="Post" ToRole="LikedPost" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -878,6 +946,7 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Members" Relationship="Self.FK_Members_Status" FromRole="Status" ToRole="Members" />
           <NavigationProperty Name="WorkoutLogs" Relationship="Self.FK_WorkoutLog_Status" FromRole="Status" ToRole="WorkoutLog" />
+          <NavigationProperty Name="Programs" Relationship="HealthHelperModel.FK_Programs_Status" FromRole="Status" ToRole="Program" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -1346,6 +1415,19 @@
             <End Role="Member" EntitySet="Members" />
             <End Role="GiftCart" EntitySet="GiftCarts" />
           </AssociationSet>
+          <EntitySet Name="Programs" EntityType="HealthHelperModel.Program" />
+          <AssociationSet Name="FK_Programs_ActivityLevels" Association="HealthHelperModel.FK_Programs_ActivityLevels">
+            <End Role="ActivityLevel" EntitySet="ActivityLevels" />
+            <End Role="Program" EntitySet="Programs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Programs_Members" Association="HealthHelperModel.FK_Programs_Members">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Program" EntitySet="Programs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Programs_Status" Association="HealthHelperModel.FK_Programs_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Program" EntitySet="Programs" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Comments_Members">
           <End Type="HealthHelperModel.Member" Role="Member" Multiplicity="1" />
@@ -1407,6 +1489,7 @@
           <Property Name="Barcode" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="BarcodeImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Member" Relationship="HealthHelperModel.FK_GiftCarts_Members" FromRole="GiftCart" ToRole="Member" />
+          <Property Name="GiftID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Gift">
           <Key>
@@ -1430,6 +1513,59 @@
             </Principal>
             <Dependent Role="GiftCart">
               <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Program">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberID" Type="Int32" Nullable="false" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TargetWeight" Type="Int32" Nullable="false" />
+          <Property Name="ActivityLevelID" Type="Int32" Nullable="false" />
+          <Property Name="InitialWeight" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ActivityLevel" Relationship="HealthHelperModel.FK_Programs_ActivityLevels" FromRole="Program" ToRole="ActivityLevel" />
+          <NavigationProperty Name="Member" Relationship="HealthHelperModel.FK_Programs_Members" FromRole="Program" ToRole="Member" />
+          <NavigationProperty Name="Status" Relationship="HealthHelperModel.FK_Programs_Status" FromRole="Program" ToRole="Status" />
+        </EntityType>
+        <Association Name="FK_Programs_ActivityLevels">
+          <End Type="HealthHelperModel.ActivityLevel" Role="ActivityLevel" Multiplicity="1" />
+          <End Type="HealthHelperModel.Program" Role="Program" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActivityLevel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Program">
+              <PropertyRef Name="ActivityLevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Programs_Members">
+          <End Type="HealthHelperModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="HealthHelperModel.Program" Role="Program" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Program">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Programs_Status">
+          <End Type="HealthHelperModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="HealthHelperModel.Program" Role="Program" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Program">
+              <PropertyRef Name="StatusID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1579,6 +1715,7 @@
           <EntitySetMapping Name="Posts">
             <EntityTypeMapping TypeName="HealthHelperModel.Post">
               <MappingFragment StoreEntitySet="Posts">
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
                 <ScalarProperty Name="LikeCount" ColumnName="LikeCount" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -1681,6 +1818,7 @@
           <EntitySetMapping Name="GiftCarts">
             <EntityTypeMapping TypeName="HealthHelperModel.GiftCart">
               <MappingFragment StoreEntitySet="GiftCarts">
+                <ScalarProperty Name="GiftID" ColumnName="GiftID" />
                 <ScalarProperty Name="BarcodeImage" ColumnName="BarcodeImage" />
                 <ScalarProperty Name="Barcode" ColumnName="Barcode" />
                 <ScalarProperty Name="Store" ColumnName="Store" />
@@ -1703,6 +1841,21 @@
                 <ScalarProperty Name="Points" ColumnName="Points" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Programs">
+            <EntityTypeMapping TypeName="HealthHelperModel.Program">
+              <MappingFragment StoreEntitySet="Programs">
+                <ScalarProperty Name="InitialWeight" ColumnName="InitialWeight" />
+                <ScalarProperty Name="ActivityLevelID" ColumnName="ActivityLevelID" />
+                <ScalarProperty Name="TargetWeight" ColumnName="TargetWeight" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -54,6 +54,10 @@
         <EntityTypeShape EntityType="HealthHelperModel.GiftCart" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="HealthHelperModel.Gift" Width="1.5" PointX="10.375" PointY="0.75" />
         <AssociationConnector Association="HealthHelperModel.FK_GiftCarts_Members" />
+        <EntityTypeShape EntityType="HealthHelperModel.Program" Width="1.5" PointX="11.25" PointY="8.75" />
+        <AssociationConnector Association="HealthHelperModel.FK_Programs_ActivityLevels" />
+        <AssociationConnector Association="HealthHelperModel.FK_Programs_Members" />
+        <AssociationConnector Association="HealthHelperModel.FK_Programs_Status" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

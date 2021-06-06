@@ -52,25 +52,32 @@
                     </div>
                     <div class="col-8 col-12-small">
                         <label>標題</label>
-                        <input type="text" name="Title" id="demo-email" value="" placeholder="標題" maxlength="50" style="height:45px"/>                            @Html.ValidationMessageFor(x => x.Title)
+                        <input type="text" name="Title" id="demo-email" value="" placeholder="標題" maxlength="50" style="height:45px"/>                            @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
 
                     </div>
                     <div class="col-8 col-12-small">
                         <label>大綱</label>
-                        <input type="text" name="ShortContent" id="demo-email" value="" placeholder="內容大綱" maxlength="100" style="height:45px"/>                            @Html.ValidationMessageFor(x => x.ShortContent)
+                        <input type="text" name="ShortContent" id="demo-email" value="" placeholder="內容大綱" maxlength="100" style="height:45px"/>                            @Html.ValidationMessageFor(x => x.ShortContent, "", new { @style = "color:red" })
 
                     </div>
-                    <div class="col-8 col-12-small">
-                        <label>貼文分類</label>
-                        @Html.DropDownList("CategoryID", Model.Categories, "選擇貼文分類", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.CategoryID)
-                    </div>
+                    <!--<div class="col-8 col-12-small">
+                        <label>貼文分類</label>-->
+                        @*@Html.DropDownList("CategoryID", Model.Categories, "選擇貼文分類", new { @class = "form-control" })*@
+                        <!--<select id="CategoryID" class="form-control" name="CategoryID">
+                            <option selected value="0">所有分類</option>
+                            <option value="1">貼文</option>
+                            <option value="2">資訊</option>
+                            <option value="3">公告</option>
+                            <option value="4">規則</option>
+                        </select>
+                        @Html.ValidationMessageFor(x => x.CategoryID, "", new { @style = "color:red" })
+                    </div>-->
                     <!-- Break -->
                     <!-- Break -->
                     <!-- Break -->
                     <div class="col-8 col-12-small">
                         <label>貼文內容</label>
-                        <textarea name="PostContent" id="demo-message" placeholder="輸入你的貼文內容" rows="6" class="ckeditor"></textarea>                            @Html.ValidationMessageFor(x => x.PostContent)
+                        <textarea name="PostContent" id="demo-message" placeholder="輸入你的貼文內容" rows="6" class="ckeditor"></textarea>                            @Html.ValidationMessageFor(x => x.PostContent, "", new { @style = "color:red" })
 
                     </div>
                     <div class="col-8 col-12-xsmall image-upload">

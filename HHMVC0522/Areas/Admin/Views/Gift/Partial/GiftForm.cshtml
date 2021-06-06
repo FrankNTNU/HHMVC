@@ -10,22 +10,22 @@
     <div class="form-group">
         <label>禮物名稱</label>
         @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "禮物名稱" })
-        @Html.ValidationMessageFor(x => x.Name)
+        @Html.ValidationMessageFor(x => x.Name, "", new { @style = "color:red" })
     </div>
     <div class="form-group">
         <label>兌換點數</label>
         @Html.TextBoxFor(x => x.Points, new { @class = "form-control", @placeholder = "兌換所需點數", @type = "number" })
-        @Html.ValidationMessageFor(x => x.Points)
+        @Html.ValidationMessageFor(x => x.Points, "", new { @style = "color:red" })
     </div>
     <div class="form-group">
         <label>庫存數量</label>
         @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", @placeholder = "庫存數量", @type = "number" })
-        @Html.ValidationMessageFor(x => x.Quantity)
+        @Html.ValidationMessageFor(x => x.Quantity, "", new { @style = "color:red" })
     </div>
     <div class="form-group">
         <label>商家</label>
         @Html.TextBoxFor(x => x.Store, new { @class = "form-control", @placeholder = "通路商家"})
-        @Html.ValidationMessageFor(x => x.Store)
+        @Html.ValidationMessageFor(x => x.Store, "", new { @style = "color:red" })
     </div>
     <div class="form-group">
         <div class="form-group">
@@ -54,7 +54,7 @@
                 }
             </div>
         </div>
-        @Html.ValidationMessageFor(x => x.EndDate)
+        @Html.ValidationMessageFor(x => x.EndDate, "", new { @style = "color:red" })
     </div>
     <div class="row">
         <div class="col-sm-6">

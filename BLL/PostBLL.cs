@@ -15,6 +15,10 @@ namespace BLL
         {
             return postDAO.GetPosts();
         }
+        public List<PostDTO> GetAllPosts()
+        {
+            return postDAO.GetAllPosts();
+        }
         public List<PostDTO> GetRecentPosts(int number)
         {
             return postDAO.GetPosts().Take(number).ToList();
@@ -29,11 +33,14 @@ namespace BLL
         {
             Post post = new Post();
             post.Title = model.Title;
+            post.IsApproved = model.IsApproved;
             post.ShortContent = model.ShortContent;
             post.PostContent = model.PostContent;
             post.CategoryID = model.CategoryID;
             post.AddDate = DateTime.Now;
             post.MemberID = UserStatic.UserID;
+            post.LikeCount = 0;
+            post.ViewCount = 0;
             int ID = postDAO.AddPost(post);
             SavePostImages(model.PostImages, ID);
             return true;
@@ -60,6 +67,7 @@ namespace BLL
             comment.AddDate = DateTime.Now;
             comment.IsApproved = false;
             comment.Rating = 1;
+            
             commentDAO.AddComment(comment);
             return true;
         }
@@ -121,10 +129,10 @@ namespace BLL
             return postDAO.GetUserPosts(userID);
         }
 
-        public List<PostDTO> GetNews()
-        {
-            return postDAO.GetNews();
-        }
+        //public List<PostDTO> GetNews()
+        //{
+        //    return postDAO.GetNews();
+        //}
 
         public List<PostDTO> GetPosts(int categoryID, string text)
         {
@@ -139,6 +147,20 @@ namespace BLL
         public bool HasLiked(int userID, int postID)
         {
             return postDAO.HasLiked(userID, postID);
+        }
+        public void ApprovePost(int postID)
+        {
+             postDAO.ApprovePost(postID);
+        }
+
+        public void BlockPost(int postID)
+        {
+            postDAO.BlockPost(postID);
+        }
+
+        public void AddViewCount(int postID)
+        {
+            postDAO.AddViewCount(postID);
         }
     }
 }

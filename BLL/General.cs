@@ -30,6 +30,7 @@ namespace BLL
             public static int UserPost = 1;
             public static int News = 2;
             public static int Notice = 3;
+            public static int Rule = 4;
         }
     }
 }
