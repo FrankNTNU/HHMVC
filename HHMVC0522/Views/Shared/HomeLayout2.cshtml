@@ -59,51 +59,46 @@
                         <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-home" style="width:30px"></i> 首頁</a></li>
                         @if (DTO.UserStatic.UserID == 0)
                         {
-                    <li><a href="~/Home2/Login" style="text-decoration:none"> <i class="fas fa-user" style="width:30px"></i> 登入</a></li> }
-                                else
-                                {
+                        <li><a href="~/Home2/Login" style="text-decoration:none"> <i class="fas fa-user" style="width:30px"></i> 登入</a></li> 
+                        }
+                        else
+                        {
+                        <li>
+                            <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
+                            <ul>
+                                <li><a href="#" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 會員資訊</a></li>
+                                <li><a href="#" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 體重管理</a></li>
+                                <li><a href="#" style="text-decoration:none"><i class="fas fa-chart-area" style="width:30px"></i> 我的綜合圖表</a></li>
 
+                            </ul>
 
-
-                    <li>
-                        <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
-                        <ul>
-                            <li><a href="#" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 會員資訊</a></li>
-                            <li><a href="#" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 體重管理</a></li>
-                            <li><a href="#" style="text-decoration:none"><i class="fas fa-chart-area" style="width:30px"></i> 我的綜合圖表</a></li>
-
-
-                        </ul>
-
-                    </li>}
+                        </li>
+                        }
                         <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-book" style="width:30px"></i> 遊戲規則</a></li>
-
-
 
                         <li>
                             <span class="opener"><i class="fas fa-utensils" style="width:30px"></i> 飲食</span>
                             <ul>
-                                @if (DTO.UserStatic.UserID != 0)
-                                {
-                    <li><a href="#" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 紀錄飲食</a></li>
+                                 @if (DTO.UserStatic.UserID != 0)
+                                 {
+                                 <li><a href="#" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 紀錄飲食</a></li>
 
-                                    <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 飲食歷史</a></li>}
+                                 <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 飲食歷史</a></li>
+                                 }
 
                             </ul>
-
                         </li>
 
 
                         <li>
                             <span class="opener"><i class="fas fa-dumbbell" style="width:30px"></i> 運動</span>
                             <ul>
-                                @if (DTO.UserStatic.UserID != 0)
-                                {
-                    <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 運動紀錄</a></li>
-
-                                    <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 運動排程</a></li>
-                                                    <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 喜好管理</a></li>
-}
+                                 @if (DTO.UserStatic.UserID != 0)
+                                 {
+                                 <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 運動紀錄</a></li>
+                                 <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 運動排程</a></li>
+                                 <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 喜好管理</a></li>
+                                 }
 
                             </ul>
 
@@ -115,21 +110,13 @@
                             <ul>
                                 @if (DTO.UserStatic.UserID != 0)
                                 {
-                    <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 參加挑戰</a></li>
-                                    <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 我的挑戰</a></li>
-                                                    <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 過去挑戰</a></li>}
+                                <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 參加挑戰</a></li>
+                                <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 我的挑戰</a></li>
+                                <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 過去挑戰</a></li>
+                                }
 
                             </ul>
-
                         </li>
-
-
-
-
-
-
-
-
 
                         <li>
                             <span class="opener"><i class="fas fa-gifts" style="width:30px"></i> 禮物</span>
@@ -137,26 +124,29 @@
                                 <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 禮物店</a></li>
                                 @if (DTO.UserStatic.UserID != 0)
                                 {
-                    <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 已兌換禮物</a></li>}
+                                <li><a href="~/FrontGift/GiftCart?userID=@DTO.UserStatic.UserID" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 已兌換禮物</a></li>
+                                }
 
                             </ul>
-
                         </li>
+
                         <li>
                             <span class="opener"><i class="fas fa-file" style="width:30px"></i> 貼文</span>
                             <ul>
                                 <li><a href="~/FrontPost/AllPosts" style="text-decoration:none"><i class="far fa-file" style="width:40px"></i> 所有貼文</a></li>
                                 @if (DTO.UserStatic.UserID != 0)
                                 {
-                    <li><a href="~/FrontPost/AddPost" style="text-decoration:none"><i class="fas fa-pen-alt" style="width:40px"></i> 發布貼文</a></li>
-                                    <li><a href="~/FrontPost/UserPostList" style="text-decoration:none"><i class="fas fa-user-edit" style="width:40px"></i> 我的貼文</a></li>}
+                                <li><a href="~/FrontPost/AddPost" style="text-decoration:none"><i class="fas fa-pen-alt" style="width:40px"></i> 發布貼文</a></li>
+                                <li><a href="~/FrontPost/UserPostList" style="text-decoration:none"><i class="fas fa-user-edit" style="width:40px"></i> 我的貼文</a></li>
+                                }
                             </ul>
                         </li>
                         <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a></li>
                         <li><a href="~/Admin/Login/Index" style="text-decoration:none"><i class="fas fa-user-cog" style="width:30px"></i> 後台</a></li>
                         @if (DTO.UserStatic.UserID != 0)
                         {
-                    <li><a href="~/Home2/Logout" style="text-decoration:none"><i class="fas fa-sign-out-alt" style="width:30px"></i> 登出</a></li>}
+                        <li><a href="~/Home2/Logout" style="text-decoration:none"><i class="fas fa-sign-out-alt" style="width:30px"></i> 登出</a></li>
+                        }
 
                     </ul>
                 </nav>
