@@ -1,0 +1,85 @@
+﻿
+
+
+
+@using PagedList
+@using PagedList.Mvc
+@{
+  
+        ViewBag.Title = "UserPostList";
+        Layout = "~/Views/Shared/HomeLayout2.cshtml";
+    
+}
+
+@section Styles{
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+}
+@model IPagedList<DTO.PostDTO>
+<div id="main">
+    <div class="inner">
+        <section>
+            <header class="major">
+                <div class="d-flex" style="padding:0px">
+                    <div class="col-8">
+
+                            <h3 style="margin-bottom:10px" id="CountInfo">
+                                <i class="far fa-file"></i> @DTO.UserStatic.NameSurname 的文章區
+                            </h3>
+                       
+                    </div>
+                    <div class="col-4 d-flex justify-content-end pr-0">
+                        @if (DTO.UserStatic.UserID != 0)
+                        {
+                            <a href="~/FrontPost/AddPost"><label class="button default">發布貼文</label></a>
+                        }
+                    </div>
+                </div>
+            </header>
+           
+            <div class="row" id="DataSearching">
+                @foreach (var item in Model)
+                {
+                    <div class="row" style="margin-bottom:5px;width:100%">
+                        <div class="col-12 col-lg-4 col-md-4 col-sm-4">
+                            <a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="image"><img class="image" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" style="max-width:100%" /></a>
+
+
+                        </div>
+                        <div class="col-12 col-lg-8 col-md-8 col-sm-8">
+                            <div class="row">
+                                <div class="col-4 col-md-3 col-lg-2">
+                                    <p class="button small fit" style="        font-weight: bolder;
+        pointer-events: none;
+        margin-bottom: 5px">@item.CategoryName</p>
+        <p>時間</p>
+        <p>文章大要</p>
+
+    </div>
+    <div class="col-8 col-lg-10">
+        <p>
+            @if (!item.IsApproved)
+            {
+                <span class="button small primary" style="opacity:0.5;cursor:default;margin-right:10px"> 核准中...</span>
+            }<strong style="font-weight:bolder">@item.Title </strong><i class="far fa-comment"></i> @item.CommentCount <i class="far fa-heart"></i> @item.LikeCount
+        </p>
+        <p>@item.AddDate</p>
+        <p>@item.ShortContent</p>
+
+    </div>
+</div>
+</div>
+</div>
+
+
+}
+
+            </div>
+            <div style="font-size:1.5em;text-align:center;justify-content:center" id="PageInfo" class="d-flex">
+                @Html.PagedListPager(Model, page => Url.Action("UserPostList", new { page }))
+            </div>
+        </section>
+    </div>
+</div>
+

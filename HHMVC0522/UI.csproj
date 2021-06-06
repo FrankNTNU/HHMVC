@@ -806,6 +806,7 @@
     <Content Include="Views\FrontPost\PostDetail.cshtml" />
     <Content Include="Views\FrontPost\UpdateComment.cshtml" />
     <Content Include="Views\FrontGift\GiftCart.cshtml" />
+    <Content Include="Views\FrontPost\UserPostList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

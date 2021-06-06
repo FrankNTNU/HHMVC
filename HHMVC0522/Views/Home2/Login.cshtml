@@ -3,6 +3,9 @@
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
+@section Styles {
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    }
 @model DTO.UserDTO
 <div id="main">
     <div class="inner">
@@ -26,11 +29,11 @@
                     @Html.ValidationMessageFor(x => x.Password, "", new { @style = "color:red" })
                     <br /><label>密碼</label>
 
-                    <input type="password" name="Password" id="demo-email" value="" placeholder="你的密碼" style="height:50px" />
+                    <input type="password" name="Password" id="demo-email" value="" placeholder="你的密碼" style="height:50px"/>
                 </div>
                 <!-- Break -->
                 <!-- Break -->
-                <div class="col-12">
+                <div class="col-12" style="margin-top:10px">
                     <ul class="actions">
                         <li style="font-size:1.1em"><input type="submit" value="登入" class="primary" /></li>
                     </ul>

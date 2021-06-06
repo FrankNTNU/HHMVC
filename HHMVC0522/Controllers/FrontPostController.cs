@@ -57,10 +57,13 @@ namespace UI.Controllers
             layoutDTO = layoutBLL.GetPostDetailPageItemWithID(model.PostDetail.ID);
             return View(layoutDTO);
         }
-        public ActionResult UserPostList()
+        public ActionResult UserPostList(int page = 1)
         {
+            int currentPage = page < 1 ? 1 : page;
             postListResult = postBLL.GetUserPosts(UserStatic.UserID);
-            return RedirectToAction("ShowPosts");
+            var result = postListResult.ToPagedList(currentPage, pageSize);
+            return View(result);
+            //return RedirectToAction("ShowPosts");
         }
         PostBLL postBLL = new PostBLL();
         public ActionResult AddPost()

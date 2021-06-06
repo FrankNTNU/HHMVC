@@ -105,22 +105,28 @@ namespace DAL
                             {
                                 ID = p.ID,
                                 Title = p.Title,
+                                MemberID = p.MemberID,
                                 ShortContent = p.ShortContent,
                                 CategoryName = p.PostCategory.Name,
                                 AddDate = p.AddDate,
                                 IsApproved = p.IsApproved,
-                                ViewCount = p.ViewCount
+                                ViewCount = p.ViewCount,
+                                LikeCount = p.LikeCount,
+                                CommentCount = db.Comments.Where(x => x.PostID == p.ID).Count(),
                             }).OrderByDescending(x => x.AddDate).ToList();
             foreach (var item in postList)
             {
                 PostDTO dto = new PostDTO();
                 dto.Title = item.Title;
                 dto.ID = item.ID;
+                dto.MemberID = (int)item.MemberID;
                 dto.ShortContent = item.ShortContent;
                 dto.CategoryName = item.CategoryName;
                 dto.AddDate = item.AddDate;
                 dto.IsApproved = item.IsApproved;
                 dto.ViewCount = item.ViewCount;
+                dto.LikeCount = item.LikeCount;
+                dto.CommentCount = item.CommentCount;
                 dto.ImagePath = db.PostImages.Where(x => x.PostID == item.ID).Select(x => x.ImagePath).DefaultIfEmpty("defaultImg.jpg").First();
                 dtoList.Add(dto);
             }
@@ -132,7 +138,7 @@ namespace DAL
             List<PostDTO> dtoList = new List<PostDTO>();
             using (HealthHelperEntities db= new HealthHelperEntities())
             {
-                List<int> postIDs = db.Posts.Where(x => x.CategoryID == categoryID).Select(x => x.ID).ToList();
+                List<int> postIDs = db.Posts.Where(x => x.CategoryID == categoryID && x.IsApproved == true).Select(x => x.ID).ToList();
                 foreach (var item in postIDs)
                 {
                     PostDTO dto = new PostDTO();

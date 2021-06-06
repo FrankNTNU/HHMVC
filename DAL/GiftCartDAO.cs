@@ -105,7 +105,7 @@ namespace DAL
             List<GiftCartDTO> dtoList = new List<GiftCartDTO>();
             using (HealthHelperEntities db = new HealthHelperEntities())
             {
-                List<GiftCart> giftCarts = db.GiftCarts.Where(x => x.MemberID == UserStatic.UserID).OrderByDescending(x => x.EndDate).ToList();
+                List<GiftCart> giftCarts = db.GiftCarts.OrderByDescending(x => x.EndDate).ToList();
                 foreach (var item in giftCarts)
                 {
                     GiftCartDTO dto = new GiftCartDTO();
