@@ -9,6 +9,7 @@ namespace DTO
     public class GiftCartDTO
     {
         public int ID { get; set; }
+        public int GiftID { get; set; } // Not a foreign key!
         public int MemberID { get; set; }
         public string MemberName { get; set; }
         public string Name { get; set; }

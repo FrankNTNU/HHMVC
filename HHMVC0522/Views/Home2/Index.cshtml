@@ -5,9 +5,15 @@
 }
 @model DTO.LayoutDTO
 
-<link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+@section Styles {
+    <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
+    <link href="~/Content/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+}
 
 <div id="main">
     <div class="inner">
@@ -38,8 +44,8 @@
                         <li><p>提供最新的營養資訊、留言板促進社群互動，並分享健康生活紀錄</p></li>
                         <li><p>飲食、運動紀錄資訊以精美報表製圖取代數字呈現，資訊一目瞭然</p></li>
                     </ul>
-                    <ul class="actions">
-                        <li><a href="#" class="button big">Learn More</a></li>
+                    <ul class="actions" style="margin-left: 10px; ">
+                        <li><a href="#" class="button big" style="text-decoration: none"><i class="fas fa-book"></i> 遊戲規則</a></li>
                     </ul>
                 </div>
                 <div class="col-12 col-lg-6">
@@ -90,61 +96,80 @@
 
         <!-- Section -->
         <section>
-        <header class="row">
-            <div class="row col-12">
-                <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
-                    <h3 style="margin-bottom: 10px;">
-                        <i class="far fa-file"></i> 最新貼文
-                    </h3>
+            <header class="row">
+                <div class="row col-12">
+                    <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
+                        <h3 style="margin-bottom: 10px;">
+                            <i class="far fa-file"></i> 最新貼文
+                        </h3>
+                    </div>
+                    <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
+                        <a href="~/FrontPost/AllPosts"><label class="button primary">檢視全部</label></a>
+                    </div>
                 </div>
-                <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
-                    <a href="~/FrontPost/AllPosts"><label class="button primary">檢視全部</label></a>
-                </div>
-            </div>
-           
-        </header>
-        <header class="major"><p class="col-12"></p></header>
-        <div class="row">
-            @foreach (var item in Model.Posts)
-            {
-                <div class="col-12 col-md-6 col-lg-4">
+
+            </header>
+            <header class="major"><p class="col-12"></p></header>
+            <div class="row">
+                @foreach (var item in Model.Posts)
+                {
+                    <div class="col-12 col-md-6 col-lg-4">
 
 
-                    <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image">
-                        @if (item.ImagePath != "~/Content/img/slides/health1.jpg")
-                        {
-                            <img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="" style="max-width:100%" />
-                        }
+                        <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image">
+                            @if (item.ImagePath != "~/Content/img/slides/health1.jpg")
+                            {
+                                <img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="" style="max-width:100%" />
+                            }
 
-                        else
-                        {
-                            <img src="~/Content/img/slides/health1.jpg" alt="" style="max-width:100%" />
-                        }
-                    </a>
-                    <text>
-                        <span class="button" style="        margin-right: 10px;
+                            else
+                            {
+                                <img src="~/Content/img/slides/health1.jpg" alt="" style="max-width:100%" />
+                            }
+                        </a>
+                        <text>
+                            <span class="button" style="        margin-right: 10px;
         pointer-events: none
 ">@item.CategoryName</span><a href="@Url.Action("PostDetail","FrontPost", new { @ID = item.ID })" style="text-decoration: none"><strong>@item.Title</strong></a>
-        </text>
-        <p>@item.ShortContent</p>
-        @*<ul class="actions">
+</text>
+<p>@item.ShortContent</p>
+@*<ul class="actions">
         <li><a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="button">More</a></li>
     </ul>*@
 
-        </div>
-    }
-        </div>
+</div>
+}
+            </div>
         </section>
 
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+@section Scripts {
+    <script src="~/Content/toastr/toastr.min.js"></script>
+    <script src="~/Content/js/jquery.likebtn.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        $('.carousel').carousel({
+            interval: 2000
+        })
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-<script>
-    $('.carousel').carousel({
-        interval: 2000
-    })
-    
-</script>
+            var result = "@ViewData["CommentState"]";
+            if (result != "") {
+
+                if (result == "Success") {
+                    toastr.success("動作成功");
+                }
+                else {
+                    toastr.error("失敗");
+                }
+            }
+
+        })
+
+    </script>
+}

@@ -3,18 +3,25 @@
     ViewBag.Title = "PostDetail";
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<style>
-
-    textarea {
-        width: 100%;
-    }
-
-    .like__btn {
-        border-radius: 0.4rem;
-    }
-</style>
 @model DTO.LayoutDTO
+
+@section Styles{
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
+
+    <style>
+
+        textarea {
+            width: 100%;
+        }
+
+        .like__btn {
+            border-radius: 0.4rem;
+        }
+    </style>
+}
+
+
 <!-- Content -->
 <div id="main">
     <div class="inner">
@@ -27,35 +34,24 @@
                         <span class="button" style="        font-weight: bolder;
         margin-right: 10px;
         pointer-events: none
-">@Model.PostDetail.CategoryName</span><h2 style="font-size:1.5em;">@Model.PostDetail.Title <i class="far fa-heart"></i> @Model.PostDetail.LikeCount</h2>
+">@Model.PostDetail.CategoryName</span>
+@if (!Model.PostDetail.IsApproved)
+{
+    <span class="button small primary" style="opacity:0.5;cursor:default;margin-right:10px"> 核准中...</span>
+}
+<h2 style="font-size:1.5em;">@Model.PostDetail.Title <i class="far fa-heart"></i> @Model.PostDetail.LikeCount <i class="far fa-eye"></i>  @Model.PostDetail.ViewCount</h2>
 
 </header>
 </div>
 </div>
-<!--<div class="row major">
-    <div class="col-12">-->
-@*<div class="col-12 mb-2" style="padding: 0px">
-        <a href="~/FrontPost/AllPosts"><label class="button primary fit" style="margin-bottom:0px; ">檢視全部</label></a>
 
-    </div>*@
-<!--<div class="col-12 col-sm-9 col-md-10">
-            <div class="row" style="margin-bottom:0px;font-size:1.4em">
-                <div class="button small col-2" style=" font-weight: bolder; pointer-events: none;padding:0px">@Model.PostDetail.CategoryName</div>
-                <div class="col-10" style="padding-top:5px">@Model.PostDetail.Title <i class="far fa-heart"></i> @Model.PostDetail.LikeCount</div>
-
-            </div>
-        </div>
-
-    </div>
-
-</div>-->
 <div class="row">
 
 
 
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-8">
         <div class="row">
-            <div class="col-3">
+            <div class="col-3 col-lg-2">
                 <img src="~/Areas/Admin/Content/UserImage/@Model.PostDetail.MemberImage" style="width:50px" />
 
             </div>
@@ -64,7 +60,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-3">
+            <div class="col-3 col-lg-2">
                 <strong style="font-size:1.2em">日期:</strong>
 
             </div>
@@ -75,11 +71,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-3">
+            <div class="col-3 col-lg-2">
                 <strong style="font-size:1.2em">大綱:</strong>
 
             </div>
-            <div class="col-8">
+            <div class="col-8 pr-0">
 
                 <div class="image main" style="font-size:1.2em">@Model.PostDetail.ShortContent</div>
 
@@ -88,7 +84,7 @@
     </div>
     @if (Model.PostDetail.PostImages.Count() > 0)
     {
-        <div class="col-12 col-md-6"><span class="image main" style="float:right"><img src="~/Areas/Admin/Content/PostImages/@Model.PostDetail.PostImages[0].ImagePath" alt="" style="max-width:80%;margin:auto;" /></span></div>
+        <div class="col-12 col-md-4 d-flex align-items-center justify-content-center "><span class="image main" style="float:right"><img src="~/Areas/Admin/Content/PostImages/@Model.PostDetail.PostImages[0].ImagePath" alt="" style="max-width:100%;margin:auto;" /></span></div>
     }
 
     else
@@ -125,6 +121,7 @@ else if (DTO.UserStatic.UserID != 0)
     </div>
 }
 <!--文章留言區-->
+
 <div class="row" style="margin-top:50px">
     <div class="col-8 col-12-medium">
         <header class="major">
@@ -137,47 +134,49 @@ else if (DTO.UserStatic.UserID != 0)
     </div>
 
 </div>
-
-<div style="        background-color: #ffe9e8;
+@if (Model.CommentCount > 0)
+{
+    <div style="        background-color: #ffe9e8;
         padding: 10px;
         margin-bottom: 10px">
-    @using (Html.BeginForm("PostDetail", "FrontPost", Model, FormMethod.Post, new { @style = "margin:0px" }))
-    {
-        foreach (var item in Model.PostDetail.CommentList)
+        @using (Html.BeginForm("PostDetail", "FrontPost", Model, FormMethod.Post, new { @style = "margin:0px" }))
         {
-            <input hidden="hidden" value="@Model.PostDetail.ID" name="Model.PostDetail.ID">
-
-            <input hidden="hidden" value="@item.ID" name="Model.Comment.ID">
-            <div class="row">
-                <div class="col-3 col-md-1">
-                    <img src="~/Areas/Admin/Content/UserImage/@item.MemberImage" style="width:50px" />
-
-                </div>
-                <div class="col-8">
-                    <p><strong>@item.Name</strong> <small>@item.AddDate.ToString("yyyy/MM/dd dddd")</small></p>
-                    <h4>@item.Title</h4>
-                    @Html.Raw(@item.CommentContent)
-                    @if (DTO.UserStatic.UserID == item.MemberID)
-                    {
-                        <div class="row">
-                            <div class="col-5 col-md-3" style="font-size:1em">
-                                @Html.ActionLink("修改", "UpdateComment", new { commentID = @item.ID }, new { @class = "button primary" })
-                            </div>
-                            <div class="col-5" style="font-size:1em">
-                                @Html.ActionLink("刪除", "DeleteComment", new { ID = item.ID, PostID = Model.PostDetail.ID }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "button" })
-                            </div>
-                        </div>}
-                        <div class="row"><p></p></div>
-                    
-                </div>
-            </div>
-            if (Model.PostDetail.CommentList.IndexOf(item) != Model.PostDetail.CommentList.Count() - 1)
+            foreach (var item in Model.PostDetail.CommentList)
             {
-                <div><p></p></div>// an extra space bettwen comments
+                <input hidden="hidden" value="@Model.PostDetail.ID" name="Model.PostDetail.ID">
+
+                <input hidden="hidden" value="@item.ID" name="Model.Comment.ID">
+                <div class="row">
+                    <div class="col-3 col-md-1">
+                        <img src="~/Areas/Admin/Content/UserImage/@item.MemberImage" style="width:50px" />
+
+                    </div>
+                    <div class="col-8">
+                        <p><strong>@item.Name</strong> <small>@item.AddDate.ToString("yyyy/MM/dd dddd")</small></p>
+                        <h4>@item.Title</h4>
+                        @Html.Raw(@item.CommentContent)
+                        @if (DTO.UserStatic.UserID == item.MemberID)
+                        {
+                            <div class="row">
+                                <div class="col-5 col-md-3" style="font-size:1em">
+                                    @Html.ActionLink("修改", "UpdateComment", new { commentID = @item.ID }, new { @class = "button primary" })
+                                </div>
+                                <div class="col-5" style="font-size:1em">
+                                    @Html.ActionLink("刪除", "DeleteComment", new { ID = item.ID, PostID = Model.PostDetail.ID }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "button" })
+                                </div>
+                            </div>}
+                        <div class="row"><p></p></div>
+
+                    </div>
+                </div>
+                if (Model.PostDetail.CommentList.IndexOf(item) != Model.PostDetail.CommentList.Count() - 1)
+                {
+                    <div><p></p></div>// an extra space bettwen comments
+                }
             }
         }
-    }
-</div>
+    </div>
+}
 @if (DTO.UserStatic.UserID != 0)
 {
     <header class="major">

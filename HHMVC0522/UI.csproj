@@ -114,6 +114,7 @@
     <Content Include="Areas\Admin\Content\CSS\tempusdominus-bootstrap-4.min.css" />
     <Content Include="Areas\Admin\Content\icon\approve.png" />
     <Content Include="Areas\Admin\Content\icon\close-icon.png" />
+    <Content Include="Areas\Admin\Content\icon\lockIcon.png" />
     <Content Include="Areas\Admin\Content\icon\update-icon.png" />
     <Content Include="Areas\Admin\Content\JS\adminlte.min.js" />
     <Content Include="Areas\Admin\Content\JS\bootstrap.bundle.min.js" />

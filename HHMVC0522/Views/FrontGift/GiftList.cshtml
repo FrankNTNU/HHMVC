@@ -4,6 +4,9 @@
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 @model List<DTO.GiftDTO>
+@section Styles{
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+}
 <div id="main">
     <div class="inner">
         <!-- Section -->
@@ -23,15 +26,16 @@
                         {
                             <a href="~/Home2/Login"><label class="button primary">登入</label></a>
 
-                            }
-                        </div>
+                        }
+                    </div>
                 </div>
-                @if (DTO.UserStatic.UserID != 0) { 
-            <div class="col-12">
-                <strong>@DTO.UserStatic.NameSurname</strong> 目前擁有 <strong>@DTO.UserStatic.Points </strong>點
-            </div>
+                @if (DTO.UserStatic.UserID != 0)
+                {
+                    <div class="col-12">
+                        <strong>@DTO.UserStatic.NameSurname</strong> 目前擁有 <strong>@DTO.UserStatic.Points </strong>點
+                    </div>
                 }
-                
+
             </header>
             <header class="major"><p class="col-12" style="margin-bottom:5px"></p></header>
             <div class="row" style="margin-bottom:5px">
@@ -53,11 +57,11 @@
                         <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
                             <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%" />
                         </a>
-                            <div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">
-                                <label style="font-weight: bolder;font-size:1em;display: inline-block;">
-                                    @item.Points 點
-                                </label>
-                             </div>
+                        <div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">
+                            <label style="font-weight: bolder;font-size:1em;display: inline-block;">
+                                @item.Points 點
+                            </label>
+                        </div>
                         <strong style="text-align: center">@item.Name</strong>
                         <p>剩餘 @item.Quantity 件</p>
                     </div>
@@ -67,7 +71,13 @@
     </div>
 </div>
 @section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="~/Content/js/jquery.min.js"></script>
+
     <script>
+
         $(document).ready(function () {
             $('#searchText').keyup(function () {
                 const text = $(this).val();
@@ -81,22 +91,22 @@
                         $.each(result, function (index, value) { // 跑回圈
                             var insertedHtml =
                                 '<div class="col-6 col-sm-4 col-md-4 col-lg-3" style="text-align:center">' +
-                                    '<a href="GiftDetail/' + value.ID + '" class="image">' +
-                                    '<img src="/Areas/Admin/Content/GiftImages/' + value.Image + '" alt="" style="max-width:100%;max-height:100%"/>' +
-                                    '</a>' +
+                                '<a href="GiftDetail/' + value.ID + '" class="image">' +
+                                '<img src="/Areas/Admin/Content/GiftImages/' + value.Image + '" alt="" style="max-width:100%;max-height:100%"/>' +
+                                '</a>' +
                                 '<div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">' +
-                                    '<label style="font-weight: bolder;font-size:1em;display: inline-block;">' +
-                                    value.Points +
-                                    '點</label>' +
+                                '<label style="font-weight: bolder;font-size:1em;display: inline-block;">' +
+                                value.Points +
+                                '點</label>' +
                                 '</div>' +
                                 '<strong style="text-align: center">' + value.Name + '</strong>' +
-                                '<p>剩餘' +  value.Quantity + ' 件</p>' +
+                                '<p>剩餘' + value.Quantity + ' 件</p>' +
                                 '</div>';
                             $('#cartList').append(insertedHtml);
                         })
                     }
                 })
-                
+
             })
             $('#searchFilter').change(function () {
                 const isAscending = $(this).val();
@@ -128,4 +138,4 @@
             })
         })
     </script>
-    }
+}

@@ -24,12 +24,12 @@ namespace UI.Controllers
             layoutBLL = new LayoutBLL();
             LayoutDTO layoutDTO = new LayoutDTO();
             postID = ID;
+            postBLL.AddViewCount(ID);
             layoutDTO = layoutBLL.GetPostDetailPageItemWithID(ID);
             return View(layoutDTO);
         }
         [HttpPost]
         [ValidateInput(false)]
-
         public ActionResult PostDetail(LayoutDTO model)
         {
             layoutBLL = new LayoutBLL();
@@ -104,6 +104,7 @@ namespace UI.Controllers
                     imageList.Add(dto);
                 }
                 model.PostImages = imageList;
+                model.CategoryID = General.Category.UserPost;
                 if (postBLL.AddPost(model))
                 {
                     ViewData["CommentState"] = "Success";
@@ -234,7 +235,20 @@ namespace UI.Controllers
         }
         public ActionResult GetPostsWithSearchText(string SearchCategory, string SearchText)
         {
-            postListResult = postBLL.GetPosts(Int32.Parse(SearchCategory), SearchText);
+            if (SearchText == "" && SearchCategory != "0")
+            {
+                postListResult = postBLL.GetPostsByCategory(Int32.Parse(SearchCategory));
+            }
+            else if (SearchText == "" && SearchCategory == "0") // Search All.
+            {
+                postListResult = postBLL.GetPosts();
+            }
+            else
+            {
+                postListResult = postBLL.GetPosts(Int32.Parse(SearchCategory), SearchText);
+            }
+            
+
             return RedirectToAction("ShowPosts");
         }
         //public JsonResult GetSearchPost(string SearchCategory, string SearchText)

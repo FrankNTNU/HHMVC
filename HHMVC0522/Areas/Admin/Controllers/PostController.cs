@@ -23,8 +23,9 @@ namespace UI.Areas.Admin.Controllers
             //CountDTO countDTO = new CountDTO();
             //countDTO = bll.GetAllCounts();
             //ViewData["AllCounts"] = countDTO;
+            postBLL = new PostBLL();
             List<PostDTO> postList = new List<PostDTO>();
-            postList = postBLL.GetPosts();
+            postList = postBLL.GetAllPosts();
             return View(postList);
         }
         public ActionResult AddPost()
@@ -66,6 +67,7 @@ namespace UI.Areas.Admin.Controllers
                     imageList.Add(dto);
                 }
                 model.PostImages = imageList;
+                model.IsApproved = true;
                 if (postBLL.AddPost(model))
                 {
                     ViewBag.ProcessState = General.Messages.AddSuccess;
@@ -167,6 +169,16 @@ namespace UI.Areas.Admin.Controllers
                 }
             }
             return Json("");
+        }
+        public ActionResult ApprovePost(int ID)
+        {
+            postBLL.ApprovePost(ID);
+            return RedirectToAction("PostList", "Post");
+        }
+        public ActionResult BlockPost(int ID)
+        {
+            postBLL.BlockPost(ID);
+            return RedirectToAction("PostList", "Post");
         }
     }
 }

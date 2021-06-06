@@ -3,16 +3,19 @@
     ViewBag.Title = "GiftCart";
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
+
 @section Styles {
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         @@font-face {
-            font-family: 'BarcodeFont' ;
+            font-family: 'BarcodeFont';
             src: url('../Areas/Admin/Content/webfonts/BarcodeFont.ttf') /* Make sure your file location is right */
         }
 
         tbody td {
             padding: 5px;
         }
+
         .barcodeFont {
             font-family: 'BarcodeFont';
             font-size: 3em;
@@ -116,33 +119,33 @@
                         $.each(result, function (index, value) {
                             var insertedHtml =
                                 '<div class="col-12 col-sm-4 col-md-4 d-flex align-items-center justify-content-center" style="margin:auto;">' +
-                                    '<img class="image" src="/Areas/Admin/Content/CartImages/' + value.Image + '" style="max-width:200px;width:100%"/>' +
+                                '<img class="image" src="/Areas/Admin/Content/CartImages/' + value.Image + '" style="max-width:200px;width:100%"/>' +
                                 '</div>' +
                                 '<div class="col-12 col-sm-8 col-md-8">\
-                                     <div class="table-wrapper" >\
-                                        <table style="margin-bottom:0px"><thead><tr><th></th><th></th></tr></thead>' +
-                                        '<tbody>\
-                                            <tr> \
-                                                <td><strong>名稱</strong></td> \
-                                                <td>' + value.Name + '</td> \
-                                            </tr> \
-                                            <tr> \
-                                                <td><strong>商家通路</strong></td> \
-                                                <td>' + value.Store + '</td> \
-                                            </tr> \
-                                            <tr> \
-                                                <td><strong>兌換期限</strong></td> \
-                                                <td>' + value.Duration + '</td> \
-                                            </tr> \
-                                            <tr> \
-                                                <td style="vertical-align:middle"><strong>掃描條碼</strong></td> \
-                                                <td class="barcodeFont" style="font-family:"BarcodeFont"; font-size:3em;padding:0px;padding-left:10px">' + value.Barcode + '</td>\
-                                            </tr>\
-                                        </tbody>\
-                                        <tfoot><tr><td></td><td></td></tr></tfoot>\
-                                        </table >\
-                                    </div> \
-                                </div> ';
+                                                 <div class="table-wrapper" >\
+                                                    <table style="margin-bottom:0px"><thead><tr><th></th><th></th></tr></thead>' +
+                                '<tbody>\
+                                                        <tr> \
+                                                            <td><strong>名稱</strong></td> \
+                                                            <td>' + value.Name + '</td> \
+                                                        </tr> \
+                                                        <tr> \
+                                                            <td><strong>商家通路</strong></td> \
+                                                            <td>' + value.Store + '</td> \
+                                                        </tr> \
+                                                        <tr> \
+                                                            <td><strong>兌換期限</strong></td> \
+                                                            <td>' + value.Duration + '</td> \
+                                                        </tr> \
+                                                        <tr> \
+                                                            <td style="vertical-align:middle"><strong>掃描條碼</strong></td> \
+                                                            <td class="barcodeFont" style="font-family:"BarcodeFont"; font-size:3em;padding:0px;padding-left:10px">' + value.Barcode + '</td>\
+                                                        </tr>\
+                                                    </tbody>\
+                                                    <tfoot><tr><td></td><td></td></tr></tfoot>\
+                                                    </table >\
+                                                </div> \
+                                            </div> ';
                             $('#cartList').append(insertedHtml);
                         })
                     }
@@ -164,30 +167,30 @@
                                 '<img class="image" src="/Areas/Admin/Content/CartImages/' + value.Image + '" style="max-width:200px;width:100%"/>' +
                                 '</div>' +
                                 '<div class="col-12 col-sm-8 col-md-8">\
-                                     <div class="table-wrapper" >\
-                                        <table style="margin-bottom:0px"><thead><tr><th></th><th></th></tr></thead>' +
+                                                 <div class="table-wrapper" >\
+                                                    <table style="margin-bottom:0px"><thead><tr><th></th><th></th></tr></thead>' +
                                 '<tbody>\
-                                            <tr> \
-                                                <td><strong>名稱</strong></td> \
-                                                <td>' + value.Name + '</td> \
-                                            </tr> \
-                                            <tr> \
-                                                <td><strong>商家通路</strong></td> \
-                                                <td>' + value.Store + '</td> \
-                                            </tr> \
-                                            <tr> \
-                                                <td><strong>兌換期限</strong></td> \
-                                                <td>' + value.Duration + '</td> \
-                                            </tr> \
-                                            <tr> \
-                                                <td style="vertical-align:middle"><strong>掃描條碼</strong></td> \
-                                                <td class="barcodeFont" style="font-family:"BarcodeFont"; font-size:3em;padding:0px;padding-left:10px">' + value.Barcode + '</td>\
-                                            </tr>\
-                                        </tbody>\
-                                        <tfoot><tr><td></td><td></td></tr></tfoot>\
-                                        </table >\
-                                    </div> \
-                                </div> ';
+                                                        <tr> \
+                                                            <td><strong>名稱</strong></td> \
+                                                            <td>' + value.Name + '</td> \
+                                                        </tr> \
+                                                        <tr> \
+                                                            <td><strong>商家通路</strong></td> \
+                                                            <td>' + value.Store + '</td> \
+                                                        </tr> \
+                                                        <tr> \
+                                                            <td><strong>兌換期限</strong></td> \
+                                                            <td>' + value.Duration + '</td> \
+                                                        </tr> \
+                                                        <tr> \
+                                                            <td style="vertical-align:middle"><strong>掃描條碼</strong></td> \
+                                                            <td class="barcodeFont" style="font-family:"BarcodeFont"; font-size:3em;padding:0px;padding-left:10px">' + value.Barcode + '</td>\
+                                                        </tr>\
+                                                    </tbody>\
+                                                    <tfoot><tr><td></td><td></td></tr></tfoot>\
+                                                    </table >\
+                                                </div> \
+                                            </div> ';
 
                             $('#cartList').append(insertedHtml);
                         })

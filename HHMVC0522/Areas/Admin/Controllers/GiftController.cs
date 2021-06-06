@@ -140,18 +140,18 @@ namespace UI.Areas.Admin.Controllers
         }
         public JsonResult DeleteGiftCart(int ID)
         {
-            GiftCartDTO model = giftCartBLL.GetGiftCart(ID);
+            //GiftCartDTO model = giftCartBLL.GetGiftCart(ID);
             string imagePath = giftCartBLL.DeleteCart(ID);
-            if (!giftCartBLL.IsSameItemExist(model.Name))
-                // Only delete the image from the folder if there's not same item in the cart.
+            //if (!giftCartBLL.IsSameItemExist(model.Name))
+            //    // Only delete the image from the folder if there's not same item in the cart.
+            //{
+            string ImageFullPath = Server.MapPath(@"~\Areas\Admin\Content\CartImages\" + imagePath);
+            if (System.IO.File.Exists(ImageFullPath))
             {
-                string ImageFullPath = Server.MapPath(@"~\Areas\Admin\Content\CartImages\" + imagePath);
-                if (System.IO.File.Exists(ImageFullPath))
-                {
-                    System.IO.File.Delete(ImageFullPath);
-                }
-                giftCartBLL = new GiftCartBLL();
-            } 
+                System.IO.File.Delete(ImageFullPath);
+            }
+            giftCartBLL = new GiftCartBLL();
+            //} 
             return Json("");
         }
         GiftCartBLL giftCartBLL = new GiftCartBLL();

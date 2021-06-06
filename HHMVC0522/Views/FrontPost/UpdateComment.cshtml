@@ -6,6 +6,7 @@
 
 
 @model DTO.CommentDTO
+
 <div id="main">
     <div class="inner">
         <!-- Header -->
@@ -22,12 +23,13 @@
             <div class="row gtr-uniform">
                 <div class="col-6 col-12-xsmall">
                     <label>暱稱</label>
-                    @Html.ValidationMessageFor(x => x.Name)
+
                     @Html.TextBoxFor(x => x.Name, new { @placeholder = "留言暱稱", @style = "height: 45px;" })
+                    @Html.ValidationMessageFor(x => x.Name, "", new{ @style="color:red" })
                 </div>
                 <div class="col-6 col-12-xsmall">
                     <label>標題</label>
-                    @Html.ValidationMessageFor(x => x.Title)
+                    @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
                     @Html.TextBoxFor(x => x.Title, new { @placeholder = "你的留言標題", @style = "height: 45px;" })
                 </div>
 
@@ -52,3 +54,8 @@
 </div>
 
 
+@section Scripts{
+
+    <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
+ 
+}

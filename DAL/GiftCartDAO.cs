@@ -19,6 +19,7 @@ namespace DAL
                 {
                     GiftCartDTO dto = new GiftCartDTO();
                     dto.ID = item.ID;
+                    dto.GiftID = item.GiftID;
                     dto.Name = item.Name;
                     dto.Store = item.Store;
                     dto.Image = item.Image;
@@ -40,16 +41,17 @@ namespace DAL
                 List<GiftCart> giftCarts = new List<GiftCart>();
                 if (isAscending)
                 {
-                    giftCarts = db.GiftCarts.OrderByDescending(x => x.EndDate).ToList();
+                    giftCarts = db.GiftCarts.Where(x => x.MemberID == UserStatic.UserID).OrderByDescending(x => x.EndDate).ToList();
                 }
                 else
                 {
-                    giftCarts = db.GiftCarts.OrderBy(x => x.EndDate).ToList();
+                    giftCarts = db.GiftCarts.Where(x => x.MemberID == UserStatic.UserID).OrderBy(x => x.EndDate).ToList();
                 }
                 foreach (var item in giftCarts)
                 {
                     GiftCartDTO dto = new GiftCartDTO();
                     dto.ID = item.ID;
+                    dto.GiftID = item.GiftID;
                     dto.Name = item.Name;
                     dto.Store = item.Store;
                     dto.Image = item.Image;
@@ -64,16 +66,27 @@ namespace DAL
                 return dtoList;
             }
         }
+
+        public bool IsSameItemExist(int userID, int giftID)
+        {
+            GiftCart cart;
+            using (HealthHelperEntities db = new HealthHelperEntities()) {
+                cart = db.GiftCarts.FirstOrDefault(x => x.MemberID == userID && x.GiftID == giftID);
+            }
+            return cart != null;
+        }
+
         public List<GiftCartDTO> GetGiftCarts(string text)
         {
             List<GiftCartDTO> dtoList = new List<GiftCartDTO>();
             using (HealthHelperEntities db = new HealthHelperEntities())
             {
-                List<GiftCart> giftCarts = db.GiftCarts.Where(x => x.Name.Contains(text)).ToList();
+                List<GiftCart> giftCarts = db.GiftCarts.Where(x => x.MemberID == UserStatic.UserID && x.Name.Contains(text)).ToList();
                 foreach (var item in giftCarts)
                 {
                     GiftCartDTO dto = new GiftCartDTO();
                     dto.ID = item.ID;
+                    dto.GiftID = item.GiftID;
                     dto.Name = item.Name;
                     dto.Store = item.Store;
                     dto.Image = item.Image;
@@ -92,11 +105,12 @@ namespace DAL
             List<GiftCartDTO> dtoList = new List<GiftCartDTO>();
             using (HealthHelperEntities db = new HealthHelperEntities())
             {
-                List<GiftCart> giftCarts = db.GiftCarts.OrderByDescending(x => x.EndDate).ToList();
+                List<GiftCart> giftCarts = db.GiftCarts.Where(x => x.MemberID == UserStatic.UserID).OrderByDescending(x => x.EndDate).ToList();
                 foreach (var item in giftCarts)
                 {
                     GiftCartDTO dto = new GiftCartDTO();
                     dto.ID = item.ID;
+                    dto.GiftID = item.GiftID;
                     dto.Name = item.Name;
                     dto.Store = item.Store;
                     dto.Image = item.Image;
@@ -120,18 +134,18 @@ namespace DAL
                 return cart != null;
             }
         }
-
-        public GiftCartDTO GetGiftCart(int ID)
-        {
-            GiftCartDTO dto = new GiftCartDTO();
-            using (HealthHelperEntities db = new HealthHelperEntities())
-            {
-                GiftCart cart = db.GiftCarts.FirstOrDefault(x => x.ID == ID);
-                dto.Name = cart.Name;
-                dto.Image = cart.Image;
-            }
-            return dto;
-        }
+        
+        //public GiftCartDTO GetGiftCart(int ID)
+        //{
+        //    GiftCartDTO dto = new GiftCartDTO();
+        //    using (HealthHelperEntities db = new HealthHelperEntities())
+        //    {
+        //        GiftCart cart = db.GiftCarts.FirstOrDefault(x => x.ID == ID);
+        //        dto.Name = cart.Name;
+        //        dto.Image = cart.Image;
+        //    }
+        //    return dto;
+        //}
 
         public void AddCart(GiftCart cart)
         {

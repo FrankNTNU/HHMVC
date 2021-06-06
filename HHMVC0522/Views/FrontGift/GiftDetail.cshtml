@@ -5,6 +5,9 @@
 }
 
 @model DTO.GiftDTO
+@section Styles{
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+}
 <!-- Content -->
 <div id="main">
     <div class="inner">
@@ -22,9 +25,9 @@
                 </div>
                 @if (DTO.UserStatic.UserID != 0)
                 {
-            <div class="col-12" style="text-align:center;font-size:1.2em">
-                <strong>@DTO.UserStatic.NameSurname</strong> 目前擁有 <strong>@DTO.UserStatic.Points </strong>點
-            </div>
+                    <div class="col-12" style="text-align:center;font-size:1.2em">
+                        <strong>@DTO.UserStatic.NameSurname</strong> 目前擁有 <strong>@DTO.UserStatic.Points </strong>點
+                    </div>
                 }
 
             </header>
@@ -42,14 +45,13 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th></th>
+                                    <th style="text-align:end; font-weight:500">編號: @Model.ID</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td><strong>所需點數</strong></td>
                                     <td>@Model.Points 點</td>
-                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><strong>兌換期限</strong></td>
@@ -58,7 +60,6 @@
                                 <tr>
                                     <td><strong>剩餘件數</strong></td>
                                     <td>@Model.Quantity</td>
-                                    <td></td>
 
                                 </tr>
                                 <tr>
@@ -83,12 +84,13 @@
                         }
                         else
                         {
-                            if (@Model.EndDate < DateTime.Today) {
-                    <div style="text-align:center">
-                        <label class="button default disabled" style="width:300px" id="btnRedeem">已截止</label>
-                    </div>
-                    }
-            }
+                            if (@Model.EndDate < DateTime.Today)
+                            {
+                                <div style="text-align:center">
+                                    <label class="button default disabled" style="width:300px" id="btnRedeem">已截止</label>
+                                </div>
+                            }
+                        }
 
 
                     </div>
@@ -102,20 +104,33 @@
     <script>
         $("#btnRedeem").click(function () {
             if (@Model.Points > @DTO.UserStatic.Points) {
-                alert("持有點數不足")
+                alert("持有點數不足\n尚差" + (@Model.Points-@DTO.UserStatic.Points) + "點數");
             }
             else if (@Model.Quantity <= 0) {
                 alert("商品已經兌換完畢");
             }
             else {
-                const answer = confirm("確定要兌換?");
+                const answer = confirm("確定要兌換?\n兌換前點數: " + @DTO.UserStatic.Points + "\n將剩餘點數: " +(@DTO.UserStatic.Points - @Model.Points));
                 if (answer) {
-                    window.location.href = "/FrontGift/AddCart/?giftID=@Model.ID";
+                    $.ajax({
+                        type: "post",
+                        url: "../IsSameItemExist?giftID=" + @Model.ID,
+                        success: function (result) {
+                            console.log(result);
+                            if (result == "yes") {
+                                alert("已兌換過該禮物");
+                            }
+                            else {
+                                alert("兌換成功!\n剩餘點數: " +(@DTO.UserStatic.Points - @Model.Points));
+                                window.location.href = "/FrontGift/AddCart/?giftID=@Model.ID";
+                            }
+                        }
+                    })
                 }
-               
+
             }
-                
+
        })
     </script>
-    
-    }
+
+}
