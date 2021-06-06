@@ -162,5 +162,10 @@ namespace BLL
         {
             postDAO.AddViewCount(postID);
         }
+
+        public List<PostDTO> GetPostsByCategory(int categoryID)
+        {
+            return postDAO.GetPostsByCategory(categoryID);
+        }
     }
 }

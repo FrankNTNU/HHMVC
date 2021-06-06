@@ -235,7 +235,20 @@ namespace UI.Controllers
         }
         public ActionResult GetPostsWithSearchText(string SearchCategory, string SearchText)
         {
-            postListResult = postBLL.GetPosts(Int32.Parse(SearchCategory), SearchText);
+            if (SearchText == "" && SearchCategory != "0")
+            {
+                postListResult = postBLL.GetPostsByCategory(Int32.Parse(SearchCategory));
+            }
+            else if (SearchText == "" && SearchCategory == "0") // Search All.
+            {
+                postListResult = postBLL.GetPosts();
+            }
+            else
+            {
+                postListResult = postBLL.GetPosts(Int32.Parse(SearchCategory), SearchText);
+            }
+            
+
             return RedirectToAction("ShowPosts");
         }
         //public JsonResult GetSearchPost(string SearchCategory, string SearchText)

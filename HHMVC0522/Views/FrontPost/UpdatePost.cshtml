@@ -3,18 +3,21 @@
     ViewBag.Title = "UpdatePost";
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
-
-
-<style>
-    #messageInfo strong {
-        color: white;
-    }
-
-    a.toggle {
-        color: red;
-    }
-</style>
+    
 @model DTO.PostDTO
+
+@section Styles{
+    <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
+    <style>
+        #messageInfo strong {
+            color: white;
+        }
+
+        a.toggle {
+            color: red;
+        }
+    </style>
+}
 <!-- Content -->
 <div id="main">
     <div class="inner">
@@ -76,8 +79,8 @@
 
                     <div class="col-8  col-12-xsmall">
                         <label class="form-label" for="customFile">圖片(建議長寬比16:9，單邊400px以上大圖)</label>
-                        <input type="file" name="PostImage" class="form-control" id="customFile" style="height:45px" accept="image/gif, image/jpeg, image/png, image/jpg"  onchange="$('#PostImage')[0].src = URL.createObjectURL(this.files[0])" />
-                        <img  id="PostImage" width="800" height="450" style="max-width:100%; top:10px" />
+                        <input type="file" name="PostImage" class="form-control" id="customFile" style="height:45px" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#PostImage')[0].src = URL.createObjectURL(this.files[0])" />
+                        <img id="PostImage" width="800" height="450" style="max-width:100%; top:10px" />
 
 
                     </div>

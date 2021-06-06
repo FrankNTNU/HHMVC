@@ -21,7 +21,10 @@ namespace UI.Controllers
         public ActionResult GiftList()
         {
             UserBLL userBLL = new UserBLL();
-            UserStatic.Points = userBLL.GetPoints(UserStatic.UserID);
+            if (UserStatic.UserID != 0)
+            {
+                UserStatic.Points = userBLL.GetPoints(UserStatic.UserID);
+            }
             List<GiftDTO> giftDTOs = new List<GiftDTO>();
             giftDTOs = giftBLL.GetGifts();
             return View(giftDTOs);

@@ -5,8 +5,12 @@
     ViewBag.Title = "ShowPosts";
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
-<link href="~/Content/PagedList.css" rel="stylesheet" />
 
+@section Styles{
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+}
 @model IPagedList<DTO.PostDTO>
 <div id="main">
     <div class="inner">
@@ -84,7 +88,7 @@
 }
 
             </div>
-            <div style="font-size:1.5em;text-align:center" id="PageInfo">
+            <div style="font-size:1.5em;text-align:center;justify-content:center" id="PageInfo" class="d-flex">
                 @Html.PagedListPager(Model, page => Url.Action("ShowPosts", new { page }))
             </div>
         </section>
@@ -98,9 +102,6 @@
             var SearchText = $("#SearchText").val();
             var SetData = $("#DataSearching");
             console.log(SetData);
-
-
-
 
             if (SearchCategory == null) {
                 alert("請選擇分類");

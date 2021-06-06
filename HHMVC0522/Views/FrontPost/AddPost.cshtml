@@ -3,20 +3,23 @@
     ViewBag.Title = "AddPost";
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
+@section Styles{
+    <style>
+        #messageInfo strong {
+            color: white;
+        }
 
-<style>
-    #messageInfo strong {
-        color: white;
-    }
+        a.toggle {
+            color: red;
+        }
 
-    a.toggle {
-        color: red;
-    }
-    .image-upload .browseBtn {
-/*        visibility: hidden;
-*/        
-    }
-</style>
+        .image-upload .browseBtn {
+            /*        visibility: hidden;
+        */
+        }
+    </style>
+}
+
 @model DTO.PostDTO
 <!-- Content -->
 <div id="main">
@@ -37,7 +40,7 @@
                 </div>
             </div>
             <div class="col-8 col-12-small" style="padding:0px"> @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")</div>
-           
+
             @using (Html.BeginForm("AddPost", "FrontPost", FormMethod.Post, new { @enctype = "multipart/form-data" }))
             {
 
@@ -48,22 +51,22 @@
                         <input hidden value="@DTO.UserStatic.UserID" name="MemberID">
                         <label>顯示名稱</label>
 
-                        <input type="text" id="demo-name" value="@DTO.UserStatic.NameSurname" placeholder="Name" readonly style="height:45px"/>
+                        <input type="text" id="demo-name" value="@DTO.UserStatic.NameSurname" placeholder="Name" readonly style="height:45px" />
                     </div>
                     <div class="col-8 col-12-small">
                         <label>標題</label>
-                        <input type="text" name="Title" id="demo-email" value="" placeholder="標題" maxlength="50" style="height:45px"/>                            @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
+                        <input type="text" name="Title" id="demo-email" value="" placeholder="標題" maxlength="50" style="height:45px" />                            @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
 
                     </div>
                     <div class="col-8 col-12-small">
                         <label>大綱</label>
-                        <input type="text" name="ShortContent" id="demo-email" value="" placeholder="內容大綱" maxlength="100" style="height:45px"/>                            @Html.ValidationMessageFor(x => x.ShortContent, "", new { @style = "color:red" })
+                        <input type="text" name="ShortContent" id="demo-email" value="" placeholder="內容大綱" maxlength="100" style="height:45px" />                            @Html.ValidationMessageFor(x => x.ShortContent, "", new { @style = "color:red" })
 
                     </div>
                     <!--<div class="col-8 col-12-small">
                         <label>貼文分類</label>-->
-                        @*@Html.DropDownList("CategoryID", Model.Categories, "選擇貼文分類", new { @class = "form-control" })*@
-                        <!--<select id="CategoryID" class="form-control" name="CategoryID">
+                    @*@Html.DropDownList("CategoryID", Model.Categories, "選擇貼文分類", new { @class = "form-control" })*@
+                    <!--<select id="CategoryID" class="form-control" name="CategoryID">
                             <option selected value="0">所有分類</option>
                             <option value="1">貼文</option>
                             <option value="2">資訊</option>
@@ -81,20 +84,20 @@
 
                     </div>
                     <div class="col-8 col-12-xsmall image-upload">
-                        
-                            <label>圖片(建議長寬比16:9，單邊400px以上大圖)</label>
-                            <div class="input-group">
 
-                                
-                                <label for="file-input">
-                                     <input type="file" id="file-input" name="PostImage" class="button default browseBtn" accept="image/gif, image/jpeg, image/png, image/jpg" multiple onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])" style="padding:10px;height:45px"/>
-                                </label>
-                                    
-                                   
+                        <label>圖片(建議長寬比16:9，單邊400px以上大圖)</label>
+                        <div class="input-group">
 
-                                <img class="image" id="PostImage" width="800" height="450" style="max-width:100%; top:10px" />
-                                <br />
-                            </div>
+
+                            <label for="file-input">
+                                <input type="file" id="file-input" name="PostImage" class="button default browseBtn" accept="image/gif, image/jpeg, image/png, image/jpg" multiple onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])" style="padding:10px;height:45px" />
+                            </label>
+
+
+
+                            <img class="image" id="PostImage" width="800" height="450" style="max-width:100%; top:10px" />
+                            <br />
+                        </div>
                     </div>
 
                     <!-- Break -->
@@ -112,12 +115,14 @@
     </div>
 
 </div>
-<script src="~/Areas/Admin/Content/JS/adminlte.min.js"></script>
-<script src="~/Areas/Admin/Content/JS/bs-custom-file-input.min.js"></script>
-<script src="~/Areas/Admin/Content/JS/jquery.min.js"></script>
-<script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
-<script>
-    $(function () {
-        bsCustomFileInput.init();
-    });
-</script>
+@section Scripts{
+    <script src="~/Areas/Admin/Content/JS/adminlte.min.js"></script>
+    <script src="~/Areas/Admin/Content/JS/bs-custom-file-input.min.js"></script>
+    <script src="~/Areas/Admin/Content/JS/jquery.min.js"></script>
+    <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
+    <script>
+        $(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
+}

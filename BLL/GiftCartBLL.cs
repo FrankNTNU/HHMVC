@@ -50,10 +50,10 @@ namespace BLL
             return giftCartDAO.DeleteCart(ID);
         }
 
-        public GiftCartDTO GetGiftCart(int ID)
-        {
-            return giftCartDAO.GetGiftCart(ID);
-        }
+        //public GiftCartDTO GetGiftCart(int ID)
+        //{
+        //    return giftCartDAO.GetGiftCart(ID);
+        //}
 
         public bool IsSameItemExist(string name)
         {

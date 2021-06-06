@@ -64,7 +64,7 @@ namespace DAL
         {
             List<PostDTO> dtoList = new List<PostDTO>();
             List<PostDTO> postList = (from p in db.Posts
-                                      where p.CategoryID != Rules && p.IsApproved == true
+                                      where p.IsApproved == true
                             select new PostDTO
                             {
                                 ID = p.ID,
@@ -123,6 +123,22 @@ namespace DAL
                 dto.ViewCount = item.ViewCount;
                 dto.ImagePath = db.PostImages.Where(x => x.PostID == item.ID).Select(x => x.ImagePath).DefaultIfEmpty("defaultImg.jpg").First();
                 dtoList.Add(dto);
+            }
+            return dtoList;
+        }
+
+        public List<PostDTO> GetPostsByCategory(int categoryID)
+        {
+            List<PostDTO> dtoList = new List<PostDTO>();
+            using (HealthHelperEntities db= new HealthHelperEntities())
+            {
+                List<int> postIDs = db.Posts.Where(x => x.CategoryID == categoryID).Select(x => x.ID).ToList();
+                foreach (var item in postIDs)
+                {
+                    PostDTO dto = new PostDTO();
+                    dto = GetPostDetailWithID(item);
+                    dtoList.Add(dto);
+                }
             }
             return dtoList;
         }
