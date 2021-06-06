@@ -81,6 +81,16 @@
             color: #f56a6a;
             text-align: center;
         }
+
+        .ui-datepicker {
+            width: 300px;
+            height: max-content;
+        }
+
+        .ui-datepicker select {
+            height: 1.5em;
+            display: inline-block;
+        }
     </style>
 }
 
@@ -248,8 +258,15 @@
                     $(wrap).append(lbl1).append(input1).append(lbl2).append(input2);
                     $(".dataTables_wrapper").prepend($(wrap));
 
-                    $(input1).datepicker();
-                    $(input2).datepicker();
+                    $(input1).datepicker({
+                        changeMonth: true,
+                        changeYear: true
+                    });
+
+                    $(input2).datepicker({
+                        changeMonth: true,
+                        changeYear: true
+                    });
 
                 }
             });

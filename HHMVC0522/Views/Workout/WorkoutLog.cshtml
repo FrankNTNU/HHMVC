@@ -100,10 +100,6 @@
             flex-wrap: wrap;
         }
 
-        .ui-timepicker-div dl { all:initial; display:flex; flex-wrap:wrap; align-items:center }
-        .ui-timepicker-div dl dt { all:initial; width:30%; display:inline-block; margin-bottom:10px }
-        .ui-timepicker-div dl dd { all:initial; width:60%; display:inline-block; margin-bottom:10px }
-
         .calConsume {
             font-size: 1.2em;
             font-style: italic;
@@ -120,6 +116,21 @@
             color: #f56a6a;
             text-align: center;
         }
+
+        .ui-datepicker {
+            width: 300px;
+            height: max-content;
+        }
+
+        .ui-datepicker select {
+            height: 1.5em;
+            display: inline-block;
+        }
+
+        .ui-timepicker-div dl { all:initial; display:flex; flex-wrap:wrap; align-items:center }
+        .ui-timepicker-div dl dt { all:initial; width:30%; display:inline-block; margin-bottom:10px }
+        .ui-timepicker-div dl dd { all:initial; width:60%; display:inline-block; margin-bottom:10px }
+
     </style>
 }
 
@@ -329,8 +340,15 @@
                     $(wrap).append(lbl1).append(input1).append(lbl2).append(input2);
                     $(".dataTables_wrapper").prepend($(wrap));
 
-                    $(input1).datepicker();
-                    $(input2).datepicker();
+                    $(input1).datepicker({
+                        changeMonth: true,
+                        changeYear: true
+                    });
+
+                    $(input2).datepicker({
+                        changeMonth: true,
+                        changeYear: true
+                    });
 
                 }
             });
@@ -387,7 +405,9 @@
             $("#wTimeForNew").datetimepicker({
                 minDate: today,
                 maxDate: d8,
-                showButtonPanel: false
+                showButtonPanel: false,
+                changeMonth: true,
+                changeYear: true
             });
 
             $("#wTimeForNew").change(function () {
@@ -419,7 +439,9 @@
             $("#wTimeForEdit").datetimepicker({
                 minDate: d7b,
                 maxDate: d8,
-                showButtonPanel: false
+                showButtonPanel: false,
+                changeMonth: true,
+                changeYear: true
             });
 
             $("#wTimeForEdit").change(function () {
