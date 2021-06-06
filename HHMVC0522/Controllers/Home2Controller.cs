@@ -95,16 +95,6 @@ namespace UI.Controllers
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPostDetailPageItemWithID(model.PostDetail.ID);
             return View(layoutDTO);
-        }
-        CommentBLL commentBLL = new CommentBLL();
-        public ActionResult DeleteComment(int ID, int postID)
-        {
-            commentBLL.DeleteComment(ID);
-            ViewData["CommentState"] = "Success";
-            ModelState.Clear();
-            return RedirectToAction("PostDetail/" + postID, "Home2");
-        }
-
-      
+        } 
     }
 }

@@ -23,27 +23,29 @@
 </head>
 
 <body class="is-preload">
-
-    <div id="main">
-        <div class="inner">
-            <!-- Header -->
-            <header id="header" style=" background-color: #fad7d2">
-                <div class="row">
-
-                    <div class="col-3 col-sm-4 col-lg-2 d-flex align-items-center" style="padding-left:30px; vertical-align:central;">
-                        <a href="/Home2/Index" style="text-decoration: none;width:100px"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:100%;width:100px"></a>
-                    </div>
-                    <div class="col-7 col-sm-8" style="font-size:0.9em; padding-top:5px; padding-left:0px">
-                        <a href="/Home2/Index" class="logo" style="text-decoration: none"><strong style="font-size:2em" id="logoText">HealthHelper</strong> <div class="hidden-sm" style="font-size:1.3em">你的健康管理助手</div></a>
-                    </div>
-                </div>
-            </header>
-        </div>
-    </div>
     <!-- Wrapper -->
     <div id="wrapper">
         <!-- Main -->
-        @RenderBody()
+        <div id="main">
+            <div class="inner">
+                <!-- Header -->
+                <header id="header" style=" background-color: #fad7d2">
+                    <div class="row">
+
+                        <div class="col-3 col-sm-4 col-lg-2 d-flex align-items-center" style="padding-left:30px; vertical-align:central;">
+                            <a href="/Home2/Index" style="text-decoration: none;width:100px"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:100%;width:100px"></a>
+                        </div>
+                        <div class="col-7 col-sm-8" style="font-size:0.9em; padding-top:5px; padding-left:0px">
+                            <a href="/Home2/Index" class="logo" style="text-decoration: none"><strong style="font-size:2em" id="logoText">HealthHelper</strong> <div class="hidden-sm" style="font-size:1.3em">你的健康管理助手</div></a>
+                        </div>
+                    </div>
+                </header>
+                @RenderBody()
+            </div>
+        </div>
+
+        
+        
         <!-- Sidebar -->
         <div id="sidebar">
             <div class="inner">
@@ -65,17 +67,17 @@
 
 
 
-<li>
-    <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
-    <ul>
-        <li><a href="#" style="text-decoration:none"><i class="far fa-user" style="width:30px"></i> 會員資訊</a></li>
-        <li><a href="#" style="text-decoration:none"><i class="fas fa-weight" style="width:30px"></i> 體重管理</a></li>
-        <li><a href="#" style="text-decoration:none"><i class="fas fa-chart-bar" style="width:30px"></i> 我的綜合圖表</a></li>
+    <li>
+        <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
+        <ul>
+            <li><a href="#" style="text-decoration:none"><i class="far fa-user" style="width:30px"></i> 會員資訊</a></li>
+            <li><a href="#" style="text-decoration:none"><i class="fas fa-weight" style="width:30px"></i> 體重管理</a></li>
+            <li><a href="#" style="text-decoration:none"><i class="fas fa-chart-bar" style="width:30px"></i> 我的綜合圖表</a></li>
 
 
-    </ul>
+        </ul>
 
-</li>
+    </li>
 }
                         <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-book" style="width:30px"></i> 遊戲規則</a></li>
 

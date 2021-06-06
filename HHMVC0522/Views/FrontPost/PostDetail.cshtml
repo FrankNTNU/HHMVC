@@ -23,8 +23,7 @@
 
 
 <!-- Content -->
-<div id="main">
-    <div class="inner">
+
         <section style="padding-top:30px">
             <div class="row" style="font-size:1.1em;">
 
@@ -37,7 +36,7 @@
 ">@Model.PostDetail.CategoryName</span>
         @if (!Model.PostDetail.IsApproved)
         {
-            <span class="button small primary" style="opacity:0.5;cursor:default;margin-right:10px"> 核准中...</span>
+            <span class="button primary" style="opacity:0.5;cursor:default;margin-right:10px;font-size:0.7em"> 核准中...</span>
         }
         <h2 style="font-size:1.5em;" class="mb-3">@Model.PostDetail.Title <i class="far fa-heart"></i> @Model.PostDetail.LikeCount <i class="far fa-eye"></i>  @Model.PostDetail.ViewCount</h2>
 
@@ -177,7 +176,7 @@
         }
         @if (DTO.UserStatic.UserID != 0)
         {
-            <header class="major">
+            <header class="major mt-3">
                 <h2 style="margin-bottom:5px">
                     新增留言 <i class="far fa-edit"></i>
                 </h2>
@@ -214,8 +213,7 @@
             </form>
         }
         </section>
-</div>
-</div>
+
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {

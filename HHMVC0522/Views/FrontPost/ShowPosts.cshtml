@@ -12,8 +12,7 @@
 
 }
 @model IPagedList<DTO.PostDTO>
-<div id="main">
-    <div class="inner">
+
         <section>
             <header class="major">
                 <div class="d-flex" style="padding:0px">
@@ -95,8 +94,7 @@
                     @Html.PagedListPager(Model, page => Url.Action("ShowPosts", new { page }))
                 </div>
             </section>
-    </div>
-</div>
+  
 <script src="~/Content/js/jquery.min.js"></script>
 <script>
     $(document).ready(function () {

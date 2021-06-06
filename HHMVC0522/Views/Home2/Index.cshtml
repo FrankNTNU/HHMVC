@@ -15,13 +15,11 @@
 
 }
 
-<div id="main">
-    <div class="inner">
 
 
         <!-- Banner -->
         <section id="banner">
-            <div class="row">
+            <div class="row" style="width:100%">
                 <div class="col-12 col-lg-6">
                     @if (DTO.UserStatic.UserID != 0)
                     {
@@ -131,7 +129,7 @@
                             <span class="button" style="        margin-right: 10px;
         pointer-events: none
 ">@item.CategoryName</span><a href="@Url.Action("PostDetail","FrontPost", new { @ID = item.ID })" style="text-decoration: none"><strong>@item.Title</strong></a>
-</text>
+</text><span>@item.AddDate.ToString("yyyy/MM/dd")</span>
 <p>@item.ShortContent</p>
 @*<ul class="actions">
         <li><a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="button">More</a></li>
@@ -142,8 +140,7 @@
             </div>
         </section>
 
-    </div>
-</div>
+
 @section Scripts {
     <script src="~/Content/toastr/toastr.min.js"></script>
     <script src="~/Content/js/jquery.likebtn.js"></script>

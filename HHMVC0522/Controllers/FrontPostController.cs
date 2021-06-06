@@ -319,5 +319,12 @@ namespace UI.Controllers
             }
             
         }
+        public ActionResult DeleteComment(int ID, int postID)
+        {
+            commentBLL.DeleteComment(ID);
+            ViewData["CommentState"] = "Success";
+            ModelState.Clear();
+            return RedirectToAction("PostDetail/" + postID, "FrontPost");
+        }
     }
 }

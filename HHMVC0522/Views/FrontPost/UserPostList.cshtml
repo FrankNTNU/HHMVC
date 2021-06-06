@@ -17,15 +17,14 @@
 
 }
 @model IPagedList<DTO.PostDTO>
-<div id="main">
-    <div class="inner">
+
         <section>
             <header class="major">
                 <div class="d-flex" style="padding:0px">
                     <div class="col-8">
 
                             <h3 style="margin-bottom:10px" id="CountInfo">
-                                <i class="far fa-file"></i> @DTO.UserStatic.NameSurname 的文章區
+                                <i class="far fa-user"></i> @DTO.UserStatic.NameSurname 的文章區
                             </h3>
                        
                     </div>
@@ -80,6 +79,6 @@
                 @Html.PagedListPager(Model, page => Url.Action("UserPostList", new { page }))
             </div>
         </section>
-    </div>
-</div>
+    
+
 
