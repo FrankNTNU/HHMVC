@@ -1,4 +1,5 @@
 ﻿using BLL;
+using DAL;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,25 @@ namespace UI.Controllers
         {
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPosts();
+
+            //========================================================
+            //恩旗
+            //determine if last 7 days no weight log
+            HealthHelperEntities dbContext = new HealthHelperEntities();
+            DateTime today = DateTime.Now.Date;
+            DateTime d7b = today.AddDays(-7);
+            var q1 = dbContext.WeightLogs.Where(wgt => wgt.UpdatedDate < today && wgt.UpdatedDate >= d7b);
+            List<WeightLog> list = q1.ToList();
+            if (list.Count == 0)
+            {
+                Session["NoWeightLog"] = true;
+            }
+            else
+            {
+                Session["NoWeightLog"] = false;
+            }
+            //=========================================================
+
             return View(layoutDTO);
         }
         public ActionResult Login()
@@ -39,6 +59,7 @@ namespace UI.Controllers
                     UserStatic.ImagePath = user.ImagePath;
                     UserStatic.StatusID = user.StatusID;
                     UserStatic.Points = user.Points;
+
                     return RedirectToAction("Index", "Home2");
                 }
                 else

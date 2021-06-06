@@ -71,7 +71,13 @@
                                 <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
                                 <ul>
                                     <li><a href="#" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 會員資訊</a></li>
-                                    <li><a href="~/Weight/WeightLog" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 體重管理</a></li>
+                                    <li style="position: relative;">
+                                        @if ((bool)Session["NoWeightLog"])
+                                        {
+                                            <i class="fa fa-comment" style="color:#f56a6a; position:absolute; left:5.2em;"></i>
+                                        }
+                                        <a href="~/Weight/WeightLog" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 體重管理</a>
+                                    </li>
                                     <li><a href="#" style="text-decoration:none"><i class="fas fa-chart-area" style="width:30px"></i> 我的綜合圖表</a></li>
 
                                 </ul>
