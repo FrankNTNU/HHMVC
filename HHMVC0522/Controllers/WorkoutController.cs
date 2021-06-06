@@ -14,6 +14,34 @@ namespace UI.Controllers
     {
         HealthHelperEntities dbContext = new HealthHelperEntities();
 
+        public decimal TDEE
+        {
+            get
+            {
+                DateTime zeroTime = new DateTime(1, 1, 1);
+                DateTime today = DateTime.Now.Date;
+                DateTime tomorrow = today.AddDays(1);
+
+                Member member = dbContext.Members.SingleOrDefault(m => m.ID == 83);
+                decimal weight = GetCurrentWeight(tomorrow);
+                int age = (zeroTime + (today - member.Birthdate)).Year - 1;
+                decimal height = (decimal)member.Height;
+
+                decimal TDEE;
+
+                if (member.Gender)
+                {
+                    TDEE = 10 * weight + 6.25m * height + 5 * age - 5;
+                }
+                else
+                {
+                    TDEE = 10 * weight + 6.25m * height + 5 * age - 161;
+                }
+
+                return TDEE;
+            }
+        }
+
         //==========================================================
         //WorkoutLog Page
 
@@ -159,7 +187,7 @@ namespace UI.Controllers
         //todo
         public ActionResult WorkoutSchedule()
         {
-            decimal TDEE = 2000;
+            decimal TDEE = this.TDEE;
             decimal todayIngest = TodayIngest();
             decimal todayConsume = TodayConsume();
 
@@ -239,7 +267,7 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            decimal TDEEPercent = 2000;
+            decimal TDEEPercent = this.TDEE;
             decimal IngestPercent = TodayIngest();
             decimal ConsumePercent = TodayConsume();
             decimal todayConsume = ConsumePercent;
@@ -416,5 +444,6 @@ namespace UI.Controllers
 
             return "success";
         }
+
     }
 }
