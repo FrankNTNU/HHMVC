@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DTO.TagCategoryDetailDTO>
+
+@{
+    ViewBag.Title = "MealTagCategroiesList";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<section class="content-header">
+    <h1>所有標籤</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>飲食</a></li>
+        <li class="breadcrumb-item active"><a>所有標籤</a></li>
+    </ol>
+</section>
+<br />
+
+<div class="card-footer">
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/MealTagCategories/AddMealTagCategory'">新增標籤</button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <tr>
+                <th>
+                    標籤名稱
+                </th>
+                <th>
+                    標籤圖片
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        <img src="~/Areas/Admin/Content/TagCategoriesImages/@item.Image" style="width:100px;height:100px" />
+                    </td>
+                    <td>
+                        @Html.ActionLink("修改", "UpadteTags", new { id = item.ID }) |
+                        @Html.ActionLink("刪除", "Delete", new { id = item.ID }, new
+                   {
+                       onclicK = "return confirm('確定要刪除嗎?')"
+                   })
+                    </td>
+                </tr>
+            }
+
+        </table>
+        </div>
+    </div>>

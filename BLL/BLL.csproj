@@ -69,11 +69,13 @@
     <Compile Include="GiftBLL.cs" />
     <Compile Include="LayoutBLL.cs" />
     <Compile Include="MealBLL.cs" />
+    <Compile Include="NutrientBLL.cs" />
     <Compile Include="PostBLL.cs" />
     <Compile Include="PostCategoryBLL.cs" />
     <Compile Include="PostImageBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatusBLL.cs" />
+    <Compile Include="TagCategoryDetailBLL.cs" />
     <Compile Include="UserBLL.cs" />
     <Compile Include="WeightLogBLL.cs" />
     <Compile Include="WorkoutLogBLL.cs" />

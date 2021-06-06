@@ -1,15 +1,29 @@
-﻿@model IEnumerable<DTO.MealDetailDTO>
+﻿@using PagedList;
+@using PagedList.Mvc;
+@using DTO;
+@using BLL;
+
+@model IEnumerable<DTO.MealDetailDTO>
 
 @{
     ViewBag.Title = "List";
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2>List</h2>
+<section class="content-header">
+    <h1>所有餐點</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>飲食</a></li>
+        <li class="breadcrumb-item active"><a>所有餐點</a></li>
+    </ol>
+</section>
+<br />
+<div class="card-footer">
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Meal/CreateMeal'">新增餐點</button>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <div class="card">
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
@@ -24,44 +38,44 @@
                     餐點圖片
                 </th>
                 <th>
-                    餐點分量
+                    餐點份量
                 </th>
                 <th>
                     標籤
                 </th>
                 @*<th>
-                    @Html.DisplayNameFor(model => model.Fat)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Protein)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Carbs)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Sugar)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.VitA)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.VitB)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.VitC)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.VitD)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.VitE)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Na)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.K)
-                </th>*@
+                        @Html.DisplayNameFor(model => model.Fat)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Protein)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Carbs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sugar)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.VitA)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.VitB)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.VitC)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.VitD)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.VitE)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Na)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.K)
+                    </th>*@
                 <th></th>
             </tr>
 
@@ -75,56 +89,75 @@
                         @Html.DisplayFor(modelItem => item.Calories)
                     </td>
                     <td>
-                    @*<img src="~/Areas/Admin/Content/MealOptionImages/@item.MealOptionImage" />*@
+                        <img src="~/Areas/Admin/Content/MealOptionImages/@item.MealOptionImage" style="height:100px" />
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.UnitName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TagName)<br />
-                        <img src="~/Areas/Admin/Content/TagCategoriesImages/@item.TagImage" />
+                        @Html.DisplayFor(modelItem => item.TagStringList)<br />
+                       @*@{ 
+                           string tagName ="";
+                           List<TagCategoryDetailDTO> list = new List<TagCategoryDetailDTO>();
+                           foreach (var taglist in Model)
+                           {
+                               list = taglist.TagList;
+                               foreach (var tag in list)
+                               {
+                                   TagCategoryDetailDTO dto = new TagCategoryDetailDTO();
+                                   dto.Name = tag.Name;
+                                   tagName = dto.Name;
+                                   <p>@tagName</p>
+                                   }
+                               break;
+                               }
+                           }*@
                     </td>
                     @*<td>
-                        @Html.DisplayFor(modelItem => item.Fat)
-                    </td>
+                            @Html.DisplayFor(modelItem => item.Fat)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Protein)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Carbs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sugar)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VitA)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VitB)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VitC)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VitD)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VitE)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Na)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.K)
+                        </td>*@
                     <td>
-                        @Html.DisplayFor(modelItem => item.Protein)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Carbs)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Sugar)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VitA)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VitB)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VitC)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VitD)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VitE)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Na)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.K)
-                    </td>*@
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                        @Html.ActionLink("修改", "Update", new { id = item.ID }) |
+                        @Html.ActionLink("刪除", "Delete", new { id = item.ID }, new
+                        {
+                        onclicK = "return confirm('確定要刪除嗎?')"
+                        })
                     </td>
                 </tr>
             }
-            
+
         </table>
-</div>>
+    </div>
 </div>
+@*@Html.PagedListPager(Model, page => Url.Action("List", new { page }))*@
+<script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>

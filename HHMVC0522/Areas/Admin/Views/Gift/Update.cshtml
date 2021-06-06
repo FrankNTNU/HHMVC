@@ -6,96 +6,105 @@
 }
 
 <h2>更新禮物</h2>
+<section class="content-header">
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>禮物</a></li>
+        <li class="breadcrumb-item active"><a>更新禮物</a></li>
+    </ol>
+    <br />
+    </section>
+    @using (Html.BeginForm("Update", "Gift", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
 
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ID)
 
-@using (Html.BeginForm("Update", "Gift", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>GiftDTO</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @*@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                <label>禮物名稱</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <p>
-            現在圖片：
-        </p>
-        <img src="~/Areas/Admin/Content/GiftImages/@Model.Image" name="NowImage"/>
-        <div class="form-group">
-            <input type="file" name="UpLoadImage" id="progressbarTWInput" accept="image/gif, image/jpeg, image/png" />
-        </div>
-        <div>
             <p>
-                預覽圖(更新):
+                現在圖片：
             </p>
-            <img id="preview_progressbarTW_img" src="#" />
-        </div>
+            <img src="~/Areas/Admin/Content/GiftImages/@Model.Image" name="NowImage" />
+            <div class="form-group">
+                <input type="file" name="UpLoadImage" id="progressbarTWInput" accept="image/gif, image/jpeg, image/png" />
+            </div>
+            <div>
+                <p>
+                    預覽圖(更新):
+                </p>
+                <img id="preview_progressbarTW_img" src="#" />
+            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Point, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Point, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Point, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @* @Html.LabelFor(model => model.Point, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                <label>兌換所需點數</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Point, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Point, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @*@Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                <label>剩餘數量</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @*@Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                <label>下架時間</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="儲存變更" class="btn btn-default" />
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="儲存變更" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/Areas/Admin/Content/JS/jquery.min.js"></script>
-<script>
-
-    $("#progressbarTWInput").change(function () {
-
-        readURL(this);
-
-    });
-    function readURL(input) {
-
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $("#preview_progressbarTW_img").attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-            console.log()
-        }
     }
 
-</script>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Areas/Admin/Content/JS/jquery.min.js"></script>
+    <script>
+
+        $("#progressbarTWInput").change(function () {
+
+            readURL(this);
+
+        });
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#preview_progressbarTW_img").attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+                console.log()
+            }
+        }
+
+    </script>

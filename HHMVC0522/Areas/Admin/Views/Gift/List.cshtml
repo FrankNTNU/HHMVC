@@ -6,47 +6,57 @@
 }
 
 <h2>禮物頁面</h2>
-
-<div>
-    @Html.ActionLink("新增產品", "Creat")
-</div>
-<div class="card">
-    <div class="card-body">
-        <table id="example1" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <td>編號</td>
-                    <td>名稱</td>
-                    <td>圖片</td>
-                    <td>所需點數</td>
-                    <td>庫存量</td>
-                    <td>上架時間</td>
-                    <td>下架時間</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.ID</td>
-                        <td>@item.Name</td>
-                        <td><img src="~/Areas/Admin/Content/GiftImages/@item.Image" /></td>
-                        <td>@item.Point</td>
-                        <td>@item.Quantity</td>
-                        <td>@item.AddDate</td>
-                        <td>@item.EndDate</td>
-                        <td>
-                            @Html.ActionLink("修改", "Update", new { id = item.ID }) |
-                            @Html.ActionLink("刪除", "Delete", new { id = item.ID }, new
-                   {
-                       onclicK = "return confirm('確定要刪除嗎?')"
-                   })
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+<section class="content-header">
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>禮物</a></li>
+        <li class="breadcrumb-item active"><a>禮物頁面</a></li>
+    </ol>
+    <br />
+</section>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Gift/Creat'">新增禮物</button>
     </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <td>編號</td>
+                        <td>名稱</td>
+                        <td>店家</td>
+                        <td>圖片</td>
+                        <td>所需點數</td>
+                        <td>庫存量</td>
+                        <td>上架時間</td>
+                        <td>下架時間</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ID</td>
+                            <td>@item.Name</td>
+                            <td>@item.Store</td>
+                            <td><img src="~/Areas/Admin/Content/GiftImages/@item.Image" /></td>
+                            <td>@item.Point</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.AddDate</td>
+                            <td>@item.EndDate</td>
+                            <td>
+                                @Html.ActionLink("修改", "Update", new { id = item.ID }) |
+                                @Html.ActionLink("刪除", "Delete", new { id = item.ID }, new
+                       {
+                           onclicK = "return confirm('確定要刪除嗎?')"
+                       })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 

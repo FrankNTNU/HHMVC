@@ -24,6 +24,7 @@ namespace DAL
                 dto.Quantity =(int)item.Quantity;
                 dto.AddDate = (DateTime)item.AddDate;
                 dto.EndDate = (DateTime)item.EndDate;
+                dto.Store = item.Store;
                 //dto.Deadline = item.Deadline;
                 list.Add(dto);
             }
@@ -43,6 +44,7 @@ namespace DAL
                 dto.Quantity = (int)gift.Quantity;
                 dto.AddDate = (DateTime)gift.AddDate;
                 dto.EndDate = (DateTime)gift.EndDate;
+                dto.Store = gift.Store;
                 //dto.Deadline = gift.Deadline;
 
                 return dto;
@@ -69,6 +71,7 @@ namespace DAL
             gift.Quantity = entity.Quantity;
             gift.AddDate = entity.AddDate;
             gift.EndDate = entity.EndDate;
+            gift.Store = entity.Store;
             db.SaveChanges();
             return oldImagePass;
         }

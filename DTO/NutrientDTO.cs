@@ -19,6 +19,8 @@ namespace DTO
         public float VitD { get; set; }
         public float VitE { get; set; }
         public float Na { get; set; }
-        public float K { get; set; }
+        public float Potassium { get; set; }
+        public float Calcium { get; set; }//鈣
+        public float Icon { get; set; }//鐵
     }
 }

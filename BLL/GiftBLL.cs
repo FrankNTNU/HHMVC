@@ -33,11 +33,12 @@ namespace BLL
             gift.Quantity = dto.Quantity;
             gift.AddDate = dto.AddDate;
             gift.EndDate = dto.EndDate;
+            gift.Store = dto.Store;
             dao.Add(gift);
         }
-        public void Delete(int id)
+        public void Delete(int ID)
         {
-            dao.Delete(id);
+            dao.Delete(ID);
         }
 
         public string Update(GiftDTO dto)

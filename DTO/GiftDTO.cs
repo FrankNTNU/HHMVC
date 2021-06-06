@@ -19,6 +19,7 @@ namespace DTO
         //public string Deadline { get; set; }
         public DateTime AddDate { get; set; }
         public DateTime EndDate { get; set; }
+        public string Store { get; set; }
 
     }
 }
