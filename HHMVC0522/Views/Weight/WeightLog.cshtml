@@ -99,63 +99,49 @@
     @Html.AntiForgeryToken()
 }
 
-<div id="main">
-    <div class="inner">
-        @*<header id="header">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" width="50"></a>
-            <a href="index.html" class="logo"><strong>Editorial</strong> by HTML5 UP</a>
 
-            <ul class="icons">
-                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-                <li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-                <li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
-            </ul>
-        </header>*@
-        <div id="mainDiv">
-            <div id="mainRow" class="row">
-                <div class="mainTitle col-12">體重紀錄</div>
-                <div class="myBox col-5 col-5-medium col-12-small" style="display:flex; flex-direction:column">
-                    <div class="myBox operate">
-                        <div id="newTitle">新增體重紀錄</div>
-                        <div class="form-group" style="margin-bottom:10px; margin-top:auto">
-                            <label for="wgtForNew" style="width:100%">今天的體重</label>
-                            <input type="text" id="wgtForNew" placeholder="現在多重呢" style="display:inline-block; width:80%">
-                            <label style="display:inline-block"> kg</label>
-                        </div>
-                        <div id="btnNew" class="button primary fit" style="font-size:1.2em; margin-top:auto">新增</div>
-                    </div>
-                    <div class="myBox operate">
-                        <div id="editTitle">修改體重紀錄</div>
-                        <div class="form-group" style="margin-bottom:10px; margin-top:auto">
-                            <label for="wgtForEdit" style="width:100%"><span id="wgtDateForEdit">某一天</span> 的體重</label>
-                            <input type="text" id="wgtForEdit" placeholder="當時多重呢" style="display:inline-block; width:80%">
-                            <label style="display:inline-block"> kg</label>
-                        </div>
-                        <div id="btnEdit" class="button primary fit" style="font-size:1.2em; margin-top:auto">修改</div>
-                    </div>
+<div id="mainDiv">
+    <div id="mainRow" class="row">
+        <div class="mainTitle col-12">體重紀錄</div>
+        <div class="myBox col-5 col-5-medium col-12-small" style="display:flex; flex-direction:column">
+            <div class="myBox operate">
+                <div id="newTitle">新增體重紀錄</div>
+                <div class="form-group" style="margin-bottom:10px; margin-top:auto">
+                    <label for="wgtForNew" style="width:100%">今天的體重</label>
+                    <input type="text" id="wgtForNew" placeholder="現在多重呢" style="display:inline-block; width:80%">
+                    <label style="display:inline-block"> kg</label>
                 </div>
-                <div class="myBox col-7 col-7-medium col-12-small" style="min-height:450px">
-                    <table id="weightTable" class="display responsive nowrap" style="width:100%">
-                    </table>
+                <div id="btnNew" class="button primary fit" style="font-size:1.2em; margin-top:auto">新增</div>
+            </div>
+            <div class="myBox operate">
+                <div id="editTitle">修改體重紀錄</div>
+                <div class="form-group" style="margin-bottom:10px; margin-top:auto">
+                    <label for="wgtForEdit" style="width:100%"><span id="wgtDateForEdit">某一天</span> 的體重</label>
+                    <input type="text" id="wgtForEdit" placeholder="當時多重呢" style="display:inline-block; width:80%">
+                    <label style="display:inline-block"> kg</label>
                 </div>
-                <div class="myBox col-12" style="min-height:400px">
-                    <div style="width:100%; display:flex; flex-wrap:wrap; align-items:center; grid-row-gap:10px; column-gap:10px">
-                        <div style="font-size: 1.2em; font-weight: 600; color: black; margin-left:auto">從</div>
-                        <input type="text" id="chartStart" style="width:150px">
-                        <div style="font-size: 1.2em; font-weight: 600; color: black">到</div>
-                        <input type="text" id="chartEnd" style="width:150px;">
-                        <div id="btnReload" class="button primary" style="display:inline-block; font-size:1em;">
-                            更新圖表
-                        </div>
-                    </div>
-                    <div id="highChart"></div>
+                <div id="btnEdit" class="button primary fit" style="font-size:1.2em; margin-top:auto">修改</div>
+            </div>
+        </div>
+        <div class="myBox col-7 col-7-medium col-12-small" style="min-height:450px">
+            <table id="weightTable" class="display responsive nowrap" style="width:100%">
+            </table>
+        </div>
+        <div class="myBox col-12" style="min-height:400px">
+            <div style="width:100%; display:flex; flex-wrap:wrap; align-items:center; grid-row-gap:10px; column-gap:10px">
+                <div style="font-size: 1.2em; font-weight: 600; color: black; margin-left:auto">從</div>
+                <input type="text" id="chartStart" style="width:150px">
+                <div style="font-size: 1.2em; font-weight: 600; color: black">到</div>
+                <input type="text" id="chartEnd" style="width:150px;">
+                <div id="btnReload" class="button primary" style="display:inline-block; font-size:1em;">
+                    更新圖表
                 </div>
             </div>
+            <div id="highChart"></div>
         </div>
     </div>
 </div>
+
 
 @section Scripts
 {
@@ -458,6 +444,10 @@
                         alert(data.Result);
                         alert("Error：" + data.Error);
                         table.ajax.reload();
+
+                        if ($("#weightNotify").length) {
+                            $("#weightNotify").remove();
+                        }
                     }
                 });
             });
@@ -490,23 +480,6 @@
                 });
             });
 
-            
-            //========================================================
-            //Session Test
-
-            //$("#btnSession").click(function () {
-            //    $.ajax({
-            //        url: "SessionTest",
-            //        type: "post",
-            //        data: {
-            //            __RequestVerificationToken: token,
-            //        },
-            //        success: function (data) {
-
-            //            alert(data.count);
-            //        }
-            //    });
-            //});
         });
 
         // Custom filtering function which will search data in column four between two values

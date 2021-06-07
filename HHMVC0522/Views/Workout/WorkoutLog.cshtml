@@ -138,81 +138,65 @@
 {
     @Html.AntiForgeryToken()
 }
-<div id="main">
-    <div class="inner">
-        @*<header id="header">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" width="50"></a>
-            <a href="index.html" class="logo"><strong>Editorial</strong> by HTML5 UP</a>
 
-            <ul class="icons">
-                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-                <li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-                <li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
-            </ul>
-        </header>*@
-
-        <div id="mainDiv">
-            <div id="mainRow" class="row">
-                <div class="mainTitle col-12">運動紀錄</div>
-                <div class="myBox operate col-6 col-6-medium col-12-small" style="display:flex; flex-direction:column">
-                    <div id="newTitle">新增 / 預定 運動紀錄</div>
-                    <div class="form-group" style="margin-bottom:2px; width:100%; display:block">
-                        <label for="wNameForNew">運動項目</label>
-                        @Html.DropDownList("wNameForNew", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
-                    </div>
-                    <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
-                        <span id="AlForNew"></span>，【<span id="WcForNew"></span>】類型
-                    </div>
-                    <div class="form-group" style="margin-bottom:2px; display:block">
-                        <label for="wTimeForNew">運動時間</label>
-                        <input type="text" class="form-control" id="wTimeForNew" style="width:160px; display:inline-block" autocomplete="off" />
-                    </div>
-                    <div class="form-group" style="margin-bottom:2px; display:block">
-                        <label for="wHoursForNew">運動多久</label>
-                        <input type="text" class="form-control" id="wHoursForNew" style="width:120px" placeholder="小時" />
-                    </div>
-                    <div id="consumeForNew" style="margin-bottom:2px; display:block">
-                    </div>
-                        <div id="new" class="button primary fit" style="margin-top:auto">新增</div>
-                    </div>
-                <div class="myBox operate col-6 col-6-medium col-12-small" style="display:flex; flex-direction:column">
-                    <div id="editTitle">修改 / 刪除 運動紀錄</div>
-                    <div class="form-group" style="margin-bottom:2px; width:100%; display:block">
-                        <label for="wNameForEdit">運動項目</label>
-                        @Html.DropDownList("wNameForEdit", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
-                    </div>
-                    <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
-                        <span id="AlForEdit"></span>，【<span id="WcForEdit"></span>】類型
-                    </div>
-                    <div class="form-group" style="margin-bottom:2px; display:block">
-                        <label for="wTimeForEdit">運動時間</label>
-                        <input type="text" class="form-control" id="wTimeForEdit" style="width:160px; display:inline-block" autocomplete="off" />
-                    </div>
-                    <div class="form-group" style="margin-bottom:2px; display:block">
-                        <label for="wHoursForEdit">運動多久</label>
-                        <input type="text" class="form-control" id="wHoursForEdit" style="width:120px" placeholder="小時" />
-                        <div style="display:inline-block">
-                            <select id="wStatusForEdit">
-                                <option value="4">預定中</option>
-                                <option value="5">執行成功</option>
-                                <option value="6">執行失敗</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div id="consumeForEdit" style="margin-bottom:2px; display:block">
-                    </div>
-                    <div style="display:flex; column-gap:5px; margin-top:auto">
-                        <div id="Edit" class="button primary fit">修改</div>
-                        <div id="Delete" class="button primary fit">刪除</div>
-                    </div>
+<div id="mainDiv">
+    <div id="mainRow" class="row">
+        <div class="mainTitle col-12">運動紀錄</div>
+        <div class="myBox operate col-6 col-6-medium col-12-small" style="display:flex; flex-direction:column">
+            <div id="newTitle">新增 / 預定 運動紀錄</div>
+            <div class="form-group" style="margin-bottom:2px; width:100%; display:block">
+                <label for="wNameForNew">運動項目</label>
+                @Html.DropDownList("wNameForNew", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
+            </div>
+            <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
+                <span id="AlForNew"></span>，【<span id="WcForNew"></span>】類型
+            </div>
+            <div class="form-group" style="margin-bottom:2px; display:block">
+                <label for="wTimeForNew">運動時間</label>
+                <input type="text" class="form-control" id="wTimeForNew" style="width:160px; display:inline-block" autocomplete="off" />
+            </div>
+            <div class="form-group" style="margin-bottom:2px; display:block">
+                <label for="wHoursForNew">運動多久</label>
+                <input type="text" class="form-control" id="wHoursForNew" style="width:120px" placeholder="小時" />
+            </div>
+            <div id="consumeForNew" style="margin-bottom:2px; display:block">
+            </div>
+            <div id="new" class="button primary fit" style="margin-top:auto">新增</div>
+        </div>
+        <div class="myBox operate col-6 col-6-medium col-12-small" style="display:flex; flex-direction:column">
+            <div id="editTitle">修改 / 刪除 運動紀錄</div>
+            <div class="form-group" style="margin-bottom:2px; width:100%; display:block">
+                <label for="wNameForEdit">運動項目</label>
+                @Html.DropDownList("wNameForEdit", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
+            </div>
+            <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
+                <span id="AlForEdit"></span>，【<span id="WcForEdit"></span>】類型
+            </div>
+            <div class="form-group" style="margin-bottom:2px; display:block">
+                <label for="wTimeForEdit">運動時間</label>
+                <input type="text" class="form-control" id="wTimeForEdit" style="width:160px; display:inline-block" autocomplete="off" />
+            </div>
+            <div class="form-group" style="margin-bottom:2px; display:block">
+                <label for="wHoursForEdit">運動多久</label>
+                <input type="text" class="form-control" id="wHoursForEdit" style="width:120px" placeholder="小時" />
+                <div style="display:inline-block">
+                    <select id="wStatusForEdit">
+                        <option value="4">預定中</option>
+                        <option value="5">執行成功</option>
+                        <option value="6">執行失敗</option>
+                    </select>
                 </div>
-                    <div class="myBox col-12">
-                        <table id="wlTable" class="display responsive nowrap" style="width:100%">
-                        </table>
-                    </div>
-                </div>
+            </div>
+            <div id="consumeForEdit" style="margin-bottom:2px; display:block">
+            </div>
+            <div style="display:flex; column-gap:5px; margin-top:auto">
+                <div id="Edit" class="button primary fit">修改</div>
+                <div id="Delete" class="button primary fit">刪除</div>
+            </div>
+        </div>
+        <div class="myBox col-12">
+            <table id="wlTable" class="display responsive nowrap" style="width:100%">
+            </table>
         </div>
     </div>
 </div>

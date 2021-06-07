@@ -20,23 +20,13 @@ namespace UI.Controllers
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPosts();
 
-            //========================================================
+            //==========================
             //恩旗
-            //determine if last 7 days no weight log
-            HealthHelperEntities dbContext = new HealthHelperEntities();
-            DateTime today = DateTime.Now.Date;
-            DateTime d7b = today.AddDays(-7);
-            var q1 = dbContext.WeightLogs.Where(wgt => wgt.UpdatedDate < today && wgt.UpdatedDate >= d7b);
-            List<WeightLog> list = q1.ToList();
-            if (list.Count == 0)
+            if (UserStatic.UserID != 0)
             {
-                Session["NoWeightLog"] = true;
+                SetWeightLogSession();
             }
-            else
-            {
-                Session["NoWeightLog"] = false;
-            }
-            //=========================================================
+            //==========================
 
             return View(layoutDTO);
         }
@@ -126,6 +116,27 @@ namespace UI.Controllers
             return RedirectToAction("PostDetail/" + postID, "Home2");
         }
 
-      
+        //========================================================
+        //恩旗
+        //determine if last 7 days has no weight log
+        public void SetWeightLogSession()
+        {
+            HealthHelperEntities dbContext = new HealthHelperEntities();
+            DateTime today = DateTime.Now;
+            DateTime d7b = DateTime.Now.Date.AddDays(-7);
+
+            var q1 = dbContext.WeightLogs.Where(wgt => wgt.MemberID == 83
+                && wgt.UpdatedDate <= today && wgt.UpdatedDate >= d7b);
+            List<WeightLog> list = q1.ToList();
+            if (list.Count == 0)
+            {
+                Session["NoWeightLog"] = true;
+            }
+            else
+            {
+                Session["NoWeightLog"] = false;
+            }
+        }
+       //=========================================================
     }
 }

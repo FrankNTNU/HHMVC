@@ -19,6 +19,7 @@
         a.toggle {
             color: red;
         }
+
     </style>
 </head>
 <body class="is-preload">
@@ -67,7 +68,13 @@
                                 <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
                                 <ul>
                                     <li><a href="#" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 會員資訊</a></li>
-                                    <li><a href="~/Weight/WeightLog" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 體重管理</a></li>
+                                    <li>
+                                        <a href="~/Weight/WeightLog" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-gift" style="width:30px"></i> 體重管理</a>
+                                        @if (Session["NoWeightLog"] != null && (bool)Session["NoWeightLog"])
+                                        {   //if last 7 days has no weightlog, show this icon
+                                            <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px"></i>
+                                        }
+                                    </li>
                                     <li><a href="#" style="text-decoration:none"><i class="fas fa-chart-area" style="width:30px"></i> 我的綜合圖表</a></li>
 
                                 </ul>
@@ -204,11 +211,8 @@
     <script src="~/Content/js/breakpoints.min.js"></script>
     <script src="~/Content/js/util.js"></script>
     <script src="~/Content/js/main.js"></script>
-
+    
     @RenderSection("Scripts", required: false)
-
-
-
 
 </body>
 </html>
