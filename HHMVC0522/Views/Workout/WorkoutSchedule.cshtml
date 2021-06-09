@@ -1,5 +1,5 @@
 ﻿@using DAL
-@model List<Workout>
+@model  UI.ViewModels.WorkoutSuggestViewModel
 
 @{
     ViewBag.Title = "WorkoutSchedule";
@@ -57,13 +57,6 @@
             text-align: left;
         }
 
-        #scheduleTitle {
-            font-size: 2em;
-            font-weight: 600;
-            color: plum;
-            text-align: center;
-        }
-
         .scheduleBox {
             display: flex;
             justify-content: center;
@@ -73,10 +66,10 @@
         .schedule {
             width: 100%;
             text-align: center;
-            border: solid 2px plum;
+            border: solid 2px #2894FF;
             border-radius: 10px;
             font-weight: bold;
-            min-height: 120px;
+            min-height: 75px;
             margin: 5px;
             display: flex;
             flex-direction: column;
@@ -84,12 +77,12 @@
             padding: 5px;
         }
 
-        .schedule.tomorrow {
+        /*.schedule.tomorrow {
             width: 70%;
-        }
+        }*/
 
         .schedule > .item {
-            border: solid 2px plum;
+            border: solid 2px #2894FF;
             border-radius: 10px;
             width: 90%;
             display: inline-block;
@@ -97,7 +90,7 @@
         }
 
         .schedule > .item:nth-child(2n) {
-            background-color: plum;
+            background-color: #2894FF;
             color: white;
         }
 
@@ -117,35 +110,100 @@
         }
 
         .schedule > .title {
-            border-bottom: solid 2px plum;
+            border-bottom: solid 2px #2894FF;
             width: 100%;
             height: 2em;
         }
 
-        @@media screen and (max-width:738px) {
+        /*@@media screen and (max-width:738px) {
             .schedule.tomorrow {
                 width: 100%;
             }
+        }*/
+        .tdee {
+            color: #f56a6a;
+        }
+
+        .consume {
+            color: #2894FF;
+        }
+
+        .ingest {
+            color: plum;
         }
 
         #todayConsume {
             font-size: 3em;
             font-weight: 600;
-            color: #f56a6a;
             font-style: italic;
         }
 
         .calConsume {
             font-size: 1.2em;
             font-style: italic;
-            color: #f56a6a;
         }
 
-        #checkTitle {
+        #checkTitle, #suggestTitle, #scheduleTitle, #chartTitle {
             font-size: 2em;
             font-weight: 600;
             color: #f56a6a;
             text-align: center;
+        }
+
+        .Suggestion span.tdee, .Suggestion span.consume {
+            font-size: 1.5em;
+            font-weight: 600;
+            font-style:italic;
+        }
+
+        @@font-face {
+            font-family: 'cwTeXYen';
+            font-style: normal;
+            font-weight: 500;
+            src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot);
+            src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot?#iefix) format('embedded-opentype'),
+                url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff2) format('woff2'),
+                url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff) format('woff'),
+                url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.ttf) format('truetype');
+        }
+
+        .SuggestItem {
+            display: inline-block;
+            background-color: #f56a6a;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.2em;
+            font-weight: 600;
+            width: max-content;
+            height: max-content;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        a:hover
+        {
+            color:white!important;
+        }
+
+        #IngestReport {
+            padding-left: 3em;
+        }
+
+        #IngestReport > div {
+            display: inline-block;
+        }
+
+        #IngestReport > div > span {
+            font-size: 1.5em;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .helper {
+            font-size: 2em;
+            font-weight: 400;
+            font-family: "cwTeXYen";
+            color: plum;
         }
     </style>
 }
@@ -159,40 +217,45 @@
 <div id="mainDiv">
     <div id="mainRow" class="row">
         <div class="mainTitle col-12">運動排程</div>
-        <div class="myBox col-12" style="min-height:150px; position:relative">
+        <div id="check" class="myBox operate col-6 col-6-medium col-12-small">
+            <div id="checkTitle">今日運動排程</div>
+            <div id="checkRow" class="row innerRow">
+            </div>
+        </div>
+        <div class="myBox col-6 col-6-medium col-12-small" style="min-height:150px; position:relative">
             <div id="scheduleTitle">未來7天運動排程</div>
             <div class="row innerRow">
-                <div class="col-12 col-12-medium col-12-small scheduleBox">
+                <div class="col-12 scheduleBox">
                     <div class="schedule tomorrow">
                         <div class="title">明天</div>
                     </div>
                 </div>
-                <div class="col-4 col-6-medium col-12-small scheduleBox">
+                <div class="col-12 scheduleBox">
                     <div class="schedule">
                         <div class="title">明天</div>
                     </div>
                 </div>
-                <div class="col-4 col-6-medium col-12-small scheduleBox">
+                <div class="col-12 scheduleBox">
                     <div class="schedule">
                         <div class="title">明天</div>
                     </div>
                 </div>
-                <div class="col-4 col-6-medium col-12-small scheduleBox">
+                <div class="col-12 scheduleBox">
                     <div class="schedule">
                         <div class="title">明天</div>
                     </div>
                 </div>
-                <div class="col-4 col-6-medium col-12-small scheduleBox">
+                <div class="col-12 scheduleBox">
                     <div class="schedule">
                         <div class="title">明天</div>
                     </div>
                 </div>
-                <div class="col-4 col-6-medium col-12-small scheduleBox">
+                <div class="col-12 scheduleBox">
                     <div class="schedule">
                         <div class="title">明天</div>
                     </div>
                 </div>
-                <div class="col-4 col-6-medium col-12-small scheduleBox">
+                <div class="col-12 scheduleBox">
                     <div class="schedule future">
                         <div class="title">明天</div>
                     </div>
@@ -200,12 +263,41 @@
             </div>
         </div>
         <div class="myBox operate col-6 col-6-medium col-12-small">
-            今日已消耗　<span id="todayConsume"></span>　卡路里
+            <div id="chartTitle">今日熱量</div>
+            今日已消耗　<span id="todayConsume" class="consume"></span>　卡路里
             <div id="container" style="width: 100%; margin: 0 auto"></div>
         </div>
-        <div id="check" class="myBox operate col-6 col-6-medium col-12-small">
-            <div id="checkTitle">今日運動排程</div>
-            <div id="checkRow" class="row innerRow">
+        <div class="myBox col-6 col-6-medium col-12-small">
+            <div id="suggestTitle">運動推薦</div>
+            <div id="IngestReport">
+                @for (int i = 0; i < Model.TimeOfDay.Count; i++)
+                {
+                    if (@Model.IngestReport[i] != -1)
+                    {
+                        <div>@Model.TimeOfDay[i] 攝取了</div>
+                        <div><span class="ingest">@Model.IngestReport[i]</span> 卡路里</div>
+                        <br />
+                    }
+                }
+            </div>
+            <hr />
+            <div class="helper">健康管理小幫手有話要說：</div>
+            @foreach (var item in Model.Suggestion)
+            {
+                <div class="Suggestion">@item</div>
+            }
+            <hr />
+            <div class="helper">健康管理小幫手關心您：</div>
+            <div class="Suggestion">目前攝取熱量
+                <span class="tdee">@Model.Warning</span>，<br/>依據你的喜好推薦
+                <span class="consume">@Model.ActivityLevel</span>　如下：</div>
+            <div>
+                @foreach (var item in Model.WorkoutSuggestion)
+                {
+
+                    @Html.ActionLink(item.Name, "WorkoutPlaces", "Workout", new { workout = item.Name }, new { @class = "SuggestItem", target = "_blank" })
+
+                }
             </div>
         </div>
     </div>
@@ -271,7 +363,7 @@
                         $(wt).text(moment(data[i].WorkoutTime).format("MM月DD日yyyy年 HH:mm"))
                         $(w).text(data[i].Name).css("margin-left", "1em");
                         $(wh).text(data[i].WorkoutHours + "hrs").css("margin-left", "1em");
-                        $(consume).html(`估計消耗<span class="calConsume">${data[i].Consume}</span>卡路里`).css("margin-left", "2em");;
+                        $(consume).html(`估計消耗<span class="calConsume consume">${data[i].Consume}</span>卡路里`).css("margin-left", "2em");;
 
                         $(wsDetail).append(wt).append("<br/>")
                             .append(w).append(wh).append("<br/>")
@@ -524,12 +616,13 @@
                 },
                 ////  ***********************************
 
-                title: {
-                    text: '今日熱量',
-                    style: {
-                        fontSize: '24px'
-                    }
-                },
+                //title: {
+                //    text: '今日熱量',
+                //    style: {
+                //        fontSize: '24px'
+                //    }
+                //},
+                title: null,
 
                 tooltip: {
                     borderWidth: 0,
@@ -542,7 +635,7 @@
                     positioner: function (labelWidth) {
                         return {
                             x: (this.chart.chartWidth - labelWidth) / 2,
-                            y: (this.chart.plotHeight / 2) + 15
+                            y: (this.chart.plotHeight / 2) - 20
                         };
                     }
                 },
@@ -632,7 +725,6 @@
                     }]
                 }]
             });
-
 
             //=========================================================================
             //initiate highChart

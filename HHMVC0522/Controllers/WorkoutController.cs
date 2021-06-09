@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using UI.ViewModels;
+using DTO;
 
 namespace UI.Controllers
 {
@@ -187,44 +189,231 @@ namespace UI.Controllers
         //todo
         public ActionResult WorkoutSchedule()
         {
-            decimal TDEE = this.TDEE;
+            //==================================================================
+            //For chart
             decimal todayIngest = TodayIngest();
-            decimal todayConsume = TodayConsume();
 
-            TodayCaloriesToPercent(ref TDEE, ref todayIngest, ref todayConsume);
+            TodayCaloriesToPercent(this.TDEE, todayIngest, TodayConsume(),
+                out decimal TDEEPercent, out decimal IngestPercent, out decimal ConsumePercent);
 
-            ViewBag.TDEE = TDEE;
-            ViewBag.Ingest = todayIngest;
-            ViewBag.Consume = todayConsume;
+            ViewBag.TDEE = TDEEPercent;
+            ViewBag.Ingest = IngestPercent;
+            ViewBag.Consume = ConsumePercent;
 
-            return View();
-        }
+            //===================================================================
+            //For suggest
+            WorkoutSuggestViewModel vm = new WorkoutSuggestViewModel();
 
-        [NonAction]
-        private void TodayCaloriesToPercent(ref decimal TDEE, ref decimal todayIngest, ref decimal todayConsume)
-        {
-            decimal tempTDEE = TDEE;
-            decimal tempIngest = todayIngest;
-            decimal tempConsume = todayConsume;
+            //todo fake today for test
+            DateTime today = DateTime.Now;
 
+            string todayString = today.ToString("MMddyyyy");
+            string yesterdayString = today.AddDays(-1).ToString("MMddyyyy");
 
-            if (tempTDEE >= tempIngest && tempTDEE >= tempConsume)
+            if (today.Hour >= 6)
             {
-                TDEE = 100;
-                todayIngest = Math.Round(tempIngest / tempTDEE * 100, 1);
-                todayConsume = Math.Round(tempConsume / tempTDEE * 100, 1);
+                if (ingestPerTime(yesterdayString, 5) == 0)
+                {
+                    vm.Suggestion.Add("昨天沒吃宵夜，太讚了");
+                }
+
+                vm.IngestReport[0] = ingestPerTime(todayString, 1);
+
+                if (vm.IngestReport[0] == 0)
+                {
+                    vm.Suggestion.Add("還沒吃早餐喔，吃點東西在運動吧");
+                }
+                else if (vm.IngestReport[0] <= this.TDEE / 3)
+                {
+                    vm.Suggestion.Add("早餐吃得剛好");
+                }
+                else if (vm.IngestReport[0] > this.TDEE / 3)
+                {
+                    vm.Suggestion.Add("早餐吃的偏多，中午休息時去做個運動吧");
+                }
+
             }
-            else if (tempIngest >= tempTDEE && tempIngest >= tempConsume)
+            
+            if (today.Hour >= 11)
             {
-                todayIngest = 100;
-                todayConsume = Math.Round(tempConsume / tempIngest * 100, 1);
-                TDEE = Math.Round(tempTDEE / tempIngest * 100, 1);
+                vm.Suggestion.Clear();
+                
+                if (vm.IngestReport[0] == 0)
+                {
+                    vm.Suggestion.Add("要養成吃早餐的習慣喔");
+                }
+
+                vm.IngestReport[1] = ingestPerTime(todayString, 2);
+
+                if (vm.IngestReport[1] == 0)
+                {
+                    vm.Suggestion.Add("記得吃午餐喔");
+                }
+                else if (vm.IngestReport[1] <= this.TDEE / 3)
+                {
+                    vm.Suggestion.Add("午餐吃得剛好");
+                }
+                else if (vm.IngestReport[1] > this.TDEE / 3)
+                {
+                    vm.Suggestion.Add("午餐吃的偏多，下午去做個運動吧");
+                }
+
+            }
+            
+            if (today.Hour >= 14)
+            {
+                vm.Suggestion.Clear();
+
+                if (vm.IngestReport[1] == 0)
+                {
+                    vm.Suggestion.Add("哇，過了中午都還沒吃啊");
+                }
+
+                vm.IngestReport[2] = ingestPerTime(todayString, 3);
+
+                if (vm.IngestReport[2] == 0)
+                {
+                    vm.Suggestion.Add("不吃點心，也很OK");
+                }
+                else if (vm.IngestReport[2] <= this.TDEE / 5)
+                {
+                    vm.Suggestion.Add("偷吃一點點心，應該還好");
+                }
+                else if (vm.IngestReport[2] > this.TDEE / 5)
+                {
+                    vm.Suggestion.Add("點心吃太多了，一定要找時間運動啊");
+                }
+
+            }
+            
+            if (today.Hour >= 17)
+            {
+                vm.Suggestion.Clear();
+
+                if (vm.IngestReport[2] == 0)
+                {
+                    vm.Suggestion.Add("沒有偷吃點心，good");
+                }
+
+                vm.IngestReport[3] = ingestPerTime(todayString, 4);
+
+                
+                if (vm.IngestReport[3] == 0)
+                {
+                    vm.Suggestion.Add("記得吃晚餐喔");
+                }
+                else if (vm.IngestReport[3] <= this.TDEE / 3)
+                {
+                    vm.Suggestion.Add("晚餐吃得剛好，讚");
+                }
+                else if (vm.IngestReport[3] > this.TDEE / 3)
+                {
+                    vm.Suggestion.Add("晚上暴吃一頓，明天一定要運動");
+                }
+
+            }
+            
+            if (today.Hour >= 21)
+            {
+                vm.Suggestion.Clear();
+
+                if (vm.IngestReport[3] == 0)
+                {
+                    vm.Suggestion.Add("沒吃晚餐，會不會睡不著啊");
+                }
+
+                vm.IngestReport[4] = ingestPerTime(todayString, 5);
+
+                if (vm.IngestReport[4] == 0)
+                {
+                    vm.Suggestion.Add("還沒吃宵夜，要忍住喔");
+                }
+                else if (vm.IngestReport[4] <= this.TDEE / 6)
+                {
+                    vm.Suggestion.Add("宵夜吃的也不算太多啦");
+                }
+                else if(vm.IngestReport[4] > this.TDEE / 6)
+                {
+                    vm.Suggestion.Add("宵夜吃那麼多，鐵定胖");
+                }
+
+            }
+
+
+            vm.TimeOfDay = dbContext.TimesOfDays
+                .OrderBy(tod => tod.ID).Select(tod => tod.Name).ToList();
+
+            var q1 = dbContext.WorkoutPreferences
+                .Where(wp => wp.MemberID == 83)
+                .SelectMany(wp => wp.WorkoutCategory.Workouts);
+
+            decimal warning = todayIngest / TDEE * 100;
+
+            vm.Warning = $"為TDEE的 {warning:0.00}%";
+
+            if (warning > 100)
+            {
+                vm.WorkoutSuggestion = q1.Where(w => w.ActivityLevelID == 3).ToList();
+                vm.ActivityLevel = "【高強度】運動";
+            }
+            else if (warning > 90)
+            {
+                vm.WorkoutSuggestion = q1.Where(w => w.ActivityLevelID == 2).ToList();
+                vm.ActivityLevel = "【中強度】運動";
+            }
+            else if (warning > 85)
+            {
+                vm.WorkoutSuggestion = q1.Where(w => w.ActivityLevelID == 1).ToList();
+                vm.ActivityLevel = "【低強度】運動";
             }
             else
             {
-                todayConsume = 100;
-                TDEE = Math.Round(tempTDEE / tempConsume * 100, 1);
-                todayIngest = Math.Round(tempIngest / tempConsume * 100, 1);
+                vm.Warning = "正常";
+                vm.WorkoutSuggestion = q1.Where(w => w.ActivityLevelID == 4).ToList();
+                vm.ActivityLevel = "【緩和】運動";
+            }
+
+            return View(vm);
+        }
+
+        private decimal ingestPerTime(string dayString, int timeOfDay)
+        {
+            var q1 = dbContext.DietLogs.Where(dl => dl.MemberID == 83
+                    && dl.Date == dayString
+                    && dl.TimeOfDayID == timeOfDay);
+
+            decimal ingest = 0;
+
+            if (q1.Count() > 0)
+            {
+                ingest = (decimal)(q1.Sum(dl => dl.Portion * dl.MealOption.Calories));
+            }
+
+            return ingest;
+        }
+
+        [NonAction]
+        private void TodayCaloriesToPercent(decimal TDEE, decimal todayIngest, decimal todayConsume,
+            out decimal TDEEPercent, out decimal IngestPercent, out decimal ConsumePercent)
+        {
+            
+            if (TDEE >= todayIngest && TDEE >= todayConsume)
+            {
+                TDEEPercent = 100;
+                IngestPercent = Math.Round(todayIngest / TDEE * 100, 1);
+                ConsumePercent = Math.Round(todayConsume / TDEE * 100, 1);
+            }
+            else if (todayIngest >= TDEE && todayIngest >= todayConsume)
+            {
+                IngestPercent = 100;
+                ConsumePercent = Math.Round(todayConsume / todayIngest * 100, 1);
+                TDEEPercent = Math.Round(TDEE / todayIngest * 100, 1);
+            }
+            else
+            {
+                ConsumePercent = 100;
+                TDEEPercent = Math.Round(TDEE / todayConsume * 100, 1);
+                IngestPercent = Math.Round(todayIngest / todayConsume * 100, 1);
             }
         }
 
@@ -267,12 +456,10 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            decimal TDEEPercent = this.TDEE;
-            decimal IngestPercent = TodayIngest();
-            decimal ConsumePercent = TodayConsume();
-            decimal todayConsume = ConsumePercent;
+            decimal todayConsume = TodayConsume();
 
-            TodayCaloriesToPercent(ref TDEEPercent, ref IngestPercent, ref ConsumePercent);
+            TodayCaloriesToPercent(this.TDEE, TodayIngest(), todayConsume,
+                out decimal TDEEPercent, out decimal IngestPercent, out decimal ConsumePercent);
 
             return Json(new 
             { 
@@ -356,7 +543,7 @@ namespace UI.Controllers
             return weight;
         }
 
-        //todo
+        //todo 采馨會改日期格式
         [NonAction]
         private decimal TodayIngest()
         {
@@ -445,5 +632,70 @@ namespace UI.Controllers
             return "success";
         }
 
+        //=========================================================
+        //Workout places
+        public ActionResult WorkoutPlaces(string workout) 
+        {
+            string keyword = "健身房";
+
+            if (!string.IsNullOrEmpty(workout))
+            {
+                keyword = ToPlacesKeyword(workout);
+            }
+            
+            ViewBag.Keyword = keyword;
+            ViewBag.Title = $"附近的{keyword}";
+
+            return View();
+        }
+
+        [NonAction]
+        public string ToPlacesKeyword(string workout)
+        {
+            if (workout.Contains("跑")
+                || workout.Contains("步")
+                || workout.Contains("走")
+                || workout == "衝刺")
+            {
+                return "公園";
+            }
+            else if (workout.Contains("樓梯"))
+            {
+                return "登山步道";
+            }
+            else if (workout.Contains("騎"))
+            {
+                return "自行車道";
+            }
+            else if (workout.Contains("瑜珈"))
+            {
+                return workout;
+            }
+            else if (workout.Contains("舞蹈"))
+            {
+                return "舞蹈教室";
+            }
+            else if (workout.Contains("游"))
+            {
+                return "游泳池";
+            }
+            else if (workout.Contains("跳繩"))
+            {
+                return "公園";
+            }
+            else if (workout.Contains("球"))
+            {
+                return workout + "場";
+            }
+            else if (workout.Contains("有氧") || workout.Contains("飛輪"))
+            {
+                return "健身房";
+            }
+            else
+            {
+                return null;
+            }
+
+        }
     }
 }
