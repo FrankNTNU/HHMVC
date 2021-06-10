@@ -25,8 +25,8 @@
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>名稱</th>
                     <th>使用者帳號</th>
+                    <th>名稱</th>
                     <th>圖片</th>
                     <th>修改</th>
                     <th>刪除</th>
@@ -36,29 +36,30 @@
                 @foreach (var item in Model)
                 {
 
-                    <tr id="a_@item.ID">
-                        <td>@item.Name</td>
-                        <td>
-                            @item.UserName
-                        </td>
-                        <td><img src="~/Areas/Admin/Content/UserImage/@item.ImagePath" width="50" height="50" /></td>
-                        <td align="center" valign="middle">
-                            <a href="/Admin/User/UpdateUser/@item.ID">
-                                <img src="~/Areas/Admin/Content/icon/update-icon.png" />
-                            </a>
-                        </td>
-                        <td align="center" valign="middle">
-                            <a href="#">
-                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/User/DeleteUser/', @item.ID)" />
-                            </a>
-                        </td>
-                    </tr>
+                <tr id="a_@item.ID">
+                    <td>
+                        @item.UserName
+                    </td>
+                    <td>@item.Name</td>
+
+                    <td><img src="~/Areas/Admin/Content/UserImage/@item.ImagePath" width="50" height="50" /></td>
+                    <td align="center" valign="middle">
+                        <a href="/Admin/User/UpdateUser/@item.ID">
+                            <img src="~/Areas/Admin/Content/icon/update-icon.png" />
+                        </a>
+                    </td>
+                    <td align="center" valign="middle">
+                        <a href="#">
+                            <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/User/DeleteUser/', @item.ID)" />
+                        </a>
+                    </td>
+                </tr>
                 }
             </tbody>
             <tfoot>
                 <tr>
-                    <th>名稱</th>
                     <th>使用者帳號</th>
+                    <th>名稱</th>
                     <th>圖片</th>
                     <th>修改</th>
                     <th>刪除</th>

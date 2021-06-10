@@ -43,13 +43,9 @@ namespace UI.Controllers
                 UserDTO user = userBLL.GetUserWithUsernameAndPassword(model);
                 if (user.ID != 0)
                 {
-                    UserStatic.UserID = user.ID;
-                    UserStatic.IsAdmin = user.IsAdmin;
-                    UserStatic.NameSurname = user.Name;
-                    UserStatic.ImagePath = user.ImagePath;
-                    UserStatic.StatusID = user.StatusID;
-                    UserStatic.Points = user.Points;
-
+                    Session["ID"] = user.ID;
+                    Session["Name"] = user.Name;
+                    Session["ImagePath"] = user.ImagePath;
                     return RedirectToAction("Index", "Home2");
                 }
                 else
@@ -65,8 +61,7 @@ namespace UI.Controllers
         }
         public ActionResult Logout()
         {
-            int id = UserStatic.UserID;
-            UserStatic.UserID = 0;
+            Session.Clear();
             return RedirectToAction("Index");
         }
         public ActionResult PostDetail(int ID)

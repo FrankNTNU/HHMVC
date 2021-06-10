@@ -18,38 +18,37 @@
         .like__btn {
             border-radius: 0.4rem;
         }
+        button {
+            outline: none !important;
+        }
     </style>
 }
 
 
 <!-- Content -->
-<div id="main">
-    <div class="inner">
-        <section style="padding-top:30px">
-            <div class="row" style="font-size:1.1em;">
+
+<section style="padding-top:30px">
+    <div class="row" style="font-size:1.1em;">
 
 
-                <div class="col-12">
-                    <header class="major">
-                        <span class="button" style="        font-weight: bolder;
+        <div class="col-12">
+            <header class="major">
+                <span class="button" style="        font-weight: bolder;
         margin-right: 10px;
         pointer-events: none
 ">@Model.PostDetail.CategoryName</span>
 @if (!Model.PostDetail.IsApproved)
 {
-    <span class="button small primary" style="opacity:0.5;cursor:default;margin-right:10px"> 核准中...</span>
+    <span class="button primary" style="opacity:0.5;cursor:default;margin-right:10px;font-size:0.7em"> 核准中...</span>
 }
-<h2 style="font-size:1.5em;">@Model.PostDetail.Title <i class="far fa-heart"></i> @Model.PostDetail.LikeCount <i class="far fa-eye"></i>  @Model.PostDetail.ViewCount</h2>
+<h2 style="font-size:1.5em;" class="mb-3">@Model.PostDetail.Title <i class="far fa-heart"></i> @Model.PostDetail.LikeCount <i class="far fa-eye"></i>  @Model.PostDetail.ViewCount</h2>
 
 </header>
 </div>
 </div>
 
 <div class="row">
-
-
-
-    <div class="col-12 col-md-8">
+    <div class="col-12 col-md-7">
         <div class="row">
             <div class="col-3 col-lg-2">
                 <img src="~/Areas/Admin/Content/UserImage/@Model.PostDetail.MemberImage" style="width:50px" />
@@ -77,14 +76,14 @@
             </div>
             <div class="col-8 pr-0">
 
-                <div class="image main" style="font-size:1.2em">@Model.PostDetail.ShortContent</div>
+                <div class="image main mb-1" style="font-size:1.2em">@Model.PostDetail.ShortContent</div>
 
             </div>
         </div>
     </div>
     @if (Model.PostDetail.PostImages.Count() > 0)
     {
-        <div class="col-12 col-md-4 d-flex align-items-center justify-content-center "><span class="image main" style="float:right"><img src="~/Areas/Admin/Content/PostImages/@Model.PostDetail.PostImages[0].ImagePath" alt="" style="max-width:100%;margin:auto;" /></span></div>
+        <div class="col-12 col-md-5 d-flex align-items-center justify-content-center "><span class="image main mb-1" style="float:right"><img src="~/Areas/Admin/Content/PostImages/@Model.PostDetail.PostImages[0].ImagePath" alt="" style="max-width:100%;margin:auto;" /></span></div>
     }
 
     else
@@ -92,50 +91,55 @@
         <div class="col-6 col-12-medium"><span class="image main" style="float:right"><img src="~/Content/img/slides/health1.jpg" alt="" style="max-width:100%;float:right" /></span></div>
     }
 </div>
-<div class="row">
+<div class="row mt-2">
     <div class="col-12" style="font-size:1.1em">
         @Html.Raw(Model.PostDetail.PostContent)
     </div>
 </div>
 <p></p>
-@if (Model.PostDetail.MemberID == DTO.UserStatic.UserID)
-{
-    <div class="row">
-        <div class="col-1 col-lg-8 col-md-6 col-sm-6"></div>
-        <div class="col-5 col-lg-2 col-md-3 col-sm-3">
-            <div style="font-size:1.1em"><a href="/FrontPost/UpdatePost/@Model.PostDetail.ID"><input type="submit" value="修改貼文" class="primary" /></a></div>
+@if (Session["ID"] != null)
+{if (Model.PostDetail.MemberID == (int)Session["ID"])
+    {
+        <div class="row">
+            <div class="col-1 col-lg-8 col-md-6 col-sm-6"></div>
+            <div class="col-5 col-lg-2 col-md-3 col-sm-3">
+                <div style="font-size:1.1em"><a href="/FrontPost/UpdatePost/@Model.PostDetail.ID"><input type="submit" value="修改貼文" class="primary" /></a></div>
+            </div>
+
+            <div class="col-5 col-lg-2 col-md-3 col-sm-3" style="font-size:1.1em; padding-right:25px">
+                @Html.ActionLink("刪除貼文", "DeletePost", "FrontPost", new { ID = Model.PostDetail.ID }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "button" })
+            </div>
         </div>
 
-        <div class="col-5 col-lg-2 col-md-3 col-sm-3" style="font-size:1.1em; padding-right:25px">
-            @Html.ActionLink("刪除貼文", "DeletePost", "FrontPost", new { ID = Model.PostDetail.ID }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "button" })
-        </div>
-    </div>
+
+
+    }
+    else { <div class="container">
+    <button class="like__btn animated default" data-assigned-id="@Model.PostDetail.ID" style="border-style: none;">
+        <i class="like__icon fa fa-heart"></i>
+        <span class="like__number">@Model.PostDetail.LikeCount</span>
+    </button>
+</div>}
+
 }
-else if (DTO.UserStatic.UserID != 0)
-{
-    <div class="container">
-        <button class="like__btn animated default" data-assigned-id="@Model.PostDetail.ID">
-            <i class="like__icon fa fa-heart"></i>
-            <span class="like__number">@Model.PostDetail.LikeCount</span>
-        </button>
-    </div>
-}
+
 <!--文章留言區-->
 
-<div class="row" style="margin-top:50px">
-    <div class="col-8 col-12-medium">
-        <header class="major">
-            <h2>
-                @Model.CommentCount 則留言 <i class="far fa-comment"></i>
-            </h2>
-        </header>
 
-
-    </div>
-
-</div>
 @if (Model.CommentCount > 0)
 {
+    <div class="row" style="margin-top:20px">
+        <div class="col-8 col-12-medium">
+            <header class="major">
+                <h2 class="mb-1">
+                    @Model.CommentCount 則留言 <i class="far fa-comment"></i>
+                </h2>
+            </header>
+
+
+        </div>
+
+    </div>
     <div style="        background-color: #ffe9e8;
         padding: 10px;
         margin-bottom: 10px">
@@ -155,16 +159,21 @@ else if (DTO.UserStatic.UserID != 0)
                         <p><strong>@item.Name</strong> <small>@item.AddDate.ToString("yyyy/MM/dd dddd")</small></p>
                         <h4>@item.Title</h4>
                         @Html.Raw(@item.CommentContent)
-                        @if (DTO.UserStatic.UserID == item.MemberID)
+
+                        @if (Session["ID"] != null)
                         {
-                            <div class="row">
-                                <div class="col-5 col-md-3" style="font-size:1em">
-                                    @Html.ActionLink("修改", "UpdateComment", new { commentID = @item.ID }, new { @class = "button primary" })
-                                </div>
-                                <div class="col-5" style="font-size:1em">
-                                    @Html.ActionLink("刪除", "DeleteComment", new { ID = item.ID, PostID = Model.PostDetail.ID }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "button" })
-                                </div>
-                            </div>}
+                            if ((int)Session["ID"] == item.MemberID)
+                            {
+                                <div class="row">
+                                    <div class="col-5 col-md-3" style="font-size:1em">
+                                        @Html.ActionLink("修改", "UpdateComment", new { commentID = @item.ID }, new { @class = "button primary" })
+                                    </div>
+                                    <div class="col-5" style="font-size:1em">
+                                        @Html.ActionLink("刪除", "DeleteComment", new { ID = item.ID, PostID = Model.PostDetail.ID }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "button" })
+                                    </div>
+                                </div>}
+                        }
+
                         <div class="row"><p></p></div>
 
                     </div>
@@ -177,11 +186,11 @@ else if (DTO.UserStatic.UserID != 0)
         }
     </div>
 }
-@if (DTO.UserStatic.UserID != 0)
+@if (Session["ID"] != null)
 {
-    <header class="major">
+    <header class="major mt-3">
         <h2 style="margin-bottom:5px">
-            新增留言
+            新增留言 <i class="far fa-edit"></i>
         </h2>
     </header>
     @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
@@ -192,18 +201,18 @@ else if (DTO.UserStatic.UserID != 0)
         <div class="row gtr-uniform">
             <div class="col-6 col-12-xsmall">
                 <label>暱稱</label>
-                @Html.ValidationMessageFor(x => x.Comment.Name)
+                @Html.ValidationMessageFor(x => x.Comment.Name, "", new { @style = "color:red" })
                 <input type="text" name="Comment.Name" id="demo-name" value="" placeholder="留言用暱稱" style="height: 45px" />
             </div>
             <div class="col-6 col-12-xsmall">
                 <label>標題</label>
-                @Html.ValidationMessageFor(x => x.Comment.Title)
+                @Html.ValidationMessageFor(x => x.Comment.Title, "", new { @style = "color:red" })
                 <input type="text" name="Comment.Title" id="demo-email" value="" placeholder="你的留言標題" style="height: 45px;" />
             </div>
             <!-- Break -->
             <div class="col-12">
                 <label>內容</label>
-
+                @Html.ValidationMessageFor(x => x.Comment.CommentContent, "", new { @style = "color:red" })
                 <textarea name="Comment.CommentContent" id="demo-message" placeholder="你的留言內容" rows="6" class="ckeditor" style="width:305px"></textarea>
             </div>
             <!-- Break -->
@@ -216,8 +225,7 @@ else if (DTO.UserStatic.UserID != 0)
     </form>
 }
 </section>
-</div>
-</div>
+
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {

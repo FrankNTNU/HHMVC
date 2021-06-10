@@ -50,16 +50,40 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.4.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.4.2\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Security" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -117,6 +141,7 @@
     <Content Include="Areas\Admin\Content\icon\lockIcon.png" />
     <Content Include="Areas\Admin\Content\icon\update-icon.png" />
     <Content Include="Areas\Admin\Content\JS\adminlte.min.js" />
+    <Content Include="Areas\Admin\Content\JS\angular.min.js" />
     <Content Include="Areas\Admin\Content\JS\bootstrap.bundle.min.js" />
     <Content Include="Areas\Admin\Content\JS\bs-custom-file-input.min.js" />
     <Content Include="Areas\Admin\Content\JS\buttons.bootstrap4.min.js" />
@@ -518,10 +543,12 @@
     <Content Include="Areas\Admin\Content\JS\jquery.dataTables.min.js" />
     <Content Include="Areas\Admin\Content\JS\jquery.inputmask.min.js" />
     <Content Include="Areas\Admin\Content\JS\jquery.min.js" />
+    <Content Include="Areas\Admin\Content\JS\jquery.signalR.min.js" />
     <Content Include="Areas\Admin\Content\JS\jszip.min.js" />
     <Content Include="Areas\Admin\Content\JS\moment.min.js" />
     <Content Include="Areas\Admin\Content\JS\pdfmake.min.js" />
     <Content Include="Areas\Admin\Content\JS\responsive.bootstrap4.min.js" />
+    <Content Include="Areas\Admin\Content\JS\signalr-hub.js" />
     <Content Include="Areas\Admin\Content\JS\sweetalert2.min.js" />
     <Content Include="Areas\Admin\Content\JS\tempusdominus-bootstrap-4.min.js" />
     <Content Include="Areas\Admin\Content\JS\vfs_fonts.js" />
@@ -623,6 +650,7 @@
     <Content Include="Areas\Admin\Views\Gift\UpdateGift.cshtml" />
     <Content Include="Areas\Admin\Content\webfonts\fre3of9x.ttf" />
     <Content Include="Areas\Admin\Views\Gift\GiftCarts.cshtml" />
+    <Content Include="Areas\Admin\Views\Contact\Contact.cshtml" />
     <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
@@ -669,6 +697,11 @@
     <Content Include="Content\webfonts\fa-regular-400.svg" />
     <Content Include="Content\webfonts\fa-solid-900.svg" />
     <Content Include="Global.asax" />
+    <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.2.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.2.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -676,15 +709,17 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ContactController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiftController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
+    <Compile Include="ChatHub.cs" />
+    <Compile Include="Controllers\FrontContactController.cs" />
     <Compile Include="Controllers\FrontGiftController.cs" />
     <Compile Include="Controllers\FrontPostController.cs" />
     <Compile Include="Controllers\Home2Controller.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\WeightController.cs" />
     <Compile Include="Controllers\WorkoutController.cs" />
     <Compile Include="Global.asax.cs">
@@ -692,6 +727,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\WorkoutSuggestViewModel.cs" />
+    <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -795,10 +831,6 @@
     <Content Include="Content\moment-js\moment-with-locales.min.js.map" />
     <Content Include="Content\moment-js\moment.min.js.map" />
     <None Include="packages.config" />
-    <Content Include="Views\Shared\HomeLayout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\PostDetail.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\ModalMessage.cshtml" />
     <Content Include="Views\Shared\HomeLayout2.cshtml" />
     <Content Include="Views\Home2\Index.cshtml" />
@@ -812,6 +844,8 @@
     <Content Include="Views\FrontPost\PostDetail.cshtml" />
     <Content Include="Views\FrontPost\UpdateComment.cshtml" />
     <Content Include="Views\FrontGift\GiftCart.cshtml" />
+    <Content Include="Views\FrontPost\UserPostList.cshtml" />
+    <Content Include="Views\FrontContact\Chat.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Weight\WeightLog.cshtml" />

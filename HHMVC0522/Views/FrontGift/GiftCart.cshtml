@@ -22,134 +22,177 @@
             padding: 0px;
             padding-left: 10px
         }
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: black;
+        }
     </style>
+   
 }
 @model List<DTO.GiftCartDTO>
-<div id="main">
-    <div class="inner">
-        <section>
-            <header class="row">
-                <div class="row col-12">
-                    <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
-                        <h3 style="margin-bottom: 10px;">
-                            <i class="fas fa-shopping-cart"></i> @DTO.UserStatic.NameSurname 的已兌換禮物
-                        </h3>
-                    </div>
-                    <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
-                        <a href="~/FrontGift/GiftList"><label class="button primary">返回商店</label></a>
-                    </div>
-                </div>
 
-
-            </header>
-            <header class="major"><p class="col-12" style="margin-bottom:5px"></p></header>
-            <div class="row" style="margin-bottom:5px">
-                <div class="col-12 col-md-6">
-                    <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
-                </div>
-                <div class="col-12 col-md-6">
-                    <select id="searchFilter" class="form-control">
-                        <option selected disabled value="-1">排序條件</option>
-                        <option value=0>截止日: 近 => 遠</option>
-                        <option value=1>截止日: 遠 => 低</option>
-                    </select>
-                </div>
+<section>
+    <header class="row">
+        <div class="row col-12">
+            <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
+                <h3 style="margin-bottom: 10px;">
+                    <i class="fas fa-shopping-cart"></i> @Session["Name"] 的已兌換禮物
+                </h3>
             </div>
-            <div class="row" id="cartList">
-                @foreach (var item in Model)
+            <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
+                <a href="~/FrontGift/GiftList"><label class="button primary">返回商店</label></a>
+            </div>
+        </div>
+
+
+    </header>
+    <header class="major"><p class="col-12" style="margin-bottom:5px"></p></header>
+    <div class="row" style="margin-bottom:5px">
+        <div class="col-12 col-md-6">
+            <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
+        </div>
+        <div class="col-12 col-md-6">
+            <select id="searchFilter" class="form-control">
+                <option selected disabled value="-1">排序條件</option>
+                <option value=0>截止日: 近 => 遠</option>
+                <option value=1>截止日: 遠 => 低</option>
+            </select>
+        </div>
+    </div>
+    <div class="row" id="cartList">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-sm-4 col-md-4 d-flex align-items-center justify-content-center" style="margin:auto;">
+                @if (item.EndDate < DateTime.Today)
                 {
-                    <div class="col-12 col-sm-4 col-md-4 d-flex align-items-center justify-content-center" style="margin:auto;">
-                        <img class="image" src="~/Areas/Admin/Content/CartImages/@item.Image" style="max-width:200px;width:100%" />
-                    </div>
-                    <div class="col-12 col-sm-8 col-md-8">
-                        <div class="table-wrapper">
-                            <table style="margin-bottom:0px">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>名稱</strong></td>
-                                        <td>@item.Name</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>商家通路</strong></td>
-                                        <td>@item.Store</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>兌換期限</strong></td>
-                                        <td>@item.AddDate.ToString("yyyy/MM/dd") 至 @item.EndDate.ToString("yyyy/MM/dd")</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="vertical-align:middle"><strong>掃描條碼</strong></td>
-                                        <td class="barcodeFont"> @item.Barcode</td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
+                    <img class="image" src="~/Areas/Admin/Content/CartImages/@item.Image" style="max-width:200px;width:100%;opacity:0.45" />
+                <div class="centered"><h5>已截止</h5></div>
+                }
+                else
+                {
+                    <img class="image" src="~/Areas/Admin/Content/CartImages/@item.Image" style="max-width:200px;width:100%" />
                 }
 
             </div>
+            <div class="col-12 col-sm-8 col-md-8">
+                <div class="table-wrapper">
+                    <table style="margin-bottom:0px">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>名稱</strong></td>
+                                <td>@item.Name</td>
+                            </tr>
+                            <tr>
+                                <td><strong>商家通路</strong></td>
+                                <td>@item.Store</td>
+                            </tr>
+                            <tr>
+                                <td width="30%"><strong>兌換期限</strong></td>
+                                <td>
+                                    
 
-        </section>
+                                    @if (item.EndDate < DateTime.Today)
+                                    {
+                                    <span>截止日: @item.EndDate.ToString("yyyy/MM/dd")</span>
+                                        
+                                        <span class="button small primary" style="opacity:0.5;cursor:default;margin-left:15px;font-size:10px"> 已截止</span>
+                                    }
+                                    else
+                                    {
+                                <span>
+                                    @item.AddDate.ToString("yyyy/MM/dd") 至
+                                    @item.EndDate.ToString("yyyy/MM/dd")
+                                </span>
+                                    }
+
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:middle"><strong>掃描條碼</strong></td>
+                                <td class="barcodeFont"> @item.Barcode</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        }
+
     </div>
-</div>
+
+</section>
+
 @section Scripts {
     <script>
+        var timeOut = null;
         $(document).ready(function () {
             $('#searchText').keyup(function () {
-                const text = $(this).val();
-                $('#cartList').html('');
-                $('#searchFilter').val("-1");
-                $.ajax({
-                    type: "post",
-                    url: "GetCarts?text=" + text,
-                    contentType: "html",
-                    success: function (result) {
-                        $.each(result, function (index, value) {
-                            var insertedHtml =
-                                '<div class="col-12 col-sm-4 col-md-4 d-flex align-items-center justify-content-center" style="margin:auto;">' +
-                                '<img class="image" src="/Areas/Admin/Content/CartImages/' + value.Image + '" style="max-width:200px;width:100%"/>' +
-                                '</div>' +
-                                '<div class="col-12 col-sm-8 col-md-8">\
-                                                 <div class="table-wrapper" >\
-                                                    <table style="margin-bottom:0px"><thead><tr><th></th><th></th></tr></thead>' +
-                                '<tbody>\
-                                                        <tr> \
-                                                            <td><strong>名稱</strong></td> \
-                                                            <td>' + value.Name + '</td> \
-                                                        </tr> \
-                                                        <tr> \
-                                                            <td><strong>商家通路</strong></td> \
-                                                            <td>' + value.Store + '</td> \
-                                                        </tr> \
-                                                        <tr> \
-                                                            <td><strong>兌換期限</strong></td> \
-                                                            <td>' + value.Duration + '</td> \
-                                                        </tr> \
-                                                        <tr> \
-                                                            <td style="vertical-align:middle"><strong>掃描條碼</strong></td> \
-                                                            <td class="barcodeFont" style="font-family:"BarcodeFont"; font-size:3em;padding:0px;padding-left:10px">' + value.Barcode + '</td>\
-                                                        </tr>\
-                                                    </tbody>\
-                                                    <tfoot><tr><td></td><td></td></tr></tfoot>\
-                                                    </table >\
-                                                </div> \
-                                            </div> ';
-                            $('#cartList').append(insertedHtml);
-                        })
-                    }
-                })
+                if (timeOut != null) {
+                    clearTimeout(timeOut);
+                }
+                timeOut = setTimeout(function () {
+                    timeOut = null;
+                    const text = $('#searchText').val();
+                    $('#cartList').html('');
+                    $('#searchFilter').val("-1");
+                    console.log(text);
+                    $.ajax({
+                        type: "post",
+                        url: "GetCarts?text=" + text,
+                        contentType: "html",
+                        success: function (result) {
+                            $.each(result, function (index, value) {
+                                var insertedHtml =
+                                    '<div class="col-12 col-sm-4 col-md-4 d-flex align-items-center justify-content-center" style="margin:auto;">' +
+                                    '<img class="image" src="/Areas/Admin/Content/CartImages/' + value.Image + '" style="max-width:200px;width:100%"/>' +
+                                    
+                                    '</div>' +
+                                    '<div class="col-12 col-sm-8 col-md-8">\
+                                                     <div class="table-wrapper" >\
+                                                        <table style="margin-bottom:0px"><thead><tr><th></th><th></th></tr></thead>' +
+                                    '<tbody>\
+                                                            <tr> \
+                                                                <td><strong>名稱</strong></td> \
+                                                                <td>' + value.Name + '</td> \
+                                                            </tr> \
+                                                            <tr> \
+                                                                <td><strong>商家通路</strong></td> \
+                                                                <td>' + value.Store + '</td> \
+                                                            </tr> \
+                                                            <tr> \
+                                                                <td width=30%><strong>兌換期限</strong></td> \
+                                                                <td>' + value.Duration + '</td> \
+                                                            </tr> \
+                                                            <tr> \
+                                                                <td style="vertical-align:middle"><strong>掃描條碼</strong></td> \
+                                                                <td class="barcodeFont" style="font-family:"BarcodeFont"; font-size:3em;padding:0px;padding-left:10px">' + value.Barcode + '</td>\
+                                                            </tr>\
+                                                        </tbody>\
+                                                        <tfoot><tr><td></td><td></td></tr></tfoot>\
+                                                        </table >\
+                                                    </div> \
+                                                </div> ';
+                                $('#cartList').append(insertedHtml);
+                            })
+                        }
+                    })
+                    $('#cartList').html('');
+                }, 200)
 
             })
             $('#searchFilter').change(function () {
@@ -167,30 +210,30 @@
                                 '<img class="image" src="/Areas/Admin/Content/CartImages/' + value.Image + '" style="max-width:200px;width:100%"/>' +
                                 '</div>' +
                                 '<div class="col-12 col-sm-8 col-md-8">\
-                                                 <div class="table-wrapper" >\
-                                                    <table style="margin-bottom:0px"><thead><tr><th></th><th></th></tr></thead>' +
+                                                     <div class="table-wrapper" >\
+                                                        <table style="margin-bottom:0px"><thead><tr><th></th><th></th></tr></thead>' +
                                 '<tbody>\
-                                                        <tr> \
-                                                            <td><strong>名稱</strong></td> \
-                                                            <td>' + value.Name + '</td> \
-                                                        </tr> \
-                                                        <tr> \
-                                                            <td><strong>商家通路</strong></td> \
-                                                            <td>' + value.Store + '</td> \
-                                                        </tr> \
-                                                        <tr> \
-                                                            <td><strong>兌換期限</strong></td> \
-                                                            <td>' + value.Duration + '</td> \
-                                                        </tr> \
-                                                        <tr> \
-                                                            <td style="vertical-align:middle"><strong>掃描條碼</strong></td> \
-                                                            <td class="barcodeFont" style="font-family:"BarcodeFont"; font-size:3em;padding:0px;padding-left:10px">' + value.Barcode + '</td>\
-                                                        </tr>\
-                                                    </tbody>\
-                                                    <tfoot><tr><td></td><td></td></tr></tfoot>\
-                                                    </table >\
-                                                </div> \
-                                            </div> ';
+                                                            <tr> \
+                                                                <td><strong>名稱</strong></td> \
+                                                                <td>' + value.Name + '</td> \
+                                                            </tr> \
+                                                            <tr> \
+                                                                <td><strong>商家通路</strong></td> \
+                                                                <td>' + value.Store + '</td> \
+                                                            </tr> \
+                                                            <tr> \
+                                                                <td width=30%><strong>兌換期限</strong></td> \
+                                                                <td>' + value.Duration + '</td> \
+                                                            </tr> \
+                                                            <tr> \
+                                                                <td style="vertical-align:middle"><strong>掃描條碼</strong></td> \
+                                                                <td class="barcodeFont" style="font-family:"BarcodeFont"; font-size:3em;padding:0px;padding-left:10px">' + value.Barcode + '</td>\
+                                                            </tr>\
+                                                        </tbody>\
+                                                        <tfoot><tr><td></td><td></td></tr></tfoot>\
+                                                        </table >\
+                                                    </div> \
+                                                </div> ';
 
                             $('#cartList').append(insertedHtml);
                         })

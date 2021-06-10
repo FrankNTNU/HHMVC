@@ -14,5 +14,6 @@ namespace DTO
         public static string ImagePath { get; set; }
         public static int StatusID { get; set; }
         public static int Points { get; set; }
+        public static List<UserDTO> UserList { get; set; }
     }
 }

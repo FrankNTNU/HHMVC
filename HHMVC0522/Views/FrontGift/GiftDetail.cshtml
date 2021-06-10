@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 }
 <!-- Content -->
-<div id="main">
-    <div class="inner">
+
         <section>
             <header class="row">
                 <div class="row col-12">
@@ -23,10 +22,11 @@
                         <a href="~/FrontGift/GiftList"><label class="button primary">返回商店</label></a>
                     </div>
                 </div>
-                @if (DTO.UserStatic.UserID != 0)
+                @if (Session["ID"] != null)
                 {
                     <div class="col-12" style="text-align:center;font-size:1.2em">
-                        <strong>@DTO.UserStatic.NameSurname</strong> 目前擁有 <strong>@DTO.UserStatic.Points </strong>點
+                        <strong>@Session["Name"]</strong> 目前擁有 <strong>
+                        @Session["Points"] </strong>點
                     </div>
                 }
 
@@ -75,22 +75,20 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        @if (DTO.UserStatic.UserID != 0)
+                        @if (Session["ID"] != null)
                         {
                             if (@Model.EndDate >= DateTime.Today)
                             {<div style="text-align:center">
                                     <label class="button default" style="width:300px" id="btnRedeem">兌換</label>
                                 </div>}
-                        }
-                        else
-                        {
-                            if (@Model.EndDate < DateTime.Today)
+                            else 
                             {
                                 <div style="text-align:center">
                                     <label class="button default disabled" style="width:300px" id="btnRedeem">已截止</label>
                                 </div>
                             }
                         }
+                      
 
 
                     </div>
@@ -98,19 +96,18 @@
             </div>
 
         </section>
-    </div>
-</div>
+  
 @section Scripts {
     <script>
         $("#btnRedeem").click(function () {
-            if (@Model.Points > @DTO.UserStatic.Points) {
-                alert("持有點數不足\n尚差" + (@Model.Points-@DTO.UserStatic.Points) + "點數");
+            if (@Model.Points > parseInt(@Session["Points"])) {
+                alert("持有點數不足\n尚差" + (@Model.Points - parseInt(@Session["Points"])) + "點數");
             }
             else if (@Model.Quantity <= 0) {
                 alert("商品已經兌換完畢");
             }
             else {
-                const answer = confirm("確定要兌換?\n兌換前點數: " + @DTO.UserStatic.Points + "\n將剩餘點數: " +(@DTO.UserStatic.Points - @Model.Points));
+                const answer = confirm("確定要兌換?\n兌換前點數: " + parseInt(@Session["Points"]) + "\n將剩餘點數: " +(parseInt(@Session["Points"]) - @Model.Points));
                 if (answer) {
                     $.ajax({
                         type: "post",
@@ -121,7 +118,7 @@
                                 alert("已兌換過該禮物");
                             }
                             else {
-                                alert("兌換成功!\n剩餘點數: " +(@DTO.UserStatic.Points - @Model.Points));
+                                alert("兌換成功!\n剩餘點數: " + (parseInt(@Session["Points"]) - @Model.Points));
                                 window.location.href = "/FrontGift/AddCart/?giftID=@Model.ID";
                             }
                         }

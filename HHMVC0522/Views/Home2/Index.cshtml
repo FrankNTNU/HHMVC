@@ -37,14 +37,14 @@
 
         <!-- Banner -->
         <section id="banner">
-            <div class="row">
+            <div class="row" style="width:100%">
                 <div class="col-12 col-lg-6">
-                    @if (DTO.UserStatic.UserID != 0)
+                    @if (Session["ID"] != null)
                     {
-                        <h1>
-                            Hi, @DTO.UserStatic.NameSurname<br />
-                            歡迎回到HealthHelper，<br />你的健康管理助手
-                        </h1>
+                    <h1>
+                        Hi, @Session["Name"]<br />
+                        歡迎回到HealthHelper，<br />你的健康管理助手
+                    </h1>
                     }
                     else
                     {
@@ -147,7 +147,7 @@
                             <span class="button" style="        margin-right: 10px;
         pointer-events: none
 ">@item.CategoryName</span><a href="@Url.Action("PostDetail","FrontPost", new { @ID = item.ID })" style="text-decoration: none"><strong>@item.Title</strong></a>
-</text>
+</text><span>@item.AddDate.ToString("yyyy/MM/dd")</span>
 <p>@item.ShortContent</p>
 @*<ul class="actions">
         <li><a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="button">More</a></li>

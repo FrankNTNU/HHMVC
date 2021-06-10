@@ -4,58 +4,60 @@
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 
+@section Styles{
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+}
 @model DTO.CommentDTO
 
-<div id="main">
-    <div class="inner">
-        <!-- Header -->
-        <div><p></p></div>
-        <header class="major">
-            <p style="font-size:2em; margin-bottom:10px">
-                修改留言
-            </p>
-        </header>
-        @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
-        <form action="@Url.Action("UpdateComment")" method="post">
-            <input hidden value="@Model.ID" name="ID" />
 
-            <div class="row gtr-uniform">
-                <div class="col-6 col-12-xsmall">
-                    <label>暱稱</label>
+<!-- Header -->
+<div><p></p></div>
+<header class="major">
+    <p style="font-size:2em; margin-bottom:10px">
+        修改留言
+    </p>
+</header>
+@Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
+<form action="@Url.Action("UpdateComment")" method="post">
+    <input hidden value="@Model.ID" name="ID" />
 
-                    @Html.TextBoxFor(x => x.Name, new { @placeholder = "留言暱稱", @style = "height: 45px;" })
-                    @Html.ValidationMessageFor(x => x.Name, "", new{ @style="color:red" })
-                </div>
-                <div class="col-6 col-12-xsmall">
-                    <label>標題</label>
-                    @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
-                    @Html.TextBoxFor(x => x.Title, new { @placeholder = "你的留言標題", @style = "height: 45px;" })
-                </div>
+    <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+            <label>暱稱</label>
 
+            @Html.TextBoxFor(x => x.Name, new { @placeholder = "留言暱稱", @style = "height: 45px;" })
+            @Html.ValidationMessageFor(x => x.Name, "", new { @style = "color:red" })
+        </div>
+        <div class="col-6 col-12-xsmall">
+            <label>標題</label>
+            @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
+            @Html.TextBoxFor(x => x.Title, new { @placeholder = "你的留言標題", @style = "height: 45px;" })
+        </div>
 
 
-                <!-- Break -->
-                <div class="col-12">
-                    <label>內容</label>
-                    @Html.ValidationMessageFor(x => x.CommentContent)
-                    @Html.TextAreaFor(x => x.CommentContent, new { @placeholder = "你的留言內容", @row = 6, @class = "ckeditor", @style = "width:305px" })
 
-                </div>
-                <!-- Break -->
-                <div class="col-12">
-                    <ul class="actions">
-                        <li style="font-size:1.1em"><input type="submit" value="提交" class="primary" /></li>
-                    </ul>
-                </div>
-            </div>
-        </form>
+        <!-- Break -->
+        <div class="col-12">
+            <label>內容</label>
+            @Html.ValidationMessageFor(x => x.CommentContent)
+            @Html.TextAreaFor(x => x.CommentContent, new { @placeholder = "你的留言內容", @row = 6, @class = "ckeditor", @style = "width:305px" })
+
+        </div>
+        <!-- Break -->
+        <div class="col-12">
+            <ul class="actions">
+                <li style="font-size:1.1em"><input type="submit" value="提交" class="primary" /></li>
+            </ul>
+        </div>
     </div>
-</div>
+</form>
+
 
 
 @section Scripts{
 
     <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
- 
+
 }

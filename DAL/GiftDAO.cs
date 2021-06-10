@@ -58,11 +58,11 @@ namespace DAL
                 List<Gift> gifts = new List<Gift>();
                 if (isAscending)
                 {
-                    gifts = db.Gifts.OrderBy(x => x.Points).ToList();
+                    gifts = db.Gifts.Where(x => x.EndDate > DateTime.Today).OrderBy(x => x.Points).ToList();
                 }
                 else
                 {
-                    gifts = db.Gifts.OrderByDescending(x => x.Points).ToList();
+                    gifts = db.Gifts.Where(x => x.EndDate > DateTime.Today).OrderByDescending(x => x.Points).ToList();
                 }
                 foreach (var item in gifts)
                 {
@@ -72,6 +72,7 @@ namespace DAL
                     dto.Points = item.Points;
                     dto.Quantity = item.Quantity;
                     dto.Image = item.Image;
+                    
                     dtoList.Add(dto);
                 }
             }
@@ -84,7 +85,7 @@ namespace DAL
             List<GiftDTO> dtoList = new List<GiftDTO>();
             using (HealthHelperEntities db = new HealthHelperEntities()) 
             {
-                List<Gift> gifts = db.Gifts.Where(x => x.Name.Contains(text)).ToList();
+                List<Gift> gifts = db.Gifts.Where(x => x.Name.Contains(text) && x.EndDate > DateTime.Today).ToList();
                 foreach (var item in gifts)
                 {
                     GiftDTO dto = new GiftDTO();
