@@ -93,27 +93,14 @@
                 @Html.ValidationMessageFor(x => x.ActivityLevelID, "", new { @style = "color:red" })
             </div>
         </div>
-        @if (DTO.UserStatic.IsAdmin)
-        {
-            <div class="col-sm-6">
+        <div class="col-sm-6">
                 <div class="form-group">
                     <label>狀態</label>
                     @Html.DropDownList("StatusID", Model.Statuses, "選擇使用者狀態", new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.StatusID, "", new { @style = "color:red" })
                 </div>
             </div>
-        }
-        else
-        {
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>狀態</label>
-                    @Html.DropDownList("StatusID", Model.Statuses, "選擇使用者狀態", new { @class = "form-control", @readonly = "true" })
-                    @Html.ValidationMessageFor(x => x.StatusID, "", new { @style = "color:red" })
-                </div>
-            </div>
-        }
-
+       
     </div>
     <div class="row">
         <div class="col-sm-6">

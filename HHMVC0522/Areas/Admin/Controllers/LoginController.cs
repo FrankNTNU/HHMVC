@@ -28,19 +28,17 @@ namespace UI.Areas.Admin.Controllers
                 UserDTO user = userBLL.GetUserWithUsernameAndPassword(model);
                 if (user.ID != 0)
                 {
-                    UserStatic.UserID = user.ID;
-                    UserStatic.IsAdmin = user.IsAdmin;
-                    UserStatic.NameSurname = user.Name;
-                    UserStatic.ImagePath = user.ImagePath;
-                    UserStatic.StatusID = user.StatusID;
-                    if (UserStatic.IsAdmin)
+                    Session["name"] = user.Name;
+                    Session["ImagePath"] = user.ImagePath;
+                    Session["IsAdmin"] = user.IsAdmin;
+                    Session["ID"] = user.ID;
+                    if (user.IsAdmin)
                     {
                         FormsAuthentication.RedirectFromLoginPage("admin", true);
                         return RedirectToAction("UserList", "User");
                     }
                     else
                     {
-                        //FormsAuthentication.RedirectFromLoginPage("regular", true);
                         ViewBag.ProcessState = General.Messages.NotAdmin;
                         return View(model);
                     }

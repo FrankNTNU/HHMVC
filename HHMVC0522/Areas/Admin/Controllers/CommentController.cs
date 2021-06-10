@@ -19,15 +19,7 @@ namespace UI.Areas.Admin.Controllers
         public ActionResult AllComments()
         {
             List<CommentDTO> commentList = new List<CommentDTO>();
-            if (UserStatic.IsAdmin)
-            {
-                commentList = commentBLL.GetAllComments();
-
-            }
-            else
-            {
-                commentList = commentBLL.GetAllComments(UserStatic.UserID);
-            }
+            commentList = commentBLL.GetAllComments();
             return View(commentList);
         }
         [Authorize(Users = "admin")]

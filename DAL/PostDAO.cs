@@ -11,6 +11,7 @@ namespace DAL
 {
     public class PostDAO : HHContext
     {
+        int memberID = System.Web.HttpContext.Current.Session["ID"] == null ? 0 : (int)System.Web.HttpContext.Current.Session["ID"];
         public int AddPost(Post post)
         {
             try
@@ -60,6 +61,21 @@ namespace DAL
             }
             return dtoList;
         }
+
+        public void DeleteLikedPostsByMemberID(int userID)
+        {
+            List<LikedPost> likedPosts = db.LikedPosts.Where(x => x.MemberID == userID).ToList();
+            db.LikedPosts.RemoveRange(likedPosts);
+            db.SaveChanges();
+        }
+
+        public void DeletePostsByMemberID(int userID)
+        {
+            List<Post> posts = db.Posts.Where(x => x.MemberID == userID).ToList();
+            db.Posts.RemoveRange(posts);
+            db.SaveChanges();
+        }
+
         public List<PostDTO> GetPosts()
         {
             List<PostDTO> dtoList = new List<PostDTO>();
@@ -225,7 +241,7 @@ namespace DAL
                 {
                     LikedPost likedPost = new LikedPost
                     {
-                        MemberID = UserStatic.UserID,
+                        MemberID = memberID,
                         PostID = postID
                     };
                     db.LikedPosts.Add(likedPost);
@@ -233,7 +249,7 @@ namespace DAL
                 }
                 else // Remove a like from the post.
                 {
-                    LikedPost likedPost = db.LikedPosts.First(x => x.MemberID == UserStatic.UserID && x.PostID == postID);
+                    LikedPost likedPost = db.LikedPosts.First(x => x.MemberID == memberID && x.PostID == postID);
                     db.LikedPosts.Remove(likedPost);
                     db.SaveChanges();
 

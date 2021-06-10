@@ -10,6 +10,7 @@ namespace BLL
 {
     public class PostBLL
     {
+        int memberID = System.Web.HttpContext.Current.Session["ID"] == null ? 0 : (int)System.Web.HttpContext.Current.Session["ID"];
         PostDAO postDAO = new PostDAO();
         public List<PostDTO> GetPosts()
         {
@@ -38,7 +39,7 @@ namespace BLL
             post.PostContent = model.PostContent;
             post.CategoryID = model.CategoryID;
             post.AddDate = DateTime.Now;
-            post.MemberID = UserStatic.UserID;
+            post.MemberID = memberID;
             post.LikeCount = 0;
             post.ViewCount = 0;
             int ID = postDAO.AddPost(post);
@@ -60,7 +61,7 @@ namespace BLL
         {
             Comment comment = new Comment();
             comment.PostID = model.PostDetail.ID;
-            comment.MemberID = UserStatic.UserID;
+            comment.MemberID = memberID;
             comment.Name = model.Comment.Name;
             comment.Title = model.Comment.Title;
             comment.CommentContent = model.Comment.CommentContent;
@@ -70,6 +71,16 @@ namespace BLL
             
             commentDAO.AddComment(comment);
             return true;
+        }
+
+        internal void DeleteLikedPostsByMemberID(int userID)
+        {
+            postDAO.DeleteLikedPostsByMemberID(userID);
+        }
+
+        internal void DeletePostsByMemberID(int userID)
+        {
+            postDAO.DeletePostsByMemberID(userID);
         }
 
         void SavePostImages(List<PostImageDTO> list, int PostID)

@@ -21,12 +21,12 @@
         <section id="banner">
             <div class="row" style="width:100%">
                 <div class="col-12 col-lg-6">
-                    @if (DTO.UserStatic.UserID != 0)
+                    @if (Session["ID"] != null)
                     {
-                        <h1>
-                            Hi, @DTO.UserStatic.NameSurname<br />
-                            歡迎回到HealthHelper，<br />你的健康管理助手
-                        </h1>
+                    <h1>
+                        Hi, @Session["Name"]<br />
+                        歡迎回到HealthHelper，<br />你的健康管理助手
+                    </h1>
                     }
                     else
                     {

@@ -29,7 +29,8 @@ namespace DAL
                                 Content = c.CommentContent,
                                 TargetCommentTitle = c.Post.Title,
                                 AddDate = c.AddDate,
-                                IsApproved = c.IsApproved
+                                IsApproved = c.IsApproved,
+                                MemberName = c.Member.Name
                             }).OrderBy(x => x.AddDate).ToList();
                 foreach (var item in list)
                 {
@@ -40,6 +41,7 @@ namespace DAL
                     dto.PostTitle = item.TargetCommentTitle;
                     dto.AddDate = item.AddDate;
                     dto.IsApproved = item.IsApproved;
+                    dto.MemberName = item.MemberName;
                     dtoList.Add(dto);
                 }
             }

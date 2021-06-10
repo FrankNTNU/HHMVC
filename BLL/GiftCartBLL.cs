@@ -10,6 +10,7 @@ namespace BLL
 {
     public class GiftCartBLL
     {
+        int memberID = System.Web.HttpContext.Current.Session["ID"] == null ? 0 : (int)System.Web.HttpContext.Current.Session["ID"];
         GiftCartDAO giftCartDAO = new GiftCartDAO();
         public List<GiftCartDTO> GetGiftCarts(int userID)
         {
@@ -35,13 +36,13 @@ namespace BLL
             cart.GiftID = model.ID;
             cart.Name = model.Name;
             cart.Store = model.Store;
-            cart.MemberID = UserStatic.UserID;
+            cart.MemberID = memberID;
             cart.Image = model.Image;
             cart.AddDate = DateTime.Today;
             cart.EndDate = model.EndDate;
             cart.Barcode = Guid.NewGuid().ToString("N").Substring(0, 17);
             giftCartDAO.AddCart(cart);
-            userDAO.DeductPoints(UserStatic.UserID, model.Points);
+            userDAO.DeductPoints(memberID, model.Points);
             return true;
         }
 
@@ -61,6 +62,11 @@ namespace BLL
         }
         public bool IsSameItemExist(int userID, int giftID) {
             return giftCartDAO.IsSameItemExist(userID, giftID);
+        }
+
+        internal void DeleteCartsByMemberID(int userID)
+        {
+            giftCartDAO.DeleteCartsByMemberID(userID);
         }
     }
 }

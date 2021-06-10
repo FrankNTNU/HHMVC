@@ -41,10 +41,23 @@ namespace BLL
             user.StatusID = model.StatusID;
             int ID = userDAO.AddUser(user);
         }
-       
+
+        WeightLogBLL weightLogBLL = new WeightLogBLL();
+        WorkoutLogBLL workoutLogBLL = new WorkoutLogBLL();
+        DietLogBLL dietLogBLL = new DietLogBLL();
+        CommentBLL commentBLL = new CommentBLL();
+        PostBLL postBLL = new PostBLL();
+        GiftCartBLL cartBLL = new GiftCartBLL();
 
         public string DeleteUser(int ID)
         {
+            weightLogBLL.DeleteByMemberID(ID);
+            workoutLogBLL.DeleteByMemberID(ID);
+            dietLogBLL.DeleteByMemberID(ID);
+            commentBLL.DeleteByMemberID(ID);
+            postBLL.DeletePostsByMemberID(ID);
+            postBLL.DeleteLikedPostsByMemberID(ID);
+            cartBLL.DeleteCartsByMemberID(ID);
             string imagePath = userDAO.DeleteUser(ID);
             return imagePath;
         }

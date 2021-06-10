@@ -20,5 +20,7 @@ namespace DTO
         public string Duration { get; set; }
         public string Barcode { get; set; }
         public string BarcodeImage { get; set; }
+        public bool IsExpired { get; set; } = false;
+
     }
 }

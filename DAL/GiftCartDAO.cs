@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class GiftCartDAO
+    public class GiftCartDAO : HHContext
     {
+        int memberID = System.Web.HttpContext.Current.Session["ID"] == null ? 0 : (int)System.Web.HttpContext.Current.Session["ID"];
         public List<GiftCartDTO> GetGiftCarts(int userID)
         {
             List<GiftCartDTO> dtoList = new List<GiftCartDTO>();
@@ -28,6 +29,7 @@ namespace DAL
                     dto.BarcodeImage = item.BarcodeImage;
                     dto.AddDate = item.AddDate;
                     dto.EndDate = item.EndDate;
+                    dto.IsExpired = item.EndDate > DateTime.Today ? true : false;
                     dtoList.Add(dto);
                 }
                 return dtoList;
@@ -41,11 +43,11 @@ namespace DAL
                 List<GiftCart> giftCarts = new List<GiftCart>();
                 if (isAscending)
                 {
-                    giftCarts = db.GiftCarts.Where(x => x.MemberID == UserStatic.UserID).OrderByDescending(x => x.EndDate).ToList();
+                    giftCarts = db.GiftCarts.Where(x => x.MemberID == memberID && x.EndDate < DateTime.Now).OrderByDescending(x => x.EndDate).ToList();
                 }
                 else
                 {
-                    giftCarts = db.GiftCarts.Where(x => x.MemberID == UserStatic.UserID).OrderBy(x => x.EndDate).ToList();
+                    giftCarts = db.GiftCarts.Where(x => x.MemberID == memberID).OrderBy(x => x.EndDate).ToList();
                 }
                 foreach (var item in giftCarts)
                 {
@@ -61,10 +63,18 @@ namespace DAL
                     dto.AddDate = item.AddDate;
                     dto.EndDate = item.EndDate;
                     dto.Duration = item.AddDate.ToString("yyyy/MM/dd") + " 到 " + item.EndDate.ToString("yyyy/MM/dd");
+                    dto.IsExpired = item.EndDate > DateTime.Today ? true : false;
                     dtoList.Add(dto);
                 }
                 return dtoList;
             }
+        }
+
+        public void DeleteCartsByMemberID(int userID)
+        {
+            List<GiftCart> carts = db.GiftCarts.Where(x => x.MemberID == userID).ToList();
+            db.GiftCarts.RemoveRange(carts);
+            db.SaveChanges();
         }
 
         public bool IsSameItemExist(int userID, int giftID)
@@ -81,7 +91,7 @@ namespace DAL
             List<GiftCartDTO> dtoList = new List<GiftCartDTO>();
             using (HealthHelperEntities db = new HealthHelperEntities())
             {
-                List<GiftCart> giftCarts = db.GiftCarts.Where(x => x.MemberID == UserStatic.UserID && x.Name.Contains(text)).ToList();
+                List<GiftCart> giftCarts = db.GiftCarts.Where(x => x.MemberID == memberID && x.Name.Contains(text) && x.EndDate < DateTime.Now).ToList();
                 foreach (var item in giftCarts)
                 {
                     GiftCartDTO dto = new GiftCartDTO();
@@ -95,6 +105,7 @@ namespace DAL
                     dto.AddDate = item.AddDate;
                     dto.EndDate = item.EndDate;
                     dto.Duration = item.AddDate.ToString("yyyy/MM/dd") + " 到 " + item.EndDate.ToString("yyyy/MM/dd");
+                    dto.IsExpired = item.EndDate > DateTime.Today ? true : false;
                     dtoList.Add(dto);
                 }
                 return dtoList;
@@ -120,6 +131,7 @@ namespace DAL
                     dto.BarcodeImage = item.BarcodeImage;
                     dto.AddDate = item.AddDate;
                     dto.EndDate = item.EndDate;
+                    dto.IsExpired = item.EndDate > DateTime.Today ? true : false;
                     dtoList.Add(dto);
                 }
                 return dtoList;

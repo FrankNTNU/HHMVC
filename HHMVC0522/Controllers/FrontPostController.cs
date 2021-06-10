@@ -60,7 +60,7 @@ namespace UI.Controllers
         public ActionResult UserPostList(int page = 1)
         {
             int currentPage = page < 1 ? 1 : page;
-            postListResult = postBLL.GetUserPosts(UserStatic.UserID);
+            postListResult = postBLL.GetUserPosts((int)Session["ID"]);
             var result = postListResult.ToPagedList(currentPage, pageSize);
             return View(result);
             //return RedirectToAction("ShowPosts");
@@ -262,13 +262,13 @@ namespace UI.Controllers
         //}
         public string Like(int postID, int number)
         {
-            if (!postBLL.HasLiked(UserStatic.UserID, postID) && number > 0) 
+            if (!postBLL.HasLiked((int)Session["ID"], postID) && number > 0) 
                 // Hasn't liked the post and want to like the post.
             {
                 postBLL.LikePost(postID, number);
                 return "true";
             }
-            else if (postBLL.HasLiked(UserStatic.UserID, postID) && number < 0)
+            else if (postBLL.HasLiked((int)Session["ID"], postID) && number < 0)
             {
                 postBLL.LikePost(postID, number);
                 return "true";
@@ -278,7 +278,7 @@ namespace UI.Controllers
         }
         public string HasLiked(int postID)
         {
-            if (postBLL.HasLiked(UserStatic.UserID, postID)) return "true";
+            if (postBLL.HasLiked((int)Session["ID"], postID)) return "true";
             else return "false";
         }
         CommentBLL commentBLL = new CommentBLL();

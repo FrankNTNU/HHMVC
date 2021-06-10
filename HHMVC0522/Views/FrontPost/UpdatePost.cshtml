@@ -45,10 +45,10 @@
         <div class="row gtr-uniform">
 
             <div class="col-8 col-12-small">
-                <input hidden value="@DTO.UserStatic.UserID" name="MemberID">
+                <input hidden value="@Session["ID"]">
                 <label>顯示名稱</label>
 
-                <input type="text" id="demo-name" value="@DTO.UserStatic.NameSurname" placeholder="Name" readonly style="        height: 45px" />
+                <input type="text" id="demo-name" value="@Session["Name"]" placeholder="Name" readonly style="        height: 45px" />
             </div>
             <div class="col-8 col-12-small">
                 <label>標題</label>

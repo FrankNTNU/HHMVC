@@ -21,9 +21,9 @@ namespace UI.Controllers
         public ActionResult GiftList()
         {
             UserBLL userBLL = new UserBLL();
-            if (UserStatic.UserID != 0)
+            if (Session["ID"] != null)
             {
-                UserStatic.Points = userBLL.GetPoints(UserStatic.UserID);
+                Session["Points"] = userBLL.GetPoints((int)Session["ID"]);
             }
             List<GiftDTO> giftDTOs = new List<GiftDTO>();
             giftDTOs = giftBLL.GetGifts();
@@ -46,7 +46,7 @@ namespace UI.Controllers
         }
         public JsonResult IsSameItemExist(int giftID) 
         {
-            bool isExist = cartBLL.IsSameItemExist(UserStatic.UserID, giftID);
+            bool isExist = cartBLL.IsSameItemExist((int)Session["ID"], giftID);
             string isItemExist = isExist ? "yes" : "no";
             return Json(isItemExist, JsonRequestBehavior.AllowGet);
         }
@@ -63,10 +63,10 @@ namespace UI.Controllers
             if (cartBLL.AddCart(giftDTO))
             {
                 UserBLL userBLL = new UserBLL();
-                UserStatic.Points = userBLL.GetPoints(UserStatic.UserID);
+                Session["Points"] = userBLL.GetPoints((int)Session["ID"]);
                 giftBLL.RemoveOneGift(giftID);
                 
-                return RedirectToAction("GiftCart", new { userID = UserStatic.UserID } );
+                return RedirectToAction("GiftCart", new { userID = (int)Session["ID"] } );
             }
             else
             {

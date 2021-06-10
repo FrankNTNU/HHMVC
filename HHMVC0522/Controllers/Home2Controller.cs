@@ -33,12 +33,9 @@ namespace UI.Controllers
                 UserDTO user = userBLL.GetUserWithUsernameAndPassword(model);
                 if (user.ID != 0)
                 {
-                    UserStatic.UserID = user.ID;
-                    UserStatic.IsAdmin = user.IsAdmin;
-                    UserStatic.NameSurname = user.Name;
-                    UserStatic.ImagePath = user.ImagePath;
-                    UserStatic.StatusID = user.StatusID;
-                    UserStatic.Points = user.Points;
+                    Session["ID"] = user.ID;
+                    Session["Name"] = user.Name;
+                    Session["ImagePath"] = user.ImagePath;
                     return RedirectToAction("Index", "Home2");
                 }
                 else
@@ -54,47 +51,9 @@ namespace UI.Controllers
         }
         public ActionResult Logout()
         {
-            int id = UserStatic.UserID;
-            UserStatic.UserID = 0;
+            Session.Clear();
             return RedirectToAction("Index");
         }
-        public ActionResult PostDetail(int ID)
-        {
-            layoutBLL = new LayoutBLL();
-            LayoutDTO layoutDTO = new LayoutDTO();
-            layoutDTO = layoutBLL.GetPostDetailPageItemWithID(ID);
-            return View(layoutDTO);
-        }
-        [HttpPost]
-        [ValidateInput(false)]
-
-        public ActionResult PostDetail(LayoutDTO model)
-        {
-
-            if (model.Comment.Name != null && model.Comment.Title != null && model.Comment.CommentContent != null)
-            {
-                if (postBLL.AddComment(model))
-                {
-                    ViewData["CommentState"] = "Success";
-                    ModelState.Clear();
-                }
-                else
-                {
-                    ViewData["CommentState"] = "Error";
-                    ViewBag.ProcessState = General.Messages.GeneralError;
-
-                }
-            }
-           
-            else
-            {
-                ViewData["CommentState"] = "Error";
-                ViewBag.ProcessState = General.Messages.EmptyArea;
-
-            }
-            LayoutDTO layoutDTO = new LayoutDTO();
-            layoutDTO = layoutBLL.GetPostDetailPageItemWithID(model.PostDetail.ID);
-            return View(layoutDTO);
-        } 
+        
     }
 }

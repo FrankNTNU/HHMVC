@@ -15,7 +15,7 @@ namespace UI.Areas.Admin.Models.Attributes
 
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (UserStatic.UserID == 0)
+            if (HttpContext.Current.Session["ID"] == null)
             {
                 filterContext.HttpContext.Response.Redirect("/Admin/Login/Index");
             }
