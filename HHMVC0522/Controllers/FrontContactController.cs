@@ -1,5 +1,6 @@
 ﻿using BLL;
 using DTO;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,5 +25,16 @@ namespace UI.Controllers
             }
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Chat(string userId, string message)
+        {
+            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+
+            context.Clients.User(userId).ReceiveFromCustomer(Session["Name"].ToString(), message);
+
+            return View();
+        }
+
     }
 }

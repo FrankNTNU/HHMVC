@@ -37,22 +37,22 @@
                             <a href="/Home2/Index" style="text-decoration: none;width:100px"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:100%;width:100px"></a>
                         </div>
                         <div class="col-7 col-sm-8 col-lg-10" style="padding-top:5px; padding-left:0px">
-                                <a href="/Home2/Index" class="logo" style="text-decoration: none">
-                                    <div class="col-12 col-md-4">
-                                        <strong id="logoText" style="font-size:1.7em">HealthHelper</strong>
-                                    </div>
+                            <a href="/Home2/Index" class="logo" style="text-decoration: none">
+                                <div class="col-12 col-md-4">
+                                    <strong id="logoText" style="font-size:1.7em">HealthHelper</strong>
+                                </div>
 
-                                    <div class="col-12 col-md-8" style="font-size:1.5em">健康管理助手</div>
-                                </a>
-                            </div>
+                                <div class="col-12 col-md-8" style="font-size:1.5em">健康管理助手</div>
+                            </a>
+                        </div>
                     </div>
                 </header>
                 @RenderBody()
             </div>
         </div>
 
-        
-        
+
+
         <!-- Sidebar -->
         <div id="sidebar">
             <div class="inner">
@@ -132,7 +132,7 @@
                                 </ul>
 
                             </li>
-}
+                        }
 
                         <li>
                             <span class="opener"><i class="fas fa-gifts" style="width:30px"></i> 禮物</span>
@@ -156,8 +156,11 @@
                                 }
                             </ul>
                         </li>
-                        @if (Session["ID"] != null) { <li><a href="~/FrontContact/Chat" style="text-decoration:none"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a></li>}
-                            
+                        @if (Session["ID"] != null)
+                        {
+                            <li><a href="~/FrontContact/Chat" style="text-decoration:none"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a></li>
+                        }
+
                         @if (Session["ID"] != null)
                         {
                             <li><a href="~/Admin/Login/Index" style="text-decoration:none"><i class="fas fa-user-cog" style="width:30px"></i> 後台</a></li>
@@ -226,8 +229,16 @@
     <script src="~/Content/js/breakpoints.min.js"></script>
     <script src="~/Content/js/util.js"></script>
     <script src="~/Content/js/main.js"></script>
-    
+
     @RenderSection("Scripts", required: false)
 
+
+    <!--恩旗-->
+    <script>
+        $(window).on("unload", function () {
+            $.cookies.del('.ASPXAUTH');
+        });
+    </script>
+    <!--====================================-->
 </body>
 </html>

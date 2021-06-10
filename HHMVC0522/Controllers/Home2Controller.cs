@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace UI.Controllers
 {
@@ -46,6 +47,13 @@ namespace UI.Controllers
                     Session["ID"] = user.ID;
                     Session["Name"] = user.Name;
                     Session["ImagePath"] = user.ImagePath;
+
+                    //========================================
+                    //恩旗
+                    FormsAuthentication.RedirectFromLoginPage(user.Name, false);
+
+                    //========================================
+
                     return RedirectToAction("Index", "Home2");
                 }
                 else
@@ -62,6 +70,10 @@ namespace UI.Controllers
         public ActionResult Logout()
         {
             Session.Clear();
+            //========================================
+            //恩旗
+            FormsAuthentication.SignOut();
+            //========================================
             return RedirectToAction("Index");
         }
         public ActionResult PostDetail(int ID)
@@ -71,6 +83,7 @@ namespace UI.Controllers
             layoutDTO = layoutBLL.GetPostDetailPageItemWithID(ID);
             return View(layoutDTO);
         }
+
         [HttpPost]
         [ValidateInput(false)]
 
@@ -114,6 +127,7 @@ namespace UI.Controllers
         //========================================================
         //恩旗
         //determine if last 7 days has no weight log
+        [NonAction]
         public void SetWeightLogSession()
         {
             HealthHelperEntities dbContext = new HealthHelperEntities();

@@ -133,13 +133,19 @@ namespace UI
             if (CurrentMessage.Count > 100)
                 CurrentMessage.RemoveAt(0);
         }
-        public void Send(string name, string imagePath, string message)
+        public void Send(string name, string message)
         {
             // Call the addNewMessageToPage method to update clients.
-            Clients.All.addNewMessageToPage(name, imagePath, message);
+            Clients.All.addNewMessageToPage(name, message);
             
         }
-        
-       
+
+        //==============================================================
+        //恩旗
+        //For Test
+        public void ReplyCustomer(string userId, string message) {
+
+            Clients.User(userId).ReceiveFromService(message);
+        }
     }
 }

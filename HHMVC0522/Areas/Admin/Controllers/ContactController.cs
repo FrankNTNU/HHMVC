@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.SignalR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,20 @@ namespace UI.Areas.Admin.Controllers
         }
         public ActionResult Contact()
         {
+            return View();
+        }
+
+
+        //=====================================================================
+        //恩旗
+        //與客戶私聊
+        [HttpPost]
+        public ActionResult Contact(string userId, string message)
+        {
+            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+
+            context.Clients.User(userId).ReceiveFromService(message);
+
             return View();
         }
     }

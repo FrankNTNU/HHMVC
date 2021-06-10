@@ -9,6 +9,8 @@ using System.Web.Script.Serialization;
 
 namespace UI.Controllers
 {
+
+    [Authorize]
     public class WeightController : Controller
     {
         HealthHelperEntities db = new HealthHelperEntities();
