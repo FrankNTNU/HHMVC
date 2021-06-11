@@ -14,6 +14,7 @@ namespace UI
     {
         public override Task OnConnected()
         {
+            
             UserHandler.ConnectedIds.Add(Context.ConnectionId);
             UserDetail user = new UserDetail
             {

@@ -46,14 +46,15 @@ namespace UI.Areas.Admin.Controllers
                 return Json("false");
             }
         }
-        //[HttpPost]
-        //public ActionResult Contact(string userId, string message)
-        //{
-        //    var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
-        //    context.Clients.User(userId).ReceiveFromService(message);
+        [HttpPost]
+        public ActionResult Contact(string connId, string message)
+        {
+            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
-        //    return View();
-        //}
+            context.Clients.Client(connId).ReceiveFromService(message);
+
+            return View();
+        }
     }
 }
