@@ -50,7 +50,7 @@ namespace UI.Controllers
 
                     //========================================
                     //恩旗
-                    FormsAuthentication.RedirectFromLoginPage(user.Name, false);
+                    FormsAuthentication.RedirectFromLoginPage(user.ID.ToString(), false);
 
                     //========================================
 

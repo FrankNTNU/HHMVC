@@ -31,7 +31,7 @@ namespace UI.Controllers
         {
             var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
-            context.Clients.User(userId).ReceiveFromCustomer(Session["Name"].ToString(), message);
+            context.Clients.User(userId).ReceiveFromCustomer(userId, message);
 
             return View();
         }
