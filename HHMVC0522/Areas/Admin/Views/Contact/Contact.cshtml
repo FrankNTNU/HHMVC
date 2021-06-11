@@ -4,12 +4,11 @@
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
 
-
-@model DTO.UserDTO
+@using DTO
 @section Styles {
     <link href="~/Areas/Admin/Content/CSS/adminlte.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <link href="~/Content/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
@@ -23,77 +22,110 @@
     </ol>
 </section>
 <br />
-<div class="card-footer">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Gift/AddGift'">目前登入會員</button>
-</div>
+<section class="content">
+    <div class="row">
+        <div class="col-12 col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">在線使用者</h3>
 
-<div class="col-md-9 m-auto">
-    <!-- DIRECT CHAT WARNING -->
-    <div class="card direct-chat">
-        <div class="card-header " style="cursor: default; pointer-events: none; background-color: #007bff ">
-            <h3 class="card-title mb-0" style="color:white;padding:5px">聯絡客服</h3>
-        </div>
-            <input type="hidden" id="displayname" />
-
-            <div class="card-body" style="padding:5px">
-                <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages" id="chatbox" style="margin: 10px; padding:0px">
-
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="direct-chat-msg right" id="adminbox" style="margin: 10px">
-                    
+                <div class="card-body p-0">
+                    <table class="table table-striped projects">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%">
+                                    圖像
+                                </th>
+                                <th style="width: 30% ">
+                                    連線編號
+                                </th>
+                                <th style="width: 25%">
+                                    使用者
+                                </th>
+                                <th style="width: 25%">
+                                    聯絡
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*@foreach (var item in DTO.UserStatic.ConnectedUsers)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="~/Areas/Admin/Content/UserImage/@item.ImagePath" class="direct-chat-img">
+                                        </td>
+                                        <td>
+
+                                            @item.ConnID
+                                        </td>
+                                        <td>
+                                            @item.UserName
+                                        </td>
+                                        <td class="project-actions">
+                                            <a class="btn btn-primary btn-sm" href="#">
+                                                連線
+                                            </a>
+
+                                        </td>
+                                    </tr>
+                                }*@
+
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
-        <div class="card-footer">
-                <div class="input-group">
-                    <div class="col-12 col-md-9 col-lg-10 mb-2">
-                        <input type="text" name="message" placeholder="輸入訊息..." class="form-control" id="message" autocomplete="off" >
+            <!-- /.card-body -->
+        </div>
+        <div class="col-12 col-md-7">
+            <div class="col-12 ">
+                <!-- DIRECT CHAT WARNING -->
+                <div class="card direct-chat">
+                    <div class="card-header " style="cursor: default; pointer-events: none; background-color: #007bff ">
+                        <h3 class="card-title mb-0" style="color:white;padding:5px">聯絡客服</h3>
                     </div>
-                    <div class="col-12 col-md-3 col-lg-2">
-                        <span class="input-group-append">
-                            <input type="button" class="btn btn-primary" id="sendmessage" value="傳送" style="width:100%" />
+                    <input type="hidden" id="displayname" />
 
-                        </span>
+                    <div class="card-body" style="padding:0px">
+                        <!-- Conversations are loaded here -->
+                        <div class="direct-chat-messages" id="chatbox" style="margin: 10px; padding:10px">
+
+                        </div>
+                        <div class="direct-chat-msg right" id="adminbox" style="margin: 10px">
+
+                        </div>
                     </div>
 
+                    <div class="card-footer">
+                        <div class="input-group">
+                            <div class="col-12 col-md-9 col-lg-10 mb-2">
+                                <input type="text" name="message" placeholder="輸入訊息..." class="form-control" id="message" autocomplete="off">
+                            </div>
+                            <div class="col-12 col-md-3 col-lg-2">
+                                <span class="input-group-append">
+                                    <input type="button" class="btn btn-primary" id="sendmessage" value="傳送" style="width:100%" />
+
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
+            </div>
         </div>
     </div>
-</div>
-<!--<div class="col-md-12 m-auto">-->
-<!-- DIRECT CHAT WARNING -->
-<!--<div class="card direct-chat direct-chat-warning">
-    <div class="card-header button primary" style="cursor:default; pointer-events:none">
-        <h3 class="card-title" style="color:white">聯絡客服</h3>
-    </div>-->
-<!-- /.card-header -->
-<!--<div class="card-body">-->
-<!-- Conversations are loaded here -->
-<!--<div class="direct-chat-messages" id="chatbox">
 
-</div>-->
-<!-- /.direct-chat-pane -->
-<!--</div>-->
-<!-- /.card-body -->
-<!--<div class="card-footer">
-    <form class="mb-0">
-        <div class="input-group">
-            <div class="col-12 col-md-10  mb-2">
-                <input type="text" name="message" placeholder="輸入訊息..." class="form-control" id="message">
-            </div>
-            <div class="col-12 col-md-2">
-                <span class="input-group-append">
-                    <button class="button primary fit" id="sendmessage">傳送</button>
-                </span>
-            </div>
+</section>
 
-        </div>
-    </form>
-</div>-->
-<!-- /.card-footer-->
-<!--</div>-->
-<!--/.direct-chat -->
 <!--</div>-->
 @section scripts {
     <!--Script references. -->
@@ -139,8 +171,7 @@
                         $('#sendmessage').click(function () {
                             if ($('#message').val().trim().length != 0) {
                                 // Call the Send method on the hub.
-                            chat.server.send(`@
-                            ["Name"]`, `@Session["ImagePath"]`, $('#message').val());
+                            chat.server.send(`@Session["Name"]`, `@Session["ImagePath"]`, $('#message').val());
                             // Clear text box and reset focus for next comment.
                             $('#message').val('').focus();
 
@@ -171,7 +202,61 @@
                             });
                         });
                     });
+
+
                 });
+
+    </script>
+
+
+    <script type="text/javascript">
+        setInterval(function () {
+            //if (HasChanged() == "true") {
+            GetOnlineUsers();
+            //}
+        }, 5000)
+        
+        @*function HasChanged() {
+            var hasChanged;
+            $.ajax({
+                url: "HasChanged",
+                data: { previousList: @DTO.UserHandler.ConnectedIds },
+                success: function (result) {
+                    hasChanged = result;
+                    console.log(hasChanged);
+
+                }
+            })
+            return hasChanged;
+        }*@
+        function GetOnlineUsers() {
+            $('tbody').empty();
+            $.ajax({
+                url: "GetOnlineUsers",
+                success: function (result) {
+                    $.each(result, function (index, value) {
+                        var InsertedHtml = "<tr><td>"
+                            + '<img src="/Areas/Admin/Content/UserImage/'
+                            + value.ImagePath
+                            + '" class="direct-chat-img">'
+                            + "</td>"
+                            + "</td>"
+                            + "<td>"
+                            + value.ConnID
+                            + "<td>"
+                            + value.UserName
+                            + "</td>"
+                            + '<td class="project-actions">'
+                            + '<a class="btn btn-primary btn-sm" href="#">'
+                            + "連線"
+                            + "</a></td></tr>"; $('tbody').append(InsertedHtml);
+                    })
+
+                }
+            })
+        }
+
+
 
     </script>
 }

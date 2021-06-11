@@ -23,7 +23,7 @@ namespace UI.Controllers
 
             //==========================
             //恩旗
-            if (UserStatic.UserID != 0)
+            if (Session["ID"] != null)
             {
                 SetWeightLogSession();
             }
@@ -47,13 +47,8 @@ namespace UI.Controllers
                     Session["ID"] = user.ID;
                     Session["Name"] = user.Name;
                     Session["ImagePath"] = user.ImagePath;
-
-                    //========================================
-                    //恩旗
                     FormsAuthentication.RedirectFromLoginPage(user.ID.ToString(), false);
-
-                    //========================================
-
+                    var i = User.Identity.Name;
                     return RedirectToAction("Index", "Home2");
                 }
                 else
@@ -70,10 +65,7 @@ namespace UI.Controllers
         public ActionResult Logout()
         {
             Session.Clear();
-            //========================================
-            //恩旗
             FormsAuthentication.SignOut();
-            //========================================
             return RedirectToAction("Index");
         }
         public ActionResult PostDetail(int ID)

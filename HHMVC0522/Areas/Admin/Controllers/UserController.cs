@@ -14,7 +14,6 @@ namespace UI.Areas.Admin.Controllers
     {
         // GET: Admin/User
         UserBLL userBLL = new UserBLL();
-        [Authorize(Users = "admin")]
         public ActionResult UserList()
         {
             var user = User.Identity.Name;
@@ -76,7 +75,6 @@ namespace UI.Areas.Admin.Controllers
             return View(dto);
         }
         [HttpPost]
-        [Authorize(Users = "admin")]
         public ActionResult UpdateUser(UserDTO model)
         {
             if (!ModelState.IsValid)

@@ -329,7 +329,7 @@
         $(function () {
             $("#example1").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                "buttons": ["copy", "excel", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
                 "paging": true,
@@ -343,27 +343,26 @@
         });
     </script>
     <script type="text/javascript">
-        //jQuery(document).ready(function () {
-        //    GetCounts();
-        //})
+        jQuery(document).ready(function () {
+            GetCounts();
+        })
     </script>
     <script type="text/javascript">
-        //setInterval(function () {
-        //    GetCounts();
-        //}, 10000)
+        setInterval(function () {
+            GetCounts();
+        }, 10000)
     </script>
     <script type="text/javascript">
-        @*$(document).ready(function () { });
+        $(document).ready(function () { });
         function GetCounts() {
             $.ajax({
-                url: "@Url.Action("GetCounts", "Post")",
+                url: "@Url.Action("GetCounts", "Contact")",
                 type: "POST",
                 success: function (result) {
-                    $("#CommentCount").html(result.CommentCount);
-                    $("#MessageCount").html(result.MessageCount);
+                    $("#CommentCount").html(result);
                 }
             })
-        }*@
+        }
     </script>
     <script>
         $(function () {

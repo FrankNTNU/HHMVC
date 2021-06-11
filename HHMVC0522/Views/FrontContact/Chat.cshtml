@@ -12,19 +12,20 @@
 
 
 }
-<header class="major mt-3"><h2 class="mb-3"><i class="fas fa-mobile-alt"></i> 線上客服</h2></header>
-<div class="col-md-10 m-auto" style="height:auto">
-    <!-- DIRECT CHAT WARNING -->
-    <div class="card direct-chat direct-chat-warning">
-        <div class="card-header button primary" style="cursor:default; pointer-events:none">
-            <h3 class="card-title" style="color:white">聯絡客服</h3>
-        </div>
-        <div class="container">
+
+<section class="pt-3">
+    <header class="major"><h2 class="mb-3"><i class="fas fa-mobile-alt"></i> 線上客服</h2></header>
+    <div class="col-md-10 m-auto" style="height:auto">
+        <!-- DIRECT CHAT WARNING -->
+        <dv class="card direct-chat direct-chat-warning">
+            <div class="card-header button primary" style="cursor:default; pointer-events:none">
+                <h3 class="card-title" style="color:white">聯絡客服</h3>
+            </div>
             <input type="hidden" id="displayname" />
 
             <div class="card-body">
                 <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages" id="chatbox" >
+                <div class="direct-chat-messages" id="chatbox" style="margin:10px; padding:10px">
 
 
                 </div>
@@ -32,9 +33,8 @@
 
                 </div>
             </div>
-        </div>
 
-        <div class="card-footer">
+            <div class="card-footer">
                 <div class="input-group">
                     <div class="col-12 col-md-9 col-lg-10 mb-2">
                         <input type="text" name="message" placeholder="輸入訊息..." class="form-control" id="message" autocomplete="off">
@@ -47,9 +47,9 @@
                     </div>
 
                 </div>
-        </div>
+            </div>
     </div>
-</div>
+</section>
        
         <!--</div>-->
         @section scripts {
@@ -82,24 +82,24 @@
                             + '</span>'
                             + '</div>'
 
-                            + '<img class="direct-chat-img" src="/Areas/Admin/Content/UserImage/' + imagePath
-                            + '">'
-                            + '<div class="direct-chat-text mb-1">' + message
-                            + '</div>'
-                            + '</div>'
-                        );
-                    };
-                    // Get the user name and store it to prepend to messages.
-                    //$('#displayname').val(prompt('Enter your name:', ''));
-                    // Set initial focus to message input box.
-                    $('#message').focus();
-                    // Start the connection.
-                    $.connection.hub.start().done(function () {
-                        $('#sendmessage').click(function () {
-                            if ($('#message').val().trim().length != 0) {  chat.server.send(`@Session["Name"]`, `@Session["ImagePath"]`, $('#message').val());
-                            // Clear text box and reset focus for next comment.
-                            $('#message').val('').focus();}
-                            // Call the Send method on the hub.
+                    + '<img class="direct-chat-img" src="/Areas/Admin/Content/UserImage/' + imagePath
+                    + '">'
+                    + '<div class="direct-chat-text mb-1">' + message
+                    + '</div>'
+                    + '</div>'
+                );
+            };
+            // Get the user name and store it to prepend to messages.
+            //$('#displayname').val(prompt('Enter your name:', ''));
+            // Set initial focus to message input box.
+            $('#message').focus();
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    if ($('#message').val().trim().length != 0) {  chat.server.send(`@Session["Name"]`, `@Session["ImagePath"]`, $('#message').val());
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();}
+                    // Call the Send method on the hub.
 
                         });
                     });*@
@@ -127,6 +127,6 @@
                     });
                 });
 
-            </script>
-        }
+        </script>
+    }
 
