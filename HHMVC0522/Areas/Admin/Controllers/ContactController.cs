@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BLL;
+using DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,5 +19,40 @@ namespace UI.Areas.Admin.Controllers
         {
             return View();
         }
+        public int GetCounts()
+        {
+            return UserStatic.ConnectedUsers.Count();
+        }
+        UserBLL userBLL = new UserBLL();
+        public JsonResult GetOnlineUsers()
+        {
+            foreach (var item in UserStatic.ConnectedUsers)
+            {
+                UserDTO dto = userBLL.GetUserWithID(Int32.Parse(item.UserID));
+                item.UserName = dto.UserName;
+                item.ImagePath = dto.ImagePath;
+            }
+            return Json(UserStatic.ConnectedUsers,JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult HasChanged(IEnumerable<UserDetail> previousList)
+        {
+            if (UserStatic.ConnectedUsers != previousList)
+            {
+                return Json("true");
+            }
+            else
+            {
+                return Json("false");
+            }
+        }
+        //[HttpPost]
+        //public ActionResult Contact(string userId, string message)
+        //{
+        //    var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+
+        //    context.Clients.User(userId).ReceiveFromService(message);
+
+        //    return View();
+        //}
     }
 }
