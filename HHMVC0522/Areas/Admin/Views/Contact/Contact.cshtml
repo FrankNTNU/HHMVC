@@ -163,6 +163,8 @@
                         $(clone).attr("data-connId", connId);
                         $(clone).hide();
                         $(clone).appendTo($("#dialogContainer"));
+
+                        //console.log("isOrigin: " + $(clone).is(originChatBox))
                     }
                 }
 
@@ -187,7 +189,7 @@
                 if ($(chatbox).css("display") == "none") {
                     alert(6);
                     $(chatbox).attr("data-read", false);
-                    console.log($(chatbox).attr("data-read"));
+                    //console.log($(chatbox).attr("data-read"));
                 }
             }
 

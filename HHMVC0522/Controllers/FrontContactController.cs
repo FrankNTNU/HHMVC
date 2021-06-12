@@ -40,8 +40,8 @@ namespace UI.Controllers
                 UserID = int.Parse(cu.UserID)
             }).Where(cu => dbContext.Members.SingleOrDefault(cu1 => cu1.ID == cu.UserID).IsAdmin)
                 .Select(cu => cu.ConnID).ToList();
-
-            int mid = (int)Session["ID"];
+            
+            //todo AI認知服務
 
             var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 

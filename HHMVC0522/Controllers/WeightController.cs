@@ -21,7 +21,7 @@ namespace UI.Controllers
             DateTime startMonth = new DateTime(DateTime.Now.Year, 1, 1);
             DateTime endMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1, 0, 0, 0);
 
-            var q = from wgt in db.WeightLogs.Where(wgt => wgt.MemberID == 83).ToList()
+            var q = from wgt in db.WeightLogs.Where(wgt => wgt.MemberID == (int)Session["ID"]).ToList()
                     where startMonth <= wgt.UpdatedDate && wgt.UpdatedDate < endMonth
                     group wgt by wgt.UpdatedDate.ToString("yyMM") into g
                     orderby g.Key ascending
@@ -36,7 +36,7 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult GetWeightLog()
         {
-            var q = db.WeightLogs.Where(wgt => wgt.MemberID == 83).Select(wgt => new 
+            var q = db.WeightLogs.Where(wgt => wgt.MemberID == (int)Session["ID"]).Select(wgt => new 
             { 
                 wgt.ID,
                 wgt.UpdatedDate,
@@ -49,11 +49,11 @@ namespace UI.Controllers
 
         public JsonResult GetWeightLogForChart(DateTime startMonth, DateTime endMonth)
         {
-            //var q = db.WeightLogs.Where(wgt => wgt.MemberID == 83).Select(wgt => wgt.Weight);
+            //var q = db.WeightLogs.Where(wgt => wgt.MemberID == (int)Session["ID"]).Select(wgt => wgt.Weight);
 
             endMonth = endMonth.AddMonths(1);
 
-            var q1 = from wgt in db.WeightLogs.Where(wgt => wgt.MemberID == 83).ToList()
+            var q1 = from wgt in db.WeightLogs.Where(wgt => wgt.MemberID == (int)Session["ID"]).ToList()
                      where startMonth <= wgt.UpdatedDate && wgt.UpdatedDate < endMonth
                      group wgt by int.Parse(wgt.UpdatedDate.ToString("yyMM")) into g
                      orderby g.Key ascending
@@ -91,7 +91,7 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = "今天已新增紀錄過了" });
             }
 
-            wgtl.MemberID = 83;
+            wgtl.MemberID = (int)Session["ID"];
             wgtl.UpdatedDate = DateTime.Now;
 
             db.WeightLogs.Add(wgtl);
@@ -112,7 +112,7 @@ namespace UI.Controllers
         {
             WeightLog wgtl = db.WeightLogs
                 .SingleOrDefault(wgtl1 => wgtl1.ID == wgtlToEdit.ID 
-                && wgtl1.MemberID == 83);
+                && wgtl1.MemberID == (int)Session["ID"]);
 
             wgtl.Weight = wgtlToEdit.Weight;
 

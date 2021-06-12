@@ -24,7 +24,7 @@ namespace UI.Controllers
                 DateTime today = DateTime.Now.Date;
                 DateTime tomorrow = today.AddDays(1);
 
-                Member member = dbContext.Members.SingleOrDefault(m => m.ID == 83);
+                Member member = dbContext.Members.SingleOrDefault(m => m.ID == (int)Session["ID"]);
                 decimal weight = GetCurrentWeight(tomorrow);
                 int age = (zeroTime + (today - member.Birthdate)).Year - 1;
                 decimal height = (decimal)member.Height;
@@ -61,13 +61,14 @@ namespace UI.Controllers
             DateTime tomorrow = today.AddDays(1);
 
             var q1 = dbContext.WeightLogs
-                .Where(wgt => wgt.MemberID == 83 && wgt.UpdatedDate < tomorrow)
+                .Where(wgt => wgt.MemberID == (int)Session["ID"] && wgt.UpdatedDate < tomorrow)
                 .OrderByDescending(wgt => wgt.UpdatedDate)
                 .FirstOrDefault();
 
-            decimal weight = (decimal)q1.Weight;
 
-            var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID == 83).ToList()
+            //decimal weight = (decimal)q1.Weight;
+
+            var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID == (int)Session["ID"]).ToList()
                 .Select(wl => new
                 {
                     wl.ID,
@@ -76,7 +77,7 @@ namespace UI.Controllers
                     wl.Workout.Name,
                     wl.WorkoutTime,
                     wl.WorkoutHours,
-                    Consume = (wl.Workout.Calories * wl.WorkoutHours * (double)weight).ToString("0.00"),
+                    Consume = ((decimal)(wl.Workout.Calories * wl.WorkoutHours) * GetCurrentWeight(wl.WorkoutTime)).ToString("0.00"),
                     Status = wl.Status.Name
                 });
 
@@ -97,7 +98,7 @@ namespace UI.Controllers
         public JsonResult AddWorkoutLog(WorkoutLog wl)
         {
 
-            wl.MemberID = 83;
+            wl.MemberID = (int)Session["ID"];
             wl.EditTime = DateTime.Now;
 
             dbContext.WorkoutLogs.Add(wl);
@@ -120,7 +121,7 @@ namespace UI.Controllers
         public JsonResult DeleteWorkoutLog(int ID)
         {
 
-            WorkoutLog workoutlog = dbContext.WorkoutLogs.SingleOrDefault(wl => wl.ID == ID && wl.MemberID == 83);
+            WorkoutLog workoutlog = dbContext.WorkoutLogs.SingleOrDefault(wl => wl.ID == ID && wl.MemberID == (int)Session["ID"]);
             dbContext.WorkoutLogs.Remove(workoutlog);
 
             try
@@ -143,7 +144,7 @@ namespace UI.Controllers
         {
 
             WorkoutLog workoutlog = dbContext.WorkoutLogs.SingleOrDefault(wl => wl.ID == wlToEdit.ID);
-            workoutlog.MemberID = 83;
+            workoutlog.MemberID = (int)Session["ID"];
             workoutlog.EditTime = DateTime.Now;
 
             workoutlog.WorkoutID = wlToEdit.WorkoutID;
@@ -186,7 +187,7 @@ namespace UI.Controllers
         //======================================================
         //WorkoutSchedule Page
 
-        //todo
+        //todo QnA Maker是否可運用
         public ActionResult WorkoutSchedule()
         {
             //==================================================================
@@ -204,7 +205,6 @@ namespace UI.Controllers
             //For suggest
             WorkoutSuggestViewModel vm = new WorkoutSuggestViewModel();
 
-            //todo fake today for test
             DateTime today = DateTime.Now;
 
             string todayString = today.ToString("MMddyyyy");
@@ -344,7 +344,7 @@ namespace UI.Controllers
                 .OrderBy(tod => tod.ID).Select(tod => tod.Name).ToList();
 
             var q1 = dbContext.WorkoutPreferences
-                .Where(wp => wp.MemberID == 83)
+                .Where(wp => wp.MemberID == (int)Session["ID"])
                 .SelectMany(wp => wp.WorkoutCategory.Workouts);
 
             decimal warning = todayIngest / TDEE * 100;
@@ -378,7 +378,7 @@ namespace UI.Controllers
 
         private decimal ingestPerTime(string dayString, int timeOfDay)
         {
-            var q1 = dbContext.DietLogs.Where(dl => dl.MemberID == 83
+            var q1 = dbContext.DietLogs.Where(dl => dl.MemberID == (int)Session["ID"]
                     && dl.Date == dayString
                     && dl.TimeOfDayID == timeOfDay);
 
@@ -424,7 +424,7 @@ namespace UI.Controllers
             DateTime tomorrow = DateTime.Now.AddDays(1).Date;
             DateTime d8a = DateTime.Now.AddDays(8).Date;
 
-            var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID == 83
+            var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID == (int)Session["ID"]
                 && DbFunctions.TruncateTime(wl.WorkoutTime) >= tomorrow
                 && DbFunctions.TruncateTime(wl.WorkoutTime) < d8a && wl.StatusID == 4)
                 .Select(wl => new
@@ -481,7 +481,7 @@ namespace UI.Controllers
             DateTime d = DateTime.Now.Date;
 
             var q = dbContext.WorkoutLogs
-                .Where(wl => wl.MemberID == 83
+                .Where(wl => wl.MemberID == (int)Session["ID"]
                     && DbFunctions.TruncateTime(wl.WorkoutTime) == d).OrderBy(wl => wl.WorkoutTime)
                 .AsEnumerable()
                 .Select(wl => new
@@ -507,7 +507,6 @@ namespace UI.Controllers
         }
 
 
-        //todo
         [NonAction]
         private decimal TodayConsume()
         {
@@ -516,7 +515,7 @@ namespace UI.Controllers
 
             decimal weight = GetCurrentWeight(tomorrow);
 
-            var q1 = dbContext.WorkoutLogs.Where(wl => wl.MemberID == 83
+            var q1 = dbContext.WorkoutLogs.Where(wl => wl.MemberID == (int)Session["ID"]
                     && DbFunctions.TruncateTime(wl.WorkoutTime) == today
                     && wl.StatusID == 5);
 
@@ -530,12 +529,12 @@ namespace UI.Controllers
             return (decimal)consume;
         }
 
-        //todo
+        
         [NonAction]
-        private decimal GetCurrentWeight(DateTime tomorrow)
+        private decimal GetCurrentWeight(DateTime time)
         {
             var q1 = dbContext.WeightLogs
-                .Where(wgt => wgt.MemberID == 83 && wgt.UpdatedDate < tomorrow)
+                .Where(wgt => wgt.MemberID == (int)Session["ID"] && wgt.UpdatedDate < time)
                 .OrderByDescending(wgt => wgt.UpdatedDate)
                 .FirstOrDefault();
 
@@ -551,7 +550,7 @@ namespace UI.Controllers
 
             string strToday = today.ToString("MMddyyyy");
 
-            var q1 = dbContext.DietLogs.Where(dt => dt.MemberID == 83
+            var q1 = dbContext.DietLogs.Where(dt => dt.MemberID == (int)Session["ID"]
                 && dt.Date == strToday);
 
             if (q1.ToList().Count == 0)
@@ -579,7 +578,7 @@ namespace UI.Controllers
             ViewData["JsonWc"] = JsonWc;
 
             string JsonWp = JsonConvert.SerializeObject(dbContext.WorkoutPreferences
-                .Where(wp => wp.MemberID == 83).Select(wp => wp.WorkoutCategoryID).ToList());
+                .Where(wp => wp.MemberID == (int)Session["ID"]).Select(wp => wp.WorkoutCategoryID).ToList());
 
             ViewData["JsonWp"] = JsonWp;
 
@@ -598,7 +597,7 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public string EditWp(int[] wps)
         {
-            List<WorkoutPreference> wpList = dbContext.WorkoutPreferences.Where(wp => wp.MemberID == 83).ToList();
+            List<WorkoutPreference> wpList = dbContext.WorkoutPreferences.Where(wp => wp.MemberID == (int)Session["ID"]).ToList();
 
             for (int i = 0; i < wps.Length; i++)
             {
@@ -606,7 +605,7 @@ namespace UI.Controllers
                 {
                     dbContext.WorkoutPreferences.Add(new WorkoutPreference
                     {
-                        MemberID = 83,
+                        MemberID = (int)Session["ID"],
                         WorkoutCategoryID = wps[i],
                     });
                 }
