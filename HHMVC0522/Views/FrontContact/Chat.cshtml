@@ -94,10 +94,15 @@
                     $.connection.hub.start().done(function () {
                         $("#sendmessage").click(function () {
 
+                            if ($("#message").val() == "") {
+                                alert("請輸入訊息");
+                                return;
+                            }
+
                             let dialogDiv = $("<div></div>").addClass("direct-chat-msg");
 
                             $("<div></div>").addClass("direct-chat-infos clearfix")
-                                .append($("<span></span>").addClass("direct-chat-name float-left").text("@Session["Name"]"))
+                                .append($("<span></span>").addClass("direct-chat-name float-left").text("@Session["UserName"]"))
                                 .append($("<span></span>").addClass("direct-chat-timestamp float-right").text(moment(new Date()).format("M/D HH:mm")))
                                 .appendTo(dialogDiv);
 
@@ -115,6 +120,7 @@
                                 url: "Chat",
                                 method: "POST",
                                 data: {
+                                    connId: $.connection.hub.id,
                                     message: $("#message").val()
                                 }
                             });

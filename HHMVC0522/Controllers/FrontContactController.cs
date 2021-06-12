@@ -29,23 +29,24 @@ namespace UI.Controllers
 
 
         [HttpPost]
-        public ActionResult Chat(string message)
+        public ActionResult Chat(string connId, string message)
         {
             HealthHelperEntities dbContext = new HealthHelperEntities();
             Random rn = new Random();
 
-            List<string> connIds = UserStatic.ConnectedUsers.Select(cu => new
+            List<string> adminConnId = UserStatic.ConnectedUsers.Select(cu => new
             {
                 cu.ConnID,
                 UserID = int.Parse(cu.UserID)
             }).Where(cu => dbContext.Members.SingleOrDefault(cu1 => cu1.ID == cu.UserID).IsAdmin)
                 .Select(cu => cu.ConnID).ToList();
 
+            int mid = (int)Session["ID"];
 
             var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
-            context.Clients.Client(connIds[rn.Next(0, connIds.Count)])
-                .ReceiveFromCustomer(Session["Name"], Session["ImagePath"], message);
+            context.Clients.Client(adminConnId[rn.Next(0, adminConnId.Count)])
+                .ReceiveFromCustomer(connId, Session["UserName"], Session["ImagePath"], message);
 
             return View();
         }

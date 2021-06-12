@@ -47,6 +47,12 @@ namespace UI.Controllers
                     Session["ID"] = user.ID;
                     Session["Name"] = user.Name;
                     Session["ImagePath"] = user.ImagePath;
+
+                    //====================================
+                    //恩旗
+                    Session["UserName"] = user.UserName;
+                    //====================================
+
                     FormsAuthentication.RedirectFromLoginPage(user.ID.ToString(), false);
                     var i = User.Identity.Name;
                     return RedirectToAction("Index", "Home2");
