@@ -24,7 +24,9 @@ namespace UI.Controllers
                 DateTime today = DateTime.Now.Date;
                 DateTime tomorrow = today.AddDays(1);
 
-                Member member = dbContext.Members.SingleOrDefault(m => m.ID == (int)Session["ID"]);
+                int MemberID = (int)Session["ID"];
+
+                Member member = dbContext.Members.SingleOrDefault(m => m.ID == MemberID);
                 decimal weight = GetCurrentWeight(tomorrow);
                 int age = (zeroTime + (today - member.Birthdate)).Year - 1;
                 decimal height = (decimal)member.Height;
@@ -60,15 +62,17 @@ namespace UI.Controllers
 
             DateTime tomorrow = today.AddDays(1);
 
+            int MemberID = (int)Session["ID"];
+
             var q1 = dbContext.WeightLogs
-                .Where(wgt => wgt.MemberID == (int)Session["ID"] && wgt.UpdatedDate < tomorrow)
+                .Where(wgt => wgt.MemberID == MemberID && wgt.UpdatedDate < tomorrow)
                 .OrderByDescending(wgt => wgt.UpdatedDate)
                 .FirstOrDefault();
 
 
             //decimal weight = (decimal)q1.Weight;
 
-            var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID == (int)Session["ID"]).ToList()
+            var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID == MemberID).ToList()
                 .Select(wl => new
                 {
                     wl.ID,
@@ -120,8 +124,11 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult DeleteWorkoutLog(int ID)
         {
+            int MemberID = (int)Session["ID"];
 
-            WorkoutLog workoutlog = dbContext.WorkoutLogs.SingleOrDefault(wl => wl.ID == ID && wl.MemberID == (int)Session["ID"]);
+            WorkoutLog workoutlog = dbContext.WorkoutLogs
+                .SingleOrDefault(wl => wl.ID == ID && wl.MemberID == MemberID);
+
             dbContext.WorkoutLogs.Remove(workoutlog);
 
             try
@@ -339,12 +346,13 @@ namespace UI.Controllers
 
             }
 
+            int MemberID = (int)Session["ID"];
 
             vm.TimeOfDay = dbContext.TimesOfDays
                 .OrderBy(tod => tod.ID).Select(tod => tod.Name).ToList();
 
             var q1 = dbContext.WorkoutPreferences
-                .Where(wp => wp.MemberID == (int)Session["ID"])
+                .Where(wp => wp.MemberID == MemberID)
                 .SelectMany(wp => wp.WorkoutCategory.Workouts);
 
             decimal warning = todayIngest / TDEE * 100;
@@ -378,7 +386,9 @@ namespace UI.Controllers
 
         private decimal ingestPerTime(string dayString, int timeOfDay)
         {
-            var q1 = dbContext.DietLogs.Where(dl => dl.MemberID == (int)Session["ID"]
+            int MemberID = (int)Session["ID"];
+
+            var q1 = dbContext.DietLogs.Where(dl => dl.MemberID == MemberID
                     && dl.Date == dayString
                     && dl.TimeOfDayID == timeOfDay);
 
@@ -424,7 +434,9 @@ namespace UI.Controllers
             DateTime tomorrow = DateTime.Now.AddDays(1).Date;
             DateTime d8a = DateTime.Now.AddDays(8).Date;
 
-            var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID == (int)Session["ID"]
+            int MemberID = (int)Session["ID"];
+
+            var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID == MemberID
                 && DbFunctions.TruncateTime(wl.WorkoutTime) >= tomorrow
                 && DbFunctions.TruncateTime(wl.WorkoutTime) < d8a && wl.StatusID == 4)
                 .Select(wl => new
@@ -480,8 +492,10 @@ namespace UI.Controllers
 
             DateTime d = DateTime.Now.Date;
 
+            int MemberID = (int)Session["ID"];
+
             var q = dbContext.WorkoutLogs
-                .Where(wl => wl.MemberID == (int)Session["ID"]
+                .Where(wl => wl.MemberID == MemberID
                     && DbFunctions.TruncateTime(wl.WorkoutTime) == d).OrderBy(wl => wl.WorkoutTime)
                 .AsEnumerable()
                 .Select(wl => new
@@ -515,7 +529,9 @@ namespace UI.Controllers
 
             decimal weight = GetCurrentWeight(tomorrow);
 
-            var q1 = dbContext.WorkoutLogs.Where(wl => wl.MemberID == (int)Session["ID"]
+            int MemberID = (int)Session["ID"];
+
+            var q1 = dbContext.WorkoutLogs.Where(wl => wl.MemberID == MemberID
                     && DbFunctions.TruncateTime(wl.WorkoutTime) == today
                     && wl.StatusID == 5);
 
@@ -533,8 +549,10 @@ namespace UI.Controllers
         [NonAction]
         private decimal GetCurrentWeight(DateTime time)
         {
+            int MemberID = (int)Session["ID"];
+
             var q1 = dbContext.WeightLogs
-                .Where(wgt => wgt.MemberID == (int)Session["ID"] && wgt.UpdatedDate < time)
+                .Where(wgt => wgt.MemberID == MemberID && wgt.UpdatedDate < time)
                 .OrderByDescending(wgt => wgt.UpdatedDate)
                 .FirstOrDefault();
 
@@ -550,7 +568,9 @@ namespace UI.Controllers
 
             string strToday = today.ToString("MMddyyyy");
 
-            var q1 = dbContext.DietLogs.Where(dt => dt.MemberID == (int)Session["ID"]
+            int MemberID = (int)Session["ID"];
+
+            var q1 = dbContext.DietLogs.Where(dt => dt.MemberID == MemberID
                 && dt.Date == strToday);
 
             if (q1.ToList().Count == 0)
@@ -577,8 +597,10 @@ namespace UI.Controllers
 
             ViewData["JsonWc"] = JsonWc;
 
+            int MemberID = (int)Session["ID"];
+
             string JsonWp = JsonConvert.SerializeObject(dbContext.WorkoutPreferences
-                .Where(wp => wp.MemberID == (int)Session["ID"]).Select(wp => wp.WorkoutCategoryID).ToList());
+                .Where(wp => wp.MemberID == MemberID).Select(wp => wp.WorkoutCategoryID).ToList());
 
             ViewData["JsonWp"] = JsonWp;
 
@@ -597,7 +619,10 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public string EditWp(int[] wps)
         {
-            List<WorkoutPreference> wpList = dbContext.WorkoutPreferences.Where(wp => wp.MemberID == (int)Session["ID"]).ToList();
+            int MemberID = (int)Session["ID"];
+
+            List<WorkoutPreference> wpList = dbContext.WorkoutPreferences
+                .Where(wp => wp.MemberID == MemberID).ToList();
 
             for (int i = 0; i < wps.Length; i++)
             {

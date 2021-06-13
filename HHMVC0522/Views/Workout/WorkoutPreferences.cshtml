@@ -78,15 +78,11 @@
             position: absolute;
             top: -1px;
             right: -1px;
-            padding:15px 10px;
+            padding: 15px 10px;
         }
     </style>
 }
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "wpForm" }))
-{
-    @Html.AntiForgeryToken()
-}
 
 <div id="mainDiv">
     <div id="mainRow" class="row">
@@ -117,6 +113,11 @@
         </div>
     </div>
 </div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "wpForm" }))
+{
+    @Html.AntiForgeryToken()
+}
 
 @section Scripts
 {

@@ -21,7 +21,9 @@ namespace UI.Controllers
             DateTime startMonth = new DateTime(DateTime.Now.Year, 1, 1);
             DateTime endMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1, 0, 0, 0);
 
-            var q = from wgt in db.WeightLogs.Where(wgt => wgt.MemberID == (int)Session["ID"]).ToList()
+            int MemberID = (int)Session["ID"];
+
+            var q = from wgt in db.WeightLogs.Where(wgt => wgt.MemberID == MemberID).ToList()
                     where startMonth <= wgt.UpdatedDate && wgt.UpdatedDate < endMonth
                     group wgt by wgt.UpdatedDate.ToString("yyMM") into g
                     orderby g.Key ascending
@@ -36,7 +38,9 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult GetWeightLog()
         {
-            var q = db.WeightLogs.Where(wgt => wgt.MemberID == (int)Session["ID"]).Select(wgt => new 
+            int MemberID = (int)Session["ID"];
+
+            var q = db.WeightLogs.Where(wgt => wgt.MemberID == MemberID).Select(wgt => new 
             { 
                 wgt.ID,
                 wgt.UpdatedDate,
@@ -53,7 +57,9 @@ namespace UI.Controllers
 
             endMonth = endMonth.AddMonths(1);
 
-            var q1 = from wgt in db.WeightLogs.Where(wgt => wgt.MemberID == (int)Session["ID"]).ToList()
+            int MemberID = (int)Session["ID"];
+
+            var q1 = from wgt in db.WeightLogs.Where(wgt => wgt.MemberID == MemberID).ToList()
                      where startMonth <= wgt.UpdatedDate && wgt.UpdatedDate < endMonth
                      group wgt by int.Parse(wgt.UpdatedDate.ToString("yyMM")) into g
                      orderby g.Key ascending
@@ -110,9 +116,11 @@ namespace UI.Controllers
 
         public JsonResult EditWeightLog(WeightLog wgtlToEdit)
         {
+            int MemberID = (int)Session["ID"];
+
             WeightLog wgtl = db.WeightLogs
                 .SingleOrDefault(wgtl1 => wgtl1.ID == wgtlToEdit.ID 
-                && wgtl1.MemberID == (int)Session["ID"]);
+                && wgtl1.MemberID == MemberID);
 
             wgtl.Weight = wgtlToEdit.Weight;
 

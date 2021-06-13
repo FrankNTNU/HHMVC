@@ -71,7 +71,7 @@
         @@media screen and (max-width:584px) {
 
             #btnReload {
-                margin-left:auto;
+                margin-left: auto;
             }
         }
 
@@ -87,16 +87,11 @@
             height: max-content;
         }
 
-        .ui-datepicker select {
-            height: 1.5em;
-            display: inline-block;
-        }
+            .ui-datepicker select {
+                height: 1.5em;
+                display: inline-block;
+            }
     </style>
-}
-
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "weightForm" }))
-{
-    @Html.AntiForgeryToken()
 }
 
 
@@ -141,6 +136,11 @@
         </div>
     </div>
 </div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "weightForm" }))
+{
+    @Html.AntiForgeryToken()
+}
 
 
 @section Scripts

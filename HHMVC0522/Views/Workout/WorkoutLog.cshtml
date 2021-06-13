@@ -14,7 +14,7 @@
     @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/r-2.2.7/datatables.min.css" />*@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/r-2.2.7/datatables.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui-timepicker/jquery-ui-timepicker-addon.css" />
-    
+
     <style>
         .mainTitle {
             font-size: 3em;
@@ -122,21 +122,32 @@
             height: max-content;
         }
 
-        .ui-datepicker select {
-            height: 1.5em;
-            display: inline-block;
+            .ui-datepicker select {
+                height: 1.5em;
+                display: inline-block;
+            }
+
+        .ui-timepicker-div dl {
+            all: initial;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center
         }
 
-        .ui-timepicker-div dl { all:initial; display:flex; flex-wrap:wrap; align-items:center }
-        .ui-timepicker-div dl dt { all:initial; width:30%; display:inline-block; margin-bottom:10px }
-        .ui-timepicker-div dl dd { all:initial; width:60%; display:inline-block; margin-bottom:10px }
+            .ui-timepicker-div dl dt {
+                all: initial;
+                width: 30%;
+                display: inline-block;
+                margin-bottom: 10px
+            }
 
+            .ui-timepicker-div dl dd {
+                all: initial;
+                width: 60%;
+                display: inline-block;
+                margin-bottom: 10px
+            }
     </style>
-}
-
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "wlForm" }))
-{
-    @Html.AntiForgeryToken()
 }
 
 <div id="mainDiv">
@@ -200,6 +211,11 @@
         </div>
     </div>
 </div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "wlForm" }))
+{
+    @Html.AntiForgeryToken()
+}
 
 @section Scripts
 {
@@ -465,7 +481,7 @@
                 table.draw();
             });
 
-            
+
             //=================================================================
             //Add New WorkoutLog
 
@@ -665,7 +681,7 @@
                 $('#Edit').attr("data-wlid", rowData.ID);
                 $('#Delete').attr("data-wlid", rowData.ID);
 
-                
+
                 if (workoutTime.getTime() < d7b.getTime()
                     || workoutTime.getTime() > d8.getTime()) {
 

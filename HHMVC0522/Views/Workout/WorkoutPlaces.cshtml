@@ -1,18 +1,17 @@
-﻿@{ 
-    Layout = null;
+﻿@{
+    ViewBag.Title = "WorkoutPlaces";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 
+@section Styles
+{
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>@ViewBag.Title</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
     <style type="text/css">
         /* Always set the map height explicitly to define the size of the div
-        * element that contains the map. */
+            * element that contains the map. */
         #map {
-            height: 100%;
+            height: 500px;
         }
 
         /* Optional: Makes the sample page fill the window. */
@@ -33,167 +32,216 @@
         }
 
         /*.gm-style-iw > button {
-            display: none !important;
-        }*/
+                display: none !important;
+            }*/
+
+        .mainTitle {
+            font-size: 3em;
+            font-weight: 600;
+            font-style: italic;
+            color: #f56a6a;
+            padding: 0;
+        }
+
+        #mainDiv {
+            width: 100%;
+            margin: auto;
+            margin-top: 20px;
+            position: relative;
+            /*width: 500px;*/
+            /*top: 80px;*/
+        }
+
+        #mainRow {
+            position: relative;
+            left: 20px;
+            width: 100%;
+        }
+
+        .myBox {
+            border: solid 2px gray;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        button[aria-label="顯示街道地圖"], button[aria-label="顯示衛星圖"] {
+            background-color: #f56a6a !important;
+            color: white !important;
+            border-radius: 10px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        button[aria-label="鍵盤快速鍵"] {
+            height:1em !important;
+            line-height:1em !important;
+            border-color:transparent !important;
+            box-shadow:none !important;
+        }
     </style>
-    @*<link href="jquery-ui.min.css" rel="stylesheet" />
-    <script src="jquery-3.6.0.js"></script>
-    <script src="jquery-ui.min.js"></script>*@
-    <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+
+}
+
+<div id="mainDiv">
+    <div id="mainRow" class="row">
+        <div class="mainTitle col-12">運動地點</div>
+        <div id="map" class="myBox col-12"></div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="~/Content/jquery-3.6.0/jquery-3.6.0.js"></script>
     <script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
     <script>
 
-        let map;
-        let service;
-        let infowindow;
+    let map;
+    let service;
+    let infowindow;
 
-        $(function () {
-            $(document).tooltip();
+    $(function () {
+        $(document).tooltip();
+    });
+
+    // This example requires the Places library. Include the libraries=places
+    // parameter when you first load the API. For example:
+    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+
+    function initMap() {
+
+        infowindow = new google.maps.InfoWindow({
+            pixelOffset: new google.maps.Size(0, 20)
         });
 
-        // This example requires the Places library. Include the libraries=places
-        // parameter when you first load the API. For example:
-        // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-        
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
 
-        function initMap() {
-
-            infowindow = new google.maps.InfoWindow({
-                pixelOffset: new google.maps.Size(0, 20)
-            });
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const pos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                        };
-
-                        map = new google.maps.Map(document.getElementById("map"), {
-                            center: pos,
-                            zoom: 15,
-                        });
-
-                        const marker = new google.maps.Marker({
-                            map,
-                            position: pos,
-                        });
-
-                        google.maps.event.addListener(marker, "click", () => {
-                            infowindow.setContent("目前位置");
-                            infowindow.open(map, marker);
-                        });
-
-                        google.maps.event.addListener(infowindow, 'domready', function () {
-                            $(".ui-tooltip").remove();
-                        });
-
-                        google.maps.event.addListener(infowindow, 'closeclick', function () {
-                            $(".ui-tooltip").remove();
-                        });
-
-                        const request = {
-                            keyword: "@Html.Raw(ViewBag.Keyword)",
-                            location: map.getCenter(),
-                            radius: "2000",
-                            language: "zh-TW"
-                        };
-
-                        service = new google.maps.places.PlacesService(map);
-                        service.nearbySearch(request, (results, status) => {
-                            if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-                                for (let i = 0; i < results.length; i++) {
-                                    createMarker(results[i]);
-                                }
-                            }
-                        });
-
-                        const cityCircle = new google.maps.Circle({
-                            strokeColor: "#FF0000",
-                            strokeOpacity: 0.8,
-                            strokeWeight: 2,
-                            fillColor: "#FF0000",
-                            fillOpacity: 0.35,
-                            map,
-                            center: map.getCenter(),
-                            radius: 2000,
-                        });
-
-                    },
-                    () => {
-                        handleLocationError(true, infowindow, map.getCenter());
-                    }
-                );
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infowindow, map.getCenter());
-            }
-
-            
-        }
-
-        function handleLocationError(browserHasGeolocation, infowindow, pos) {
-            infowindow.setPosition(pos);
-            infowindow.setContent(
-                browserHasGeolocation
-                    ? "Error: The Geolocation service failed."
-                    : "Error: Your browser doesn't support geolocation."
-            );
-            infowindow.open(map);
-        }
-
-        function createMarker(place) {
-
-            if (!place.geometry || !place.geometry.location) return;
-
-            var request = {
-                placeId: place.place_id,
-                fields: ['website']
-            };
-
-            //service = new google.maps.places.PlacesService(map);
-            service.getDetails(request, (results, status) => {
-                if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+                    map = new google.maps.Map(document.getElementById("map"), {
+                        center: pos,
+                        zoom: 15
+                    });
 
                     const marker = new google.maps.Marker({
                         map,
-                        position: place.geometry.location,
-                        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                        position: pos,
                     });
 
-                    const infoDiv = document.createElement("div");
-                    //infoDiv.innerHTML = (typeof (results.website) == "undefined") ? "無網頁" : results.website;
-                    infoDiv.innerHTML = place.name;
-                    infoDiv.title = (typeof (results.website) == "undefined") ? "無網頁" : results.website;
-                    infoDiv.style.cursor = "pointer";
-                    infoDiv.addEventListener("click", function () {
-                        window.open(results.website, "_blank");
-                    });
-
-                    marker.addListener("click", function () {
-                        infowindow.setContent(infoDiv);
+                    google.maps.event.addListener(marker, "click", () => {
+                        infowindow.setContent("目前位置");
                         infowindow.open(map, marker);
                     });
 
-                    //google.maps.event.addListener(marker, "click", () => {
-                    //    infowindow.setContent(`ID:${place.place_id}\n${place.name}` || "");
-                    //    infowindow.open(map, marker);
-                    //});
+                    google.maps.event.addListener(infowindow, 'domready', function () {
+                        $(".ui-tooltip").remove();
+                    });
 
+                    google.maps.event.addListener(infowindow, 'closeclick', function () {
+                        $(".ui-tooltip").remove();
+                    });
+
+                    const request = {
+                        keyword: "@Html.Raw(ViewBag.Keyword)",
+                        location: map.getCenter(),
+                        radius: "2000",
+                        language: "zh-TW"
+                    };
+
+                    service = new google.maps.places.PlacesService(map);
+                    service.nearbySearch(request, (results, status) => {
+                        if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+                            for (let i = 0; i < results.length; i++) {
+                                createMarker(results[i]);
+                            }
+                        }
+                    });
+
+                    const cityCircle = new google.maps.Circle({
+                        strokeColor: "#FF0000",
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: "#FF0000",
+                        fillOpacity: 0.35,
+                        map,
+                        center: map.getCenter(),
+                        radius: 2000,
+                    });
+
+                },
+                () => {
+                    handleLocationError(true, infowindow, map.getCenter());
                 }
-            });
-
-            
+            );
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infowindow, map.getCenter());
         }
-    </script>
-</head>
-<body>
-    <div id="map"></div>
 
+
+    }
+
+    function handleLocationError(browserHasGeolocation, infowindow, pos) {
+        infowindow.setPosition(pos);
+        infowindow.setContent(
+            browserHasGeolocation
+                ? "Error: The Geolocation service failed."
+                : "Error: Your browser doesn't support geolocation."
+        );
+        infowindow.open(map);
+    }
+
+    function createMarker(place) {
+
+        if (!place.geometry || !place.geometry.location) return;
+
+        var request = {
+            placeId: place.place_id,
+            fields: ['website']
+        };
+
+        //service = new google.maps.places.PlacesService(map);
+        service.getDetails(request, (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+
+                const marker = new google.maps.Marker({
+                    map,
+                    position: place.geometry.location,
+                    icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                const infoDiv = document.createElement("div");
+                //infoDiv.innerHTML = (typeof (results.website) == "undefined") ? "無網頁" : results.website;
+                infoDiv.innerHTML = place.name;
+                infoDiv.title = (typeof (results.website) == "undefined") ? "無網頁" : results.website;
+                infoDiv.style.cursor = "pointer";
+                infoDiv.addEventListener("click", function () {
+                    window.open(results.website, "_blank");
+                });
+
+                marker.addListener("click", function () {
+                    infowindow.setContent(infoDiv);
+                    infowindow.open(map, marker);
+                });
+
+                //google.maps.event.addListener(marker, "click", () => {
+                //    infowindow.setContent(`ID:${place.place_id}\n${place.name}` || "");
+                //    infowindow.open(map, marker);
+                //});
+
+            }
+        });
+
+
+    }
+    </script>
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAE3Hi6N9QONHypztdZAvYkdTIOXdnzNE4&callback=initMap&libraries=places&v=weekly"
             async></script>
-</body>
-</html>
+
+}
