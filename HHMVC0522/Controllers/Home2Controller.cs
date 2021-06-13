@@ -31,11 +31,15 @@ namespace UI.Controllers
 
             return View(layoutDTO);
         }
-        public ActionResult Login()
+
+        public ActionResult Login(string ReturnUrl)
         {
+            //todo
+            ViewBag.ReturnUrl = ReturnUrl;
             UserDTO dto = new UserDTO();
             return View(dto);
         }
+
         [HttpPost]
         public ActionResult Login(UserDTO model)
         {
@@ -50,12 +54,15 @@ namespace UI.Controllers
 
                     //====================================
                     //恩旗
+                    //Use RedirectFromLoginPage to redirect
                     Session["UserName"] = user.UserName;
-                    //====================================
-
+                    
                     FormsAuthentication.RedirectFromLoginPage(user.ID.ToString(), false);
-                    var i = User.Identity.Name;
-                    return RedirectToAction("Index", "Home2");
+                    
+                    //var i = User.Identity.Name;
+                    //return RedirectToAction("Index", "Home2");
+                    return null;
+                    //====================================
                 }
                 else
                 {
