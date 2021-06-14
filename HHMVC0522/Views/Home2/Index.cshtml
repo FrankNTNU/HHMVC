@@ -14,22 +14,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
 
-    <style>
-        .no-close .ui-dialog-titlebar-close {
-            display: none;
-        }
-
-        .btnOK {
-            all: initial;
-            border: none !important;
-        }
-
-        .ui-dialog-titlebar {
-            background-color: #f56a6a;
-            color:white;
-        }
-
-    </style>
 }
 
 <div id="main">
@@ -160,13 +144,12 @@
 
     </div>
 </div>
-<div id="dialogDiv">已經7天沒紀錄體重了</div>
 
 @section Scripts {
 
     <script src="~/Content/toastr/toastr.min.js"></script>
     <script src="~/Content/js/jquery.likebtn.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    @*<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>*@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 
@@ -189,41 +172,6 @@
                     toastr.error("失敗");
                 }
             }
-
-            //=====================================================
-            //恩旗
-            //Show NoWeightLog dialog
-            var noWeightLog = @Json.Encode(Session["NoWeightLog"]);
-
-            if (noWeightLog) {
-                $("#dialogDiv").dialog({
-                    title: "提醒",
-                    modal: true,
-                    open: function (event, ui) {
-                        $('.ui-dialog .btnOK').addClass("primary")
-                            .css("padding", "10px").css("border-radius", "5px")
-                            .css("outline-color", "white");
-                        $(this).parent().focus();
-                    },
-                    dialogClass: "no-close",
-                    buttons: [{
-                        text: "OK",
-                        class: "btnOK",
-                        click: function () {
-                            $(this).dialog("close");
-                        }
-                    }]
-                });
-
-                //$('.ui-dialog button').blur();
-                $('.ui-dialog button').mousedown(function (e) {
-                    e.preventDefault();
-                });
-
-            }
-            
-
-            //=====================================================
 
         })
 

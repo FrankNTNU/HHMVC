@@ -1,4 +1,5 @@
-﻿
+﻿@using UI.Controllers
+
 @{ Layout = null; }
 
 <!DOCTYPE HTML>
@@ -19,9 +20,52 @@
         a.toggle {
             color: red;
         }
-        
+
+        #dialogDiv {
+            display:none;
+        }
+
+        #dialogDiv ul {
+            list-style-type:none;
+        }
+
+        #dialogDiv ul li::before {
+            content: "\2022"; /* Add content: \2022 is the CSS Code/unicode for a bullet */
+            color: #f56a6a; /* Change the color */
+            font-weight: bold; /* If you want it to be bold */
+            display: inline-block; /* Needed to add space between the bullet and the text */
+            width: 1em; /* Also needed for space (tweak if needed) */
+            margin-left: -1em; /* Also needed for space (tweak if needed) */
+        }
+
+        .no-close .ui-dialog-titlebar-close {
+            display: none;
+        }
+
+        .btnOK {
+            all: initial;
+            border: none !important;
+        }
+
+        .ui-dialog-titlebar {
+            background-color: #f56a6a;
+            color: white;
+        }
     </style>
 </head>
+
+<!--恩旗-->
+@if (Session["ID"] != null)
+{
+    var controller = ViewContext.Controller as Controller;
+    Home2Controller.SetWeightLogSession(controller.HttpContext);
+    Home2Controller.SetPreferencesSession(controller.HttpContext);
+    if (Session["dialogShown"] == null)
+    {
+        Session["dialogShown"] = false;
+    }
+}
+<!--================================================================-->
 
 <body class="is-preload">
     <!-- Wrapper -->
@@ -114,7 +158,13 @@
 
                                     <li><a href="~/Workout/WorkoutLog" style="text-decoration:none"><i class="fas fa-clipboard-list" style="width:30px"></i> 運動紀錄</a></li>
                                     <li><a href="~/Workout/WorkoutSchedule" style="text-decoration:none"><i class="fas fa-running" style="width:30px"></i> 運動排程</a></li>
-                                    <li><a href="~/Workout/WorkoutPreferences" style="text-decoration:none"><i class="fas fa-star" style="width:30px"></i> 喜好管理</a></li>
+                                    <li>
+                                        <a href="~/Workout/WorkoutPreferences" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-star" style="width:30px"></i> 喜好管理</a>
+                                        @if (Session["NoPreferences"] != null && (bool)Session["NoPreferences"])
+                                        {   //if last 7 days has no weightlog, show this icon
+                                            <i id="preferencesNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px"></i>
+                                        }
+                                    </li>
 
                                 </ul>
 
@@ -223,6 +273,9 @@
         </div>
     </div>
 
+    <!--todo-->
+    <div id="dialogDiv"><ul></ul></div>
+
     <!-- Scripts -->
     <script src="~/Content/js/jquery.min.js"></script>
     <script src="~/Content/js/browser.min.js"></script>
@@ -233,12 +286,61 @@
     @RenderSection("Scripts", required: false)
 
 
-    <!--恩旗-->
-    <script>
-        $(window).on("unload", function () {
-            $.cookies.del('.ASPXAUTH');
-        });
-    </script>
-    <!--====================================-->
+<!--恩旗-->
+<script>
+    $(window).on("unload", function () {
+        $.cookies.del('.ASPXAUTH');
+    });
+
+    //=====================================================
+    //恩旗
+    //Show NoWeightLog dialog
+    $(function () {
+        var noWeightLog = @Json.Encode(Session["NoWeightLog"]);
+        var noPreferences = @Json.Encode(Session["NoPreferences"]);
+
+        var dialogShown = @Json.Encode(Session["dialogShown"]);
+
+        if (noWeightLog) {
+            $("#dialogDiv > ul").append($("<li></li>").append("已經7天沒紀錄體重了"));
+        }
+
+        if (noPreferences) {
+            $("#dialogDiv > ul").append($("<li></li>").append("還沒選擇喜好的運動類型"));
+        }
+
+        if (!dialogShown && $("#dialogDiv > ul > li").length) {
+            $("#dialogDiv").dialog({
+                title: "提醒",
+                modal: true,
+                open: function (event, ui) {
+                    $('.ui-dialog .btnOK').addClass("primary")
+                        .css("padding", "10px").css("border-radius", "5px")
+                        .css("outline-color", "white");
+                    $(this).parent().focus();
+                },
+                dialogClass: "no-close",
+                buttons: [{
+                    text: "OK",
+                    class: "btnOK",
+                    click: function () {
+                        $("#dialogDiv").dialog("close");
+                        $.ajax({
+                            url: "/Home2/SetDialogShownSession",
+                            type: "POST"
+                        });
+                    }
+                }]
+            });
+
+            //$('.ui-dialog button').blur();
+            $('.ui-dialog button').mousedown(function (e) {
+                e.preventDefault();
+            });
+
+        }
+    });
+</script>
+<!--====================================-->
 </body>
 </html>

@@ -23,7 +23,7 @@
             @Html.ValidationMessageFor(x => x.UserName, "", new { @style = "color:red" })
             <br /><label>帳號</label>
 
-            <input type="text" name="UserName" id="demo-name" value="" placeholder="登入帳號" style="height:50px" autocomplete="off"/>
+            <input type="text" name="UserName" id="demo-name" value="" placeholder="登入帳號" style="height:50px" autocomplete="off" />
         </div>
         <div class="col-12">
             @Html.ValidationMessageFor(x => x.Password, "", new { @style = "color:red" })
@@ -40,6 +40,9 @@
         </div>
     </div>
     <!--For Redirect-->
-    <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl"/>
+    @if (ViewBag.ReturnUrl != null)
+    {
+        <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
+    }
     <!--===========================================================-->
 </form>

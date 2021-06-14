@@ -23,10 +23,10 @@ namespace UI.Controllers
 
             //==========================
             //恩旗
-            if (Session["ID"] != null)
-            {
-                SetWeightLogSession();
-            }
+            //if (Session["ID"] != null)
+            //{
+            //    SetWeightLogSession();
+            //}
             //==========================
 
             return View(layoutDTO);
@@ -34,7 +34,6 @@ namespace UI.Controllers
 
         public ActionResult Login(string ReturnUrl)
         {
-            //todo
             ViewBag.ReturnUrl = ReturnUrl;
             UserDTO dto = new UserDTO();
             return View(dto);
@@ -51,12 +50,11 @@ namespace UI.Controllers
                     Session["ID"] = user.ID;
                     Session["Name"] = user.Name;
                     Session["ImagePath"] = user.ImagePath;
+                    Session["UserName"] = user.UserName;
 
                     //====================================
                     //恩旗
                     //Use RedirectFromLoginPage to redirect
-                    Session["UserName"] = user.UserName;
-                    
                     FormsAuthentication.RedirectFromLoginPage(user.ID.ToString(), false);
                     
                     //var i = User.Identity.Name;
@@ -131,26 +129,55 @@ namespace UI.Controllers
 
         //========================================================
         //恩旗
+        //For dialog
+        [HttpPost]
+        public void SetDialogShownSession() {
+            Session["dialogShown"] = true;
+        }
+
         //determine if last 7 days has no weight log
         [NonAction]
-        public void SetWeightLogSession()
+        public static void SetWeightLogSession(HttpContextBase context)
         {
             HealthHelperEntities dbContext = new HealthHelperEntities();
             DateTime today = DateTime.Now;
             DateTime d7b = DateTime.Now.Date.AddDays(-7);
 
-            var q1 = dbContext.WeightLogs.Where(wgt => wgt.MemberID == 83
+            int MemberID = (int)context.Session["ID"];
+
+            var q1 = dbContext.WeightLogs.Where(wgt => wgt.MemberID == MemberID
                 && wgt.UpdatedDate <= today && wgt.UpdatedDate >= d7b);
             List<WeightLog> list = q1.ToList();
             if (list.Count == 0)
             {
-                Session["NoWeightLog"] = true;
+                context.Session["NoWeightLog"] = true;
             }
             else
             {
-                Session["NoWeightLog"] = false;
+                context.Session["NoWeightLog"] = false;
             }
         }
-       //=========================================================
+
+        //determine if there is any WorkoutPreferences
+        [NonAction]
+        public static void SetPreferencesSession(HttpContextBase context)
+        {
+            HealthHelperEntities dbContext = new HealthHelperEntities();
+
+            int MemberID = (int)context.Session["ID"];
+
+            var q1 = dbContext.WorkoutPreferences.Where(wp => wp.MemberID == MemberID);
+
+            if (!q1.Any())
+            {
+                context.Session["NoPreferences"] = true;
+            }
+            else
+            {
+                context.Session["NoPreferences"] = false;
+            }
+        }
+
+        //=========================================================
     }
 }

@@ -549,6 +549,9 @@ namespace UI.Controllers
         [NonAction]
         private decimal GetCurrentWeight(DateTime time)
         {
+            //if there is no weightlog, set weight to 0 kg
+            decimal weight = 0m;
+
             int MemberID = (int)Session["ID"];
 
             var q1 = dbContext.WeightLogs
@@ -556,7 +559,11 @@ namespace UI.Controllers
                 .OrderByDescending(wgt => wgt.UpdatedDate)
                 .FirstOrDefault();
 
-            decimal weight = (decimal)q1.Weight;
+            if (q1 != null)
+            {
+                weight = (decimal)q1.Weight;
+            }
+            
             return weight;
         }
 
@@ -619,6 +626,16 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public string EditWp(int[] wps)
         {
+            if (wps == null)
+            {
+                wps = new int[] { };
+                Session["NoPreferences"] = true;
+            }
+            else
+            {
+                Session["NoPreferences"] = false;
+            }
+
             int MemberID = (int)Session["ID"];
 
             List<WorkoutPreference> wpList = dbContext.WorkoutPreferences
