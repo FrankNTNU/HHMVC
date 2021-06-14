@@ -377,7 +377,8 @@ namespace UI.Controllers
             else
             {
                 vm.Warning = "正常";
-                vm.WorkoutSuggestion = q1.Where(w => w.ActivityLevelID == 4).ToList();
+                vm.WorkoutSuggestion = dbContext.Workouts
+                    .Where(w => w.ActivityLevelID == 6).ToList();
                 vm.ActivityLevel = "【緩和】運動";
             }
 
@@ -731,6 +732,10 @@ namespace UI.Controllers
             else if (workout.Contains("有氧") || workout.Contains("飛輪"))
             {
                 return "健身房";
+            }
+            else if (workout == "五行健康操")
+            {
+                return workout;
             }
             else
             {

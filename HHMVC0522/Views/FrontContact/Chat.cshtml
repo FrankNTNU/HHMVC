@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 @section Styles {
-    <link href="~/Areas/Admin/Content/CSS/adminlte.min.css" rel="stylesheet" />
+    @*<link href="~/Areas/Admin/Content/CSS/adminlte.min.css" rel="stylesheet" />*@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="~/Content/css/fontawesome-all.min.css" rel="stylesheet" />
@@ -14,11 +14,21 @@
         .direct-chat-warning .right > .direct-chat-text::after {
             border-left-color: #f56a6a;
         }
+
+        a {
+            font-weight: 600;
+            color: lavender;
+        }
+
+        a:hover {
+            color: white !important;
+        }
     </style>
 }
 
 <section class="pt-3">
     <header class="major"><h2 class="mb-3"><i class="fas fa-mobile-alt"></i> 線上客服</h2></header>
+    
     <div class="col-md-10 m-auto" style="height:auto">
         <!-- DIRECT CHAT WARNING -->
         <dv class="card direct-chat direct-chat-warning">
@@ -49,7 +59,6 @@
 
                         </span>
                     </div>
-
                 </div>
             </div>
     </div>
@@ -63,70 +72,70 @@
     <script src="~/Content/moment-js/moment.min.js"></script>
 
     <script>
-                $(function () {
+        $(function () {
 
 
-                    //========================================================================
-                    //恩旗
-                    //For Test
-                    var chat = $.connection.chatHub;
+            //========================================================================
+            //恩旗
+            //For Test
+            var chat = $.connection.chatHub;
 
-                    chat.client.receiveFromService = function (message) {
-                        let dialogDiv = $("<div></div>").addClass("direct-chat-msg right");
+            chat.client.receiveFromService = function (message) {
+                let dialogDiv = $("<div></div>").addClass("direct-chat-msg right");
 
-                        $("<div></div>").addClass("direct-chat-infos clearfix")
-                            .append($("<span></span>").addClass("direct-chat-name float-right").text("客服人員"))
-                            .append($("<span></span>").addClass("direct-chat-timestamp float-left").text(moment(new Date()).format("M/D HH:mm")))
-                            .appendTo(dialogDiv);
+                $("<div></div>").addClass("direct-chat-infos clearfix")
+                    .append($("<span></span>").addClass("direct-chat-name float-right").text("客服人員"))
+                    .append($("<span></span>").addClass("direct-chat-timestamp float-left").text(moment(new Date()).format("M/D HH:mm")))
+                    .appendTo(dialogDiv);
 
-                        $("<img/>").addClass("direct-chat-img")
-                            .attr("src", "/Areas/Admin/Content/UserImage/2d6c0c9d-8f6a-46bc-b296-05e7261e0836user2.png")
-                            .appendTo(dialogDiv);
+                $("<img/>").addClass("direct-chat-img")
+                    .attr("src", "/Areas/Admin/Content/UserImage/2d6c0c9d-8f6a-46bc-b296-05e7261e0836user2.png")
+                    .appendTo(dialogDiv);
 
-                        $("<div></div>").addClass("direct-chat-text")
-                            .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
-                            .text(message)
-                            .appendTo(dialogDiv);
+                $("<div></div>").addClass("direct-chat-text")
+                    .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
+                    .html(message)
+                    .appendTo(dialogDiv);
 
-                        $("#chatbox").append(dialogDiv);
+                $("#chatbox").append(dialogDiv);
+            }
+
+            $.connection.hub.start().done(function () {
+                $("#sendmessage").click(function () {
+
+                    if ($("#message").val() == "") {
+                        alert("請輸入訊息");
+                        return;
                     }
 
-                    $.connection.hub.start().done(function () {
-                        $("#sendmessage").click(function () {
+                    let dialogDiv = $("<div></div>").addClass("direct-chat-msg");
 
-                            if ($("#message").val() == "") {
-                                alert("請輸入訊息");
-                                return;
-                            }
+                    $("<div></div>").addClass("direct-chat-infos clearfix")
+                        .append($("<span></span>").addClass("direct-chat-name float-left").text("@Session["UserName"]"))
+                        .append($("<span></span>").addClass("direct-chat-timestamp float-right").text(moment(new Date()).format("M/D HH:mm")))
+                        .appendTo(dialogDiv);
 
-                            let dialogDiv = $("<div></div>").addClass("direct-chat-msg");
+                    $("<img/>").addClass("direct-chat-img")
+                        .attr("src", "/Areas/Admin/Content/UserImage/@Session["ImagePath"]")
+                        .appendTo(dialogDiv);
 
-                            $("<div></div>").addClass("direct-chat-infos clearfix")
-                                .append($("<span></span>").addClass("direct-chat-name float-left").text("@Session["UserName"]"))
-                                .append($("<span></span>").addClass("direct-chat-timestamp float-right").text(moment(new Date()).format("M/D HH:mm")))
-                                .appendTo(dialogDiv);
+                    $("<div></div>").addClass("direct-chat-text")
+                        .text($("#message").val())
+                        .appendTo(dialogDiv);
 
-                            $("<img/>").addClass("direct-chat-img")
-                                .attr("src", "/Areas/Admin/Content/UserImage/@Session["ImagePath"]")
-                                .appendTo(dialogDiv);
+                    $("#chatbox").append(dialogDiv);
 
-                            $("<div></div>").addClass("direct-chat-text")
-                                .text($("#message").val())
-                                .appendTo(dialogDiv);
-
-                            $("#chatbox").append(dialogDiv);
-
-                            $.ajax({
-                                url: "Chat",
-                                method: "POST",
-                                data: {
-                                    connId: $.connection.hub.id,
-                                    message: $("#message").val()
-                                }
-                            });
-                        });
+                    $.ajax({
+                        url: "Chat",
+                        method: "POST",
+                        data: {
+                            connId: $.connection.hub.id,
+                            message: $("#message").val()
+                        }
                     });
                 });
+            });
+        });
 
     </script>
 }

@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace UI.Controllers
 {
+    [System.Web.Mvc.Authorize]
     public class FrontContactController : Controller
     {
         // GET: FrontContact

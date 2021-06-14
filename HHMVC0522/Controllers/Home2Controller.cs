@@ -21,14 +21,6 @@ namespace UI.Controllers
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPosts();
 
-            //==========================
-            //恩旗
-            //if (Session["ID"] != null)
-            //{
-            //    SetWeightLogSession();
-            //}
-            //==========================
-
             return View(layoutDTO);
         }
 
@@ -79,6 +71,7 @@ namespace UI.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index");
         }
+
         public ActionResult PostDetail(int ID)
         {
             layoutBLL = new LayoutBLL();

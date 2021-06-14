@@ -78,6 +78,11 @@
             border-color:transparent !important;
             box-shadow:none !important;
         }
+
+        .gm-style-iw > button {
+            border: none !important;
+            box-shadow: none !important;
+        }
     </style>
 
 }
@@ -110,6 +115,17 @@
 
 
     function initMap() {
+
+        let keyword = "@Html.Raw(ViewBag.Keyword)";
+
+        //=========================================
+        //For 五行健康操
+        if (keyword == "五行健康操") {
+            $("#map").append($("<iframe></iframe>").css("width", "100%").css("height", "100%")
+                .attr("src", "https://www.youtube.com/embed/RKB4NxhENyY"));
+            return;
+        }
+        //=========================================
 
         infowindow = new google.maps.InfoWindow({
             pixelOffset: new google.maps.Size(0, 20)
