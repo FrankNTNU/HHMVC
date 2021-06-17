@@ -72,11 +72,15 @@
             align-items: center !important;
         }
 
+        button[aria-label="顯示衛星圖"] {
+            margin-left: 25px !important;
+        }
+
         button[aria-label="鍵盤快速鍵"] {
-            height:1em !important;
-            line-height:1em !important;
-            border-color:transparent !important;
-            box-shadow:none !important;
+            height: 1em !important;
+            line-height: 1em !important;
+            border-color: transparent !important;
+            box-shadow: none !important;
         }
 
         .gm-style-iw > button {
@@ -107,6 +111,8 @@
 
     $(function () {
         $(document).tooltip();
+
+        
     });
 
     // This example requires the Places library. Include the libraries=places
@@ -179,10 +185,10 @@
                     });
 
                     const cityCircle = new google.maps.Circle({
-                        strokeColor: "#FF0000",
+                        strokeColor: "#2894FF",
                         strokeOpacity: 0.8,
                         strokeWeight: 2,
-                        fillColor: "#FF0000",
+                        fillColor: "#2894FF",
                         fillOpacity: 0.35,
                         map,
                         center: map.getCenter(),
@@ -193,6 +199,7 @@
                 () => {
                     handleLocationError(true, infowindow, map.getCenter());
                 }
+
             );
         } else {
             // Browser doesn't support Geolocation

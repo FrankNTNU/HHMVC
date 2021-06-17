@@ -33,6 +33,7 @@ namespace UI.Controllers
 
                 decimal TDEE;
 
+                //todo when weight == 0, this TDEE is not right
                 if (member.Gender)
                 {
                     TDEE = 10 * weight + 6.25m * height + 5 * age - 5;
@@ -217,14 +218,24 @@ namespace UI.Controllers
             string todayString = today.ToString("MMddyyyy");
             string yesterdayString = today.AddDays(-1).ToString("MMddyyyy");
 
-            if (today.Hour >= 6)
+            int[] timeArray = { 6, 11, 14, 17, 21 };
+
+            for (int i = 0; i < 5; i++)
+            {
+                if (today.Hour >= timeArray[i])
+                {
+                    vm.IngestReport[i] = ingestPerTime(todayString, i + 1);
+                }
+            }
+
+            if (today.Hour >= 6 && today.Hour < 11)
             {
                 if (ingestPerTime(yesterdayString, 5) == 0)
                 {
                     vm.Suggestion.Add("昨天沒吃宵夜，太讚了");
                 }
 
-                vm.IngestReport[0] = ingestPerTime(todayString, 1);
+                //vm.IngestReport[0] = ingestPerTime(todayString, 1);
 
                 if (vm.IngestReport[0] == 0)
                 {
@@ -241,16 +252,16 @@ namespace UI.Controllers
 
             }
             
-            if (today.Hour >= 11)
+            if (today.Hour >= 11 && today.Hour < 14)
             {
-                vm.Suggestion.Clear();
+                //vm.Suggestion.Clear();
                 
                 if (vm.IngestReport[0] == 0)
                 {
                     vm.Suggestion.Add("要養成吃早餐的習慣喔");
                 }
 
-                vm.IngestReport[1] = ingestPerTime(todayString, 2);
+                //vm.IngestReport[1] = ingestPerTime(todayString, 2);
 
                 if (vm.IngestReport[1] == 0)
                 {
@@ -267,16 +278,16 @@ namespace UI.Controllers
 
             }
             
-            if (today.Hour >= 14)
+            if (today.Hour >= 14 && today.Hour < 17)
             {
-                vm.Suggestion.Clear();
+                //vm.Suggestion.Clear();
 
                 if (vm.IngestReport[1] == 0)
                 {
                     vm.Suggestion.Add("哇，過了中午都還沒吃啊");
                 }
 
-                vm.IngestReport[2] = ingestPerTime(todayString, 3);
+                //vm.IngestReport[2] = ingestPerTime(todayString, 3);
 
                 if (vm.IngestReport[2] == 0)
                 {
@@ -293,18 +304,17 @@ namespace UI.Controllers
 
             }
             
-            if (today.Hour >= 17)
+            if (today.Hour >= 17 && today.Hour < 21)
             {
-                vm.Suggestion.Clear();
+                //vm.Suggestion.Clear();
 
                 if (vm.IngestReport[2] == 0)
                 {
                     vm.Suggestion.Add("沒有偷吃點心，good");
                 }
 
-                vm.IngestReport[3] = ingestPerTime(todayString, 4);
+                //vm.IngestReport[3] = ingestPerTime(todayString, 4);
 
-                
                 if (vm.IngestReport[3] == 0)
                 {
                     vm.Suggestion.Add("記得吃晚餐喔");
@@ -322,14 +332,14 @@ namespace UI.Controllers
             
             if (today.Hour >= 21)
             {
-                vm.Suggestion.Clear();
+                //vm.Suggestion.Clear();
 
                 if (vm.IngestReport[3] == 0)
                 {
                     vm.Suggestion.Add("沒吃晚餐，會不會睡不著啊");
                 }
 
-                vm.IngestReport[4] = ingestPerTime(todayString, 5);
+                //vm.IngestReport[4] = ingestPerTime(todayString, 5);
 
                 if (vm.IngestReport[4] == 0)
                 {
@@ -630,13 +640,8 @@ namespace UI.Controllers
             if (wps == null)
             {
                 wps = new int[] { };
-                Session["NoPreferences"] = true;
             }
-            else
-            {
-                Session["NoPreferences"] = false;
-            }
-
+                
             int MemberID = (int)Session["ID"];
 
             List<WorkoutPreference> wpList = dbContext.WorkoutPreferences
@@ -665,6 +670,14 @@ namespace UI.Controllers
             try
             {
                 dbContext.SaveChanges();
+                if (wps.Length == 0)
+                {
+                    Session["NoPreferences"] = true;
+                }
+                else
+                {
+                    Session["NoPreferences"] = false;
+                }
             }
             catch
             {

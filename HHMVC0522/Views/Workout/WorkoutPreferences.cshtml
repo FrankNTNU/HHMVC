@@ -301,6 +301,9 @@
                     },
                     success: function (result) {
                         alert(result);
+                        if (wps.length && $("#preferencesNotify").length) {
+                            $("#preferencesNotify").remove();
+                        }
                     }
                 });
             });

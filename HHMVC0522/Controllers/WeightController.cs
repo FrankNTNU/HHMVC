@@ -105,9 +105,11 @@ namespace UI.Controllers
             try
             {
                 db.SaveChanges();
+                Session["NoWeightLog"] = false;
             }
             catch (Exception ex)
             {
+                
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 

@@ -57,12 +57,20 @@
 <!--恩旗-->
 @if (Session["ID"] != null)
 {
-    var controller = ViewContext.Controller as Controller;
-    Home2Controller.SetWeightLogSession(controller.HttpContext);
-    Home2Controller.SetPreferencesSession(controller.HttpContext);
     if (Session["dialogShown"] == null)
     {
         Session["dialogShown"] = false;
+    }
+    else
+    {
+        Session["dialogShown"] = true;
+    }
+
+    if (!(bool)Session["dialogShown"])
+    {
+        var controller = ViewContext.Controller as Controller;
+        Home2Controller.SetWeightLogSession(controller.HttpContext);
+        Home2Controller.SetPreferencesSession(controller.HttpContext);
     }
 }
 <!--================================================================-->
