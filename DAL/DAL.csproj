@@ -101,6 +101,9 @@
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ActivityLevelDAO.cs" />
+    <Compile Include="Chat.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Comment.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
@@ -152,6 +155,9 @@
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Nutrient.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Point.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Post.cs">

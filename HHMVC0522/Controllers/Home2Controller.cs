@@ -3,6 +3,7 @@ using DAL;
 using DTO;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -126,6 +127,14 @@ namespace UI.Controllers
         [HttpPost]
         public void SetDialogShownSession() {
             Session["dialogShown"] = true;
+
+            if (Request.Cookies["PointShown"] == null)
+            {
+                HttpCookie cook = new HttpCookie("PointShown");
+                cook.Value = "true";
+                cook.Expires = DateTime.Now.AddDays(1).Date;
+                Response.Cookies.Add(cook);
+            }
         }
 
         //determine if last 7 days has no weight log
@@ -169,6 +178,28 @@ namespace UI.Controllers
             {
                 context.Session["NoPreferences"] = false;
             }
+        }
+
+        //determine if user gets points in yesterday's settlement
+        public static void SetPointsSession(HttpContextBase context)
+        {
+            HealthHelperEntities dbContext = new HealthHelperEntities();
+
+            int MemberID = (int)context.Session["ID"];
+
+            DateTime yesterday = DateTime.Now.Date.AddDays(-1).Date;
+
+            var yesterdayPoints = dbContext.Points.Where(pts => pts.MemberID == MemberID
+                && DbFunctions.TruncateTime(pts.GetPointsDateTime) == yesterday)
+                .Select(pts => pts.GetPoints).DefaultIfEmpty(0).Sum();
+
+            context.Session["GotPoints"] = yesterdayPoints;
+            //HttpCookie cook = context.Request.Cookies["ShowPoints"];
+            //if (cook == null)
+            //{
+            //    cook.Value = true.ToString();
+            //    context.Response.Cookies
+            //}
         }
 
         //=========================================================

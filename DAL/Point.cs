@@ -12,20 +12,15 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Comment
+    public partial class Point
     {
         public int ID { get; set; }
-        public string Title { get; set; }
-        public string CommentContent { get; set; }
         public int MemberID { get; set; }
-        public System.DateTime AddDate { get; set; }
-        public bool IsApproved { get; set; }
-        public string Feedback { get; set; }
-        public Nullable<int> PostID { get; set; }
-        public Nullable<int> CommentID { get; set; }
-        public string Name { get; set; }
+        public int GetPoints { get; set; }
+        public System.DateTime GetPointsDateTime { get; set; }
+        public int StatusID { get; set; }
     
         public virtual Member Member { get; set; }
-        public virtual Post Post { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

@@ -26,6 +26,7 @@ namespace DAL
         }
     
         public virtual DbSet<ActivityLevel> ActivityLevels { get; set; }
+        public virtual DbSet<Chat> Chats { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<DietLog> DietLogs { get; set; }
         public virtual DbSet<GiftCart> GiftCarts { get; set; }
@@ -37,6 +38,7 @@ namespace DAL
         public virtual DbSet<MealTag> MealTags { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Nutrient> Nutrients { get; set; }
+        public virtual DbSet<Point> Points { get; set; }
         public virtual DbSet<PostCategory> PostCategories { get; set; }
         public virtual DbSet<PostImage> PostImages { get; set; }
         public virtual DbSet<Post> Posts { get; set; }

@@ -16,31 +16,125 @@ namespace UI.Controllers
     {
         HealthHelperEntities dbContext = new HealthHelperEntities();
 
+        //todo If user has a program, TDEE is calculated by initialWeight
         public decimal TDEE
         {
             get
             {
-                DateTime zeroTime = new DateTime(1, 1, 1);
-                DateTime today = DateTime.Now.Date;
-                DateTime tomorrow = today.AddDays(1);
+                //DateTime zeroTime = new DateTime(1, 1, 1);
+                //DateTime today = DateTime.Now.Date;
+                //DateTime tomorrow = today.AddDays(1);
+
+                //int MemberID = (int)Session["ID"];
+
+                //Member member = dbContext.Members.SingleOrDefault(m => m.ID == MemberID);
+                //decimal weight = GetCurrentWeight(tomorrow);
+                //int age = (zeroTime + (today - member.Birthdate)).Year - 1;
+                //decimal height = (decimal)member.Height;
+
+                //decimal TDEE;
+                //decimal pal = 0;
+
+                //switch (member.ActivityLevelID)
+                //{
+                //    case 6:
+                //        pal = 1.2m;
+                //        break;
+                //    case 1:
+                //        pal = 1.4m;
+                //        break;
+                //    case 2:
+                //        pal = 1.6m;
+                //        break;
+                //    case 3:
+                //        pal = 1.8m;
+                //        break;
+                //}
+
+                ////todo when weight == 0, this TDEE is not right
+                //if (member.Gender)
+                //{
+                //    TDEE = (10 * weight + 6.25m * height + 5 * age - 5) * pal;
+                //}
+                //else
+                //{
+                //    TDEE = (10 * weight + 6.25m * height + 5 * age - 161) * pal;
+                //}
+
+                //return TDEE;
+
+                //================================================================
+                //TDEE calculated by pal
+                DateTime taipeiToday = DateTime.Now;
+
+                var wgtList = dbContext.WeightLogs.OrderByDescending(wgtl => wgtl.UpdatedDate).ToList();
+                var prgList = dbContext.Programs.Where(prg => prg.StartDate <= taipeiToday.Date
+                    && prg.EndDate >= taipeiToday.Date && prg.StatusID == 1)
+                    .OrderByDescending(prg => prg.StartDate);
 
                 int MemberID = (int)Session["ID"];
-
                 Member member = dbContext.Members.SingleOrDefault(m => m.ID == MemberID);
-                decimal weight = GetCurrentWeight(tomorrow);
-                int age = (zeroTime + (today - member.Birthdate)).Year - 1;
-                decimal height = (decimal)member.Height;
 
-                decimal TDEE;
+                decimal weight = 0;
 
-                //todo when weight == 0, this TDEE is not right
-                if (member.Gender)
+                var program = prgList.SingleOrDefault(prg => prg.MemberID == MemberID);
+
+                if (program != null)
                 {
-                    TDEE = 10 * weight + 6.25m * height + 5 * age - 5;
+                    weight = program.InitialWeight;
                 }
                 else
                 {
-                    TDEE = 10 * weight + 6.25m * height + 5 * age - 161;
+                    WeightLog wgtLog = wgtList.FirstOrDefault(wgt => wgt.MemberID == MemberID);
+                    if (wgtLog != null)
+                    {
+                        weight = (decimal)wgtLog.Weight;
+                    }
+                }
+
+                //age
+                DateTime zeroTime = new DateTime(1, 1, 1);
+                int age = (zeroTime + (taipeiToday - member.Birthdate)).Year - 1;
+
+                //pal
+                decimal pal = 0;
+
+                int al = 0;
+
+                if (program != null)
+                {
+                    al = program.ActivityLevelID;
+                }
+                else
+                {
+                    al = member.ActivityLevelID;
+                }
+
+                switch (al)
+                {
+                    case 6:
+                        pal = 1.2m;
+                        break;
+                    case 1:
+                        pal = 1.4m;
+                        break;
+                    case 2:
+                        pal = 1.6m;
+                        break;
+                    case 3:
+                        pal = 1.8m;
+                        break;
+                }
+
+                //TDEE
+                decimal TDEE = 0;
+                if (member.Gender)
+                {
+                    TDEE = (10 * weight + 6.25m * (decimal)member.Height + 5 * (decimal)age - 5) * pal;
+                }
+                else
+                {
+                    TDEE = (10 * weight + 6.25m * (decimal)member.Height + 5 * (decimal)age - 161) * pal;
                 }
 
                 return TDEE;
@@ -365,7 +459,7 @@ namespace UI.Controllers
                 .Where(wp => wp.MemberID == MemberID)
                 .SelectMany(wp => wp.WorkoutCategory.Workouts);
 
-            decimal warning = todayIngest / TDEE * 100;
+            decimal warning = todayIngest / this.TDEE * 100;
 
             vm.Warning = $"為TDEE的 {warning:0.00}%";
 

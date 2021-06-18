@@ -51,6 +51,13 @@
             background-color: #f56a6a;
             color: white;
         }
+
+        .points {
+            font-size: 1.5em;
+            font-weight: 600;
+            font-style: italic;
+            color: #f56a6a;
+        }
     </style>
 </head>
 
@@ -61,16 +68,17 @@
     {
         Session["dialogShown"] = false;
     }
-    else
-    {
-        Session["dialogShown"] = true;
-    }
+    //else
+    //{
+    //    Session["dialogShown"] = true;
+    //}
 
     if (!(bool)Session["dialogShown"])
     {
         var controller = ViewContext.Controller as Controller;
         Home2Controller.SetWeightLogSession(controller.HttpContext);
         Home2Controller.SetPreferencesSession(controller.HttpContext);
+        Home2Controller.SetPointsSession(controller.HttpContext);
     }
 }
 <!--================================================================-->
@@ -304,10 +312,20 @@
     //恩旗
     //Show NoWeightLog dialog
     $(function () {
+        var gotPoints = @Json.Encode(Session["GotPoints"]);
         var noWeightLog = @Json.Encode(Session["NoWeightLog"]);
         var noPreferences = @Json.Encode(Session["NoPreferences"]);
 
         var dialogShown = @Json.Encode(Session["dialogShown"]);
+        var pointShown = @Html.Raw(Request.Cookies["PointShown"] == null ? "false" : Request.Cookies["PointShown"].Value);
+
+        if (!pointShown && gotPoints > 0) {
+            let points = $("<span></span>").text(gotPoints)
+                .addClass("points");
+
+            $("#dialogDiv > ul").append($("<li></li>").append("昨天共得到了", points, " 點！"));
+
+        }
 
         if (noWeightLog) {
             $("#dialogDiv > ul").append($("<li></li>").append("已經7天沒紀錄體重了"));
