@@ -677,6 +677,8 @@
     <Content Include="Content\img\slides\refine\slide3.png" />
     <Content Include="Content\img\small-avatar.png" />
     <Content Include="Content\img\ui.totop.png" />
+    <Content Include="Content\jquery-ui-monthpicker\jquery.mtz.monthpicker.js" />
+    <Content Include="Content\jquery-ui-monthpicker\jquery.ui.monthpicker.js" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\Gift\GiftList.cshtml" />
     <Content Include="Areas\Admin\Views\Gift\AddGift.cshtml" />
@@ -690,7 +692,6 @@
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.slim.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.slim.min.js" />
-    <Content Include="Content\jquery-ui-monthpicker\jquery.mtz.monthpicker.js" />
     <Content Include="Content\jquery-ui-timepicker\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\jquery-ui-timepicker\jquery-ui-timepicker-addon.js" />
     <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\AUTHORS.txt" />

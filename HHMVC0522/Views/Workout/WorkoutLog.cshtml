@@ -348,11 +348,13 @@
                     $(".dataTables_wrapper").prepend($(wrap));
 
                     $(input1).datepicker({
+                        dateFormat: "yy/mm/dd",
                         changeMonth: true,
                         changeYear: true
                     });
 
                     $(input2).datepicker({
+                        dateFormat: "yy/mm/dd",
                         changeMonth: true,
                         changeYear: true
                     });
@@ -520,8 +522,8 @@
 
                 let wTime = new Date($("#wTimeForNew").datetimepicker().val());
                 let status = $(this).attr("data-status");
-                let wName = $("#wNameForNew option:selected").text();
-                let wHours = parseFloat($("#wHoursForNew").val());
+                //let wName = $("#wNameForNew option:selected").text();
+                //let wHours = parseFloat($("#wHoursForNew").val());
 
                 $.ajax({
                     url: "AddWorkoutLog",
@@ -662,7 +664,7 @@
                 }
 
                 let rowData = table.row(this).data();
-                console.log(rowData.WorkoutTime);
+                
                 let workoutTime = new Date(moment(rowData.WorkoutTime).format("MM/DD/yyyy HH:mm"));
 
                 let status = null;

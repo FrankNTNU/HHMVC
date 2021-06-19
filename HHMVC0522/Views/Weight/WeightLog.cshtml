@@ -202,7 +202,7 @@
                     {
                         targets: [1],
                         render: function (date) {
-                            return moment(date).format("MM月DD日yyyy年 HH:mm");
+                            return moment(date).format("yyyy年MM月DD日 HH:mm");
                         },
                         type: "datetime"
                     }
@@ -245,11 +245,13 @@
                     $(".dataTables_wrapper").prepend($(wrap));
 
                     $(input1).datepicker({
+                        dateFormat: "yy/mm/dd",
                         changeMonth: true,
                         changeYear: true
                     });
 
                     $(input2).datepicker({
+                        dateFormat: "yy/mm/dd",
                         changeMonth: true,
                         changeYear: true
                     });
@@ -282,30 +284,33 @@
             //========================================================
             //Initiate MonthPicker
             $("#chartStart").monthpicker({
-                pattern: 'mm月yyyy年',
+                pattern: 'yyyy/mm',
                 startYear: 2018,
                 finalYear: 2025
             });
 
             $("#chartEnd").monthpicker({
-                pattern: 'mm月yyyy年',
+                pattern: 'yyyy/mm',
                 startYear: 2018,
                 finalYear: 2025
             });
 
-            $("#chartStart").val(`01月${today.getFullYear()}年`);
+            $("#chartStart").val(`${today.getFullYear()}/01`);
 
-            $("#chartEnd").val(moment(today).format("MM月yyyy年"));
+            $("#chartEnd").val(moment(today).format("yyyy/MM"));
 
             //======================================================
             //Initiate Highchart
 
-            let initialMonthRange = GetMonthArray(`01月${today.getFullYear()}年`, moment(today).format("MM月yyyy年"));
+            let initialMonthRange = GetMonthArray($("#chartStart").val(), $("#chartEnd").val());
+
+            let startString = moment(new Date($("#chartStart").val())).format("yyyy年MM月");
+            let endString = moment(new Date($("#chartEnd").val())).format("yyyy年MM月");
 
             let chart = Highcharts.chart('highChart', {
 
                 title: {
-                    text: $("#chartStart").val() + " 至 " + $("#chartEnd").val() + " 期間的體重變化"
+                    text: startString + " 至 " + endString + " 期間的體重變化"
                 },
 
                 subtitle: {
@@ -367,8 +372,11 @@
 
             $("#btnReload").click(function () {
 
+                startString = moment(new Date($("#chartStart").val())).format("yyyy年MM月");
+                endString = moment(new Date($("#chartEnd").val())).format("yyyy年MM月");
+
                 chart.setTitle({
-                    text: $("#chartStart").val() + " 至 " + $("#chartEnd").val() + " 期間的體重變化"
+                    text: startString + " 至 " + endString + " 期間的體重變化"
                 });
 
                 let monthArray = GetMonthArray($("#chartStart").val(), $("#chartEnd").val());
@@ -380,8 +388,8 @@
                     type: "post",
                     data: {
                         __RequestVerificationToken: token,
-                        startMonth: moment(new Date(moment($("#chartStart").val(), "MM月yyyy年"))).format("YYYY-MM-DD HH:mm"),
-                        endMonth: moment(new Date(moment($("#chartEnd").val(), "MM月yyyy年"))).format("YYYY-MM-DD HH:mm")
+                        startMonth: moment(new Date(moment($("#chartStart").val(), "yyyy/MM"))).format("YYYY-MM-DD HH:mm"),
+                        endMonth: moment(new Date(moment($("#chartEnd").val(), "yyyy/MM"))).format("YYYY-MM-DD HH:mm")
                     },
                     success: function (data) {
 
@@ -393,7 +401,7 @@
             //===========================================================
             //Row Selection
 
-            $('#weightTable').on('click', 'tr', function () {
+            $('#weightTable').on('click', 'tbody tr', function () {
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
                 }
@@ -404,7 +412,7 @@
 
                 rowData = table.row(this).data();
 
-                $("#wgtDateForEdit").text(moment(rowData.UpdatedDate).format("MM月DD日yyyy年"));
+                $("#wgtDateForEdit").text(moment(rowData.UpdatedDate).format("yyyy年MM月DD日"));
                 $("#wgtForEdit").val(rowData.Weight);
 
                 let updatedDate = new Date(moment(rowData.UpdatedDate).format("MM/DD/yyyy"));
@@ -417,7 +425,7 @@
                 } else {
 
                     $("#wgtForEdit").removeAttr("disabled", true);
-                    $("#btnEdit").text("修改").addClass("primary").removeAttr("disabled", true);
+                    $("#btnEdit").text("修改").addClass("primary").removeAttr("disabled");
                 }
             });
 
@@ -457,6 +465,10 @@
 
             $("#btnEdit").click(function () {
 
+                if ($("#btnEdit").attr("disabled")) {
+                    return;
+                }
+
                 let patt = /^[0-9]+[.]?[0-9]*$/
 
                 if (!patt.test($("#wgtForEdit").val())) {
@@ -495,7 +507,7 @@
                     max = maxDate.getTime();
                 }
 
-                var date = moment(data[1], "MM月DD日yyyy年").valueOf();
+                var date = moment(data[1], "yyyy年MM月DD日").valueOf();
 
                 if (
                     (min === null && max === null) ||
@@ -510,8 +522,8 @@
         );
 
         function GetMonthArray(startMonth, endMonth) {
-            startMonth = new Date(moment(startMonth, "MM月yyyy年"));
-            endMonth = new Date(moment(endMonth, "MM月yyyy年"));
+            startMonth = new Date(moment(startMonth, "yyyy/MM"));
+            endMonth = new Date(moment(endMonth, "yyyy/MM"));
 
             let monthArray = [];
 
@@ -519,7 +531,7 @@
                 || startMonth.getFullYear() == endMonth.getFullYear()
                 && startMonth.getMonth() <= endMonth.getMonth()) {
 
-                monthArray.push(`${startMonth.getMonth() + 1}月${startMonth.getFullYear()}年`);
+                monthArray.push(`${startMonth.getFullYear()}年${startMonth.getMonth() + 1}月`);
                 startMonth.setMonth(startMonth.getMonth() + 1);
             }
 
@@ -527,8 +539,8 @@
         }
 
         jQuery.fn.dataTableExt.oSort['datetime-asc'] = function (x, y) {
-            let xDate = new Date(moment(x, "MM月DD日yyyy年 HH:mm"));
-            let yDate = new Date(moment(y, "MM月DD日yyyy年 HH:mm"));
+            let xDate = new Date(moment(x, "yyyy年MM月DD日 HH:mm"));
+            let yDate = new Date(moment(y, "yyyy年MM月DD日 HH:mm"));
             if (xDate.getTime() > yDate.getTime()) {
                 return 1;
             } else {
@@ -537,8 +549,8 @@
         };
 
         jQuery.fn.dataTableExt.oSort['datetime-desc'] = function (x, y) {
-            let xDate = new Date(moment(x, "MM月DD日yyyy年 HH:mm"));
-            let yDate = new Date(moment(y, "MM月DD日yyyy年 HH:mm"));
+            let xDate = new Date(moment(x, "yyyy年MM月DD日 HH:mm"));
+            let yDate = new Date(moment(y, "yyyy年MM月DD日 HH:mm"));
             if (xDate.getTime() > yDate.getTime()) {
                 return -1;
             } else {
