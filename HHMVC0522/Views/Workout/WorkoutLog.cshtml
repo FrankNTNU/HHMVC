@@ -297,9 +297,16 @@
                         searchable: false
                     },
                     {
-                        targets: [2, 4],
+                        targets: [2],
                         render: function (date) {
-                            return moment(date).format("MM月DD日yyyy年 HH:mm");
+                            return moment(date).format("yyyy年MM月DD日 HH:mm:ss");
+                        },
+                        type: "datetime"
+                    },
+                    {
+                        targets: [4],
+                        render: function (date) {
+                            return moment(date).format("yyyy年MM月DD日 HH:mm");
                         },
                         type: "datetime"
                     }
@@ -370,6 +377,11 @@
                         $("#WcForNew").text(data.Wc);
                     }
                 });
+
+                if ($("#wHoursForNew").val() != "") {
+
+                    $("#wHoursForNew").change();
+                }
             });
 
             $("#wNameForEdit").change(function () {
@@ -386,6 +398,11 @@
                         $("#WcForEdit").text(data.Wc);
                     }
                 });
+
+                if ($("#wHoursForEdit").val() != "") {
+                    $("#wHoursForEdit").change();
+                }
+                
             });
 
             $("#wNameForNew").change();
@@ -407,7 +424,8 @@
                 maxDate: d8,
                 showButtonPanel: false,
                 changeMonth: true,
-                changeYear: true
+                changeYear: true,
+                dateFormat: "yy/mm/dd"
             });
 
             $("#wTimeForNew").change(function () {
@@ -441,7 +459,8 @@
                 maxDate: d8,
                 showButtonPanel: false,
                 changeMonth: true,
-                changeYear: true
+                changeYear: true,
+                dateFormat: "yy/mm/dd"
             });
 
             $("#wTimeForEdit").change(function () {
@@ -633,7 +652,7 @@
             //===================================================================
             //Row Selection
 
-            $('#wlTable').on('click', 'tr', function () {
+            $('#wlTable').on('click', 'tbody tr', function () {
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
                 }
@@ -643,6 +662,7 @@
                 }
 
                 let rowData = table.row(this).data();
+                console.log(rowData.WorkoutTime);
                 let workoutTime = new Date(moment(rowData.WorkoutTime).format("MM/DD/yyyy HH:mm"));
 
                 let status = null;
@@ -668,13 +688,13 @@
                 } else if (status == 5 || status == 6) {
                     $("#wTimeForEdit").datetimepicker("option", "minDate", d7b);
                     $("#wTimeForEdit").datetimepicker("option", "maxDate", beforeTomorrow);
-                    $("#wTimeForEdit").removeAttr("disabled", true);
+                    $("#wTimeForEdit").removeAttr("disabled");
                 }
 
                 beforeEditStatus = status;
 
                 $("#wNameForEdit").val(rowData.WorkoutID);
-                $("#wTimeForEdit").val(moment(rowData.WorkoutTime).format("MM/DD/yyyy HH:mm"));
+                $("#wTimeForEdit").val(moment(rowData.WorkoutTime).format("yyyy/MM/DD HH:mm"));
                 $("#wTimeForEdit").change();
                 $("#wHoursForEdit").val(rowData.WorkoutHours);
                 $("#wStatusForEdit").val(status);
@@ -692,18 +712,18 @@
                     $("#Edit").text("無法修改").removeClass("primary").attr("disabled", true);
 
                 } else {
-                    $("#wNameForEdit").removeAttr("disabled", true);
-                    $("#wHoursForEdit").removeAttr("disabled", true);
+                    $("#wNameForEdit").removeAttr("disabled");
+                    $("#wHoursForEdit").removeAttr("disabled");
 
                     if (!(status == 4 && workoutTime.toDateString() == today.toDateString())) {
-                        $("#wTimeForEdit").removeAttr("disabled", true);
+                        $("#wTimeForEdit").removeAttr("disabled");
                     }
 
                     if ($("#wStatusForEdit").val() != 4) {
-                        $("#wStatusForEdit").removeAttr("disabled", true);
+                        $("#wStatusForEdit").removeAttr("disabled");
                     }
 
-                    $("#Edit").text("修改").addClass("primary").removeAttr("disabled", true);
+                    $("#Edit").text("修改").addClass("primary").removeAttr("disabled");
                 }
 
                 $("#wHoursForEdit").change();
@@ -725,7 +745,7 @@
                     max = maxDate.getTime();
                 }
 
-                var date = moment(data[4], "MM月DD日yyyy年").valueOf();
+                var date = moment(data[4], "yyyy年MM月DD日").valueOf();
 
                 if (
                     (min === null && max === null) ||
@@ -740,8 +760,8 @@
         );
 
         jQuery.fn.dataTableExt.oSort['datetime-asc'] = function (x, y) {
-            let xDate = new Date(moment(x, "MM月DD日yyyy年 HH:mm"));
-            let yDate = new Date(moment(y, "MM月DD日yyyy年 HH:mm"));
+            let xDate = new Date(moment(x, "yyyy年MM月DD日 HH:mm"));
+            let yDate = new Date(moment(y, "yyyy年MM月DD日 HH:mm"));
             if (xDate.getTime() > yDate.getTime()) {
                 return 1;
             } else {
@@ -750,8 +770,8 @@
         };
 
         jQuery.fn.dataTableExt.oSort['datetime-desc'] = function (x, y) {
-            let xDate = new Date(moment(x, "MM月DD日yyyy年 HH:mm"));
-            let yDate = new Date(moment(y, "MM月DD日yyyy年 HH:mm"));
+            let xDate = new Date(moment(x, "yyyy年MM月DD日 HH:mm"));
+            let yDate = new Date(moment(y, "yyyy年MM月DD日 HH:mm"));
             if (xDate.getTime() > yDate.getTime()) {
                 return -1;
             } else {

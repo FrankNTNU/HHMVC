@@ -196,8 +196,37 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult AddWorkoutLog(WorkoutLog wl)
         {
+            //======================================================================
+            //check the time interval if overlapped
+            int MemberID = (int)Session["ID"];
+            DateTime today = DateTime.Now.Date;
+            DateTime d8 = DateTime.Now.Date.AddDays(8);
 
-            wl.MemberID = (int)Session["ID"];
+            var wlList = dbContext.WorkoutLogs.Where(wl1 => wl1.MemberID == MemberID
+                && DbFunctions.TruncateTime(wl1.WorkoutTime) >= today
+                && DbFunctions.TruncateTime(wl1.WorkoutTime) < d8).ToList();
+
+            DateTime workoutStart = wl.WorkoutTime;
+            DateTime workoutEnd = workoutStart.AddHours(wl.WorkoutHours);
+
+            foreach (var wl1 in wlList)
+            {
+                DateTime wStart = wl1.WorkoutTime;
+                DateTime wEnd = wStart.AddHours(wl1.WorkoutHours);
+
+                if (!((workoutStart < wStart && workoutEnd <= wStart) 
+                    || (workoutStart >= wEnd && workoutEnd > wEnd)))
+                {
+                    return Json(new 
+                    { 
+                        Result = $"此運動時間區間已有其他紀錄\n(運動時間：{wl1.WorkoutTime}，運動項目：{wl1.Workout.Name})"
+                    });
+                }
+            }
+
+            //=====================================================================
+
+            wl.MemberID = MemberID;
             wl.EditTime = DateTime.Now;
 
             dbContext.WorkoutLogs.Add(wl);
@@ -244,6 +273,53 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult EditWorkoutLog(WorkoutLog wlToEdit)
         {
+            //======================================================================
+            //check the time interval if overlapped
+            int MemberID = (int)Session["ID"];
+
+            DateTime workoutStart = wlToEdit.WorkoutTime;
+            DateTime workoutEnd = workoutStart.AddHours(wlToEdit.WorkoutHours);
+
+            List<WorkoutLog> wlList = null;
+            DateTime tomorrow = DateTime.Now.AddDays(1).Date;
+
+            if (wlToEdit.StatusID == 4)
+            {
+                
+                DateTime d8 = DateTime.Now.Date.AddDays(8);
+                wlList = dbContext.WorkoutLogs.Where(wl1 => wl1.MemberID == MemberID
+                    && DbFunctions.TruncateTime(wl1.WorkoutTime) >= tomorrow
+                    && DbFunctions.TruncateTime(wl1.WorkoutTime) < d8).ToList();
+            }
+            else
+            {
+                DateTime d7b = DateTime.Now.Date.AddDays(-7);
+                wlList = dbContext.WorkoutLogs.Where(wl1 => wl1.MemberID == MemberID
+                    && DbFunctions.TruncateTime(wl1.WorkoutTime) < tomorrow
+                    && DbFunctions.TruncateTime(wl1.WorkoutTime) >= d7b).ToList();
+            }
+
+            foreach (var wl1 in wlList)
+            {
+                if (wl1.ID == wlToEdit.ID)
+                {
+                    continue;
+                }
+                DateTime wStart = wl1.WorkoutTime;
+                DateTime wEnd = wStart.AddHours(wl1.WorkoutHours);
+
+                if (!((workoutStart < wStart && workoutEnd <= wStart)
+                    || (workoutStart >= wEnd && workoutEnd > wEnd)))
+                {
+                    return Json(new
+                    {
+                        Result = $"此運動時間區間已有其他紀錄\n(運動時間：{wl1.WorkoutTime}，運動項目：{wl1.Workout.Name})"
+                    });
+                }
+            }
+
+            //======================================================================
+
 
             WorkoutLog workoutlog = dbContext.WorkoutLogs.SingleOrDefault(wl => wl.ID == wlToEdit.ID);
             workoutlog.MemberID = (int)Session["ID"];

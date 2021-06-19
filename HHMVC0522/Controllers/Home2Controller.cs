@@ -194,12 +194,7 @@ namespace UI.Controllers
                 .Select(pts => pts.GetPoints).DefaultIfEmpty(0).Sum();
 
             context.Session["GotPoints"] = yesterdayPoints;
-            //HttpCookie cook = context.Request.Cookies["ShowPoints"];
-            //if (cook == null)
-            //{
-            //    cook.Value = true.ToString();
-            //    context.Response.Cookies
-            //}
+            
         }
 
         //=========================================================
