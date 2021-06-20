@@ -12,17 +12,12 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Point
+    public partial class TempCustomerMealOption
     {
         public int ID { get; set; }
-        public int MemberID { get; set; }
-        public int GetPoints { get; set; }
-        public System.DateTime GetPointsDateTime { get; set; }
+        public string Name { get; set; }
+        public double Calories { get; set; }
+        public string ImagePath { get; set; }
         public int StatusID { get; set; }
-        public Nullable<int> ProgramID { get; set; }
-    
-        public virtual Member Member { get; set; }
-        public virtual Program Program { get; set; }
-        public virtual Status Status { get; set; }
     }
 }

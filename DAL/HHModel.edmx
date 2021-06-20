@@ -178,6 +178,7 @@
           <Property Name="GetPoints" Type="int" Nullable="false" />
           <Property Name="GetPointsDateTime" Type="datetime" Nullable="false" />
           <Property Name="StatusID" Type="int" Nullable="false" />
+          <Property Name="ProgramID" Type="int" />
         </EntityType>
         <EntityType Name="PostCategories">
           <Key>
@@ -222,6 +223,7 @@
           <Property Name="TargetWeight" Type="int" Nullable="false" />
           <Property Name="ActivityLevelID" Type="int" Nullable="false" />
           <Property Name="InitialWeight" Type="int" Nullable="false" />
+          <Property Name="ResultWeight" Type="int" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -239,6 +241,16 @@
           <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TempCustomerMealOptions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Calories" Type="float" Nullable="false" />
+          <Property Name="ImagePath" Type="nvarchar(max)" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TimesOfDay">
           <Key>
@@ -461,6 +473,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Points_Programs">
+          <End Role="Programs" Type="Self.Programs" Multiplicity="0..1" />
+          <End Role="Points" Type="Self.Points" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Programs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Points">
+              <PropertyRef Name="ProgramID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Points_Status">
           <End Role="Status" Type="Self.Status" Multiplicity="1" />
           <End Role="Points" Type="Self.Points" Multiplicity="*" />
@@ -662,6 +686,7 @@
           <EntitySet Name="Programs" EntityType="Self.Programs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TempCustomerMealOptions" EntityType="Self.TempCustomerMealOptions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TimesOfDay" EntityType="Self.TimesOfDay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeightLog" EntityType="Self.WeightLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkoutCategories" EntityType="Self.WorkoutCategories" Schema="dbo" store:Type="Tables" />
@@ -722,6 +747,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Points_Members" Association="Self.FK_Points_Members">
             <End Role="Members" EntitySet="Members" />
+            <End Role="Points" EntitySet="Points" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Points_Programs" Association="Self.FK_Points_Programs">
+            <End Role="Programs" EntitySet="Programs" />
             <End Role="Points" EntitySet="Points" />
           </AssociationSet>
           <AssociationSet Name="FK_Points_Status" Association="Self.FK_Points_Status">
@@ -993,7 +1022,9 @@
           <Property Name="GetPoints" Type="Int32" Nullable="false" />
           <Property Name="GetPointsDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <Property Name="ProgramID" Type="Int32" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Points_Members" FromRole="Points" ToRole="Members" />
+          <NavigationProperty Name="Program" Relationship="Self.FK_Points_Programs" FromRole="Points" ToRole="Programs" />
           <NavigationProperty Name="Status" Relationship="Self.FK_Points_Status" FromRole="Points" ToRole="Status" />
         </EntityType>
         <EntityType Name="PostCategory">
@@ -1046,8 +1077,10 @@
           <Property Name="TargetWeight" Type="Int32" Nullable="false" />
           <Property Name="ActivityLevelID" Type="Int32" Nullable="false" />
           <Property Name="InitialWeight" Type="Int32" Nullable="false" />
+          <Property Name="ResultWeight" Type="Int32" />
           <NavigationProperty Name="ActivityLevel" Relationship="Self.FK_Programs_ActivityLevels" FromRole="Programs" ToRole="ActivityLevels" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Programs_Members" FromRole="Programs" ToRole="Members" />
+          <NavigationProperty Name="Points" Relationship="Self.FK_Points_Programs" FromRole="Programs" ToRole="Points" />
           <NavigationProperty Name="Status" Relationship="Self.FK_Programs_Status" FromRole="Programs" ToRole="Status" />
         </EntityType>
         <EntityType Name="Status">
@@ -1070,6 +1103,16 @@
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TempCustomerMealOption">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Calories" Type="Double" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="TimesOfDay">
           <Key>
@@ -1388,6 +1431,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Points_Programs">
+          <End Role="Programs" Type="Self.Program" Multiplicity="0..1" />
+          <End Role="Points" Type="Self.Point" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Programs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Points">
+              <PropertyRef Name="ProgramID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Points_Status">
           <End Role="Status" Type="Self.Status" Multiplicity="1" />
           <End Role="Points" Type="Self.Point" Multiplicity="*" />
@@ -1505,6 +1560,7 @@
           <EntitySet Name="Programs" EntityType="Self.Program" />
           <EntitySet Name="Status" EntityType="Self.Status" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="TempCustomerMealOptions" EntityType="Self.TempCustomerMealOption" />
           <EntitySet Name="TimesOfDays" EntityType="Self.TimesOfDay" />
           <EntitySet Name="WeightLogs" EntityType="Self.WeightLog" />
           <EntitySet Name="WorkoutCategories" EntityType="Self.WorkoutCategory" />
@@ -1594,6 +1650,10 @@
           <AssociationSet Name="FK_WorkoutLog_Members" Association="Self.FK_WorkoutLog_Members">
             <End Role="Members" EntitySet="Members" />
             <End Role="WorkoutLog" EntitySet="WorkoutLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Points_Programs" Association="Self.FK_Points_Programs">
+            <End Role="Programs" EntitySet="Programs" />
+            <End Role="Points" EntitySet="Points" />
           </AssociationSet>
           <AssociationSet Name="FK_Points_Status" Association="Self.FK_Points_Status">
             <End Role="Status" EntitySet="Status" />
@@ -1819,6 +1879,7 @@
                 <ScalarProperty Name="GetPoints" ColumnName="GetPoints" />
                 <ScalarProperty Name="GetPointsDateTime" ColumnName="GetPointsDateTime" />
                 <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1867,6 +1928,7 @@
                 <ScalarProperty Name="TargetWeight" ColumnName="TargetWeight" />
                 <ScalarProperty Name="ActivityLevelID" ColumnName="ActivityLevelID" />
                 <ScalarProperty Name="InitialWeight" ColumnName="InitialWeight" />
+                <ScalarProperty Name="ResultWeight" ColumnName="ResultWeight" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1886,6 +1948,17 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TempCustomerMealOptions">
+            <EntityTypeMapping TypeName="HealthHelperModel.TempCustomerMealOption">
+              <MappingFragment StoreEntitySet="TempCustomerMealOptions">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Calories" ColumnName="Calories" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

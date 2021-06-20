@@ -182,6 +182,9 @@
     <Compile Include="sysdiagram.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TempCustomerMealOption.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TimesOfDay.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>

@@ -21,7 +21,7 @@
             color: red;
         }
 
-        #dialogDiv, #programEnd, #celebrate {
+        #dialogDiv, #programFrozen, #fanfare {
             display: none;
         }
 
@@ -63,6 +63,13 @@
             font-style: italic;
             color: #f56a6a;
         }
+
+        .programSuccessPts {
+            font-size: 3em;
+            font-weight: 600;
+            font-style: italic;
+            color: #f56a6a;
+        }
     </style>
 </head>
 
@@ -84,10 +91,10 @@
         Home2Controller.SetWeightLogSession(controller.HttpContext);
         Home2Controller.SetPreferencesSession(controller.HttpContext);
         Home2Controller.SetPointsSession(controller.HttpContext);
-        Home2Controller.SetProgramEndSession(controller.HttpContext);
+        Home2Controller.SetProgramFrozenSession(controller.HttpContext);
     }
 }
-}
+
 <!--================================================================-->
 
 <body class="is-preload">
@@ -298,12 +305,16 @@
 
     <!--dialog=======================================================-->
     <div id="dialogDiv"><ul></ul></div>
-    <div id="programEnd">
-        挑戰已結束，請輸入目前體重：
-        <input type="text" id="resultWeight" placeholder="目前體重" />
-        <label style="display:inline-block;font-size:1.2em"> kg</label>
+    <div id="programFrozen">
+        挑戰已結束，請輸入目前體重<br />
+        (還剩下&nbsp;<span style="color: #f56a6a"></span>&nbsp;天)：<br />
+        <input type="text" id="resultWeight" placeholder="目前體重" autocomplete="off" />
+        <label style="display:inline-block;font-size:1.2em">&nbsp;kg</label>
     </div>
-    <div id="celebrate"></div>
+    <div id="fanfare">
+        恭喜您挑戰成功，獲得了：
+        <div style="text-align:center"><span class="programSuccessPts"></span>&nbsp;點</div>
+    </div>
     <!--=============================================================-->
 
     <!-- Scripts -->
@@ -326,17 +337,17 @@
     //恩旗
     //Show NoWeightLog dialog
     $(function () {
-        var gotPoints = @Json.Encode(Session["GotPoints"]);
+        var getPoints = @Json.Encode(Session["GotPoints"]);
         var noWeightLog = @Json.Encode(Session["NoWeightLog"]);
         var noPreferences = @Json.Encode(Session["NoPreferences"]);
 
-        var programEnd = @Json.Encode(Session["ProgramFrozen"]);
+        var programFrozen = @Json.Encode(Session["ProgramFrozen"]);
 
         var dialogShown = @Json.Encode(Session["dialogShown"]);
         var pointShown = @Html.Raw(Request.Cookies["PointShown"] == null ? "false" : Request.Cookies["PointShown"].Value);
 
-        if (!pointShown && gotPoints > 0) {
-            let points = $("<span></span>").text(gotPoints)
+        if (!pointShown && getPoints > 0) {
+            let points = $("<span></span>").text(getPoints)
                 .addClass("points");
 
             $("#dialogDiv > ul").append($("<li></li>").append("昨天共得到了", points, " 點！"));
@@ -372,10 +383,9 @@
                             type: "POST"
                         });
 
-                        if (programEnd) {
-                            alertProgramEnd();
+                        if (programFrozen != null && programFrozen > -1) {
+                            alertProgramFrozen(programFrozen);
                         }
-
                     }
                 }]
             });
@@ -384,15 +394,16 @@
             $('.ui-dialog button').mousedown(function (e) {
                 e.preventDefault();
             });
-        } else {
-            alertProgramEnd();
+        } else if (!dialogShown && programFrozen != null && programFrozen > -1) {
+            alertProgramFrozen(programFrozen);
         }
     });
 
     
 
-    function alertProgramEnd() {
-        $("#programEnd").dialog({
+    function alertProgramFrozen(programFrozen) {
+        $("#programFrozen span").text(programFrozen);
+        $("#programFrozen").dialog({
             title: "提醒",
             modal: true,
             open: function (event, ui) {
@@ -408,14 +419,18 @@
                 click: function () {
                     if (confirm("確定送出嗎？")) {
 
-                        //$.ajax({
-                        //    url: "/Home2/EndProgram",
-                        //    type: "POST"
-                        //});
+                        $.ajax({
+                            url: "/Home2/SetResultWeight",
+                            type: "POST",
+                            data: {
+                                resultWeight: $("#resultWeight").val()
+                            },
+                            success: function (results) {
+                                fanfare(results);
+                            }
+                        });
 
-                        $("#programEnd").dialog("close");
-
-                        celebrate();
+                        $("#programFrozen").dialog("close");
                     }
                 }
             },
@@ -423,8 +438,11 @@
                 text: "取消",
                 class: "btnOK",
                 click: function () {
-                    $("#programEnd").dialog("close");
-
+                    $("#programFrozen").dialog("close");
+                    $.ajax({
+                        url: "/Home2/SetDialogShownSession",
+                        type: "POST"
+                    });
                 }
             }]
         });
@@ -434,8 +452,9 @@
         });
     }
 
-    function celebrate() {
-        $("#celebrate").dialog({
+    function fanfare(results) {
+        $("#fanfare .programSuccessPts").prepend(results.GetPoints);
+        $("#fanfare").dialog({
             title: "恭喜您",
             modal: true,
             open: function (event, ui) {
@@ -449,7 +468,7 @@
                 text: "收下",
                 class: "btnOK",
                 click: function () {
-                    $("#celebrate").dialog("close");
+                    $("#fanfare").dialog("close");
                 }
             }]
         });

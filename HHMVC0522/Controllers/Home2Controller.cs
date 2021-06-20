@@ -199,7 +199,7 @@ namespace UI.Controllers
 
         //todo
         //determine if a program is frozen, which needs a resultWeight
-        public static void SetProgramEndSession(HttpContextBase context)
+        public static void SetProgramFrozenSession(HttpContextBase context)
         {
             HealthHelperEntities dbContext = new HealthHelperEntities();
 
@@ -210,20 +210,62 @@ namespace UI.Controllers
 
             if (program != null)
             {
-                context.Session["ProgramFrozen"] = true;
+                context.Session["ProgramFrozen"] = 7 - (DateTime.Today - program.EndDate.Date).Days;
             }
             else
             {
-                context.Session["ProgramFrozen"] = false;
+                context.Session["ProgramFrozen"] = -1;
             }
-
         }
 
-        //End a Program
-        public void EndProgram(decimal resultWeight) {
+        [HttpPost]
+        //Set ResultWeight and end the program
+        public JsonResult SetResultWeight(int resultWeight) {
+
+            HealthHelperEntities dbContext = new HealthHelperEntities();
 
             int MemberID = (int)Session["ID"];
 
+            Program program = dbContext.Programs.SingleOrDefault(prg => prg.MemberID == MemberID
+                && prg.StatusID == 3);
+
+            Session["ProgramFrozen"] = false;
+
+            decimal weightToLose = program.InitialWeight - program.TargetWeight;
+            decimal actuallyLose = program.InitialWeight - resultWeight;
+
+            int GetPoints = (int)(500 + 500 * actuallyLose / weightToLose);
+
+            if (actuallyLose > 0)
+            {
+                dbContext.Points.Add(new Point
+                {
+                    MemberID = MemberID,
+                    GetPoints = GetPoints,
+                    GetPointsDateTime = DateTime.Now,
+                    StatusID = 10,
+                    ProgramID = program.ID
+                });
+            }
+            else
+            {
+                dbContext.Points.Add(new Point
+                {
+                    MemberID = MemberID,
+                    GetPoints = 500,
+                    GetPointsDateTime = DateTime.Now,
+                    StatusID = 10,
+                    ProgramID = program.ID
+                });
+            }
+
+            program.ResultWeight = resultWeight;
+            program.StatusID = 5;
+
+            dbContext.SaveChanges();
+
+            return Json(new { Result = "Success", GetPoints = GetPoints });
+            
         }
         //=========================================================
     }
