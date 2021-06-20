@@ -197,6 +197,34 @@ namespace UI.Controllers
             
         }
 
+        //todo
+        //determine if a program is frozen, which needs a resultWeight
+        public static void SetProgramEndSession(HttpContextBase context)
+        {
+            HealthHelperEntities dbContext = new HealthHelperEntities();
+
+            int MemberID = (int)context.Session["ID"];
+
+            var program = dbContext.Programs.SingleOrDefault(prg => prg.MemberID == MemberID
+                && prg.StatusID == 3);
+
+            if (program != null)
+            {
+                context.Session["ProgramFrozen"] = true;
+            }
+            else
+            {
+                context.Session["ProgramFrozen"] = false;
+            }
+
+        }
+
+        //End a Program
+        public void EndProgram(decimal resultWeight) {
+
+            int MemberID = (int)Session["ID"];
+
+        }
         //=========================================================
     }
 }
