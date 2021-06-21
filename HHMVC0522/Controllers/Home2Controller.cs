@@ -197,7 +197,6 @@ namespace UI.Controllers
             
         }
 
-        //todo
         //determine if a program is frozen, which needs a resultWeight
         public static void SetProgramFrozenSession(HttpContextBase context)
         {
@@ -234,7 +233,9 @@ namespace UI.Controllers
             decimal weightToLose = program.InitialWeight - program.TargetWeight;
             decimal actuallyLose = program.InitialWeight - resultWeight;
 
-            int GetPoints = (int)(500 + 500 * actuallyLose / weightToLose);
+            int basePoint = HHDictionary.ProgramSuccessPoint;
+
+            int GetPoints = (int)(basePoint + basePoint * actuallyLose / weightToLose);
 
             if (actuallyLose > 0)
             {
@@ -252,7 +253,7 @@ namespace UI.Controllers
                 dbContext.Points.Add(new Point
                 {
                     MemberID = MemberID,
-                    GetPoints = 500,
+                    GetPoints = basePoint,
                     GetPointsDateTime = DateTime.Now,
                     StatusID = 10,
                     ProgramID = program.ID
@@ -261,6 +262,27 @@ namespace UI.Controllers
 
             program.ResultWeight = resultWeight;
             program.StatusID = 5;
+
+            //write resulWeight to WeightLog incidentally
+            WeightLog weightLog = dbContext.WeightLogs
+                .SingleOrDefault(wgtl => wgtl.MemberID == MemberID 
+                && DbFunctions.TruncateTime(wgtl.UpdatedDate) == DateTime.Today);
+
+            //todo if Session["NoWeightLog"] is true, set it to false
+            if (weightLog != null)
+            {
+                weightLog.Weight = resultWeight;
+                weightLog.UpdatedDate = DateTime.Now;
+            }
+            else
+            {
+                dbContext.WeightLogs.Add(new WeightLog
+                {
+                    Weight = resultWeight,
+                    MemberID = MemberID,
+                    UpdatedDate = DateTime.Now
+                });
+            }
 
             dbContext.SaveChanges();
 

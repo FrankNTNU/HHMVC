@@ -21,48 +21,6 @@ namespace UI.Controllers
         {
             get
             {
-                //DateTime zeroTime = new DateTime(1, 1, 1);
-                //DateTime today = DateTime.Now.Date;
-                //DateTime tomorrow = today.AddDays(1);
-
-                //int MemberID = (int)Session["ID"];
-
-                //Member member = dbContext.Members.SingleOrDefault(m => m.ID == MemberID);
-                //decimal weight = GetCurrentWeight(tomorrow);
-                //int age = (zeroTime + (today - member.Birthdate)).Year - 1;
-                //decimal height = (decimal)member.Height;
-
-                //decimal TDEE;
-                //decimal pal = 0;
-
-                //switch (member.ActivityLevelID)
-                //{
-                //    case 6:
-                //        pal = 1.2m;
-                //        break;
-                //    case 1:
-                //        pal = 1.4m;
-                //        break;
-                //    case 2:
-                //        pal = 1.6m;
-                //        break;
-                //    case 3:
-                //        pal = 1.8m;
-                //        break;
-                //}
-
-                ////todo when weight == 0, this TDEE is not right
-                //if (member.Gender)
-                //{
-                //    TDEE = (10 * weight + 6.25m * height + 5 * age - 5) * pal;
-                //}
-                //else
-                //{
-                //    TDEE = (10 * weight + 6.25m * height + 5 * age - 161) * pal;
-                //}
-
-                //return TDEE;
-
                 //================================================================
                 //TDEE calculated by pal
                 DateTime taipeiToday = DateTime.Now;
@@ -535,21 +493,21 @@ namespace UI.Controllers
                 .Where(wp => wp.MemberID == MemberID)
                 .SelectMany(wp => wp.WorkoutCategory.Workouts);
 
-            decimal warning = todayIngest / this.TDEE * 100;
+            decimal warning = todayIngest / this.TDEE;
 
             vm.Warning = $"為TDEE的 {warning:0.00}%";
 
-            if (warning > 100)
+            if (warning > HHDictionary.HighActivitySuggestThreshold)
             {
                 vm.WorkoutSuggestion = q1.Where(w => w.ActivityLevelID == 3).ToList();
                 vm.ActivityLevel = "【高強度】運動";
             }
-            else if (warning > 90)
+            else if (warning > HHDictionary.MediumActivitySuggestThreshold)
             {
                 vm.WorkoutSuggestion = q1.Where(w => w.ActivityLevelID == 2).ToList();
                 vm.ActivityLevel = "【中強度】運動";
             }
-            else if (warning > 85)
+            else if (warning > HHDictionary.LowActivitySuggestThreshold)
             {
                 vm.WorkoutSuggestion = q1.Where(w => w.ActivityLevelID == 1).ToList();
                 vm.ActivityLevel = "【低強度】運動";
@@ -694,11 +652,17 @@ namespace UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult GetTodayConsume()
+        public JsonResult GetTodayInfo()
         {
-            decimal q = TodayConsume();
+            decimal ingest = TodayIngest();
+            decimal consume = TodayConsume();
 
-            return Json(new { TodayConsume = q.ToString("0.00") });
+            return Json(new 
+            {
+                TDEE = this.TDEE.ToString("0.00"),
+                TodayIngest = ingest.ToString("0.00"),
+                TodayConsume = consume.ToString("0.00") 
+            });
         }
 
 

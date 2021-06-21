@@ -308,7 +308,7 @@
     <div id="programFrozen">
         挑戰已結束，請輸入目前體重<br />
         (還剩下&nbsp;<span style="color: #f56a6a"></span>&nbsp;天)：<br />
-        <input type="text" id="resultWeight" placeholder="目前體重" autocomplete="off" />
+        <input type="text" id="resultWeight" placeholder="目前多重呢" autocomplete="off" />
         <label style="display:inline-block;font-size:1.2em">&nbsp;kg</label>
     </div>
     <div id="fanfare">
@@ -417,6 +417,14 @@
                 text: "確認",
                 class: "btnOK",
                 click: function () {
+
+                    let patt = /^[0-9]+$/
+
+                    if (!patt.test($("#resultWeight").val())) {
+                        alert("請輸入有效體重");
+                        return;
+                    }
+
                     if (confirm("確定送出嗎？")) {
 
                         $.ajax({

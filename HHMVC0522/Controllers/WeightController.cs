@@ -90,14 +90,16 @@ namespace UI.Controllers
         public JsonResult AddWeightLog(WeightLog wgtl)
         {
             DateTime today = DateTime.Now.Date;
+            int MemberID = (int)Session["ID"];
 
             if (db.WeightLogs
-                .Any(wgtl1 => DbFunctions.TruncateTime(wgtl1.UpdatedDate) == today))
+                .Any(wgtl1 => DbFunctions.TruncateTime(wgtl1.UpdatedDate) == today
+                && wgtl1.MemberID == MemberID))
             {
                 return Json(new { Result = "failed", Error = "今天已新增紀錄過了" });
             }
 
-            wgtl.MemberID = (int)Session["ID"];
+            wgtl.MemberID = MemberID;
             wgtl.UpdatedDate = DateTime.Now;
 
             db.WeightLogs.Add(wgtl);
