@@ -26,8 +26,8 @@ namespace UI.Controllers
                 DateTime taipeiToday = DateTime.Now;
 
                 var wgtList = dbContext.WeightLogs.OrderByDescending(wgtl => wgtl.UpdatedDate).ToList();
-                var prgList = dbContext.Programs.Where(prg => prg.StartDate <= taipeiToday.Date
-                    && prg.EndDate >= taipeiToday.Date && prg.StatusID == 1)
+                var prgList = dbContext.Programs.Where(prg => DbFunctions.TruncateTime(prg.StartDate) <= taipeiToday.Date
+                    && DbFunctions.TruncateTime(prg.EndDate) >= taipeiToday.Date && prg.StatusID == 1)
                     .OrderByDescending(prg => prg.StartDate);
 
                 int MemberID = (int)Session["ID"];

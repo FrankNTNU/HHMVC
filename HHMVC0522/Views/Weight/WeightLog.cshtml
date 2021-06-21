@@ -87,10 +87,37 @@
             height: max-content;
         }
 
-            .ui-datepicker select {
-                height: 1.5em;
-                display: inline-block;
-            }
+        .ui-datepicker select {
+            height: 1.5em;
+            display: inline-block;
+        }
+
+        @*Slider Bar*@
+        #slider-range {
+            width: 300px;
+        }
+
+        .mySlider {
+            background-color: #f56a6a !important;
+            border-radius: 10px !important;
+        }
+
+        .mySlider:focus {
+            outline: 0 !important;
+        }
+
+        #mySliderContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-left: auto;
+            width: 320px;
+            padding: 10px;
+            border: solid 1px #f56a6a;
+            border-radius: 5px
+        }
+
     </style>
 }
 
@@ -124,10 +151,14 @@
         </div>
         <div class="myBox col-12" style="min-height:400px">
             <div style="width:100%; display:flex; flex-wrap:wrap; align-items:center; grid-row-gap:10px; column-gap:10px">
-                <div style="font-size: 1.2em; font-weight: 600; color: black; margin-left:auto">從</div>
-                <input type="text" id="chartStart" style="width:150px">
-                <div style="font-size: 1.2em; font-weight: 600; color: black">到</div>
-                <input type="text" id="chartEnd" style="width:150px;">
+                <div id="mySliderContainer">
+                    <div style="font-size: 1.2em; font-weight: 600; color: black; margin-bottom: 5px">從</div>
+                    <div id="startMonth" style=" margin:0 5px 5px 5px"></div>
+                    <div style="font-size: 1.2em; font-weight: 600; color: black; margin-bottom: 5px">到</div>
+                    <div id="endMonth" style="margin:0 5px 5px 5px"></div>
+                    <div style="height:1px; flex-basis:100%"></div>
+                    <div id="slider-range"></div>
+                </div>
                 <div id="btnReload" class="button primary" style="display:inline-block; font-size:1em;">
                     更新圖表
                 </div>
@@ -149,7 +180,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/r-2.2.7/datatables.min.js"></script>
     <script type="text/javascript" src="~/Content/moment-js/moment.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.src.js"></script>
-    <script src="~/Content/jquery-ui-monthpicker/jquery.mtz.monthpicker.js"></script>
+    @*<script src="~/Content/jquery-ui-monthpicker/jquery.mtz.monthpicker.js"></script>*@
     <script>
 
         var minDate = null, maxDate = null;
@@ -161,6 +192,30 @@
 
             var form = $('#weightForm');
             token = $('input[name="__RequestVerificationToken"]', form).val();
+
+            //========================================================
+            //Slider Bar
+            let firstMonth = (new Date().getFullYear() - new Date("2018-01-01").getFullYear()) * 12;
+
+            let nowMonth = firstMonth
+                + (new Date().getMonth() - new Date("2018-01-01").getMonth());
+
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 95,
+                values: [firstMonth, nowMonth],
+                slide: function (event, ui) {
+                    $("#startMonth").text(moment("2018-01-01").add(ui.values[0], "M").format("yyyy年MM月"));
+                    $("#endMonth").text(moment("2018-01-01").add(ui.values[1], "M").format("yyyy年MM月"));
+                },
+                classes: {
+                    "ui-slider-handle": "mySlider"
+                }
+            });
+
+            $("#startMonth").text(moment("2018-01-01").add($("#slider-range").slider("values", 0), "M").format("yyyy年MM月"));
+            $("#endMonth").text(moment("2018-01-01").add($("#slider-range").slider("values", 1), "M").format("yyyy年MM月"));
 
             //========================================================
             //Date Variable
@@ -283,34 +338,31 @@
 
             //========================================================
             //Initiate MonthPicker
-            $("#chartStart").monthpicker({
-                pattern: 'yyyy/mm',
-                startYear: 2018,
-                finalYear: 2025
-            });
+            //$("#chartStart").monthpicker({
+            //    pattern: 'yyyy/mm',
+            //    startYear: 2018,
+            //    finalYear: 2025
+            //});
 
-            $("#chartEnd").monthpicker({
-                pattern: 'yyyy/mm',
-                startYear: 2018,
-                finalYear: 2025
-            });
+            //$("#chartEnd").monthpicker({
+            //    pattern: 'yyyy/mm',
+            //    startYear: 2018,
+            //    finalYear: 2025
+            //});
 
-            $("#chartStart").val(`${today.getFullYear()}/01`);
+            //$("#chartStart").val(`${today.getFullYear()}/01`);
 
-            $("#chartEnd").val(moment(today).format("yyyy/MM"));
+            //$("#chartEnd").val(moment(today).format("yyyy/MM"));
 
             //======================================================
             //Initiate Highchart
 
-            let initialMonthRange = GetMonthArray($("#chartStart").val(), $("#chartEnd").val());
-
-            let startString = moment(new Date($("#chartStart").val())).format("yyyy年MM月");
-            let endString = moment(new Date($("#chartEnd").val())).format("yyyy年MM月");
+            let initialMonthRange = GetMonthArray($("#startMonth").text(), $("#endMonth").text());
 
             let chart = Highcharts.chart('highChart', {
 
                 title: {
-                    text: startString + " 至 " + endString + " 期間的體重變化"
+                    text: $("#startMonth").text() + " 至 " + $("#endMonth").text() + " 期間的體重變化"
                 },
 
                 subtitle: {
@@ -346,7 +398,7 @@
                 },
 
                 series: [{
-                    name: '會員',
+                    name: '@Session["UserName"]',
                     data: @Html.Raw(ViewBag.initialWeightLog)
                 }],
 
@@ -372,14 +424,11 @@
 
             $("#btnReload").click(function () {
 
-                startString = moment(new Date($("#chartStart").val())).format("yyyy年MM月");
-                endString = moment(new Date($("#chartEnd").val())).format("yyyy年MM月");
-
                 chart.setTitle({
-                    text: startString + " 至 " + endString + " 期間的體重變化"
+                    text: $("#startMonth").text() + " 至 " + $("#endMonth").text() + " 期間的體重變化"
                 });
 
-                let monthArray = GetMonthArray($("#chartStart").val(), $("#chartEnd").val());
+                let monthArray = GetMonthArray($("#startMonth").text(), $("#endMonth").text());
 
                 chart.xAxis[0].update({ categories: monthArray });
 
@@ -388,8 +437,8 @@
                     type: "post",
                     data: {
                         __RequestVerificationToken: token,
-                        startMonth: moment(new Date(moment($("#chartStart").val(), "yyyy/MM"))).format("YYYY-MM-DD HH:mm"),
-                        endMonth: moment(new Date(moment($("#chartEnd").val(), "yyyy/MM"))).format("YYYY-MM-DD HH:mm")
+                        startMonth: moment(new Date(moment($("#startMonth").text(), "yyyy年MM月"))).format("YYYY-MM-DD HH:mm"),
+                        endMonth: moment(new Date(moment($("#endMonth").text(), "yyyy年MM月"))).format("YYYY-MM-DD HH:mm")
                     },
                     success: function (data) {
 

@@ -286,6 +286,8 @@ namespace UI.Controllers
 
             dbContext.SaveChanges();
 
+            Session["NoWeightLog"] = false;
+
             return Json(new { Result = "Success", GetPoints = GetPoints });
             
         }

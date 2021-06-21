@@ -461,6 +461,11 @@
     }
 
     function fanfare(results) {
+
+        if ($("#weightNotify").length) {
+            $("#weightNotify").remove();
+        }
+
         $("#fanfare .programSuccessPts").prepend(results.GetPoints);
         $("#fanfare").dialog({
             title: "恭喜您",
