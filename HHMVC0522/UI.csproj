@@ -140,6 +140,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Content\CartImages\1d0323fe-65a3-47dd-962f-53226e71f352cocoDrink1.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\3f249f4e-50e7-4bef-8b9a-b405cdfab1c3coffee2.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\4eb11526-2861-413b-932c-46806b33c2b8BK_FrenchFries_detail.png" />
+    <Content Include="Areas\Admin\Content\CartImages\5321cf4d-3700-4cbd-8f3b-1cfecd75b473bread.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\8dc56d25-b0b4-49ff-ac0d-9ac9bf2b1c8fdonut1.jpeg" />
+    <Content Include="Areas\Admin\Content\CartImages\9de5e2ce-7973-4c37-af07-9598da520558coffee.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\cac3758a-0c2c-4a8b-93c8-dc43ebbbddf6fries2.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\cee02b37-8f94-4731-9834-c93e53bf6d5fteaEggs.jpg" />
     <Content Include="Areas\Admin\Content\CSS\adminlte.min.css" />
     <Content Include="Areas\Admin\Content\CSS\all.min.css" />
     <Content Include="Areas\Admin\Content\CSS\bootstrap-4.min.css" />
@@ -148,6 +156,16 @@
     <Content Include="Areas\Admin\Content\CSS\icheck-bootstrap.min.css" />
     <Content Include="Areas\Admin\Content\CSS\responsive.bootstrap4.min.css" />
     <Content Include="Areas\Admin\Content\CSS\tempusdominus-bootstrap-4.min.css" />
+    <Content Include="Areas\Admin\Content\GiftImages\1d0323fe-65a3-47dd-962f-53226e71f352cocoDrink1.jpg" />
+    <Content Include="Areas\Admin\Content\GiftImages\3f249f4e-50e7-4bef-8b9a-b405cdfab1c3coffee2.jpg" />
+    <Content Include="Areas\Admin\Content\GiftImages\4eb11526-2861-413b-932c-46806b33c2b8BK_FrenchFries_detail.png" />
+    <Content Include="Areas\Admin\Content\GiftImages\5321cf4d-3700-4cbd-8f3b-1cfecd75b473bread.jpg" />
+    <Content Include="Areas\Admin\Content\GiftImages\8dc56d25-b0b4-49ff-ac0d-9ac9bf2b1c8fdonut1.jpeg" />
+    <Content Include="Areas\Admin\Content\GiftImages\9de5e2ce-7973-4c37-af07-9598da520558coffee.jpg" />
+    <Content Include="Areas\Admin\Content\GiftImages\cac3758a-0c2c-4a8b-93c8-dc43ebbbddf6fries2.jpg" />
+    <Content Include="Areas\Admin\Content\GiftImages\cee02b37-8f94-4731-9834-c93e53bf6d5fteaEggs.jpg" />
+    <Content Include="Areas\Admin\Content\GiftImages\f856422c-d5ed-4ffc-865e-85a6e39d94edoolong.jpg" />
+    <Content Include="Areas\Admin\Content\GiftImages\fc2008d5-ff1c-4179-81d8-4e7c53fedcf0starbucks.jpg" />
     <Content Include="Areas\Admin\Content\icon\approve.png" />
     <Content Include="Areas\Admin\Content\icon\close-icon.png" />
     <Content Include="Areas\Admin\Content\icon\lockIcon.png" />
@@ -564,7 +582,26 @@
     <Content Include="Areas\Admin\Content\JS\sweetalert2.min.js" />
     <Content Include="Areas\Admin\Content\JS\tempusdominus-bootstrap-4.min.js" />
     <Content Include="Areas\Admin\Content\JS\vfs_fonts.js" />
+    <Content Include="Areas\Admin\Content\PostImages\1aad9c8b-8e8c-4332-9fe5-deaac5134a7fgym.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\27d354e7-8b72-4c19-822e-acf3ce64ed25books.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\51b00e76-3048-4f50-b345-ec65fa125251diet.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\5912c8f6-1ed2-4b2c-9be6-98d6d0bf85acexercise.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\61d654ed-c450-464d-8355-df5cf1e4a514workout.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\6497b55a-13a2-46e1-b0c8-26f6b3b45bd9gift.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\7c1469aa-2d2a-4c43-8c86-d9aeaab9685abooks.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\9a387752-da1f-4387-9fe4-b1a0ba2f6e18protein.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\a57053eb-772a-46e1-9552-b3214eda9e3ceatingFruit.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\a99f1d12-ba34-4cd5-8c71-1b768d9dc220health2.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\a9ce1170-6010-4bfc-8ed9-1043bd9885e9veggie.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\bc467215-532d-4ba2-be3d-4c7cffee62b0adminGroup.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\c650050e-eb62-4a92-be8e-f76f685f9678post1.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\ca2eb397-e030-4470-9c2b-d408fd550c06img2.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\d0065c13-b751-4209-a211-d94903d97e9csubway.jpeg" />
+    <Content Include="Areas\Admin\Content\PostImages\defaultImg.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\e9c5f14a-462f-4ac8-b08f-22d61fea0f5afruitCubes.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\ea82d513-e3bd-4200-aca1-352b9af80e3dbooks.jpg" />
     <Content Include="Areas\Admin\Content\tempimage\healthImg.png" />
+    <Content Include="Areas\Admin\Content\tempimage\hLogo.png" />
     <Content Include="Areas\Admin\Content\tempimage\hLogoRed.jpg" />
     <Content Include="Areas\Admin\Content\UserImage\0442a875-bc36-4d35-aa71-d89cf419b947user5.png" />
     <Content Include="Areas\Admin\Content\UserImage\05d8b14d-fc47-470d-bbb1-efe86c47b3a9user1.png" />
@@ -588,7 +625,6 @@
     <Content Include="Areas\Admin\Content\UserImage\bea5e34a-9a65-4b4c-8a2a-7f6f7183c8d5user5.png" />
     <Content Include="Areas\Admin\Content\UserImage\d4bc6e2e-e3a0-40ff-8526-61e2610f4fc8hLogo.png" />
     <Content Include="Areas\Admin\Content\UserImage\e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png" />
-    <Content Include="Areas\Admin\Content\UserImage\happyLuby.jpg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-brands-400.svg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-regular-400.svg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-solid-900.svg" />
@@ -687,6 +723,7 @@
     <Content Include="Areas\Admin\Content\webfonts\fre3of9x.ttf" />
     <Content Include="Areas\Admin\Views\Gift\GiftCarts.cshtml" />
     <Content Include="Areas\Admin\Views\Contact\Contact.cshtml" />
+    <Content Include="Areas\Admin\Content\webfonts\BarcodeFont.ttf" />
     <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
@@ -732,6 +769,8 @@
     <Content Include="Content\webfonts\fa-regular-400.svg" />
     <Content Include="Content\webfonts\fa-solid-900.svg" />
     <Content Include="Global.asax" />
+    <None Include="Properties\PublishProfiles\HealthHelper - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\healthhelperweb - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
@@ -897,9 +936,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Content\CartImages\" />
-    <Folder Include="Areas\Admin\Content\GiftImages\" />
-    <Folder Include="Areas\Admin\Content\PostImages\" />
+    <Folder Include="Areas\Admin\Content\Barcode\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Models\" />

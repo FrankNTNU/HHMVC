@@ -19,5 +19,17 @@ namespace DAL
         public double Calories { get; set; }
         public string ImagePath { get; set; }
         public int StatusID { get; set; }
+        public int MealOptionID { get; set; }
+        public int MemberID { get; set; }
+        public string EditTime { get; set; }
+        public string Date { get; set; }
+        public bool IsValid { get; set; }
+        public int TimeOfDayID { get; set; }
+        public double Portion { get; set; }
+        public string UnitName { get; set; }
+    
+        public virtual Member Member { get; set; }
+        public virtual Status Status { get; set; }
+        public virtual TimesOfDay TimesOfDay { get; set; }
     }
 }

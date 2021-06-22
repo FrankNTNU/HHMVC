@@ -128,15 +128,7 @@ namespace DAL
             return dtoList;
         }
 
-        //public bool UpdateComment(LayoutDTO model)
-        //{
-        //    Comment comment = db.Comments.First(x => x.ID == model.Comment.ID);
-        //    comment.Title = model.Comment.Title;
-        //    comment.CommentContent = model.Comment.CommentContent;
-        //    comment.IsApproved = false;
-        //    db.SaveChanges();
-        //    return true;
-        //}
+        
         public void UpdateComment(CommentDTO model)
         {
             Comment comment = db.Comments.First(x => x.ID == model.ID);

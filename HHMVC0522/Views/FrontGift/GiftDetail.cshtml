@@ -10,94 +10,96 @@
 }
 <!-- Content -->
 
-        <section>
-            <header class="row">
-                <div class="row col-12">
-                    <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
-                        <h3 style="margin-bottom: 10px;">
-                            <i class="fas fa-gift"></i> 禮物資訊
-                        </h3>
-                    </div>
-                    <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
-                        <a href="~/FrontGift/GiftList"><label class="button primary">返回商店</label></a>
-                    </div>
-                </div>
+<section>
+    <header class="row">
+        <div class="row col-12">
+            <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
+                <h3 style="margin-bottom: 10px;">
+                    <i class="fas fa-gift"></i> 禮物資訊
+                </h3>
+            </div>
+            <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
+                <a href="~/FrontGift/GiftList"><label class="button primary">返回商店</label></a>
+            </div>
+        </div>
+        @if (Session["ID"] != null)
+        {
+            <div class="col-12" style="text-align:center;font-size:1.2em">
+                <strong>@Session["Name"]</strong> 目前擁有 <strong>
+                    @Session["Points"]
+                </strong>點
+            </div>
+        }
+
+    </header>
+    <header class="major"><p class="col-12"></p></header>
+    <div class="row">
+        <div class="col-12 col-sm-4 col-md-4 d-flex align-items-center justify-content-center" style="margin:auto;top:-20px">
+            <img class="image" src="~/Areas/Admin/Content/GiftImages/@Model.Image" style="max-width:90%" />
+
+        </div>
+        <div class="col-12 col-sm-8 col-md-8">
+            <!-- Table -->
+            <h3 style="padding-bottom:0px;margin-top:10px;text-align:center;font-weight:bolder">@Model.Name</h3>
+            <div class="table-wrapper">
+                <table style="margin-bottom:0px">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th style="text-align:end; font-weight:500">編號: @Model.ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>所需點數</strong></td>
+                            <td>@Model.Points 點</td>
+                        </tr>
+                        <tr>
+                            <td><strong>兌換期限</strong></td>
+                            <td>@Model.AddDate.ToString("yyyy/MM/dd") 至 @Model.EndDate.ToString("yyyy/MM/dd")</td>
+                        </tr>
+                        <tr>
+                            <td><strong>剩餘件數</strong></td>
+                            <td>@Model.Quantity</td>
+
+                        </tr>
+                        <tr>
+                            <td><strong>商家</strong></td>
+                            <td>@Model.Store</td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><a href="~/FrontGift/GiftList"></a></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
                 @if (Session["ID"] != null)
                 {
-                    <div class="col-12" style="text-align:center;font-size:1.2em">
-                        <strong>@Session["Name"]</strong> 目前擁有 <strong>
-                        @Session["Points"] </strong>點
-                    </div>
+                    if (@Model.EndDate >= DateTime.Today)
+                    {<div style="text-align:center">
+                            <label class="button default" style="width:300px" id="btnRedeem">兌換</label>
+                        </div>}
+                    else
+                    {
+                        <div style="text-align:center">
+                            <label class="button default disabled" style="width:300px" id="btnRedeem">已截止</label>
+                        </div>
+                    }
                 }
 
-            </header>
-            <header class="major"><p class="col-12"></p></header>
-            <div class="row">
-                <div class="col-12 col-sm-4 col-md-4 d-flex align-items-center justify-content-center" style="margin:auto;top:-20px">
-                    <img class="image" src="~/Areas/Admin/Content/GiftImages/@Model.Image" style="max-width:90%" />
-
-                </div>
-                <div class="col-12 col-sm-8 col-md-8">
-                    <!-- Table -->
-                    <h3 style="padding-bottom:0px;margin-top:10px;text-align:center;font-weight:bolder">@Model.Name</h3>
-                    <div class="table-wrapper">
-                        <table style="margin-bottom:0px">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th style="text-align:end; font-weight:500">編號: @Model.ID</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>所需點數</strong></td>
-                                    <td>@Model.Points 點</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>兌換期限</strong></td>
-                                    <td>@Model.AddDate.ToString("yyyy/MM/dd") 至 @Model.EndDate.ToString("yyyy/MM/dd")</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>剩餘件數</strong></td>
-                                    <td>@Model.Quantity</td>
-
-                                </tr>
-                                <tr>
-                                    <td><strong>商家</strong></td>
-                                    <td>@Model.Store</td>
-                                </tr>
-
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td><a href="~/FrontGift/GiftList"></a></td>
-                                    <td></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        @if (Session["ID"] != null)
-                        {
-                            if (@Model.EndDate >= DateTime.Today)
-                            {<div style="text-align:center">
-                                    <label class="button default" style="width:300px" id="btnRedeem">兌換</label>
-                                </div>}
-                            else 
-                            {
-                                <div style="text-align:center">
-                                    <label class="button default disabled" style="width:300px" id="btnRedeem">已截止</label>
-                                </div>
-                            }
-                        }
-                      
 
 
-                    </div>
-                </div>
             </div>
+        </div>
+    </div>
 
-        </section>
-  
+</section>
+
 @section Scripts {
+   
     <script>
         $("#btnRedeem").click(function () {
             if (@Model.Points > parseInt(@Session["Points"])) {

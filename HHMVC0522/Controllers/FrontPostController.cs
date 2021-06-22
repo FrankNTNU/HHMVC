@@ -44,7 +44,6 @@ namespace UI.Controllers
                 {
                     ViewData["CommentState"] = "Error";
                     ViewBag.ProcessState = General.Messages.GeneralError;
-
                 }
             }
             else
@@ -254,12 +253,7 @@ namespace UI.Controllers
 
             return RedirectToAction("ShowPosts");
         }
-        //public JsonResult GetSearchPost(string SearchCategory, string SearchText)
-        //{
-        //    List<PostDTO> postList = new List<PostDTO>();
-        //    postList = postBLL.GetPosts(Int32.Parse(SearchCategory), SearchText);
-        //    return Json(postList, JsonRequestBehavior.AllowGet);
-        //}
+       
         public string Like(int postID, int number)
         {
             if (!postBLL.HasLiked((int)Session["ID"], postID) && number > 0) 

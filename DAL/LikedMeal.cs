@@ -17,5 +17,8 @@ namespace DAL
         public int ID { get; set; }
         public int MemberID { get; set; }
         public int MealOptionID { get; set; }
+    
+        public virtual MealOption MealOption { get; set; }
+        public virtual Member Member { get; set; }
     }
 }

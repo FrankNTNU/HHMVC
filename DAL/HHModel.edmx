@@ -12,22 +12,6 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="Chats">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ConnIDUser" Type="nvarchar" MaxLength="100" />
-          <Property Name="ConnIDAdmin" Type="nvarchar" MaxLength="100" />
-          <Property Name="UserGroup" Type="nvarchar" MaxLength="50" />
-          <Property Name="Message" Type="nvarchar(max)" />
-          <Property Name="StartTime" Type="nvarchar" MaxLength="50" />
-          <Property Name="EndTime" Type="nvarchar" MaxLength="50" />
-          <Property Name="MessageDate" Type="nvarchar" MaxLength="50" />
-          <Property Name="MessageDuration" Type="nvarchar" MaxLength="50" />
-          <Property Name="UserID" Type="int" />
-          <Property Name="Admin" Type="int" />
-        </EntityType>
         <EntityType Name="Comments">
           <Key>
             <PropertyRef Name="ID" />
@@ -251,6 +235,14 @@
           <Property Name="Calories" Type="float" Nullable="false" />
           <Property Name="ImagePath" Type="nvarchar(max)" />
           <Property Name="StatusID" Type="int" Nullable="false" />
+          <Property Name="MealOptionID" Type="int" Nullable="false" />
+          <Property Name="MemberID" Type="int" Nullable="false" />
+          <Property Name="EditTime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="TimeOfDayID" Type="int" Nullable="false" />
+          <Property Name="Portion" Type="float" Nullable="false" />
+          <Property Name="UnitName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="TimesOfDay">
           <Key>
@@ -373,6 +365,30 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="GiftCarts">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LikedMeals_MealOptions">
+          <End Role="MealOptions" Type="Self.MealOptions" Multiplicity="1" />
+          <End Role="LikedMeals" Type="Self.LikedMeals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MealOptions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LikedMeals">
+              <PropertyRef Name="MealOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LikedMeals_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="LikedMeals" Type="Self.LikedMeals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LikedMeals">
               <PropertyRef Name="MemberID" />
             </Dependent>
           </ReferentialConstraint>
@@ -593,6 +609,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TempCustomerMealOptions_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="TempCustomerMealOptions" Type="Self.TempCustomerMealOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TempCustomerMealOptions">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TempCustomerMealOptions_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="TempCustomerMealOptions" Type="Self.TempCustomerMealOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TempCustomerMealOptions">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TempCustomerMealOptions_TimesOfDay">
+          <End Role="TimesOfDay" Type="Self.TimesOfDay" Multiplicity="1" />
+          <End Role="TempCustomerMealOptions" Type="Self.TempCustomerMealOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TimesOfDay">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TempCustomerMealOptions">
+              <PropertyRef Name="TimeOfDayID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WeightLog_Members">
           <End Role="Members" Type="Self.Members" Multiplicity="1" />
           <End Role="WeightLog" Type="Self.WeightLog" Multiplicity="*" />
@@ -667,7 +719,6 @@
         </Association>
         <EntityContainer Name="HealthHelperModelStoreContainer">
           <EntitySet Name="ActivityLevels" EntityType="Self.ActivityLevels" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Chats" EntityType="Self.Chats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DietLog" EntityType="Self.DietLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GiftCarts" EntityType="Self.GiftCarts" Schema="dbo" store:Type="Tables" />
@@ -716,6 +767,14 @@
           <AssociationSet Name="FK_GiftCarts_Members" Association="Self.FK_GiftCarts_Members">
             <End Role="Members" EntitySet="Members" />
             <End Role="GiftCarts" EntitySet="GiftCarts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LikedMeals_MealOptions" Association="Self.FK_LikedMeals_MealOptions">
+            <End Role="MealOptions" EntitySet="MealOptions" />
+            <End Role="LikedMeals" EntitySet="LikedMeals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LikedMeals_Members" Association="Self.FK_LikedMeals_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="LikedMeals" EntitySet="LikedMeals" />
           </AssociationSet>
           <AssociationSet Name="FK_LikedPosts_Members" Association="Self.FK_LikedPosts_Members">
             <End Role="Members" EntitySet="Members" />
@@ -789,6 +848,18 @@
             <End Role="Status" EntitySet="Status" />
             <End Role="Programs" EntitySet="Programs" />
           </AssociationSet>
+          <AssociationSet Name="FK_TempCustomerMealOptions_Members" Association="Self.FK_TempCustomerMealOptions_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="TempCustomerMealOptions" EntitySet="TempCustomerMealOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TempCustomerMealOptions_Status" Association="Self.FK_TempCustomerMealOptions_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="TempCustomerMealOptions" EntitySet="TempCustomerMealOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TempCustomerMealOptions_TimesOfDay" Association="Self.FK_TempCustomerMealOptions_TimesOfDay">
+            <End Role="TimesOfDay" EntitySet="TimesOfDay" />
+            <End Role="TempCustomerMealOptions" EntitySet="TempCustomerMealOptions" />
+          </AssociationSet>
           <AssociationSet Name="FK_WeightLog_Members" Association="Self.FK_WeightLog_Members">
             <End Role="Members" EntitySet="Members" />
             <End Role="WeightLog" EntitySet="WeightLog" />
@@ -828,22 +899,6 @@
           <NavigationProperty Name="Members" Relationship="Self.FK_Members_ActivityLevels" FromRole="ActivityLevels" ToRole="Members" />
           <NavigationProperty Name="Programs" Relationship="Self.FK_Programs_ActivityLevels" FromRole="ActivityLevels" ToRole="Programs" />
           <NavigationProperty Name="Workouts" Relationship="Self.FK_Workouts_ActivityLevels" FromRole="ActivityLevels" ToRole="Workouts" />
-        </EntityType>
-        <EntityType Name="Chat">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ConnIDUser" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ConnIDAdmin" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="UserGroup" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="StartTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EndTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MessageDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MessageDuration" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="Admin" Type="Int32" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -914,6 +969,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MemberID" Type="Int32" Nullable="false" />
           <Property Name="MealOptionID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MealOption" Relationship="Self.FK_LikedMeals_MealOptions" FromRole="LikedMeals" ToRole="MealOptions" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_LikedMeals_Members" FromRole="LikedMeals" ToRole="Members" />
         </EntityType>
         <EntityType Name="LikedPost">
           <Key>
@@ -937,6 +994,7 @@
           <Property Name="UnitName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsVisable" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DietLogs" Relationship="Self.FK_DietLog_MealOptions" FromRole="MealOptions" ToRole="DietLog" />
+          <NavigationProperty Name="LikedMeals" Relationship="Self.FK_LikedMeals_MealOptions" FromRole="MealOptions" ToRole="LikedMeals" />
           <NavigationProperty Name="Nutrient" Relationship="Self.FK_MealOptions_Nutrient" FromRole="MealOptions" ToRole="Nutrient" />
           <NavigationProperty Name="MealTags" Relationship="Self.FK_MealTags_MealOptions" FromRole="MealOptions" ToRole="MealTags" />
         </EntityType>
@@ -984,12 +1042,14 @@
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Members" FromRole="Members" ToRole="Comments" />
           <NavigationProperty Name="DietLogs" Relationship="Self.FK_DietLog_Members" FromRole="Members" ToRole="DietLog" />
           <NavigationProperty Name="GiftCarts" Relationship="Self.FK_GiftCarts_Members" FromRole="Members" ToRole="GiftCarts" />
+          <NavigationProperty Name="LikedMeals" Relationship="Self.FK_LikedMeals_Members" FromRole="Members" ToRole="LikedMeals" />
           <NavigationProperty Name="LikedPosts" Relationship="Self.FK_LikedPosts_Members" FromRole="Members" ToRole="LikedPosts" />
           <NavigationProperty Name="Status" Relationship="Self.FK_Members_Status" FromRole="Members" ToRole="Status" />
           <NavigationProperty Name="Points1" Relationship="Self.FK_Points_Members" FromRole="Members" ToRole="Points" />
           <NavigationProperty Name="Posts" Relationship="Self.FK_Posts_Members" FromRole="Members" ToRole="Posts" />
           <NavigationProperty Name="WorkoutPreferences" Relationship="Self.FK_Preference_Members" FromRole="Members" ToRole="WorkoutPreferences" />
           <NavigationProperty Name="Programs" Relationship="Self.FK_Programs_Members" FromRole="Members" ToRole="Programs" />
+          <NavigationProperty Name="TempCustomerMealOptions" Relationship="Self.FK_TempCustomerMealOptions_Members" FromRole="Members" ToRole="TempCustomerMealOptions" />
           <NavigationProperty Name="WeightLogs" Relationship="Self.FK_WeightLog_Members" FromRole="Members" ToRole="WeightLog" />
           <NavigationProperty Name="WorkoutLogs" Relationship="Self.FK_WorkoutLog_Members" FromRole="Members" ToRole="WorkoutLog" />
         </EntityType>
@@ -1092,6 +1152,7 @@
           <NavigationProperty Name="Members" Relationship="Self.FK_Members_Status" FromRole="Status" ToRole="Members" />
           <NavigationProperty Name="Points" Relationship="Self.FK_Points_Status" FromRole="Status" ToRole="Points" />
           <NavigationProperty Name="Programs" Relationship="Self.FK_Programs_Status" FromRole="Status" ToRole="Programs" />
+          <NavigationProperty Name="TempCustomerMealOptions" Relationship="Self.FK_TempCustomerMealOptions_Status" FromRole="Status" ToRole="TempCustomerMealOptions" />
           <NavigationProperty Name="WorkoutLogs" Relationship="Self.FK_WorkoutLog_Status" FromRole="Status" ToRole="WorkoutLog" />
         </EntityType>
         <EntityType Name="sysdiagram">
@@ -1113,6 +1174,17 @@
           <Property Name="Calories" Type="Double" Nullable="false" />
           <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <Property Name="MealOptionID" Type="Int32" Nullable="false" />
+          <Property Name="MemberID" Type="Int32" Nullable="false" />
+          <Property Name="EditTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="TimeOfDayID" Type="Int32" Nullable="false" />
+          <Property Name="Portion" Type="Double" Nullable="false" />
+          <Property Name="UnitName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_TempCustomerMealOptions_Members" FromRole="TempCustomerMealOptions" ToRole="Members" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_TempCustomerMealOptions_Status" FromRole="TempCustomerMealOptions" ToRole="Status" />
+          <NavigationProperty Name="TimesOfDay" Relationship="Self.FK_TempCustomerMealOptions_TimesOfDay" FromRole="TempCustomerMealOptions" ToRole="TimesOfDay" />
         </EntityType>
         <EntityType Name="TimesOfDay">
           <Key>
@@ -1121,6 +1193,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="DietLogs" Relationship="Self.FK_DietLog_TimesOfDay" FromRole="TimesOfDay" ToRole="DietLog" />
+          <NavigationProperty Name="TempCustomerMealOptions" Relationship="Self.FK_TempCustomerMealOptions_TimesOfDay" FromRole="TimesOfDay" ToRole="TempCustomerMealOptions" />
         </EntityType>
         <EntityType Name="WeightLog">
           <Key>
@@ -1287,6 +1360,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LikedMeals_MealOptions">
+          <End Role="MealOptions" Type="Self.MealOption" Multiplicity="1" />
+          <End Role="LikedMeals" Type="Self.LikedMeal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MealOptions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LikedMeals">
+              <PropertyRef Name="MealOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LikedMeals_Members">
+          <End Role="Members" Type="Self.Member" Multiplicity="1" />
+          <End Role="LikedMeals" Type="Self.LikedMeal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LikedMeals">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_LikedPosts_Members">
           <End Role="Members" Type="Self.Member" Multiplicity="0..1" />
           <End Role="LikedPosts" Type="Self.LikedPost" Multiplicity="*" />
@@ -1407,6 +1504,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TempCustomerMealOptions_Members">
+          <End Role="Members" Type="Self.Member" Multiplicity="1" />
+          <End Role="TempCustomerMealOptions" Type="Self.TempCustomerMealOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TempCustomerMealOptions">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WeightLog_Members">
           <End Role="Members" Type="Self.Member" Multiplicity="1" />
           <End Role="WeightLog" Type="Self.WeightLog" Multiplicity="*" />
@@ -1491,6 +1600,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TempCustomerMealOptions_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="TempCustomerMealOptions" Type="Self.TempCustomerMealOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TempCustomerMealOptions">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WorkoutLog_Status">
           <End Role="Status" Type="Self.Status" Multiplicity="1" />
           <End Role="WorkoutLog" Type="Self.WorkoutLog" Multiplicity="*" />
@@ -1500,6 +1621,18 @@
             </Principal>
             <Dependent Role="WorkoutLog">
               <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TempCustomerMealOptions_TimesOfDay">
+          <End Role="TimesOfDay" Type="Self.TimesOfDay" Multiplicity="1" />
+          <End Role="TempCustomerMealOptions" Type="Self.TempCustomerMealOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TimesOfDay">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TempCustomerMealOptions">
+              <PropertyRef Name="TimeOfDayID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1541,7 +1674,6 @@
         </Association>
         <EntityContainer Name="HealthHelperEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ActivityLevels" EntityType="Self.ActivityLevel" />
-          <EntitySet Name="Chats" EntityType="Self.Chat" />
           <EntitySet Name="Comments" EntityType="Self.Comment" />
           <EntitySet Name="DietLogs" EntityType="Self.DietLog" />
           <EntitySet Name="GiftCarts" EntityType="Self.GiftCart" />
@@ -1603,6 +1735,14 @@
             <End Role="Members" EntitySet="Members" />
             <End Role="GiftCarts" EntitySet="GiftCarts" />
           </AssociationSet>
+          <AssociationSet Name="FK_LikedMeals_MealOptions" Association="Self.FK_LikedMeals_MealOptions">
+            <End Role="MealOptions" EntitySet="MealOptions" />
+            <End Role="LikedMeals" EntitySet="LikedMeals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LikedMeals_Members" Association="Self.FK_LikedMeals_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="LikedMeals" EntitySet="LikedMeals" />
+          </AssociationSet>
           <AssociationSet Name="FK_LikedPosts_Members" Association="Self.FK_LikedPosts_Members">
             <End Role="Members" EntitySet="Members" />
             <End Role="LikedPosts" EntitySet="LikedPosts" />
@@ -1643,6 +1783,10 @@
             <End Role="Members" EntitySet="Members" />
             <End Role="Programs" EntitySet="Programs" />
           </AssociationSet>
+          <AssociationSet Name="FK_TempCustomerMealOptions_Members" Association="Self.FK_TempCustomerMealOptions_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="TempCustomerMealOptions" EntitySet="TempCustomerMealOptions" />
+          </AssociationSet>
           <AssociationSet Name="FK_WeightLog_Members" Association="Self.FK_WeightLog_Members">
             <End Role="Members" EntitySet="Members" />
             <End Role="WeightLog" EntitySet="WeightLogs" />
@@ -1671,9 +1815,17 @@
             <End Role="Status" EntitySet="Status" />
             <End Role="Programs" EntitySet="Programs" />
           </AssociationSet>
+          <AssociationSet Name="FK_TempCustomerMealOptions_Status" Association="Self.FK_TempCustomerMealOptions_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="TempCustomerMealOptions" EntitySet="TempCustomerMealOptions" />
+          </AssociationSet>
           <AssociationSet Name="FK_WorkoutLog_Status" Association="Self.FK_WorkoutLog_Status">
             <End Role="Status" EntitySet="Status" />
             <End Role="WorkoutLog" EntitySet="WorkoutLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TempCustomerMealOptions_TimesOfDay" Association="Self.FK_TempCustomerMealOptions_TimesOfDay">
+            <End Role="TimesOfDay" EntitySet="TimesOfDays" />
+            <End Role="TempCustomerMealOptions" EntitySet="TempCustomerMealOptions" />
           </AssociationSet>
           <AssociationSet Name="FK_Preference_WorkoutCategories" Association="Self.FK_Preference_WorkoutCategories">
             <End Role="WorkoutCategories" EntitySet="WorkoutCategories" />
@@ -1699,23 +1851,6 @@
               <MappingFragment StoreEntitySet="ActivityLevels">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Chats">
-            <EntityTypeMapping TypeName="HealthHelperModel.Chat">
-              <MappingFragment StoreEntitySet="Chats">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ConnIDUser" ColumnName="ConnIDUser" />
-                <ScalarProperty Name="ConnIDAdmin" ColumnName="ConnIDAdmin" />
-                <ScalarProperty Name="UserGroup" ColumnName="UserGroup" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="MessageDate" ColumnName="MessageDate" />
-                <ScalarProperty Name="MessageDuration" ColumnName="MessageDuration" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Admin" ColumnName="Admin" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1959,6 +2094,14 @@
                 <ScalarProperty Name="Calories" ColumnName="Calories" />
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="MealOptionID" ColumnName="MealOptionID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="EditTime" ColumnName="EditTime" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="TimeOfDayID" ColumnName="TimeOfDayID" />
+                <ScalarProperty Name="Portion" ColumnName="Portion" />
+                <ScalarProperty Name="UnitName" ColumnName="UnitName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

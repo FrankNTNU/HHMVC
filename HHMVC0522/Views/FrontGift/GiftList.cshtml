@@ -21,12 +21,12 @@
         <section>
             <header class="row">
                 <div class="row col-12">
-                    <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
+                    <div class="col-7 col-sm-9 col-md-10" style="display:inline;">
                         <h3 style="margin-bottom: 10px;">
                             <i class="fas fa-gift" style="width:30px"></i> 禮物商店
                         </h3>
                     </div>
-                    <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
+                    <div class="col-4 col-md-2" style="padding-right:0px; text-align:end">
                         @if (Session["ID"] != null)
                         {<a href="~/FrontGift/GiftCart?userID=@Session["ID"]"><label class="button primary">檢視禮物車</label></a>
                         }
@@ -48,10 +48,10 @@
             </header>
             <header class="major"><p class="col-12" style="margin-bottom:5px"></p></header>
             <div class="row" style="margin-bottom:5px">
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 mb-1">
                     <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 mb-1">
                     <select id="searchFilter" class="form-control">
                         <option selected disabled value="-1">排序條件</option>
                         <option value=0>點數: 低 => 高</option>
@@ -94,11 +94,7 @@
  
 @section Scripts {
 
-    @*<script src="
-        s://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>*@
-    @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="~/Content/js/jquery.min.js"></script>*@
-
+ 
     <script>
         var timeOut = null;
         $(document).ready(function () {
@@ -118,25 +114,33 @@
                         contentType: "html",
                         success: function (result) { // 做什麼事情
                             $.each(result, function (index, value) { // 跑回圈
-                                var insertedHtml =
-                                    '<div class="col-6 col-sm-4 col-md-4 col-lg-3 mb-5" style="text-align:center">' +
-                                    '<a href="GiftDetail/' + value.ID + '" class="image">' +
-                                    '<img src="/Areas/Admin/Content/GiftImages/' + value.Image + '" alt="" style="max-width:100%;max-height:100%"/>' +
-                                    '</a>' +
-                                    '<div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">' +
-                                    '<label style="font-weight: bolder;font-size:1em;display: inline-block;">' +
-                                    value.Points +
-                                    '點</label>' +
-                                    '</div>' +
-                                    '<strong style="text-align: center">' + value.Name + '</strong>' +
-                                    '<p>剩餘' + value.Quantity + ' 件</p>' +
-                                    '</div>';
-                                $('#cartList').append(insertedHtml);
+                                let resultDiv = $("<div></div>")
+                                    .addClass("col-6 col-sm-4 col-md-4 col-lg-3 mb-5")
+                                    .css("text-align", "center");
+                                let imageDiv = $("<a></a>").attr("href", "GiftDetail/" + value.ID)
+                                    .addClass("image")
+                                    .appendTo(resultDiv);
+                                $("<img/>").attr("src", "/Areas/Admin/Content/GiftImages/" + value.Image)
+                                    .css("max-width", "100%")
+                                    .css("max-height", "100%").appendTo(imageDiv);
+                                let pointDiv = $("<div></div>").addClass("button fit mt-1")
+                                    .css("pointer-events", "none")
+                                    .css("font-size", "1.4em")
+                                    .css("line-height", "1.5em")
+                                    .css("height", "auto")
+                                    .css("text-align", "center").appendTo(resultDiv);
+                                $("<label></label>")
+                                    .text(value.Points + "點")
+                                    .css("margin", "0px")
+                                    .appendTo(pointDiv);
+                                $("<strong></strong>")
+                                    .css("text-align", "center")
+                                    .text(value.Name).appendTo(resultDiv);
+                                $("<p></p>").text("剩餘" + value.Quantity + "件").appendTo(resultDiv);
+                                $("#cartList").append(resultDiv);
                             })
                             $('#cartList').show();
-
                         }
-                        
                     })
                 }, 200)
                 return false;
@@ -151,20 +155,31 @@
                     contentType: "html",
                     success: function (result) {
                         $.each(result, function (index, value) {
-                            var insertedHtml =
-                                '<div class="col-6 col-sm-4 col-md-4 col-lg-3 mb-5" style="text-align:center">' +
-                                '<a href="GiftDetail/' + value.ID + '" class="image">' +
-                                '<img src="/Areas/Admin/Content/GiftImages/' + value.Image + '" alt="" style="max-width:100%;max-height:100%"/>' +
-                                '</a>' +
-                                '<div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">' +
-                                '<label style="font-weight: bolder;font-size:1em;display: inline-block;margin:0px">' +
-                                value.Points +
-                                '點</label>' +
-                                '</div>' +
-                                '<strong style="text-align: center">' + value.Name + '</strong>' +
-                                '<p>剩餘' + value.Quantity + ' 件</p>' +
-                                '</div>';
-                            $('#cartList').append(insertedHtml);
+                            let resultDiv = $("<div></div>")
+                                .addClass("col-6 col-sm-4 col-md-4 col-lg-3 mb-5")
+                                .css("text-align", "center");
+                            let imageDiv = $("<a></a>").attr("href", "GiftDetail/" + value.ID)
+                                .addClass("image")
+                                .appendTo(resultDiv);
+                            $("<img/>").attr("src", "/Areas/Admin/Content/GiftImages/" + value.Image)
+                                .css("max-width", "100%")
+                                .css("max-height", "100%").appendTo(imageDiv);
+                            let pointDiv = $("<div></div>").addClass("button fit mt-1")
+                                .css("pointer-events", "none")
+                                .css("font-size", "1.4em")
+                                .css("line-height", "1.5em")
+                                .css("height", "auto")
+                                .css("text-align", "center").appendTo(resultDiv);
+                            $("<label></label>")
+                                .text(value.Points + "點")
+                                .css("margin", "0px")
+                                .appendTo(pointDiv);
+                            $("<strong></strong>")
+                                .css("text-align", "center")
+                                .text(value.Name).appendTo(resultDiv);
+                            $("<p></p>").text("剩餘" + value.Quantity + "件").appendTo(resultDiv);
+                            $("#cartList").append(resultDiv);
+                        $('#cartList').show();
                         })
                     }
                 })

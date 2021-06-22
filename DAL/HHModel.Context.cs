@@ -26,7 +26,6 @@ namespace DAL
         }
     
         public virtual DbSet<ActivityLevel> ActivityLevels { get; set; }
-        public virtual DbSet<Chat> Chats { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<DietLog> DietLogs { get; set; }
         public virtual DbSet<GiftCart> GiftCarts { get; set; }

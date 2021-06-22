@@ -20,9 +20,6 @@ namespace UI.Areas.Admin.Controllers
         }
         public ActionResult PostList()
         {
-            //CountDTO countDTO = new CountDTO();
-            //countDTO = bll.GetAllCounts();
-            //ViewData["AllCounts"] = countDTO;
             postBLL = new PostBLL();
             List<PostDTO> postList = new List<PostDTO>();
             postList = postBLL.GetAllPosts();

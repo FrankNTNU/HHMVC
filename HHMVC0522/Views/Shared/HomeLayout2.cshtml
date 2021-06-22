@@ -14,63 +14,98 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="~/Content/css/main.css" />
+    <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
 
     @RenderSection("Styles", required: false)
-    <style>
+<style>
+    @*恩旗=====================================*@
+    #dialogDiv, #programFrozen, #fanfare {
+        display: none;
+    }
+
+    #resultWeight {
+        display: inline-block;
+        width: 10em;
+    }
+
+    #dialogDiv ul {
+        list-style-type: none;
+    }
+
+    #dialogDiv ul li::before {
+        content: "\2022"; /* Add content: \2022 is the CSS Code/unicode for a bullet */
+        color: #f56a6a; /* Change the color */
+        font-weight: bold; /* If you want it to be bold */
+        display: inline-block; /* Needed to add space between the bullet and the text */
+        width: 1em; /* Also needed for space (tweak if needed) */
+        margin-left: -1em; /* Also needed for space (tweak if needed) */
+    }
+
+    .no-close .ui-dialog-titlebar-close {
+        display: none;
+    }
+
+    .btnOK {
+        all: initial;
+        border: none !important;
+    }
+
+    .ui-dialog-titlebar {
+        background-color: #f56a6a;
+        color: white;
+    }
+
+    .points {
+        font-size: 1.5em;
+        font-weight: 600;
+        font-style: italic;
+        color: #f56a6a;
+    }
+
+    .programSuccessPts {
+        font-size: 3em;
+        font-weight: 600;
+        font-style: italic;
+        color: #f56a6a;
+    }
+    @*============================================*@
+
         a.toggle {
             color: red;
         }
 
-        #dialogDiv, #programFrozen, #fanfare {
-            display: none;
+        a {
+            border-bottom: none;
+        }
+        img {
+            border-radius: 15px 15px;
         }
 
-        #resultWeight {
-            display: inline-block;
-            width: 10em;
+        #sidebar {
+            width: 15em;
+            padding: 10px;
+        }
+       
+        nav{
+            padding:15px;
         }
 
-        #dialogDiv ul {
-            list-style-type: none;
+        #sidebar.inactive {
+            margin-left: -15em;
         }
 
-        #dialogDiv ul li::before {
-            content: "\2022"; /* Add content: \2022 is the CSS Code/unicode for a bullet */
-            color: #f56a6a; /* Change the color */
-            font-weight: bold; /* If you want it to be bold */
-            display: inline-block; /* Needed to add space between the bullet and the text */
-            width: 1em; /* Also needed for space (tweak if needed) */
-            margin-left: -1em; /* Also needed for space (tweak if needed) */
+        #sidebar .toggle {
+            left: 15em;
         }
 
-        .no-close .ui-dialog-titlebar-close {
-            display: none;
+        #sidebar > .inner {
+            width: 15em;
+            position:absolute;
+            background-color:white;
+        
         }
 
-        .btnOK {
-            all: initial;
-            border: none !important;
-        }
-
-        .ui-dialog-titlebar {
-            background-color: #f56a6a;
-            color: white;
-        }
-
-        .points {
-            font-size: 1.5em;
-            font-weight: 600;
-            font-style: italic;
-            color: #f56a6a;
-        }
-
-        .programSuccessPts {
-            font-size: 3em;
-            font-weight: 600;
-            font-style: italic;
-            color: #f56a6a;
-        }
-    </style>
+</style>
 </head>
 
 <!--恩旗-->
@@ -104,19 +139,19 @@
         <div id="main">
             <div class="inner">
                 <!-- Header -->
-                <header id="header" style=" background-color: #fad7d2">
-                    <div class="row d-flex">
+                <header id="header" style=" background-color: #fad7d2;width:100%;padding-right:0px" class="pt-5 pb-1 m-0 col-12">
+                    <div class="row col-12 d-flex" style="width: 100%; padding-right: 0px">
 
-                        <div class="col-4 col-sm-4 col-lg-2 d-flex " style="padding-left:50px; vertical-align:central;">
-                            <a href="/Home2/Index" style="text-decoration: none;width:100px"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:100%;width:100px"></a>
+                        <div class="col-4 col-sm-4 col-lg-2 p-2" style="text-align:center">
+                            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:100px;width:100%"></a>
                         </div>
-                        <div class="col-7 col-sm-8 col-lg-10" style="padding-top:5px; padding-left:0px">
-                            <a href="/Home2/Index" class="logo" style="text-decoration: none">
-                                <div class="col-12 col-md-4">
-                                    <strong id="logoText" style="font-size:1.7em">HealthHelper</strong>
+                        <div class="col-8 col-sm-8 col-lg-10 p-1 justify-content-center">
+                            <a href="/Home2/Index" class="logo" style="text-decoration: none;">
+                                <div class="h-50">
+                                    <strong id="logoText" style="font-size:1.7em;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">HealthHelper</strong>
                                 </div>
 
-                                <div class="col-12 col-md-8" style="font-size:1.5em">健康管理助手</div>
+                                <div class="h-50" style="font-size:1.5em">健康管理助手</div>
                             </a>
                         </div>
                     </div>
@@ -125,19 +160,17 @@
             </div>
         </div>
 
-
-
         <!-- Sidebar -->
-        <div id="sidebar">
+        <div id="sidebar" class="p-0 w-auto">
             <div class="inner">
 
                 <!-- Search -->
                 <!-- Menu -->
-                <nav id="menu">
+                <nav id="menu" style="margin:0px">
                     <header class="major">
                         <h2>選單</h2>
                     </header>
-                    <ul style="font-size:1.5em">
+                    <ul style="font-size: 1.3em;">
                         <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-home" style="width:30px"></i> 首頁</a></li>
                         @if (Session["ID"] == null)
                         {
@@ -254,54 +287,14 @@
                     </ul>
                 </nav>
 
-                <!-- Section -->
-                <section>
-                    <header class="major">
-                        <h2>Ante interdum</h2>
-                    </header>
-                    <div class="mini-posts">
-                        <article>
-                            <a href="#" class="image"><img src="" alt="" /></a>
-                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                        </article>
-                        <article>
-                            <a href="#" class="image"><img src="" alt="" /></a>
-                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                        </article>
-                        <article>
-                            <a href="#" class="image"><img src="" alt="" /></a>
-                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                        </article>
-                    </div>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </section>
 
-                <!-- Section -->
-                <section>
-                    <header class="major">
-                        <h2>Get in touch</h2>
-                    </header>
-                    <p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="contact">
-                        <li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-                        <li class="icon solid fa-phone">(000) 000-0000</li>
-                        <li class="icon solid fa-home">
-                            1234 Somewhere Road #8254<br />
-                            Nashville, TN 00000-0000
-                        </li>
-                    </ul>
-                </section>
-
-                <!-- Footer -->
-                <footer id="footer">
-                    <p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-                </footer>
 
             </div>
         </div>
-    </div>
+
+
+
+            </div>
 
     <!--dialog=======================================================-->
     <div id="dialogDiv"><ul></ul></div>
@@ -323,6 +316,7 @@
     <script src="~/Content/js/breakpoints.min.js"></script>
     <script src="~/Content/js/util.js"></script>
     <script src="~/Content/js/main.js"></script>
+    <script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 

@@ -23,55 +23,75 @@
         a:hover {
             color: white !important;
         }
+
+        #mainDiv {
+            width: 100%;
+            margin: auto;
+            margin-top: 20px;
+            position: relative;
+            /*width: 500px;*/
+            /*top: 80px;*/
+        }
+
+        #mainRow {
+            position: relative;
+            left: 20px;
+            width: 100%;
+        }
     </style>
 }
 
-<section class="pt-3">
-    <header class="major"><h2 class="mb-3"><i class="fas fa-mobile-alt"></i> 線上客服</h2></header>
-    
-    <div class="col-md-10 m-auto" style="height:auto">
-        <!-- DIRECT CHAT WARNING -->
-        <dv class="card direct-chat direct-chat-warning">
-            <div class="card-header button primary" style="cursor:default; pointer-events:none">
-                <h3 class="card-title" style="color:white">聯絡客服</h3>
-            </div>
-            <input type="hidden" id="displayname" />
-
-            <div class="card-body">
-                <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages" id="chatbox" style="margin:10px; padding:10px">
-
-
+@*<section class="pt-3">
+    <header class="major"><h2 class="mb-3"><i class="fas fa-mobile-alt"></i> 線上客服</h2></header>*@
+<div id="mainDiv">
+    <div id="mainRow" class="row">
+        <div class="mainTitle col-12">體重紀錄</div>
+        <div class="col-md-10 m-auto" style="height:auto">
+            <!-- DIRECT CHAT WARNING -->
+            <div class="card direct-chat direct-chat-warning">
+                <div class="card-header button primary" style="cursor:default; pointer-events:none">
+                    <h3 class="card-title" style="color:white">聯絡客服</h3>
                 </div>
-                <div class="direct-chat-msg right" id="adminbox">
+                <input type="hidden" id="displayname" />
 
-                </div>
-            </div>
+                <div class="card-body">
+                    <!-- Conversations are loaded here -->
+                    <div class="direct-chat-messages" id="chatbox" style="margin:10px; padding:10px">
 
-            <div class="card-footer">
-                <div class="input-group">
-                    <div class="col-12 col-md-9 col-lg-10 mb-2">
-                        <input type="text" name="message" placeholder="輸入訊息..." class="form-control" id="message" autocomplete="off">
+
                     </div>
-                    <div class="col-12 col-md-3 col-lg-2">
-                        <span class="input-group-append">
-                            <input type="button" class="button primary fit" id="sendmessage" value="傳送" />
+                    <div class="direct-chat-msg right" id="adminbox">
 
-                        </span>
                     </div>
                 </div>
+
+                <div class="card-footer">
+                    <div class="input-group">
+                        <div class="col-12 col-md-9 col-lg-10 mb-2">
+                            <input type="text" name="message" placeholder="輸入訊息..." class="form-control" id="message" autocomplete="off">
+                        </div>
+                        <div class="col-12 col-md-3 col-lg-2">
+                            <span class="input-group-append">
+                                <input type="button" class="button primary fit" id="sendmessage" value="傳送" />
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
     </div>
-</section>
+</div>
+@*</section>*@
 
-<!--</div>-->
-@section scripts {
+        <!--</div>-->
+        @section scripts {
 
-    <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
-    <script src="~/signalr/hubs"></script>
-    <script src="~/Content/moment-js/moment.min.js"></script>
+            <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
+            <script src="~/signalr/hubs"></script>
+            <script src="~/Content/moment-js/moment.min.js"></script>
 
-    <script>
+            <script>
         $(function () {
 
 
@@ -137,6 +157,6 @@
             });
         });
 
-    </script>
-}
+            </script>
+        }
 
