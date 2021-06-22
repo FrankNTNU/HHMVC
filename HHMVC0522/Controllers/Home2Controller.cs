@@ -268,7 +268,7 @@ namespace UI.Controllers
                 .SingleOrDefault(wgtl => wgtl.MemberID == MemberID 
                 && DbFunctions.TruncateTime(wgtl.UpdatedDate) == DateTime.Today);
 
-            //todo if Session["NoWeightLog"] is true, set it to false
+            //if Session["NoWeightLog"] is true, set it to false
             if (weightLog != null)
             {
                 weightLog.Weight = resultWeight;
@@ -286,6 +286,7 @@ namespace UI.Controllers
 
             dbContext.SaveChanges();
 
+            //if set Session["NoWeightLog"] to false
             Session["NoWeightLog"] = false;
 
             return Json(new { Result = "Success", GetPoints = GetPoints });

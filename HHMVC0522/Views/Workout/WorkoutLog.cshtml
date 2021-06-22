@@ -762,8 +762,8 @@
         );
 
         jQuery.fn.dataTableExt.oSort['datetime-asc'] = function (x, y) {
-            let xDate = new Date(moment(x, "yyyy年MM月DD日 HH:mm"));
-            let yDate = new Date(moment(y, "yyyy年MM月DD日 HH:mm"));
+            let xDate = new Date(moment(x, "yyyy年MM月DD日 HH:mm:ss"));
+            let yDate = new Date(moment(y, "yyyy年MM月DD日 HH:mm:ss"));
             if (xDate.getTime() > yDate.getTime()) {
                 return 1;
             } else {
@@ -772,8 +772,8 @@
         };
 
         jQuery.fn.dataTableExt.oSort['datetime-desc'] = function (x, y) {
-            let xDate = new Date(moment(x, "yyyy年MM月DD日 HH:mm"));
-            let yDate = new Date(moment(y, "yyyy年MM月DD日 HH:mm"));
+            let xDate = new Date(moment(x, "yyyy年MM月DD日 HH:mm:ss"));
+            let yDate = new Date(moment(y, "yyyy年MM月DD日 HH:mm:ss"));
             if (xDate.getTime() > yDate.getTime()) {
                 return -1;
             } else {

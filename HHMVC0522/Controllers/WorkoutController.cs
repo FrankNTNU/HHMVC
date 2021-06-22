@@ -16,7 +16,7 @@ namespace UI.Controllers
     {
         HealthHelperEntities dbContext = new HealthHelperEntities();
 
-        //todo If user has a program, TDEE is calculated by initialWeight
+        //If user has a program, TDEE is calculated by initialWeight
         public decimal TDEE
         {
             get
