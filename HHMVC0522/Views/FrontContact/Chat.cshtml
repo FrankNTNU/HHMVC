@@ -4,9 +4,7 @@
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 @section Styles {
-    @*<link href="~/Areas/Admin/Content/CSS/adminlte.min.css" rel="stylesheet" />*@
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
     <link href="~/Content/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link href="~/Areas/Admin/Content/CSS/adminlte.min.css" rel="stylesheet" />
@@ -15,37 +13,23 @@
             border-left-color: #f56a6a;
         }
 
-        a {
+        .direct-chat-messages a {
             font-weight: 600;
             color: lavender;
         }
 
-        a:hover {
+        .direct-chat-messages a:hover {
             color: white !important;
         }
 
-        #mainDiv {
-            width: 100%;
-            margin: auto;
-            margin-top: 20px;
-            position: relative;
-            /*width: 500px;*/
-            /*top: 80px;*/
-        }
-
-        #mainRow {
-            position: relative;
-            left: 20px;
-            width: 100%;
+        #sidebar {
+            width: 15em !important;
         }
     </style>
 }
 
-@*<section class="pt-3">
-    <header class="major"><h2 class="mb-3"><i class="fas fa-mobile-alt"></i> 線上客服</h2></header>*@
-<div id="mainDiv">
-    <div id="mainRow" class="row">
-        <div class="mainTitle col-12">體重紀錄</div>
+<section class="pt-3">
+    <header class="major"><h2 class="mb-3"><i class="fas fa-mobile-alt"></i> 線上客服</h2></header>
         <div class="col-md-10 m-auto" style="height:auto">
             <!-- DIRECT CHAT WARNING -->
             <div class="card direct-chat direct-chat-warning">
@@ -80,9 +64,7 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-@*</section>*@
+</section>
 
         <!--</div>-->
         @section scripts {

@@ -11,11 +11,9 @@
     <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
     <style>
         .mainTitle {
-            font-size: 3em;
-            font-weight: 600;
-            font-style: italic;
-            color: #f56a6a;
-            padding: 0;
+            position: relative;
+            left: -5px;
+            padding-left: 0;
         }
 
         .myBox {
@@ -86,7 +84,7 @@
 
 <div id="mainDiv">
     <div id="mainRow" class="row">
-        <div class="mainTitle col-12">運動喜好</div>
+        <header class="major col-12 mainTitle"><h2 class="mb-3"><i class="fas fa-star"></i> 喜好管理</h2></header>
         <div class="row col-12" id="wcBox" style="padding:0; position:relative; left:20px;">
             <div class="myBox col-5 col-12-medium" style="min-height:250px" id="wcSource">
                 <div class="title">運動類型</div>

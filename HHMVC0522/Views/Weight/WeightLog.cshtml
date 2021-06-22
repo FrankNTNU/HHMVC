@@ -10,17 +10,15 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/r-2.2.7/datatables.min.css" />
     <style>
         .mainTitle {
-            font-size: 3em;
-            font-weight: 600;
-            font-style: italic;
-            color: #f56a6a;
-            padding: 0;
+            position: relative;
+            left: -5px;
+            padding-left: 0;
         }
 
         #mainDiv {
             width: 100%;
             margin: auto;
-            margin-top: 20px;
+            margin-top: 16px;
             position: relative;
             /*width: 500px;*/
             /*top: 80px;*/
@@ -124,7 +122,7 @@
 
 <div id="mainDiv">
     <div id="mainRow" class="row">
-        <div class="mainTitle col-12">體重紀錄</div>
+        <header class="major col-12 mainTitle"><h2 class="mb-3"><i class="fas fa-weight"></i> 體重紀錄</h2></header>
         <div class="myBox col-5 col-5-medium col-12-small" style="display:flex; flex-direction:column">
             <div class="myBox operate">
                 <div id="newTitle">新增體重紀錄</div>
