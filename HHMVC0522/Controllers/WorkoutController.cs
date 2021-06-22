@@ -329,8 +329,9 @@ namespace UI.Controllers
             //==================================================================
             //For chart
             decimal todayIngest = TodayIngest();
+            decimal todayConsume = TodayConsume();
 
-            TodayCaloriesToPercent(this.TDEE, todayIngest, TodayConsume(),
+            TodayCaloriesToPercent(this.TDEE, todayIngest, todayConsume,
                 out decimal TDEEPercent, out decimal IngestPercent, out decimal ConsumePercent);
 
             ViewBag.TDEE = TDEEPercent;
@@ -493,7 +494,7 @@ namespace UI.Controllers
                 .Where(wp => wp.MemberID == MemberID)
                 .SelectMany(wp => wp.WorkoutCategory.Workouts);
 
-            decimal warning = todayIngest / this.TDEE;
+            decimal warning = (todayIngest - todayConsume) / this.TDEE;
 
             vm.Warning = $"為TDEE的 {warning:0.00}%";
 
