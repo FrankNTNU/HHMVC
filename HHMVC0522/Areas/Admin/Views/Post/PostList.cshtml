@@ -19,9 +19,9 @@
     <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Post/AddPost'">新增貼文</button>
 </div>
 @*@using DTO
-@{
-    CountDTO countDTO = (CountDTO)ViewData["AllCounts"];
-}*@
+    @{
+        CountDTO countDTO = (CountDTO)ViewData["AllCounts"];
+    }*@
 <div class="card">
     <!--</div>-->
     <!-- /.row -->
@@ -42,56 +42,56 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr id="a_@item.ID">
-                    <td>@item.Title</td>
-                    <td>
-                        @item.CategoryName
-                    </td>
-                    <td>
-                        @item.AddDate.ToString("yyyy.MM.dd")
-                    </td>
-                    @if (!item.IsApproved)
-                    {
+                    <tr id="a_@item.ID">
+                        <td>@item.Title</td>
+                        <td>
+                            @item.CategoryName
+                        </td>
+                        <td>
+                            @item.AddDate.ToString("yyyy.MM.dd")
+                        </td>
+                        @if (!item.IsApproved)
+                        {
+                            <td align="center" valign="middle">
+                                <a href="/Admin/Post/ApprovePost/@item.ID">
+                                    <img src="~/Areas/Admin/Content/icon/approve.png" />
+                                </a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td align="center" valign="middle">
+                                已核准
+                            </td>
+                        }
+                        @if (item.IsApproved)
+                        {
+                            <td align="center" valign="middle">
+                                <a href="/Admin/Post/BlockPost/@item.ID">
+                                    <img src="~/Areas/Admin/Content/icon/lockIcon.png" />
+                                </a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td align="center" valign="middle">
+                                已隱蔽
+                            </td>
+                        }
                         <td align="center" valign="middle">
-                            <a href="/Admin/Post/ApprovePost/@item.ID">
-                                <img src="~/Areas/Admin/Content/icon/approve.png" />
+
+                            <a href="/Admin/Post/UpdatePost/@item.ID">
+                                <img src="~/Areas/Admin/Content/icon/update-icon.png" />
                             </a>
                         </td>
-                    }
-                    else
-                    {
                         <td align="center" valign="middle">
-                            已核准
-                        </td>
-                    }
-                    @if (item.IsApproved)
-                    {
-                        <td align="center" valign="middle">
-                            <a href="/Admin/Post/BlockPost/@item.ID">
-                                <img src="~/Areas/Admin/Content/icon/lockIcon.png" />
+
+                            <a href="#">
+                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Post/DeletePost/', @item.ID)" />
                             </a>
+
                         </td>
-                    }
-                    else
-                    {
-                        <td align="center" valign="middle">
-                            已隱蔽
-                        </td>
-                    }
-                    <td align="center" valign="middle">
-
-                        <a href="/Admin/Post/UpdatePost/@item.ID">
-                            <img src="~/Areas/Admin/Content/icon/update-icon.png" />
-                        </a>
-                    </td>
-                    <td align="center" valign="middle">
-
-                        <a href="#">
-                            <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Post/DeletePost/', @item.ID)" />
-                        </a>
-
-                    </td>
-                </tr>
+                    </tr>
                 }
             </tbody>
             <tfoot>
@@ -111,3 +111,4 @@
     <!-- /.card-body -->
 </div>
 <!-- /.card -->
+<script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>

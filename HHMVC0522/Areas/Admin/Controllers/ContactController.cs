@@ -34,9 +34,14 @@ namespace UI.Areas.Admin.Controllers
             }
             return Json(UserStatic.ConnectedUsers,JsonRequestBehavior.AllowGet);
         }
-        public JsonResult HasChanged(IEnumerable<UserDetail> previousList)
+        public JsonResult HasChanged(string previousList)
         {
-            if (UserStatic.ConnectedUsers != previousList)
+            string newList = "";
+            foreach (var item in UserHandler.ConnectedIds)
+            {
+                newList += item;
+            }
+            if (newList != previousList)
             {
                 return Json("true");
             }

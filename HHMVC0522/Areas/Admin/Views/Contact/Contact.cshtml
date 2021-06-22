@@ -192,12 +192,18 @@
             GetOnlineUsers();
             //}
         }, 5000)
-        
+
         @*function HasChanged() {
             var hasChanged;
+            var listOfConnIDs = "";
+            var previousIds = @DTO.UserHandler.ConnectedIds;
+            previousIds.forEach(function (item, index) { listOfConnIDs += item; }));
+
+           
+
             $.ajax({
                 url: "HasChanged",
-                data: { previousList: @DTO.UserHandler.ConnectedIds },
+                data: { previousList: listOfConnIDs },
                 success: function (result) {
                     hasChanged = result;
                     console.log(hasChanged);

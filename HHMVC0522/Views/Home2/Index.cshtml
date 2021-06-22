@@ -9,42 +9,41 @@
 @section Styles {
     <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
     <link href="~/Content/toastr/toastr.min.css" rel="stylesheet" />
-    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <style>
+        .d-md-block {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px 10px;
+        }
+        
+    </style>
 }
-
-
-
         <!-- Banner -->
-        <section id="banner">
-            <div class="row" style="width:100%">
-                <div class="col-12 col-lg-6">
+        <section id="banner" class="pt-3 pb-2">
+            <div class="row">
+                <div class="col-12 col-lg-6 mb-3">
                     @if (Session["ID"] != null)
                     {
-                    <h1>
-                        Hi, @Session["Name"]<br />
-                        歡迎回到HealthHelper，<br />你的健康管理助手
-                    </h1>
+                        <h2><i class="far fa-flag"></i>
+                            Hi, @Session["Name"]<br />
+                            歡迎回到 HealthHelper，<br />你的健康管理助手
+                        </h2>
                     }
                     else
                     {
-                        <h1>
-                            歡迎來到<span style="font-size:0.9em">HealthHelper</span>
+                        <h2>
+                            歡迎來到<span style="font-size:0.9em"> HealthHelper</span>
 
-                        </h1>
+                        </h2>
                         <h2>登入以啟用更多功能</h2>
                     }
+                <div class="actions pt-2 m-auto">
+                    @if (Session["ID"] == null)
+                    {
+                        <a href="/Home2/Login" class="button primary big mr-5" style="text-decoration: none"><i class="fas fa-user"></i> 登入</a>}<a href="#" class="button big" style="text-decoration: none"><i class="fas fa-book"></i> 遊戲規則</a>
+                    </div>
 
-                    <ul>
-                        <li><p>完整的個人每日的飲食、運動紀錄，最完善的熱量及營養控管平台</p></li>
-                        <li><p>提供最新的營養資訊、留言板促進社群互動，並分享健康生活紀錄</p></li>
-                        <li><p>飲食、運動紀錄資訊以精美報表製圖取代數字呈現，資訊一目瞭然</p></li>
-                    </ul>
-                    <ul class="actions" style="margin-left: 10px; ">
-                        <li><a href="#" class="button big" style="text-decoration: none"><i class="fas fa-book"></i> 遊戲規則</a></li>
-                    </ul>
+                   
                 </div>
                 <div class="col-12 col-lg-6">
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -93,7 +92,7 @@
 
 
         <!-- Section -->
-        <section>
+        <section class="pt-5 pb-5">
             <header class="row">
                 <div class="row col-12">
                     <div class="col-8 col-sm-9 col-md-10" style="display:inline;">

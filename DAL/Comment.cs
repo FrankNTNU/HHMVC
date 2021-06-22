@@ -20,8 +20,6 @@ namespace DAL
         public int MemberID { get; set; }
         public System.DateTime AddDate { get; set; }
         public bool IsApproved { get; set; }
-        public int Rating { get; set; }
-        public string Feedback { get; set; }
         public Nullable<int> PostID { get; set; }
         public Nullable<int> CommentID { get; set; }
         public string Name { get; set; }

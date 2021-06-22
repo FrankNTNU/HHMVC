@@ -7,39 +7,31 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         #messageInfo strong {
-            color: white;
+            color: white;   
         }
 
         a.toggle {
             color: red;
         }
 
-        .image-upload .browseBtn {
-            /*        visibility: hidden;
-        */
-        }
+        
     </style>
 }
 
 @model DTO.PostDTO
 <!-- Content -->
 
-<section>
+<section class="pt-3">
     <div class="row">
-        <div class="col-8 col-12-medium">
+        <div class="col-12 col-md-8">
             <header class="major">
-                @if (Model.IsUpdate)
-                {
-                    <h2>編輯貼文 </h2>
-                }
-                else
-                {
-                    <h2>新增你的貼文</h2>
-                }
+                
+               <h2 class="mb-2">新增你的貼文</h2>
+                
             </header>
         </div>
     </div>
-    <div class="col-8 col-12-small" style="padding:0px"> @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")</div>
+    <div class="col-12 col-md-8" style="padding:0px"> @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")</div>
 
     @using (Html.BeginForm("AddPost", "FrontPost", FormMethod.Post, new { @enctype = "multipart/form-data" }))
     {
@@ -47,38 +39,24 @@
 
 <div class="row gtr-uniform">
 
-    <div class="col-8 col-12-small">
+    <div class="col-12 col-md-8">
         <input hidden value="@Session["ID"]">
         <label>顯示名稱</label>
 
         <input type="text" id="demo-name" value="@Session["Name"]" placeholder="Name" readonly style="height:45px" />
     </div>
-    <div class="col-8 col-12-small">
+    <div class="col-12 col-md-8">
         <label>標題</label>
         <input type="text" name="Title" id="demo-email" value="" placeholder="標題" maxlength="50" style="height:45px" />                            @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
 
     </div>
-    <div class="col-8 col-12-small">
+    <div class="col-12 col-md-8">
         <label>大綱</label>
         <input type="text" name="ShortContent" id="demo-email" value="" placeholder="內容大綱" maxlength="100" style="height:45px" />                            @Html.ValidationMessageFor(x => x.ShortContent, "", new { @style = "color:red" })
 
     </div>
-    <!--<div class="col-8 col-12-small">
-        <label>貼文分類</label>-->
-    @*@Html.DropDownList("CategoryID", Model.Categories, "選擇貼文分類", new { @class = "form-control" })*@
-    <!--<select id="CategoryID" class="form-control" name="CategoryID">
-            <option selected value="0">所有分類</option>
-            <option value="1">貼文</option>
-            <option value="2">資訊</option>
-            <option value="3">公告</option>
-            <option value="4">規則</option>
-        </select>
-        @Html.ValidationMessageFor(x => x.CategoryID, "", new { @style = "color:red" })
-    </div>-->
-    <!-- Break -->
-    <!-- Break -->
-    <!-- Break -->
-    <div class="col-8 col-12-small">
+  
+    <div class="col-12 col-md-8">
         <label>貼文內容</label>
         <textarea name="PostContent" id="demo-message" placeholder="輸入你的貼文內容" rows="6" class="ckeditor"></textarea>                            @Html.ValidationMessageFor(x => x.PostContent, "", new { @style = "color:red" })
 
@@ -86,20 +64,15 @@
     <div>
         
     </div>
-    <div class="col-8 col-12-xsmall">
+
+    <div class="col-12 col-md-8">
 
         <label>圖片(建議長寬比16:9，單邊400px以上大圖)</label>
-        <div class="input-group">
+        <div>
             <label for="files" class="button icon solid fa-download">瀏覽...</label>
             <input id="files" style="visibility:hidden;" type="file" name="PostImage" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])">
 
-
-            @*<input type="file" name="PostImage" class="button icon solid fa-download" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])" style="padding:10px;height:45px" />*@
-
-
-
-
-            <img  id="PostImage" width="800" height="450" style="max-width:100%; top:10px" />
+            <img id="PostImage" width="800" height="450" style="max-width:100%; top:10px;border-radius:0px"/>
             <br />
         </div>
     </div>

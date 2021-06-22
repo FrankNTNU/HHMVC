@@ -22,7 +22,7 @@ namespace UI.Areas.Admin.Controllers
             commentList = commentBLL.GetAllComments();
             return View(commentList);
         }
-        [Authorize(Users = "admin")]
+        
         public ActionResult UnapprovedComments()
         {
             List<CommentDTO> commentList = commentBLL.GetUnapprovedComments();

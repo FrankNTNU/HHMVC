@@ -26,13 +26,5 @@ namespace UI.Controllers
             return View();
         }
        
-        //public ActionResult Chat(string userId, string message)
-        //{
-        //    var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-
-        //    context.Clients.User(userId).ReceiveFromCustomer(Session["Name"].ToString(), message);
-
-        //    return View();
-        //}
     }
 }

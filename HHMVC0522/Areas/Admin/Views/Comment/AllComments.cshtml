@@ -32,6 +32,7 @@
                     <th>標題</th>
                     <th>留言者</th>
                     <th>文章標題</th>
+                    <th>內容</th>
                     <th>新增日期</th>
                     <th>核准</th>
                     <th>刪除</th>
@@ -47,6 +48,9 @@
                     </td>
                     <td>
                         @item.PostTitle
+                    </td>
+                    <td>
+                        @Html.Raw(item.CommentContent)
                     </td>
                     <td>
                         @item.AddDate.ToString("yyyy.MM.dd")
@@ -79,6 +83,7 @@
                     <th>標題</th>
                     <th>內容</th>
                     <th>文章標題</th>
+                    <th>內容</th>
                     <th>新增日期</th>
                     <th>核准</th>
                     <th>刪除</th>

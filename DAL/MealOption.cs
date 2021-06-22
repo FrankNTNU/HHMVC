@@ -28,6 +28,7 @@ namespace DAL
         public string Image { get; set; }
         public Nullable<int> NutrientID { get; set; }
         public string UnitName { get; set; }
+        public string IsVisable { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DietLog> DietLogs { get; set; }
