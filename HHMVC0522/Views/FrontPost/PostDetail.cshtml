@@ -18,14 +18,28 @@
         .like__btn {
             border-radius: 0.4rem;
         }
+
         button {
             outline: none !important;
         }
-        
     </style>
 }
 
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
 
+        <div class="col-3 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-8 col-sm-6 col-md-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-file-alt"></i> 閱讀貼文</h2>
+        </div>
+        <div class="col-0 col-sm-3 col-md-3 col-lg-2 align-self-end justify-content-end d-none d-sm-block">
+            <a href="~/FrontPost/AllPosts"><label class="button primary"><i class="far fa-file"></i> 所有貼文</label></a>
+        </div>
+    </div>
+</header>
+<header id="header" class="m-0 p-0"></header>
 <!-- Content -->
 
 <section style="padding-top:30px">
@@ -37,7 +51,7 @@
                 <span class="button" style="        font-weight: bolder;
         margin-right: 10px;
         pointer-events: none
-">@Model.PostDetail.CategoryName</span>
+">@Model.PostDetail.CategoryName</span> <span class="d-sm-none"><a href="~/FrontPost/AllPosts"><label class="button primary"><i class="far fa-file"></i> 所有貼文</label></a></span>
 @if (!Model.PostDetail.IsApproved)
 {
     <span class="button primary" style="opacity:0.5;cursor:default;margin-right:10px;font-size:0.7em"> 核准中...</span>
@@ -99,7 +113,8 @@
 </div>
 <p></p>
 @if (Session["ID"] != null)
-{if (Model.PostDetail.MemberID == (int)Session["ID"])
+{
+    if (Model.PostDetail.MemberID == (int)Session["ID"])
     {
         <div class="row">
             <div class="col-1 col-lg-8 col-md-6 col-sm-6"></div>
@@ -115,12 +130,13 @@
 
 
     }
-    else { <div class="container">
-    <button class="like__btn animated default" data-assigned-id="@Model.PostDetail.ID" style="border-style: none;">
-        <i class="like__icon fa fa-heart"></i>
-        <span class="like__number">@Model.PostDetail.LikeCount</span>
-    </button>
-</div>}
+    else
+    { <div class="container">
+            <button class="like__btn animated default" data-assigned-id="@Model.PostDetail.ID" style="border-style: none;">
+                <i class="like__icon fa fa-heart"></i>
+                <span class="like__number">@Model.PostDetail.LikeCount</span>
+            </button>
+        </div>}
 
 }
 

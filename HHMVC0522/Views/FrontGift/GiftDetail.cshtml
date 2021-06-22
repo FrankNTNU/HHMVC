@@ -9,19 +9,27 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 }
 <!-- Content -->
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%;">
+
+        <div class="col-4 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-8 col-sm-6 col-md-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-gift"></i> 禮物資訊</h2>
+        </div>
+        <div class="col-0 col-sm-3 col-md-3 col-lg-2 align-self-end d-none d-sm-block">
+
+            <a href="~/FrontGift/GiftList"><label class="button primary"><i class="fas fa-gifts"></i> 禮物商店</label></a>
+
+
+        </div>
+    </div>
+</header>
+<header id="header" class="m-0 p-0"></header>
 
 <section>
-    <header class="row">
-        <div class="row col-12">
-            <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
-                <h3 style="margin-bottom: 10px;">
-                    <i class="fas fa-gift"></i> 禮物資訊
-                </h3>
-            </div>
-            <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
-                <a href="~/FrontGift/GiftList"><label class="button primary">返回商店</label></a>
-            </div>
-        </div>
+   
         @if (Session["ID"] != null)
         {
             <div class="col-12" style="text-align:center;font-size:1.2em">
@@ -31,8 +39,7 @@
             </div>
         }
 
-    </header>
-    <header class="major"><p class="col-12"></p></header>
+
     <div class="row">
         <div class="col-12 col-sm-4 col-md-4 d-flex align-items-center justify-content-center" style="margin:auto;top:-20px">
             <img class="image" src="~/Areas/Admin/Content/GiftImages/@Model.Image" style="max-width:90%" />
@@ -99,7 +106,7 @@
 </section>
 
 @section Scripts {
-   
+
     <script>
         $("#btnRedeem").click(function () {
             if (@Model.Points > parseInt(@Session["Points"])) {

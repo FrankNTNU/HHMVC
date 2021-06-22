@@ -42,8 +42,11 @@ namespace UI.Controllers
             return View(model);
         }
         GiftCartBLL cartBLL = new GiftCartBLL();
+        [Authorize]
         public ActionResult GiftCart(int userID)
         {
+            if (Session["ID"] == null)
+                return Redirect("~/Home2/Login");
             List<GiftCartDTO> carts = new List<GiftCartDTO>();
             carts = cartBLL.GetGiftCarts(userID);
             return View(carts);

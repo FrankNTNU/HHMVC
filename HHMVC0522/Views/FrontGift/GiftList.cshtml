@@ -15,86 +15,77 @@
             color: black;
         }
     </style>
-}
+} <header id="header" style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+      <div class="row" style="width: 100%; padding-right: 20px">
 
-        <!-- Section -->
-        <section>
-            <header class="row">
-                <div class="row col-12">
-                    <div class="col-7 col-sm-9 col-md-10" style="display:inline;">
-                        <h3 style="margin-bottom: 10px;">
-                            <i class="fas fa-gift" style="width:30px"></i> 禮物商店
-                        </h3>
-                    </div>
-                    <div class="col-4 col-md-2" style="padding-right:0px; text-align:end">
-                        @if (Session["ID"] != null)
-                        {<a href="~/FrontGift/GiftCart?userID=@Session["ID"]"><label class="button primary">檢視禮物車</label></a>
-                        }
-                        else
-                        {
-                            <a href="~/Home2/Login"><label class="button primary">登入</label></a>
+          <div class="col-4 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+              <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+          </div>
+          <div class="col-6 col-sm-6 col-md-7 col-lg-8 p-1 align-self-center">
+              <h2><i class="fas fa-gift"> </i> 禮物商店</h2>
+          </div>
+          <div class="col-2 col-sm-2 col-md-2 align-self-end justify-content-end d-flex">
+              @if (Session["ID"] != null)
+              {<a href="~/FrontGift/GiftCart?userID=@Session["ID"]"><label class="button primary"><i class="fas fa-shopping-cart"> </i> 檢視已兌換</label></a>
+              }
+              else
+              {
+                  <a href="~/Home2/Login"><label class="button primary">登入</label></a>
 
-                        }
-                    </div>
-                </div>
-                @if (Session["ID"] != null)
+              }
+          </div>
+      </div>
+</header>
+<!-- Section -->
+<section class="pt-3">
+    <div class="row" style="margin-bottom:5px">
+        <div class="col-12 col-md-6 mb-1">
+            <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
+        </div>
+        <div class="col-12 col-md-6 mb-1">
+            <select id="searchFilter" class="form-control">
+                <option selected disabled value="-1">排序條件</option>
+                <option value=0>點數: 低 => 高</option>
+                <option value=1>點數: 高 => 低</option>
+            </select>
+        </div>
+    </div>
+    <div class="row" id="resultList">
+
+    </div>
+    <div class="row" id="cartList">
+        @foreach (var item in Model)
+        {
+            <div class="col-6 col-sm-4 col-md-4 col-lg-3 mb-5" style="text-align:center">
+                @if (item.EndDate < DateTime.Today)
                 {
-                    <div class="col-12">
-                        <strong>@Session["Name"]</strong> 目前擁有 
-                        <strong>@Session["Points"] </strong>點
-                    </div>
-                }
-
-            </header>
-            <header class="major"><p class="col-12" style="margin-bottom:5px"></p></header>
-            <div class="row" style="margin-bottom:5px">
-                <div class="col-12 col-md-6 mb-1">
-                    <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
-                </div>
-                <div class="col-12 col-md-6 mb-1">
-                    <select id="searchFilter" class="form-control">
-                        <option selected disabled value="-1">排序條件</option>
-                        <option value=0>點數: 低 => 高</option>
-                        <option value=1>點數: 高 => 低</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row" id="resultList">
-
-            </div>
-            <div class="row" id="cartList">
-                @foreach (var item in Model)
-                {
-                <div class="col-6 col-sm-4 col-md-4 col-lg-3 mb-5" style="text-align:center">
-                    @if (item.EndDate < DateTime.Today)
-                    {
                     <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
                         <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%;opacity:0.3" />
                         <div class="centered"><h5>已截止</h5></div>
                     </a>
-                    }
-                    else
-                    { <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
-                            <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%" />
-                        </a>
-                    }
-
-                    <div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">
-                        <label style="font-weight: bolder;font-size:1em;display: inline-block;margin:0px">
-                            @item.Points 點
-                        </label>
-                    </div>
-                    <strong style="text-align: center">@item.Name</strong>
-                    <p>剩餘 @item.Quantity 件</p>
-                </div>
                 }
+                else
+                { <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
+                        <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%" />
+                    </a>
+                }
+
+                <div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">
+                    <label style="font-weight: bolder;font-size:1em;display: inline-block;margin:0px">
+                        @item.Points 點
+                    </label>
+                </div>
+                <strong style="text-align: center">@item.Name</strong>
+                <p>剩餘 @item.Quantity 件</p>
             </div>
-            
-        </section>
- 
+        }
+    </div>
+
+</section>
+
 @section Scripts {
 
- 
+
     <script>
         var timeOut = null;
         $(document).ready(function () {
@@ -179,7 +170,7 @@
                                 .text(value.Name).appendTo(resultDiv);
                             $("<p></p>").text("剩餘" + value.Quantity + "件").appendTo(resultDiv);
                             $("#cartList").append(resultDiv);
-                        $('#cartList').show();
+                            $('#cartList').show();
                         })
                     }
                 })
