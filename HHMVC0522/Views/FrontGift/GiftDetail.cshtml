@@ -10,7 +10,7 @@
 }
 <!-- Content -->
 <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
-    <div class="row" style="width: 100%;">
+    <div class="row" style="width: 100%; padding-right: 20px">
 
         <div class="col-4 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
             <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
@@ -28,19 +28,20 @@
 </header>
 <header id="header" class="m-0 p-0"></header>
 
-<section>
-   
-        @if (Session["ID"] != null)
-        {
-            <div class="col-12" style="text-align:center;font-size:1.2em">
-                <strong>@Session["Name"]</strong> 目前擁有 <strong>
-                    @Session["Points"]
-                </strong>點
-            </div>
-        }
+<section class="pt-2">
 
 
-    <div class="row">
+
+    @if (Session["ID"] != null)
+    {
+    <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
+        <i class="far fa-user"> </i>  <strong>@Session["Name"]</strong> 目前擁有 <strong>
+            @Session["Points"]
+        </strong>點
+    </div>
+    }
+    <div class="row mt-1">
+
         <div class="col-12 col-sm-4 col-md-4 d-flex align-items-center justify-content-center" style="margin:auto;top:-20px">
             <img class="image" src="~/Areas/Admin/Content/GiftImages/@Model.Image" style="max-width:90%" />
 

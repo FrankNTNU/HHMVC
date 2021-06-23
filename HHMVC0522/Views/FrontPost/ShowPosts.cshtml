@@ -9,21 +9,30 @@
 @section Styles{
     <link href="~/Content/PagedList.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus  {
+            background-color: #fff0f0;
+            border:1px solid grey;
+        }
+        a {
+            color: #e82a2a;
+        }
+    </style>
 
 }
 @model IPagedList<DTO.PostDTO>
 <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
-    <div class="row" style="width: 100%; ">
+    <div class="row" style="width: 100%; padding-right: 20px">
 
         <div class="col-4 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
             <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-6 col-sm-4 col-md-6 col-lg-8 p-1 align-self-center">
-            <h2><i class="fas fa-file-alt"></i> 所有貼文</h2>
+            <h2><i class="fas fa-file-alt"></i> 所有文章</h2>
         </div>
         <div class="col-2 col-sm-4 col-md-3 col-lg-2 align-self-end justify-content-end d-none d-sm-block">
 
-            <a href="~/FrontPost/AddPost"><label class="button primary"><i class="fas fa-pen"></i> 發布貼文</label></a>
+            <a href="~/FrontPost/AddPost"><label class="button primary"><i class="fas fa-pen"></i> 發布文章</label></a>
 
         </div>
     </div>

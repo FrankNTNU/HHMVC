@@ -15,29 +15,38 @@
             color: black;
         }
     </style>
-} <header id="header" style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
-      <div class="row" style="width: 100%; padding-right: 20px">
+} <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
 
-          <div class="col-4 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
-              <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
-          </div>
-          <div class="col-6 col-sm-6 col-md-7 col-lg-8 p-1 align-self-center">
-              <h2><i class="fas fa-gift"> </i> 禮物商店</h2>
-          </div>
-          <div class="col-2 col-sm-2 col-md-2 align-self-end justify-content-end d-flex">
-              @if (Session["ID"] != null)
-              {<a href="~/FrontGift/GiftCart?userID=@Session["ID"]"><label class="button primary"><i class="fas fa-shopping-cart"> </i> 檢視已兌換</label></a>
-              }
-              else
-              {
-                  <a href="~/Home2/Login"><label class="button primary">登入</label></a>
+        <div class="col-4 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-6 col-sm-6 col-md-7 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-gift"> </i> 禮物商店</h2>
+        </div>
+        <div class="col-2 col-sm-2 col-md-2 align-self-end justify-content-end d-flex">
+            @if (Session["ID"] != null)
+            {<a href="~/FrontGift/GiftCart?userID=@Session["ID"]"><label class="button primary"><i class="fas fa-shopping-cart"> </i> 檢視已兌換</label></a>
+            }
+            else
+            {
+                <a href="~/Home2/Login"><label class="button primary">登入</label></a>
 
-              }
-          </div>
-      </div>
-</header>
+            }
+        </div>
+    </div>
+</header><header id="header" class="m-0 p-0"></header>
+
 <!-- Section -->
 <section class="pt-3">
+    @if (Session["ID"] != null)
+    {
+        <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
+            <i class="far fa-user"> </i> <strong>@Session["Name"]</strong> 目前擁有 <strong>
+                @Session["Points"]
+            </strong>點
+        </div>
+    }
     <div class="row" style="margin-bottom:5px">
         <div class="col-12 col-md-6 mb-1">
             <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />

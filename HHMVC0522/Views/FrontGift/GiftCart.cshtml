@@ -55,7 +55,14 @@
 <header id="header" class="m-0 p-0"></header>
 
 <section class="pt-2">
-
+    @if (Session["ID"] != null)
+    {
+    <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
+        <i class="far fa-user"> </i> <strong>@Session["Name"]</strong> 目前剩餘 <strong>
+            @Session["Points"]
+        </strong>點
+    </div>
+    }
     <div class="row" style="margin-bottom:5px">
         <div class="col-12 col-md-6 mb-1">
             <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
