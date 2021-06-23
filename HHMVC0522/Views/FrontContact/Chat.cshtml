@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 @section Styles {
-    
+
     <link href="~/Content/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link href="~/Areas/Admin/Content/CSS/adminlte.min.css" rel="stylesheet" />
@@ -27,9 +27,18 @@
         }
     </style>
 }
-
-<section class="pt-3">
-    <header class="major"><h2 class="mb-3"><i class="fas fa-mobile-alt"></i> 線上客服</h2></header>
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
+        <div class="col-4 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-mobile-alt"></i> 線上客服</h2>
+        </div>
+    </div>
+</header>
+<header id="header" class="m-0 p-0"></header>
+<section class="pt-5">
     <div class="col-md-10 m-auto" style="height:auto">
         <!-- DIRECT CHAT WARNING -->
         <div class="card direct-chat direct-chat-warning">

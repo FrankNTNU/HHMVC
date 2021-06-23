@@ -7,84 +7,89 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         #messageInfo strong {
-            color: white;   
+            color: white;
         }
 
         a.toggle {
             color: red;
         }
-
-        
     </style>
 }
 
 @model DTO.PostDTO
 <!-- Content -->
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
 
-<section class="pt-3">
-    <div class="row">
-        <div class="col-12 col-md-8">
-            <header class="major">
-                
-               <h2 class="mb-2">新增你的貼文</h2>
-                
-            </header>
+        <div class="col-4 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-6 col-sm-4 col-md-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-pencil-alt"> </i> 新增貼文</h2>
+        </div>
+        <div class="col-2 col-sm-3 col-md-2 col-lg-2 align-self-end justify-content-end d-none d-sm-block">
+            <a href="~/FrontPost/AllPosts"><label class="button primary"><i class="far fa-file"></i> 所有貼文</label></a>
+
         </div>
     </div>
+</header><header id="header" class="m-0 p-0"></header>
+
+<section class="pt-3">
+
     <div class="col-12 col-md-8" style="padding:0px"> @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")</div>
 
     @using (Html.BeginForm("AddPost", "FrontPost", FormMethod.Post, new { @enctype = "multipart/form-data" }))
     {
 
 
-<div class="row gtr-uniform">
+        <div class="row gtr-uniform">
 
-    <div class="col-12 col-md-8">
-        <input hidden value="@Session["ID"]">
-        <label>顯示名稱</label>
+            <div class="col-12 col-md-8">
+                <input hidden value="@Session["ID"]">
+                <label>顯示名稱</label>
 
-        <input type="text" id="demo-name" value="@Session["Name"]" placeholder="Name" readonly style="height:45px" />
-    </div>
-    <div class="col-12 col-md-8">
-        <label>標題</label>
-        <input type="text" name="Title" id="demo-email" value="" placeholder="標題" maxlength="50" style="height:45px" />                            @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
+                <input type="text" id="demo-name" value="@Session["Name"]" placeholder="Name" readonly style="height:45px" />
+            </div>
+            <div class="col-12 col-md-8">
+                <label>標題</label>
+                <input type="text" name="Title" id="demo-email" value="" placeholder="標題" maxlength="50" style="height:45px" />                            @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
 
-    </div>
-    <div class="col-12 col-md-8">
-        <label>大綱</label>
-        <input type="text" name="ShortContent" id="demo-email" value="" placeholder="內容大綱" maxlength="100" style="height:45px" />                            @Html.ValidationMessageFor(x => x.ShortContent, "", new { @style = "color:red" })
+            </div>
+            <div class="col-12 col-md-8">
+                <label>大綱</label>
+                <input type="text" name="ShortContent" id="demo-email" value="" placeholder="內容大綱" maxlength="100" style="height:45px" />                            @Html.ValidationMessageFor(x => x.ShortContent, "", new { @style = "color:red" })
 
-    </div>
-  
-    <div class="col-12 col-md-8">
-        <label>貼文內容</label>
-        <textarea name="PostContent" id="demo-message" placeholder="輸入你的貼文內容" rows="6" class="ckeditor"></textarea>                            @Html.ValidationMessageFor(x => x.PostContent, "", new { @style = "color:red" })
+            </div>
 
-    </div>
-    <div>
-        
-    </div>
+            <div class="col-12 col-md-8">
+                <label>貼文內容</label>
+                <textarea name="PostContent" id="demo-message" placeholder="輸入你的貼文內容" rows="6" class="ckeditor"></textarea>                            @Html.ValidationMessageFor(x => x.PostContent, "", new { @style = "color:red" })
 
-    <div class="col-12 col-md-8">
+            </div>
+            <div>
 
-        <label>圖片(建議長寬比16:9，單邊400px以上大圖)</label>
-        <div>
-            <label for="files" class="button icon solid fa-download">瀏覽...</label>
-            <input id="files" style="visibility:hidden;" type="file" name="PostImage" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])">
+            </div>
 
-            <img id="PostImage" width="800" height="450" style="max-width:100%; top:10px;border-radius:0px"/>
-            <br />
+            <div class="col-12 col-md-8">
+
+                <label>圖片(建議長寬比16:9，單邊400px以上大圖)</label>
+                <div>
+                    <label for="files" class="button icon solid fa-download">瀏覽...</label>
+                    <input id="files" style="visibility:hidden;" type="file" name="PostImage" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])">
+
+                    <img id="PostImage" width="800" height="450" style="max-width:100%; top:10px;border-radius:0px" />
+                    <br />
+                </div>
+            </div>
+
+            <!-- Break -->
+            <div class="col-12">
+                <ul class="actions">
+                    <li><input type="submit" value="提交" class="primary" /></li>
+
+                </ul>
+            </div>
         </div>
-    </div>
-
-    <!-- Break -->
-    <div class="col-12">
-        <ul class="actions">
-            <li><input type="submit" value="提交" class="primary" /></li>
-
-        </ul>
-    </div>
-</div>
     }
     <!-- /.card-header -->
 
@@ -97,7 +102,7 @@
     <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
     <script>
         $(function () {
-        //    bsCustomFileInput.init();
+            //    bsCustomFileInput.init();
         });
     </script>
 }

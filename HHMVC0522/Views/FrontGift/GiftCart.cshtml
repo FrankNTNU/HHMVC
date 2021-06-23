@@ -35,23 +35,34 @@
 
 }
 @model List<DTO.GiftCartDTO>
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
 
-<section>
-    <header class="row">
-        <div class="row col-12">
-            <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
-                <h3 style="margin-bottom: 10px;">
-                    <i class="fas fa-shopping-cart"></i> @Session["Name"] 的已兌換禮物
-                </h3>
-            </div>
-            <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
-                <a href="~/FrontGift/GiftList"><label class="button primary">返回商店</label></a>
-            </div>
+        <div class="col-4 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
+        <div class="col-8 col-sm-6 col-md-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-shopping-cart"> </i> 已兌換禮物</h2>
+        </div>
+        <div class="col-0 col-sm-3 col-md-3 col-lg-2 align-self-end d-none d-sm-block">
+
+            <a href="~/FrontGift/GiftList"><label class="button primary"><i class="fas fa-gifts"></i> 禮物商店</label></a>
 
 
-    </header>
-    <header class="major"><p class="col-12" style="margin-bottom:5px"></p></header>
+        </div>
+    </div>
+</header>
+<header id="header" class="m-0 p-0"></header>
+
+<section class="pt-2">
+    @if (Session["ID"] != null)
+    {
+    <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
+        <i class="far fa-user"> </i> <strong>@Session["Name"]</strong> 目前剩餘 <strong>
+            @Session["Points"]
+        </strong>點
+    </div>
+    }
     <div class="row" style="margin-bottom:5px">
         <div class="col-12 col-md-6 mb-1">
             <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
@@ -114,8 +125,11 @@
                                 @if (!item.IsExpired)
                                 {
                                     <td style="vertical-align:middle;text-align:end">
-                                        @Html.ActionLink("寄給我", "SendBarcode", new { barcode = item.Barcode }, new { @class = "button default m-0", onclick = "return confirm('確定要將條碼寄送到信箱嗎?');", @style = "text-decoration:none" })
-
+                                        <a href="@Url.Action("SendBarcode", new { barcode = item.Barcode })"
+                                           class="button default m-0" style="text-decoration:none;" onclick="return confirm('確定要將條碼送到信箱嗎?')">
+                                            <i class="fas fa-envelope">
+                                            </i> 寄給我
+                                        </a>
                                     </td>
                                 }
                                 else
@@ -233,13 +247,19 @@
                                     .css("font-size", "3em").css("padding", "0px").css("padding-left", "10px")
                                     .text(value.Barcode).appendTo(fourthRow);
 
+
+
+
                                 if (!value.IsExpired) {
                                     let sendBtn = $("<td></td>").css("vertical-align", "middle").css("text-align", "end").appendTo(fourthRow);
-                                    $("<a/>").attr("href", "/SendBarcode?barcode=" + value.Barcode)
+
+                                    let icon = $("<i></i>").addClass("fas fa-envelope");
+                                    let link = $("<a/>").attr("href", "/FrontGift/SendBarcode?barcode=" + value.Barcode)
                                         .addClass("button default m-0")
                                         .css("text-decoration", "none")
-                                        .text("寄給我")
+                                        .text(" 寄給我 ")
                                         .on("click", function () { return confirm("確定要將條碼送到信箱嗎?"); }).appendTo(sendBtn);
+                                    icon.prependTo(link);
                                 }
                                 else {
                                     let expireLabel = $("<label></label>").addClass("button disabled primary m-0").text("已截止");
@@ -314,11 +334,14 @@
 
                             if (!value.IsExpired) {
                                 let sendBtn = $("<td></td>").css("vertical-align", "middle").css("text-align", "end").appendTo(fourthRow);
-                                $("<a/>").attr("href", "/SendBarcode?barcode=" + value.Barcode)
+
+                                let icon = $("<i></i>").addClass("fas fa-envelope");
+                                let link = $("<a/>").attr("href", "/FrontGift/SendBarcode?barcode=" + value.Barcode)
                                     .addClass("button default m-0")
                                     .css("text-decoration", "none")
-                                    .text("寄給我")
+                                    .text(" 寄給我 ")
                                     .on("click", function () { return confirm("確定要將條碼送到信箱嗎?"); }).appendTo(sendBtn);
+                                icon.prependTo(link);
                             }
                             else {
                                 let expireLabel = $("<label></label>").addClass("button disabled primary m-0").text("已截止");

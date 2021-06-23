@@ -25,8 +25,8 @@
         }
 
         /*div.ui-tooltip {*/
-            /*max-width: 400px;*/
-            /*word-wrap: break-word;
+        /*max-width: 400px;*/
+        /*word-wrap: break-word;
         }
 
         div.ui-tooltip-content {
@@ -47,7 +47,7 @@
         #mainDiv {
             width: 100%;
             margin: auto;
-            margin-top: 20px;
+            margin-top: 16px;
             position: relative;
             /*width: 500px;*/
             /*top: 80px;*/
@@ -86,9 +86,9 @@
             box-shadow: none !important;
         }
 
-        .gm-style-iw > button:focus {
-            outline: none !important;
-        }
+            .gm-style-iw > button:focus {
+                outline: none !important;
+            }
 
         li[aria-label="顯示包含地形的街道地圖"], li[aria-label="顯示包含街道名稱的圖像"] {
             display: flex;
@@ -97,13 +97,24 @@
     </style>
 
 }
-
-<div id="mainDiv">
-    <div id="mainRow" class="row">
-        <header class="major col-12 mainTitle"><h2 class="mb-3"><i class="fas fa-map-marker-alt"></i> 運動地點</h2></header>
-        <div id="map" class="myBox col-12"></div>
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
+        <div class="col-4 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-map-marker-alt"></i> 運動地點</h2>
+        </div>
     </div>
-</div>
+</header>
+<header id="header" class="m-0 p-0"></header>
+<section class="pt-2">
+    <div id="mainDiv">
+        <div id="mainRow" class="row">
+            <div id="map" class="myBox col-12"></div>
+        </div>
+    </div>
+</section>
 
 @section Scripts
 {
@@ -112,7 +123,7 @@
     @*<script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>*@
     @*<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>*@
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>*@
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>*@
     <script>
 
     let map;

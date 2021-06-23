@@ -56,8 +56,11 @@ namespace UI.Controllers
             layoutDTO = layoutBLL.GetPostDetailPageItemWithID(model.PostDetail.ID);
             return View(layoutDTO);
         }
+        [Authorize]
         public ActionResult UserPostList(int page = 1)
         {
+            if (Session["ID"] == null)
+                return Redirect("~/Home2/Index");
             int currentPage = page < 1 ? 1 : page;
             postListResult = postBLL.GetUserPosts((int)Session["ID"]);
             var result = postListResult.ToPagedList(currentPage, pageSize);
@@ -65,8 +68,10 @@ namespace UI.Controllers
             //return RedirectToAction("ShowPosts");
         }
         PostBLL postBLL = new PostBLL();
+        [Authorize]
         public ActionResult AddPost()
         {
+            
             PostDTO postDTO = new PostDTO();
             postDTO.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
             return View(postDTO);
@@ -194,13 +199,7 @@ namespace UI.Controllers
         }
         int pageSize = 5;
         static List<PostDTO> postListResult = new List<PostDTO>();
-        //public ActionResult NewsList(int page = 1)
-        //{
-        //    int currentPage = page < 1 ? 1 : page;
-        //    List<PostDTO> newsList = postBLL.GetNews();
-        //    var result = newsList.ToPagedList(currentPage, pageSize);
-        //    return View(result);
-        //}
+      
         public ActionResult ShowPosts(int page = 1)
         {
             int currentPage = page < 1 ? 1 : page;
@@ -281,11 +280,11 @@ namespace UI.Controllers
         {
             CommentDTO model = new CommentDTO();
             model = commentBLL.GetComment(commentID);
+            ViewBag.CurrentPostID = postID;
             return View(model);
         }
         [HttpPost]
         [ValidateInput(false)]
-
         public ActionResult UpdateComment(CommentDTO model)
         {
             if (ModelState.IsValid)

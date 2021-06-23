@@ -32,7 +32,7 @@
         #mainDiv {
             width: 100%;
             margin: auto;
-            margin-top: 20px;
+            margin-top: 16px;
             position: relative;
             /*width: 500px;*/
             /*top: 80px;*/
@@ -177,10 +177,6 @@
             margin: 5px;
         }
 
-        a:hover {
-            color: white !important;
-        }
-
         #IngestReport {
             padding-left: 3em;
         }
@@ -203,100 +199,110 @@
         }
     </style>
 }
-
-
-<div id="mainDiv">
-    <div id="mainRow" class="row">
-        <header class="major col-12 mainTitle"><h2 class="mb-3"><i class="fas fa-running"></i> 運動排程</h2></header>
-        <div id="check" class="myBox operate col-md-6 col-sm-12 col-12">
-            <div id="checkTitle">今日運動排程</div>
-            <div id="checkRow" class="row innerRow">
-            </div>
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
+        <div class="col-4 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
-        <div class="myBox col-md-6 col-sm-12 col-12" style="min-height:150px; position:relative">
-            <div id="scheduleTitle">未來7天運動排程</div>
-            <div class="row innerRow">
-                <div class="col-12 scheduleBox">
-                    <div class="schedule tomorrow">
-                        <div class="title">明天</div>
-                    </div>
-                </div>
-                <div class="col-12 scheduleBox">
-                    <div class="schedule">
-                        <div class="title">明天</div>
-                    </div>
-                </div>
-                <div class="col-12 scheduleBox">
-                    <div class="schedule">
-                        <div class="title">明天</div>
-                    </div>
-                </div>
-                <div class="col-12 scheduleBox">
-                    <div class="schedule">
-                        <div class="title">明天</div>
-                    </div>
-                </div>
-                <div class="col-12 scheduleBox">
-                    <div class="schedule">
-                        <div class="title">明天</div>
-                    </div>
-                </div>
-                <div class="col-12 scheduleBox">
-                    <div class="schedule">
-                        <div class="title">明天</div>
-                    </div>
-                </div>
-                <div class="col-12 scheduleBox">
-                    <div class="schedule future">
-                        <div class="title">明天</div>
-                    </div>
+        <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-running"></i> 運動排程</h2>
+        </div>
+    </div>
+</header>
+<header id="header" class="m-0 p-0"></header>
+<section class="pt-2">
+    <div id="mainDiv">
+        <div id="mainRow" class="row">
+            <div id="check" class="myBox operate col-md-6 col-sm-12 col-12">
+                <div id="checkTitle">今日運動排程</div>
+                <div id="checkRow" class="row innerRow">
                 </div>
             </div>
-        </div>
-        <div class="myBox operate col-md-6 col-sm-12 col-12">
-            <div id="chartTitle">今日熱量</div>
-            今日TDEE　<span id="tdee" class="tdee"></span>　卡路里<br/>
-            今日已攝取　<span id="todayIngest" class="ingest"></span>　卡路里<br />
-            今日已消耗　<span id="todayConsume" class="consume"></span>　卡路里
-            <div id="container" style="width: 100%; margin: 0 auto"></div>
-        </div>
-        <div class="myBox col-md-6 col-sm-12 col-12">
-            <div id="suggestTitle">運動推薦</div>
-            <div id="IngestReport">
-                @for (int i = 0; i < Model.TimeOfDay.Count; i++)
-                {
-                    if (@Model.IngestReport[i] != -1)
+            <div class="myBox col-md-6 col-sm-12 col-12" style="min-height:150px; position:relative">
+                <div id="scheduleTitle">未來7天運動排程</div>
+                <div class="row innerRow">
+                    <div class="col-12 scheduleBox">
+                        <div class="schedule tomorrow">
+                            <div class="title">明天</div>
+                        </div>
+                    </div>
+                    <div class="col-12 scheduleBox">
+                        <div class="schedule">
+                            <div class="title">明天</div>
+                        </div>
+                    </div>
+                    <div class="col-12 scheduleBox">
+                        <div class="schedule">
+                            <div class="title">明天</div>
+                        </div>
+                    </div>
+                    <div class="col-12 scheduleBox">
+                        <div class="schedule">
+                            <div class="title">明天</div>
+                        </div>
+                    </div>
+                    <div class="col-12 scheduleBox">
+                        <div class="schedule">
+                            <div class="title">明天</div>
+                        </div>
+                    </div>
+                    <div class="col-12 scheduleBox">
+                        <div class="schedule">
+                            <div class="title">明天</div>
+                        </div>
+                    </div>
+                    <div class="col-12 scheduleBox">
+                        <div class="schedule future">
+                            <div class="title">明天</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="myBox operate col-md-6 col-sm-12 col-12">
+                <div id="chartTitle">今日熱量</div>
+                今日TDEE　<span id="tdee" class="tdee"></span>　卡路里<br />
+                今日已攝取　<span id="todayIngest" class="ingest"></span>　卡路里<br />
+                今日已消耗　<span id="todayConsume" class="consume"></span>　卡路里
+                <div id="container" style="width: 100%; margin: 0 auto"></div>
+            </div>
+            <div class="myBox col-md-6 col-sm-12 col-12">
+                <div id="suggestTitle">運動推薦</div>
+                <div id="IngestReport">
+                    @for (int i = 0; i < Model.TimeOfDay.Count; i++)
                     {
-                        <div>@Model.TimeOfDay[i] 攝取了</div>
-                        <div><span class="ingest">@Model.IngestReport[i]</span> 卡路里</div>
-                        <br />
+                        if (@Model.IngestReport[i] != -1)
+                        {
+                            <div>@Model.TimeOfDay[i] 攝取了</div>
+                            <div><span class="ingest">@Model.IngestReport[i]</span> 卡路里</div>
+                            <br />
+                        }
                     }
-                }
-            </div>
-            <hr />
-            <div class="helper">健康管理小幫手有話要說：</div>
-            @foreach (var item in Model.Suggestion)
-            {
-                <div class="Suggestion">@item</div>
-            }
-            <hr />
-            <div class="helper">健康管理小幫手關心您：</div>
-            <div class="Suggestion">
-                目前攝取熱量
-                <span class="tdee">@Model.Warning</span>，<br />依據你的喜好推薦
-                <span class="consume">@Model.ActivityLevel</span>　如下：
-            </div>
-            <div>
-                @foreach (var item in Model.WorkoutSuggestion)
+                </div>
+                <hr />
+                <div class="helper">健康管理小幫手有話要說：</div>
+                @foreach (var item in Model.Suggestion)
                 {
-
-                    @Html.ActionLink(item.Name, "WorkoutPlaces", "Workout", new { workout = item.Name }, new { @class = "SuggestItem", target = "_blank" })
-
+                    <div class="Suggestion">@item</div>
                 }
+                <hr />
+                <div class="helper">健康管理小幫手關心您：</div>
+                <div class="Suggestion">
+                    目前攝取熱量
+                    <span class="tdee">@Model.Warning</span>，<br />依據你的喜好推薦
+                    <span class="consume">@Model.ActivityLevel</span>　如下：
+                </div>
+                <div>
+                    @foreach (var item in Model.WorkoutSuggestion)
+                    {
+
+                        @Html.ActionLink(item.Name, "WorkoutPlaces", "Workout", new { workout = item.Name }, new { @class = "SuggestItem", target = "_blank" })
+
+                    }
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "wsForm" }))
 {

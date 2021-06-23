@@ -126,53 +126,63 @@
     </style>
 }
 
-
-<div id="mainDiv">
-    <div id="mainRow" class="row">
-        <header class="major col-12 mainTitle"><h2 class="mb-3"><i class="fas fa-weight"></i> 體重紀錄</h2></header>
-        <div class="myBox col-md-5 col-sm-12 col-12" style="display:flex; flex-direction:column">
-            <div class="myBox operate">
-                <div id="newTitle">新增體重紀錄</div>
-                <div class="form-group" style="margin-bottom:10px; margin-top:auto">
-                    <label for="wgtForNew" style="width:100%; font-size:20px">今天的體重</label>
-                    <input type="text" id="wgtForNew" placeholder="現在多重呢" style="display:inline-block; width:80%">
-                    <label style="display:inline-block"> kg</label>
-                </div>
-                <div id="btnNew" class="button primary fit" style="font-size:1.2em; margin-top:auto">新增</div>
-            </div>
-            <div class="myBox operate">
-                <div id="editTitle">修改體重紀錄</div>
-                <div class="form-group" style="margin-bottom:10px; margin-top:auto">
-                    <label for="wgtForEdit" style="width:100%; font-size:20px"><span id="wgtDateForEdit">某一天</span> 的體重</label>
-                    <input type="text" id="wgtForEdit" placeholder="當時多重呢" style="display:inline-block; width:80%">
-                    <label style="display:inline-block"> kg</label>
-                </div>
-                <div id="btnEdit" class="button primary fit" style="font-size:1.2em; margin-top:auto">修改</div>
-            </div>
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
+        <div class="col-4 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
-        <div class="myBox col-md-7 col-sm-12 col-12" style="min-height:450px">
-            <table id="weightTable" class="display responsive nowrap" style="width:100%">
-            </table>
-        </div>
-        <div class="myBox col-12" style="min-height:400px">
-            <div style="width:100%; display:flex; flex-wrap:wrap; align-items:center; grid-row-gap:10px; column-gap:10px">
-                <div id="mySliderContainer">
-                    <div style="font-size: 1.2em; font-weight: 600; color: black; margin-bottom: 2px">從</div>
-                    <div id="startMonth" style=" margin:0 5px 2px 5px"></div>
-                    <div style="font-size: 1.2em; font-weight: 600; color: black; margin-bottom: 2px">到</div>
-                    <div id="endMonth" style="margin:0 5px 2px 5px"></div>
-                    <div style="height:1px; flex-basis:100%"></div>
-                    <div id="slider-range"></div>
-                </div>
-                <div id="btnReload" class="button primary" style="display:inline-block; font-size:1em;">
-                    更新圖表
-                </div>
-            </div>
-            <div id="highChart"></div>
+        <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-weight"></i> 體重紀錄</h2>
         </div>
     </div>
-</div>
-
+</header>
+<header id="header" class="m-0 p-0"></header>
+<section class="pt-2">
+    <div id="mainDiv">
+        <div id="mainRow" class="row">
+            <div class="myBox col-md-5 col-sm-12 col-12" style="display:flex; flex-direction:column">
+                <div class="myBox operate">
+                    <div id="newTitle">新增體重紀錄</div>
+                    <div class="form-group" style="margin-bottom:10px; margin-top:auto">
+                        <label for="wgtForNew" style="width:100%; font-size:20px">今天的體重</label>
+                        <input type="text" id="wgtForNew" placeholder="現在多重呢" style="display:inline-block; width:80%">
+                        <label style="display:inline-block"> kg</label>
+                    </div>
+                    <div id="btnNew" class="button primary fit" style="font-size:1.2em; margin-top:auto">新增</div>
+                </div>
+                <div class="myBox operate">
+                    <div id="editTitle">修改體重紀錄</div>
+                    <div class="form-group" style="margin-bottom:10px; margin-top:auto">
+                        <label for="wgtForEdit" style="width:100%; font-size:20px"><span id="wgtDateForEdit">某一天</span> 的體重</label>
+                        <input type="text" id="wgtForEdit" placeholder="當時多重呢" style="display:inline-block; width:80%">
+                        <label style="display:inline-block"> kg</label>
+                    </div>
+                    <div id="btnEdit" class="button primary fit" style="font-size:1.2em; margin-top:auto">修改</div>
+                </div>
+            </div>
+            <div class="myBox col-md-7 col-sm-12 col-12" style="min-height:450px">
+                <table id="weightTable" class="display responsive nowrap" style="width:100%">
+                </table>
+            </div>
+            <div class="myBox col-12" style="min-height:400px">
+                <div style="width:100%; display:flex; flex-wrap:wrap; align-items:center; grid-row-gap:10px; column-gap:10px">
+                    <div id="mySliderContainer">
+                        <div style="font-size: 1.2em; font-weight: 600; color: black; margin-bottom: 2px">從</div>
+                        <div id="startMonth" style=" margin:0 5px 2px 5px"></div>
+                        <div style="font-size: 1.2em; font-weight: 600; color: black; margin-bottom: 2px">到</div>
+                        <div id="endMonth" style="margin:0 5px 2px 5px"></div>
+                        <div style="height:1px; flex-basis:100%"></div>
+                        <div id="slider-range"></div>
+                    </div>
+                    <div id="btnReload" class="button primary" style="display:inline-block; font-size:1em;">
+                        更新圖表
+                    </div>
+                </div>
+                <div id="highChart"></div>
+            </div>
+        </div>
+    </div>
+</section>
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "weightForm" }))
 {
     @Html.AntiForgeryToken()

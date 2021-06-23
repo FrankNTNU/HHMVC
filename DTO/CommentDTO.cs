@@ -23,7 +23,7 @@ namespace DTO
         public string Name { get; set; } // Allow leave a comment anonymously
         public bool IsUpdate { get; set; }
         public string MemberImage { get; set; }
+        public int PostID { get; set; }
 
-         
     }
 }
