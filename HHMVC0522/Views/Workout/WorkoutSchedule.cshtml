@@ -46,8 +46,10 @@
 
         .innerRow {
             position: relative;
-            left: 10px;
+            /*left: 10px;*/
             padding: 10px;
+            width: 100%;
+            margin: 0px;
         }
 
         label {
@@ -206,12 +208,12 @@
 <div id="mainDiv">
     <div id="mainRow" class="row">
         <header class="major col-12 mainTitle"><h2 class="mb-3"><i class="fas fa-running"></i> 運動排程</h2></header>
-        <div id="check" class="myBox operate col-6 col-6-medium col-12-small">
+        <div id="check" class="myBox operate col-md-6 col-sm-12 col-12">
             <div id="checkTitle">今日運動排程</div>
             <div id="checkRow" class="row innerRow">
             </div>
         </div>
-        <div class="myBox col-6 col-6-medium col-12-small" style="min-height:150px; position:relative">
+        <div class="myBox col-md-6 col-sm-12 col-12" style="min-height:150px; position:relative">
             <div id="scheduleTitle">未來7天運動排程</div>
             <div class="row innerRow">
                 <div class="col-12 scheduleBox">
@@ -251,14 +253,14 @@
                 </div>
             </div>
         </div>
-        <div class="myBox operate col-6 col-6-medium col-12-small">
+        <div class="myBox operate col-md-6 col-sm-12 col-12">
             <div id="chartTitle">今日熱量</div>
             今日TDEE　<span id="tdee" class="tdee"></span>　卡路里<br/>
             今日已攝取　<span id="todayIngest" class="ingest"></span>　卡路里<br />
             今日已消耗　<span id="todayConsume" class="consume"></span>　卡路里
             <div id="container" style="width: 100%; margin: 0 auto"></div>
         </div>
-        <div class="myBox col-6 col-6-medium col-12-small">
+        <div class="myBox col-md-6 col-sm-12 col-12">
             <div id="suggestTitle">運動推薦</div>
             <div id="IngestReport">
                 @for (int i = 0; i < Model.TimeOfDay.Count; i++)

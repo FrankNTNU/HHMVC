@@ -86,27 +86,27 @@
     <div id="mainRow" class="row">
         <header class="major col-12 mainTitle"><h2 class="mb-3"><i class="fas fa-star"></i> 喜好管理</h2></header>
         <div class="row col-12" id="wcBox" style="padding:0; position:relative; left:20px;">
-            <div class="myBox col-5 col-12-medium" style="min-height:250px" id="wcSource">
+            <div class="myBox col-md-5 col-sm-12 col-12" style="min-height:250px" id="wcSource">
                 <div class="title">運動類型</div>
             </div>
-            <div class="myBox col-2 col-12-medium" style="display:flex; align-items:center; justify-content:center">
+            <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
                 <i class="fa fa-arrow-left" style="font-size:50px;color:gray"></i>
                 <i class="fa fa-arrow-right" style="font-size:50px;color:gray"></i>
             </div>
-            <div class="myBox col-5 col-12-medium" style="min-height:250px; position:relative" id="wcTarget">
+            <div class="myBox col-md-5 col-sm-12 col-12" style="min-height:250px; position:relative" id="wcTarget">
                 <div class="title">喜好的運動類型</div>
                 <div id="submit" class="button primary">確認</div>
             </div>
         </div>
         <hr class="col-12 my-12" />
-        <div class="myBox col-5 col-12-medium" style="min-height:250px" id="wSource">
+        <div class="myBox col-md-5 col-sm-12 col-12" style="min-height:250px" id="wSource">
             <div class="title">運動項目</div>
         </div>
-        <div class="myBox col-2 col-12-medium" style="display:flex; align-items:center; justify-content:center">
+        <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
             <i class="fa fa-arrow-left" style="font-size:50px;color:gray"></i>
             <i class="fa fa-arrow-right" style="font-size:50px;color:gray"></i>
         </div>
-        <div class="myBox col-5 col-12-medium" style="min-height:250px" id="wTarget">
+        <div class="myBox col-md-5 col-sm-12 col-12" style="min-height:250px" id="wTarget">
             <div class="title">喜好的運動項目</div>
         </div>
     </div>
@@ -134,9 +134,9 @@
 
             //================================================================
             //Change FontAwesome When window width less than 738
+            
 
             $(window).resize(function () {
-
                 if ($(window).width() <= 738) {
                     $("i.fa-arrow-left").removeClass("fa-arrow-left").addClass("fa-arrow-up");
                     $("i.fa-arrow-right").removeClass("fa-arrow-right").addClass("fa-arrow-down");
@@ -146,6 +146,7 @@
                 }
             });
 
+            $(window).resize();
             //==================================================================
             //Load WorkoutCategories and Workout button into div
 

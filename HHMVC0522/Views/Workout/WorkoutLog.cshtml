@@ -86,7 +86,7 @@
         }
 
         #wlTable_filter {
-            /*margin-left: auto;*/
+            margin-left: auto;
         }
 
         #wlTable_paginate {
@@ -120,10 +120,17 @@
             height: max-content;
         }
 
-            .ui-datepicker select {
-                height: 1.5em;
-                display: inline-block;
-            }
+        .ui-datepicker select {
+            height: 1.5em;
+            display: inline-block;
+            background: white !important;
+            padding:0px !important;
+            padding-left:2em !important;
+        }
+
+        .ui-datepicker select span{
+            display:none;
+        }
 
         .ui-timepicker-div dl {
             all: initial;
@@ -151,7 +158,7 @@
 <div id="mainDiv">
     <div id="mainRow" class="row">
         <header class="major col-12 mainTitle"><h2 class="mb-3"><i class="fas fa-clipboard-list"></i> 運動紀錄</h2></header>
-        <div class="myBox operate col-6 col-6-medium col-12-small" style="display:flex; flex-direction:column">
+        <div class="myBox operate col-md-6 col-sm-12 col-12" style="display:flex; flex-direction:column">
             <div id="newTitle">新增 / 預定 運動紀錄</div>
             <div class="form-group" style="margin-bottom:2px; width:100%; display:block">
                 <label for="wNameForNew">運動項目</label>
@@ -172,7 +179,7 @@
             </div>
             <div id="new" class="button primary fit" style="margin-top:auto">新增</div>
         </div>
-        <div class="myBox operate col-6 col-6-medium col-12-small" style="display:flex; flex-direction:column">
+        <div class="myBox operate col-md-6 col-sm-12 col-12" style="display:flex; flex-direction:column">
             <div id="editTitle">修改 / 刪除 運動紀錄</div>
             <div class="form-group" style="margin-bottom:2px; width:100%; display:block">
                 <label for="wNameForEdit">運動項目</label>
@@ -315,7 +322,7 @@
 
                     let wrap = document.createElement("div");
                     $(wrap).addClass("form-group").addClass("form-inline")
-                        .css("display", "inline-block").css("float", "left")
+                        .css("float", "left")
                         .css("margin-bottom", "3px");
 
                     let lbl1 = document.createElement("label");

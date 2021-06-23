@@ -55,11 +55,12 @@ namespace UI.Controllers
             {
                 string answer = await GetAnsFromKB(message);
                 context.Clients.Client(connId).ReceiveFromService(answer);
-                return View();
             }
-
-            context.Clients.Client(adminConnId[rn.Next(0, adminConnId.Count)])
-                .ReceiveFromCustomer(connId, Session["UserName"], Session["ImagePath"], message);
+            else
+            {
+                context.Clients.Client(adminConnId[rn.Next(0, adminConnId.Count)])
+                    .ReceiveFromCustomer(connId, Session["UserName"], Session["ImagePath"], message);
+            }    
 
             return View();
         }
