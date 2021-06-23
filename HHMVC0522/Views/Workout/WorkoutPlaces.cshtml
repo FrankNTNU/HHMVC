@@ -55,14 +55,21 @@
 
         #mainRow {
             position: relative;
-            left: 20px;
+            left: 15px;
             width: 100%;
         }
 
         .myBox {
-            border: solid 2px gray;
-            border-radius: 10px;
+            /*border: solid 2px gray;
+            border-radius: 10px;*/
             padding: 10px;
+        }
+
+        .myInnerBox {
+            border: solid 1px #f56a6a;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: 5px 5px 10px 5px #E0E0E0;
         }
 
         button[aria-label="顯示街道地圖"], button[aria-label="顯示衛星圖"] {
@@ -111,7 +118,7 @@
 <section class="pt-2">
     <div id="mainDiv">
         <div id="mainRow" class="row">
-            <div id="map" class="myBox col-12"></div>
+            <div id="map" class="myInnerBox col-12"></div>
         </div>
     </div>
 </section>

@@ -17,9 +17,16 @@
         }
 
         .myBox {
-            border: solid 2px gray;
-            border-radius: 10px;
+            /*border: solid 2px gray;
+            border-radius: 10px;*/
             padding: 10px;
+        }
+
+        .myInnerBox {
+            border: solid 1px #f56a6a;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: 5px 5px 10px 5px #E0E0E0;
         }
 
         #mainDiv {
@@ -98,27 +105,27 @@
     <div id="mainDiv">
         <div id="mainRow" class="row">
             <div class="row col-12" id="wcBox" style="padding:0; position:relative; left:20px;">
-                <div class="myBox col-md-5 col-sm-12 col-12" style="min-height:250px" id="wcSource">
+                <div class="myInnerBox  col-md-5 col-sm-12 col-12" id="wcSource" style="min-height:250px">
                     <div class="title">運動類型</div>
                 </div>
                 <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
                     <i class="fa fa-arrow-left" style="font-size:50px;color:gray"></i>
                     <i class="fa fa-arrow-right" style="font-size:50px;color:gray"></i>
                 </div>
-                <div class="myBox col-md-5 col-sm-12 col-12" style="min-height:250px; position:relative" id="wcTarget">
+                <div class="myInnerBox  col-md-5 col-sm-12 col-12" id="wcTarget" style="min-height:250px">
                     <div class="title">喜好的運動類型</div>
                 </div>
-            </div>
-            <hr class="col-12 my-12" />
-            <div class="myBox col-md-5 col-sm-12 col-12" style="min-height:250px" id="wSource">
-                <div class="title">運動項目</div>
-            </div>
-            <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
-                <i class="fa fa-arrow-left" style="font-size:50px;color:gray"></i>
-                <i class="fa fa-arrow-right" style="font-size:50px;color:gray"></i>
-            </div>
-            <div class="myBox col-md-5 col-sm-12 col-12" style="min-height:250px" id="wTarget">
-                <div class="title">喜好的運動項目</div>
+                <hr class="col-12 my-12" />
+                <div class="myInnerBox  col-md-5 col-sm-12 col-12" id="wSource" style="min-height:250px">
+                    <div class="title">運動項目</div>
+                </div>
+                <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
+                    <i class="fa fa-arrow-left" style="font-size:50px;color:gray"></i>
+                    <i class="fa fa-arrow-right" style="font-size:50px;color:gray"></i>
+                </div>
+                <div class="myInnerBox col-md-5 col-sm-12 col-12" id="wTarget" style="min-height:250px">
+                    <div class="title">喜好的運動項目</div>
+                </div>
             </div>
         </div>
     </div>

@@ -10,7 +10,7 @@
 {
 
     <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
-
+    <link href="~/Content/jquery-ui-scrollbar/jquery.scrollbar.css" rel="stylesheet" />
     <style>
         .mainTitle {
             position: relative;
@@ -22,6 +22,13 @@
             border: solid 2px gray;
             border-radius: 10px;
             padding: 10px;
+        }
+
+        .myInnerBox {
+            border: solid 1px #f56a6a;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: 5px 5px 10px 5px #E0E0E0;
         }
 
         .operate {
@@ -69,10 +76,10 @@
             border: solid 2px #2894FF;
             border-radius: 10px;
             font-weight: bold;
-            min-height: 75px;
+            min-height: 42px;
             margin: 5px;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
             padding: 5px;
         }
@@ -81,40 +88,50 @@
             width: 70%;
         }*/
 
-            .schedule > .item {
+            .schedule .item {
                 border: solid 2px #2894FF;
                 border-radius: 10px;
                 width: 90%;
                 display: inline-block;
-                margin: 5px 0;
+                margin: auto;
             }
 
-                .schedule > .item:nth-child(2n) {
+                .schedule .item:nth-child(2n+1) {
                     background-color: #2894FF;
                     color: white;
                 }
 
-                .schedule > .item > div:nth-child(1) {
+                .schedule .item > div:nth-child(1) {
                     display: inline-block;
                     width: 3em;
                 }
 
-                .schedule > .item > div:nth-child(2) {
+                .schedule .item > div:nth-child(2) {
                     display: inline-block;
                     width: 10em;
                 }
 
-                .schedule > .item > div:nth-child(3) {
+                .schedule .item > div:nth-child(3) {
                     display: inline-block;
                     width: 4em;
                 }
 
             .schedule > .title {
-                border-bottom: solid 2px #2894FF;
-                width: 100%;
-                height: 2em;
+                border-right: solid 1px #2894FF;
+                width: max-content;
+                height: 100%;
+                width: 12%;
+                padding-right: 5px;
+                display: flex;
+                align-items: center;
             }
 
+            .schedule .weekWl {
+                display: flex;
+                flex-direction:column;
+                width:88%;
+                row-gap:5px;
+            }
         /*@@media screen and (max-width:738px) {
             .schedule.tomorrow {
                 width: 100%;
@@ -197,6 +214,22 @@
             font-family: "cwTeXYen";
             color: plum;
         }
+
+        .wsWrapper {
+            display: flex;
+            align-items: center;
+            border-bottom: solid 2px #f56a6a;
+            padding-right: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .scrollbar-inner.scrollDiv1 {
+            height: 180px;
+        }
+
+        .scrollbar-inner.scrollDiv2 {
+            height: 400px;
+        }
     </style>
 }
 <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
@@ -214,90 +247,106 @@
     <div id="mainDiv">
         <div id="mainRow" class="row">
             <div id="check" class="myBox operate col-md-6 col-sm-12 col-12">
-                <div id="checkTitle">今日運動排程</div>
-                <div id="checkRow" class="row innerRow">
+                <div class="myInnerBox" style="margin-bottom:20px">
+                    <div id="checkTitle">今日運動排程</div>
+                    <div id="checkRow" class="row innerRow scrollbar-inner scrollDiv1">
+                    </div>
                 </div>
-            </div>
-            <div class="myBox col-md-6 col-sm-12 col-12" style="min-height:150px; position:relative">
-                <div id="scheduleTitle">未來7天運動排程</div>
-                <div class="row innerRow">
-                    <div class="col-12 scheduleBox">
-                        <div class="schedule tomorrow">
-                            <div class="title">明天</div>
+                <div class="myInnerBox">
+                    <div id="scheduleTitle">未來7天運動排程</div>
+                    <div class="row innerRow scrollbar-inner scrollDiv2">
+                        <div class="col-12 scheduleBox">
+                            <div class="schedule tomorrow">
+                                <div class="title">明天</div>
+                                <div class="weekWl"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 scheduleBox">
-                        <div class="schedule">
-                            <div class="title">明天</div>
+                        <div class="col-12 scheduleBox">
+                            <div class="schedule">
+                                <div class="title">明天</div>
+                                <div class="weekWl"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 scheduleBox">
-                        <div class="schedule">
-                            <div class="title">明天</div>
+                        <div class="col-12 scheduleBox">
+                            <div class="schedule">
+                                <div class="title">明天</div>
+                                <div class="weekWl"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 scheduleBox">
-                        <div class="schedule">
-                            <div class="title">明天</div>
+                        <div class="col-12 scheduleBox">
+                            <div class="schedule">
+                                <div class="title">明天</div>
+                                <div class="weekWl"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 scheduleBox">
-                        <div class="schedule">
-                            <div class="title">明天</div>
+                        <div class="col-12 scheduleBox">
+                            <div class="schedule">
+                                <div class="title">明天</div>
+                                <div class="weekWl"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 scheduleBox">
-                        <div class="schedule">
-                            <div class="title">明天</div>
+                        <div class="col-12 scheduleBox">
+                            <div class="schedule">
+                                <div class="title">明天</div>
+                                <div class="weekWl"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 scheduleBox">
-                        <div class="schedule future">
-                            <div class="title">明天</div>
+                        <div class="col-12 scheduleBox">
+                            <div class="schedule future">
+                                <div class="title">明天</div>
+                                <div class="weekWl"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="myBox operate col-md-6 col-sm-12 col-12">
-                <div id="chartTitle">今日熱量</div>
-                今日TDEE　<span id="tdee" class="tdee"></span>　卡路里<br />
-                今日已攝取　<span id="todayIngest" class="ingest"></span>　卡路里<br />
-                今日已消耗　<span id="todayConsume" class="consume"></span>　卡路里
-                <div id="container" style="width: 100%; margin: 0 auto"></div>
+                <div class="myInnerBox" style="height:720px;">
+                    <div id="chartTitle">今日熱量</div>
+                    今日TDEE　<span id="tdee" class="tdee"></span>　卡路里<br />
+                    今日已攝取　<span id="todayIngest" class="ingest"></span>　卡路里<br />
+                    今日已消耗　<span id="todayConsume" class="consume"></span>　卡路里
+                    <div id="container" style="width: 72%; margin: 0 auto"></div>
+                </div>
+            </div>
+            <div class="myBox col-md-6 col-sm-12 col-12" style="min-height:150px; position:relative">
+
             </div>
             <div class="myBox col-md-6 col-sm-12 col-12">
-                <div id="suggestTitle">運動推薦</div>
-                <div id="IngestReport">
-                    @for (int i = 0; i < Model.TimeOfDay.Count; i++)
-                    {
-                        if (@Model.IngestReport[i] != -1)
+                <div class="myInnerBox">
+                    <div id="suggestTitle">運動推薦</div>
+                    <div id="IngestReport">
+                        @for (int i = 0; i < Model.TimeOfDay.Count; i++)
                         {
-                            <div>@Model.TimeOfDay[i] 攝取了</div>
-                            <div><span class="ingest">@Model.IngestReport[i]</span> 卡路里</div>
-                            <br />
+                            if (@Model.IngestReport[i] != -1)
+                            {
+                                <div>@Model.TimeOfDay[i] 攝取了</div>
+                                <div><span class="ingest">@Model.IngestReport[i]</span> 卡路里</div>
+                                <br />
+                            }
                         }
-                    }
-                </div>
-                <hr />
-                <div class="helper">健康管理小幫手有話要說：</div>
-                @foreach (var item in Model.Suggestion)
-                {
-                    <div class="Suggestion">@item</div>
-                }
-                <hr />
-                <div class="helper">健康管理小幫手關心您：</div>
-                <div class="Suggestion">
-                    目前攝取熱量
-                    <span class="tdee">@Model.Warning</span>，<br />依據你的喜好推薦
-                    <span class="consume">@Model.ActivityLevel</span>　如下：
-                </div>
-                <div>
-                    @foreach (var item in Model.WorkoutSuggestion)
+                    </div>
+                    <hr />
+                    <div class="helper">健康管理小幫手有話要說：</div>
+                    @foreach (var item in Model.Suggestion)
                     {
-
-                        @Html.ActionLink(item.Name, "WorkoutPlaces", "Workout", new { workout = item.Name }, new { @class = "SuggestItem", target = "_blank" })
-
+                        <div class="Suggestion">@item</div>
                     }
+                    <hr />
+                    <div class="helper">健康管理小幫手關心您：</div>
+                    <div class="Suggestion">
+                        目前攝取熱量
+                        <span class="tdee">@Model.Warning</span>，<br />依據你的喜好推薦
+                        <span class="consume">@Model.ActivityLevel</span>　如下：
+                    </div>
+                    <div>
+                        @foreach (var item in Model.WorkoutSuggestion)
+                        {
+
+                            @Html.ActionLink(item.Name, "WorkoutPlaces", "Workout", new { workout = item.Name }, new { @class = "SuggestItem", target = "_blank" })
+
+                        }
+                    </div>
                 </div>
             </div>
         </div>
@@ -318,6 +367,7 @@
     <script src="https://code.highcharts.com/highcharts-more.src.js"></script>
     <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
     @*<script src="https://code.highcharts.com/modules/exporting.js"></script>*@
+    <script src="~/Content/jquery-ui-scrollbar/jquery.scrollbar.min.js"></script>
 
     <script>
 
@@ -331,6 +381,10 @@
 
         //==================================================================
         $(function () {
+
+            //==============================================================
+            //Scroll Bar
+            $(".scrollbar-inner").scrollbar();
 
             var form = $('#wsForm');
             token = $('input[name="__RequestVerificationToken"]', form).val();
@@ -349,9 +403,7 @@
                     for (var i = 0; i < data.length; i++) {
 
                         let wsWrapper = document.createElement("div");
-                        $(wsWrapper).css("display", "flex").css("align-items", "center")
-                            .css("border-bottom", "solid 2px #f56a6a")
-                            .css("padding-right", "1.5em")
+                        $(wsWrapper).addClass("wsWrapper")
                             .addClass("col-12").addClass("col-12-medium").addClass("col-12-small");
 
                         let wsDetail = document.createElement("div");
@@ -510,31 +562,31 @@
 
                         if (tempDay.toDateString() == tomorrow.toDateString()) {
 
-                            $(".schedule").eq(0).append(tempDiv);
+                            $(".schedule").eq(0).children(".weekWl").append(tempDiv);
 
                         } else if (tempDay.toDateString() == d2a.toDateString()) {
 
-                            $(".schedule").eq(1).append(tempDiv);
+                            $(".schedule").eq(1).children(".weekWl").append(tempDiv);
 
                         } else if (tempDay.toDateString() == d3a.toDateString()) {
 
-                            $(".schedule").eq(2).append(tempDiv);
+                            $(".schedule").eq(2).children(".weekWl").append(tempDiv);
 
                         } else if (tempDay.toDateString() == d4a.toDateString()) {
 
-                            $(".schedule").eq(3).append(tempDiv);
+                            $(".schedule").eq(3).children(".weekWl").append(tempDiv);
 
                         } else if (tempDay.toDateString() == d5a.toDateString()) {
 
-                            $(".schedule").eq(4).append(tempDiv);
+                            $(".schedule").eq(4).children(".weekWl").append(tempDiv);
 
                         } else if (tempDay.toDateString() == d6a.toDateString()) {
 
-                            $(".schedule").eq(5).append(tempDiv);
+                            $(".schedule").eq(5).children(".weekWl").append(tempDiv);
 
                         } else if (tempDay.toDateString() == d7a.toDateString()) {
 
-                            $(".schedule").eq(6).append(tempDiv);
+                            $(".schedule").eq(6).children(".weekWl").append(tempDiv);
                         }
 
                     }
@@ -676,6 +728,8 @@
                 case 6:
                     return "星期六";
             }
+
+            
         }
     </script>
 }

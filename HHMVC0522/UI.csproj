@@ -715,6 +715,8 @@
     <Content Include="Content\img\ui.totop.png" />
     <Content Include="Content\jquery-ui-monthpicker\jquery.mtz.monthpicker.js" />
     <Content Include="Content\jquery-ui-monthpicker\jquery.ui.monthpicker.js" />
+    <Content Include="Content\jquery-ui-scrollbar\jquery.scrollbar.css" />
+    <Content Include="Content\jquery-ui-scrollbar\jquery.scrollbar.min.js" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\Gift\GiftList.cshtml" />
     <Content Include="Areas\Admin\Views\Gift\AddGift.cshtml" />

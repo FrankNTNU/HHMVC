@@ -31,9 +31,16 @@
         }
 
         .myBox {
-            border: solid 2px gray;
-            border-radius: 10px;
+            /*border: solid 2px gray;
+            border-radius: 10px;*/
             padding: 10px;
+        }
+
+        .myInnerBox {
+            border: solid 1px #f56a6a;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: 5px 5px 10px 5px #E0E0E0;
         }
 
         .operate {
@@ -119,6 +126,7 @@
             flex-wrap: wrap;
             margin-left: auto;
             width: 320px;
+            height: 56px;
             border: solid 1px #f56a6a;
             border-radius: 5px
         }
@@ -141,7 +149,7 @@
     <div id="mainDiv">
         <div id="mainRow" class="row">
             <div class="myBox col-md-5 col-sm-12 col-12" style="display:flex; flex-direction:column">
-                <div class="myBox operate">
+                <div class="myInnerBox operate" style="margin-bottom:20px">
                     <div id="newTitle">新增體重紀錄</div>
                     <div class="form-group" style="margin-bottom:10px; margin-top:auto">
                         <label for="wgtForNew" style="width:100%; font-size:20px">今天的體重</label>
@@ -150,7 +158,7 @@
                     </div>
                     <div id="btnNew" class="button primary fit" style="font-size:1.2em; margin-top:auto">新增</div>
                 </div>
-                <div class="myBox operate">
+                <div class="myInnerBox operate">
                     <div id="editTitle">修改體重紀錄</div>
                     <div class="form-group" style="margin-bottom:10px; margin-top:auto">
                         <label for="wgtForEdit" style="width:100%; font-size:20px"><span id="wgtDateForEdit">某一天</span> 的體重</label>
@@ -161,24 +169,28 @@
                 </div>
             </div>
             <div class="myBox col-md-7 col-sm-12 col-12" style="min-height:450px">
-                <table id="weightTable" class="display responsive nowrap" style="width:100%">
-                </table>
+                <div class="myInnerBox" style="height:100%">
+                    <table id="weightTable" class="display responsive nowrap" style="width:100%">
+                    </table>
+                </div>
             </div>
             <div class="myBox col-12" style="min-height:400px">
-                <div style="width:100%; display:flex; flex-wrap:wrap; align-items:center; grid-row-gap:10px; column-gap:10px">
-                    <div id="mySliderContainer">
-                        <div style="font-size: 1.2em; font-weight: 600; color: black; margin-bottom: 2px">從</div>
-                        <div id="startMonth" style=" margin:0 5px 2px 5px"></div>
-                        <div style="font-size: 1.2em; font-weight: 600; color: black; margin-bottom: 2px">到</div>
-                        <div id="endMonth" style="margin:0 5px 2px 5px"></div>
-                        <div style="height:1px; flex-basis:100%"></div>
-                        <div id="slider-range"></div>
+                <div class="myInnerBox">
+                    <div style="width:100%; display:flex; flex-wrap:wrap; align-items:center; grid-row-gap:10px; column-gap:10px">
+                        <div id="mySliderContainer">
+                            <div style="font-size: 1.2em; font-weight: 600; color: black; margin-bottom: 2px">從</div>
+                            <div id="startMonth" style=" margin:0 5px 2px 5px"></div>
+                            <div style="font-size: 1.2em; font-weight: 600; color: black; margin-bottom: 2px">到</div>
+                            <div id="endMonth" style="margin:0 5px 2px 5px"></div>
+                            <div style="height:1px; flex-basis:100%"></div>
+                            <div id="slider-range"></div>
+                        </div>
+                        <div id="btnReload" class="button primary" style="display:inline-block; font-size:1em;">
+                            更新圖表
+                        </div>
                     </div>
-                    <div id="btnReload" class="button primary" style="display:inline-block; font-size:1em;">
-                        更新圖表
-                    </div>
+                    <div id="highChart"></div>
                 </div>
-                <div id="highChart"></div>
             </div>
         </div>
     </div>
