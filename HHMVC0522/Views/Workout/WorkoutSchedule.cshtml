@@ -21,12 +21,12 @@
         .myBox {
             /*border: solid 2px gray;
             border-radius: 10px;*/
-            padding: 10px;
+            padding: 15px;
         }
 
         .myInnerBox {
             border: solid 1px #f56a6a;
-            border-radius: 10px;
+            border-radius: 0.9em;
             padding: 5px;
             box-shadow: 5px 5px 10px 5px #E0E0E0;
         }
@@ -64,11 +64,15 @@
             text-align: left;
         }
 
-        .scheduleBox {
+        #innerSchedulekRow {
             display: flex;
-            justify-content: center;
+            flex-direction:column;
+            row-gap: 5px;
+        }
+
+        .scheduleBox {
+            display: block;
             padding: 0px;
-            margin-bottom: 5px;
         }
 
         .schedule {
@@ -77,7 +81,6 @@
             border: solid 2px #2894FF;
             border-radius: 10px;
             font-weight: bold;
-            min-height: 42px;
             margin: 0px;
             display: flex;
             flex-direction: row;
@@ -118,13 +121,13 @@
                 }
 
             .schedule > .title {
+                display: flex;
+                justify-content:center;
+                align-items:center;
                 border-right: solid 1px #2894FF;
-                width: max-content;
-                height: 100%;
                 width: 12%;
                 padding-right: 5px;
-                display: flex;
-                align-items: center;
+                align-self: stretch;
             }
 
             .schedule .weekWl {
@@ -168,52 +171,9 @@
             text-align: center;
         }
 
-        .Suggestion span.tdee, .Suggestion span.consume {
-            font-size: 1.5em;
-            font-weight: 600;
-            font-style: italic;
-        }
-
-        @@font-face {
-            font-family: 'cwTeXYen';
-            font-style: normal;
-            font-weight: 500;
-            src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot);
-            src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot?#iefix) format('embedded-opentype'), url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff2) format('woff2'), url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff) format('woff'), url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.ttf) format('truetype');
-        }
-
-        .SuggestItem {
-            display: inline-block;
-            background-color: #f56a6a;
-            border-radius: 10px;
-            color: white;
-            font-size: 1.2em;
-            font-weight: 600;
-            width: max-content;
-            height: max-content;
-            padding: 10px;
-            margin: 5px;
-        }
-
-        #IngestReport {
-            padding-left: 3em;
-        }
-
-        #IngestReport > div {
-            display: inline-block;
-        }
-
-        #IngestReport > div > span {
-            font-size: 1.5em;
-            font-weight: 600;
-            font-style: italic;
-        }
-
-        .helper {
-            font-size: 2em;
-            font-weight: 400;
-            font-family: "cwTeXYen";
-            color: plum;
+        #checkTitle, #scheduleTitle {
+            /*border-bottom: solid 2px #f56a6a;*/
+            margin-bottom: 5px;
         }
 
         .wsWrapper {
@@ -222,18 +182,25 @@
             border-bottom: solid 2px #f56a6a;
             padding-right: 1.5em;
             margin-bottom: 10px;
+            height:5em;
         }
 
-        .scrollbar-inner.scrollDiv1 {
+        #checkRow {
+            padding: 0px 20px 20px 20px;
+        }
+
+        #scheduleRow {
+            padding: 0px 20px 20px 20px;
+        }
+
+        .scrollbar-outer.scrollDiv1 {
             height: 180px;
-            width: 100% !important;
-            padding: 0px 20px;
+            width: 100%;
         }
 
-        .scrollbar-inner.scrollDiv2 {
-            height: 420px;
-            width: 100% !important;
-            padding: 0px 20px;
+        .scrollbar-outer.scrollDiv2 {
+            height: 325px;
+            width: 100%;
         }
 
         .scrollDownTitle {
@@ -246,6 +213,81 @@
             border-radius:10px;
             display:inline-block;
             margin-left: 5em;
+        }
+
+        #suggestBox {
+            display:flex;
+            width: 100%;
+            height: 80%;
+            margin: 0px;
+        }
+
+        #suggestBox > div{
+            margin-bottom: 10px;
+        }
+
+        #suggestBox > div:not(:last-child) {
+            border-right: solid 2px #f56a6a;
+        }
+
+        .suggestInnerBox {
+            padding: 0px;
+        }
+
+        #IngestReport, .Suggestion {
+            margin: 0px 10px;
+        }
+
+        #IngestReport > div > span {
+            font-size: 1.5em;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .Suggestion .consume, .Suggestion .tdee {
+            font-size: 1.2em;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .Suggestion {
+            height: 100%;
+        }
+
+        .SuggestItem {
+            font-size: 1.1em;
+            font-weight: 500;
+            line-height: 1.2em;
+            width: max-content;
+            height: min-content;
+            margin: 3px;
+            padding: 5px;
+            display: inline-block;
+        }
+
+        @@media screen and (max-width:992px) {
+            #suggestBox > div:nth-child(2n+1) {
+                border-right: solid 2px #f56a6a;
+            }
+
+            #suggestBox > div:nth-child(2n) {
+                border-right: none;
+            }
+
+            .suggestInnerBox > div {
+                border-bottom: solid 2px #f56a6a;
+            }
+        }
+
+        @@media screen and (max-width:768px) {
+
+            #suggestBox > div:not(:last-child) {
+                border-bottom: solid 2px #f56a6a;
+            }
+
+            #suggestBox > div:nth-child(2n+1) {
+                border-right: none;
+            }
         }
     </style>
 }
@@ -263,103 +305,140 @@
 <section class="pt-2">
     <div id="mainDiv">
         <div id="mainRow" class="row">
-            <div id="check" class="myBox operate col-md-6 col-sm-12 col-12">
-                <div class="myInnerBox" style="margin-bottom: 20px; padding: 0px">
+            <div id="check" class="myBox operate col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="myInnerBox" style="margin-bottom: 30px; padding: 0px">
                     <div id="checkTitle">今日運動排程</div>
-                    <div id="checkRow" class="row innerRow scrollbar-inner scrollDiv1">
+                    <div id="checkRow" class="row innerRow">
+                        <div id="innerCheckRow" class="scrollbar-outer scrollDiv1">
+                        </div>
                     </div>
                 </div>
                 <div class="myInnerBox" style="padding: 0px">
                     <div id="scheduleTitle">未來7天運動排程</div>
-                    <div class="row innerRow scrollbar-inner scrollDiv2">
-                        <div class="col-12 scheduleBox">
-                            <div class="schedule tomorrow">
-                                <div class="title">明天</div>
-                                <div class="weekWl"></div>
+                    <div id="scheduleRow" class="row innerRow">
+                        <div id="innerSchedulekRow" class="scrollbar-outer scrollDiv2">
+                            <div class="scheduleBox">
+                                <div class="schedule tomorrow">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12 scheduleBox">
-                            <div class="schedule">
-                                <div class="title">明天</div>
-                                <div class="weekWl"></div>
+                            <div class="scheduleBox">
+                                <div class="schedule">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12 scheduleBox">
-                            <div class="schedule">
-                                <div class="title">明天</div>
-                                <div class="weekWl"></div>
+                            <div class="scheduleBox">
+                                <div class="schedule">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12 scheduleBox">
-                            <div class="schedule">
-                                <div class="title">明天</div>
-                                <div class="weekWl"></div>
+                            <div class="scheduleBox">
+                                <div class="schedule">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12 scheduleBox">
-                            <div class="schedule">
-                                <div class="title">明天</div>
-                                <div class="weekWl"></div>
+                            <div class="scheduleBox">
+                                <div class="schedule">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12 scheduleBox">
-                            <div class="schedule">
-                                <div class="title">明天</div>
-                                <div class="weekWl"></div>
+                            <div class="scheduleBox">
+                                <div class="schedule">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12 scheduleBox">
-                            <div class="schedule future">
-                                <div class="title">明天</div>
-                                <div class="weekWl"></div>
+                            <div class="scheduleBox">
+                                <div class="schedule future">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="myBox operate col-md-6 col-sm-12 col-12">
-                <div class="myInnerBox" style="height:720px;">
+                <div class="myInnerBox" style="min-height:685px;">
                     <div id="chartTitle">今日熱量</div>
                     <div class="dot" style="background-color: #f56a6a"></div>　今日TDEE　<span id="tdee" class="tdee"></span>　卡路里<br />
                     <div class="dot" style="background-color: plum"></div>　今日已攝取　<span id="todayIngest" class="ingest"></span>　卡路里<br />
                     <div class="dot" style="background-color: #2894FF"></div>　今日已消耗　<span id="todayConsume" class="consume"></span>　卡路里
-                    <div id="container" style="width: 72%; margin: 0 auto"></div>
+                    <div id="container" style="width: 65%; margin:auto"></div>
                 </div>
             </div>
             <div class="myBox col-md-12 col-sm-12 col-12">
-                <div class="myInnerBox">
+                <div class="myInnerBox" style="min-height:125px;">
                     <div id="suggestTitle">運動推薦</div>
-                    <div id="IngestReport">
-                        @for (int i = 0; i < Model.TimeOfDay.Count; i++)
-                        {
-                            if (@Model.IngestReport[i] != -1)
-                            {
-                                <div>@Model.TimeOfDay[i] 攝取了</div>
-                                <div><span class="ingest">@Model.IngestReport[i]</span> 卡路里</div>
-                                <br />
-                            }
-                        }
-                    </div>
-                    <hr />
-                    <div class="helper">健康管理小幫手有話要說：</div>
-                    @foreach (var item in Model.Suggestion)
-                    {
-                        <div class="Suggestion">@item</div>
-                    }
-                    <hr />
-                    <div class="helper">健康管理小幫手關心您：</div>
-                    <div class="Suggestion">
-                        目前攝取熱量
-                        <span class="tdee">@Model.Warning</span>，<br />依據你的喜好推薦
-                        <span class="consume">@Model.ActivityLevel</span>　如下：
-                    </div>
-                    <div>
-                        @foreach (var item in Model.WorkoutSuggestion)
-                        {
+                    <div id="suggestBox" class="row">
+                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
+                            <div id="IngestReport" class="align-center">
+                                <div>今日熱量<span class="tdee">@Model.Warning</span></div>
+                                @for (int i = 0; i < Model.TimeOfDay.Count; i++)
+                                {
+                                    if (@Model.IngestReport[i] != -1)
+                                    {
+                                        <div>@Model.TimeOfDay[i] 攝取了<span class="ingest">@Model.IngestReport[i]</span> 卡路里</div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
+                            <div class="Suggestion align-left">
+                                <div>依據你的<span class="tdee">喜好</span>　推薦</div><div><span class="consume">@Model.ActivityLevel</span>　如下：</div>
+                                <div style="display:flex; flex-wrap:wrap">
+                                    @if (Model.SuggestionByPreferences.Count == 0)
+                                    {
+                                        <div>目前無喜好的運動類型，<a href="/workout/workoutpreferences">新增幾筆喜好的運動類型吧</a></div>
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in Model.SuggestionByPreferences)
+                                        {
+                                            @Html.ActionLink(item.Name, "WorkoutPlaces", "Workout", new { workout = item.Name }, new { @class = "SuggestItem button primary", target = "_blank" })
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
+                            <div class="Suggestion align-left">
+                                <div>依據你的<span class="tdee">運動紀錄</span>　推薦</div><div><span class="consume">@Model.ActivityLevel</span>　如下：</div>
+                                <div>
+                                    @if (Model.SuggestionByLog.Count == 0)
+                                    {
+                                        <div>目前無運動紀錄，<a href="/workout/workoutlog">新增幾筆紀錄吧</a></div>
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in Model.SuggestionByLog)
+                                        {
 
-                            @Html.ActionLink(item.Name, "WorkoutPlaces", "Workout", new { workout = item.Name }, new { @class = "SuggestItem", target = "_blank" })
+                                            @Html.ActionLink(item.Name, "WorkoutPlaces", "Workout", new { workout = item.Name }, new { @class = "SuggestItem button primary", target = "_blank" })
 
-                        }
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
+                            <div class="Suggestion align-left">
+                                <div>依據你的<span class="tdee">年齡層</span>　推薦</div><div><span class="consume">@Model.ActivityLevel</span>　如下：</div>
+                                <div>
+                                    @foreach (var item in Model.SuggestionByAge)
+                                    {
+
+                                        @Html.ActionLink(item.Name, "WorkoutPlaces", "Workout", new { workout = item.Name }, new { @class = "SuggestItem button primary", target = "_blank" })
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -398,14 +477,24 @@
 
             //==============================================================
             //Scroll Bar
-            $(".scrollbar-inner").scrollbar();
+            $(".scrollbar-outer").scrollbar();
 
-            $('.scrollbar-inner').scrollbar({
+            $('.scrollbar-outer.scrollDiv1').scrollbar({
                 "onScroll": function (y, x) {
                     if (y.scroll > 0) {
-                        $(".scrollbar-inner").prev().addClass("scrollDownTitle");
+                        $("#checkTitle").addClass("scrollDownTitle");
                     } else if (y.scroll == 0) {
-                        $(".scrollbar-inner").prev().removeClass("scrollDownTitle");
+                        $("#checkTitle").removeClass("scrollDownTitle");
+                    }
+                }
+            });
+
+            $('.scrollbar-outer.scrollDiv2').scrollbar({
+                "onScroll": function (y, x) {
+                    if (y.scroll > 0) {
+                        $("#scheduleTitle").addClass("scrollDownTitle");
+                    } else if (y.scroll == 0) {
+                        $("#scheduleTitle").removeClass("scrollDownTitle");
                     }
                 }
             });
@@ -472,7 +561,7 @@
 
                         $(wsWrapper).append(wsDetail).append(chkBtn);
 
-                        $("#checkRow").append(wsWrapper);
+                        $("#innerCheckRow").append(wsWrapper);
 
                     }
 

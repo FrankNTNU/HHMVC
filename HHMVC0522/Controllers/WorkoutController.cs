@@ -357,166 +357,70 @@ namespace UI.Controllers
                 }
             }
 
-            if (today.Hour >= 6 && today.Hour < 11)
-            {
-                if (ingestPerTime(yesterdayString, 5) == 0)
-                {
-                    vm.Suggestion.Add("昨天沒吃宵夜，太讚了");
-                }
-
-                //vm.IngestReport[0] = ingestPerTime(todayString, 1);
-
-                if (vm.IngestReport[0] == 0)
-                {
-                    vm.Suggestion.Add("還沒吃早餐喔，吃點東西在運動吧");
-                }
-                else if (vm.IngestReport[0] <= this.TDEE / 3)
-                {
-                    vm.Suggestion.Add("早餐吃得剛好");
-                }
-                else if (vm.IngestReport[0] > this.TDEE / 3)
-                {
-                    vm.Suggestion.Add("早餐吃的偏多，中午休息時去做個運動吧");
-                }
-
-            }
-            
-            if (today.Hour >= 11 && today.Hour < 14)
-            {
-                //vm.Suggestion.Clear();
-                
-                if (vm.IngestReport[0] == 0)
-                {
-                    vm.Suggestion.Add("要養成吃早餐的習慣喔");
-                }
-
-                //vm.IngestReport[1] = ingestPerTime(todayString, 2);
-
-                if (vm.IngestReport[1] == 0)
-                {
-                    vm.Suggestion.Add("記得吃午餐喔");
-                }
-                else if (vm.IngestReport[1] <= this.TDEE / 3)
-                {
-                    vm.Suggestion.Add("午餐吃得剛好");
-                }
-                else if (vm.IngestReport[1] > this.TDEE / 3)
-                {
-                    vm.Suggestion.Add("午餐吃的偏多，下午去做個運動吧");
-                }
-
-            }
-            
-            if (today.Hour >= 14 && today.Hour < 17)
-            {
-                //vm.Suggestion.Clear();
-
-                if (vm.IngestReport[1] == 0)
-                {
-                    vm.Suggestion.Add("哇，過了中午都還沒吃啊");
-                }
-
-                //vm.IngestReport[2] = ingestPerTime(todayString, 3);
-
-                if (vm.IngestReport[2] == 0)
-                {
-                    vm.Suggestion.Add("不吃點心，也很OK");
-                }
-                else if (vm.IngestReport[2] <= this.TDEE / 5)
-                {
-                    vm.Suggestion.Add("偷吃一點點心，應該還好");
-                }
-                else if (vm.IngestReport[2] > this.TDEE / 5)
-                {
-                    vm.Suggestion.Add("點心吃太多了，一定要找時間運動啊");
-                }
-
-            }
-            
-            if (today.Hour >= 17 && today.Hour < 21)
-            {
-                //vm.Suggestion.Clear();
-
-                if (vm.IngestReport[2] == 0)
-                {
-                    vm.Suggestion.Add("沒有偷吃點心，good");
-                }
-
-                //vm.IngestReport[3] = ingestPerTime(todayString, 4);
-
-                if (vm.IngestReport[3] == 0)
-                {
-                    vm.Suggestion.Add("記得吃晚餐喔");
-                }
-                else if (vm.IngestReport[3] <= this.TDEE / 3)
-                {
-                    vm.Suggestion.Add("晚餐吃得剛好，讚");
-                }
-                else if (vm.IngestReport[3] > this.TDEE / 3)
-                {
-                    vm.Suggestion.Add("晚上暴吃一頓，明天一定要運動");
-                }
-
-            }
-            
-            if (today.Hour >= 21)
-            {
-                //vm.Suggestion.Clear();
-
-                if (vm.IngestReport[3] == 0)
-                {
-                    vm.Suggestion.Add("沒吃晚餐，會不會睡不著啊");
-                }
-
-                //vm.IngestReport[4] = ingestPerTime(todayString, 5);
-
-                if (vm.IngestReport[4] == 0)
-                {
-                    vm.Suggestion.Add("還沒吃宵夜，要忍住喔");
-                }
-                else if (vm.IngestReport[4] <= this.TDEE / 6)
-                {
-                    vm.Suggestion.Add("宵夜吃的也不算太多啦");
-                }
-                else if(vm.IngestReport[4] > this.TDEE / 6)
-                {
-                    vm.Suggestion.Add("宵夜吃那麼多，鐵定胖");
-                }
-
-            }
-
-            int MemberID = (int)Session["ID"];
-
             vm.TimeOfDay = dbContext.TimesOfDays
                 .OrderBy(tod => tod.ID).Select(tod => tod.Name).ToList();
 
-            var q1 = dbContext.WorkoutPreferences
+            decimal warning = (todayIngest - todayConsume) / this.TDEE;
+            vm.Warning = $"為TDEE的 {warning:0.00}%";
+
+            int MemberID = (int)Session["ID"];
+
+            //===========================================================
+            //SuggestionByPreferences
+            var wpwList = dbContext.WorkoutPreferences
                 .Where(wp => wp.MemberID == MemberID)
                 .SelectMany(wp => wp.WorkoutCategory.Workouts);
 
-            decimal warning = (todayIngest - todayConsume) / this.TDEE;
+            //SuggestionByLog
+            var wlwList = dbContext.WorkoutLogs
+                .Where(wl => wl.MemberID == MemberID && wl.StatusID == 5)
+                .Select(wl => wl.Workout);
 
-            vm.Warning = $"為TDEE的 {warning:0.00}%";
+            //SuggestionByAge
+            var member = dbContext.Members.SingleOrDefault(m => m.ID == MemberID);
+            DateTime zeroTime = new DateTime(1, 1, 1);
+            int age = (zeroTime + (DateTime.Today - member.Birthdate)).Year - 1;
+            int ageOffset = age - age / 10;
+            int startBirth = member.Birthdate.AddYears(-ageOffset).Year;
+            int endBirth = member.Birthdate.AddYears(10-ageOffset).Year;
+
+            var mList = dbContext.Members.Where(m => 
+                m.Birthdate.Year >= startBirth && m.Birthdate.Year <= endBirth)
+                .Select(m => m.ID).ToList();
+
+            var agewlList = dbContext.WorkoutLogs.Where(wl => mList.Contains(wl.MemberID))
+                .Select(wl => wl.Workout).ToList();
 
             if (warning > HHDictionary.HighActivitySuggestThreshold)
             {
-                vm.WorkoutSuggestion = q1.Where(w => w.ActivityLevelID == 3).ToList();
+                vm.SuggestionByPreferences = wpwList.Where(w => w.ActivityLevelID == 3).ToList();
+                vm.SuggestionByLog = wlwList.Where(w => w.ActivityLevelID == 3).ToList();
+                vm.SuggestionByAge = agewlList.Where(w => w.ActivityLevelID == 3).ToList();
                 vm.ActivityLevel = "【高強度】運動";
             }
             else if (warning > HHDictionary.MediumActivitySuggestThreshold)
             {
-                vm.WorkoutSuggestion = q1.Where(w => w.ActivityLevelID == 2).ToList();
+                vm.SuggestionByPreferences = wpwList.Where(w => w.ActivityLevelID == 2).ToList();
+                vm.SuggestionByLog = wlwList.Where(w => w.ActivityLevelID == 2).ToList();
+                vm.SuggestionByAge = agewlList.Where(w => w.ActivityLevelID == 2).ToList();
                 vm.ActivityLevel = "【中強度】運動";
             }
             else if (warning > HHDictionary.LowActivitySuggestThreshold)
             {
-                vm.WorkoutSuggestion = q1.Where(w => w.ActivityLevelID == 1).ToList();
+                vm.SuggestionByPreferences = wpwList.Where(w => w.ActivityLevelID == 1).ToList();
+                //vm.SuggestionByPreferences.Clear();
+                vm.SuggestionByLog = wlwList.Where(w => w.ActivityLevelID == 1).ToList();
+                //vm.SuggestionByLog.Clear();
+                vm.SuggestionByAge = agewlList.Where(w => w.ActivityLevelID == 1).ToList();
                 vm.ActivityLevel = "【低強度】運動";
             }
             else
             {
-                vm.Warning = "正常";
-                vm.WorkoutSuggestion = dbContext.Workouts
+                vm.SuggestionByPreferences = dbContext.Workouts
+                    .Where(w => w.ActivityLevelID == 6).ToList();
+                vm.SuggestionByLog = dbContext.Workouts
+                    .Where(w => w.ActivityLevelID == 6).ToList();
+                vm.SuggestionByAge = dbContext.Workouts
                     .Where(w => w.ActivityLevelID == 6).ToList();
                 vm.ActivityLevel = "【緩和】運動";
             }
