@@ -19,8 +19,8 @@
         }
 
         .myBox {
-            border: solid 2px gray;
-            border-radius: 10px;
+            /*border: solid 2px gray;
+            border-radius: 10px;*/
             padding: 10px;
         }
 
@@ -198,15 +198,15 @@
             padding-left: 3em;
         }
 
-            #IngestReport > div {
-                display: inline-block;
-            }
+        #IngestReport > div {
+            display: inline-block;
+        }
 
-                #IngestReport > div > span {
-                    font-size: 1.5em;
-                    font-weight: 600;
-                    font-style: italic;
-                }
+        #IngestReport > div > span {
+            font-size: 1.5em;
+            font-weight: 600;
+            font-style: italic;
+        }
 
         .helper {
             font-size: 2em;
@@ -225,10 +225,26 @@
 
         .scrollbar-inner.scrollDiv1 {
             height: 180px;
+            width: 100%;
+            padding: 0px 20px;
         }
 
         .scrollbar-inner.scrollDiv2 {
-            height: 400px;
+            height: 420px;
+            width: 100%;
+            padding: 0px 20px;
+        }
+
+        .scrollDownTitle {
+            box-shadow: 0px 5px 10px 0px #E0E0E0;
+        }
+
+        .dot {
+            width:20px;
+            height:20px;
+            border-radius:10px;
+            display:inline-block;
+            margin-left: 5em;
         }
     </style>
 }
@@ -247,12 +263,12 @@
     <div id="mainDiv">
         <div id="mainRow" class="row">
             <div id="check" class="myBox operate col-md-6 col-sm-12 col-12">
-                <div class="myInnerBox" style="margin-bottom:20px">
+                <div class="myInnerBox" style="margin-bottom: 20px; padding: 0px">
                     <div id="checkTitle">今日運動排程</div>
                     <div id="checkRow" class="row innerRow scrollbar-inner scrollDiv1">
                     </div>
                 </div>
-                <div class="myInnerBox">
+                <div class="myInnerBox" style="padding: 0px">
                     <div id="scheduleTitle">未來7天運動排程</div>
                     <div class="row innerRow scrollbar-inner scrollDiv2">
                         <div class="col-12 scheduleBox">
@@ -303,16 +319,13 @@
             <div class="myBox operate col-md-6 col-sm-12 col-12">
                 <div class="myInnerBox" style="height:720px;">
                     <div id="chartTitle">今日熱量</div>
-                    今日TDEE　<span id="tdee" class="tdee"></span>　卡路里<br />
-                    今日已攝取　<span id="todayIngest" class="ingest"></span>　卡路里<br />
-                    今日已消耗　<span id="todayConsume" class="consume"></span>　卡路里
+                    <div class="dot" style="background-color: #f56a6a"></div>　今日TDEE　<span id="tdee" class="tdee"></span>　卡路里<br />
+                    <div class="dot" style="background-color: plum"></div>　今日已攝取　<span id="todayIngest" class="ingest"></span>　卡路里<br />
+                    <div class="dot" style="background-color: #2894FF"></div>　今日已消耗　<span id="todayConsume" class="consume"></span>　卡路里
                     <div id="container" style="width: 72%; margin: 0 auto"></div>
                 </div>
             </div>
-            <div class="myBox col-md-6 col-sm-12 col-12" style="min-height:150px; position:relative">
-
-            </div>
-            <div class="myBox col-md-6 col-sm-12 col-12">
+            <div class="myBox col-md-12 col-sm-12 col-12">
                 <div class="myInnerBox">
                     <div id="suggestTitle">運動推薦</div>
                     <div id="IngestReport">
@@ -386,6 +399,17 @@
             //Scroll Bar
             $(".scrollbar-inner").scrollbar();
 
+            $('.scrollbar-inner').scrollbar({
+                "onScroll": function (y, x) {
+                    if (y.scroll > 0) {
+                        $(".scrollbar-inner").prev().addClass("scrollDownTitle");
+                    } else if (y.scroll == 0) {
+                        $(".scrollbar-inner").prev().removeClass("scrollDownTitle");
+                    }
+                }
+            });
+
+            //==============================================================
             var form = $('#wsForm');
             token = $('input[name="__RequestVerificationToken"]', form).val();
 
@@ -404,7 +428,7 @@
 
                         let wsWrapper = document.createElement("div");
                         $(wsWrapper).addClass("wsWrapper")
-                            .addClass("col-12").addClass("col-12-medium").addClass("col-12-small");
+                            .addClass("col-12").addClass("col-md-12").addClass("col-sm-12");
 
                         let wsDetail = document.createElement("div");
                         $(wsDetail).css("display", "inline-block");
