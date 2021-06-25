@@ -19,8 +19,10 @@ namespace UI.Areas.Admin.Controllers
         {
             return View();
         }
+        [Authorize]
         public int GetCounts()
         {
+            
             return UserStatic.ConnectedUsers.Count();
         }
         UserBLL userBLL = new UserBLL();

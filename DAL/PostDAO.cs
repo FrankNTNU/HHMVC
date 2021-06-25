@@ -61,7 +61,71 @@ namespace DAL
             }
             return dtoList;
         }
-
+        public static CommentDTO Root { get; set; } // 存放結果留言清單
+        public CommentDTO GetNestedComments(int postID)
+        {
+            Root = new CommentDTO();
+            CommentDTO tempRoot = Root;
+            CurrentLevel = 0;
+            PopulateNestedComments(postID, null, ref tempRoot); 
+            // 一開始呼叫時只有postID, 沒有指定留言ID
+            return Root; 
+        }
+        private CommentDTO ConvertToModel(Comment comment)
+        {
+            CommentDTO dto = new CommentDTO();
+            dto.ID = comment.ID;
+            dto.Title = comment.Title;
+            dto.CommentContent = comment.CommentContent;
+            dto.MemberID = comment.MemberID;
+            dto.Name = comment.Name;
+            dto.AddDate = comment.AddDate;
+            dto.MemberImage = comment.Member.Image;
+            dto.PostID = (int?)comment.PostID ?? 0;
+            dto.ParentCommentID = (int?)comment.ParentCommentID ?? 0;
+            dto.Level = CurrentLevel;
+            dto.IsApproved = comment.IsApproved;
+            return dto;
+        }
+        private int CurrentLevel = 0;
+        public void PopulateNestedComments(int? postID, int? commentID, ref CommentDTO tempRoot)
+        {
+           
+            List<Comment> comments = new List<Comment>();
+            tempRoot.ChildComments = new List<CommentDTO>();
+            if (postID.HasValue && postID != 0) 
+                // 如果是第一層留言 (postDI != null)
+            {
+               
+                Post post = db.Posts.Single(x => x.ID == postID.Value);
+                comments = post.Comments.Where(x => x.ParentCommentID == null).ToList();
+                foreach (Comment item in comments)
+                {
+                    var temp = ConvertToModel(item);
+                    tempRoot.ChildComments.Add(temp);
+                }
+                // 取得第一層留言 (commentID == null)
+            }
+            else
+            {
+                CurrentLevel++;
+                comments = db.Comments.Where(x => x.ParentCommentID == commentID).ToList();
+                foreach (Comment item in comments)
+                {
+                    var temp = ConvertToModel(item);
+                    tempRoot.ChildComments.Add(temp);
+                }
+                // 取得第 n 層的留言
+            }
+            for (int i = 0; i < tempRoot.ChildComments.Count; i++)
+            {
+                tempRoot.ChildComments[i].ChildComments = new List<CommentDTO>();
+                CommentDTO tempComment = tempRoot.ChildComments[i];
+                PopulateNestedComments(null, tempRoot.ChildComments[i].ID, ref tempComment);
+                CurrentLevel--;
+                // 各自去底下找下一層的評論
+            }        
+        }
         public void DeleteLikedPostsByMemberID(int userID)
         {
             List<LikedPost> likedPosts = db.LikedPosts.Where(x => x.MemberID == userID).ToList();
@@ -149,10 +213,19 @@ namespace DAL
             return dtoList;
         }
 
+        public void AddReply(Comment comment)
+        {
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                db.Comments.Add(comment);
+                db.SaveChanges();
+            }
+        }
+
         public List<PostDTO> GetPostsByCategory(int categoryID)
         {
             List<PostDTO> dtoList = new List<PostDTO>();
-            using (HealthHelperEntities db= new HealthHelperEntities())
+            using (HealthHelperEntities db = new HealthHelperEntities())
             {
                 List<int> postIDs = db.Posts.Where(x => x.CategoryID == categoryID && x.IsApproved == true).Select(x => x.ID).ToList();
                 foreach (var item in postIDs)

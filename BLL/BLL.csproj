@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="ActivityLevelBLL.cs" />
     <Compile Include="CommentBLL.cs" />
+    <Compile Include="CountBLL.cs" />
     <Compile Include="DietLogBLL.cs" />
     <Compile Include="General.cs" />
     <Compile Include="GiftBLL.cs" />

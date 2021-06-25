@@ -23,6 +23,7 @@ namespace DAL
         public int TargetWeight { get; set; }
         public int ActivityLevelID { get; set; }
         public int InitialWeight { get; set; }
+        public Nullable<int> ResultWeight { get; set; }
     
         public virtual ActivityLevel ActivityLevel { get; set; }
         public virtual Member Member { get; set; }

@@ -147,7 +147,6 @@ namespace UI.Areas.Admin.Controllers
                 System.IO.File.Delete(ImageFullPath);
             }
             giftCartBLL = new GiftCartBLL();
-            //} 
             return Json("");
         }
         GiftCartBLL giftCartBLL = new GiftCartBLL();

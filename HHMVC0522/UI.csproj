@@ -572,6 +572,7 @@
     <Content Include="Areas\Admin\Content\JS\vfs_fonts.js" />
     <Content Include="Areas\Admin\Content\PostImages\1aad9c8b-8e8c-4332-9fe5-deaac5134a7fgym.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\27d354e7-8b72-4c19-822e-acf3ce64ed25books.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\494540c3-68e1-4b2b-8bf9-1053d44bf7c3hamburger.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\51b00e76-3048-4f50-b345-ec65fa125251diet.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\5912c8f6-1ed2-4b2c-9be6-98d6d0bf85acexercise.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\61d654ed-c450-464d-8355-df5cf1e4a514workout.jpg" />
@@ -710,6 +711,7 @@
     <Content Include="Areas\Admin\Views\Gift\GiftCarts.cshtml" />
     <Content Include="Areas\Admin\Views\Contact\Contact.cshtml" />
     <Content Include="Areas\Admin\Content\webfonts\BarcodeFont.ttf" />
+    <Content Include="Areas\Admin\Views\Login\MainPage.cshtml" />
     <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
@@ -904,6 +906,7 @@
     <Content Include="Views\FrontGift\GiftCart.cshtml" />
     <Content Include="Views\FrontPost\UserPostList.cshtml" />
     <Content Include="Views\FrontContact\Chat.cshtml" />
+    <Content Include="Views\FrontPost\ReplyToComment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

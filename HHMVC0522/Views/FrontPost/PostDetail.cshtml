@@ -4,13 +4,15 @@
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 @model DTO.LayoutDTO
+@using DTO
 
 @section Styles{
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
-
     <style>
-
+        #smallIndent {
+            display: none;
+        }
         textarea {
             width: 100%;
         }
@@ -19,8 +21,63 @@
             border-radius: 0.4rem;
         }
 
-        button {
+        #commentAreaBtn {
+            text-decoration: none;
+            padding: 10px 15px 10px 15px;
             outline: none !important;
+            display: inline;
+        }
+       
+        @@media only screen and (max-width: 850px) {
+            #smallIndent {
+                font-size: 0.8em;
+                display: inline-block;
+            }
+            #dialogArea {
+                max-width: 65%;
+            }
+            #largeIndent {
+                display: none;
+            }
+        }
+        @@media only screen and (max-width: 750px) {
+            #smallIndent {
+                font-size: 0.8em;
+                display: inline-block;
+            }
+
+            #dialogArea {
+                max-width: 60%;
+            }
+
+            #largeIndent {
+                display: none;
+            }
+        }
+        @@media only screen and (max-width: 650px) {
+            #commentArea {
+                font-size: 0.9em;
+            }
+            #dialogArea
+            {
+                max-width:60%;
+            }
+            #smallIndent {
+                display: inline-block;
+            }
+
+            #largeIndent {
+                display: none;
+            }
+        }
+        @@media only screen and (max-width: 650px) {
+            #commentArea {
+                font-size: 0.8em;
+            }
+
+            #dialogArea {
+                max-width: 65%;
+            }
         }
     </style>
 }
@@ -141,8 +198,6 @@
 }
 
 <!--文章留言區-->
-
-
 @if (Model.CommentCount > 0)
 {
     <div class="row" style="margin-top:20px">
@@ -157,50 +212,10 @@
         </div>
 
     </div>
-    <div style="        background-color: #ffe9e8;
-        padding: 10px;
-        margin-bottom: 10px">
-        @using (Html.BeginForm("PostDetail", "FrontPost", Model, FormMethod.Post, new { @style = "margin:0px" }))
-        {
-            foreach (var item in Model.PostDetail.CommentList)
-            {
-                <input hidden="hidden" value="@Model.PostDetail.ID" name="Model.PostDetail.ID">
-
-                <input hidden="hidden" value="@item.ID" name="Model.Comment.ID">
-                <div class="row">
-                    <div class="col-3 col-md-1">
-                        <img src="~/Areas/Admin/Content/UserImage/@item.MemberImage" style="width:50px" />
-
-                    </div>
-                    <div class="col-8">
-                        <p><strong>@item.Name</strong> <small>@item.AddDate.ToString("yyyy/MM/dd dddd")</small></p>
-                        <h4>@item.Title</h4>
-                        @Html.Raw(@item.CommentContent)
-
-                        @if (Session["ID"] != null)
-                        {
-                            if ((int)Session["ID"] == item.MemberID)
-                            {
-                                <div class="row">
-                                    <div class="col-5 col-md-3" style="font-size:1em">
-                                        @Html.ActionLink("修改", "UpdateComment", new { commentID = @item.ID }, new { @class = "button primary" })
-                                    </div>
-                                    <div class="col-5" style="font-size:1em">
-                                        @Html.ActionLink("刪除", "DeleteComment", new { ID = item.ID, PostID = Model.PostDetail.ID }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "button" })
-                                    </div>
-                                </div>}
-                        }
-
-                        <div class="row"><p></p></div>
-
-                    </div>
-                </div>
-                if (Model.PostDetail.CommentList.IndexOf(item) != Model.PostDetail.CommentList.Count() - 1)
-                {
-                    <div><p></p></div>// an extra space bettwen comments
-                }
-            }
-        }
+    <div style="background-color: #ffe9e8;
+        padding: 15px;
+        ">
+        @DisplayComments(Model.CommentRoot.ChildComments)
     </div>
 }
 @if (Session["ID"] != null)
@@ -243,6 +258,74 @@
 }
 </section>
 
+@helper DisplayComments(List<CommentDTO> comments)
+{
+
+    foreach (var item in comments)
+    {
+        if (item.PostID != 0) // First layer of comments.
+        {
+            @DisplayComment(item);
+            if (item.ChildComments.Count > 0) // If there is any child comments.
+            {
+                @DisplayComments(item.ChildComments); // Keeps exploring the comments below.
+            }
+        }
+        else
+        { @DisplayComment(item); // Not child comment anymore! Just print me out.
+        if (item.ChildComments.Count > 0) // If there is any child comments.
+        {
+            @DisplayComments(item.ChildComments); // Keeps exploring the comments below.
+        }
+
+    }
+}
+}
+@helper DisplayComment(CommentDTO item)
+{
+    if (item.IsApproved) { 
+<div class="row pl-1" style="width: 100%;margin-bottom:10px;" id="commentArea">
+
+    @if (item.PostID == 0)
+    {
+        for (int i = 0; i < item.Level; i++)
+        {
+            <span id="largeIndent">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <span id="smallIndent">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+        }
+    }
+    <div class="col-2 col-md-2 col-lg-1 mr-2">
+        <img src="~/Areas/Admin/Content/UserImage/@item.MemberImage" style="width:50px" />
+    </div>
+    <div style="border: 1px solid #ff6b6b; border-radius: 10px; background-color: #fff5f5 " class="p-1 pr-3 pl-3" id="dialogArea">
+        <p class="mb-1">
+            <strong>@item.Name</strong> @item.AddDate.ToString("yyyy/MM/dd") <span style="background-color:lightgoldenrodyellow;white-space:nowrap">@item.Title</span>&nbsp<span>
+                @if (Session["ID"] != null)
+                {
+                    if ((int)Session["ID"] == item.MemberID)
+                    {
+                        <a href="~/FrontPost/UpdateComment?commentID=@item.ID" id="commentAreaBtn" class="button primary">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+
+                        <span class="p-2"></span>
+                        <a href="~/FrontPost/DeleteComment?ID=@item.ID&postID=@Model.PostDetail.ID" id="commentAreaBtn" class="button" onclick="return confirm('確定要刪除嗎?')">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+
+                    }
+                    else
+                    {
+                        @Html.ActionLink("回復", "ReplyToComment", new { commentID = @item.ID }, new { @class = "button primary", @id = "commentAreaBtn" })
+                    }
+                }
+            </span>
+        </p>
+        @Html.Raw(@item.CommentContent)
+    </div>
+</div>}
+}
+
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
@@ -257,7 +340,6 @@
                     toastr.error("失敗");
                 }
             }
-
         })
 
     </script>

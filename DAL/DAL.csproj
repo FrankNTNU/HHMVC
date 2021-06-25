@@ -105,6 +105,7 @@
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="CommentDAO.cs" />
+    <Compile Include="CountDAO.cs" />
     <Compile Include="DietLog.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>

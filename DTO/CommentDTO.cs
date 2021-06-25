@@ -24,6 +24,13 @@ namespace DTO
         public bool IsUpdate { get; set; }
         public string MemberImage { get; set; }
         public int PostID { get; set; }
-
+        public int? ParentCommentID { get; set; }
+        public List<CommentDTO> ChildComments { get; set; }
+        public int Level { get; set; } = 0;
     }
+    public static class NestedComments 
+    {
+        public static int Level { get; set; } = 0;
+    }
+
 }

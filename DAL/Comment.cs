@@ -21,8 +21,8 @@ namespace DAL
         public System.DateTime AddDate { get; set; }
         public bool IsApproved { get; set; }
         public Nullable<int> PostID { get; set; }
-        public Nullable<int> CommentID { get; set; }
         public string Name { get; set; }
+        public Nullable<int> ParentCommentID { get; set; }
     
         public virtual Post Post { get; set; }
         public virtual Member Member { get; set; }

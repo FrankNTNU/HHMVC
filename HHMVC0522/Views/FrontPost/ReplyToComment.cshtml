@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "UpdateComment";
+    ViewBag.Title = "ReplyToComment";
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 
@@ -17,7 +17,7 @@
             <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-6 col-sm-4 col-md-6 col-lg-8 p-1 align-self-center">
-            <h2><i class="far fa-edit"></i> 修改留言</h2>
+            <h2><i class="far fa-edit"></i> 回覆留言</h2>
         </div>
         <div class="col-2 col-sm-4 col-md-3 col-lg-2 align-self-end justify-content-end d-none d-sm-block">
 
@@ -29,7 +29,7 @@
 
 
 @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
-<form action="@Url.Action("UpdateComment")" method="post">
+<form action="@Url.Action("ReplyToComment")" method="post">
     <input hidden value="@Model.ID" name="ID" />
 
     <div class="row gtr-uniform">
@@ -46,13 +46,11 @@
 
         </div>
 
-
-
         <!-- Break -->
         <div class="col-12">
             <label>內容</label>
-            @Html.ValidationMessageFor(x => x.CommentContent)
-            @Html.TextAreaFor(x => x.CommentContent, new { @placeholder = "你的留言內容", @row = 6, @class = "ckeditor", @style = "width:305px" })
+            @Html.TextAreaFor(x => x.CommentContent, new { @row = 6, @class = "ckeditor", @style = "width:305px;" })
+            @Html.ValidationMessageFor(x => x.CommentContent, "", new { @style = "color:red" })
 
         </div>
         <!-- Break -->

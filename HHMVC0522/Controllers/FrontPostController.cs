@@ -13,17 +13,19 @@ namespace UI.Controllers
 {
     public class FrontPostController : Controller
     {
+        private static int currentPostID;
         // GET: FrontPost
         public ActionResult Index()
         {
             return View();
         }
         LayoutBLL layoutBLL;
+        public static int level = 0;
         public ActionResult PostDetail(int ID)
         {
             layoutBLL = new LayoutBLL();
             LayoutDTO layoutDTO = new LayoutDTO();
-            postID = ID;
+            currentPostID = ID;
             postBLL.AddViewCount(ID);
             layoutDTO = layoutBLL.GetPostDetailPageItemWithID(ID);
             return View(layoutDTO);
@@ -275,12 +277,11 @@ namespace UI.Controllers
             else return "false";
         }
         CommentBLL commentBLL = new CommentBLL();
-        static int postID;
         public ActionResult UpdateComment(int commentID)
         {
             CommentDTO model = new CommentDTO();
             model = commentBLL.GetComment(commentID);
-            ViewBag.CurrentPostID = postID;
+            ViewBag.CurrentPostID = currentPostID;
             return View(model);
         }
         [HttpPost]
@@ -294,7 +295,7 @@ namespace UI.Controllers
                     ViewData["CommentState"] = "Success";
                     ViewBag.ProcessState = General.Messages.AddSuccess;
                     ModelState.Clear();
-                    return RedirectToAction("PostDetail/" + postID, "FrontPost");
+                    return RedirectToAction("PostDetail/" + currentPostID, "FrontPost");
 
                 }
                 else
@@ -318,6 +319,31 @@ namespace UI.Controllers
             ViewData["CommentState"] = "Success";
             ModelState.Clear();
             return RedirectToAction("PostDetail/" + postID, "FrontPost");
+        }
+        public ActionResult ReplyToComment(int commentID)
+        {
+            CommentDTO model = new CommentDTO();
+            parentCommentID = commentID;
+            ViewBag.CurrentPostID = currentPostID;
+            return View(model);
+        }
+        static int parentCommentID;
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult ReplyToComment(CommentDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.MemberID = (int)Session["ID"];
+                model.ParentCommentID = parentCommentID;
+                postBLL.AddReply(model);
+                return RedirectToAction("PostDetail/" + currentPostID, "FrontPost");
+            }
+            else
+            {
+                ViewBag.ProcessState = General.Messages.EmptyArea;
+                return View(model);
+            }
         }
     }
 }
