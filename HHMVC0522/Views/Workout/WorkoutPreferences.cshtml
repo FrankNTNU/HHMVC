@@ -58,14 +58,20 @@
             border-bottom: solid 2px #f56a6a;
         }
 
+        #wSource, #wTarget, #wcSource, #wcTarget {
+            margin:10px;
+            height:100%;
+        }
+
         .item {
             font-size: 1.1em;
             font-weight: 500;
             line-height: 1.2em;
+            display:inline-block;
             width: max-content;
             height: min-content;
             margin: 3px;
-            float: left;
+            /*float: left;*/
             padding: 5px;
             /*transition: all 500ms ease-in;*/
         }
@@ -97,7 +103,7 @@
             <h2><i class="fas fa-star"></i> 喜好管理</h2>
         </div>
         <div class="col-2 col-sm-4 col-md-3 col-lg-2 align-self-end justify-content-end d-none d-sm-block">
-            <label class="button primary"><i class="fas fa-star"></i>確認</label>
+            <label id="submit" class="button primary"><i class="fas fa-star"></i>確認</label>
         </div>
     </div>
 </header>
@@ -106,25 +112,29 @@
     <div id="mainDiv">
         <div id="mainRow" class="row">
             <div class="row col-12" id="wcBox" style="padding:0; position:relative; left:20px;">
-                <div class="myInnerBox  col-md-5 col-sm-12 col-12" id="wcSource" style="min-height:250px">
+                <div class="myInnerBox  col-md-5 col-sm-12 col-12" style="min-height:250px">
                     <div class="title">運動類型</div>
+                    <div id="wcSource"></div>
                 </div>
                 <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
                     <i class="fas fa-arrows-alt-h" style="font-size:100px; color:gray"></i>
                 </div>
-                <div class="myInnerBox  col-md-5 col-sm-12 col-12" id="wcTarget" style="min-height:250px">
+                <div class="myInnerBox  col-md-5 col-sm-12 col-12" style="min-height:250px">
                     <div class="title">喜好的運動類型</div>
+                    <div id="wcTarget"></div>
                 </div>
-                <hr class="col-12 my-12" />
-                <div class="myInnerBox  col-md-5 col-sm-12 col-12" id="wSource" style="min-height:250px">
-                    <div class="title">運動項目</div>
-                </div>
-                <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
-                    <i class="fas fa-arrows-alt-h" style="font-size:100px; color:gray"></i>
-                </div>
-                <div class="myInnerBox col-md-5 col-sm-12 col-12" id="wTarget" style="min-height:250px">
-                    <div class="title">喜好的運動項目</div>
-                </div>
+            </div>
+            <hr class="col-12 my-12" />
+            <div class="myInnerBox  col-md-5 col-sm-12 col-12" style="min-height:250px">
+                <div class="title">運動項目</div>
+                <div id="wSource"></div>
+            </div>
+            <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
+                <i class="fas fa-arrows-alt-h" style="font-size:100px; color:gray"></i>
+            </div>
+            <div class="myInnerBox col-md-5 col-sm-12 col-12" style="min-height:250px">
+                <div class="title">喜好的運動項目</div>
+                <div id="wTarget"></div>
             </div>
         </div>
     </div>
@@ -155,13 +165,12 @@
 
 
             $(window).resize(function () {
-                if ($(window).width() <= 738) {
-                    $("i.fa-arrow-left").removeClass("fa-arrow-left").addClass("fa-arrow-up");
-                    $("i.fa-arrow-right").removeClass("fa-arrow-right").addClass("fa-arrow-down");
+                if ($(window).width() <= 748) {
+                    $("i.fa-arrows-alt-h").removeClass("fa-arrows-alt-h").addClass("fa-arrows-alt-v");
                 } else {
-                    $("i.fa-arrow-up").removeClass("fa-arrow-up").addClass("fa-arrow-left");
-                    $("i.fa-arrow-down").removeClass("fa-arrow-down").addClass("fa-arrow-right");
+                    $("i.fa-arrows-alt-v").removeClass("fa-arrows-alt-v").addClass("fa-arrows-alt-h");
                 }
+
             });
 
             $(window).resize();

@@ -16,6 +16,8 @@ namespace UI.Controllers
     {
         HealthHelperEntities dbContext = new HealthHelperEntities();
 
+        int[] timeArray = { 6, 11, 14, 17, 21 };
+
         //If user has a program, TDEE is calculated by initialWeight
         public decimal TDEE
         {
@@ -326,28 +328,13 @@ namespace UI.Controllers
         //todo QnA Maker是否可運用
         public ActionResult WorkoutSchedule()
         {
-            //==================================================================
-            //For chart
-            decimal todayIngest = TodayIngest();
-            decimal todayConsume = TodayConsume();
-
-            TodayCaloriesToPercent(this.TDEE, todayIngest, todayConsume,
-                out decimal TDEEPercent, out decimal IngestPercent, out decimal ConsumePercent);
-
-            ViewBag.TDEE = TDEEPercent;
-            ViewBag.Ingest = IngestPercent;
-            ViewBag.Consume = ConsumePercent;
-
-            //===================================================================
-            //For suggest
             WorkoutSuggestViewModel vm = new WorkoutSuggestViewModel();
 
             DateTime today = DateTime.Now;
-
             string todayString = today.ToString("MMddyyyy");
-            string yesterdayString = today.AddDays(-1).ToString("MMddyyyy");
 
-            int[] timeArray = { 6, 11, 14, 17, 21 };
+            //==================================================================
+            //Compute Now Ingest
 
             for (int i = 0; i < 5; i++)
             {
@@ -357,10 +344,35 @@ namespace UI.Controllers
                 }
             }
 
+            decimal nowIngest = 0m;
+
+            foreach (var item in vm.IngestReport)
+            {
+                if (item != -1)
+                {
+                    nowIngest += item;
+                }
+            }
+
+            //Compute Now Consume
+            decimal nowConsume = consumeForNow();
+
+            //==================================================================
+            //For chart
+            TodayCaloriesToPercent(this.TDEE, nowIngest, nowConsume,
+                out decimal TDEEPercent, out decimal IngestPercent, out decimal ConsumePercent);
+
+            ViewBag.TDEE = TDEEPercent;
+            ViewBag.Ingest = IngestPercent;
+            ViewBag.Consume = ConsumePercent;
+
+            //===================================================================
+            //For suggest
+            
             vm.TimeOfDay = dbContext.TimesOfDays
                 .OrderBy(tod => tod.ID).Select(tod => tod.Name).ToList();
 
-            decimal warning = (todayIngest - todayConsume) / this.TDEE;
+            decimal warning = (nowIngest - nowConsume) / this.TDEE;
             vm.Warning = $"為TDEE的 {warning:0.00}%";
 
             int MemberID = (int)Session["ID"];
@@ -373,61 +385,108 @@ namespace UI.Controllers
 
             //SuggestionByLog
             var wlwList = dbContext.WorkoutLogs
-                .Where(wl => wl.MemberID == MemberID && wl.StatusID == 5)
-                .Select(wl => wl.Workout);
+                .Where(wl => wl.MemberID == MemberID)
+                .GroupBy(wl => wl.Workout).Select(group => new
+                {
+                    group.Key,
+                    ActivityLevelID = group.Key.ActivityLevelID,
+                    Count = group.Count()
+                }).OrderByDescending(w => w.Count);
 
             //SuggestionByAge
             var member = dbContext.Members.SingleOrDefault(m => m.ID == MemberID);
             DateTime zeroTime = new DateTime(1, 1, 1);
             int age = (zeroTime + (DateTime.Today - member.Birthdate)).Year - 1;
-            int ageOffset = age - age / 10;
+            int ageOffset = age % 10;
             int startBirth = member.Birthdate.AddYears(-ageOffset).Year;
             int endBirth = member.Birthdate.AddYears(10-ageOffset).Year;
 
             var mList = dbContext.Members.Where(m => 
-                m.Birthdate.Year >= startBirth && m.Birthdate.Year <= endBirth)
+                m.Birthdate.Year >= startBirth && m.Birthdate.Year <= endBirth
+                && m.ID != MemberID)
                 .Select(m => m.ID).ToList();
 
             var agewlList = dbContext.WorkoutLogs.Where(wl => mList.Contains(wl.MemberID))
-                .Select(wl => wl.Workout).ToList();
+                .GroupBy(wl => wl.Workout).Select(group => new
+                {
+                    group.Key,
+                    ActivityLevelID = group.Key.ActivityLevelID,
+                    Count = group.Count()
+                }).OrderByDescending(w => w.Count);
 
-            if (warning > HHDictionary.HighActivitySuggestThreshold)
+            //Compute Threshold
+            int TimeOfDay = Array.IndexOf(vm.IngestReport.ToArray(), -1);
+            decimal timeCoefficient = 0m;
+            switch (TimeOfDay)
             {
-                vm.SuggestionByPreferences = wpwList.Where(w => w.ActivityLevelID == 3).ToList();
-                vm.SuggestionByLog = wlwList.Where(w => w.ActivityLevelID == 3).ToList();
-                vm.SuggestionByAge = agewlList.Where(w => w.ActivityLevelID == 3).ToList();
+                case 0:
+                    timeCoefficient = 0m;
+                    break;
+                case 1:
+                    timeCoefficient = 0.2m;
+                    break;
+                case 2:
+                    timeCoefficient = 0.5m;
+                    break;
+                case 3:
+                    timeCoefficient = 0.6m;
+                    break;
+                case 4:
+                    timeCoefficient = 0.9m;
+                    break;
+                //TimeOfDay == 5
+                case -1:
+                    timeCoefficient = 1m;
+                    break;
+            }
+
+            if (timeCoefficient > 0m && warning > HHDictionary.HighActivitySuggestThreshold * timeCoefficient)
+            {
+                vm.SuggestionByPreferences = wpwList.Where(w => w.ActivityLevelID == 3)
+                    .Select(w => w.Name).OrderBy(w => Guid.NewGuid()).Take(5).ToList();
+                vm.SuggestionByLog = wlwList.Where(w => w.ActivityLevelID == 3)
+                    .Select(w => w.Key.Name).Take(5).ToList();
+                vm.SuggestionByAge = agewlList.Where(w => w.ActivityLevelID == 3)
+                    .Select(w => w.Key.Name).Take(5).ToList();
                 vm.ActivityLevel = "【高強度】運動";
             }
-            else if (warning > HHDictionary.MediumActivitySuggestThreshold)
+            else if (timeCoefficient > 0m && warning > HHDictionary.MediumActivitySuggestThreshold * timeCoefficient)
             {
-                vm.SuggestionByPreferences = wpwList.Where(w => w.ActivityLevelID == 2).ToList();
-                vm.SuggestionByLog = wlwList.Where(w => w.ActivityLevelID == 2).ToList();
-                vm.SuggestionByAge = agewlList.Where(w => w.ActivityLevelID == 2).ToList();
+                vm.SuggestionByPreferences = wpwList.Where(w => w.ActivityLevelID == 2)
+                    .Select(w => w.Name).OrderBy(w => Guid.NewGuid()).Take(5).ToList();
+                vm.SuggestionByLog = wlwList.Where(w => w.ActivityLevelID == 2)
+                    .Select(w => w.Key.Name).Take(5).ToList();
+                vm.SuggestionByAge = agewlList.Where(w => w.ActivityLevelID == 2)
+                    .Select(w => w.Key.Name).Take(5).ToList(); ;
                 vm.ActivityLevel = "【中強度】運動";
             }
-            else if (warning > HHDictionary.LowActivitySuggestThreshold)
+            else if (timeCoefficient > 0m && warning > HHDictionary.LowActivitySuggestThreshold * timeCoefficient)
             {
-                vm.SuggestionByPreferences = wpwList.Where(w => w.ActivityLevelID == 1).ToList();
+                vm.SuggestionByPreferences = wpwList.Where(w => w.ActivityLevelID == 1)
+                    .Select(w => w.Name).OrderBy(w => Guid.NewGuid()).Take(5).ToList();
                 //vm.SuggestionByPreferences.Clear();
-                vm.SuggestionByLog = wlwList.Where(w => w.ActivityLevelID == 1).ToList();
+                vm.SuggestionByLog = wlwList.Where(w => w.ActivityLevelID == 1)
+                    .Select(w => w.Key.Name).Take(5).ToList(); ;
                 //vm.SuggestionByLog.Clear();
-                vm.SuggestionByAge = agewlList.Where(w => w.ActivityLevelID == 1).ToList();
+                vm.SuggestionByAge = agewlList.Where(w => w.ActivityLevelID == 1)
+                    .Select(w => w.Key.Name).Take(5).ToList();
                 vm.ActivityLevel = "【低強度】運動";
             }
             else
             {
                 vm.SuggestionByPreferences = dbContext.Workouts
-                    .Where(w => w.ActivityLevelID == 6).ToList();
+                    .Where(w => w.ActivityLevelID == 6).Select(w => w.Name).ToList();
                 vm.SuggestionByLog = dbContext.Workouts
-                    .Where(w => w.ActivityLevelID == 6).ToList();
+                    .Where(w => w.ActivityLevelID == 6).Select(w => w.Name).ToList();
                 vm.SuggestionByAge = dbContext.Workouts
-                    .Where(w => w.ActivityLevelID == 6).ToList();
+                    .Where(w => w.ActivityLevelID == 6).Select(w => w.Name).ToList();
                 vm.ActivityLevel = "【緩和】運動";
             }
 
             return View(vm);
         }
 
+        [NonAction]
         private decimal ingestPerTime(string dayString, int timeOfDay)
         {
             int MemberID = (int)Session["ID"];
@@ -447,27 +506,89 @@ namespace UI.Controllers
         }
 
         [NonAction]
-        private void TodayCaloriesToPercent(decimal TDEE, decimal todayIngest, decimal todayConsume,
+        private decimal ingestForNow()
+        {
+            int MemberID = (int)Session["ID"];
+
+            decimal ingest = 0m;
+
+            for (int i = 0; i < timeArray.Length; i++)
+            {
+                if (DateTime.Now.Hour > timeArray[i])
+                {
+                    ingest += ingestPerTime(DateTime.Today.ToString("MMddyyyy"), i + 1);
+                }
+            }
+
+            return ingest;
+        }
+
+        [NonAction]
+        private decimal consumeForNow()
+        {
+            int MemberID = (int)Session["ID"];
+
+            decimal weight = 0m;
+
+            var prgList = dbContext.Programs.Where(prg => DbFunctions.TruncateTime(prg.StartDate) <= DateTime.Today
+                    && DbFunctions.TruncateTime(prg.EndDate) >= DateTime.Today && prg.StatusID == 1)
+                    .OrderByDescending(prg => prg.StartDate);
+
+            var program = prgList.SingleOrDefault(prg => prg.MemberID == MemberID);
+
+            if (program != null)
+            {
+                weight = program.InitialWeight;
+            }
+            else
+            {
+                WeightLog wgtLog = dbContext.WeightLogs.OrderByDescending(wgtl => wgtl.UpdatedDate)
+                    .FirstOrDefault(wgt => wgt.MemberID == MemberID);
+                if (wgtLog != null)
+                {
+                    weight = (decimal)wgtLog.Weight;
+                }
+            }
+
+            var q1 = dbContext.WorkoutLogs.Where(wl => wl.MemberID == MemberID
+                    && DbFunctions.TruncateTime(wl.WorkoutTime) == DateTime.Today
+                    && wl.StatusID == 5).ToList();
+
+            var q2 = q1.Where(wl => wl.WorkoutTime <= DateTime.Now);
+
+            decimal consume = 0;
+
+            if (q2.Count() > 0)
+            {
+                consume = q2.Sum(wl =>
+                   (decimal)(wl.WorkoutHours * wl.Workout.Calories) * weight);
+            }
+
+            return consume;
+        }
+
+        [NonAction]
+        private void TodayCaloriesToPercent(decimal TDEE, decimal nowIngest, decimal todayConsume,
             out decimal TDEEPercent, out decimal IngestPercent, out decimal ConsumePercent)
         {
             
-            if (TDEE >= todayIngest && TDEE >= todayConsume)
+            if (TDEE >= nowIngest && TDEE >= todayConsume)
             {
                 TDEEPercent = 100;
-                IngestPercent = Math.Round(todayIngest / TDEE * 100, 1);
+                IngestPercent = Math.Round(nowIngest / TDEE * 100, 1);
                 ConsumePercent = Math.Round(todayConsume / TDEE * 100, 1);
             }
-            else if (todayIngest >= TDEE && todayIngest >= todayConsume)
+            else if (nowIngest >= TDEE && nowIngest >= todayConsume)
             {
                 IngestPercent = 100;
-                ConsumePercent = Math.Round(todayConsume / todayIngest * 100, 1);
-                TDEEPercent = Math.Round(TDEE / todayIngest * 100, 1);
+                ConsumePercent = Math.Round(todayConsume / nowIngest * 100, 1);
+                TDEEPercent = Math.Round(TDEE / nowIngest * 100, 1);
             }
             else
             {
                 ConsumePercent = 100;
                 TDEEPercent = Math.Round(TDEE / todayConsume * 100, 1);
-                IngestPercent = Math.Round(todayIngest / todayConsume * 100, 1);
+                IngestPercent = Math.Round(nowIngest / todayConsume * 100, 1);
             }
         }
 
@@ -512,9 +633,9 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            decimal todayConsume = TodayConsume();
+            decimal nowConsume = consumeForNow();
 
-            TodayCaloriesToPercent(this.TDEE, TodayIngest(), todayConsume,
+            TodayCaloriesToPercent(this.TDEE, ingestForNow(), nowConsume,
                 out decimal TDEEPercent, out decimal IngestPercent, out decimal ConsumePercent);
 
             return Json(new 
@@ -524,7 +645,7 @@ namespace UI.Controllers
                 TDEEPercent = TDEEPercent,
                 IngestPercent = IngestPercent,
                 ConsumePercent = ConsumePercent,
-                TodayConsume = todayConsume
+                TodayConsume = nowConsume
             });
 
         }
@@ -559,8 +680,8 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult GetTodayInfo()
         {
-            decimal ingest = TodayIngest();
-            decimal consume = TodayConsume();
+            decimal ingest = ingestForNow();
+            decimal consume = consumeForNow();
 
             return Json(new 
             {

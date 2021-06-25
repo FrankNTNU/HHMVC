@@ -14,13 +14,15 @@ namespace UI.ViewModels
 
         public string ActivityLevel { get; set; }
 
-        public List<Workout> SuggestionByPreferences { get; set; } = new List<Workout>();
+        public List<String> SuggestionByPreferences { get; set; } = new List<string>();
 
-        public List<Workout> SuggestionByAge { get; set; } = new List<Workout>();
+        public List<String> SuggestionByAge { get; set; } = new List<string>();
 
-        public List<Workout> SuggestionByLog { get; set; } = new List<Workout>();
+        public List<String> SuggestionByLog { get; set; } = new List<string>();
 
         public List<decimal> IngestReport { get; set; } = new List<decimal> { -1m, -1m, -1m, -1m, -1m };
+
+        public List<decimal> ConsumeReport { get; set; } = new List<decimal> { -1m, -1m, -1m, -1m, -1m };
 
         public List<string> TimeOfDay { get; set; }
     }

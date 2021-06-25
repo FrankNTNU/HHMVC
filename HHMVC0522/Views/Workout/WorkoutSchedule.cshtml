@@ -378,7 +378,7 @@
                     <div id="suggestBox" class="row">
                         <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
                             <div id="IngestReport" class="align-center">
-                                <div>今日熱量<span class="tdee">@Model.Warning</span></div>
+                                <div>實際熱量<span class="tdee">@Model.Warning</span></div>
                                 @for (int i = 0; i < Model.TimeOfDay.Count; i++)
                                 {
                                     if (@Model.IngestReport[i] != -1)
@@ -394,13 +394,13 @@
                                 <div style="display:flex; flex-wrap:wrap">
                                     @if (Model.SuggestionByPreferences.Count == 0)
                                     {
-                                        <div>目前無喜好的運動類型，<a href="/workout/workoutpreferences">新增幾筆喜好的運動類型吧</a></div>
+                                        <div>目前無喜好的運動類型，<br/><a href="/workout/workoutpreferences">新增幾筆喜好的運動類型吧</a></div>
                                     }
                                     else
                                     {
                                         foreach (var item in Model.SuggestionByPreferences)
                                         {
-                                            @Html.ActionLink(item.Name, "WorkoutPlaces", "Workout", new { workout = item.Name }, new { @class = "SuggestItem button primary", target = "_blank" })
+                                            @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem button primary", target = "_blank" })
                                         }
                                     }
                                 </div>
@@ -412,14 +412,14 @@
                                 <div>
                                     @if (Model.SuggestionByLog.Count == 0)
                                     {
-                                        <div>目前無運動紀錄，<a href="/workout/workoutlog">新增幾筆紀錄吧</a></div>
+                                        <div>目前無該強度的運動紀錄，<br /><a href="/workout/workoutlog">新增幾筆紀錄吧</a></div>
                                     }
                                     else
                                     {
                                         foreach (var item in Model.SuggestionByLog)
                                         {
 
-                                            @Html.ActionLink(item.Name, "WorkoutPlaces", "Workout", new { workout = item.Name }, new { @class = "SuggestItem button primary", target = "_blank" })
+                                            @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem button primary", target = "_blank" })
 
                                         }
                                     }
@@ -433,7 +433,7 @@
                                     @foreach (var item in Model.SuggestionByAge)
                                     {
 
-                                        @Html.ActionLink(item.Name, "WorkoutPlaces", "Workout", new { workout = item.Name }, new { @class = "SuggestItem button primary", target = "_blank" })
+                                        @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem button primary", target = "_blank" })
 
                                     }
                                 </div>
