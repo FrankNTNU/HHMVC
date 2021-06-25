@@ -724,6 +724,7 @@
                 beforeEditStatus = status;
 
                 $("#wNameForEdit").val(rowData.WorkoutID);
+                $("#wNameForEdit").change();
                 $("#wTimeForEdit").val(moment(rowData.WorkoutTime).format("yyyy/MM/DD HH:mm"));
                 $("#wTimeForEdit").change();
                 $("#wHoursForEdit").val(rowData.WorkoutHours);

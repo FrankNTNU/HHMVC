@@ -514,7 +514,7 @@ namespace UI.Controllers
 
             for (int i = 0; i < timeArray.Length; i++)
             {
-                if (DateTime.Now.Hour > timeArray[i])
+                if (DateTime.Now.Hour >= timeArray[i])
                 {
                     ingest += ingestPerTime(DateTime.Today.ToString("MMddyyyy"), i + 1);
                 }

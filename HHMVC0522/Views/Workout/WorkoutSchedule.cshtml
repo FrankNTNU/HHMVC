@@ -250,7 +250,7 @@
             font-style: italic;
         }
 
-        .Suggestion {
+        .Suggestion, #IngestReport {
             height: 100%;
         }
 
@@ -281,7 +281,7 @@
 
         @@media screen and (max-width:768px) {
 
-            #suggestBox > div:not(:last-child) {
+            .suggestInnerBox > div:not(:last-child) {
                 border-bottom: solid 2px #f56a6a;
             }
 
@@ -363,7 +363,7 @@
                     </div>
                 </div>
             </div>
-            <div class="myBox operate col-md-6 col-sm-12 col-12">
+            <div class="myBox operate col-lg-6 col-md-12 col-sm-12 col-12">
                 <div class="myInnerBox" style="min-height:685px;">
                     <div id="chartTitle">今日熱量</div>
                     <div class="dot" style="background-color: #f56a6a"></div>　今日TDEE　<span id="tdee" class="tdee"></span>　卡路里<br />
