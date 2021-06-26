@@ -117,6 +117,12 @@
     </Compile>
     <Compile Include="GiftCartDAO.cs" />
     <Compile Include="GiftDAO.cs" />
+    <Compile Include="Group.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GroupChat.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="HHContext.cs" />
     <Compile Include="HHModel.Context.cs">
       <AutoGen>True</AutoGen>

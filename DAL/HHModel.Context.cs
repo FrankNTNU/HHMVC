@@ -30,6 +30,8 @@ namespace DAL
         public virtual DbSet<DietLog> DietLogs { get; set; }
         public virtual DbSet<GiftCart> GiftCarts { get; set; }
         public virtual DbSet<Gift> Gifts { get; set; }
+        public virtual DbSet<GroupChat> GroupChats { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<LikedMeal> LikedMeals { get; set; }
         public virtual DbSet<LikedPost> LikedPosts { get; set; }
         public virtual DbSet<MealOption> MealOptions { get; set; }

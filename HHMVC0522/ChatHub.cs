@@ -1,17 +1,22 @@
-﻿using DTO;
+﻿using DAL;
+using DTO;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using UI.Controllers;
 
 namespace UI
 {
     [HubName("chatHub")]
     public class ChatHub : Hub
     {
+        HealthHelperEntities dbContext = new HealthHelperEntities();
+
         public override Task OnConnected()
         {
             
@@ -22,6 +27,26 @@ namespace UI
                 UserID = Context.User.Identity.Name,
             };
             UserStatic.ConnectedUsers.Add(user);
+
+            //==================================================
+            //Reconnect When Return
+            foreach (var groupId in UserStatic.UserChatGroups.Keys.ToList())
+            {
+                foreach (var member in UserStatic.UserChatGroups[groupId].GroupMembers.ToList())
+                {
+                    if (member.UserID == Context.User.Identity.Name)
+                    {
+                        UserStatic.UserChatGroups[groupId].GroupMembers.Add(new UserDetail
+                        {
+                            ConnID = Context.ConnectionId,
+                            UserID = Context.User.Identity.Name
+                        });
+
+                        Groups.Add(Context.ConnectionId, Context.User.Identity.Name);
+                    }
+                }
+            }
+
             return base.OnConnected();
         }
 
@@ -36,26 +61,37 @@ namespace UI
             //========================================================
             //恩旗
             //Remove User From UserChatGroups
-            foreach (var group in UserStatic.UserChatGroups.Keys.ToList())
+            try
             {
-                foreach (var member in UserStatic.UserChatGroups[group].GroupMembers.ToList())
+                foreach (var groupId in UserStatic.UserChatGroups.Keys.ToList())
                 {
-                    if (member.ConnID == Context.ConnectionId)
+                    foreach (var member in UserStatic.UserChatGroups[groupId].GroupMembers.ToList())
                     {
-                        UserStatic.UserChatGroups[group].GroupMembers.Remove(member);
-                    }
+                        if (member.ConnID == Context.ConnectionId)
+                        {
+                            UserStatic.UserChatGroups[groupId].GroupMembers.Remove(member);
+                        }
 
-                    if (UserStatic.UserChatGroups[group].GroupMembers.Count == 0)
-                    {
-                        UserStatic.UserChatGroups.Remove(group);
+                        ChatGroupController.RemoveGroup(this.dbContext, groupId);
                     }
                 }
-            }
 
+            }
+            catch (Exception ex)
+            {
+                string filePath = @"C:\Users\enchi\Desktop\Error.txt";
+
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine("Message : " + ex.Message);
+                }
+            }
+            
             //========================================================
 
             return base.OnDisconnected(stopCalled);
         }
+
         public void Send(string name, string imagePath, string message)
         {
             // Call the addNewMessageToPage method to update clients.

@@ -59,6 +59,22 @@
             text-align:center;
         }
 
+        .myInnerBox .button {
+            text-transform: none;
+            border-radius: 0.9em;
+        }
+
+        #members .button {
+            margin: 5px;
+        }
+
+        .others {
+            text-align:right;
+        }
+
+        .self {
+            text-align:left;
+        }
     </style>
 }
 
@@ -85,7 +101,7 @@
                 <div class="chatGroup mb-2 button" data-group-name="@group.Key">@group.Key　@group.Value.WeightRange.Item1 ~ @group.Value.WeightRange.Item2</div>
             }*@
         </div>
-        <div class="myInnerBox">
+        <div id="members" class="myInnerBox">
 
         </div>
     </div>
@@ -94,10 +110,9 @@
         <!-- DIRECT CHAT WARNING -->
         <div class="card direct-chat direct-chat-warning">
             <div class="card-header button primary" style="cursor:default; pointer-events:none">
-                <h3 class="card-title" style="color:white">聯絡客服</h3>
+                <h3 id="groupTitle" class="card-title" style="color:white">聊天群組：無</h3>
             </div>
-            <input type="hidden" id="displayname" />
-
+            <input type="hidden" id="groupId" />
             <div class="card-body">
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages" id="chatbox" style="margin:10px; padding:10px">
@@ -143,10 +158,42 @@
 
             var chat = $.connection.chatHub;
 
-            chat.client.receiveFromGroupMember = function (message) { }
+            chat.client.receiveFromGroupMember = function (connIds, userName, message) {
+
+                let index = $.inArray($.connection.hub.id, connIds)
+
+                write(userName, message, index != -1);
+            }
 
             $.connection.hub.start().done(function () {
+
+                //Set groupId When Return
+                if ($("#groupId").val() == "") {
+
+                    $.ajax({
+                        url: "GetGroupId",
+                        type: "POST",
+                        data: {
+                            connId: $.connection.hub.id
+                        },
+                        success: function (data) {
+                            $("#groupId").val(data.GroupID);
+                            $("#groupTitle").text(`聊天群組：${data.GroupName}`);
+                        }
+                    });
+                }
+
+                //todo Load Group Messages
+
+                //New Group
                 $("#newGroup").click(function () {
+
+                    if ($("#groupId").val() != "") {
+                        if (!confirm("確定離開目前群組嗎？")) {
+                            return;
+                        }
+                    }
+
                     $("#groupDetail").dialog({
                         title: "聊天群",
                         modal: true,
@@ -174,13 +221,16 @@
                                         connId: $.connection.hub.id,
                                         groupName: $("#groupName").val(),
                                         weight1: $("#weight1").val(),
-                                        weight2: $("#weight2").val()
+                                        weight2: $("#weight2").val(),
+                                        preGroupId: $("#groupId").val()
                                     },
                                     success: function (data) {
                                         alert(data.Result);
                                         $("#groupName").val("");
                                         $("#weight1").val("");
                                         $("#weight2").val("");
+                                        $("#groupId").val(data.GroupID);
+                                        $("#groupTitle").text(`聊天群組：${data.GroupName}`);
                                     }
                                 });
 
@@ -201,17 +251,39 @@
                     });
                 });
 
-                //$(".chatGroup").click(function () {
-                //    $.ajax({
-                //        url: "AddToGroup",
-                //        type: "POST",
-                //        data: {},
+                //Change Group
+                $("body").on("click", ".chatGroup", function () {
 
-                //    });
-                //});
+                    if ($(this).attr("data-groupId") == $("#groupId").val()) {
+                        alert("已在此群組");
+                        return;
+                    } else {
+                        if ($("#groupId").val() != "" && !confirm("確定離開目前群組嗎？")) {
+                            return;
+                        }
+                    }
+
+                    $.ajax({
+                        url: "AddToGroup",
+                        type: "POST",
+                        data: {
+                            connId: $.connection.hub.id,
+                            groupId: $(this).attr("data-groupId"),
+                            groupName: $(this).attr("data-groupName"),
+                            preGroupId: $("#groupId").val()
+                        },
+                        success: function (data) {
+                            $("#groupId").val(data.GroupID);
+                            $("#groupTitle").text(`聊天群組：${data.GroupName}`);
+                            alert(data.Result);
+                        }
+                    });
+                });
             });
 
             let IntervalID = setInterval(function () {
+
+                //Refresh Group
                 $.ajax({
                     url: "GetGroups",
                     type: "POST",
@@ -221,7 +293,12 @@
 
                         $.each(data, function (i, g) {
                             let cell = $("<div></div>").addClass("chatGroup").addClass("mb-2").addClass("button")
-                                .attr("data-group-name", g.Key).text(`${g.Key} ${g.Item1} ${g.Item2}`);
+                                .attr("data-groupId", g.ID).attr("data-groupName", g.GroupName)
+                                .text(`${g.GroupName} ${g.StartWeight}kg~${g.EndWeight}kg`);
+
+                            if (g.ID == $("#groupId").val()) {
+                                $(cell).addClass("primary");
+                            }
 
                             $(docFrag).append(cell);
                         });
@@ -230,7 +307,65 @@
                         $("#groups").append(docFrag);
                     }
                 });
+
+                //Refresh Group Members
+                if ($("#groupId").val() != "") {
+                    $.ajax({
+                        url: "GetGroupMembers",
+                        type: "POST",
+                        data: {
+                            groupId: $("#groupId").val()
+                        },
+                        success: function (data) {
+
+                            let docFrag = document.createDocumentFragment();
+
+                            $.each(data, function (i, m) {
+
+                                let cell = $("<div></div>").addClass("button").text(m);
+
+                                $(docFrag).append(cell);
+                            });
+
+                            $("#members").html("");
+                            $("#members").append(docFrag);
+                        }
+                    });
+                }
             }, 3000);
+
+            $("#sendmessage").click(function () {
+                $.ajax({
+                    url: "SendMessage",
+                    type: "POST",
+                    data: {
+                        connId: $.connection.hub.id,
+                        groupId: $("#groupId").val(),
+                        message: $("#message").val()
+                    }
+                });
+            });
         });
+
+        function write(userName, message, isSelf) {
+
+            let msg = $("<div></div>").text(`${userName}：${message}`);
+
+            if (isSelf) {
+                $(msg).addClass("self");
+            } else {
+                $(msg).addClass("others");
+            }
+
+            $("#chatbox").append(msg);
+        }
+        
+        function Send(message) {
+
+        }
+
+        function Receive(message) {
+
+        }
     </script>
 }

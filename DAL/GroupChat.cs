@@ -12,20 +12,15 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Comment
+    public partial class GroupChat
     {
         public int ID { get; set; }
-        public string Title { get; set; }
-        public string CommentContent { get; set; }
+        public int GroupID { get; set; }
         public int MemberID { get; set; }
-        public System.DateTime AddDate { get; set; }
-        public bool IsApproved { get; set; }
-        public string Feedback { get; set; }
-        public Nullable<int> PostID { get; set; }
-        public Nullable<int> ParentCommentID { get; set; }
-        public string Name { get; set; }
+        public string Message { get; set; }
+        public System.DateTime TimeStamp { get; set; }
     
+        public virtual Group Group { get; set; }
         public virtual Member Member { get; set; }
-        public virtual Post Post { get; set; }
     }
 }

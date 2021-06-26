@@ -7,6 +7,8 @@ namespace DTO
 {
     public class ChatGroupDTO {
 
+        public string GroupName;
+
         public Tuple<int, int> WeightRange;
 
         public List<UserDetail> GroupMembers;
