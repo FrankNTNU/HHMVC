@@ -90,6 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChatGroupDTO.cs" />
     <Compile Include="CommentDTO.cs" />
     <Compile Include="CountDTO.cs" />
     <Compile Include="GiftCartDTO.cs" />

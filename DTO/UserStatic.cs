@@ -9,6 +9,13 @@ namespace DTO
     public static class UserStatic
     {
         public static List<UserDetail> ConnectedUsers = new List<UserDetail>();
+
+        //==============================================
+        //恩旗
+        //UserChatGroup
+        public static Dictionary<string, ChatGroupDTO> UserChatGroups = new Dictionary<string, ChatGroupDTO>();
+
+        //==============================================
     }
     public static class UserHandler
     {
@@ -21,4 +28,6 @@ namespace DTO
         public string UserName { get; set; }
         public string ImagePath { get; set; }
     }
+
+    
 }

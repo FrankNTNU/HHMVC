@@ -31,6 +31,29 @@ namespace UI
                 .FirstOrDefault(x => x.ConnID == Context.ConnectionId);
             UserStatic.ConnectedUsers.Remove(disconntectedUser);
             UserHandler.ConnectedIds.Remove(Context.ConnectionId);
+
+
+            //========================================================
+            //恩旗
+            //Remove User From UserChatGroups
+            foreach (var group in UserStatic.UserChatGroups.Keys.ToList())
+            {
+                foreach (var member in UserStatic.UserChatGroups[group].GroupMembers.ToList())
+                {
+                    if (member.ConnID == Context.ConnectionId)
+                    {
+                        UserStatic.UserChatGroups[group].GroupMembers.Remove(member);
+                    }
+
+                    if (UserStatic.UserChatGroups[group].GroupMembers.Count == 0)
+                    {
+                        UserStatic.UserChatGroups.Remove(group);
+                    }
+                }
+            }
+
+            //========================================================
+
             return base.OnDisconnected(stopCalled);
         }
         public void Send(string name, string imagePath, string message)
@@ -40,12 +63,5 @@ namespace UI
             //Clients.Client(connID).addNewMessageToPage(name, imagePath, message);
         }
 
-        //==============================================================
-        //恩旗
-        //For Test
-        public void ReplyCustomer(string userId, string message) {
-
-            Clients.User(userId).ReceiveFromService(message);
-        }
     }
 }

@@ -792,6 +792,7 @@
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
     <Compile Include="ChatHub.cs" />
+    <Compile Include="Controllers\ChatGroupController.cs" />
     <Compile Include="Controllers\FrontContactController.cs" />
     <Compile Include="Controllers\FrontGiftController.cs" />
     <Compile Include="Controllers\FrontPostController.cs" />
@@ -929,6 +930,7 @@
     <Content Include="Views\Workout\WorkoutSchedule.cshtml" />
     <Content Include="Views\Workout\WorkoutPreferences.cshtml" />
     <Content Include="Views\Workout\WorkoutPlaces.cshtml" />
+    <Content Include="Views\ChatGroup\GroupChat.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

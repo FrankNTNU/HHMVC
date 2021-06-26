@@ -1,0 +1,236 @@
+﻿@using DTO
+@model Dictionary<string, ChatGroupDTO>
+
+@{
+    ViewBag.Title = "GroupChat";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+
+@section Styles{
+    <link href="~/Content/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/Content/CSS/adminlte.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+    <style>
+        .direct-chat-warning .right > .direct-chat-text::after {
+            border-left-color: #f56a6a;
+        }
+
+        .direct-chat-messages a {
+            font-weight: 600;
+            color: lavender;
+        }
+
+        .direct-chat-messages a:hover {
+            color: white !important;
+        }
+
+        #sidebar {
+            width: 15em !important;
+        }
+
+        .myBox {
+            border: solid 2px gray;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .myInnerBox {
+            border: solid 1px #f56a6a;
+            border-radius: 0.9em;
+            padding: 5px;
+            box-shadow: 5px 5px 10px 5px #E0E0E0;
+            height: 50%;
+        }
+
+        #groupDetail {
+            display: none;
+        }
+
+        #weight1, #weight2 {
+            display:inline-block;
+            margin:10px;
+            width: 4em;
+        }
+
+        .chatGroup {
+            width:100%;
+            border: solid 1px #f56a6a;
+            border-radius: 0.9em;
+            text-align:center;
+        }
+
+    </style>
+}
+
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
+        <div class="col-4 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-sms"></i> 減重聊天群</h2>
+        </div>
+        <div class="col-2 col-sm-4 col-md-3 col-lg-2 align-self-end justify-content-end d-none d-sm-block">
+            <label id="newGroup" class="button primary"><i class="fas fa-sms"></i>新增聊天群</label>
+        </div>
+    </div>
+</header>
+<header id="header" class="m-0 p-0"></header>
+<section class="pt-5 container row">
+    
+    <div class="myBox col-md-3">
+        <div id="groups" class="myInnerBox">
+            @*@foreach (var group in Model)
+            {
+                <div class="chatGroup mb-2 button" data-group-name="@group.Key">@group.Key　@group.Value.WeightRange.Item1 ~ @group.Value.WeightRange.Item2</div>
+            }*@
+        </div>
+        <div class="myInnerBox">
+
+        </div>
+    </div>
+
+    <div class="col-md-9" style="height:auto">
+        <!-- DIRECT CHAT WARNING -->
+        <div class="card direct-chat direct-chat-warning">
+            <div class="card-header button primary" style="cursor:default; pointer-events:none">
+                <h3 class="card-title" style="color:white">聯絡客服</h3>
+            </div>
+            <input type="hidden" id="displayname" />
+
+            <div class="card-body">
+                <!-- Conversations are loaded here -->
+                <div class="direct-chat-messages" id="chatbox" style="margin:10px; padding:10px">
+                </div>
+                @*<div class="direct-chat-msg right" id="adminbox"></div>*@
+            </div>
+            <div class="card-footer">
+                <div class="input-group">
+                    <div class="col-12 col-md-9 col-lg-10 mb-2">
+                        <input type="text" name="message" placeholder="輸入訊息..." class="form-control" id="message" autocomplete="off">
+                    </div>
+                    <div class="col-12 col-md-3 col-lg-2">
+                        <span class="input-group-append">
+                            <input type="button" class="button primary fit" id="sendmessage" value="傳送" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--dialog================================================== -->
+<div id="groupDetail">
+    請輸入聊天群名稱和體重區間：
+    <input type="text" id="groupName" autocomplete="off" placeholder="聊天群名稱"/>
+    <input type="text" id="weight1" placeholder="體重"/>kg~<input type="text" id="weight2" placeholder="體重"/>kg
+</div>
+<!--=========================================================-->
+
+@section scripts {
+
+    <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script>
+
+        $(function () {
+
+            $(window).on("unload", function () {
+                $.connection.hub.stop();
+            });
+
+            var chat = $.connection.chatHub;
+
+            chat.client.receiveFromGroupMember = function (message) { }
+
+            $.connection.hub.start().done(function () {
+                $("#newGroup").click(function () {
+                    $("#groupDetail").dialog({
+                        title: "聊天群",
+                        modal: true,
+                        open: function (event, ui) {
+                            $('.ui-dialog .btnOK').addClass("primary")
+                                .css("padding", "10px").css("border-radius", "5px")
+                                .css("outline-color", "white");
+                            $(this).parent().focus();
+                        },
+                        dialogClass: "no-close",
+                        buttons: [{
+                            text: "確認",
+                            class: "btnOK",
+                            click: function () {
+
+                                if ($("#groupName").val() == "") {
+                                    alert("請輸入聊天群名稱");
+                                    return;
+                                }
+
+                                $.ajax({
+                                    url: "NewGroup",
+                                    type: "POST",
+                                    data: {
+                                        connId: $.connection.hub.id,
+                                        groupName: $("#groupName").val(),
+                                        weight1: $("#weight1").val(),
+                                        weight2: $("#weight2").val()
+                                    },
+                                    success: function (data) {
+                                        alert(data.Result);
+                                        $("#groupName").val("");
+                                        $("#weight1").val("");
+                                        $("#weight2").val("");
+                                    }
+                                });
+
+                                $("#groupDetail").dialog("close");
+                            }
+                        },
+                        {
+                            text: "取消",
+                            class: "btnOK",
+                            click: function () {
+                                $("#groupDetail").dialog("close");
+                            }
+                        }]
+                    });
+
+                    $('.ui-dialog button').mousedown(function (e) {
+                        e.preventDefault();
+                    });
+                });
+
+                //$(".chatGroup").click(function () {
+                //    $.ajax({
+                //        url: "AddToGroup",
+                //        type: "POST",
+                //        data: {},
+
+                //    });
+                //});
+            });
+
+            let IntervalID = setInterval(function () {
+                $.ajax({
+                    url: "GetGroups",
+                    type: "POST",
+                    success: function (data) {
+
+                        let docFrag = document.createDocumentFragment();
+
+                        $.each(data, function (i, g) {
+                            let cell = $("<div></div>").addClass("chatGroup").addClass("mb-2").addClass("button")
+                                .attr("data-group-name", g.Key).text(`${g.Key} ${g.Item1} ${g.Item2}`);
+
+                            $(docFrag).append(cell);
+                        });
+
+                        $("#groups").html("");
+                        $("#groups").append(docFrag);
+                    }
+                });
+            }, 3000);
+        });
+    </script>
+}
