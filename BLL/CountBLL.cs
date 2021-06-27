@@ -28,6 +28,8 @@ namespace BLL
             countDTO.PastSixMonths = countDAO.GetPastSixMonthNames();
             countDTO.HalfOfYearDietLogCount = countDAO.GetHalfOfYearDietLogCount();
             countDTO.HalfOfYearWeightLogCount = countDAO.GetHalfOfYearWorkoutCount();
+            countDTO.HalfOfYearMemberCount = countDAO.GetHalfOfYearMemberCount();
+            countDTO.HalfOfYearMemberSum = countDAO.GetHalfOfYearMemberSum();
             return countDTO;
         }
     }

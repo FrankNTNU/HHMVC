@@ -22,7 +22,8 @@ namespace DTO
         public List<string> PastSixMonths { get; set; }
         public List<int> HalfOfYearDietLogCount { get; set; }
         public List<int> HalfOfYearWeightLogCount { get; set; }
-
+        public List<int> HalfOfYearMemberCount { get; set; }
+        public List<int> HalfOfYearMemberSum { get; set; }
 
     }
 }

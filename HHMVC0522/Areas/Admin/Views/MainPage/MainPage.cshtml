@@ -53,7 +53,7 @@
         </div>
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-gradient-purple">
                 <div class="inner">
                     <h3>@Model.UnderstockedGifts</h3>
 
@@ -62,12 +62,12 @@
                 <div class="icon">
                     <i class="fas fa-gifts"></i>
                 </div>
-                <a href="#" class="small-box-footer">管理禮物項目 <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="~/Admin/Gift/GiftList" class="small-box-footer">管理禮物項目 <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-4">
             <div class="card card-blue">
                 <div class="card-header">
                     <h3 class="card-title">網站功能使用統計</h3>
@@ -87,8 +87,8 @@
                 <!-- /.card-body -->
             </div>
         </div>
-        <div class="col-12 col-md-6">
-            <div class="card card-success">
+        <div class="col-12 col-md-4">
+            <div class="card card-gray">
                 <div class="card-header">
                     <h3 class="card-title">會員紀錄月筆數</h3>
 
@@ -109,6 +109,28 @@
                 <!-- /.card-body -->
             </div>
         </div>
+        <div class="col-12 col-md-4">
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">會員成長變化</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
     </div>
 
 </section>
@@ -116,6 +138,7 @@
     <script src="~/Areas/Admin/Content/JS/Chart.js"></script>
     <script>
         $(function () {
+            // 圓餅圖
             var donutData = {
                 labels: [
                     '飲食紀錄次數',
@@ -165,52 +188,35 @@
             jQuery.each(workoutlogData, function (i, val) {
                 workoutlogs.push(val);
             })
+            // 長調圖
+
             var areaChartData = {
-            labels: months,
-            datasets: [
-                {
-                    label: '飲食紀錄次數',
-                    backgroundColor: 'rgba(60,141,188,0.9)',
-                    borderColor: 'rgba(60,141,188,0.8)',
-                    pointRadius: false,
-                    pointColor: '#3b8bba',
-                    pointStrokeColor: 'rgba(60,141,188,1)',
-                    pointHighlightFill: '#fff',
-                    pointHighlightStroke: 'rgba(60,141,188,1)',
-                    data: dietlogs
-                },
-                {
-                    label: '運動紀錄筆數',
-                    backgroundColor: 'rgba(210, 214, 222, 1)',
-                    borderColor: 'rgba(210, 214, 222, 1)',
-                    pointRadius: false,
-                    pointColor: 'rgba(210, 214, 222, 1)',
-                    pointStrokeColor: '#c1c7d1',
-                    pointHighlightFill: '#fff',
-                    pointHighlightStroke: 'rgba(220,220,220,1)',
-                    data: workoutlogs
-                },
-            ]
-        }
-        var barChartCanvas = $('#barChart').get(0).getContext('2d')
-        var barChartData = $.extend(true, {}, areaChartData)
-        var temp0 = areaChartData.datasets[0]
-        var temp1 = areaChartData.datasets[1]
-        barChartData.datasets[0] = temp1
-        barChartData.datasets[1] = temp0
-
-        var barChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
-        }
-
-        new Chart(barChartCanvas, {
-            type: 'bar',
-            data: barChartData,
-            options: barChartOptions
-        })
-
+                labels: months,
+                datasets: [
+                    {
+                        label: '飲食紀錄次數',
+                        backgroundColor: 'rgba(255, 160, 143,0.9)',
+                        borderColor: 'rgba(255, 160, 143,0.8)',
+                        pointRadius: false,
+                        pointColor: '#ff8f8f',
+                        pointStrokeColor: 'rgba(255, 160, 143,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: dietlogs
+                    },
+                    {
+                        label: '運動紀錄筆數',
+                        backgroundColor: 'rgba(143, 167, 255, 1)',
+                        borderColor: 'rgba(143, 167, 255, 1)',
+                        pointRadius: false,
+                        pointColor: 'rgba(143, 167, 255, 1)',
+                        pointStrokeColor: '#8fa7ff',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: workoutlogs
+                    },
+                ]
+            }
             var barChartCanvas = $('#barChart').get(0).getContext('2d')
             var barChartData = $.extend(true, {}, areaChartData)
             var temp0 = areaChartData.datasets[0]
@@ -229,8 +235,83 @@
                 data: barChartData,
                 options: barChartOptions
             })
-        })
+            // 曲線圖
 
+            //-------------
+            //- LINE CHART -
+            //--------------
+
+            var areaChartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: false,
+                        }
+                    }]
+                }
+            }
+             var memberCounts = [];
+            var memberData = @Html.Raw(Json.Encode(Model.HalfOfYearMemberCount));
+            jQuery.each(memberData, function (i, val) {
+                memberCounts.push(val);
+            })
+            var memberSums = [];
+            var memberSumData = @Html.Raw(Json.Encode(Model.HalfOfYearMemberSum));
+            jQuery.each(memberSumData, function (i, val) {
+                memberSums.push(val);
+            })
+            var lineChartData = {
+                labels: months,
+                datasets: [
+                    {
+                        label: '新入會員',
+                        backgroundColor: 'rgba(210, 214, 222, 1)',
+                        borderColor: 'rgba(210, 214, 222, 1)',
+                        pointColor: 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor: '#8fa7ff',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(210, 214, 222, 1)',
+                        data: memberData
+
+                    },
+                    {
+                        label: '會員總人數',
+                        backgroundColor: 'rgba(60,141,188,1)',
+                        borderColor: 'rgba(60,141,188,1)',
+                        pointColor: 'rgba(60,141,188,1)',
+                        pointStrokeColor: '#8fa7ff',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: memberSumData
+                    },
+                ]
+            }
+            var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
+            lineChartData.datasets[0].fill = false;
+            lineChartData.datasets[1].fill = false;
+
+            var lineChart = new Chart(lineChartCanvas, {
+                type: 'line',
+                data: lineChartData,
+                options: {
+                    response: true,
+                    maintainAspectRatio: false,
+                    datasetFill: false,
+
+                }
+            })
+
+        })
 
 
     </script>

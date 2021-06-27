@@ -67,5 +67,27 @@ namespace DAL
             }
             return workoutCounts;
         }
+        public List<int> GetHalfOfYearMemberCount()
+        {
+            List<int> memebrCounts = new List<int>();
+            for (int i = 5; i >= 0; i--)
+            {
+                int currentMonth = DateTime.Today.AddMonths(-i).Month;
+                int num = db.Members.Where(x => x.JoinDate.Month == currentMonth).Count();
+                memebrCounts.Add(num);
+            }
+            return memebrCounts;
+        }
+        public List<int> GetHalfOfYearMemberSum()
+        {
+            List<int> memberSum = new List<int>();
+            for (int i = 5; i >= 0; i--)
+            {
+                DateTime currentMonth = DateTime.Today.AddMonths(-i);
+                int num = db.Members.Where(x => x.JoinDate <= currentMonth).Count();
+                memberSum.Add(num);
+            }
+            return memberSum;
+        }
     }
 }
