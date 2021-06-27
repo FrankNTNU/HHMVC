@@ -57,7 +57,6 @@ namespace UI
             UserStatic.ConnectedUsers.Remove(disconntectedUser);
             UserHandler.ConnectedIds.Remove(Context.ConnectionId);
 
-
             //========================================================
             //恩旗
             //Remove User From UserChatGroups

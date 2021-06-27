@@ -15,6 +15,10 @@
             border-left-color: #f56a6a;
         }
 
+        .direct-chat-warning :not(.right) > .direct-chat-text::before {
+            border-right-color: plum;
+        }
+
         .direct-chat-messages a {
             font-weight: 600;
             color: lavender;
@@ -39,7 +43,7 @@
             border-radius: 0.9em;
             padding: 5px;
             box-shadow: 5px 5px 10px 5px #E0E0E0;
-            height: 50%;
+            min-height: 200px;
         }
 
         #groupDetail {
@@ -68,13 +72,17 @@
             margin: 5px;
         }
 
-        .others {
-            text-align:right;
+        .card-header.button {
+            text-transform: none;
+        }
+
+        /*.others {
+            text-align: right;
         }
 
         .self {
             text-align:left;
-        }
+        }*/
     </style>
 }
 
@@ -94,8 +102,8 @@
 <header id="header" class="m-0 p-0"></header>
 <section class="pt-5 container row">
     
-    <div class="myBox col-md-3">
-        <div id="groups" class="myInnerBox">
+    <div class="myBox col-md-3" style="display:flex; flex-direction:column">
+        <div id="groups" class="myInnerBox" style="margin-bottom:30px">
             @*@foreach (var group in Model)
             {
                 <div class="chatGroup mb-2 button" data-group-name="@group.Key">@group.Key　@group.Value.WeightRange.Item1 ~ @group.Value.WeightRange.Item2</div>
@@ -158,11 +166,11 @@
 
             var chat = $.connection.chatHub;
 
-            chat.client.receiveFromGroupMember = function (connIds, userName, message) {
+            chat.client.receiveFromGroupMember = function (connIds, userName, message, timeStamp, image) {
 
                 let index = $.inArray($.connection.hub.id, connIds)
 
-                write(userName, message, index != -1);
+                write(userName, message, index != -1, timeStamp, image);
             }
 
             $.connection.hub.start().done(function () {
@@ -179,11 +187,10 @@
                         success: function (data) {
                             $("#groupId").val(data.GroupID);
                             $("#groupTitle").text(`聊天群組：${data.GroupName}`);
+                            LoadMessages();
                         }
                     });
                 }
-
-                //todo Load Group Messages
 
                 //New Group
                 $("#newGroup").click(function () {
@@ -273,9 +280,10 @@
                             preGroupId: $("#groupId").val()
                         },
                         success: function (data) {
+                            alert(data.Result);
                             $("#groupId").val(data.GroupID);
                             $("#groupTitle").text(`聊天群組：${data.GroupName}`);
-                            alert(data.Result);
+                            LoadMessages();
                         }
                     });
                 });
@@ -332,7 +340,7 @@
                         }
                     });
                 }
-            }, 3000);
+            }, 1500);
 
             $("#sendmessage").click(function () {
                 $.ajax({
@@ -347,25 +355,84 @@
             });
         });
 
-        function write(userName, message, isSelf) {
+        function write(userName, message, isSelf, timeStamp, image) {
 
-            let msg = $("<div></div>").text(`${userName}：${message}`);
+            //let msg = $("<div></div>").text(`${userName}：${message}  ${timeStamp}`);
+
+            //if (isSelf) {
+            //    $(msg).addClass("self");
+            //} else {
+            //    $(msg).addClass("others");
+            //}
+
+            //========================================
 
             if (isSelf) {
-                $(msg).addClass("self");
+                let dialogDiv = $("<div></div>").addClass("direct-chat-msg");
+
+                $("<div></div>").addClass("direct-chat-infos clearfix")
+                    .append($("<span></span>").addClass("direct-chat-name float-left").text(userName))
+                    .append($("<span></span>").addClass("direct-chat-timestamp float-right").text(timeStamp))
+                    .appendTo(dialogDiv);
+
+                $("<img/>").addClass("direct-chat-img")
+                    .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                    .appendTo(dialogDiv);
+
+                $("<div></div>").addClass("direct-chat-text")
+                    .css("background-color", "plum").css("color", "white").css("border-color", "plum")
+                    .text(message)
+                    .appendTo(dialogDiv);
+
+                $("#chatbox").append(dialogDiv);
+
             } else {
-                $(msg).addClass("others");
+                let dialogDiv = $("<div></div>").addClass("direct-chat-msg right");
+
+                    $("<div></div>").addClass("direct-chat-infos clearfix")
+                        .append($("<span></span>").addClass("direct-chat-name float-right").text(userName))
+                        .append($("<span></span>").addClass("direct-chat-timestamp float-left").text(timeStamp))
+                        .appendTo(dialogDiv);
+
+                    $("<img/>").addClass("direct-chat-img")
+                        .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                        .appendTo(dialogDiv);
+
+                    $("<div></div>").addClass("direct-chat-text")
+                        .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
+                        .text(message)
+                    .appendTo(dialogDiv);
+
+                $("#chatbox").append(dialogDiv);
             }
 
-            $("#chatbox").append(msg);
+            
+            //========================================
+
+            //$("#chatbox").append(msg);
         }
-        
-        function Send(message) {
 
-        }
+        //todo Load Group Messages
+        function LoadMessages() {
+            if ($("#groupId").val() != "") {
+                $.ajax({
+                    url: "GetGroupMsgs",
+                    type: "POST",
+                    data: {
+                        groupId: $("#groupId").val()
+                    },
+                    success: function (data) {
 
-        function Receive(message) {
+                        $("#chatbox").html("");
 
+                        $.each(data, function (i, msg) {
+                            let index = $.inArray($.connection.hub.id, msg.connIds)
+
+                            write(msg.userName, msg.message, index != -1, msg.timeStamp, msg.image);
+                        });
+                    }
+                });
+            }
         }
     </script>
 }

@@ -181,7 +181,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendMessage(string connId, string groupId, string message)
+        public void SendMessage(string connId, string groupId, string message)
         {
 
             var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
@@ -189,12 +189,15 @@ namespace UI.Controllers
             string UserId = UserStatic.UserChatGroups[groupId].GroupMembers
                 .SingleOrDefault(gm => gm.ConnID == connId).UserID;
 
-            string userName = dbContext.Members.SingleOrDefault(m => m.ID.ToString() == UserId).UserName;
+            Member member = dbContext.Members.SingleOrDefault(m => m.ID.ToString() == UserId);
 
             List<string> connIds = UserStatic.UserChatGroups[groupId].GroupMembers
-                .Where(gm => gm.UserID == UserId).Select(gm => gm.ConnID).ToList(); ;
+                .Where(gm => gm.UserID == UserId).Select(gm => gm.ConnID).ToList();
 
-            Context.Clients.Group(groupId).receiveFromGroupMember(connIds, userName, message);
+            DateTime timeStamp = DateTime.Now;
+
+            Context.Clients.Group(groupId)
+                .receiveFromGroupMember(connIds, member.UserName, message, timeStamp.ToString("M/d HH:mm"), member.Image);
 
             //todo
             dbContext.GroupChats.Add(new GroupChat
@@ -202,12 +205,11 @@ namespace UI.Controllers
                 GroupID = int.Parse(groupId),
                 MemberID = int.Parse(UserId),
                 Message = message,
-                TimeStamp = DateTime.Now
+                TimeStamp = timeStamp
             });
 
             dbContext.SaveChanges();
 
-            return View();
         }
 
         [HttpPost]
@@ -225,6 +227,32 @@ namespace UI.Controllers
             }
 
             return Json(new { GroupID = "", GroupName = "" });
+        }
+
+        public JsonResult GetGroupMsgs(string groupId)
+        {
+            int gId = int.Parse(groupId);
+
+            var msgList = dbContext.GroupChats.Where(gc => gc.GroupID == gId).ToList()
+                .Select(gc => 
+                {
+                    List<string> connIds = UserStatic.UserChatGroups[groupId].GroupMembers
+                        .Where(gm => gm.UserID == gc.MemberID.ToString())
+                        .Select(gm => gm.ConnID).ToList();
+
+                    Member member = dbContext.Members.SingleOrDefault(m => m.ID == gc.MemberID);
+
+                    return new
+                    {
+                        connIds = connIds,
+                        userName = member.UserName,
+                        message = gc.Message,
+                        timeStamp = gc.TimeStamp.ToString("M/d HH:mm"),
+                        image = member.Image
+                    };
+                });
+
+            return Json(msgList);
         }
     }
 }
