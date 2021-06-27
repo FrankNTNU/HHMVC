@@ -166,6 +166,7 @@
     <Content Include="Areas\Admin\Content\JS\buttons.colVis.min.js" />
     <Content Include="Areas\Admin\Content\JS\buttons.html5.min.js" />
     <Content Include="Areas\Admin\Content\JS\buttons.print.min.js" />
+    <Content Include="Areas\Admin\Content\JS\Chart.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\adapters\jquery.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\build-config.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\ckeditor.js" />
@@ -786,7 +787,7 @@
     <Content Include="Areas\Admin\Views\Gift\GiftCarts.cshtml" />
     <Content Include="Areas\Admin\Views\Contact\Contact.cshtml" />
     <Content Include="Areas\Admin\Content\webfonts\BarcodeFont.ttf" />
-    <Content Include="Areas\Admin\Views\Login\MainPage.cshtml" />
+    <Content Include="Areas\Admin\Views\MainPage\MainPage.cshtml" />
     <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
@@ -847,6 +848,7 @@
     <Compile Include="Areas\Admin\Controllers\ContactController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiftController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MainPageController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />

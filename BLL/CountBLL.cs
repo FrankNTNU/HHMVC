@@ -13,9 +13,21 @@ namespace BLL
         CountDAO countDAO = new CountDAO();
         public CountDTO GetCounts()
         {
-            int count = countDAO.GetUserCount();
             CountDTO countDTO = new CountDTO();
-            countDTO.UserCount = count;
+            countDTO.UserCount = countDAO.GetUserCount();
+            countDTO.UnapprovedCommentCount = countDAO.GetUnapprovedCommentCount();
+            countDTO.UnapprovedPostCount = countDAO.GetUnapprovedPostCount();
+            countDTO.NewMemberCount = countDAO.GetNewMemberCount();
+            countDTO.UnderstockedGifts = countDAO.GetUnderstockedGiftCount();
+            countDTO.DietLogCount = countDAO.GetDietLogCount();
+            countDTO.WeightLogCount = countDAO.GetWeightLogCount();
+            countDTO.WorkoutLogCount = countDAO.GetWorkoutLogCount();
+            countDTO.GiftCartCount = countDAO.GetGiftCartCount();
+            countDTO.CommentCount = countDAO.GetCommentCount();
+            countDTO.PostCount = countDAO.GetPostCount();
+            countDTO.PastSixMonths = countDAO.GetPastSixMonthNames();
+            countDTO.HalfOfYearDietLogCount = countDAO.GetHalfOfYearDietLogCount();
+            countDTO.HalfOfYearWeightLogCount = countDAO.GetHalfOfYearWorkoutCount();
             return countDTO;
         }
     }
