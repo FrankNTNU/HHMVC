@@ -159,6 +159,10 @@
                 display: inline-block;
                 margin-bottom: 10px
             }
+
+        .fa-check-square, .fa-square, .fa-star {
+            color: #f56a6a;
+        }
     </style>
 }
 
@@ -184,7 +188,7 @@
                         @Html.DropDownList("wNameForNew", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
                     </div>
                     <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
-                        <span id="AlForNew"></span>，【<span id="WcForNew"></span>】類型
+                        <span id="AlForNew"></span>，【<span id="WcForNew"></span>】類型<span id="IsPreferenceForNew"></span>
                     </div>
                     <div class="form-group" style="margin-bottom:2px; display:block">
                         <label for="wTimeForNew">運動時間</label>
@@ -207,7 +211,7 @@
                         @Html.DropDownList("wNameForEdit", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
                     </div>
                     <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
-                        <span id="AlForEdit"></span>，【<span id="WcForEdit"></span>】類型
+                        <span id="AlForEdit"></span>，【<span id="WcForEdit"></span>】類型<span id="IsPreferenceForEdit"></span>
                     </div>
                     <div class="form-group" style="margin-bottom:2px; display:block">
                         <label for="wTimeForEdit">運動時間</label>
@@ -264,38 +268,16 @@
             var form = $('#wlForm');
             token = $('input[name="__RequestVerificationToken"]', form).val();
 
-            let beforeEditStatus = null;
+            //let beforeEditStatus = null;
 
             //===================================================================
             //Estimate Cal
             $("#wHoursForNew").change(function () {
-                $.ajax({
-                    url: "GetEstimateCal",
-                    type: "post",
-                    data: {
-                        __RequestVerificationToken: token,
-                        wid: $("#wNameForNew").val(),
-                        whours: $("#wHoursForNew").val()
-                    },
-                    success: function (data) {
-                        $("#consumeForNew").html(`估計消耗<span class="calConsume">${data.Consume}</span>卡路里`);
-                    }
-                });
+                EstimateCal($("#wNameForNew").val(), $("#wHoursForNew").val());
             });
 
             $("#wHoursForEdit").change(function () {
-                $.ajax({
-                    url: "GetEstimateCal",
-                    type: "post",
-                    data: {
-                        __RequestVerificationToken: token,
-                        wid: $("#wNameForEdit").val(),
-                        whours: $("#wHoursForEdit").val()
-                    },
-                    success: function (data) {
-                        $("#consumeForEdit").html(`估計消耗<span class="calConsume">${data.Consume}</span>卡路里`);
-                    }
-                });
+                EstimateCal($("#wNameForEdit").val(), $("#wHoursForEdit").val());
             });
 
             //===================================================================
@@ -317,6 +299,17 @@
                     { data: "WorkoutHours", title: "運動多久" },
                     { data: "Consume", title: "運動消耗" },
                     { data: "Status", title: "紀錄狀態" },
+                    {
+                        data: "IsPreference",
+                        title: "喜好",
+                        render: function (data, type, row) {
+                            if (data == true) {
+                                return '<div style="text-align:center"><p style="visibility: hidden; display: none;">' + data + '</p><i class="fas fa-star"></i></div>';
+                            } else {
+                                return '<div style="text-align:center"><p style="visibility: hidden; display: none;">' + data + '</p><i class="far fa-star"></i></div>';
+                            }
+                        }
+                    }
                 ],
                 columnDefs: [
                     {
@@ -405,16 +398,24 @@
                     success: function (data) {
                         $("#AlForNew").text(data.Al);
                         $("#WcForNew").text(data.Wc);
+
+                        if (data.IsPreference) {
+                            $("#IsPreferenceForNew").html('<i class="fas fa-star"></i>');
+                        } else {
+                            $("#IsPreferenceForNew").html("");
+                        }
+                        
+                        if ($("#wHoursForNew").val() != "") {
+                            EstimateCal($("#wNameForNew").val(), $("#wHoursForNew").val());
+                        }
                     }
                 });
 
-                if ($("#wHoursForNew").val() != "") {
-
-                    $("#wHoursForNew").change();
-                }
+                
             });
 
-            $("#wNameForEdit").change(function () {
+            $("#wNameForEdit").change(function (e) {
+
                 let v = $(this).val();
                 $.ajax({
                     url: "GetWorkoutAlWc",
@@ -426,12 +427,18 @@
                     success: function (data) {
                         $("#AlForEdit").text(data.Al);
                         $("#WcForEdit").text(data.Wc);
+
+                        if (data.IsPreference) {
+                            $("#IsPreferenceForEdit").html('<i class="fas fa-star"></i>');
+                        } else {
+                            $("#IsPreferenceForEdit").html("");
+                        }
+
+                        if ($("#wHoursForEdit").val() != "") {
+                            EstimateCal($("#wNameForEdit").val(), $("#wHoursForEdit").val());
+                        }
                     }
                 });
-
-                if ($("#wHoursForEdit").val() != "") {
-                    $("#wHoursForEdit").change();
-                }
 
             });
 
@@ -497,12 +504,15 @@
 
                 let wTime = new Date($(this).datetimepicker().val());
 
+                //If wTime after tomorrow 00:00
+                //"預定中" can't be modified, and remove "disabled" so that can get it's value
                 if (wTime.getTime() >= d1.getTime()) {
 
                     $("#wStatusForEdit").val(4).attr("disabled", true);
                     $("#wStatusForEdit option").eq(0).removeAttr("disabled");
                 } else {
-                    //$("#wStatusForEdit").val(5).removeAttr("disabled");
+                    //If wTime before tomorrow 00:00
+                    //"預定中" set to be "disabled"
                     $("#wStatusForEdit option").eq(0).attr("disabled", true);
                 }
 
@@ -550,8 +560,6 @@
 
                 let wTime = new Date($("#wTimeForNew").datetimepicker().val());
                 let status = $(this).attr("data-status");
-                //let wName = $("#wNameForNew option:selected").text();
-                //let wHours = parseFloat($("#wHoursForNew").val());
 
                 $.ajax({
                     url: "AddWorkoutLog",
@@ -568,29 +576,6 @@
                         alert(data.Result);
                         table.ajax.reload();
 
-                        //if (status == 4 && wTime.getTime() <= d8.getTime()) {
-
-                        //    for (var i = 0; i < 7; i++) {
-                        //        let tempDay = new Date();
-                        //        tempDay = new Date(tempDay.toDateString());
-                        //        tempDay.setDate(tempDay.getDate() + i + 1);
-
-                        //        if (tempDay.toDateString() == wTime.toDateString()) {
-
-                        //            let tempDiv = document.createElement("div");
-                        //            $(tempDiv).addClass("item");
-                        //            $(tempDiv).attr("data-wlid", data.ID);
-                        //            $(tempDiv).html(
-                        //                `<span>${moment(wTime).format("HH:mm")}</span><br />
-                        //                                <span>${wName}</span><br />
-                        //                                <span>${wHours}hrs</span><br />
-                        //                                `);
-
-                        //            $(".schedule").eq(i).append(tempDiv);
-                        //        }
-                        //    }
-
-                        //}
                     }
                 });
             });
@@ -659,22 +644,6 @@
                     success: function (data) {
                         alert(data.Result);
                         table.ajax.reload();
-
-                        //if (wTime.toDateString() == today.toDateString()
-                        //    && beforeEditStatus == 4) {
-
-                        //    if ($("#wStatusForEdit").val() == 5) {
-
-                        //        $("#checkRow .button[data-wlid=" + wlid + "]").removeClass("primary")
-                        //            .text("執行成功").attr("disabled", true);
-
-                        //    } else if ($("#wStatusForEdit").val() == 6) {
-
-                        //        $("#checkRow .button[data-wlid=" + wlid + "]").removeClass("primary")
-                        //            .text("執行失敗").attr("disabled", true);
-                        //    }
-
-                        //}
                     }
                 });
             });
@@ -683,6 +652,7 @@
             //Row Selection
 
             $('#wlTable').on('click', 'tbody tr', function () {
+
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
                 }
@@ -709,30 +679,39 @@
                 tomorrow.setDate(tomorrow.getDate() + 1);
                 let beforeTomorrow = new Date(tomorrow.getTime() - 1);
 
+                //If WorkoutLog is "預定中", then only can change it's date to future 7 days
+                //and if this workoutlog's date is today, then can't change it's date
                 if (status == 4) {
                     $("#wTimeForEdit").datetimepicker("option", "minDate", tomorrow);
                     $("#wTimeForEdit").datetimepicker("option", "maxDate", d8);
                     if (workoutTime.toDateString() == today.toDateString()) {
                         $("#wTimeForEdit").attr("disabled", true);
                     }
+                //If WorkoutLog is "執行成功或失敗", then only can change it's date to past 7 days
                 } else if (status == 5 || status == 6) {
                     $("#wTimeForEdit").datetimepicker("option", "minDate", d7b);
                     $("#wTimeForEdit").datetimepicker("option", "maxDate", beforeTomorrow);
                     $("#wTimeForEdit").removeAttr("disabled");
                 }
 
-                beforeEditStatus = status;
+                //beforeEditStatus = status;
 
+                //Load data to EditCard
                 $("#wNameForEdit").val(rowData.WorkoutID);
                 $("#wNameForEdit").change();
+
+                //According to data's WorkoutTime, set Status dropdown list to disable
+                // or only disable "預定中"
                 $("#wTimeForEdit").val(moment(rowData.WorkoutTime).format("yyyy/MM/DD HH:mm"));
                 $("#wTimeForEdit").change();
+                //==========================
+
                 $("#wHoursForEdit").val(rowData.WorkoutHours);
                 $("#wStatusForEdit").val(status);
                 $('#Edit').attr("data-wlid", rowData.ID);
                 $('#Delete').attr("data-wlid", rowData.ID);
 
-
+                //If workoutTime out of range, then this data can't be modified
                 if (workoutTime.getTime() < d7b.getTime()
                     || workoutTime.getTime() > d8.getTime()) {
 
@@ -743,13 +722,16 @@
                     $("#Edit").text("無法修改").removeClass("primary").attr("disabled", true);
 
                 } else {
+                    //If workoutTime in range, then name and hours can be modified
                     $("#wNameForEdit").removeAttr("disabled");
                     $("#wHoursForEdit").removeAttr("disabled");
 
+                    //If status is "預定中" and workoutTime is today, keep datetimepicker disabled
                     if (!(status == 4 && workoutTime.toDateString() == today.toDateString())) {
                         $("#wTimeForEdit").removeAttr("disabled");
                     }
 
+                    //If status is "預定中", keep status dropdown list disabled
                     if ($("#wStatusForEdit").val() != 4) {
                         $("#wStatusForEdit").removeAttr("disabled");
                     }
@@ -757,11 +739,23 @@
                     $("#Edit").text("修改").addClass("primary").removeAttr("disabled");
                 }
 
-                $("#wHoursForEdit").change();
             });
         });
 
-
+        function EstimateCal(wid, whours) {
+            $.ajax({
+                url: "GetEstimateCal",
+                type: "POST",
+                data: {
+                    __RequestVerificationToken: token,
+                    wid: wid,
+                    whours: whours
+                },
+                success: function (data) {
+                    $("#consumeForEdit").html(`估計消耗<span class="calConsume">${data.Consume}</span>卡路里`);
+                }
+            });
+        }
 
         // Custom filtering function which will search data in column four between two values
         $.fn.dataTable.ext.search.push(

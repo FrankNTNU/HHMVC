@@ -42,7 +42,7 @@ namespace UI
                             UserID = Context.User.Identity.Name
                         });
 
-                        Groups.Add(Context.ConnectionId, Context.User.Identity.Name);
+                        Groups.Add(Context.ConnectionId, groupId);
                     }
                 }
             }
@@ -82,7 +82,7 @@ namespace UI
 
                 using (StreamWriter writer = new StreamWriter(filePath, true))
                 {
-                    writer.WriteLine("Message : " + ex.Message);
+                    writer.WriteLine(DateTime.Now.ToString("M/d HH:mm") + " Message : " + ex.Message);
                 }
             }
             

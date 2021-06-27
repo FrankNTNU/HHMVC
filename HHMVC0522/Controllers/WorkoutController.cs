@@ -128,16 +128,22 @@ namespace UI.Controllers
             //decimal weight = (decimal)q1.Weight;
 
             var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID == MemberID).ToList()
-                .Select(wl => new
+                .Select(wl =>
                 {
-                    wl.ID,
-                    wl.WorkoutID,
-                    wl.EditTime,
-                    wl.Workout.Name,
-                    wl.WorkoutTime,
-                    wl.WorkoutHours,
-                    Consume = ((decimal)(wl.Workout.Calories * wl.WorkoutHours) * GetCurrentWeight(wl.WorkoutTime)).ToString("0.00"),
-                    Status = wl.Status.Name
+                    bool isPreference = dbContext.WorkoutPreferences.Where(wp => wp.MemberID == MemberID)
+                        .Any(wp => wp.WorkoutCategoryID == wl.Workout.WorkoutCategoryID);
+                    return new
+                    {
+                        wl.ID,
+                        wl.WorkoutID,
+                        wl.EditTime,
+                        wl.Workout.Name,
+                        wl.WorkoutTime,
+                        wl.WorkoutHours,
+                        Consume = ((decimal)(wl.Workout.Calories * wl.WorkoutHours) * GetCurrentWeight(wl.WorkoutTime)).ToString("0.00"),
+                        Status = wl.Status.Name,
+                        IsPreference = isPreference
+                    };
                 });
 
             return Json(q.ToList());
@@ -147,9 +153,19 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult GetWorkoutAlWc(int wid)
         {
+            int MemberID = (int)Session["ID"];
+
             var workout = dbContext.Workouts.SingleOrDefault(w => w.ID == wid);
 
-            return Json(new { Al = workout.ActivityLevel.Description, Wc = workout.WorkoutCategory.Name });
+            bool isPreference = dbContext.WorkoutPreferences.Where(wp => wp.MemberID == MemberID)
+                .Any(wp => wp.WorkoutCategoryID == workout.WorkoutCategoryID); ;
+
+            return Json(new 
+            { 
+                Al = workout.ActivityLevel.Description, 
+                Wc = workout.WorkoutCategory.Name,
+                IsPreference = isPreference
+            });
         }
 
         [HttpPost]

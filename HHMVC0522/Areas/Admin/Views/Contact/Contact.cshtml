@@ -149,15 +149,18 @@
 
             chat.client.receiveFromCustomer = function (connId, userName, imagePath, message) {
 
+                //If can't find chatbox
                 if ($(".direct-chat-messages[data-connId=" + connId + "]").length == 0) {
 
+                    //If originChatBox hasn't been used, set it to chatbox
                     if ($(currentChatBox).is(originChatBox)
                             && typeof $(currentChatBox).attr("data-connId") == "undefined") {
                         $(currentChatBox).attr("data-connId", connId);
                         $("#dialogTitle").text(`聯絡客服　(使用者：${userName})`);
 
                     } else {
-                        alert(2);
+                        //If originChatBox has been used, clone one and hide it
+                        //Clone is ChatBox
                         let clone = $(currentChatBox).clone();
                         $(clone).html("");
                         $(clone).attr("data-connId", connId);
@@ -184,10 +187,10 @@
                     .text(message)
                     .appendTo(dialogDiv);
 
+                //ChatBox is Clone
                 let chatbox = $(".direct-chat-messages[data-connId=" + connId + "]").append(dialogDiv);
 
                 if ($(chatbox).css("display") == "none") {
-                    alert(6);
                     $(chatbox).attr("data-read", false);
                     //console.log($(chatbox).attr("data-read"));
                 }
@@ -210,6 +213,8 @@
 
                 connId = $(this).parent().prev().prev().text();
 
+                //If chatbox is found
+                //hide currentChatBox and show chatbox that is found
                 if ($(".direct-chat-messages[data-connId=" + connId + "]").length) {
                     $(currentChatBox).hide();
                     $(".direct-chat-messages[data-connId=" + connId + "]").show();
@@ -219,13 +224,15 @@
                     $(currentChatBox).attr("data-read", true);
 
                 } else {
-                    alert(3);
+                    //If chatbox is not found and originChatBox hasn't been used
+                    //Set originChatBox to chatbox
                     if ($(currentChatBox).is(originChatBox)
                             && typeof $(currentChatBox).attr("data-connId") == "undefined") {
-                        alert(4);
+                        
                         $(currentChatBox).attr("data-connId", connId);
                     } else {
-                        alert(5);
+                        //If chatbox is not found and originChatBox has been used
+                        //clone one and show it
                         let clone = $(currentChatBox).clone();
                         $(clone).html("");
                         $(clone).attr("data-connId", connId);
