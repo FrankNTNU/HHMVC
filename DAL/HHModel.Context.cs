@@ -49,5 +49,7 @@ namespace DAL
         public virtual DbSet<GiftCart> GiftCarts { get; set; }
         public virtual DbSet<Gift> Gifts { get; set; }
         public virtual DbSet<Program> Programs { get; set; }
+        public virtual DbSet<Point> Points { get; set; }
+        public virtual DbSet<TempCustomerMealOption> TempCustomerMealOptions { get; set; }
     }
 }

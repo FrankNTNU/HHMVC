@@ -24,5 +24,6 @@ namespace DTO
         [Required(ErrorMessage = "請輸入商家名稱")]
         public string Store { get; set; }
         public bool IsUpdate { get; set; } = false;
+        public bool IsPremium { get; set; }
     }
 }

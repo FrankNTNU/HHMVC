@@ -21,7 +21,7 @@
 <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
     <div class="row" style="width: 100%; padding-right: 20px">
 
-        <div class="col-4 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
+        <div class="col-3 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
             <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
@@ -43,60 +43,57 @@
     {
 
 
-        <div class="row gtr-uniform">
+<div class="row gtr-uniform">
 
-            <div class="col-12 col-md-8">
-                <input hidden value="@Session["ID"]">
-                <label>顯示名稱</label>
+    <div class="col-6">
+        <input hidden value="@Session["ID"]">
+        <label>顯示名稱</label>
 
-                <input type="text" id="demo-name" value="@Session["Name"]" placeholder="Name" readonly style="        height: 45px" />
-            </div>
-            <div class="col-12 col-md-8">
-                <label>標題</label>
-                @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "標題", @maxlength = "50", @style = "height:45px" })
+        <input type="text" id="demo-name" value="@Session["Name"]" placeholder="Name" readonly style="        height: 45px" disabled />
+    </div>
+    <div class="col-6">
+        <label>標題</label>
+        @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "標題", @maxlength = "50", @style = "height:45px" })
 
-                @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
+        @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
 
-            </div>
-            <div class="col-12 col-md-8">
-                <label>大綱</label>
-                @Html.TextBoxFor(x => x.ShortContent, new { @class = "form-control", @placeholder = "內容綱要", @maxlength = "100", @style = "height:45px" })                       @Html.ValidationMessageFor(x => x.ShortContent, "", new { @style = "color:red" })
+    </div>
+  
+    <div class="col-12">
+        <label>大綱</label>
+        @Html.TextBoxFor(x => x.ShortContent, new { @class = "form-control", @placeholder = "內容綱要", @maxlength = "100", @style = "height:45px" })                       @Html.ValidationMessageFor(x => x.ShortContent, "", new { @style = "color:red" })
 
-            </div>
-            <div class="col-12 col-md-8">
-                <label>貼文分類</label>
-                @Html.DropDownList("CategoryID", Model.Categories, "選擇貼文分類", new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.CategoryID, "", new { @style = "color:red" })
-            </div>
-
-            <div class="col-12 col-md-8">
-                <label>貼文內容</label>
-                @Html.TextAreaFor(x => x.PostContent, new { @class = "ckeditor" })
-                @Html.ValidationMessageFor(x => x.PostContent, "", new { @style = "color:red" })
-
-            </div>
+    </div>
 
 
-            <div class="col-12 col-md-8">
+    <div class="col-12">
+        <label>貼文內容</label>
+        @Html.TextAreaFor(x => x.PostContent, new { @class = "ckeditor" })
+        @Html.ValidationMessageFor(x => x.PostContent, "", new { @style = "color:red" })
 
-                <label>圖片(建議長寬比16:9，單邊400px以上大圖)</label>
-                <div>
-                    <label for="files" class="button icon solid fa-download">瀏覽...</label>
-                    <input id="files" style="visibility:hidden;" type="file" name="PostImage" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])">
+    </div>
 
-                    <img id="PostImage" width="800" height="450" style="max-width:100%; top:10px;border-radius:0px" />
-                    <br />
-                </div>
-            </div>
 
-            <!-- Break -->
-            <div class="col-12 col-md-8">
-                <ul class="actions">
-                    <li><input type="submit" value="提交" class="primary" onclick="return confirm('確定要修改嗎?')" /></li>
+    <div class="col-12 col-md-8">
 
-                </ul>
-            </div>
+        <label>圖片(建議長寬比16:9，單邊400px以上大圖)</label>
+        <div>
+            <label for="files" class="button icon solid fa-download">瀏覽...</label>
+            <input id="files" style="visibility:hidden;" type="file" name="PostImage" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])">
+
+            <img id="PostImage" width="800" height="450" style="max-width:100%; top:10px;border-radius:0px" />
+            <br />
         </div>
+    </div>
+
+    <!-- Break -->
+    <div class="col-12 col-md-8">
+        <ul class="actions">
+            <li><input type="submit" value="提交" class="primary" onclick="return confirm('確定要修改嗎?')" /></li>
+
+        </ul>
+    </div>
+</div>
     }
     <!-- /.card-header -->
     @if (Model.IsUpdate)

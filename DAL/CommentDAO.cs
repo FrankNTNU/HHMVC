@@ -135,6 +135,7 @@ namespace DAL
             comment.Name = model.Name;
             comment.Title = model.Title;
             comment.CommentContent = model.CommentContent;
+            comment.IsApproved = false;
             db.SaveChanges();
         }
         public List<CommentDTO> GetUnapprovedComments()

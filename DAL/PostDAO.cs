@@ -143,37 +143,42 @@ namespace DAL
         public List<PostDTO> GetPosts()
         {
             List<PostDTO> dtoList = new List<PostDTO>();
-            List<PostDTO> postList = (from p in db.Posts
-                                      where p.IsApproved == true
-                            select new PostDTO
-                            {
-                                ID = p.ID,
-                                Title = p.Title,
-                                ShortContent = p.ShortContent,
-                                CategoryName = p.PostCategory.Name,
-                                AddDate = p.AddDate,
-                                MemberID = (int?)p.MemberID ?? 0,
-                                CommentCount = db.Comments.Where(x => x.PostID == p.ID).Count(),
-                                LikeCount = p.LikeCount,
-                                ViewCount = p.ViewCount,
-                                IsApproved = p.IsApproved
-                            }).OrderByDescending(x => x.AddDate).ToList();
-            foreach (var item in postList)
-            {
-                PostDTO dto = new PostDTO();
-                dto.Title = item.Title;
-                dto.ID = item.ID;
-                dto.ShortContent = item.ShortContent;
-                dto.CategoryName = item.CategoryName;
-                dto.AddDate = item.AddDate;
-                dto.MemberID = item.MemberID;
-                dto.CommentCount = item.CommentCount;
-                dto.ImagePath = db.PostImages.Where(x => x.PostID == item.ID).Select(x => x.ImagePath).DefaultIfEmpty("defaultImg.jpg").First();
-                dto.LikeCount = item.LikeCount;
-                dto.IsApproved = item.IsApproved;
-                dto.ViewCount = item.ViewCount;
-                dtoList.Add(dto);
-            }            
+
+            using (HealthHelperEntities db = new HealthHelperEntities()) {
+                List<PostDTO> postList = (from p in db.Posts
+                                          where p.IsApproved == true
+                                          select new PostDTO
+                                          {
+                                              ID = p.ID,
+                                              Title = p.Title,
+                                              ShortContent = p.ShortContent,
+                                              CategoryName = p.PostCategory.Name,
+                                              AddDate = p.AddDate,
+                                              MemberID = (int?)p.MemberID ?? 0,
+                                              CommentCount = db.Comments.Where(x => x.PostID == p.ID).Count(),
+                                              LikeCount = p.LikeCount,
+                                              ViewCount = p.ViewCount,
+                                              IsApproved = p.IsApproved
+                                          }).OrderByDescending(x => x.AddDate).ToList();
+                foreach (var item in postList)
+                {
+                    PostDTO dto = new PostDTO();
+                    dto.Title = item.Title;
+                    dto.ID = item.ID;
+                    dto.ShortContent = item.ShortContent;
+                    dto.CategoryName = item.CategoryName;
+                    dto.AddDate = item.AddDate;
+                    dto.MemberID = item.MemberID;
+                    dto.CommentCount = item.CommentCount;
+                    dto.ImagePath = db.PostImages.Where(x => x.PostID == item.ID).Select(x => x.ImagePath).DefaultIfEmpty("defaultImg.jpg").First();
+                    dto.LikeCount = item.LikeCount;
+                    dto.IsApproved = item.IsApproved;
+                    dto.ViewCount = item.ViewCount;
+                    dtoList.Add(dto);
+                }
+
+            }
+           
             return dtoList;
         }
         public List<PostDTO> GetUserPosts(int userID)
@@ -372,24 +377,7 @@ namespace DAL
         public static int News = 2;
         public static int Notice = 3;
         public static int Rules = 4;
-        //public List<PostDTO> GetNews()
-        //{
-        //    List<Post> news = db.Posts.Where(x => x.CategoryID == News || x.CategoryID == Notice).ToList();
-        //    List<PostDTO> newsList = new List<PostDTO>();
-        //    foreach (var item in news)
-        //    {
-        //        PostDTO dto = new PostDTO();
-        //        dto.ID = item.ID;
-        //        dto.Title = item.Title;
-        //        dto.ShortContent = item.ShortContent;
-        //        dto.PostContent = item.PostContent;
-        //        dto.CategoryName = item.PostCategory.Name;
-        //        dto.ImagePath = db.PostImages.Where(x => x.PostID == item.ID).Select(x => x.ImagePath).DefaultIfEmpty("defaultImg.jpg").First();
-        //        dto.AddDate = item.AddDate;
-        //        newsList.Add(dto);
-        //    }
-        //    return newsList;
-        //}
+       
 
         private List<CommentDTO> GetCommentsWithPostID(int postID)
         {

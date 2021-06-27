@@ -7,55 +7,57 @@
 
 @model DTO.GiftDTO
 <div class="box-body">
-    <div class="form-group">
-        <label>禮物名稱</label>
-        @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "禮物名稱" })
-        @Html.ValidationMessageFor(x => x.Name, "", new { @style = "color:red" })
-    </div>
-    <div class="form-group">
-        <label>兌換點數</label>
-        @Html.TextBoxFor(x => x.Points, new { @class = "form-control", @placeholder = "兌換所需點數", @type = "number" })
-        @Html.ValidationMessageFor(x => x.Points, "", new { @style = "color:red" })
-    </div>
-    <div class="form-group">
-        <label>庫存數量</label>
-        @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", @placeholder = "庫存數量", @type = "number" })
-        @Html.ValidationMessageFor(x => x.Quantity, "", new { @style = "color:red" })
-    </div>
-    <div class="form-group">
-        <label>商家</label>
-        @Html.TextBoxFor(x => x.Store, new { @class = "form-control", @placeholder = "通路商家"})
-        @Html.ValidationMessageFor(x => x.Store, "", new { @style = "color:red" })
-    </div>
-    <div class="form-group">
-        <div class="form-group">
-            <label>下架日期</label>
+    <div class="row">
+        <div class="col-12 form-group">
+            <label>禮物名稱</label>
+            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "禮物名稱" })
+            @Html.ValidationMessageFor(x => x.Name, "", new { @style = "color:red" })
+        </div>
+       
+        
 
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                </div>
-                @*@if (Model.IsUpdate == true)
-                    {
-                        @Html.TextBoxFor(x => x.EndDate, new { @class = "form-control" })
-                    }
-                    else
-                    {
-                        <!--@Html.TextBoxFor(x => x.EndDate, new { @class = "form-control", @data_inputmask_alias = "datetime", @data_inputmask_inputformat = "yyyy/mm/dd", @data_mask = "" })-->
-                    }*@
-
-                @if (!Model.IsUpdate)
-                {
-                    <input type="text" name="EndDate" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="yyyy/mm/dd" data-mask id="EndDate">
-                }
-                else
-                {
-                    @Html.TextBoxFor(x => x.EndDate, new { @class = "form-control" })
-                }
+    </div>
+    
+    <div class="row">
+        <div class="col-1 form-group">
+            <label>會員限定</label>
+            @Html.CheckBoxFor(x => x.IsPremium, new { @class = "form-control" })
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label>兌換點數</label>
+                @Html.TextBoxFor(x => x.Points, new { @class = "form-control", @placeholder = "兌換所需點數", @type = "number" })
+                @Html.ValidationMessageFor(x => x.Points, "", new { @style = "color:red" })
             </div>
         </div>
-        @Html.ValidationMessageFor(x => x.EndDate, "", new { @style = "color:red" })
+        <div class="col-3">
+            <div class="form-group">
+                <label>庫存數量</label>
+                @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", @placeholder = "庫存數量", @type = "number" })
+                @Html.ValidationMessageFor(x => x.Quantity, "", new { @style = "color:red" })
+            </div>
+        </div>
+        <div class="col-5">
+            <div class="form-group">
+                <div class="form-group">
+                    <label>下架日期</label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.EndDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(x => x.EndDate, "", new { @style = "color:red" })
+            </div>
+        </div>
+
     </div>
+
+
+    <div class="form-group">
+        <label>商家及資訊</label>
+        @Html.TextAreaFor(x => x.Store, new { @class = "form-control ckeditor", @placeholder = "通路商家", @rows = 8 })
+        @Html.ValidationMessageFor(x => x.Store, "", new { @style = "color:red" })
+    </div>
+
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
@@ -92,6 +94,8 @@
 
 </div>
 
-
-
+@section Scripts
+{
+  
+}
 

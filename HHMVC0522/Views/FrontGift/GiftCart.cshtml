@@ -38,7 +38,7 @@
 <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
     <div class="row" style="width: 100%; padding-right: 20px">
 
-        <div class="col-4 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+        <div class="col-3 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
             <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-8 col-sm-6 col-md-6 col-lg-8 p-1 align-self-center">
@@ -55,13 +55,20 @@
 <header id="header" class="m-0 p-0"></header>
 
 <section class="pt-2">
+    <div class="col-12 d-flex p-0">
+        <div class="d-sm-none" style="width:100%">
+            <a href="~/FrontGift/GiftList"><label class="button primary" style="width:100%"><i class="fas fa-gifts"> </i> 返回禮物商店</label></a>
+            
+           
+        </div>
+    </div>
     @if (Session["ID"] != null)
     {
-    <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
-        <i class="far fa-user"> </i> <strong>@Session["Name"]</strong> 目前剩餘 <strong>
-            @Session["Points"]
-        </strong>點
-    </div>
+        <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
+            <i class="far fa-user"> </i> <strong>@Session["Name"]</strong> 目前剩餘 <strong>
+                @Session["Points"]
+            </strong>點
+        </div>
     }
     <div class="row" style="margin-bottom:5px">
         <div class="col-12 col-md-6 mb-1">
@@ -81,12 +88,16 @@
             <div class="col-12 col-sm-4 col-md-4 d-flex justify-content-center" style="margin:auto;">
                 @if (item.EndDate < DateTime.Today)
                 {
-                    <img class="image" src="~/Areas/Admin/Content/CartImages/@item.Image" style="max-width:200px;width:100%;opacity:0.45" />
-                    <div class="centered"><h5>已截止</h5></div>
+                    <a href="~/FrontGift/GiftDetail/@item.GiftID" class="image">
+                        <img class="image" src="~/Areas/Admin/Content/CartImages/@item.Image" style="max-width:200px;width:100%;opacity:0.45" />
+                        <div class="centered"><h5>已截止</h5></div>
+                    </a>
                 }
                 else
                 {
-                    <img class="image" src="~/Areas/Admin/Content/CartImages/@item.Image" style="max-width:200px;width:100%" />
+                    <a href="~/FrontGift/GiftDetail/@item.GiftID" class="image">
+                        <img class="image" src="~/Areas/Admin/Content/CartImages/@item.Image" style="max-width:200px;width:100%" />
+                    </a>
                 }
 
             </div>
@@ -107,7 +118,7 @@
                             </tr>
                             <tr>
                                 <td><strong>商家通路</strong></td>
-                                <td>@item.Store</td>
+                                <td colspan="2">@Html.Raw(@item.Store)</td>
                             </tr>
                             <tr>
                                 <td width="30%"><strong>兌換期限</strong></td>
@@ -230,7 +241,7 @@
                                 let secondRow = $("<tr></tr>").appendTo(bodyDiv);
                                 storeText = $("<strong></strong>").text("商家通路");
                                 $("<td></td>").append(storeText).appendTo(secondRow);
-                                $("<td></td>").text(value.Store).appendTo(secondRow);
+                                $("<td colspan='2'></td>").html(value.Store).appendTo(secondRow);
 
                                 let thirdRow = $("<tr></tr>").appendTo(bodyDiv);
                                 storeText = $("<strong></strong>").text("兌換期限");

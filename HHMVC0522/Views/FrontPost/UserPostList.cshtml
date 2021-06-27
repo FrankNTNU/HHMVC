@@ -30,7 +30,7 @@
 <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
     <div class="row" style="width: 100%; padding-right: 20px">
 
-        <div class="col-4 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+        <div class="col-3 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
             <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-8 col-sm-5 col-md-6 col-lg-8 p-1 align-self-center">
@@ -44,50 +44,55 @@
     </div>
 </header><header id="header" class="m-0 p-0"></header>
 
-<section>
+         <section class="pt-2">
+             <div class="col-12 d-flex p-0">
+                 <div class="d-sm-none" style="width:100%">
+                     <a href="~/FrontPost/AddPost"><label class="button primary" style="width:100%"><i class="fas fa-pen"></i> 發布文章</label></a>
 
-    <div class="row" id="DataSearching">
-        @foreach (var item in Model)
-        {
-            <div class="row" style="margin-bottom:5px;width:100%">
-                <div class="col-12 col-lg-4 col-md-4 col-sm-4">
-                    <a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="image"><img class="image" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" style="max-width:100%" /></a>
+                 </div>
+             </div>
+             <div class="row" id="DataSearching">
+                 @foreach (var item in Model)
+                 {
+                     <div class="row" style="margin-bottom:5px;width:100%">
+                         <div class="col-12 col-lg-4 col-md-4 col-sm-4">
+                             <a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="image"><img class="image" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" style="max-width:100%" /></a>
 
 
-                </div>
-                <div class="col-12 col-lg-8 col-md-8 col-sm-8">
-                    <div class="row">
-                        <div class="col-4 col-md-3 col-lg-2">
-                            <p class="button small fit" style="        font-weight: bolder;
+                         </div>
+                         <div class="col-12 col-lg-8 col-md-8 col-sm-8">
+                             <div class="row">
+                                 <div class="col-4 col-md-3 col-lg-2">
+                                     <p class="button small fit" style="        font-weight: bolder;
         pointer-events: none;
         margin-bottom: 5px;font-size:12px">@item.CategoryName</p>
-        <p>時間</p>
-        <p>文章大要</p>
+         <p>時間</p>
+         <p>文章大要</p>
 
-    </div>
-    <div class="col-8 col-lg-10">
-        <p>
-            @if (!item.IsApproved)
-            {
-                <span class="button small primary" style="opacity: 0.5; cursor: default; margin-right: 10px; font-size: 12px"> 核准中...</span>
-            }<strong style="font-weight:bolder">@item.Title </strong><i class="far fa-comment"></i> @item.CommentCount <i class="far fa-heart"></i> @item.LikeCount
-        </p>
-        <p>@item.AddDate</p>
-        <p>@item.ShortContent</p>
+         </div>
+         <div class="col-8 col-lg-10">
+             <p>
+                 @if (!item.IsApproved)
+                 {
+                     <span class="button small primary" style="opacity: 0.5; cursor: default; margin-right: 10px; font-size: 12px"> 核准中...</span>
+                 }<strong style="font-weight:bolder">@item.Title </strong><i class="far fa-comment"></i> @item.CommentCount <i class="far fa-heart"></i> @item.LikeCount
+             </p>
+             <p>@item.AddDate</p>
+             <p>@item.ShortContent</p>
 
-    </div>
-</div>
-</div>
-</div>
+         </div>
+         </div>
+         </div>
+         </div>
 
 
-}
+     }
 
-    </div>
-    <div style="font-size:1.5em;text-align:center;justify-content:center" id="PageInfo" class="d-flex">
-        @Html.PagedListPager(Model, page => Url.Action("UserPostList", new { page }))
-    </div>
-</section>
+             </div>
+             <div style="font-size:1.5em;text-align:center;justify-content:center" id="PageInfo" class="d-flex">
+                 @Html.PagedListPager(Model, page => Url.Action("UserPostList", new { page }))
+             </div>
+         </section>
 
 
 

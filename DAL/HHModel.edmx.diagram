@@ -58,6 +58,14 @@
         <AssociationConnector Association="HealthHelperModel.FK_Programs_ActivityLevels" />
         <AssociationConnector Association="HealthHelperModel.FK_Programs_Members" />
         <AssociationConnector Association="HealthHelperModel.FK_Programs_Status" />
+        <EntityTypeShape EntityType="HealthHelperModel.Point" Width="1.5" PointX="13.5" PointY="15.375" />
+        <EntityTypeShape EntityType="HealthHelperModel.TempCustomerMealOption" Width="1.5" PointX="14.25" PointY="9.75" />
+        <AssociationConnector Association="HealthHelperModel.FK_Points_Members" />
+        <AssociationConnector Association="HealthHelperModel.FK_TempCustomerMealOptions_Members" />
+        <AssociationConnector Association="HealthHelperModel.FK_Points_Programs" />
+        <AssociationConnector Association="HealthHelperModel.FK_Points_Status" />
+        <AssociationConnector Association="HealthHelperModel.FK_TempCustomerMealOptions_Status" />
+        <AssociationConnector Association="HealthHelperModel.FK_TempCustomerMealOptions_TimesOfDay" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

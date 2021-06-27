@@ -73,7 +73,8 @@ namespace UI.Controllers
         [Authorize]
         public ActionResult AddPost()
         {
-            
+            if (Session["ID"] == null)
+                return Redirect("~/Home2/Index");
             PostDTO postDTO = new PostDTO();
             postDTO.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
             return View(postDTO);
@@ -137,12 +138,14 @@ namespace UI.Controllers
             }
             return RedirectToAction("Index", "Home2");
         }
+        private static int categoryID;
         public ActionResult UpdatePost(int ID)
         {
             PostDTO model = new PostDTO();
             model = postBLL.GetPostWithID(ID);
             model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
             model.IsUpdate = true;
+            categoryID = model.CategoryID;
             return View(model);
         }
         [HttpPost]
@@ -179,8 +182,10 @@ namespace UI.Controllers
                     model.PostImages = imageList;
 
                 }
+                model.CategoryID = categoryID;
                 if (postBLL.UpdatePost(model))
                 {
+
                     ViewBag.ProcessState = General.Messages.UpdateSuccess;
                     return RedirectToAction("PostDetail/" + model.ID, "FrontPost");
 

@@ -7,12 +7,22 @@
 @model DTO.GiftDTO
 @section Styles{
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+
+        .corner {
+            
+            transform: translate(-50%, -50%);
+            
+            color: rgba(255, 212, 20,1);
+           
+        }
+    </style>
 }
 <!-- Content -->
 <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
     <div class="row" style="width: 100%; padding-right: 20px">
 
-        <div class="col-4 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+        <div class="col-3 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
             <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-8 col-sm-6 col-md-6 col-lg-8 p-1 align-self-center">
@@ -29,28 +39,39 @@
 <header id="header" class="m-0 p-0"></header>
 
 <section class="pt-2">
+    <div class="col-12 d-flex p-0">
+        <div class="d-sm-none" style="width:100%">
+            @if (Session["ID"] != null)
+            {<a href="~/FrontGift/GiftList"><label class="button primary" style="width:100%"><i class="fas fa-gifts"> </i> 禮物商店</label></a>
+            }
+            else
+            {
+                <a href="~/Home2/Login"><label class="button primary" style="width:100%">登入</label></a>
 
+            }
+        </div>
+    </div>
 
 
     @if (Session["ID"] != null)
     {
-    <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
-        <i class="far fa-user"> </i>  <strong>@Session["Name"]</strong> 目前擁有 <strong>
-            @Session["Points"]
-        </strong>點
-    </div>
+        <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
+            <i class="far fa-user"> </i>  <strong>@Session["Name"]</strong> 目前擁有 <strong>
+                @Session["Points"]
+            </strong>點
+        </div>
     }
     <div class="row mt-1">
 
-        <div class="col-12 col-sm-4 col-md-4 d-flex align-items-center justify-content-center" style="margin:auto;top:-20px">
+        <div class="col-12 col-md-4 col-md-4" style="text-align:center">
             <img class="image" src="~/Areas/Admin/Content/GiftImages/@Model.Image" style="max-width:90%" />
-
+            
         </div>
-        <div class="col-12 col-sm-8 col-md-8">
+        <div class="col-12 col-md-8 col-md-8">
             <!-- Table -->
-            <h3 style="padding-bottom:0px;margin-top:10px;text-align:center;font-weight:bolder">@Model.Name</h3>
+            <h3 style="padding-bottom:0px;margin-top:10px;text-align:center;font-weight:bolder">@Model.Name @if(Model.IsPremium) {<span class="corner"><i class="fas fa-crown"></i></span>}</h3>
             <div class="table-wrapper">
-                <table style="margin-bottom:0px">
+                <table style="margin-bottom:0px;width:100%">
                     <thead>
                         <tr>
                             <th></th>
@@ -59,12 +80,12 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>所需點數</strong></td>
+                            <td width="100px"><strong>所需點數</strong></td>
                             <td>@Model.Points 點</td>
                         </tr>
                         <tr>
                             <td><strong>兌換期限</strong></td>
-                            <td>@Model.AddDate.ToString("yyyy/MM/dd") 至 @Model.EndDate.ToString("yyyy/MM/dd")</td>
+                            <td>@Model.EndDate.ToString("yyyy/MM/dd")</td>
                         </tr>
                         <tr>
                             <td><strong>剩餘件數</strong></td>
@@ -72,8 +93,8 @@
 
                         </tr>
                         <tr>
-                            <td><strong>商家</strong></td>
-                            <td>@Model.Store</td>
+                            <td><strong>商家資訊</strong></td>
+                            <td>@Html.Raw(@Model.Store)</td>
                         </tr>
 
                     </tbody>

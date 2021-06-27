@@ -27,6 +27,8 @@ namespace DAL
             this.LikedPosts = new HashSet<LikedPost>();
             this.GiftCarts = new HashSet<GiftCart>();
             this.Programs = new HashSet<Program>();
+            this.Points1 = new HashSet<Point>();
+            this.TempCustomerMealOptions = new HashSet<TempCustomerMealOption>();
         }
     
         public int ID { get; set; }
@@ -69,5 +71,9 @@ namespace DAL
         public virtual ICollection<GiftCart> GiftCarts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Program> Programs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Point> Points1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TempCustomerMealOption> TempCustomerMealOptions { get; set; }
     }
 }

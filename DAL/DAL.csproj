@@ -155,6 +155,9 @@
     <Compile Include="Nutrient.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Point.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Post.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
@@ -175,6 +178,9 @@
     </Compile>
     <Compile Include="StatusDAO.cs" />
     <Compile Include="sysdiagram.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TempCustomerMealOption.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TimesOfDay.cs">
