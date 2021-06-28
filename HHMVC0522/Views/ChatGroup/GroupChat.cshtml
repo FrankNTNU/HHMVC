@@ -33,8 +33,8 @@
         }
 
         .myBox {
-            border: solid 2px gray;
-            border-radius: 10px;
+            /*border: solid 2px gray;
+            border-radius: 10px;*/
             padding: 15px;
         }
 
@@ -66,9 +66,15 @@
         .myInnerBox .button {
             text-transform: none;
             border-radius: 0.9em;
+            font-size:1em;
+            line-height:1.2em;
+            height:min-content;
+            padding: 5px;
+            
         }
 
         #members .button {
+            padding:10px !important;
             margin: 5px;
         }
 
@@ -76,13 +82,25 @@
             text-transform: none;
         }
 
-        /*.others {
-            text-align: right;
+        .card {
+            border: solid 1px #f56a6a;
+            border-radius: 0.9em;
+            box-shadow: 5px 5px 10px 5px #E0E0E0;
+            overflow:hidden;
         }
 
-        .self {
-            text-align:left;
-        }*/
+        #groupsTitle, #membersTitle {
+            border-bottom: solid 2px #f56a6a;
+            text-align:center;
+        }
+
+        #groups {
+            padding:10px;
+        }
+
+        #members {
+            padding:5px;
+        }
     </style>
 }
 
@@ -100,42 +118,42 @@
     </div>
 </header>
 <header id="header" class="m-0 p-0"></header>
-<section class="pt-5 container row">
+<section class="pt-2 container row">
     
     <div class="myBox col-md-3" style="display:flex; flex-direction:column">
-        <div id="groups" class="myInnerBox" style="margin-bottom:30px">
-            @*@foreach (var group in Model)
-            {
-                <div class="chatGroup mb-2 button" data-group-name="@group.Key">@group.Key　@group.Value.WeightRange.Item1 ~ @group.Value.WeightRange.Item2</div>
-            }*@
+        <div class="myInnerBox" style="margin-bottom:30px">
+            <div id="groupsTitle">群組</div>
+            <div id="groups"></div>
         </div>
-        <div id="members" class="myInnerBox">
-
+        <div class="myInnerBox">
+            <div id="membersTitle">群組成員</div>
+            <div id="members"></div>
         </div>
     </div>
-
-    <div class="col-md-9" style="height:auto">
-        <!-- DIRECT CHAT WARNING -->
-        <div class="card direct-chat direct-chat-warning">
-            <div class="card-header button primary" style="cursor:default; pointer-events:none">
-                <h3 id="groupTitle" class="card-title" style="color:white">聊天群組：無</h3>
-            </div>
-            <input type="hidden" id="groupId" />
-            <div class="card-body">
-                <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages" id="chatbox" style="margin:10px; padding:10px">
+    <div class="col-md-9 myBox">
+        <div style="height:auto">
+            <!-- DIRECT CHAT WARNING -->
+            <div class="card direct-chat direct-chat-warning">
+                <div class="card-header button primary" style="cursor:default; pointer-events:none">
+                    <h3 id="groupTitle" class="card-title" style="color:white">聊天群組：</h3>
                 </div>
-                @*<div class="direct-chat-msg right" id="adminbox"></div>*@
-            </div>
-            <div class="card-footer">
-                <div class="input-group">
-                    <div class="col-12 col-md-9 col-lg-10 mb-2">
-                        <input type="text" name="message" placeholder="輸入訊息..." class="form-control" id="message" autocomplete="off">
+                <input type="hidden" id="groupId" />
+                <div class="card-body">
+                    <!-- Conversations are loaded here -->
+                    <div class="direct-chat-messages" id="chatbox" style="margin:10px; padding:10px">
                     </div>
-                    <div class="col-12 col-md-3 col-lg-2">
-                        <span class="input-group-append">
-                            <input type="button" class="button primary fit" id="sendmessage" value="傳送" />
-                        </span>
+                    @*<div class="direct-chat-msg right" id="adminbox"></div>*@
+                </div>
+                <div class="card-footer">
+                    <div class="input-group">
+                        <div class="col-12 col-md-9 col-lg-10 mb-2">
+                            <input type="text" name="message" placeholder="輸入訊息..." class="form-control" id="message" autocomplete="off">
+                        </div>
+                        <div class="col-12 col-md-3 col-lg-2">
+                            <span class="input-group-append">
+                                <input type="button" class="button primary fit" id="sendmessage" value="傳送" />
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,6 +177,8 @@
     <script>
 
         $(function () {
+
+            //let initialWeight = @ViewBag.InitialWeight;
 
             $(window).on("unload", function () {
                 $.connection.hub.stop();
@@ -221,6 +241,18 @@
                                     return;
                                 }
 
+                                if ($("#weight1").val() >= $("#weight2").val()) {
+                                    alert("體重區間錯誤");
+                                    return;
+                                }
+
+                                let patt = /^[0-9]+$/
+
+                                if (!patt.test($("#weight1").val()) || !patt.test($("#weight2").val())) {
+                                    alert("請輸入有效體重");
+                                    return;
+                                }
+
                                 $.ajax({
                                     url: "NewGroup",
                                     type: "POST",
@@ -232,12 +264,16 @@
                                         preGroupId: $("#groupId").val()
                                     },
                                     success: function (data) {
-                                        alert(data.Result);
-                                        $("#groupName").val("");
-                                        $("#weight1").val("");
-                                        $("#weight2").val("");
-                                        $("#groupId").val(data.GroupID);
-                                        $("#groupTitle").text(`聊天群組：${data.GroupName}`);
+                                        if (data.Result == "Success") {
+                                            alert(data.Result);
+                                            $("#groupName").val("");
+                                            $("#weight1").val("");
+                                            $("#weight2").val("");
+                                            $("#groupId").val(data.GroupID);
+                                            $("#groupTitle").text(`聊天群組：${data.GroupName}`);
+                                        } else {
+                                            alert(data.Result);
+                                        }
                                     }
                                 });
 
@@ -280,16 +316,21 @@
                             preGroupId: $("#groupId").val()
                         },
                         success: function (data) {
-                            alert(data.Result);
-                            $("#groupId").val(data.GroupID);
-                            $("#groupTitle").text(`聊天群組：${data.GroupName}`);
-                            LoadMessages();
+                            if (data.Result == "Success") {
+                                alert(data.Result);
+                                $("#groupId").val(data.GroupID);
+                                $("#groupTitle").text(`聊天群組：${data.GroupName}`);
+                                LoadMessages();
+                            } else {
+                                alert(data.Result);
+                            }
                         }
                     });
                 });
             });
 
             let IntervalID = setInterval(function () {
+
 
                 //Refresh Group
                 $.ajax({
@@ -302,7 +343,7 @@
                         $.each(data, function (i, g) {
                             let cell = $("<div></div>").addClass("chatGroup").addClass("mb-2").addClass("button")
                                 .attr("data-groupId", g.ID).attr("data-groupName", g.GroupName)
-                                .text(`${g.GroupName} ${g.StartWeight}kg~${g.EndWeight}kg`);
+                                .text(`[${g.GroupName}] (${g.StartWeight}kg~${g.EndWeight}kg)`);
 
                             if (g.ID == $("#groupId").val()) {
                                 $(cell).addClass("primary");
@@ -357,16 +398,6 @@
 
         function write(userName, message, isSelf, timeStamp, image) {
 
-            //let msg = $("<div></div>").text(`${userName}：${message}  ${timeStamp}`);
-
-            //if (isSelf) {
-            //    $(msg).addClass("self");
-            //} else {
-            //    $(msg).addClass("others");
-            //}
-
-            //========================================
-
             if (isSelf) {
                 let dialogDiv = $("<div></div>").addClass("direct-chat-msg");
 
@@ -406,10 +437,6 @@
                 $("#chatbox").append(dialogDiv);
             }
 
-            
-            //========================================
-
-            //$("#chatbox").append(msg);
         }
 
         //todo Load Group Messages

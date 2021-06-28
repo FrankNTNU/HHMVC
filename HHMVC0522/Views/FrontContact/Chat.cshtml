@@ -107,6 +107,19 @@
             }
 
             $.connection.hub.start().done(function () {
+
+                //Auto add to ServiceGroup
+                $.ajax({
+                    url: "AddToServiceGroup",
+                    method: "POST",
+                    data: {
+                        connId: $.connection.hub.id
+                    },
+                    success: function (data) {
+                        alert(data.Result);
+                    }
+                });
+                //===================================
                 $("#sendmessage").click(function () {
 
                     if ($("#message").val() == "") {

@@ -29,6 +29,7 @@ namespace UI
             UserStatic.ConnectedUsers.Add(user);
 
             //==================================================
+            //For GroupChats
             //Reconnect When Return
             foreach (var groupId in UserStatic.UserChatGroups.Keys.ToList())
             {
@@ -46,6 +47,19 @@ namespace UI
                     }
                 }
             }
+            //=====================================================
+            //For CustomerService
+            //Reconnect When Return
+            foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
+            {
+                if (UserStatic.ServiceGroups[groupId].GroupName == Context.User.Identity.Name)
+                {
+                    UserStatic.ServiceGroups[groupId].UserConnId = Context.ConnectionId;
+
+                    Groups.Add(Context.ConnectionId, groupId);
+                }
+            }
+            //=====================================================
 
             return base.OnConnected();
         }
@@ -59,6 +73,7 @@ namespace UI
 
             //========================================================
             //恩旗
+            //For GroupChats
             //Remove User From UserChatGroups
             try
             {
@@ -68,13 +83,13 @@ namespace UI
                     {
                         if (member.ConnID == Context.ConnectionId)
                         {
+                            Groups.Remove(Context.ConnectionId, groupId);
                             UserStatic.UserChatGroups[groupId].GroupMembers.Remove(member);
                         }
 
                         ChatGroupController.RemoveGroup(this.dbContext, groupId);
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -85,8 +100,36 @@ namespace UI
                     writer.WriteLine(DateTime.Now.ToString("M/d HH:mm") + " Message : " + ex.Message);
                 }
             }
-            
-            //========================================================
+
+            //For CustomerService
+            //Remove ServiceGroup
+            try
+            {
+                foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
+                {
+                    if (UserStatic.ServiceGroups[groupId].UserConnId == Context.ConnectionId)
+                    {
+                        UserStatic.ServiceGroups.Remove(groupId);
+
+                        Groups.Remove(Context.ConnectionId, groupId);
+
+                        int gId = int.Parse(groupId);
+
+                        dbContext.Groups.SingleOrDefault(g => g.ID == gId).IsAlive = false;
+
+                        dbContext.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string filePath = @"C:\Users\enchi\Desktop\Error.txt";
+
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine(DateTime.Now.ToString("M/d HH:mm") + " Message : " + ex.Message);
+                }
+            }
 
             return base.OnDisconnected(stopCalled);
         }

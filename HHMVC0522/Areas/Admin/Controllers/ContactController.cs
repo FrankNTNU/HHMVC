@@ -1,4 +1,5 @@
 ﻿using BLL;
+using DAL;
 using DTO;
 using Microsoft.AspNet.SignalR;
 using System;
@@ -11,6 +12,8 @@ namespace UI.Areas.Admin.Controllers
 {
     public class ContactController : BaseController
     {
+        HealthHelperEntities dbContext = new HealthHelperEntities();
+
         // GET: Admin/Contact
         public ActionResult Index()
         {
@@ -33,8 +36,10 @@ namespace UI.Areas.Admin.Controllers
                 item.UserName = dto.UserName;
                 item.ImagePath = dto.ImagePath;
             }
-            return Json(UserStatic.ConnectedUsers,JsonRequestBehavior.AllowGet);
+            return Json(UserStatic.ConnectedUsers, JsonRequestBehavior.AllowGet);
+            
         }
+
         public JsonResult HasChanged(string previousList)
         {
             string newList = "";
@@ -60,6 +65,39 @@ namespace UI.Areas.Admin.Controllers
             context.Clients.Client(connId).ReceiveFromService(message);
 
             return View();
+        }
+
+        //=============================================================
+        //恩旗
+        [HttpPost]
+        public JsonResult GetServiceGroup(string connId)
+        {
+            //====================================================================
+            var userList = UserStatic.ServiceGroups.Where(sg => sg.Value.AdminConnId == connId)
+                .Select(sg =>
+            {
+                int UserID = int.Parse(sg.Value.GroupName);
+                Member member = dbContext.Members.SingleOrDefault(m => m.ID == UserID);
+                return new
+                {
+                    ImagePath = member.Image,
+                    GroupID = sg.Key,
+                    UserName = member.UserName
+                };
+            }).ToList();
+
+            return Json(userList);
+        }
+
+        [HttpPost]
+        public JsonResult AddToServiceGroup(string connId)
+        {
+            foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
+            {
+
+            }
+
+            return Json(new { Result = "Succes" });
         }
     }
 }

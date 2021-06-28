@@ -18,6 +18,9 @@ namespace UI.Controllers
     [System.Web.Mvc.Authorize]
     public class FrontContactController : Controller
     {
+        HealthHelperEntities dbContext = new HealthHelperEntities();
+        Random rn = new Random();
+
         // GET: FrontContact
         public ActionResult Index()
         {
@@ -39,9 +42,8 @@ namespace UI.Controllers
         public async Task<ActionResult> Chat(string connId, string message)
         {
             HealthHelperEntities dbContext = new HealthHelperEntities();
-            Random rn = new Random();
-
-            List<string> adminConnId = UserStatic.ConnectedUsers.Select(cu => new
+            
+            List<string> adminConnIds = UserStatic.ConnectedUsers.Select(cu => new
             {
                 cu.ConnID,
                 UserID = int.Parse(cu.UserID)
@@ -51,14 +53,14 @@ namespace UI.Controllers
             var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
             //todo AI認知服務
-            if (adminConnId.Count == 0)
+            if (adminConnIds.Count == 0)
             {
                 string answer = await GetAnsFromKB(message);
                 context.Clients.Client(connId).ReceiveFromService(answer);
             }
             else
             {
-                context.Clients.Client(adminConnId[rn.Next(0, adminConnId.Count)])
+                context.Clients.Client(adminConnIds[rn.Next(0, adminConnIds.Count)])
                     .ReceiveFromCustomer(connId, Session["UserName"], Session["ImagePath"], message);
             }    
 
@@ -96,6 +98,66 @@ namespace UI.Controllers
 
             return response.Answers[0].Answer;
         }
+
+        [HttpPost]
+        public JsonResult AddToServiceGroup(string connId)
+        {
+            //If Reconnect to old Group
+            foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
+            {
+                if (UserStatic.ServiceGroups[groupId].GroupName == User.Identity.Name)
+                {
+                   return Json(new { Result = "Reconnect to old group" });
+                }
+            }
+
+            // Add To DB Groups Table
+            Group group = dbContext.Groups.Add(new Group
+            {
+                GroupName = User.Identity.Name,
+                StartWeight = 0,
+                EndWeight = 0,
+                IsAlive = true,
+                IsService = true
+            });
+
+            dbContext.SaveChanges();
+
+            //Online Admins List
+            List<Tuple<string, int>> admins = UserStatic.ConnectedUsers.Select(cu => new
+            {
+                cu.ConnID,
+                UserID = int.Parse(cu.UserID)
+            }).Where(cu => dbContext.Members.SingleOrDefault(cu1 => cu1.ID == cu.UserID).IsAdmin)
+                .Select(cu => new Tuple<string, int>(cu.ConnID, cu.UserID)).ToList();
+
+            Tuple<string, int> admin = null;
+            string adminConnId = "";
+            int adminId = 0;
+
+            if (admins.Count != 0)
+            {
+                admin = admins[rn.Next(0, admins.Count)];
+                adminConnId = admin.Item1;
+                adminId = admin.Item2;
+            }
+             
+            //Add to ServiceGroup
+            var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            Context.Groups.Add(connId, group.ID.ToString());
+            Context.Groups.Add(adminConnId, group.ID.ToString());
+
+            UserStatic.ServiceGroups.Add(group.ID.ToString(), new ServiceGroupDTO
+            {
+                GroupName = User.Identity.Name,
+                UserConnId = connId,
+                AdminConnId = adminConnId,
+                AdminId = adminId.ToString()
+            });
+
+            return Json(new { Result = "Success"});
+        }
+
 
     }
 }

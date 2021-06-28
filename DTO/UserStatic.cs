@@ -14,7 +14,8 @@ namespace DTO
         //恩旗
         //UserChatGroup
         public static Dictionary<string, ChatGroupDTO> UserChatGroups = new Dictionary<string, ChatGroupDTO>();
-
+        //CustomerServiceGroup
+        public static Dictionary<string, ServiceGroupDTO> ServiceGroups = new Dictionary<string, ServiceGroupDTO>();
         //==============================================
     }
     public static class UserHandler

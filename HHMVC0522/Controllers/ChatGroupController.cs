@@ -3,6 +3,7 @@ using DTO;
 using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -18,7 +19,6 @@ namespace UI.Controllers
         // GET: ChatGroup
         public ActionResult GroupChat()
         {
-
             return View(UserStatic.UserChatGroups);
         }
 
@@ -28,6 +28,18 @@ namespace UI.Controllers
         [HttpPost]
         public JsonResult NewGroup(string connId, string groupName, int weight1, int weight2, string preGroupId)
         {
+            int MemberID = (int)Session["ID"];
+
+            decimal initialWeight = dbContext.Programs.SingleOrDefault(p => p.MemberID == MemberID
+                && DbFunctions.TruncateTime(p.StartDate) <= DateTime.Today
+                && DbFunctions.TruncateTime(p.EndDate) >= DateTime.Today
+                && p.StatusID == 1).InitialWeight;
+
+            if (weight1 < initialWeight - 5 || weight2 > initialWeight + 5)
+            {
+                return Json(new { Result = "體重區間必須介於挑戰計劃初始體重的±5kg" });
+            }
+
             if (UserStatic.UserChatGroups.Keys.Contains(groupName))
             {
                 return Json(new { Result = "已有同名的聊天群" });
@@ -88,6 +100,26 @@ namespace UI.Controllers
         [HttpPost]
         public JsonResult AddToGroup(string connId, string groupId, string groupName, string preGroupId)
         {
+            int MemberID = (int)Session["ID"];
+
+            decimal initialWeight = dbContext.Programs.SingleOrDefault(p => p.MemberID == MemberID
+                && DbFunctions.TruncateTime(p.StartDate) <= DateTime.Today
+                && DbFunctions.TruncateTime(p.EndDate) >= DateTime.Today
+                && p.StatusID == 1).InitialWeight;
+
+            decimal startWeight = UserStatic.UserChatGroups[groupId].WeightRange.Item1;
+            decimal endWeight = UserStatic.UserChatGroups[groupId].WeightRange.Item2;
+
+            if (initialWeight < startWeight || initialWeight > endWeight)
+            {
+                return Json(new
+                {
+                    Result = "您的體重不在此群組的體重區間",
+                    GroupID = "",
+                    GroupName = ""
+                });
+            }
+
             var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
             //Add To Static Dictionary
@@ -133,12 +165,14 @@ namespace UI.Controllers
         [HttpPost]
         public JsonResult GetGroups()
         {
-            //var groupList = UserStatic.UserChatGroups.Select(cg => new 
-            //{ 
-            //    cg.Key,
-            //    cg.Value.WeightRange.Item1,
-            //    cg.Value.WeightRange.Item2
-            //});
+            //Sync Groups table with UserStatic.UserChatGroups
+            //dbContext.Groups.Where(g => !UserStatic.UserChatGroups.ContainsKey(g.ID.ToString())).ToList()
+            //    .ForEach(g =>
+            //    {
+            //        g.IsAlive = false;
+            //    });
+            //dbContext.SaveChanges();
+
 
             var groupList = dbContext.Groups.Where(g => g.IsAlive).Select(g => new
             {
@@ -153,16 +187,28 @@ namespace UI.Controllers
 
         internal static void RemoveGroup(HealthHelperEntities dbContext, string groupId)
         {
-            if (UserStatic.UserChatGroups[groupId].GroupMembers.Count == 0)
+            try
             {
-                UserStatic.UserChatGroups.Remove(groupId);
+                if (UserStatic.UserChatGroups[groupId].GroupMembers.Count == 0)
+                {
+                    UserStatic.UserChatGroups.Remove(groupId);
 
-                int gId = int.Parse(groupId);
+                    int gId = int.Parse(groupId);
 
-                //Set This Group's IsAlive to false
-                dbContext.Groups.SingleOrDefault(g => g.ID == gId).IsAlive = false;
+                    //Set This Group's IsAlive to false
+                    dbContext.Groups.SingleOrDefault(g => g.ID == gId).IsAlive = false;
 
-                dbContext.SaveChanges();
+                    dbContext.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                string filePath = @"C:\Users\enchi\Desktop\Error.txt";
+
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine(DateTime.Now.ToString("M/d HH:mm") + " Message : " + ex.Message);
+                }
             }
         }
 
@@ -175,7 +221,7 @@ namespace UI.Controllers
             var nameList = gmList.Select(gm =>
             {
                 return dbContext.Members.SingleOrDefault(m => m.ID.ToString() == gm).UserName;
-            }).Distinct();
+            }).Distinct().OrderBy(n => n);
 
             return Json(nameList);
         }

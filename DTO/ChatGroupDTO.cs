@@ -7,11 +7,11 @@ namespace DTO
 {
     public class ChatGroupDTO {
 
-        public string GroupName;
+        public string GroupName { get; set; }
 
-        public Tuple<int, int> WeightRange;
+        public Tuple<int, int> WeightRange { get; set; }
 
-        public List<UserDetail> GroupMembers;
+        public List<UserDetail> GroupMembers { get; set; }
     }
 
 }
