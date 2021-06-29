@@ -123,10 +123,18 @@
             //Receive
             var chat = $.connection.chatHub;
             chat.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
+
                 if ($("#groupId").val() == groupId) {
+
                     write(userName, message, $.connection.hub.id == connId, timeStamp, image)
-                } else {
+
+                    let chatBox = document.getElementById("chatbox");
+                    chatBox.scrollTop = chatBox.scrollHeight;
+
+                } else if ($.inArray(groupId, notRead) == -1) {
+
                     notRead.push(groupId);
+
                 }
             }
             //================================================
@@ -220,7 +228,7 @@
         //Change Customer and loadMessages
         $("tbody").on("click", "a", function () {
 
-            console.log(notRead)
+            console.log(notRead);
 
             let groupId = $(this).parent().prev().prev().text();
             $("#groupId").val(groupId);
@@ -235,9 +243,9 @@
             if (index != -1) {
                 notRead.splice(index, 1);
             }
-            
-            console.log(notRead)
 
+            console.log(notRead);
+            
             LoadMessages();
         })
 
@@ -245,7 +253,7 @@
 
         setInterval(function () {
             GetOnlineUsers();
-        }, 1500)
+        }, 1500);
 
         function GetOnlineUsers() {
             $.ajax({
@@ -300,6 +308,11 @@
 
                     $("tbody").html("");
                     $("tbody").append(docFrag);
+
+                    if (result.length == 0) {
+                        $("#dialogTitle").text("聯絡客服：");
+                        $("#chatbox").html("");
+                    }
                 }
             })
         }
@@ -320,6 +333,9 @@
                         $.each(data, function (i, msg) {
                             write(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
                         });
+
+                        let chatBox = document.getElementById("chatbox");
+                        chatBox.scrollTop = chatBox.scrollHeight;
                     }
                 });
             }

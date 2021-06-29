@@ -88,6 +88,9 @@
 
             chat.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
                 write(userName, message, $.connection.hub.id == connId, timeStamp, image)
+
+                let chatBox = document.getElementById("chatbox");
+                chatBox.scrollTop = chatBox.scrollHeight;
             }
 
             $.connection.hub.start().done(function () {
@@ -185,6 +188,9 @@
                         $.each(data, function (i, msg) {
                             write(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
                         });
+
+                        let chatBox = document.getElementById("chatbox");
+                        chatBox.scrollTop = chatBox.scrollHeight;
                     }
                 });
             }

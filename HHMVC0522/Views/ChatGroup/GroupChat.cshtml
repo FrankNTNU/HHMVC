@@ -180,9 +180,9 @@
 
             //let initialWeight = @ViewBag.InitialWeight;
 
-            $(window).on("unload", function () {
-                $.connection.hub.stop();
-            });
+            //$(window).on("unload", function () {
+            //    $.connection.hub.stop();
+            //});
 
             var chat = $.connection.chatHub;
 
@@ -191,6 +191,9 @@
                 let index = $.inArray($.connection.hub.id, connIds)
 
                 write(userName, message, index != -1, timeStamp, image);
+
+                let chatBox = document.getElementById("chatbox");
+                chatBox.scrollTop = chatBox.scrollHeight;
             }
 
             $.connection.hub.start().done(function () {
@@ -271,6 +274,7 @@
                                             $("#weight2").val("");
                                             $("#groupId").val(data.GroupID);
                                             $("#groupTitle").text(`聊天群組：${data.GroupName}`);
+                                            $("#chatbox").html("");
                                         } else {
                                             alert(data.Result);
                                         }
@@ -381,6 +385,8 @@
                         }
                     });
                 }
+
+
             }, 1500);
 
             $("#sendmessage").click(function () {
@@ -457,6 +463,9 @@
 
                             write(msg.userName, msg.message, index != -1, msg.timeStamp, msg.image);
                         });
+
+                        let chatBox = document.getElementById("chatbox");
+                        chatBox.scrollTop = chatBox.scrollHeight;
                     }
                 });
             }

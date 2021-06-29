@@ -28,61 +28,73 @@ namespace UI
             };
             UserStatic.ConnectedUsers.Add(user);
 
+            string fromPage = Context.Headers.Get("referer").Split('/').LastOrDefault();
+
             //==================================================
             //For GroupChats
             //Reconnect When Return
-            foreach (var groupId in UserStatic.UserChatGroups.Keys.ToList())
+            if (fromPage.ToLower() == "groupchat")
             {
-                foreach (var chatMember in UserStatic.UserChatGroups[groupId].GroupMembers.ToList())
-                {
-                    if (chatMember.UserID == Context.User.Identity.Name)
-                    {
-                        UserStatic.UserChatGroups[groupId].GroupMembers.Add(new UserDetail
-                        {
-                            ConnID = Context.ConnectionId,
-                            UserID = Context.User.Identity.Name
-                        });
 
-                        Groups.Add(Context.ConnectionId, groupId);
+                foreach (var groupId in UserStatic.UserChatGroups.Keys.ToList())
+                {
+                    foreach (var chatMember in UserStatic.UserChatGroups[groupId].GroupMembers.ToList())
+                    {
+                        if (chatMember.UserID == Context.User.Identity.Name
+                            && chatMember.ConnID != Context.ConnectionId)
+                        {
+                            UserStatic.UserChatGroups[groupId].GroupMembers.Add(new UserDetail
+                            {
+                                ConnID = Context.ConnectionId,
+                                UserID = Context.User.Identity.Name
+                            });
+
+                            Groups.Add(Context.ConnectionId, groupId);
+
+                        }
                     }
                 }
             }
             //=====================================================
             //For CustomerService
-            int UserId = int.Parse(Context.User.Identity.Name);
-            Member member = dbContext.Members.SingleOrDefault(m => m.ID == UserId);
-
-            //Admin Reconnect When Return
-            if (member.IsAdmin)
+            else if (fromPage.ToLower() == "chat" || fromPage.ToLower() == "contact")
             {
-                foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
+                int UserId = int.Parse(Context.User.Identity.Name);
+                Member member = dbContext.Members.SingleOrDefault(m => m.ID == UserId);
+
+                //Admin Reconnect When Return
+                if (member.IsAdmin)
                 {
-                    if (UserStatic.ServiceGroups[groupId].AdminId == Context.User.Identity.Name)
+                    foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                     {
-                        Groups.Remove(UserStatic.ServiceGroups[groupId].AdminConnId, groupId);
+                        if (UserStatic.ServiceGroups[groupId].AdminId == Context.User.Identity.Name
+                            && UserStatic.ServiceGroups[groupId].AdminConnId != Context.ConnectionId)
+                        {
+                            Groups.Remove(UserStatic.ServiceGroups[groupId].AdminConnId, groupId);
 
-                        UserStatic.ServiceGroups[groupId].AdminConnId = Context.ConnectionId;
+                            UserStatic.ServiceGroups[groupId].AdminConnId = Context.ConnectionId;
 
-                        Groups.Add(Context.ConnectionId, groupId);
+                            Groups.Add(Context.ConnectionId, groupId);
+                        }
+                    }
+                }
+                //User Reconnect When Return
+                else
+                {
+                    foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
+                    {
+                        if (UserStatic.ServiceGroups[groupId].GroupName == Context.User.Identity.Name
+                            && UserStatic.ServiceGroups[groupId].UserConnId != Context.ConnectionId)
+                        {
+                            Groups.Remove(UserStatic.ServiceGroups[groupId].UserConnId, groupId);
+
+                            UserStatic.ServiceGroups[groupId].UserConnId = Context.ConnectionId;
+
+                            Groups.Add(Context.ConnectionId, groupId);
+                        }
                     }
                 }
             }
-            //User Reconnect When Return
-            else
-            {
-                foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
-                {
-                    if (UserStatic.ServiceGroups[groupId].GroupName == Context.User.Identity.Name)
-                    {
-                        Groups.Remove(UserStatic.ServiceGroups[groupId].UserConnId, groupId);
-
-                        UserStatic.ServiceGroups[groupId].UserConnId = Context.ConnectionId;
-
-                        Groups.Add(Context.ConnectionId, groupId);
-                    }
-                }
-            }
-            
             //=====================================================
 
             return base.OnConnected();

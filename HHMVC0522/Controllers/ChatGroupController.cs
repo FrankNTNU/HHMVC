@@ -30,10 +30,20 @@ namespace UI.Controllers
         {
             int MemberID = (int)Session["ID"];
 
-            decimal initialWeight = dbContext.Programs.SingleOrDefault(p => p.MemberID == MemberID
+            decimal? initialWeight = dbContext.Programs.SingleOrDefault(p => p.MemberID == MemberID
                 && DbFunctions.TruncateTime(p.StartDate) <= DateTime.Today
                 && DbFunctions.TruncateTime(p.EndDate) >= DateTime.Today
-                && p.StatusID == 1).InitialWeight;
+                && p.StatusID == 1)?.InitialWeight;
+
+            if (initialWeight == null)
+            {
+                return Json(new
+                {
+                    Result = "您沒有進行挑戰",
+                    GroupID = "",
+                    GroupName = ""
+                });
+            }
 
             if (weight1 < initialWeight - 5 || weight2 > initialWeight + 5)
             {
@@ -102,10 +112,20 @@ namespace UI.Controllers
         {
             int MemberID = (int)Session["ID"];
 
-            decimal initialWeight = dbContext.Programs.SingleOrDefault(p => p.MemberID == MemberID
+            decimal? initialWeight = dbContext.Programs.SingleOrDefault(p => p.MemberID == MemberID
                 && DbFunctions.TruncateTime(p.StartDate) <= DateTime.Today
                 && DbFunctions.TruncateTime(p.EndDate) >= DateTime.Today
-                && p.StatusID == 1).InitialWeight;
+                && p.StatusID == 1)?.InitialWeight;
+
+            if (initialWeight == null)
+            {
+                return Json(new
+                {
+                    Result = "您沒有進行挑戰",
+                    GroupID = "",
+                    GroupName = ""
+                });
+            }
 
             decimal startWeight = UserStatic.UserChatGroups[groupId].WeightRange.Item1;
             decimal endWeight = UserStatic.UserChatGroups[groupId].WeightRange.Item2;
@@ -174,7 +194,7 @@ namespace UI.Controllers
             //dbContext.SaveChanges();
 
 
-            var groupList = dbContext.Groups.Where(g => g.IsAlive).Select(g => new
+            var groupList = dbContext.Groups.Where(g => g.IsAlive && !g.IsService).Select(g => new
             {
                 g.ID,
                 g.GroupName,
@@ -245,7 +265,7 @@ namespace UI.Controllers
             Context.Clients.Group(groupId)
                 .receiveFromGroupMember(connIds, member.UserName, message, timeStamp.ToString("M/d HH:mm"), member.Image);
 
-            //todo
+            
             dbContext.GroupChats.Add(new GroupChat
             {
                 GroupID = int.Parse(groupId),
