@@ -12,15 +12,13 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class GroupChat
+    public partial class WaterLog
     {
         public int ID { get; set; }
-        public int GroupID { get; set; }
-        public Nullable<int> MemberID { get; set; }
-        public string Message { get; set; }
-        public System.DateTime TimeStamp { get; set; }
+        public int MemberID { get; set; }
+        public string Date { get; set; }
+        public int WaterAmount { get; set; }
     
-        public virtual Group Group { get; set; }
         public virtual Member Member { get; set; }
     }
 }

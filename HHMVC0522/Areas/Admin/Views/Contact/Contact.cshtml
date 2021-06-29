@@ -56,29 +56,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @*@foreach (var item in DTO.UserStatic.ConnectedUsers)
-                                {
-                                    <tr>
-                                        <td>
-                                            <img src="~/Areas/Admin/Content/UserImage/@item.ImagePath" class="direct-chat-img">
-                                        </td>
-                                        <td>
-
-                                            @item.ConnID
-                                        </td>
-                                        <td>
-                                            @item.UserName
-                                        </td>
-                                        <td class="project-actions">
-                                            <a class="btn btn-primary btn-sm" href="#">
-                                                連線
-                                            </a>
-
-                                        </td>
-                                    </tr>
-                                }*@
-
-
                         </tbody>
                     </table>
                 </div>
@@ -90,9 +67,9 @@
                 <!-- DIRECT CHAT WARNING -->
                 <div class="card direct-chat">
                     <div class="card-header " style="cursor: default; pointer-events: none; background-color: #007bff ">
-                        <h3 id="dialogTitle" class="card-title mb-0" style="color:white;padding:5px">聯絡客服</h3>
+                        <h3 id="dialogTitle" class="card-title mb-0" style="color:white;padding:5px">聯絡客服：</h3>
                     </div>
-                    <input type="hidden" id="displayname" />
+                    <input type="hidden" id="groupId" />
 
                     <div id="dialogContainer" class="card-body" style="padding:0px">
                         <!-- Conversations are loaded here -->
@@ -118,7 +95,6 @@
 
                                 </span>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -136,250 +112,218 @@
     <script src="~/Content/moment-js/moment.min.js"></script>
     <script>
 
+        let notRead = [];
+        let connected = [];
+
         $(function () {
 
             //========================================================
             //恩旗
+
             //Receive
             var chat = $.connection.chatHub;
-
-            var currentChatBox = $("#chatbox");
-            var originChatBox = $("#chatbox");
-            var connId = "";
-
-            chat.client.receiveFromCustomer = function (connId, userName, imagePath, message) {
-
-                //If can't find chatbox
-                if ($(".direct-chat-messages[data-connId=" + connId + "]").length == 0) {
-
-                    //If originChatBox hasn't been used, set it to chatbox
-                    if ($(currentChatBox).is(originChatBox)
-                            && typeof $(currentChatBox).attr("data-connId") == "undefined") {
-                        $(currentChatBox).attr("data-connId", connId);
-                        $("#dialogTitle").text(`聯絡客服　(使用者：${userName})`);
-
-                    } else {
-                        //If originChatBox has been used, clone one and hide it
-                        //Clone is ChatBox
-                        let clone = $(currentChatBox).clone();
-                        $(clone).html("");
-                        $(clone).attr("data-connId", connId);
-                        $(clone).hide();
-                        $(clone).appendTo($("#dialogContainer"));
-
-                        //console.log("isOrigin: " + $(clone).is(originChatBox))
-                    }
-                }
-
-                let dialogDiv = $("<div></div>").addClass("direct-chat-msg right");
-
-                $("<div></div>").addClass("direct-chat-infos clearfix")
-                    .append($("<span></span>").addClass("direct-chat-name float-right").text(userName))
-                    .append($("<span></span>").addClass("direct-chat-timestamp float-left").text(moment(new Date()).format("M/D HH:mm")))
-                    .appendTo(dialogDiv);
-
-                $("<img/>").addClass("direct-chat-img")
-                    .attr("src", "/Areas/Admin/Content/UserImage/" + imagePath)
-                    .appendTo(dialogDiv);
-
-                $("<div></div>").addClass("direct-chat-text")
-                    .css("background-color", "#007bff").css("color", "white")
-                    .text(message)
-                    .appendTo(dialogDiv);
-
-                //ChatBox is Clone
-                let chatbox = $(".direct-chat-messages[data-connId=" + connId + "]").append(dialogDiv);
-
-                if ($(chatbox).css("display") == "none") {
-                    $(chatbox).attr("data-read", false);
-                    //console.log($(chatbox).attr("data-read"));
+            chat.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
+                if ($("#groupId").val() == groupId) {
+                    write(userName, message, $.connection.hub.id == connId, timeStamp, image)
+                } else {
+                    notRead.push(groupId);
                 }
             }
-
             //================================================
-            //Hide chatbox
-
-
-            $("tbody").on("click", "a", function () {
-
-                if ('@Session["ID"]' == $(this).attr('data-userId')) {
-                    alert("那是你自已啊");
-                    return;
-                }
-
-                $(this).removeClass("btn-danger").addClass("btn-primary").text("連線");
-
-                $("#dialogTitle").text(`聯絡客服　(使用者：${$(this).parent().prev().text()})`);
-
-                connId = $(this).parent().prev().prev().text();
-
-                //If chatbox is found
-                //hide currentChatBox and show chatbox that is found
-                if ($(".direct-chat-messages[data-connId=" + connId + "]").length) {
-                    $(currentChatBox).hide();
-                    $(".direct-chat-messages[data-connId=" + connId + "]").show();
-                    $(".direct-chat-messages[data-connId=" + connId + "]").prependTo($("#dialogContainer"));
-                    currentChatBox = $(".direct-chat-messages[data-connId=" + connId + "]");
-
-                    $(currentChatBox).attr("data-read", true);
-
-                } else {
-                    //If chatbox is not found and originChatBox hasn't been used
-                    //Set originChatBox to chatbox
-                    if ($(currentChatBox).is(originChatBox)
-                            && typeof $(currentChatBox).attr("data-connId") == "undefined") {
-                        
-                        $(currentChatBox).attr("data-connId", connId);
-                    } else {
-                        //If chatbox is not found and originChatBox has been used
-                        //clone one and show it
-                        let clone = $(currentChatBox).clone();
-                        $(clone).html("");
-                        $(clone).attr("data-connId", connId);
-                        $(currentChatBox).hide();
-                        $(clone).show();
-                        $(clone).prependTo($("#dialogContainer"));
-                        currentChatBox = $(clone);
-                    }
-                }
-            })
-
-            //==========================================================
             //send message
 
             $.connection.hub.start().done(function () {
-                $("#sendmessage").click(function () {
 
-                    if (!$(currentChatBox).is("[data-connId]")) {
-                        alert("請選擇要服務的使用者");
-                        return;
+                //Auto add to ServiceGroups
+                $.ajax({
+                    url: "AddToServiceGroups",
+                    method: "POST",
+                    data: {
+                        connId: $.connection.hub.id
+                    },
+                    success: function (data) {
+                        alert(data.Result);
                     }
+                });
+                //===================================
+                $("#sendmessage").click(function () {
 
                     if ($("#message").val() == "") {
                         alert("請輸入訊息");
                         return;
                     }
 
-                    let dialogDiv = $("<div></div>").addClass("direct-chat-msg");
-
-                    $("<div></div>").addClass("direct-chat-infos clearfix")
-                        .append($("<span></span>").addClass("direct-chat-name float-left").text("客服人員"))
-                        .append($("<span></span>").addClass("direct-chat-timestamp float-right").text(moment(new Date()).format("M/D HH:mm")))
-                        .appendTo(dialogDiv);
-
-                    $("<img/>").addClass("direct-chat-img")
-                        .attr("src", "/Areas/Admin/Content/UserImage/2d6c0c9d-8f6a-46bc-b296-05e7261e0836user2.png")
-                        .appendTo(dialogDiv);
-
-                    $("<div></div>").addClass("direct-chat-text")
-                        .text($("#message").val())
-                        .appendTo(dialogDiv);
-
-                    currentChatBox.append(dialogDiv);
+                    if ($("#groupId").val() == "") {
+                        alert("尚未連線");
+                        return;
+                    }
 
                     $.ajax({
-                        url: "Contact",
-                        method: "POST",
+                        url: "SendMessage",
+                        type: "POST",
                         data: {
-                            connId: $(currentChatBox).attr("data-connId"),
+                            connId: $.connection.hub.id,
+                            groupId: $("#groupId").val(),
                             message: $("#message").val()
                         }
                     });
                 });
+                //==================================================
 
             });
 
         });
-    </script>
 
+        function write(userName, message, isSelf, timeStamp, image) {
 
-    <script type="text/javascript">
+            if (isSelf) {
+                let dialogDiv = $("<div></div>").addClass("direct-chat-msg");
+
+                $("<div></div>").addClass("direct-chat-infos clearfix")
+                    .append($("<span></span>").addClass("direct-chat-name float-left").text(userName))
+                    .append($("<span></span>").addClass("direct-chat-timestamp float-right").text(timeStamp))
+                    .appendTo(dialogDiv);
+
+                $("<img/>").addClass("direct-chat-img")
+                    .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                    .appendTo(dialogDiv);
+
+                $("<div></div>").addClass("direct-chat-text")
+                    .css("background-color", "plum").css("color", "white").css("border-color", "plum")
+                    .html(message)
+                    .appendTo(dialogDiv);
+
+                $("#chatbox").append(dialogDiv);
+
+            } else {
+                let dialogDiv = $("<div></div>").addClass("direct-chat-msg right");
+
+                $("<div></div>").addClass("direct-chat-infos clearfix")
+                    .append($("<span></span>").addClass("direct-chat-name float-right").text(userName))
+                    .append($("<span></span>").addClass("direct-chat-timestamp float-left").text(timeStamp))
+                    .appendTo(dialogDiv);
+
+                $("<img/>").addClass("direct-chat-img")
+                    .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                    .appendTo(dialogDiv);
+
+                $("<div></div>").addClass("direct-chat-text")
+                    .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
+                    .html(message)
+                    .appendTo(dialogDiv);
+
+                $("#chatbox").append(dialogDiv);
+            }
+
+        }
+
+        //Change Customer and loadMessages
+        $("tbody").on("click", "a", function () {
+
+            console.log(notRead)
+
+            let groupId = $(this).parent().prev().prev().text();
+            $("#groupId").val(groupId);
+
+            let userName = $(this).parent().prev().text();
+            $("#dialogTitle").text(`聯絡客服：${userName}`);
+
+            $(this).text("已連線");
+            connected.push(groupId);
+
+            let index = notRead.indexOf(groupId);
+            if (index != -1) {
+                notRead.splice(index, 1);
+            }
+            
+            console.log(notRead)
+
+            LoadMessages();
+        })
+
+        //==========================================================
+
         setInterval(function () {
-            //if (HasChanged() == "true") {
             GetOnlineUsers();
-            //}
-        }, 5000)
+        }, 1500)
 
-        @*function HasChanged() {
-            var hasChanged;
-            var listOfConnIDs = "";
-            var previousIds = @DTO.UserHandler.ConnectedIds;
-            previousIds.forEach(function (item, index) { listOfConnIDs += item; }));
-
-           
-
-            $.ajax({
-                url: "HasChanged",
-                data: { previousList: listOfConnIDs },
-                success: function (result) {
-                    hasChanged = result;
-                    console.log(hasChanged);
-
-                }
-            })
-            return hasChanged;
-        }*@
         function GetOnlineUsers() {
-            //$('tbody').empty();
             $.ajax({
-                url: "GetServiceGroup",
+                url: "GetServiceGroups",
                 type: "POST",
                 data: {
                     connId: $.connection.hub.id
                 },
                 success: function (result) {
+
+                    let docFrag = document.createDocumentFragment();
+                    let onlineGroup = [];
+
                     $.each(result, function (index, value) {
-
-                        console.log(value.GroupID + " , " + value.UserName);
-
-                        //var InsertedHtml = "<tr><td>"
-                        //    + '<img src="/Areas/Admin/Content/UserImage/'
-                        //    + value.ImagePath
-                        //    + '" class="direct-chat-img">'
-                        //    + "</td>"
-                        //    + "<td>"
-                        //    + value.ConnID
-                        //    + "</td>"
-                        //    + "<td>"
-                        //    + value.UserName
-                        //    + "</td>"
-                        //    + '<td class="project-actions">'
-                        //    + '<a class="btn btn-primary btn-sm" href="#" data-userId=' + value.UserID + '>'
-                        //    + "連線"
-                        //    + "</a></td></tr>";
 
                         let cell1 = $("<td></td>")
                             .append($("<img />").attr("src", "/Areas/Admin/Content/UserImage/" + value.ImagePath)
                                 .addClass("direct-chat-img"));
 
-                        //let cell2 = $("<td></td>").append(value.ConnID);
                         let cell2 = $("<td></td>").append(value.GroupID);
 
                         let cell3 = $("<td></td>").append(value.UserName);
 
                         let cell4 = $("<td></td>").append($("<a></a>").addClass("btn btn-sm"));
 
-                        //let chatbox = $(".direct-chat-messages[data-connId=" + value.ConnID + "]");
+                        if ($.inArray(value.GroupID, notRead) != -1) {
+                            $(cell4).children("a").addClass("btn-danger").text("新訊息");
+                        } else if ($.inArray(value.GroupID, connected) != -1) {
+                            $(cell4).children("a").addClass("btn-primary").text("已連線");
+                        } else {
+                            $(cell4).children("a").addClass("btn-primary").text("未連線");
+                        }
 
-                        //if ($(chatbox).attr("data-read") == 'false') {
-                        //    $(cell4).children("a").attr("data-userId", value.UserID).addClass("btn-danger").text("新訊息");
-                        //} else {
-                        //    $(cell4).children("a").attr("data-userId", value.UserID).addClass("btn-primary").text("連線");
-                        //}
+                        $(docFrag).append($("<tr></tr>").append(cell1, cell2, cell3, cell4));
 
-                        $(cell4).children("a").attr("data-userId", value.UserID).addClass("btn-primary").text("連線");
-                        
-                        //$('tbody').append($("<tr></tr>").append(cell1, cell2, cell3, cell4));
-                        $("tbody").html("");
-                        $('tbody').append($("<tr></tr>").append(cell1, cell2, cell3, cell4));
-                        
+                        onlineGroup.push(value.GroupID);
                     })
+
+                    //Remove offline group from notRead Array
+                    $.each(notRead, function (index, value) {
+                        if ($.inArray(value, onlineGroup) == -1) {
+                            notRead.splice(index, 1);
+                        }
+                    });
+
+                    //Remove offline group from connected Array
+                    $.each(connected, function (index, value) {
+                        if ($.inArray(value, onlineGroup) == -1) {
+                            connected.splice(index, 1);
+                        }
+                    });
+
+                    $("tbody").html("");
+                    $("tbody").append(docFrag);
                 }
             })
         }
 
+        //todo Load Group Messages
+        function LoadMessages() {
+            if ($("#groupId").val() != "") {
+                $.ajax({
+                    url: "GetGroupMsgs",
+                    type: "POST",
+                    data: {
+                        groupId: $("#groupId").val()
+                    },
+                    success: function (data) {
 
+                        $("#chatbox").html("");
 
+                        $.each(data, function (i, msg) {
+                            write(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
+                        });
+                    }
+                });
+            }
+        }
     </script>
 }
 

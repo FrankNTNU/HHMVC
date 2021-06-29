@@ -45,14 +45,14 @@
             <div class="card-header button primary" style="cursor:default; pointer-events:none">
                 <h3 class="card-title" style="color:white">聯絡客服</h3>
             </div>
-            <input type="hidden" id="displayname" />
+            <input type="hidden" id="groupId" />
 
             <div class="card-body">
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages" id="chatbox" style="margin:10px; padding:10px">
                 </div>
-                <div class="direct-chat-msg right" id="adminbox">
-                </div>
+                @*<div class="direct-chat-msg right" id="adminbox">
+                </div>*@
             </div>
             <div class="card-footer">
                 <div class="input-group">
@@ -86,24 +86,8 @@
             //For Test
             var chat = $.connection.chatHub;
 
-            chat.client.receiveFromService = function (message) {
-                let dialogDiv = $("<div></div>").addClass("direct-chat-msg right");
-
-                $("<div></div>").addClass("direct-chat-infos clearfix")
-                    .append($("<span></span>").addClass("direct-chat-name float-right").text("客服人員"))
-                    .append($("<span></span>").addClass("direct-chat-timestamp float-left").text(moment(new Date()).format("M/D HH:mm")))
-                    .appendTo(dialogDiv);
-
-                $("<img/>").addClass("direct-chat-img")
-                    .attr("src", "/Areas/Admin/Content/UserImage/2d6c0c9d-8f6a-46bc-b296-05e7261e0836user2.png")
-                    .appendTo(dialogDiv);
-
-                $("<div></div>").addClass("direct-chat-text")
-                    .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
-                    .html(message)
-                    .appendTo(dialogDiv);
-
-                $("#chatbox").append(dialogDiv);
+            chat.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
+                write(userName, message, $.connection.hub.id == connId, timeStamp, image)
             }
 
             $.connection.hub.start().done(function () {
@@ -117,6 +101,8 @@
                     },
                     success: function (data) {
                         alert(data.Result);
+                        $("#groupId").val(data.GroupId);
+                        LoadMessages();
                     }
                 });
                 //===================================
@@ -127,28 +113,12 @@
                         return;
                     }
 
-                    let dialogDiv = $("<div></div>").addClass("direct-chat-msg");
-
-                    $("<div></div>").addClass("direct-chat-infos clearfix")
-                        .append($("<span></span>").addClass("direct-chat-name float-left").text("@Session["UserName"]"))
-                        .append($("<span></span>").addClass("direct-chat-timestamp float-right").text(moment(new Date()).format("M/D HH:mm")))
-                        .appendTo(dialogDiv);
-
-                    $("<img/>").addClass("direct-chat-img")
-                        .attr("src", "/Areas/Admin/Content/UserImage/@Session["ImagePath"]")
-                        .appendTo(dialogDiv);
-
-                    $("<div></div>").addClass("direct-chat-text")
-                        .text($("#message").val())
-                        .appendTo(dialogDiv);
-
-                    $("#chatbox").append(dialogDiv);
-
                     $.ajax({
-                        url: "Chat",
-                        method: "POST",
+                        url: "SendMessage",
+                        type: "POST",
                         data: {
                             connId: $.connection.hub.id,
+                            groupId: $("#groupId").val(),
                             message: $("#message").val()
                         }
                     });
@@ -156,6 +126,69 @@
             });
         });
 
+        function write(userName, message, isSelf, timeStamp, image) {
+
+            if (isSelf) {
+                let dialogDiv = $("<div></div>").addClass("direct-chat-msg");
+
+                $("<div></div>").addClass("direct-chat-infos clearfix")
+                    .append($("<span></span>").addClass("direct-chat-name float-left").text(userName))
+                    .append($("<span></span>").addClass("direct-chat-timestamp float-right").text(timeStamp))
+                    .appendTo(dialogDiv);
+
+                $("<img/>").addClass("direct-chat-img")
+                    .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                    .appendTo(dialogDiv);
+
+                $("<div></div>").addClass("direct-chat-text")
+                    .css("background-color", "plum").css("color", "white").css("border-color", "plum")
+                    .html(message)
+                    .appendTo(dialogDiv);
+
+                $("#chatbox").append(dialogDiv);
+
+            } else {
+                let dialogDiv = $("<div></div>").addClass("direct-chat-msg right");
+
+                $("<div></div>").addClass("direct-chat-infos clearfix")
+                    .append($("<span></span>").addClass("direct-chat-name float-right").text(userName))
+                    .append($("<span></span>").addClass("direct-chat-timestamp float-left").text(timeStamp))
+                    .appendTo(dialogDiv);
+
+                $("<img/>").addClass("direct-chat-img")
+                    .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                    .appendTo(dialogDiv);
+
+                $("<div></div>").addClass("direct-chat-text")
+                    .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
+                    .html(message)
+                    .appendTo(dialogDiv);
+
+                $("#chatbox").append(dialogDiv);
+            }
+
+        }
+
+        //todo Load Group Messages
+        function LoadMessages() {
+            if ($("#groupId").val() != "") {
+                $.ajax({
+                    url: "GetGroupMsgs",
+                    type: "POST",
+                    data: {
+                        groupId: $("#groupId").val()
+                    },
+                    success: function (data) {
+
+                        $("#chatbox").html("");
+
+                        $.each(data, function (i, msg) {
+                            write(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
+                        });
+                    }
+                });
+            }
+        }
     </script>
 }
 

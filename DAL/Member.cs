@@ -28,6 +28,7 @@ namespace DAL
             this.WorkoutPreferences = new HashSet<WorkoutPreference>();
             this.Programs = new HashSet<Program>();
             this.TempCustomerMealOptions = new HashSet<TempCustomerMealOption>();
+            this.WaterLogs = new HashSet<WaterLog>();
             this.WeightLogs = new HashSet<WeightLog>();
             this.WorkoutLogs = new HashSet<WorkoutLog>();
         }
@@ -49,6 +50,7 @@ namespace DAL
         public string Name { get; set; }
         public int Points { get; set; }
         public Nullable<int> MealCount { get; set; }
+        public string ActiveCode { get; set; }
     
         public virtual ActivityLevel ActivityLevel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -74,6 +76,8 @@ namespace DAL
         public virtual ICollection<Program> Programs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TempCustomerMealOption> TempCustomerMealOptions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WaterLog> WaterLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WeightLog> WeightLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -48,6 +48,7 @@ namespace DAL
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TempCustomerMealOption> TempCustomerMealOptions { get; set; }
         public virtual DbSet<TimesOfDay> TimesOfDays { get; set; }
+        public virtual DbSet<WaterLog> WaterLogs { get; set; }
         public virtual DbSet<WeightLog> WeightLogs { get; set; }
         public virtual DbSet<WorkoutCategory> WorkoutCategories { get; set; }
         public virtual DbSet<WorkoutLog> WorkoutLogs { get; set; }

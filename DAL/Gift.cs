@@ -22,5 +22,6 @@ namespace DAL
         public System.DateTime EndDate { get; set; }
         public System.DateTime AddDate { get; set; }
         public string Store { get; set; }
+        public bool IsPremium { get; set; }
     }
 }

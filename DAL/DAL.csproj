@@ -192,6 +192,9 @@
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="UserDAO.cs" />
+    <Compile Include="WaterLog.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="WeightLog.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>

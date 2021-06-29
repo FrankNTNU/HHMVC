@@ -102,12 +102,12 @@ namespace UI.Controllers
         [HttpPost]
         public JsonResult AddToServiceGroup(string connId)
         {
-            //If Reconnect to old Group
+            //If already Reconnect to old Group
             foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
             {
                 if (UserStatic.ServiceGroups[groupId].GroupName == User.Identity.Name)
                 {
-                   return Json(new { Result = "Reconnect to old group" });
+                   return Json(new { Result = "Reconnect to old group", GroupId = groupId });
                 }
             }
 
@@ -145,8 +145,12 @@ namespace UI.Controllers
             //Add to ServiceGroup
             var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
             Context.Groups.Add(connId, group.ID.ToString());
-            Context.Groups.Add(adminConnId, group.ID.ToString());
 
+            if (adminConnId != "")
+            {
+                Context.Groups.Add(adminConnId, group.ID.ToString());
+            }
+                
             UserStatic.ServiceGroups.Add(group.ID.ToString(), new ServiceGroupDTO
             {
                 GroupName = User.Identity.Name,
@@ -155,9 +159,111 @@ namespace UI.Controllers
                 AdminId = adminId.ToString()
             });
 
-            return Json(new { Result = "Success"});
+            return Json(new { Result = "Success", GroupId = group.ID.ToString() });
         }
 
+        [HttpPost]
+        public async Task SendMessage(string connId, string groupId, string message)
+        {
 
+            var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+
+            Member member = dbContext.Members.SingleOrDefault(m => m.ID.ToString() == User.Identity.Name);
+
+            DateTime timeStamp = DateTime.Now;
+
+            Context.Clients.Group(groupId)
+                .receive(connId, member.UserName, message, timeStamp.ToString("M/d HH:mm"), member.Image, groupId);
+            
+            dbContext.GroupChats.Add(new GroupChat
+            {
+                GroupID = int.Parse(groupId),
+                MemberID = int.Parse(User.Identity.Name),
+                Message = message,
+                TimeStamp = timeStamp
+            });
+
+            dbContext.SaveChanges();
+
+            //Online Admins List
+            var admins = UserStatic.ConnectedUsers.Select(cu => new
+            {
+                cu.ConnID,
+                UserID = int.Parse(cu.UserID)
+            }).Where(cu => dbContext.Members.SingleOrDefault(cu1 => cu1.ID == cu.UserID).IsAdmin)
+                .Select(cu => cu).ToList();
+
+            if (admins.Count == 0)
+            {
+                string answer = await GetAnsFromKB(message);
+
+                Context.Clients.Group(groupId)
+                    .receive("", "客服人員", answer, timeStamp.ToString("M/d HH:mm"), "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png", groupId);
+
+                dbContext.GroupChats.Add(new GroupChat
+                {
+                    GroupID = int.Parse(groupId),
+                    MemberID = null,
+                    Message = answer,
+                    TimeStamp = timeStamp
+                });
+
+                dbContext.SaveChanges();
+            }
+
+        }
+
+        public JsonResult GetGroupMsgs(string groupId)
+        {
+            var msgList = dbContext.GroupChats.Where(gc => gc.GroupID.ToString() == groupId)
+                .OrderBy(gc => gc.TimeStamp).ToList()
+                .Select(gc =>
+                {
+                    string connId = "";
+                    string userName = "";
+                    string image = "";
+
+                    if (gc.MemberID == null)
+                    {
+                        return new
+                        {
+                            connId = "",
+                            userName = "客服人員",
+                            message = gc.Message,
+                            timeStamp = gc.TimeStamp.ToString("M/d HH:mm"),
+                            image = "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png"
+                        };
+                    }
+                    else
+                    {
+
+                        Member member = dbContext.Members.SingleOrDefault(m => m.ID == gc.MemberID);
+
+                        if (member.IsAdmin)
+                        {
+                            connId = UserStatic.ServiceGroups[groupId].AdminConnId;
+                            userName = "客服人員";
+                            image = "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png";
+                        }
+                        else
+                        {
+                            connId = UserStatic.ServiceGroups[groupId].UserConnId;
+                            userName = member.UserName;
+                            image = member.Image;
+                        }
+
+                        return new
+                        {
+                            connId = connId,
+                            userName = userName,
+                            message = gc.Message,
+                            timeStamp = gc.TimeStamp.ToString("M/d HH:mm"),
+                            image = image
+                        };
+                    }
+                });
+
+            return Json(msgList);
+        }
     }
 }

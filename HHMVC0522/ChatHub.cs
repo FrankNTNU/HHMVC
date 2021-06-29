@@ -33,9 +33,9 @@ namespace UI
             //Reconnect When Return
             foreach (var groupId in UserStatic.UserChatGroups.Keys.ToList())
             {
-                foreach (var member in UserStatic.UserChatGroups[groupId].GroupMembers.ToList())
+                foreach (var chatMember in UserStatic.UserChatGroups[groupId].GroupMembers.ToList())
                 {
-                    if (member.UserID == Context.User.Identity.Name)
+                    if (chatMember.UserID == Context.User.Identity.Name)
                     {
                         UserStatic.UserChatGroups[groupId].GroupMembers.Add(new UserDetail
                         {
@@ -49,16 +49,40 @@ namespace UI
             }
             //=====================================================
             //For CustomerService
-            //Reconnect When Return
-            foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
-            {
-                if (UserStatic.ServiceGroups[groupId].GroupName == Context.User.Identity.Name)
-                {
-                    UserStatic.ServiceGroups[groupId].UserConnId = Context.ConnectionId;
+            int UserId = int.Parse(Context.User.Identity.Name);
+            Member member = dbContext.Members.SingleOrDefault(m => m.ID == UserId);
 
-                    Groups.Add(Context.ConnectionId, groupId);
+            //Admin Reconnect When Return
+            if (member.IsAdmin)
+            {
+                foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
+                {
+                    if (UserStatic.ServiceGroups[groupId].AdminId == Context.User.Identity.Name)
+                    {
+                        Groups.Remove(UserStatic.ServiceGroups[groupId].AdminConnId, groupId);
+
+                        UserStatic.ServiceGroups[groupId].AdminConnId = Context.ConnectionId;
+
+                        Groups.Add(Context.ConnectionId, groupId);
+                    }
                 }
             }
+            //User Reconnect When Return
+            else
+            {
+                foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
+                {
+                    if (UserStatic.ServiceGroups[groupId].GroupName == Context.User.Identity.Name)
+                    {
+                        Groups.Remove(UserStatic.ServiceGroups[groupId].UserConnId, groupId);
+
+                        UserStatic.ServiceGroups[groupId].UserConnId = Context.ConnectionId;
+
+                        Groups.Add(Context.ConnectionId, groupId);
+                    }
+                }
+            }
+            
             //=====================================================
 
             return base.OnConnected();
@@ -79,12 +103,12 @@ namespace UI
             {
                 foreach (var groupId in UserStatic.UserChatGroups.Keys.ToList())
                 {
-                    foreach (var member in UserStatic.UserChatGroups[groupId].GroupMembers.ToList())
+                    foreach (var chatMember in UserStatic.UserChatGroups[groupId].GroupMembers.ToList())
                     {
-                        if (member.ConnID == Context.ConnectionId)
+                        if (chatMember.ConnID == Context.ConnectionId)
                         {
                             Groups.Remove(Context.ConnectionId, groupId);
-                            UserStatic.UserChatGroups[groupId].GroupMembers.Remove(member);
+                            UserStatic.UserChatGroups[groupId].GroupMembers.Remove(chatMember);
                         }
 
                         ChatGroupController.RemoveGroup(this.dbContext, groupId);
@@ -93,7 +117,7 @@ namespace UI
             }
             catch (Exception ex)
             {
-                string filePath = @"C:\Users\enchi\Desktop\Error.txt";
+                string filePath = @"C:\Users\enchi\Desktop\Error1.txt";
 
                 using (StreamWriter writer = new StreamWriter(filePath, true))
                 {
@@ -102,34 +126,60 @@ namespace UI
             }
 
             //For CustomerService
-            //Remove ServiceGroup
+            Member member = dbContext.Members
+                .SingleOrDefault(m => m.ID.ToString() == Context.User.Identity.Name);
+
             try
-            {
-                foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
+            {   //When Admin disconnect, only remove AdminConnId and AdminId
+                if (member.IsAdmin)
                 {
-                    if (UserStatic.ServiceGroups[groupId].UserConnId == Context.ConnectionId)
+                    foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                     {
-                        UserStatic.ServiceGroups.Remove(groupId);
+                        if (UserStatic.ServiceGroups[groupId].AdminConnId == Context.ConnectionId)
+                        {
+                            Groups.Remove(UserStatic.ServiceGroups[groupId].AdminConnId, groupId);
 
-                        Groups.Remove(Context.ConnectionId, groupId);
+                            UserStatic.ServiceGroups[groupId].AdminConnId = "";
+                            UserStatic.ServiceGroups[groupId].AdminId = "0";
 
-                        int gId = int.Parse(groupId);
+                            dbContext.SaveChanges();
+                        }
+                    }
+                }
+                //When User disconnect, remove ServiceGroup
+                else
+                {
+                    foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
+                    {
+                        if (UserStatic.ServiceGroups[groupId].UserConnId == Context.ConnectionId)
+                        {
+                            Groups.Remove(UserStatic.ServiceGroups[groupId].UserConnId, groupId);
 
-                        dbContext.Groups.SingleOrDefault(g => g.ID == gId).IsAlive = false;
+                            if (UserStatic.ServiceGroups[groupId].AdminConnId != "")
+                            {
+                                Groups.Remove(UserStatic.ServiceGroups[groupId].AdminConnId, groupId);
+                            }
+                            
+                            UserStatic.ServiceGroups.Remove(groupId);
 
-                        dbContext.SaveChanges();
+                            dbContext.Groups.SingleOrDefault(g => g.ID.ToString() == groupId).IsAlive = false;
+
+                            dbContext.SaveChanges();
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                string filePath = @"C:\Users\enchi\Desktop\Error.txt";
+                string filePath = @"C:\Users\enchi\Desktop\Error2.txt";
 
                 using (StreamWriter writer = new StreamWriter(filePath, true))
                 {
                     writer.WriteLine(DateTime.Now.ToString("M/d HH:mm") + " Message : " + ex.Message);
                 }
             }
+
+            //todo when admin disconnect
 
             return base.OnDisconnected(stopCalled);
         }
