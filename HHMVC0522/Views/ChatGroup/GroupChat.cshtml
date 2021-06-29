@@ -52,8 +52,17 @@
 
         #weight1, #weight2 {
             display:inline-block;
-            margin:10px;
+            margin:5px;
             width: 4em;
+        }
+
+        #groupName, #difficulty {
+            margin: 5px;
+        }
+
+        #difficulty span {
+            color: #f56a6a;
+            font-weight: 600;
         }
 
         .chatGroup {
@@ -120,7 +129,7 @@
 <header id="header" class="m-0 p-0"></header>
 <section class="pt-2 container row">
     
-    <div class="myBox col-md-3" style="display:flex; flex-direction:column">
+    <div class="myBox col-md-4" style="display:flex; flex-direction:column">
         <div class="myInnerBox" style="margin-bottom:30px">
             <div id="groupsTitle">群組</div>
             <div id="groups"></div>
@@ -130,7 +139,7 @@
             <div id="members"></div>
         </div>
     </div>
-    <div class="col-md-9 myBox">
+    <div class="col-md-8 myBox">
         <div style="height:auto">
             <!-- DIRECT CHAT WARNING -->
             <div class="card direct-chat direct-chat-warning">
@@ -166,6 +175,7 @@
     請輸入聊天群名稱和體重區間：
     <input type="text" id="groupName" autocomplete="off" placeholder="聊天群名稱"/>
     <input type="text" id="weight1" placeholder="體重"/>kg~<input type="text" id="weight2" placeholder="體重"/>kg
+    <div id="difficulty">您的挑戰難度為<span></span></div>
 </div>
 <!--=========================================================-->
 
@@ -232,6 +242,21 @@
                                 .css("padding", "10px").css("border-radius", "5px")
                                 .css("outline-color", "white");
                             $(this).parent().focus();
+
+                            $.ajax({
+                                url: "GetDifficulty",
+                                type: "POST",
+                                success: function (data) {
+                                    console.log(data);
+                                    if (data == "Easy") {
+                                        $("#difficulty span").html("簡單");
+                                    } else if (data == "Normal") {
+                                        $("#difficulty span").html("正常");
+                                    } else if (data == "Hard") {
+                                        $("#difficulty span").html("困難");
+                                    }
+                                }
+                            });
                         },
                         dialogClass: "no-close",
                         buttons: [{
@@ -347,7 +372,7 @@
                         $.each(data, function (i, g) {
                             let cell = $("<div></div>").addClass("chatGroup").addClass("mb-2").addClass("button")
                                 .attr("data-groupId", g.ID).attr("data-groupName", g.GroupName)
-                                .text(`[${g.GroupName}] (${g.StartWeight}kg~${g.EndWeight}kg)`);
+                                .text(`[${g.GroupName}] (${g.StartWeight}kg~${g.EndWeight}kg) ${g.Difficulty}`);
 
                             if (g.ID == $("#groupId").val()) {
                                 $(cell).addClass("primary");

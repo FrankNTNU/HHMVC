@@ -11,7 +11,17 @@ namespace DTO
 
         public Tuple<int, int> WeightRange { get; set; }
 
+        public Difficulty Difficulty { get; set; }
+
         public List<UserDetail> GroupMembers { get; set; }
     }
 
+
+    public enum Difficulty
+    {
+        None,
+        Easy,
+        Normal,
+        Hard
+    }
 }

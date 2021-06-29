@@ -76,6 +76,7 @@ namespace UI.Controllers
                 {
                     GroupName = groupName,
                     WeightRange = new Tuple<int, int>(weight1, weight2),
+                    Difficulty = GetDifficulty(),
                     GroupMembers = new List<UserDetail> { new UserDetail
                     {
                         ConnID = connId,
@@ -140,6 +141,16 @@ namespace UI.Controllers
                 });
             }
 
+            if (GetDifficulty() != UserStatic.UserChatGroups[groupId].Difficulty)
+            {
+                return Json(new
+                {
+                    Result = "您的挑戰難度與此群組不同",
+                    GroupID = "",
+                    GroupName = ""
+                });
+            }
+
             var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
             //Add To Static Dictionary
@@ -185,21 +196,22 @@ namespace UI.Controllers
         [HttpPost]
         public JsonResult GetGroups()
         {
-            //Sync Groups table with UserStatic.UserChatGroups
-            //dbContext.Groups.Where(g => !UserStatic.UserChatGroups.ContainsKey(g.ID.ToString())).ToList()
-            //    .ForEach(g =>
-            //    {
-            //        g.IsAlive = false;
-            //    });
-            //dbContext.SaveChanges();
 
+            //var groupList = dbContext.Groups.Where(g => g.IsAlive && !g.IsService).Select(g => new
+            //{
+            //    g.ID,
+            //    g.GroupName,
+            //    g.StartWeight,
+            //    g.EndWeight
+            //});
 
-            var groupList = dbContext.Groups.Where(g => g.IsAlive && !g.IsService).Select(g => new
+            var groupList = UserStatic.UserChatGroups.Select(ucg => new
             {
-                g.ID,
-                g.GroupName,
-                g.StartWeight,
-                g.EndWeight
+                ID = ucg.Key,
+                GroupName = ucg.Value.GroupName,
+                StartWeight = ucg.Value.WeightRange.Item1,
+                EndWeight = ucg.Value.WeightRange.Item2,
+                Difficulty = ucg.Value.Difficulty.ToString()
             });
 
             return Json(groupList);
@@ -320,5 +332,44 @@ namespace UI.Controllers
 
             return Json(msgList);
         }
+
+        [HttpPost]
+        public Difficulty GetDifficulty()
+        {
+
+            int MemberID = (int)Session["ID"];
+
+            decimal TDEE = WorkoutController.TDEE(dbContext, MemberID);
+
+            var program = dbContext.Programs.SingleOrDefault(prg => prg.MemberID == MemberID
+                && DbFunctions.TruncateTime(prg.StartDate) <= DateTime.Today
+                && DbFunctions.TruncateTime(prg.EndDate) >= DateTime.Today
+                && prg.StatusID == 1);
+
+            int totalCalToLose = (program.InitialWeight - program.TargetWeight) * 7700;
+            int programDays = (program.EndDate.Date - program.StartDate.Date).Days + 1;
+            decimal dailyCalToLose = totalCalToLose / programDays;
+            decimal coefficient = (TDEE - dailyCalToLose) / TDEE;
+
+            coefficient = coefficient < 0.85m ? 0.85m : coefficient;
+
+            if (coefficient >= 0.95m)
+            {
+                return Difficulty.Easy;
+            }
+            else if (coefficient >= 0.9m)
+            {
+                return Difficulty.Normal;
+            }
+            else if (coefficient >= 0.85m)
+            {
+                return Difficulty.Hard;
+            }
+            else
+            {
+                return Difficulty.None;
+            }
+        }
     }
+
 }

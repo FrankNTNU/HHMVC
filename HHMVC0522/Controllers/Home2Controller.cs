@@ -48,10 +48,9 @@ namespace UI.Controllers
                     //====================================
                     //恩旗
                     //Use RedirectFromLoginPage to redirect
+                    SetInProgramSession();
                     FormsAuthentication.RedirectFromLoginPage(user.ID.ToString(), false);
                     
-                    //var i = User.Identity.Name;
-                    //return RedirectToAction("Index", "Home2");
                     return null;
                     //====================================
                 }
@@ -291,6 +290,29 @@ namespace UI.Controllers
 
             return Json(new { Result = "Success", GetPoints = GetPoints });
             
+        }
+
+        //determine if user is in a program
+        [NonAction]
+        private void SetInProgramSession()
+        {
+            HealthHelperEntities dbContext = new HealthHelperEntities();
+
+            int MemberID = (int)Session["ID"];
+
+            var program = dbContext.Programs.SingleOrDefault(prg => prg.MemberID == MemberID
+                && DbFunctions.TruncateTime(prg.StartDate) <= DateTime.Today
+                && DbFunctions.TruncateTime(prg.EndDate) >= DateTime.Today
+                && prg.StatusID == 1);
+
+            if (program != null)
+            {
+                Session["InProgram"] = true;
+            }
+            else
+            {
+                Session["InProgram"] = false;
+            }
         }
         //=========================================================
     }

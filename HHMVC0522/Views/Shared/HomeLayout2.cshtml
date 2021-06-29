@@ -241,7 +241,10 @@
                                     <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-pen-nib" style="width:30px"></i> 參加挑戰</a></li>
                                     <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-running" style="width:30px"></i> 我的挑戰</a></li>
                                     <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 過去挑戰</a></li>
-
+                                    @if ((bool)Session["InProgram"])
+                                    {
+                                        <li><a href="~/ChatGroup/GroupChat" style="text-decoration:none"><i class="fas fa-sms" style="width:30px"></i>減重聊天群</a></li>
+                                    }
 
                                 </ul>
 

@@ -19,86 +19,84 @@ namespace UI.Controllers
         int[] timeArray = { 6, 11, 14, 17, 21 };
 
         //If user has a program, TDEE is calculated by initialWeight
-        public decimal TDEE
+        public static decimal TDEE(HealthHelperEntities dbContext, int MemberID)
         {
-            get
+
+            //================================================================
+            //TDEE calculated by pal
+            DateTime taipeiToday = DateTime.Now;
+
+            var wgtList = dbContext.WeightLogs.OrderByDescending(wgtl => wgtl.UpdatedDate).ToList();
+            var prgList = dbContext.Programs.Where(prg => DbFunctions.TruncateTime(prg.StartDate) <= taipeiToday.Date
+                && DbFunctions.TruncateTime(prg.EndDate) >= taipeiToday.Date && prg.StatusID == 1)
+                .OrderByDescending(prg => prg.StartDate);
+
+            Member member = dbContext.Members.SingleOrDefault(m => m.ID == MemberID);
+
+            decimal weight = 0;
+
+            var program = prgList.SingleOrDefault(prg => prg.MemberID == MemberID);
+
+            if (program != null)
             {
-                //================================================================
-                //TDEE calculated by pal
-                DateTime taipeiToday = DateTime.Now;
-
-                var wgtList = dbContext.WeightLogs.OrderByDescending(wgtl => wgtl.UpdatedDate).ToList();
-                var prgList = dbContext.Programs.Where(prg => DbFunctions.TruncateTime(prg.StartDate) <= taipeiToday.Date
-                    && DbFunctions.TruncateTime(prg.EndDate) >= taipeiToday.Date && prg.StatusID == 1)
-                    .OrderByDescending(prg => prg.StartDate);
-
-                int MemberID = (int)Session["ID"];
-                Member member = dbContext.Members.SingleOrDefault(m => m.ID == MemberID);
-
-                decimal weight = 0;
-
-                var program = prgList.SingleOrDefault(prg => prg.MemberID == MemberID);
-
-                if (program != null)
-                {
-                    weight = program.InitialWeight;
-                }
-                else
-                {
-                    WeightLog wgtLog = wgtList.FirstOrDefault(wgt => wgt.MemberID == MemberID);
-                    if (wgtLog != null)
-                    {
-                        weight = (decimal)wgtLog.Weight;
-                    }
-                }
-
-                //age
-                DateTime zeroTime = new DateTime(1, 1, 1);
-                int age = (zeroTime + (taipeiToday - member.Birthdate)).Year - 1;
-
-                //pal
-                decimal pal = 0;
-
-                int al = 0;
-
-                if (program != null)
-                {
-                    al = program.ActivityLevelID;
-                }
-                else
-                {
-                    al = member.ActivityLevelID;
-                }
-
-                switch (al)
-                {
-                    case 6:
-                        pal = 1.2m;
-                        break;
-                    case 1:
-                        pal = 1.4m;
-                        break;
-                    case 2:
-                        pal = 1.6m;
-                        break;
-                    case 3:
-                        pal = 1.8m;
-                        break;
-                }
-
-                //TDEE
-                decimal TDEE = 0;
-                if (member.Gender)
-                {
-                    TDEE = (10 * weight + 6.25m * (decimal)member.Height + 5 * (decimal)age - 5) * pal;
-                }
-                else
-                {
-                    TDEE = (10 * weight + 6.25m * (decimal)member.Height + 5 * (decimal)age - 161) * pal;
-                }
-
-                return TDEE;
+                weight = program.InitialWeight;
             }
+            else
+            {
+                WeightLog wgtLog = wgtList.FirstOrDefault(wgt => wgt.MemberID == MemberID);
+                if (wgtLog != null)
+                {
+                    weight = (decimal)wgtLog.Weight;
+                }
+            }
+
+            //age
+            DateTime zeroTime = new DateTime(1, 1, 1);
+            int age = (zeroTime + (taipeiToday - member.Birthdate)).Year - 1;
+
+            //pal
+            decimal pal = 0;
+
+            int al = 0;
+
+            if (program != null)
+            {
+                al = program.ActivityLevelID;
+            }
+            else
+            {
+                al = member.ActivityLevelID;
+            }
+
+            switch (al)
+            {
+                case 6:
+                    pal = 1.2m;
+                    break;
+                case 1:
+                    pal = 1.4m;
+                    break;
+                case 2:
+                    pal = 1.6m;
+                    break;
+                case 3:
+                    pal = 1.8m;
+                    break;
+            }
+
+            //TDEE
+            decimal TDEE = 0;
+            if (member.Gender)
+            {
+                TDEE = (10 * weight + 6.25m * (decimal)member.Height + 5 * (decimal)age - 5) * pal;
+            }
+            else
+            {
+                TDEE = (10 * weight + 6.25m * (decimal)member.Height + 5 * (decimal)age - 161) * pal;
+            }
+
+            return TDEE;
+
         }
 
         //==========================================================
@@ -375,7 +373,7 @@ namespace UI.Controllers
 
             //==================================================================
             //For chart
-            TodayCaloriesToPercent(this.TDEE, nowIngest, nowConsume,
+            TodayCaloriesToPercent(TDEE(dbContext, (int)Session["ID"]), nowIngest, nowConsume,
                 out decimal TDEEPercent, out decimal IngestPercent, out decimal ConsumePercent);
 
             ViewBag.TDEE = TDEEPercent;
@@ -388,7 +386,7 @@ namespace UI.Controllers
             vm.TimeOfDay = dbContext.TimesOfDays
                 .OrderBy(tod => tod.ID).Select(tod => tod.Name).ToList();
 
-            decimal warning = (nowIngest - nowConsume) / this.TDEE;
+            decimal warning = (nowIngest - nowConsume) / TDEE(dbContext, (int)Session["ID"]);
             vm.Warning = $"為TDEE的 {warning:0.00}%";
 
             int MemberID = (int)Session["ID"];
@@ -651,7 +649,7 @@ namespace UI.Controllers
 
             decimal nowConsume = consumeForNow();
 
-            TodayCaloriesToPercent(this.TDEE, ingestForNow(), nowConsume,
+            TodayCaloriesToPercent(TDEE(dbContext, (int)Session["ID"]), ingestForNow(), nowConsume,
                 out decimal TDEEPercent, out decimal IngestPercent, out decimal ConsumePercent);
 
             return Json(new 
@@ -701,7 +699,7 @@ namespace UI.Controllers
 
             return Json(new 
             {
-                TDEE = this.TDEE.ToString("0.00"),
+                TDEE = TDEE(dbContext, (int)Session["ID"]).ToString("0.00"),
                 TodayIngest = ingest.ToString("0.00"),
                 TodayConsume = consume.ToString("0.00") 
             });
