@@ -69,7 +69,7 @@ namespace UI.Controllers
                 dbContext.SaveChanges();
 
                 //Add
-                var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                var Context = GlobalHost.ConnectionManager.GetHubContext<GroupChatHub>();
                 Context.Groups.Add(connId, group.ID.ToString());
 
                 UserStatic.UserChatGroups.Add(group.ID.ToString(), new ChatGroupDTO
@@ -151,7 +151,7 @@ namespace UI.Controllers
                 });
             }
 
-            var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            var Context = GlobalHost.ConnectionManager.GetHubContext<GroupChatHub>();
 
             //Add To Static Dictionary
             if (UserStatic.UserChatGroups.Keys.Contains(groupId))
@@ -262,7 +262,7 @@ namespace UI.Controllers
         public void SendMessage(string connId, string groupId, string message)
         {
 
-            var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            var Context = GlobalHost.ConnectionManager.GetHubContext<GroupChatHub>();
 
             string UserId = UserStatic.UserChatGroups[groupId].GroupMembers
                 .SingleOrDefault(gm => gm.ConnID == connId).UserID;

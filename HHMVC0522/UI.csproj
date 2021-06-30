@@ -791,6 +791,7 @@
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
+    <Compile Include="GroupChatHub.cs" />
     <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\ChatGroupController.cs" />
     <Compile Include="Controllers\FrontContactController.cs" />
