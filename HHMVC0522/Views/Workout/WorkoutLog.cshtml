@@ -273,11 +273,17 @@
             //===================================================================
             //Estimate Cal
             $("#wHoursForNew").change(function () {
-                EstimateCal($("#wNameForNew").val(), $("#wHoursForNew").val());
+
+                let wTime = new Date($("#wTimeForNew").datetimepicker().val());
+
+                EstimateCal($("#wNameForNew").val(), $("#wHoursForNew").val(), wTime, "#consumeForNew");
             });
 
             $("#wHoursForEdit").change(function () {
-                EstimateCal($("#wNameForEdit").val(), $("#wHoursForEdit").val());
+
+                let wTime = new Date($("#wTimeForEdit").datetimepicker().val());
+
+                EstimateCal($("#wNameForEdit").val(), $("#wHoursForEdit").val(), wTime, "#consumeForEdit");
             });
 
             //===================================================================
@@ -406,7 +412,9 @@
                         }
                         
                         if ($("#wHoursForNew").val() != "") {
-                            EstimateCal($("#wNameForNew").val(), $("#wHoursForNew").val());
+                            let wTime = new Date($("#wTimeForNew").datetimepicker().val());
+
+                            EstimateCal($("#wNameForNew").val(), $("#wHoursForNew").val(), wTime, "#consumeForNew");
                         }
                     }
                 });
@@ -435,7 +443,9 @@
                         }
 
                         if ($("#wHoursForEdit").val() != "") {
-                            EstimateCal($("#wNameForEdit").val(), $("#wHoursForEdit").val());
+                            let wTime = new Date($("#wTimeForEdit").datetimepicker().val());
+
+                            EstimateCal($("#wNameForEdit").val(), $("#wHoursForEdit").val(), wTime, "#consumeForEdit");
                         }
                     }
                 });
@@ -462,7 +472,13 @@
                 showButtonPanel: false,
                 changeMonth: true,
                 changeYear: true,
-                dateFormat: "yy/mm/dd"
+                dateFormat: "yy/mm/dd",
+                onClose: function () {
+                    if ($(this).val() != "") {
+                        let wTime = new Date($(this).datetimepicker().val());
+                        EstimateCal($("#wNameForNew").val(), $("#wHoursForNew").val(), wTime, "#consumeForNew");
+                    }
+                }
             });
 
             $("#wTimeForNew").change(function () {
@@ -497,7 +513,13 @@
                 showButtonPanel: false,
                 changeMonth: true,
                 changeYear: true,
-                dateFormat: "yy/mm/dd"
+                dateFormat: "yy/mm/dd",
+                onClose: function () {
+                    if ($(this).val() != "") {
+                        let wTime = new Date($(this).datetimepicker().val());
+                        EstimateCal($("#wNameForEdit").val(), $("#wHoursForEdit").val(), wTime, "#consumeForEdit");
+                    }
+                }
             });
 
             $("#wTimeForEdit").change(function () {
@@ -515,7 +537,7 @@
                     //"預定中" set to be "disabled"
                     $("#wStatusForEdit option").eq(0).attr("disabled", true);
                 }
-
+                
             });
 
             //=============================================================
@@ -584,11 +606,16 @@
             //Delete WorkoutLog
             $("#Delete").click(function () {
 
-                if (!confirm("確定刪除嗎？")) {
+                let wlid = $(this).attr("data-wlid");
+
+                if (typeof wlid == "undefined") {
+                    alert("請選擇一筆紀錄刪除");
                     return;
                 }
 
-                let wlid = $(this).attr("data-wlid");
+                if (!confirm("確定刪除嗎？")) {
+                    return;
+                }
 
                 $.ajax({
                     url: "DeleteWorkoutLog",
@@ -627,6 +654,11 @@
                 }
 
                 let wlid = $(this).attr("data-wlid");
+
+                if (typeof wlid == "undefined") {
+                    alert("請選擇一筆紀錄修改");
+                    return;
+                }
 
                 let wTime = new Date($("#wTimeForEdit").datetimepicker().val());
 
@@ -742,17 +774,18 @@
             });
         });
 
-        function EstimateCal(wid, whours) {
+        function EstimateCal(wid, whours, wTime, selector) {
             $.ajax({
                 url: "GetEstimateCal",
                 type: "POST",
                 data: {
                     __RequestVerificationToken: token,
                     wid: wid,
-                    whours: whours
+                    whours: whours,
+                    wTime: moment(wTime).format("YYYY-MM-DD HH:mm")
                 },
                 success: function (data) {
-                    $("#consumeForEdit").html(`估計消耗<span class="calConsume">${data.Consume}</span>卡路里`);
+                    $(selector).html(`估計消耗<span class="calConsume">${data.Consume}</span>卡路里`);
                 }
             });
         }

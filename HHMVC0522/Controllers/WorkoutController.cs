@@ -319,19 +319,19 @@ namespace UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult GetEstimateCal(int wid, double whours)
+        public JsonResult GetEstimateCal(int wid, double whours, DateTime wTime)
         {
-            return Json(new { Consume = EstimateCal(wid, whours) });
+            return Json(new { Consume = EstimateCal(wid, whours, wTime) });
         }
 
         [NonAction]
-        public string EstimateCal(int wid, double whours)
+        public string EstimateCal(int wid, double whours, DateTime wTime)
         {
             DateTime today = DateTime.Now.Date;
             DateTime tomorrow = today.AddDays(1);
 
             var cal = dbContext.Workouts.SingleOrDefault(w => w.ID == wid).Calories;
-            var weight = GetCurrentWeight(tomorrow);
+            var weight = GetCurrentWeight(wTime);
 
             return (cal * whours * (double)weight).ToString("0.00");
         }
@@ -542,27 +542,7 @@ namespace UI.Controllers
         {
             int MemberID = (int)Session["ID"];
 
-            decimal weight = 0m;
-
-            var prgList = dbContext.Programs.Where(prg => DbFunctions.TruncateTime(prg.StartDate) <= DateTime.Today
-                    && DbFunctions.TruncateTime(prg.EndDate) >= DateTime.Today && prg.StatusID == 1)
-                    .OrderByDescending(prg => prg.StartDate);
-
-            var program = prgList.SingleOrDefault(prg => prg.MemberID == MemberID);
-
-            if (program != null)
-            {
-                weight = program.InitialWeight;
-            }
-            else
-            {
-                WeightLog wgtLog = dbContext.WeightLogs.OrderByDescending(wgtl => wgtl.UpdatedDate)
-                    .FirstOrDefault(wgt => wgt.MemberID == MemberID);
-                if (wgtLog != null)
-                {
-                    weight = (decimal)wgtLog.Weight;
-                }
-            }
+            decimal weight = GetCurrentWeight(DateTime.Now);
 
             var q1 = dbContext.WorkoutLogs.Where(wl => wl.MemberID == MemberID
                     && DbFunctions.TruncateTime(wl.WorkoutTime) == DateTime.Today
@@ -684,7 +664,7 @@ namespace UI.Controllers
                     wl.Workout.Name,
                     wl.WorkoutHours,
                     wl.StatusID,
-                    Consume = EstimateCal(wl.WorkoutID, wl.WorkoutHours)
+                    Consume = EstimateCal(wl.WorkoutID, wl.WorkoutHours, wl.WorkoutTime)
                 });
 
             return Json(q.ToList());
@@ -732,23 +712,40 @@ namespace UI.Controllers
 
         
         [NonAction]
-        private decimal GetCurrentWeight(DateTime time)
+        private decimal GetCurrentWeight(DateTime now)
         {
             //if there is no weightlog, set weight to 0 kg
             decimal weight = 0m;
 
             int MemberID = (int)Session["ID"];
 
-            var q1 = dbContext.WeightLogs
-                .Where(wgt => wgt.MemberID == MemberID && wgt.UpdatedDate < time)
-                .OrderByDescending(wgt => wgt.UpdatedDate)
-                .FirstOrDefault();
+            var prgList = dbContext.Programs.Where(prg => DbFunctions.TruncateTime(prg.StartDate) <= now.Date
+                && DbFunctions.TruncateTime(prg.EndDate) >= now.Date && prg.StatusID == 1)
+                .OrderByDescending(prg => prg.StartDate);
 
-            if (q1 != null)
+            var program = prgList.SingleOrDefault(prg => prg.MemberID == MemberID);
+
+            if (program != null)
             {
-                weight = (decimal)q1.Weight;
+                weight = program.InitialWeight;
             }
-            
+            else
+            {
+                var weightLog = dbContext.WeightLogs
+                    .Where(wgtl => wgtl.UpdatedDate <= now)
+                    .OrderByDescending(wgtl => wgtl.UpdatedDate)
+                    .FirstOrDefault(wgt => wgt.MemberID == MemberID);
+
+                if (weightLog == null)
+                {
+                    return 0m;
+                }
+                else 
+                {
+                    weight = (decimal)weightLog.Weight;
+                }
+            }
+
             return weight;
         }
 

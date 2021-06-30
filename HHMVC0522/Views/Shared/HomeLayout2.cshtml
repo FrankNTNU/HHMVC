@@ -71,6 +71,102 @@
         font-style: italic;
         color: #f56a6a;
     }
+
+    @*ForCustomerService==========================*@
+
+    #chatPanel {
+        width: 300px;
+        height: 400px;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        border: solid 1px #f56a6a;
+        border-radius: 0.9em;
+        transition: height linear 0.5s;
+        display: flex;
+        flex-direction: column;
+        padding: 0px;
+        overflow: hidden;
+        background-color: white;
+        box-shadow: 5px 5px 10px 5px #E0E0E0;
+    }
+
+    .chatHeader {
+        display: flex;
+        padding: 10px;
+        background-color: #f56a6a;
+        color: white;
+        margin:0px;
+    }
+
+    #collapse {
+        margin-left: auto;
+        background-color: white;
+        color: #f56a6a;
+        padding: 5px;
+        line-height: 1em;
+        height: calc(1em + 10px);
+        text-align: center;
+    }
+
+    .chatBody {
+        border-bottom: solid 1px gray;
+        flex-basis: 100%;
+        background-color:white;
+    }
+
+    #serviceChatBox{        
+        height:290px;
+        overflow:auto;
+    }
+
+    .messageRow {
+        display:flex;
+        flex-wrap:wrap;
+        margin:5px;
+    }
+
+    .chatFooter {
+        display: flex;
+        margin-top: auto;
+        column-gap: 10px;
+        padding: 10px;
+        background-color:white;
+    }
+
+    .chatFooter input, .chatFooter div {
+        display: inline-block;
+    }
+
+    img.myImage {
+        width:30px;
+        height:30px;
+    }
+
+    .myImage, .selfText, .otherText {
+        display:inline-block;
+        border-radius: 5px;
+        margin:5px;
+    }
+
+    .selfText, .otherText {
+        position: relative;
+        padding: 5px;
+    }
+
+    .selfText::before {
+        content: "\25C2";
+        color: plum;
+        position:absolute;
+        left:-9px;
+    }
+
+    .otherText::after {
+        content: "\25B8";
+        color: #f56a6a;
+        position: absolute;
+        right: -9px;
+    }
     @*============================================*@
 
         a.toggle {
@@ -141,22 +237,22 @@
             <div class="inner">
                 <!-- Header -->
                 @*<header id="header" style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
-                    <div class="row col-12 d-flex" style="width: 100%; padding-right: 0px">
+                        <div class="row col-12 d-flex" style="width: 100%; padding-right: 0px">
 
-                        <div class="col-4 col-sm-4 col-lg-2 p-2" style="text-align:center">
-                            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:100px;width:100%"></a>
-                        </div>
-                        <div class="col-8 col-sm-8 col-lg-10 p-1 justify-content-center">
-                            <a href="/Home2/Index" class="logo" style="text-decoration: none;">
-                                <div class="h-50">
-                                    <strong id="logoText" style="font-size:1.7em;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">HealthHelper</strong>
-                                </div>
+                            <div class="col-4 col-sm-4 col-lg-2 p-2" style="text-align:center">
+                                <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:100px;width:100%"></a>
+                            </div>
+                            <div class="col-8 col-sm-8 col-lg-10 p-1 justify-content-center">
+                                <a href="/Home2/Index" class="logo" style="text-decoration: none;">
+                                    <div class="h-50">
+                                        <strong id="logoText" style="font-size:1.7em;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">HealthHelper</strong>
+                                    </div>
 
-                                <div class="h-50" style="font-size:1.5em">健康管理助手</div>
-                            </a>
+                                    <div class="h-50" style="font-size:1.5em">健康管理助手</div>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                </header>*@
+                    </header>*@
                 @RenderBody()
             </div>
         </div>
@@ -275,7 +371,7 @@
                         </li>
                         @if (Session["ID"] != null)
                         {
-                            <li><a href="~/FrontContact/Chat" style="text-decoration:none"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a></li>
+                            <li><a id="showContact" @*href="~/FrontContact/Chat"*@ style="text-decoration:none"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a></li>
                         }
 
                         @if (Session["ID"] != null)
@@ -298,7 +394,7 @@
 
 
 
-            </div>
+    </div>
 
     <!--dialog=======================================================-->
     <div id="dialogDiv"><ul></ul></div>
@@ -313,7 +409,26 @@
         <div style="text-align:center"><span class="programSuccessPts"></span>&nbsp;點</div>
     </div>
     <!--=============================================================-->
-
+    <!--CustomerService==============================================-->
+    <div id="chatPanel" style="display:none">
+        <div class="chatHeader">
+            <div>聯絡客服：</div>
+            <div id="collapse" class="button">
+                <i class="fas fa-minus"></i>
+            </div>
+        </div>
+        <div class="chatBody">
+            <input type="hidden" id="serviceGroupId"/>
+            <!-- Conversations are loaded here -->
+            <div id="serviceChatBox" class="direct-chat-messages">
+            </div>
+        </div>
+        <div class="chatFooter">
+            <input id="message" type="text" name="message" placeholder="在此輸入訊息">
+            <div id="sendmessage" class="button primary">送出</div>
+        </div>
+    </div>
+    <!--=============================================================-->
     <!-- Scripts -->
     <script src="~/Content/js/jquery.min.js"></script>
     <script src="~/Content/js/browser.min.js"></script>
@@ -321,12 +436,14 @@
     <script src="~/Content/js/util.js"></script>
     <script src="~/Content/js/main.js"></script>
     <script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
 
     @RenderSection("Scripts", required: false)
 
 
     <!--恩旗-->
-<script>
+    <script>
     $(window).on("unload", function () {
         $.cookies.del('.ASPXAUTH');
     });
@@ -392,12 +509,51 @@
             $('.ui-dialog button').mousedown(function (e) {
                 e.preventDefault();
             });
+
         } else if (!dialogShown && programFrozen != null && programFrozen > -1) {
             alertProgramFrozen(programFrozen);
         }
-    });
 
-    
+
+        //====================================================
+        //For CustomerService
+
+        $.ajax({
+            url: "/FrontContact/IsConnected",
+            type: "POST"
+        }).done(function (data) {
+            if (data.IsConnected) {
+                $("#chatPanel").css("display", "flex");
+                connect();
+            }
+        });
+
+        $("#collapse").click(function () {
+            if ($("#collapse i.fa-minus").length != 0) {
+
+                $(".chatBody").fadeOut(100, function () {
+                    $("#chatPanel").animate({ height: 40 }, function () {
+                        $(".chatFooter").fadeOut(0, function () {
+                            $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
+                        });
+                    });
+                })
+            } else {
+                $("#chatPanel").animate({ height: 400 }, function () {
+                    $(".chatFooter").fadeIn(600, function () {
+                        $("#collapse i").removeClass("fas fa-plus").addClass("fas fa-minus");
+                        $(".chatBody").fadeIn();
+                    });
+                });
+            }
+        });
+
+        $("#showContact").click(function () {
+            $("#chatPanel").css("display", "flex");
+            connect();
+        });
+        //=============================================================
+    });
 
     function alertProgramFrozen(programFrozen) {
         $("#programFrozen span").text(programFrozen);
@@ -489,7 +645,117 @@
             e.preventDefault();
         });
     }
-</script>
-    <!--====================================-->
+
+    //===================================================
+    function connect() {
+        var chat = $.connection.chatHub;
+
+        chat.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
+            writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image)
+            let chatBox = document.getElementById("serviceChatBox");
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        $.connection.hub.start().done(function () {
+            $.ajax({
+                url: "/FrontContact/AddToServiceGroup",
+                type: "POST",
+                data: {
+                    connId: $.connection.hub.id
+                }
+            }).done(function (data) {
+                alert(data.Result);
+                $("#serviceGroupId").val(data.GroupId);
+                LoadMessagesForService();
+            });
+
+            $("#sendmessage").click(function () {
+
+                if ($("#message").val() == "") {
+                    alert("請輸入訊息");
+                    return;
+                }
+
+                $.ajax({
+                    url: "/FrontContact/SendMessage",
+                    type: "POST",
+                    data: {
+                        connId: $.connection.hub.id,
+                        groupId: $("#serviceGroupId").val(),
+                        message: $("#message").val()
+                    }
+                });
+            });
+
+        });
+    }
+
+    function writeForService(userName, message, isSelf, timeStamp, image) {
+
+        if (isSelf) {
+            let dialogDiv = $("<div></div>").addClass("messageRow");
+
+            $("<div></div>").css("flex-basis", "100%")
+                .append($("<span></span>").css("float", "left").text(userName))
+                .append($("<span></span>").css("float", "right").text(timeStamp))
+                .appendTo(dialogDiv);
+
+            $("<img/>").addClass("myImage")
+                .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                .appendTo(dialogDiv);
+
+            $("<div></div>").addClass("selfText").css("margin-right", "auto")
+                .css("background-color", "plum").css("color", "white").css("border-color", "plum")
+                .html(message)
+                .appendTo(dialogDiv);
+
+            $("#serviceChatBox").append(dialogDiv);
+
+        } else {
+            let dialogDiv = $("<div></div>").addClass("messageRow");;
+
+            $("<div></div>").css("flex-basis", "100%")
+                .append($("<span></span>").css("float", "right").text(userName))
+                .append($("<span></span>").css("float", "left").text(timeStamp))
+                .appendTo(dialogDiv);
+
+            $("<div></div>").addClass("otherText").css("margin-left", "auto")
+                .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
+                .html(message)
+                .appendTo(dialogDiv);
+
+            $("<img/>").addClass("myImage")
+                .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                .appendTo(dialogDiv);
+
+            $("#serviceChatBox").append(dialogDiv);
+        }
+
+    }
+
+    //todo Load Group Messages
+    function LoadMessagesForService() {
+        if ($("#serviceGroupId").val() != "") {
+            $.ajax({
+                url: "/FrontContact/GetGroupMsgs",
+                type: "POST",
+                data: {
+                    groupId: $("#serviceGroupId").val()
+                },
+                success: function (data) {
+
+                    $("#serviceChatBox").html("");
+
+                    $.each(data, function (i, msg) {
+                        writeForService(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
+                    });
+
+                    let chatBox = document.getElementById("serviceChatBox");
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+            });
+        }
+    }
+    </script>
 </body>
 </html>

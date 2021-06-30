@@ -45,11 +45,11 @@
             <div class="card-header button primary" style="cursor:default; pointer-events:none">
                 <h3 class="card-title" style="color:white">聯絡客服</h3>
             </div>
-            <input type="hidden" id="groupId" />
+            <input type="hidden" id="serviceGroupId" />
 
             <div class="card-body">
                 <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages" id="chatbox" style="margin:10px; padding:10px">
+                <div class="direct-chat-messages" id="serviceChatBox" style="margin:10px; padding:10px">
                 </div>
                 @*<div class="direct-chat-msg right" id="adminbox">
                 </div>*@
@@ -89,7 +89,7 @@
             chat.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
                 write(userName, message, $.connection.hub.id == connId, timeStamp, image)
 
-                let chatBox = document.getElementById("chatbox");
+                let chatBox = document.getElementById("serviceChatBox");
                 chatBox.scrollTop = chatBox.scrollHeight;
             }
 
@@ -104,7 +104,7 @@
                     },
                     success: function (data) {
                         alert(data.Result);
-                        $("#groupId").val(data.GroupId);
+                        $("#serviceGroupId").val(data.GroupId);
                         LoadMessages();
                     }
                 });
@@ -121,7 +121,7 @@
                         type: "POST",
                         data: {
                             connId: $.connection.hub.id,
-                            groupId: $("#groupId").val(),
+                            groupId: $("#serviceGroupId").val(),
                             message: $("#message").val()
                         }
                     });
@@ -148,7 +148,7 @@
                     .html(message)
                     .appendTo(dialogDiv);
 
-                $("#chatbox").append(dialogDiv);
+                $("#serviceChatBox").append(dialogDiv);
 
             } else {
                 let dialogDiv = $("<div></div>").addClass("direct-chat-msg right");
@@ -167,29 +167,29 @@
                     .html(message)
                     .appendTo(dialogDiv);
 
-                $("#chatbox").append(dialogDiv);
+                $("#serviceChatBox").append(dialogDiv);
             }
 
         }
 
         //todo Load Group Messages
         function LoadMessages() {
-            if ($("#groupId").val() != "") {
+            if ($("#serviceGroupId").val() != "") {
                 $.ajax({
                     url: "GetGroupMsgs",
                     type: "POST",
                     data: {
-                        groupId: $("#groupId").val()
+                        groupId: $("#serviceGroupId").val()
                     },
                     success: function (data) {
 
-                        $("#chatbox").html("");
+                        $("#serviceChatBox").html("");
 
                         $.each(data, function (i, msg) {
                             write(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
                         });
 
-                        let chatBox = document.getElementById("chatbox");
+                        let chatBox = document.getElementById("serviceChatBox");
                         chatBox.scrollTop = chatBox.scrollHeight;
                     }
                 });

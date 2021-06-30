@@ -311,7 +311,8 @@ namespace UI.Controllers
         {
             int gId = int.Parse(groupId);
 
-            var msgList = dbContext.GroupChats.Where(gc => gc.GroupID == gId).OrderBy(gc => gc.TimeStamp).ToList()
+            var msgList = dbContext.GroupChats.Where(gc => gc.GroupID == gId
+                && !gc.Group.IsService).OrderBy(gc => gc.TimeStamp).ToList()
                 .Select(gc => 
                 {
                     List<string> connIds = UserStatic.UserChatGroups[groupId].GroupMembers

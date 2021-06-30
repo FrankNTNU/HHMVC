@@ -215,7 +215,8 @@ namespace UI.Controllers
 
         public JsonResult GetGroupMsgs(string groupId)
         {
-            var msgList = dbContext.GroupChats.Where(gc => gc.GroupID.ToString() == groupId)
+            var msgList = dbContext.GroupChats.Where(gc => gc.GroupID.ToString() == groupId
+                && gc.Group.IsService)
                 .OrderBy(gc => gc.TimeStamp).ToList()
                 .Select(gc =>
                 {
@@ -265,5 +266,19 @@ namespace UI.Controllers
 
             return Json(msgList);
         }
+
+        [HttpPost]
+        public JsonResult IsConnected()
+        {
+            foreach (string groupId in UserStatic.ServiceGroups.Keys.ToList())
+            {
+                if (UserStatic.ServiceGroups[groupId].GroupName == User.Identity.Name)
+                {
+                    return Json(new { IsConnected = true });
+                }
+            }
+            return Json(new { IsConnected = false });
+        }
+
     }
 }

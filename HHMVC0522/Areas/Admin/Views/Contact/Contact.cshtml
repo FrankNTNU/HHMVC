@@ -69,11 +69,11 @@
                     <div class="card-header " style="cursor: default; pointer-events: none; background-color: #007bff ">
                         <h3 id="dialogTitle" class="card-title mb-0" style="color:white;padding:5px">聯絡客服：</h3>
                     </div>
-                    <input type="hidden" id="groupId" />
+                    <input type="hidden" id="serviceGroupId" />
 
                     <div id="dialogContainer" class="card-body" style="padding:0px">
                         <!-- Conversations are loaded here -->
-                        <div class="direct-chat-messages" id="chatbox" style="margin: 10px; padding:10px">
+                        <div class="direct-chat-messages" id="serviceChatBox" style="margin: 10px; padding:10px">
 
 
 
@@ -124,11 +124,11 @@
             var chat = $.connection.chatHub;
             chat.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
 
-                if ($("#groupId").val() == groupId) {
+                if ($("#serviceGroupId").val() == groupId) {
 
                     write(userName, message, $.connection.hub.id == connId, timeStamp, image)
 
-                    let chatBox = document.getElementById("chatbox");
+                    let chatBox = document.getElementById("serviceChatBox");
                     chatBox.scrollTop = chatBox.scrollHeight;
 
                 } else if ($.inArray(groupId, notRead) == -1) {
@@ -161,7 +161,7 @@
                         return;
                     }
 
-                    if ($("#groupId").val() == "") {
+                    if ($("#serviceGroupId").val() == "") {
                         alert("尚未連線");
                         return;
                     }
@@ -171,7 +171,7 @@
                         type: "POST",
                         data: {
                             connId: $.connection.hub.id,
-                            groupId: $("#groupId").val(),
+                            groupId: $("#serviceGroupId").val(),
                             message: $("#message").val()
                         }
                     });
@@ -201,7 +201,7 @@
                     .html(message)
                     .appendTo(dialogDiv);
 
-                $("#chatbox").append(dialogDiv);
+                $("#serviceChatBox").append(dialogDiv);
 
             } else {
                 let dialogDiv = $("<div></div>").addClass("direct-chat-msg right");
@@ -220,7 +220,7 @@
                     .html(message)
                     .appendTo(dialogDiv);
 
-                $("#chatbox").append(dialogDiv);
+                $("#serviceChatBox").append(dialogDiv);
             }
 
         }
@@ -231,7 +231,7 @@
             console.log(notRead);
 
             let groupId = $(this).parent().prev().prev().text();
-            $("#groupId").val(groupId);
+            $("#serviceGroupId").val(groupId);
 
             let userName = $(this).parent().prev().text();
             $("#dialogTitle").text(`聯絡客服：${userName}`);
@@ -311,7 +311,7 @@
 
                     if (result.length == 0) {
                         $("#dialogTitle").text("聯絡客服：");
-                        $("#chatbox").html("");
+                        $("#serviceChatBox").html("");
                     }
                 }
             })
@@ -319,22 +319,22 @@
 
         //todo Load Group Messages
         function LoadMessages() {
-            if ($("#groupId").val() != "") {
+            if ($("#serviceGroupId").val() != "") {
                 $.ajax({
                     url: "GetGroupMsgs",
                     type: "POST",
                     data: {
-                        groupId: $("#groupId").val()
+                        groupId: $("#serviceGroupId").val()
                     },
                     success: function (data) {
 
-                        $("#chatbox").html("");
+                        $("#serviceChatBox").html("");
 
                         $.each(data, function (i, msg) {
                             write(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
                         });
 
-                        let chatBox = document.getElementById("chatbox");
+                        let chatBox = document.getElementById("serviceChatBox");
                         chatBox.scrollTop = chatBox.scrollHeight;
                     }
                 });

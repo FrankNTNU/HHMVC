@@ -152,7 +152,8 @@ namespace UI.Areas.Admin.Controllers
 
         public JsonResult GetGroupMsgs(string groupId)
         {
-            var msgList = dbContext.GroupChats.Where(gc => gc.GroupID.ToString() == groupId)
+            var msgList = dbContext.GroupChats.Where(gc => gc.GroupID.ToString() == groupId
+                && gc.Group.IsService)
                 .OrderBy(gc => gc.TimeStamp).ToList()
                 .Select(gc =>
                 {
