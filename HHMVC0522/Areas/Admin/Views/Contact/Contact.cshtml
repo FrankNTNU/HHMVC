@@ -7,10 +7,19 @@
 @using DTO
 @section Styles {
     <link href="~/Areas/Admin/Content/CSS/adminlte.min.css" rel="stylesheet" />
-
-
     <link href="~/Content/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <style>
+        .direct-chat-messages .right > .direct-chat-text::after {
+            border-left-color: #f56a6a;
+            color: #f56a6a;
+        }
+
+        .direct-chat-messages :not(.right) > .direct-chat-text::before {
+            border-right-color: plum;
+            color: plum;
+        }
+    </style>
     
 }
 <section class="content-header">
@@ -75,13 +84,10 @@
                         <!-- Conversations are loaded here -->
                         <div class="direct-chat-messages" id="serviceChatBox" style="margin: 10px; padding:10px">
 
-
-
-
                         </div>
-                        <div class="direct-chat-msg right" id="adminbox" style="margin: 10px">
+                        @*<div class="direct-chat-msg right" id="adminbox" style="margin: 10px">
 
-                        </div>
+                        </div>*@
                     </div>
 
                     <div class="card-footer">

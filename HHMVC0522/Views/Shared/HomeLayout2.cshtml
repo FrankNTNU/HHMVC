@@ -109,6 +109,15 @@
         text-align: center;
     }
 
+    #closePanel {
+        background-color: white;
+        color: #f56a6a;
+        padding: 5px 7px;
+        line-height: 1em;
+        height: calc(1em + 10px);
+        text-align: center;
+    }
+
     .chatBody {
         border-bottom: solid 1px gray;
         flex-basis: 100%;
@@ -416,6 +425,9 @@
             <div id="collapse" class="button">
                 <i class="fas fa-minus"></i>
             </div>
+            <div id="closePanel" class="button">
+                <i class="fas fa-times"></i>
+            </div>
         </div>
         <div class="chatBody">
             <input type="hidden" id="serviceGroupId"/>
@@ -532,7 +544,7 @@
             if ($("#collapse i.fa-minus").length != 0) {
 
                 $(".chatBody").fadeOut(100, function () {
-                    $("#chatPanel").animate({ height: 40 }, function () {
+                    $("#chatPanel").animate({ height: 45 }, function () {
                         $(".chatFooter").fadeOut(0, function () {
                             $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
                         });
@@ -548,9 +560,20 @@
             }
         });
 
+        $("#closePanel").click(function () {
+            $("#chatPanel").css("display", "none");
+        });
+
         $("#showContact").click(function () {
             $("#chatPanel").css("display", "flex");
-            connect();
+            $.ajax({
+                url: "/FrontContact/IsConnected",
+                type: "POST"
+            }).done(function (data) {
+                if (!data.IsConnected) {
+                    connect();
+                }
+            });
         });
         //=============================================================
     });
