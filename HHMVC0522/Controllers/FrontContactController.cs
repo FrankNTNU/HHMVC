@@ -195,20 +195,9 @@ namespace UI.Controllers
 
             if (admins.Count == 0)
             {
-                string answer = await GetAnsFromKB(message);
+                Task<string> answerTask = GetAnsFromKB(message);
 
-                Context.Clients.Group(groupId)
-                    .receive("", "客服人員", answer, timeStamp.ToString("M/d HH:mm"), "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png", groupId);
-
-                dbContext.GroupChats.Add(new GroupChat
-                {
-                    GroupID = int.Parse(groupId),
-                    MemberID = null,
-                    Message = answer,
-                    TimeStamp = timeStamp
-                });
-
-                dbContext.SaveChanges();
+                await ReplyByOnAMaker(answerTask, groupId, timeStamp);
             }
 
         }
@@ -278,6 +267,27 @@ namespace UI.Controllers
                 }
             }
             return Json(new { IsConnected = false });
+        }
+
+        [NonAction]
+        private async Task ReplyByOnAMaker(Task<string> answerTask, string groupId, DateTime timeStamp)
+        {
+            string answer = await answerTask;
+
+            var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+
+            Context.Clients.Group(groupId)
+                    .receive("", "客服人員", answer, timeStamp.ToString("M/d HH:mm"), "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png", groupId);
+
+            dbContext.GroupChats.Add(new GroupChat
+            {
+                GroupID = int.Parse(groupId),
+                MemberID = null,
+                Message = answer,
+                TimeStamp = timeStamp
+            });
+
+            dbContext.SaveChanges();
         }
 
     }
