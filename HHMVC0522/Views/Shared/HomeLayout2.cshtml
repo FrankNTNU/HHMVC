@@ -110,6 +110,16 @@
         text-align: center;
     }
 
+    .notReadText {
+        width:80%;
+        text-align:center;
+        font-size:0.5em;
+        color:white;
+        background-color: lightgray;
+        border-radius:5px;
+        margin: 5px auto;
+    }
+
     #collapse {
         background-color: white;
         color: #f56a6a;
@@ -135,8 +145,10 @@
     }
 
     #serviceChatBox{
+        position:relative;
         height:290px;
         overflow:auto;
+        scroll-behavior:smooth;
     }
 
     .messageRow {
@@ -186,6 +198,7 @@
         position: absolute;
         right: -9px;
     }
+
     @*============================================*@
 
         a.toggle {
@@ -562,6 +575,7 @@
                     $("#chatPanel").animate({ height: 45 }, function () {
                         $(".chatFooter").fadeOut(0, function () {
                             $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
+                            $(".notReadText").remove();
                         });
                     });
                 })
@@ -569,10 +583,16 @@
                 $("#chatPanel").animate({ height: 400 }, function () {
                     $(".chatFooter").fadeIn(600, function () {
                         $("#collapse i").removeClass("fas fa-plus").addClass("fas fa-minus");
-                        $(".chatBody").fadeIn();
-                        $("#notRead").css("visibility", "hidden");
-                        notReadCount = 0;
-                        SetNotReadCountSession(notReadCount);
+                        $(".chatBody").fadeIn(function () {
+                            if ($(".notReadText").length != 0) {
+                                let chatBox = document.getElementById("serviceChatBox");
+                                chatBox.scrollTop += $(".notReadText").position().top;
+                            }
+                            $("#notRead").css("visibility", "hidden");
+                            notReadCount = 0;
+                            SetNotReadCountSession(notReadCount);
+                        });
+                        
                     });
                 });
             }
@@ -696,15 +716,22 @@
         var chat = $.connection.chatHub;
 
         chat.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
-            writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image)
+            
             if ($("#collapse i.fa-minus").length == 0) {
+                if (notReadCount == 0) {
+                    appendNotRead();
+                }
+                writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image)
+                
                 //=============================================
                 notReadCount++;
                 SetNotReadCountSession(notReadCount);
                 $("#notRead span").text(notReadCount);
                 //==============================================
                 $("#notRead").css("visibility", "visible")
+                blink();
             } else {
+                writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image)
                 let chatBox = document.getElementById("serviceChatBox");
                 chatBox.scrollTop = chatBox.scrollHeight;
             }
@@ -767,6 +794,7 @@
 
             $("#serviceChatBox").append(dialogDiv);
 
+
         } else {
             let dialogDiv = $("<div></div>").addClass("messageRow");;
 
@@ -785,6 +813,8 @@
                 .appendTo(dialogDiv);
 
             $("#serviceChatBox").append(dialogDiv);
+
+
         }
 
     }
@@ -800,17 +830,20 @@
                 },
                 success: function (data) {
 
-                    console.log(data.length - notReadCount - 1);
-
                     $("#serviceChatBox").html("");
 
                     $.each(data, function (i, msg) {
-                        writeForService(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
-                        if (i == (data.length - notReadCount - 1)) {
-                            let chatBox = document.getElementById("serviceChatBox");
-                            chatBox.scrollTop = chatBox.scrollHeight;
+                        if (i == (data.length - notReadCount)) {
+                            appendNotRead();
                         }
+                        writeForService(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
+                        
                     });
+
+                    if ($(".notReadText").length != 0) {
+                        let chatBox = document.getElementById("serviceChatBox");
+                        chatBox.scrollTop += $(".notReadText").position().top;
+                    }
                 }
             });
         }
@@ -825,6 +858,17 @@
                 notReadCount: notReadCount
             }
         });
+    }
+
+    function blink() {
+        $("#notRead").fadeOut(500).fadeIn(500, blink);
+    }
+
+    function appendNotRead() {
+
+        let NotReadDiv = $("<div></div>").addClass("notReadText").append("以下為未讀訊息");
+
+        $("#serviceChatBox").append(NotReadDiv);
     }
 </script>
 </body>
