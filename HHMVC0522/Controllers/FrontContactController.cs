@@ -16,7 +16,8 @@ using System.Threading.Tasks;
 namespace UI.Controllers
 {
     [System.Web.Mvc.Authorize]
-    public class FrontContactController : Controller
+    [System.Web.Mvc.SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
+    public class FrontContactController : AsyncController
     {
         HealthHelperEntities dbContext = new HealthHelperEntities();
         Random rn = new Random();
@@ -197,7 +198,7 @@ namespace UI.Controllers
             {
                 Task<string> answerTask = GetAnsFromKB(message);
 
-                await ReplyByOnAMaker(answerTask, groupId, timeStamp);
+                await Task.Run(() => ReplyByOnAMaker(answerTask, groupId, timeStamp));
             }
 
         }
@@ -270,9 +271,9 @@ namespace UI.Controllers
         }
 
         [NonAction]
-        private async Task ReplyByOnAMaker(Task<string> answerTask, string groupId, DateTime timeStamp)
+        private void ReplyByOnAMaker(Task<string> answerTask, string groupId, DateTime timeStamp)
         {
-            string answer = await answerTask;
+            string answer = answerTask.Result;
 
             var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
