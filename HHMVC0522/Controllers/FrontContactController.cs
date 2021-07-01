@@ -108,7 +108,11 @@ namespace UI.Controllers
             {
                 if (UserStatic.ServiceGroups[groupId].GroupName == User.Identity.Name)
                 {
-                   return Json(new { Result = "Reconnect to old group", GroupId = groupId });
+                   return Json(new 
+                   { 
+                       Result = "Reconnect to old group", 
+                       GroupId = groupId
+                   });
                 }
             }
 
@@ -291,5 +295,10 @@ namespace UI.Controllers
             dbContext.SaveChanges();
         }
 
+        [HttpPost]
+        public void SetNotReadCountSession(int notReadCount)
+        {
+            Session["NotReadCount"] = notReadCount;
+        }
     }
 }

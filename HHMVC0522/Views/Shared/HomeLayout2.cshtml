@@ -99,8 +99,18 @@
         margin:0px;
     }
 
-    #collapse {
+    #notRead {
+        visibility:hidden;
         margin-left: auto;
+        background-color: white;
+        color: #f56a6a;
+        padding: 5px 7px;
+        line-height: 1em;
+        height: calc(1em + 10px);
+        text-align: center;
+    }
+
+    #collapse {
         background-color: white;
         color: #f56a6a;
         padding: 5px;
@@ -422,6 +432,9 @@
     <div id="chatPanel" style="display:none">
         <div class="chatHeader">
             <div>聯絡客服：</div>
+            <div id="notRead" class="button">
+                <span></span>
+            </div>
             <div id="collapse" class="button">
                 <i class="fas fa-minus"></i>
             </div>
@@ -455,7 +468,7 @@
 
 
     <!--恩旗-->
-    <script>
+<script>
     $(window).on("unload", function () {
         $.cookies.del('.ASPXAUTH');
     });
@@ -463,6 +476,9 @@
     //=====================================================
     //恩旗
     //Show NoWeightLog dialog
+
+    let notReadCount = 0;
+
     $(function () {
         var getPoints = @Json.Encode(Session["GotPoints"]);
         var noWeightLog = @Json.Encode(Session["NoWeightLog"]);
@@ -542,7 +558,6 @@
 
         $("#collapse").click(function () {
             if ($("#collapse i.fa-minus").length != 0) {
-
                 $(".chatBody").fadeOut(100, function () {
                     $("#chatPanel").animate({ height: 45 }, function () {
                         $(".chatFooter").fadeOut(0, function () {
@@ -555,6 +570,9 @@
                     $(".chatFooter").fadeIn(600, function () {
                         $("#collapse i").removeClass("fas fa-plus").addClass("fas fa-minus");
                         $(".chatBody").fadeIn();
+                        $("#notRead").css("visibility", "hidden");
+                        notReadCount = 0;
+                        SetNotReadCountSession(notReadCount);
                     });
                 });
             }
@@ -571,6 +589,8 @@
                 type: "POST"
             }).done(function (data) {
                 if (!data.IsConnected) {
+                    notReadCount = 0;
+                    SetNotReadCountSession(notReadCount);
                     connect();
                 }
             });
@@ -670,13 +690,24 @@
     }
 
     //===================================================
+
     function connect() {
+
         var chat = $.connection.chatHub;
 
         chat.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
             writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image)
-            let chatBox = document.getElementById("serviceChatBox");
-            chatBox.scrollTop = chatBox.scrollHeight;
+            if ($("#collapse i.fa-minus").length == 0) {
+                //=============================================
+                notReadCount++;
+                SetNotReadCountSession(notReadCount);
+                $("#notRead span").text(notReadCount);
+                //==============================================
+                $("#notRead").css("visibility", "visible")
+            } else {
+                let chatBox = document.getElementById("serviceChatBox");
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
         }
 
         $.connection.hub.start().done(function () {
@@ -689,7 +720,9 @@
             }).done(function (data) {
                 alert(data.Result);
                 $("#serviceGroupId").val(data.GroupId);
-                LoadMessagesForService();
+                LoadMessagesForService(@Json.Encode(Session["NotReadCount"]));
+                notReadCount = 0;
+                SetNotReadCountSession(notReadCount);
             });
 
             $("#sendmessage").click(function () {
@@ -757,7 +790,7 @@
     }
 
     //todo Load Group Messages
-    function LoadMessagesForService() {
+    function LoadMessagesForService(notReadCount) {
         if ($("#serviceGroupId").val() != "") {
             $.ajax({
                 url: "/FrontContact/GetGroupMsgs",
@@ -767,18 +800,32 @@
                 },
                 success: function (data) {
 
+                    console.log(data.length - notReadCount - 1);
+
                     $("#serviceChatBox").html("");
 
                     $.each(data, function (i, msg) {
                         writeForService(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
+                        if (i == (data.length - notReadCount - 1)) {
+                            let chatBox = document.getElementById("serviceChatBox");
+                            chatBox.scrollTop = chatBox.scrollHeight;
+                        }
                     });
-
-                    let chatBox = document.getElementById("serviceChatBox");
-                    chatBox.scrollTop = chatBox.scrollHeight;
                 }
             });
         }
     }
-    </script>
+
+    function SetNotReadCountSession(notReadCount)
+    {
+        $.ajax({
+            url: "/FrontContact/SetNotReadCountSession",
+            type: "POST",
+            data: {
+                notReadCount: notReadCount
+            }
+        });
+    }
+</script>
 </body>
 </html>
