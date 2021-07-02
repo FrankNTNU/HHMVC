@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="~/Content/css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui-scrollbar/jquery.scrollbar.css" rel="stylesheet" />
 
     @RenderSection("Styles", required: false)
 
@@ -144,11 +145,15 @@
         background-color:white;
     }
 
-    #serviceChatBox{
-        position:relative;
-        height:290px;
-        overflow:auto;
-        scroll-behavior:smooth;
+    .scrollbar-outer.service-chat-box {
+        height: 290px;
+    }
+
+    #serviceChatBox {
+        position: relative;
+        height: 290px;
+        overflow: auto;
+        scroll-behavior: smooth;
     }
 
     .messageRow {
@@ -370,7 +375,7 @@
                                     <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-pen-nib" style="width:30px"></i> 參加挑戰</a></li>
                                     <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-running" style="width:30px"></i> 我的挑戰</a></li>
                                     <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 過去挑戰</a></li>
-                                    @if ((bool)Session["InProgram"])
+                                    @if (Session["InProgram"] != null && (bool)Session["InProgram"])
                                     {
                                         <li><a href="~/ChatGroup/GroupChat" style="text-decoration:none"><i class="fas fa-sms" style="width:30px"></i>減重聊天群</a></li>
                                     }
@@ -459,11 +464,11 @@
         <div class="chatBody">
             <input type="hidden" id="serviceGroupId" />
             <!-- Conversations are loaded here -->
-            <div id="serviceChatBox" class="direct-chat-messages">
+            <div id="serviceChatBox" class="direct-chat-messages scrollbar-outer service-chat-box">
             </div>
         </div>
         <div class="chatFooter">
-            <input id="message" type="text" name="message" placeholder="在此輸入訊息">
+            <input id="serviceMessage" type="text" name="message" placeholder="在此輸入訊息">
             <div id="sendmessage" class="button primary">送出</div>
         </div>
     </div>
@@ -475,6 +480,7 @@
     <script src="~/Content/js/util.js"></script>
     <script src="~/Content/js/main.js"></script>
     <script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script src="~/Content/jquery-ui-scrollbar/jquery.scrollbar.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
 
@@ -482,7 +488,7 @@
 
 
     <!--恩旗-->
-<script>
+    <script>
     $(window).on("unload", function () {
         $.cookies.del('.ASPXAUTH');
     });
@@ -560,6 +566,8 @@
         //====================================================
         //For CustomerService
 
+        $(".scrollbar-outer").scrollbar();
+
         $.ajax({
             url: "/FrontContact/IsConnected",
             type: "POST"
@@ -593,7 +601,7 @@
                             notReadCount = 0;
                             SetNotReadCountSession(notReadCount);
                         });
-                        
+
                     });
                 });
             }
@@ -717,13 +725,13 @@
         var chat = $.connection.chatHub;
 
         chat.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
-            
+
             if ($("#collapse i.fa-minus").length == 0) {
                 if (notReadCount == 0) {
                     appendNotRead();
                 }
                 writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image)
-                
+
                 //=============================================
                 notReadCount++;
                 SetNotReadCountSession(notReadCount);
@@ -766,7 +774,7 @@
                     data: {
                         connId: $.connection.hub.id,
                         groupId: $("#serviceGroupId").val(),
-                        message: $("#message").val()
+                        message: $("#serviceMessage").val()
                     }
                 });
             });
@@ -838,7 +846,7 @@
                             appendNotRead();
                         }
                         writeForService(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
-                        
+
                     });
 
                     if ($(".notReadText").length != 0) {
@@ -871,6 +879,6 @@
 
         $("#serviceChatBox").append(NotReadDiv);
     }
-</script>
+    </script>
 </body>
 </html>

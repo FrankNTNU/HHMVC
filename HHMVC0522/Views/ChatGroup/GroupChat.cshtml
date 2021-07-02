@@ -112,6 +112,10 @@
         #members {
             padding:5px;
         }
+
+        .scrollbar-outer.chat-groups, .scrollbar-outer.chat-members {
+            height:162px;
+        }
     </style>
 }
 
@@ -134,11 +138,11 @@
     <div class="myBox col-md-4" style="display:flex; flex-direction:column">
         <div class="myInnerBox" style="margin-bottom:30px">
             <div id="groupsTitle">群組</div>
-            <div id="groups"></div>
+            <div id="groups" class="scrollbar-outer chat-groups"></div>
         </div>
         <div class="myInnerBox">
             <div id="membersTitle">群組成員</div>
-            <div id="members"></div>
+            <div id="members" class="scrollbar-outer chat-members"></div>
         </div>
     </div>
     <div class="col-md-8 myBox">
@@ -153,7 +157,6 @@
                     <!-- Conversations are loaded here -->
                     <div class="direct-chat-messages" id="chatbox" style="margin:10px; padding:10px">
                     </div>
-                    @*<div class="direct-chat-msg right" id="adminbox"></div>*@
                 </div>
                 <div class="card-footer">
                     <div class="input-group">
@@ -190,11 +193,7 @@
 
         $(function () {
 
-            //let initialWeight = @ViewBag.InitialWeight;
-
-            //$(window).on("unload", function () {
-            //    $.connection.hub.stop();
-            //});
+            $(".scrollbar-outer").scrollbar();
 
             var chat = $.connection.groupChatHub;
 
@@ -268,6 +267,11 @@
 
                                 if ($("#groupName").val() == "") {
                                     alert("請輸入聊天群名稱");
+                                    return;
+                                }
+
+                                if ($("#groupName").val().length > 8) {
+                                    alert("聊天群名稱須為8個字以內");
                                     return;
                                 }
 

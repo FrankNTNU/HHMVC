@@ -328,6 +328,14 @@
     @RenderSection("Scripts", false)
 
     <script>
+
+        //==================================
+        //恩旗
+        $(window).on("unload", function () {
+            $.cookies.del('.ASPXAUTH');
+        });
+        //==================================
+
         $(function () {
             $("#example1").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,

@@ -34,7 +34,7 @@ namespace UI.Areas.Admin.Controllers
                     Session["ID"] = user.ID;
                     if (user.IsAdmin)
                     {
-                        FormsAuthentication.RedirectFromLoginPage(user.ID.ToString(), true);
+                        FormsAuthentication.RedirectFromLoginPage(user.ID.ToString(), false);
                         return RedirectToAction("UserList", "User");
                     }
                     else
