@@ -385,8 +385,8 @@ namespace UI.Controllers
             vm.TimeOfDay = dbContext.TimesOfDays
                 .OrderBy(tod => tod.ID).Select(tod => tod.Name).ToList();
 
-            decimal warning = (nowIngest - nowConsume) / TDEE(dbContext, UserID);
-            vm.Warning = $"為TDEE的 {warning:0.00}%";
+            decimal warning = (nowIngest - nowConsume) / TDEE(dbContext, UserID) * 100;
+            vm.Warning = $"為TDEE的 {warning:##0}%";
 
             //===========================================================
             //SuggestionByPreferences
@@ -496,6 +496,7 @@ namespace UI.Controllers
 
             return View(vm);
         }
+
 
         [NonAction]
         private decimal ingestPerTime(string dayString, int timeOfDay)
