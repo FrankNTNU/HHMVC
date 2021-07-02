@@ -113,8 +113,9 @@
             padding:5px;
         }
 
-        .scrollbar-outer.chat-groups, .scrollbar-outer.chat-members {
+        .chat-groups, .chat-members {
             height:162px;
+            overflow:auto;
         }
     </style>
 }
@@ -138,11 +139,15 @@
     <div class="myBox col-md-4" style="display:flex; flex-direction:column">
         <div class="myInnerBox" style="margin-bottom:30px">
             <div id="groupsTitle">群組</div>
-            <div id="groups" class="scrollbar-outer chat-groups"></div>
+            <div id="groups" class="chat-groups">
+
+            </div>
         </div>
         <div class="myInnerBox">
             <div id="membersTitle">群組成員</div>
-            <div id="members" class="scrollbar-outer chat-members"></div>
+            <div id="members" class="chat-members">
+
+            </div>
         </div>
     </div>
     <div class="col-md-8 myBox">
@@ -193,7 +198,7 @@
 
         $(function () {
 
-            $(".scrollbar-outer").scrollbar();
+            
 
             var chat = $.connection.groupChatHub;
 

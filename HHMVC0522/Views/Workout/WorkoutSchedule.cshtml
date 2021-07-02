@@ -10,7 +10,7 @@
 {
 
     <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
-    @*<link href="~/Content/jquery-ui-scrollbar/jquery.scrollbar.css" rel="stylesheet" />*@
+    
     <style>
         .mainTitle {
             position: relative;
@@ -193,14 +193,18 @@
             padding: 0px 20px 20px 20px;
         }
 
-        .scrollbar-outer.scrollDiv1 {
+        .scrollDiv1 {
             height: 180px;
             width: 100%;
+            overflow:auto;
+            padding:0px;
         }
 
-        .scrollbar-outer.scrollDiv2 {
+        .scrollDiv2 {
             height: 325px;
             width: 100%;
+            overflow:auto;
+            padding:0px;
         }
 
         .scrollDownTitle {
@@ -309,14 +313,14 @@
                 <div class="myInnerBox" style="margin-bottom: 30px; padding: 0px">
                     <div id="checkTitle">今日運動排程</div>
                     <div id="checkRow" class="row innerRow">
-                        <div id="innerCheckRow" class="scrollbar-outer scrollDiv1">
+                        <div id="innerCheckRow" class="scrollDiv1">
                         </div>
                     </div>
                 </div>
                 <div class="myInnerBox" style="padding: 0px">
                     <div id="scheduleTitle">未來7天運動排程</div>
                     <div id="scheduleRow" class="row innerRow">
-                        <div id="innerSchedulekRow" class="scrollbar-outer scrollDiv2">
+                        <div id="innerSchedulekRow" class="scrollDiv2">
                             <div class="scheduleBox">
                                 <div class="schedule tomorrow">
                                     <div class="title">明天</div>
@@ -460,7 +464,6 @@
     <script src="https://code.highcharts.com/highcharts-more.src.js"></script>
     <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
     @*<script src="https://code.highcharts.com/modules/exporting.js"></script>*@
-    @*<script src="~/Content/jquery-ui-scrollbar/jquery.scrollbar.min.js"></script>*@
 
     <script>
 
@@ -476,29 +479,13 @@
         $(function () {
 
             //==============================================================
-            //Scroll Bar
-            $(".scrollbar-outer").scrollbar();
-
-            $('.scrollbar-outer.scrollDiv1').scrollbar({
-                "onScroll": function (y, x) {
-                    if (y.scroll > 0) {
-                        $("#checkTitle").addClass("scrollDownTitle");
-                    } else if (y.scroll == 0) {
-                        $("#checkTitle").removeClass("scrollDownTitle");
-                    }
+            $(".scrollDiv1, .scrollDiv2").scroll(function () {
+                if ($(this).scrollTop() > 0) {
+                    $(this).parent().prev().addClass("scrollDownTitle");
+                } else {
+                    $(this).parent().prev().removeClass("scrollDownTitle");
                 }
             });
-
-            $('.scrollbar-outer.scrollDiv2').scrollbar({
-                "onScroll": function (y, x) {
-                    if (y.scroll > 0) {
-                        $("#scheduleTitle").addClass("scrollDownTitle");
-                    } else if (y.scroll == 0) {
-                        $("#scheduleTitle").removeClass("scrollDownTitle");
-                    }
-                }
-            });
-
             //==============================================================
             var form = $('#wsForm');
             token = $('input[name="__RequestVerificationToken"]', form).val();

@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="~/Content/css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
-    <link href="~/Content/jquery-ui-scrollbar/jquery.scrollbar.css" rel="stylesheet" />
+
 
     @RenderSection("Styles", required: false)
 
@@ -145,10 +145,6 @@
         background-color:white;
     }
 
-    .scrollbar-outer.service-chat-box {
-        height: 290px;
-    }
-
     #serviceChatBox {
         position: relative;
         height: 290px;
@@ -204,7 +200,24 @@
         right: -9px;
     }
 
-    @*============================================*@
+    @*ForScrollbar=====================================*@
+        /* width */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: rgb(224,224,224);
+            border-radius: 4px;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: rgba(245,106,106, 0.5);
+            border-radius: 4px;
+        }
+    @*=================================================*@
 
         a.toggle {
             color: red;
@@ -464,7 +477,7 @@
         <div class="chatBody">
             <input type="hidden" id="serviceGroupId" />
             <!-- Conversations are loaded here -->
-            <div id="serviceChatBox" class="direct-chat-messages scrollbar-outer service-chat-box">
+            <div id="serviceChatBox" class="direct-chat-messages">
             </div>
         </div>
         <div class="chatFooter">
@@ -480,7 +493,6 @@
     <script src="~/Content/js/util.js"></script>
     <script src="~/Content/js/main.js"></script>
     <script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-    <script src="~/Content/jquery-ui-scrollbar/jquery.scrollbar.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
 
@@ -488,7 +500,7 @@
 
 
     <!--恩旗-->
-<script>
+    <script>
     $(window).on("unload", function () {
         $.cookies.del('.ASPXAUTH');
     });
@@ -500,6 +512,8 @@
     let notReadCount = 0;
 
     $(function () {
+
+
 
         var getPoints = @Json.Encode(Session["GotPoints"]);
         var noWeightLog = @Json.Encode(Session["NoWeightLog"]);
@@ -567,8 +581,6 @@
         //====================================================
         //For CustomerService
 
-        $(".scrollbar-outer").scrollbar();
-
         $.ajax({
             url: "/FrontContact/IsConnected",
             type: "POST"
@@ -595,8 +607,6 @@
                         $("#collapse i").removeClass("fas fa-plus").addClass("fas fa-minus");
                         $(".chatBody").fadeIn(function () {
                             if ($(".notReadText").length != 0) {
-                                //console.log($("#serviceChatBox").scrollTop());
-                                //console.log($(".notReadText").position().top);
                                 $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
                             }
                             $("#notRead").css("visibility", "hidden");
@@ -743,8 +753,7 @@
                 blink();
             } else {
                 writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image)
-                let chatBox = document.getElementById("serviceChatBox");
-                chatBox.scrollTop = chatBox.scrollHeight;
+                $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
             }
         }
 
@@ -852,11 +861,7 @@
                     });
 
                     if ($(".notReadText").length != 0) {
-                        $(".scrollbar-outer").scrollbar();
-                        let scrollPos = $(".notReadText").position().top;
-                        $("#serviceChatBox").scrollTop(scrollPos);
-                        //console.log(scrollPos);
-                        //console.log($("#serviceChatBox").scrollTop());
+                        $("#serviceChatBox").scrollTop($(".notReadText").position().top);
                     }
                 }
             });
@@ -888,6 +893,6 @@
 
         $("#serviceChatBox").append(NotReadDiv);
     }
-</script>
+    </script>
 </body>
 </html>
