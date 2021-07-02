@@ -488,7 +488,7 @@
 
 
     <!--恩旗-->
-    <script>
+<script>
     $(window).on("unload", function () {
         $.cookies.del('.ASPXAUTH');
     });
@@ -500,6 +500,7 @@
     let notReadCount = 0;
 
     $(function () {
+
         var getPoints = @Json.Encode(Session["GotPoints"]);
         var noWeightLog = @Json.Encode(Session["NoWeightLog"]);
         var noPreferences = @Json.Encode(Session["NoPreferences"]);
@@ -594,12 +595,13 @@
                         $("#collapse i").removeClass("fas fa-plus").addClass("fas fa-minus");
                         $(".chatBody").fadeIn(function () {
                             if ($(".notReadText").length != 0) {
-                                let chatBox = document.getElementById("serviceChatBox");
-                                chatBox.scrollTop += $(".notReadText").position().top;
+                                //console.log($("#serviceChatBox").scrollTop());
+                                //console.log($(".notReadText").position().top);
+                                $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
                             }
                             $("#notRead").css("visibility", "hidden");
                             notReadCount = 0;
-                            SetNotReadCountSession(notReadCount);
+                            ResetNotReadCountSession();
                         });
 
                     });
@@ -619,7 +621,7 @@
             }).done(function (data) {
                 if (!data.IsConnected) {
                     notReadCount = 0;
-                    SetNotReadCountSession(notReadCount);
+                    ResetNotReadCountSession();
                     connect();
                 }
             });
@@ -734,7 +736,7 @@
 
                 //=============================================
                 notReadCount++;
-                SetNotReadCountSession(notReadCount);
+                SetNotReadCountSession();
                 $("#notRead span").text(notReadCount);
                 //==============================================
                 $("#notRead").css("visibility", "visible")
@@ -758,7 +760,7 @@
                 $("#serviceGroupId").val(data.GroupId);
                 LoadMessagesForService(@Json.Encode(Session["NotReadCount"]));
                 notReadCount = 0;
-                SetNotReadCountSession(notReadCount);
+                ResetNotReadCountSession();
             });
 
             $("#sendmessage").click(function () {
@@ -850,22 +852,29 @@
                     });
 
                     if ($(".notReadText").length != 0) {
-                        let chatBox = document.getElementById("serviceChatBox");
-                        chatBox.scrollTop += $(".notReadText").position().top;
+                        $(".scrollbar-outer").scrollbar();
+                        let scrollPos = $(".notReadText").position().top;
+                        $("#serviceChatBox").scrollTop(scrollPos);
+                        //console.log(scrollPos);
+                        //console.log($("#serviceChatBox").scrollTop());
                     }
                 }
             });
         }
     }
 
-    function SetNotReadCountSession(notReadCount)
+    function SetNotReadCountSession()
     {
         $.ajax({
             url: "/FrontContact/SetNotReadCountSession",
-            type: "POST",
-            data: {
-                notReadCount: notReadCount
-            }
+            type: "POST"
+        });
+    }
+
+    function ResetNotReadCountSession(){
+        $.ajax({
+            url: "/FrontContact/ResetNotReadCountSession",
+            type: "POST"
         });
     }
 
@@ -879,6 +888,6 @@
 
         $("#serviceChatBox").append(NotReadDiv);
     }
-    </script>
+</script>
 </body>
 </html>

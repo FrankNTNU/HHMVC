@@ -296,9 +296,23 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public void SetNotReadCountSession(int notReadCount)
+        public void SetNotReadCountSession()
         {
-            Session["NotReadCount"] = notReadCount;
+            if (Session["NotReadCount"] == null)
+            {
+                Session["NotReadCount"] = 1;
+            }
+            else
+            {
+                int notReadCount = (int)Session["NotReadCount"];
+                Session["NotReadCount"] = ++notReadCount;
+            }
+        }
+
+        [HttpPost]
+        public void ResetNotReadCountSession()
+        {
+            Session["NotReadCount"] = 0;
         }
     }
 }
