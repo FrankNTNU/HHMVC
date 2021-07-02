@@ -244,10 +244,10 @@
     {
         Session["dialogShown"] = false;
     }
-    //else
-    //{
-    //    Session["dialogShown"] = true;
-    //}
+    else
+    {
+        Session["dialogShown"] = true;
+    }
 
     if (!(bool)Session["dialogShown"])
     {
@@ -256,6 +256,7 @@
         Home2Controller.SetPreferencesSession(controller.HttpContext);
         Home2Controller.SetPointsSession(controller.HttpContext);
         Home2Controller.SetProgramFrozenSession(controller.HttpContext);
+        Home2Controller.SetInProgramSession(controller.HttpContext);
     }
 }
 

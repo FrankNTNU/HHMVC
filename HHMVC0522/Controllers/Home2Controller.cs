@@ -48,7 +48,6 @@ namespace UI.Controllers
                     //====================================
                     //恩旗
                     //Use RedirectFromLoginPage to redirect
-                    SetInProgramSession();
                     FormsAuthentication.RedirectFromLoginPage(user.ID.ToString(), false);
                     
                     return null;
@@ -144,9 +143,9 @@ namespace UI.Controllers
             DateTime today = DateTime.Now;
             DateTime d7b = DateTime.Now.Date.AddDays(-7);
 
-            int MemberID = (int)context.Session["ID"];
+            string UserID = context.User.Identity.Name;
 
-            var q1 = dbContext.WeightLogs.Where(wgt => wgt.MemberID == MemberID
+            var q1 = dbContext.WeightLogs.Where(wgt => wgt.MemberID.ToString() == UserID
                 && wgt.UpdatedDate <= today && wgt.UpdatedDate >= d7b);
             List<WeightLog> list = q1.ToList();
             if (list.Count == 0)
@@ -165,9 +164,9 @@ namespace UI.Controllers
         {
             HealthHelperEntities dbContext = new HealthHelperEntities();
 
-            int MemberID = (int)context.Session["ID"];
+            string UserID = context.User.Identity.Name;
 
-            var q1 = dbContext.WorkoutPreferences.Where(wp => wp.MemberID == MemberID);
+            var q1 = dbContext.WorkoutPreferences.Where(wp => wp.MemberID.ToString() == UserID);
 
             if (!q1.Any())
             {
@@ -184,11 +183,11 @@ namespace UI.Controllers
         {
             HealthHelperEntities dbContext = new HealthHelperEntities();
 
-            int MemberID = (int)context.Session["ID"];
+            string UserID = context.User.Identity.Name;
 
             DateTime yesterday = DateTime.Now.Date.AddDays(-1).Date;
 
-            var yesterdayPoints = dbContext.Points.Where(pts => pts.MemberID == MemberID
+            var yesterdayPoints = dbContext.Points.Where(pts => pts.MemberID.ToString() == UserID
                 && DbFunctions.TruncateTime(pts.GetPointsDateTime) == yesterday)
                 .Select(pts => pts.GetPoints).DefaultIfEmpty(0).Sum();
 
@@ -201,9 +200,9 @@ namespace UI.Controllers
         {
             HealthHelperEntities dbContext = new HealthHelperEntities();
 
-            int MemberID = (int)context.Session["ID"];
+            string UserID = context.User.Identity.Name;
 
-            var program = dbContext.Programs.SingleOrDefault(prg => prg.MemberID == MemberID
+            var program = dbContext.Programs.SingleOrDefault(prg => prg.MemberID.ToString() == UserID
                 && prg.StatusID == 3);
 
             if (program != null)
@@ -222,12 +221,13 @@ namespace UI.Controllers
 
             HealthHelperEntities dbContext = new HealthHelperEntities();
 
-            int MemberID = (int)Session["ID"];
+            string UserID = User.Identity.Name;
+            int MemberID = int.Parse(UserID);
 
-            Program program = dbContext.Programs.SingleOrDefault(prg => prg.MemberID == MemberID
+            Program program = dbContext.Programs.SingleOrDefault(prg => prg.MemberID.ToString() == UserID
                 && prg.StatusID == 3);
 
-            Session["ProgramFrozen"] = false;
+            Session["ProgramFrozen"] = -1;
 
             decimal weightToLose = program.InitialWeight - program.TargetWeight;
             decimal actuallyLose = program.InitialWeight - resultWeight;
@@ -264,10 +264,9 @@ namespace UI.Controllers
 
             //write resulWeight to WeightLog incidentally
             WeightLog weightLog = dbContext.WeightLogs
-                .SingleOrDefault(wgtl => wgtl.MemberID == MemberID 
+                .SingleOrDefault(wgtl => wgtl.MemberID.ToString() == UserID 
                 && DbFunctions.TruncateTime(wgtl.UpdatedDate) == DateTime.Today);
 
-            //if Session["NoWeightLog"] is true, set it to false
             if (weightLog != null)
             {
                 weightLog.Weight = resultWeight;
@@ -285,7 +284,7 @@ namespace UI.Controllers
 
             dbContext.SaveChanges();
 
-            //if set Session["NoWeightLog"] to false
+            //set Session["NoWeightLog"] to false
             Session["NoWeightLog"] = false;
 
             return Json(new { Result = "Success", GetPoints = GetPoints });
@@ -294,24 +293,24 @@ namespace UI.Controllers
 
         //determine if user is in a program
         [NonAction]
-        private void SetInProgramSession()
+        public static void SetInProgramSession(HttpContextBase context)
         {
             HealthHelperEntities dbContext = new HealthHelperEntities();
 
-            int MemberID = (int)Session["ID"];
+            string UserID = context.User.Identity.Name;
 
-            var program = dbContext.Programs.SingleOrDefault(prg => prg.MemberID == MemberID
+            var program = dbContext.Programs.SingleOrDefault(prg => prg.MemberID.ToString() == UserID
                 && DbFunctions.TruncateTime(prg.StartDate) <= DateTime.Today
                 && DbFunctions.TruncateTime(prg.EndDate) >= DateTime.Today
                 && prg.StatusID == 1);
 
             if (program != null)
             {
-                Session["InProgram"] = true;
+                context.Session["InProgram"] = true;
             }
             else
             {
-                Session["InProgram"] = false;
+                context.Session["InProgram"] = false;
             }
         }
         //=========================================================

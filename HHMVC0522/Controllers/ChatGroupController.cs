@@ -28,9 +28,9 @@ namespace UI.Controllers
         [HttpPost]
         public JsonResult NewGroup(string connId, string groupName, int weight1, int weight2, string preGroupId)
         {
-            int MemberID = (int)Session["ID"];
+            string UserID = User.Identity.Name;
 
-            decimal? initialWeight = dbContext.Programs.SingleOrDefault(p => p.MemberID == MemberID
+            decimal? initialWeight = dbContext.Programs.SingleOrDefault(p => p.MemberID.ToString() == UserID
                 && DbFunctions.TruncateTime(p.StartDate) <= DateTime.Today
                 && DbFunctions.TruncateTime(p.EndDate) >= DateTime.Today
                 && p.StatusID == 1)?.InitialWeight;
@@ -111,9 +111,9 @@ namespace UI.Controllers
         [HttpPost]
         public JsonResult AddToGroup(string connId, string groupId, string groupName, string preGroupId)
         {
-            int MemberID = (int)Session["ID"];
+            string UserID = User.Identity.Name;
 
-            decimal? initialWeight = dbContext.Programs.SingleOrDefault(p => p.MemberID == MemberID
+            decimal? initialWeight = dbContext.Programs.SingleOrDefault(p => p.MemberID .ToString() == UserID
                 && DbFunctions.TruncateTime(p.StartDate) <= DateTime.Today
                 && DbFunctions.TruncateTime(p.EndDate) >= DateTime.Today
                 && p.StatusID == 1)?.InitialWeight;
@@ -338,11 +338,11 @@ namespace UI.Controllers
         public Difficulty GetDifficulty()
         {
 
-            int MemberID = (int)Session["ID"];
+            string UserID = User.Identity.Name;
 
-            decimal TDEE = WorkoutController.TDEE(dbContext, MemberID);
+            decimal TDEE = WorkoutController.TDEE(dbContext, UserID);
 
-            var program = dbContext.Programs.SingleOrDefault(prg => prg.MemberID == MemberID
+            var program = dbContext.Programs.SingleOrDefault(prg => prg.MemberID.ToString() == UserID
                 && DbFunctions.TruncateTime(prg.StartDate) <= DateTime.Today
                 && DbFunctions.TruncateTime(prg.EndDate) >= DateTime.Today
                 && prg.StatusID == 1);
