@@ -150,6 +150,7 @@
         height: 290px;
         overflow: auto;
         scroll-behavior: smooth;
+        padding:0px 5px;
     }
 
     .messageRow {
@@ -173,6 +174,7 @@
     img.myImage {
         width:30px;
         height:30px;
+        margin:5px;
     }
 
     .myImage, .selfText, .otherText {
@@ -182,22 +184,38 @@
     }
 
     .selfText, .otherText {
-        position: relative;
         padding: 5px;
+        width:100%;
+        margin: 0px;
     }
 
-    .selfText::before {
+    .ArrowToLeft, .ArrowToRight {
+        position:relative;
+        width:100%;
+    }
+
+    .ArrowToLeft::before {
         content: "\25C2";
         color: plum;
-        position:absolute;
-        left:-9px;
+        position: absolute;
+        left: -9px;
     }
 
-    .otherText::after {
+    .ArrowToRight::after {
         content: "\25B8";
         color: #f56a6a;
         position: absolute;
         right: -9px;
+    }
+
+    .textDiv {
+        display:flex;
+        width:100%;
+        padding:5px;
+    }
+
+    .textDiv.reverse {
+        flex-direction:row-reverse;
     }
 
     @*ForScrollbar=====================================*@
@@ -803,14 +821,22 @@
                 .append($("<span></span>").css("float", "right").text(timeStamp))
                 .appendTo(dialogDiv);
 
-            $("<img/>").addClass("myImage")
-                .attr("src", "/Areas/Admin/Content/UserImage/" + image)
-                .appendTo(dialogDiv);
+            let textDiv = $("<div></div>").addClass("textDiv");
 
-            $("<div></div>").addClass("selfText").css("margin-right", "auto")
+            $("<img/>").addClass("myImage").css("margin-left", "0px").css("margin-right", "10px")
+                .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                .appendTo(textDiv);
+
+            let innerTextDiv = $("<div></div>").addClass("ArrowToLeft").css("margin-right", "auto");
+
+            $("<div></div>").addClass("selfText")
                 .css("background-color", "plum").css("color", "white").css("border-color", "plum")
                 .html(message)
-                .appendTo(dialogDiv);
+                .appendTo(innerTextDiv);
+
+            $(innerTextDiv).appendTo(textDiv);
+
+            $(dialogDiv).append(textDiv);
 
             $("#serviceChatBox").append(dialogDiv);
 
@@ -823,14 +849,22 @@
                 .append($("<span></span>").css("float", "left").text(timeStamp))
                 .appendTo(dialogDiv);
 
-            $("<div></div>").addClass("otherText").css("margin-left", "auto")
+            let textDiv = $("<div></div>").addClass("textDiv reverse");
+
+            $("<img/>").addClass("myImage").css("margin-right", "0px").css("margin-left", "10px")
+                .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                .appendTo(textDiv);
+
+            let innerTextDiv = $("<div></div>").addClass("ArrowToRight").css("margin-left", "auto");
+
+            $("<div></div>").addClass("otherText")
                 .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
                 .html(message)
-                .appendTo(dialogDiv);
+                .appendTo(innerTextDiv);
 
-            $("<img/>").addClass("myImage")
-                .attr("src", "/Areas/Admin/Content/UserImage/" + image)
-                .appendTo(dialogDiv);
+            $(innerTextDiv).appendTo(textDiv);
+
+            $(dialogDiv).append(textDiv);
 
             $("#serviceChatBox").append(dialogDiv);
 
