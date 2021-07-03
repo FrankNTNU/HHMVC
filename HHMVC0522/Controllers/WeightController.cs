@@ -63,9 +63,9 @@ namespace UI.Controllers
                      where startMonth <= wgt.UpdatedDate && wgt.UpdatedDate < endMonth
                      group wgt by int.Parse(wgt.UpdatedDate.ToString("yyMM")) into g
                      orderby g.Key ascending
-                     select new KeyValuePair<int, double>(g.Key, g.Average(wgt => wgt.Weight));
+                     select new KeyValuePair<int, object>(g.Key, g.Average(wgt => wgt.Weight));
 
-            Dictionary<int, double> monthDict = q1.ToDictionary(g => g.Key, g => g.Value);
+            Dictionary<int, object> monthDict = q1.ToDictionary(g => g.Key, g => g.Value);
             
             int smonth = int.Parse(startMonth.ToString("yyMM"));
             int emonth = int.Parse(endMonth.ToString("yyMM"));
@@ -78,7 +78,7 @@ namespace UI.Controllers
 
                 if (smonth != emonth && !monthDict.Keys.Contains(smonth))
                 {
-                    monthDict.Add(smonth, 0d);
+                    monthDict.Add(smonth, null);
                 }
             }
 
