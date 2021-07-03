@@ -25,7 +25,7 @@
     <div class="row" style="width: 100%; padding-right: 20px">
 
         <div class="col-3 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-8 col-sm-5 col-md-6 col-lg-8 p-1 align-self-center">
             <h2><i class="fas fa-file-alt"></i> 所有文章</h2>
@@ -128,29 +128,8 @@
                 var CountInfo = $("#CountInfo");
                 SetData.html('');
                 $("#PageInfo").html('');
-                window.location.href = '/FrontPost/GetPostsWithSearchText/?SearchCategory=' + SearchCategory + "&SearchText=" + SearchText;
-                //$.ajax({
-                //    type: "post",
-                //    url: "GetSearchPost?SearchCategory=" + SearchCategory + "&SearchText=" + SearchText,
-                //    contentType: "html",
-                //    success: function (result) {
-                //        if (result.length == 0) {
-                //            alert("沒有對應結果");
-                //            CountInfo.html("");
-                //            CountInfo.append("共有 " + result.length + " 則文章符合搜尋結果");
-                //        }
-                //        else {
-                //            CountInfo.html("");
-                //            CountInfo.append("共有 " + result.length + " 則文章符合搜尋結果");
-                //            console.log(result);
-                //            $.each(result, function (index, value) {
-                //                var Data = '<div class="col-12 col-lg-4"><a href=../Home2/PostDetail?ID=' + value.ID + ' class="image"><img class="image" src="../Areas/Admin/Content/PostImages/' + value.ImagePath + '" style="max-width:100%" /></a></div>';
-                //                Data += "<div class='col-12 col-lg-8'><div class='row'><div class='col-4 col-lg-2'><p class='button small fit' style='        font-weight: bolder;pointer-events: none;margin-bottom:5px'>" + value.CategoryName + "</p><p>文章大要 </p></div><div class='col-8'><p><strong> " + value.Title + "</strong> <i class='far fa-comment'></i> " + value.CommentCount + " </span><i class='far fa-heart'></i> " + value.LikeCount + " <p>" + value.ShortContent + "</p></div></div></div>"
-                //                SetData.append(Data);
-                //            })
-                //        }
-                //    }
-                //})
+                window.location.href = '~/FrontPost/GetPostsWithSearchText/?SearchCategory=' + SearchCategory + "&SearchText=" + SearchText;
+               
             }
 
         })

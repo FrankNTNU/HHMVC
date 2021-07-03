@@ -91,8 +91,11 @@ namespace DAL
         {
             using (HealthHelperEntities db = new HealthHelperEntities())
             {
-                Comment comment = db.Comments.First(x => x.ID == ID);
+                Comment comment = db.Comments.Find(ID);
                 comment.IsApproved = true;
+                db.Comments.Attach(comment);
+                var entry = db.Entry(comment);
+                entry.State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
             }
         }
@@ -127,7 +130,6 @@ namespace DAL
             }
             return dtoList;
         }
-
         
         public void UpdateComment(CommentDTO model)
         {
@@ -136,6 +138,9 @@ namespace DAL
             comment.Title = model.Title;
             comment.CommentContent = model.CommentContent;
             comment.IsApproved = false;
+            comment.AddDate = DateTime.Today;
+            db.Comments.Attach(comment);
+            db.Entry(comment).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
         }
         public List<CommentDTO> GetUnapprovedComments()

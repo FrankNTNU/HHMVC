@@ -93,29 +93,31 @@ namespace DAL
            
             List<Comment> comments = new List<Comment>();
             tempRoot.ChildComments = new List<CommentDTO>();
-            if (postID.HasValue && postID != 0) 
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                if (postID.HasValue && postID != 0)
                 // 如果是第一層留言 (postDI != null)
-            {
-               
-                Post post = db.Posts.Single(x => x.ID == postID.Value);
-                comments = post.Comments.Where(x => x.ParentCommentID == null).ToList();
-                foreach (Comment item in comments)
                 {
-                    var temp = ConvertToModel(item);
-                    tempRoot.ChildComments.Add(temp);
+                    Post post = db.Posts.Single(x => x.ID == postID.Value);
+                    comments = post.Comments.Where(x => x.ParentCommentID == null).ToList();
+                    foreach (Comment item in comments)
+                    {
+                        var temp = ConvertToModel(item);
+                        tempRoot.ChildComments.Add(temp);
+                    }
+                    // 取得第一層留言 (commentID == null)
                 }
-                // 取得第一層留言 (commentID == null)
-            }
-            else
-            {
-                CurrentLevel++;
-                comments = db.Comments.Where(x => x.ParentCommentID == commentID).ToList();
-                foreach (Comment item in comments)
+                else
                 {
-                    var temp = ConvertToModel(item);
-                    tempRoot.ChildComments.Add(temp);
+                    CurrentLevel++;
+                    comments = db.Comments.Where(x => x.ParentCommentID == commentID).ToList();
+                    foreach (Comment item in comments)
+                    {
+                        var temp = ConvertToModel(item);
+                        tempRoot.ChildComments.Add(temp);
+                    }
+                    // 取得第 n 層的留言
                 }
-                // 取得第 n 層的留言
             }
             for (int i = 0; i < tempRoot.ChildComments.Count; i++)
             {
@@ -559,6 +561,9 @@ namespace DAL
             {
                 Post post = db.Posts.FirstOrDefault(x => x.ID == postID);
                 post.IsApproved = true;
+                db.Posts.Attach(post);
+                var entry = db.Entry(post);
+                entry.State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
             }
         }

@@ -21,7 +21,7 @@
         .like__btn {
             border-radius: 0.4rem;
         }
-        
+
 
         #commentAreaBtn {
             text-decoration: none;
@@ -29,7 +29,7 @@
             outline: none !important;
             display: inline;
         }
-      
+
         @@media only screen and (max-width: 900px) {
             #smallIndent {
                 font-size: 0.8em;
@@ -87,6 +87,7 @@
                 max-width: auto;
             }
         }
+
         @@media only screen and (max-width: 450px) {
             #commentArea {
                 font-size: 0.8em;
@@ -103,7 +104,7 @@
     <div class="row" style="width: 100%; padding-right: 20px">
 
         <div class="col-3 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-8 col-sm-6 col-md-6 col-lg-8 p-1 align-self-center">
             <h2><i class="fas fa-file-alt"></i> 閱讀文章</h2>
@@ -193,7 +194,7 @@
         <div class="row">
             <div class="col-1 col-lg-8 col-md-6 col-sm-6"></div>
             <div class="col-5 col-lg-2 col-md-3 col-sm-3">
-                <div style="font-size:1.1em"><a href="/FrontPost/UpdatePost/@Model.PostDetail.ID"><input type="submit" value="修改貼文" class="primary" /></a></div>
+                <div style="font-size:1.1em"><a href="~/FrontPost/UpdatePost/@Model.PostDetail.ID"><input type="submit" value="修改貼文" class="primary" /></a></div>
             </div>
 
             <div class="col-5 col-lg-2 col-md-3 col-sm-3" style="font-size:1.1em; padding-right:25px">
@@ -300,9 +301,8 @@
 }
 @helper DisplayComment(CommentDTO item)
 {
-
-if (item.IsApproved || (item.MemberID == (Session["ID"] == null ? 0 : (int)Session["ID"])))
-{
+    if (item.IsApproved || (item.MemberID == (Session["ID"] == null ? 0 : (int)Session["ID"])))
+    {
         <div class="row pl-1" style="width: 100%;margin-bottom:10px;" id="commentArea">
 
             @if (item.PostID == 0)
@@ -334,9 +334,9 @@ if (item.IsApproved || (item.MemberID == (Session["ID"] == null ? 0 : (int)Sessi
 
                                 <span class="p-2"></span>
                                 <a href="~/FrontPost/DeleteComment?ID=@item.ID&postID=@Model.PostDetail.ID" id="commentAreaBtn" class="button" onclick="return confirm('確定要刪除嗎?')" style="white-space:nowrap">
-    <i class="fas fa-trash-alt"></i>
-</a>
-                                
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+
 
                             }
                             else
@@ -349,12 +349,12 @@ if (item.IsApproved || (item.MemberID == (Session["ID"] == null ? 0 : (int)Sessi
                 @Html.Raw(@item.CommentContent)
             </div>
         </div>
-        }
     }
+}
 
 
-    @section Scripts {
-        <script type="text/javascript">
+@section Scripts {
+    <script type="text/javascript">
         $(document).ready(function () {
 
             var result = "@ViewData["CommentState"]";
@@ -369,8 +369,8 @@ if (item.IsApproved || (item.MemberID == (Session["ID"] == null ? 0 : (int)Sessi
             }
         })
 
-        </script>
-        <script type="text/javascript">
+    </script>
+    <script type="text/javascript">
         var flag = "notSure";
         $(document).ready(function ($) {
 
@@ -434,5 +434,5 @@ if (item.IsApproved || (item.MemberID == (Session["ID"] == null ? 0 : (int)Sessi
                 }
             });
         });
-        </script>
-    }
+    </script>
+}

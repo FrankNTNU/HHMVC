@@ -14,13 +14,7 @@
     </ol>
 </section>
 <br />
-@*<div class="card-footer">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Comment/AddComment'">新增留言</button>
-</div>*@
-@*@using DTO
-    @{
-        CountDTO countDTO = (CountDTO)ViewData["AllCounts"];
-    }*@
+
 <div class="card">
     <!--</div>-->
     <!-- /.row -->
@@ -58,7 +52,7 @@
                     @if (!item.IsApproved)
                     {
                         <td align="center" valign="middle">
-                            <a href="/Admin/Comment/ApproveComment/@item.ID">
+                            <a href="../Comment/ApproveComment/@item.ID">
                                 <img src="~/Areas/Admin/Content/icon/approve.png" />
                             </a>
                         </td>

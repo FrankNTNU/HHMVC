@@ -16,12 +16,9 @@
 </section>
 <br />
 <div class="card-footer">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Comment/AllComments'">所有留言</button>
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='../Comment/AllComments'">所有留言</button>
 </div>
-@*@using DTO
-    @{
-        CountDTO countDTO = (CountDTO)ViewData["AllCounts"];
-    }*@
+
 <div class="card">
     <!--</div>-->
     <!-- /.row -->
@@ -59,7 +56,7 @@
                         </td>
                         <td align="center" valign="middle">
                            <a href="#">
-                               <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Comment/DeleteComment/', @item.ID)" />
+                               <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../Comment/DeleteComment/', @item.ID)" />
                            </a>
                         </td>
                     </tr>

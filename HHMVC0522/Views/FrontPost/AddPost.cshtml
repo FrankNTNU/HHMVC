@@ -22,7 +22,7 @@
     <div class="row" style="width: 100%; padding-right: 20px">
 
         <div class="col-3 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-6 col-sm-4 col-md-6 col-lg-8 p-1 align-self-center">
             <h2><i class="fas fa-pencil-alt"> </i> 新增貼文</h2>
@@ -36,7 +36,7 @@
 
 <section class="pt-3">
 
-    <div class="col-12 col-md-8" style="padding:0px"> @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")</div>
+    <div class="col-12" style="padding:0px"> @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")</div>
 
     @using (Html.BeginForm("AddPost", "FrontPost", FormMethod.Post, new { @enctype = "multipart/form-data" }))
     {

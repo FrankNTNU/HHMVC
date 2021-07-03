@@ -38,7 +38,7 @@
     <div class="row" style="width: 100%; padding-right: 20px">
 
         <div class="col-3 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-8 col-sm-5 col-md-6 col-lg-8 p-1 align-self-center">
             <h2 style="font-size: 1.8em"><i class="fas fa-gift"> </i> 禮物商店</h2>
@@ -192,7 +192,7 @@
                     .addClass("image")
                     .appendTo(resultDiv);
                 let imageContent = $("<img/>")
-                    .attr("src", "/Areas/Admin/Content/GiftImages/" + value.Image)
+                    .attr("src", "../Areas/Admin/Content/GiftImages/" + value.Image)
                     .css("max-width", "100%")
                     .css("max-height", "100%");
 

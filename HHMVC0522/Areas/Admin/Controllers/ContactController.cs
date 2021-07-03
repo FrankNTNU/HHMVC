@@ -25,7 +25,8 @@ namespace UI.Areas.Admin.Controllers
             
             return UserStatic.ConnectedUsers.Count();
         }
-        UserBLL userBLL = new UserBLL();
+
+        readonly UserBLL userBLL = new UserBLL();
         public JsonResult GetOnlineUsers()
         {
             foreach (var item in UserStatic.ConnectedUsers)

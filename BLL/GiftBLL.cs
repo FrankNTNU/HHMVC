@@ -60,7 +60,7 @@ namespace BLL
 
         public List<GiftDTO> GetSearchResult(string name, int sortingMethod, bool isPremium)
         {
-            List<Gift> list = giftDAO.GetSearchResult(name, sortingMethod);
+            List<Gift> list = giftDAO.GetSearchResult(name, sortingMethod).Where(x => x.EndDate >= DateTime.Today).ToList();
             if (isPremium) list = list.Where(x => x.IsPremium == isPremium).ToList();
             List<GiftDTO> dtoList = new List<GiftDTO>();
             foreach (Gift item in list)
