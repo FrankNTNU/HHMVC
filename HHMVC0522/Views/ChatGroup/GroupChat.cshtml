@@ -68,7 +68,7 @@
         }
 
         .chatGroup {
-            width:100%;
+            width:90%;
             border: solid 1px #f56a6a;
             border-radius: 0.9em;
             text-align:center;
@@ -106,6 +106,11 @@
         }
 
         #groups {
+            display:flex;
+            flex-direction:column;
+            row-gap: 5px;
+            justify-content:center;
+            align-items: center;
             padding:10px;
         }
 
@@ -116,6 +121,45 @@
         .chat-groups, .chat-members {
             height:162px;
             overflow:auto;
+        }
+
+        .groupchatNotRead {
+            width: 80%;
+            text-align: center;
+            font-size: 1em;
+            color: white;
+            background-color: lightgray;
+            border-radius: 12px;
+            margin: 5px auto;
+        }
+
+        #chatbox {
+            position: relative;
+            scroll-behavior: smooth;
+        }
+
+        .gcNotReadNum {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            background-color: white;
+            color: #f56a6a;
+            padding: 2px 2px;
+            border: solid 2px #f56a6a;
+            border-radius: 0.9em;
+            width: 1.8em;
+            height: 1.8em;
+        }
+
+        .groupRow {
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            width:100%;
+        }
+        .groupRow:last-child {
+            margin-bottom:auto;
         }
     </style>
 }
@@ -275,8 +319,8 @@
                                     return;
                                 }
 
-                                if ($("#groupName").val().length > 8) {
-                                    alert("聊天群名稱須為8個字以內");
+                                if ($("#groupName").val().length > 6) {
+                                    alert("聊天群名稱須為6個字以內");
                                     return;
                                 }
 
@@ -381,15 +425,29 @@
                         let docFrag = document.createDocumentFragment();
 
                         $.each(data, function (i, g) {
-                            let cell = $("<div></div>").addClass("chatGroup").addClass("mb-2").addClass("button")
+                            let cell1 = $("<div></div>").addClass("chatGroup").addClass("button")
                                 .attr("data-groupId", g.ID).attr("data-groupName", g.GroupName)
                                 .text(`[${g.GroupName}] (${g.StartWeight}kg~${g.EndWeight}kg) ${g.Difficulty}`);
 
-                            if (g.ID == $("#groupId").val()) {
-                                $(cell).addClass("primary");
+                            let cell2 = $("<div></div>").addClass("gcNotReadNum");
+
+                            if (cell1.attr("data-groupId") == $("#groupId").val()) {
+                                $(cell2).html("<i class='fas fa-plug'></i>")
+                                    .css("color", "white").css("background-color", "#f56a6a");
+                            } else if (g.NotReadCount != -1) {
+                                $(cell2).text(g.NotReadCount);
+                            } else {
+                                $(cell2).html("<i class='fas fa-plug'></i>");
                             }
 
-                            $(docFrag).append(cell);
+                            if (g.ID == $("#groupId").val()) {
+                                $(cell1).addClass("primary");
+                            }
+
+                            let groupDiv = $("<div></div>").addClass("groupRow");
+                            $(groupDiv).append(cell1, cell2);
+
+                            $(docFrag).append(groupDiv);
                         });
 
                         $("#groups").html("");
@@ -412,6 +470,10 @@
                             $.each(data, function (i, m) {
 
                                 let cell = $("<div></div>").addClass("button").text(m);
+
+                                if (i == 0) {
+                                    $(cell).addClass("primary");
+                                }
 
                                 $(docFrag).append(cell);
                             });
@@ -492,19 +554,38 @@
                     },
                     success: function (data) {
 
+                        alert(data.NotReadCount);
+
                         $("#chatbox").html("");
 
-                        $.each(data, function (i, msg) {
-                            let index = $.inArray($.connection.hub.id, msg.connIds)
+                        $.each(data.Messages, function (i, msg) {
 
+                            if (i == (data.Messages.length - data.NotReadCount)) {
+                                appendNotReadForGC();
+                            }
+
+                            let index = $.inArray($.connection.hub.id, msg.connIds)
                             write(msg.userName, msg.message, index != -1, msg.timeStamp, msg.image);
                         });
 
-                        let chatBox = document.getElementById("chatbox");
-                        chatBox.scrollTop = chatBox.scrollHeight;
+                        if ($(".groupchatNotRead").length != 0) {
+                            console.log("scrollTop: " + $("#chatbox").scrollTop());
+                            console.log("top: " + $(".groupchatNotRead").position().top);
+                            $("#chatbox").scrollTop($("#chatbox").scrollTop() + $(".groupchatNotRead").position().top);
+                        } else {
+                            console.log("height: " + $("#chatbox").prop("scrollHeight"));
+                            $("#chatbox").scrollTop($("#chatbox").prop("scrollHeight"));
+                        }
                     }
                 });
             }
+        }
+
+        function appendNotReadForGC() {
+
+            let NotReadDiv = $("<div></div>").addClass("groupchatNotRead").append("以下為未讀訊息");
+
+            $("#chatbox").append(NotReadDiv);
         }
     </script>
 }

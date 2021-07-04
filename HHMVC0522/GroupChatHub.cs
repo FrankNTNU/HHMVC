@@ -93,12 +93,5 @@ namespace UI
             return base.OnDisconnected(stopCalled);
         }
 
-        //public void Send(string name, string imagePath, string message)
-        //{
-        //    // Call the addNewMessageToPage method to update clients.
-        //    Clients.All.addNewMessageToPage(name, imagePath, message);
-        //    //Clients.Client(connID).addNewMessageToPage(name, imagePath, message);
-        //}
-
     }
 }

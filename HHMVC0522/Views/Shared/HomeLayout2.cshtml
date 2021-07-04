@@ -904,7 +904,7 @@
                     });
 
                     if ($(".notReadText").length != 0) {
-                        $("#serviceChatBox").scrollTop($(".notReadText").position().top);
+                        $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
                     }
                 }
             });

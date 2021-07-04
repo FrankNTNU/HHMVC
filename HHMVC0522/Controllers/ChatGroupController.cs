@@ -87,6 +87,25 @@ namespace UI.Controllers
                 //Remove
                 if (preGroupId != "")
                 {
+                    //Add to NotRead dictionary, or Reset it
+                    if (!UserStatic.ChatGroupNotRead.ContainsKey(UserID))
+                    {
+                        UserStatic.ChatGroupNotRead.Add(UserID, new Dictionary<string, int>());
+                        UserStatic.ChatGroupNotRead[UserID].Add(preGroupId, 0);
+                    }
+                    else
+                    {
+                        if (UserStatic.ChatGroupNotRead[UserID].ContainsKey(preGroupId))
+                        {
+                            UserStatic.ChatGroupNotRead[UserID][preGroupId] = 0;
+                        }
+                        else
+                        {
+                            UserStatic.ChatGroupNotRead[UserID].Add(preGroupId, 0);
+                        }
+                    }
+                    //=============================================================
+
                     Context.Groups.Remove(connId, preGroupId);
 
                     var member = UserStatic.UserChatGroups[preGroupId].GroupMembers
@@ -168,6 +187,25 @@ namespace UI.Controllers
                 //Remove
                 if (preGroupId != "")
                 {
+                    //Add to NotRead dictionary, or Reset it
+                    if (!UserStatic.ChatGroupNotRead.ContainsKey(UserID))
+                    {
+                        UserStatic.ChatGroupNotRead.Add(UserID, new Dictionary<string, int>());
+                        UserStatic.ChatGroupNotRead[UserID].Add(preGroupId, 0);
+                    }
+                    else
+                    {
+                        if (UserStatic.ChatGroupNotRead[UserID].ContainsKey(preGroupId))
+                        {
+                            UserStatic.ChatGroupNotRead[UserID][preGroupId] = 0;
+                        }
+                        else
+                        {
+                            UserStatic.ChatGroupNotRead[UserID].Add(preGroupId, 0);
+                        }
+                    }
+                    //==============================================================
+
                     Context.Groups.Remove(connId, preGroupId);
 
                     var member = UserStatic.UserChatGroups[preGroupId].GroupMembers
@@ -197,22 +235,27 @@ namespace UI.Controllers
         public JsonResult GetGroups()
         {
 
-            //var groupList = dbContext.Groups.Where(g => g.IsAlive && !g.IsService).Select(g => new
-            //{
-            //    g.ID,
-            //    g.GroupName,
-            //    g.StartWeight,
-            //    g.EndWeight
-            //});
+            var groupList = UserStatic.UserChatGroups.ToList()
+                .Select(ucg => 
+                {
+                    int notReadCount = -1;
 
-            var groupList = UserStatic.UserChatGroups.Select(ucg => new
-            {
-                ID = ucg.Key,
-                GroupName = ucg.Value.GroupName,
-                StartWeight = ucg.Value.WeightRange.Item1,
-                EndWeight = ucg.Value.WeightRange.Item2,
-                Difficulty = ucg.Value.Difficulty.ToString()
-            });
+                    if (UserStatic.ChatGroupNotRead.ContainsKey(User.Identity.Name) 
+                        && UserStatic.ChatGroupNotRead[User.Identity.Name].ContainsKey(ucg.Key))
+                    {
+                        notReadCount = UserStatic.ChatGroupNotRead[User.Identity.Name][ucg.Key];
+                    }
+
+                    return new
+                    {
+                        ID = ucg.Key,
+                        GroupName = ucg.Value.GroupName,
+                        StartWeight = ucg.Value.WeightRange.Item1,
+                        EndWeight = ucg.Value.WeightRange.Item2,
+                        Difficulty = ucg.Value.Difficulty.ToString(),
+                        NotReadCount = notReadCount
+                    };
+                });
 
             return Json(groupList);
         }
@@ -223,6 +266,19 @@ namespace UI.Controllers
             {
                 if (UserStatic.UserChatGroups[groupId].GroupMembers.Count == 0)
                 {
+                    //remove this group from all users' NotRead dictionary
+                    foreach (var UserID in UserStatic.ChatGroupNotRead.Keys.ToList())
+                    {
+                        foreach (var group in UserStatic.ChatGroupNotRead[UserID].Keys.ToList())
+                        {
+                            if (group == groupId)
+                            {
+                                UserStatic.ChatGroupNotRead[UserID].Remove(group);
+                            }
+                        }
+                    }
+                    //============================================================
+
                     UserStatic.UserChatGroups.Remove(groupId);
 
                     int gId = int.Parse(groupId);
@@ -247,13 +303,23 @@ namespace UI.Controllers
         [HttpPost]
         public JsonResult GetGroupMembers(string groupId)
         {
+            List<string> gmList = new List<string>();
 
-            var gmList = UserStatic.UserChatGroups[groupId].GroupMembers.Select(gm => gm.UserID).ToList();
+            if (UserStatic.UserChatGroups.ContainsKey(groupId))
+            {
+                gmList = UserStatic.UserChatGroups[groupId].GroupMembers.Select(gm => gm.UserID).ToList();
+            }
 
             var nameList = gmList.Select(gm =>
             {
                 return dbContext.Members.SingleOrDefault(m => m.ID.ToString() == gm).UserName;
-            }).Distinct().OrderBy(n => n);
+            }).Distinct().OrderBy(n => n).ToList();
+
+            string UserName = dbContext.Members
+                .SingleOrDefault(m => m.ID.ToString() == User.Identity.Name).UserName;
+
+            nameList.Remove(UserName);
+            nameList.Insert(0, UserName);
 
             return Json(nameList);
         }
@@ -261,6 +327,18 @@ namespace UI.Controllers
         [HttpPost]
         public void SendMessage(string connId, string groupId, string message)
         {
+            //Add count to NotRead dictionary
+            foreach (var UserID in UserStatic.ChatGroupNotRead.Keys.ToList())
+            {
+                foreach (var group in UserStatic.ChatGroupNotRead[UserID].Keys.ToList())
+                {
+                    if (group == groupId)
+                    {
+                        UserStatic.ChatGroupNotRead[UserID][group]++;
+                    }
+                }
+            }
+            //=======================================================
 
             var Context = GlobalHost.ConnectionManager.GetHubContext<GroupChatHub>();
 
@@ -277,7 +355,6 @@ namespace UI.Controllers
             Context.Clients.Group(groupId)
                 .receiveFromGroupMember(connIds, member.UserName, message, timeStamp.ToString("M/d HH:mm"), member.Image);
 
-            
             dbContext.GroupChats.Add(new GroupChat
             {
                 GroupID = int.Parse(groupId),
@@ -331,7 +408,17 @@ namespace UI.Controllers
                     };
                 });
 
-            return Json(msgList);
+            //Set notReadCount when return to old group
+            int notReadCount = 0;
+
+            if (UserStatic.ChatGroupNotRead.ContainsKey(User.Identity.Name) 
+                && UserStatic.ChatGroupNotRead[User.Identity.Name].ContainsKey(groupId))
+            {
+                notReadCount = UserStatic.ChatGroupNotRead[User.Identity.Name][groupId];
+                UserStatic.ChatGroupNotRead[User.Identity.Name][groupId] = 0;
+            }
+            
+            return Json(new { Messages = msgList, NotReadCount = notReadCount });
         }
 
         [HttpPost]
