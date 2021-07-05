@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 @section Styles{
+   
+    <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         #messageInfo strong {
@@ -47,7 +49,7 @@
             <div class="col-6">
                 <input hidden value="@Session["ID"]">
                 <label>顯示名稱</label>
-                <input type="text" id="demo-name" value="@Session["Name"]" placeholder="Name" readonly style="height:45px" disabled/>
+                <input type="text" id="demo-name" value="@Session["Name"]" placeholder="Name" readonly style="height:45px" disabled />
             </div>
             <div class="col-6">
                 <label>標題</label>
@@ -99,9 +101,30 @@
     <script src="~/Areas/Admin/Content/JS/bs-custom-file-input.min.js"></script>
     <script src="~/Areas/Admin/Content/JS/jquery.min.js"></script>
     <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
+    <script src="~/Content/toastr/toastr.min.js"></script>
     <script>
-        $(function () {
-            //    bsCustomFileInput.init();
-        });
+        $(document).ready(function () {
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "text-align": "center",
+                "onclick": null,
+                "fadeIn": 300,
+                "fadeOut": 1000,
+                "timeOut": 5000,
+                "extendedTimeOut": 1000
+            }
+            var result = "@TempData["State"]";
+            console.log(result);
+            if (result != "") {
+                if (result == "EmptyArea") {
+                    toastr.error("請填寫所有欄位");
+                }
+                else if (result == "ImageMissing") {
+                    toastr.error("請選擇圖片");
+                }
+
+            }
+        })
     </script>
 }
