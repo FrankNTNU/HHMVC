@@ -17,10 +17,10 @@ namespace DAL
         public int ID { get; set; }
         public int MemberID { get; set; }
         public int TimeOfDayID { get; set; }
-        public System.DateTime EditTime { get; set; }
+        public string EditTime { get; set; }
         public double Portion { get; set; }
         public int MealOptionID { get; set; }
-        public System.DateTime Date { get; set; }
+        public string Date { get; set; }
         public bool IsValid { get; set; }
     
         public virtual MealOption MealOption { get; set; }

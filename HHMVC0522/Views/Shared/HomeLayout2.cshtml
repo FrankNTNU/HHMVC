@@ -15,15 +15,24 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="~/Content/css/main.css" />
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
+
 </head>
 <body class="is-preload">
 
     <!-- Wrapper -->
     <div id="wrapper">
+        <div id="main">
+            <div class="inner">
+                <!-- Header -->
+               
+                <!-- Main -->
 
-        <!-- Main -->
-        @RenderBody()
+                @RenderBody()
 
+            </div>
+        </div>
         <!-- Sidebar -->
         <div id="sidebar">
             <div class="inner">
@@ -42,8 +51,15 @@
                     </header>
                     <ul>
                         <li><a href="index.html">Homepage</a></li>
-                        <li><a href="generic.html">Generic</a></li>
-                        <li><a href="elements.html">Elements</a></li>
+                        <li>@Html.ActionLink("紀錄飲食", "Create", "HHDiet")</li>
+                        <li>@Html.ActionLink("飲食History", "DietLogsHistory", "HHDietHistory")</li>
+                        <li>@Html.ActionLink("參加挑戰", "RegisterProgram", "HHPrograms")</li>
+                        <li>@Html.ActionLink("禮物商店", "MyGiftShop", "HHGiftShop")</li>
+                        <li>@Html.ActionLink("我的禮物卡", "ShowGiftList", "HHGiftCard")</li>
+                        <li>@Html.ActionLink("test", "test", "HHDiet")</li>
+
+
+
                         <li>
                             <span class="opener">Submenu</span>
                             <ul>
@@ -121,11 +137,18 @@
     </div>
 
     <!-- Scripts -->
+   
     <script src="~/Content/js/jquery.min.js"></script>
     <script src="~/Content/js/browser.min.js"></script>
     <script src="~/Content/js/breakpoints.min.js"></script>
     <script src="~/Content/js/util.js"></script>
     <script src="~/Content/js/main.js"></script>
+
+
+
+    
+
+    @RenderSection("Scripts", required: false)
 
 </body>
 </html>

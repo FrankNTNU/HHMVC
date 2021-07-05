@@ -18,6 +18,9 @@ namespace DAL
         public Status()
         {
             this.Members = new HashSet<Member>();
+            this.Points = new HashSet<Point>();
+            this.Programs = new HashSet<Program>();
+            this.TempCustomerMealOptions = new HashSet<TempCustomerMealOption>();
             this.WorkoutLogs = new HashSet<WorkoutLog>();
         }
     
@@ -26,6 +29,12 @@ namespace DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Member> Members { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Point> Points { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Program> Programs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TempCustomerMealOption> TempCustomerMealOptions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkoutLog> WorkoutLogs { get; set; }
     }

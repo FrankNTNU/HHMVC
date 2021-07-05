@@ -18,16 +18,16 @@ namespace HHMVC0522
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home2", action = "Index", id = UrlParameter.Optional }
             );
-            routes.MapRoute(
-                name: "PostDetail",
-                url: "{controller}/{postDetail}/{ID}",
-                defaults: new { controller = "Home2", action = "PostDetail", ID = UrlParameter.Optional, postDetail = UrlParameter.Optional }
-            );
-            routes.MapRoute(
-               name: "EditComment",
-               url: "{controller}/{ID}",
-               defaults: new { controller = "Home2", action = "PostDetail", ID = UrlParameter.Optional, Model = UrlParameter.Optional }
-           );
+           // routes.MapRoute(
+           //     name: "PostDetail",
+           //     url: "{controller}/{postDetail}/{ID}",
+           //     defaults: new { controller = "Home2", action = "PostDetail", ID = UrlParameter.Optional, postDetail = UrlParameter.Optional }
+           // );
+           // routes.MapRoute(
+           //    name: "EditComment",
+           //    url: "{controller}/{ID}",
+           //    defaults: new { controller = "Home2", action = "PostDetail", ID = UrlParameter.Optional, Model = UrlParameter.Optional }
+           //);
 
         }
     }

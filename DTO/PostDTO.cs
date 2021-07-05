@@ -12,9 +12,9 @@ namespace DTO
     public class PostDTO
     {
         public int ID { get; set; }
-        [Required(ErrorMessage = "請輸入標題")]
+        [Required(ErrorMessage = "請輸入標題"), MaxLength(50, ErrorMessage = "標題字數不得超過50字")]
         public string Title { get; set; }
-        [Required(ErrorMessage = "請輸入大綱")]
+        [Required(ErrorMessage = "請輸入大綱"), MaxLength(100, ErrorMessage = "大綱長度不得超過100字")]
         public string ShortContent { get; set; }
         [Required(ErrorMessage = "請輸入內容")]
         public string PostContent { get; set; }
@@ -24,7 +24,7 @@ namespace DTO
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
         public IEnumerable<SelectListItem> Categories { get; set; }
-        public int ViewCount { get; set; }
+        public int ViewCount { get; set; } = 0;
         public int CommentCount { get; set; }
         public List<CommentDTO> CommentList { get; set; }
         public DateTime AddDate { get; set; }
@@ -34,6 +34,7 @@ namespace DTO
         public List<HttpPostedFileBase> PostImage { get; set; }
         public bool IsUpdate { get; set; } = false;
         public string MemberImage { get; set; }
-
+        public int LikeCount { get; set; } = 0;
+        public bool IsApproved { get; set; }
     }
 }

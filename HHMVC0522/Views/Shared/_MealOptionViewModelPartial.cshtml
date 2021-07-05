@@ -1,0 +1,53 @@
+﻿@model List<DTO.MealOptionViewModel> 
+@using DTO
+
+@{ foreach (MealOptionViewModel m in Model)
+    {
+
+        <div class="col-3 divMealOpt">
+            <div class="mealInfoDiv  px-0 mb-5  bg-white " style="bottom: 0; border-radius: 0.9em; overflow: hidden; box-shadow: 5px 5px 30px #E0E0E0 ">
+                <input type="hidden" value=@m.ID class="hiddenMealID" />
+                <div style="height:20em">
+                    <img id="mealInfoImage" src="~/Content/Images/MealOptionImages/@m.Image" height="100%" />
+                </div>
+                <ul class="list-group-flush mx-3 mb-3" style="border-bottom: solid #f56a6a 2.5px">
+                    <li class="list-group-item"><h4 id="mealInfoName" class="mealInfoName">@m.Name</h4></li>
+                    <li class="list-group-item">每單位卡路里(大卡): <span style="float:right" id="mealInfoCal" class="mealInfoCal">@Math.Round(m.Calories)</span></li>
+                    <li class="list-group-item">單位: <span style="float:right" id="mealInfoUnitName" class="mealInfoUnitName">@m.UnitName</span></li>
+                    <li class="list-group-item">碳水化合物含量(公克): <span id="mealInfoCarbs" class="mealInfoCarbs" style="float:right">@Math.Round(m.Carbs)</span></li>
+                    <li class="list-group-item">蛋白質含量(公克): <span id="mealInfoProtein" class="mealInfoProtein" style="float:right">@Math.Round(m.Protein)</span></li>
+                    <li class="list-group-item">脂肪含量(公克): <span id="mealInfoFat" class="mealInfoFat" style="float:right">@Math.Round(m.Fat)</span></li>
+                    <li class="list-group-item">糖含量(公克): <span id="mealInfoSugar" class="mealInfoSugar"style="float:right">@Math.Round(m.Sugar)</span></li>
+                    <li class="list-group-item">鈉含量(豪克): <span id="mealInfoNa" class="mealInfoNa"style="float:right">@Math.Round(m.Na)</span></li>
+                </ul>
+
+                <ul class="actions mx-3 mb-3">
+                    <li class="addToTempList col-6 text-center" style="border-right: solid #f56a6a 2px;color: #f56a6a">加入</li>
+                    <li class="btnToggleLiked col-6 text-center" style="color: #f56a6a">
+                        @{
+                            if (m.isLiked)
+                            {
+                                <i class="fontLike fas fa-heart 2em"></i>
+                            }
+                            else
+                            {
+                                <i class="fontLike far fa-heart 2em"></i>
+
+                            }
+                        }
+
+                    </li>
+                </ul>
+
+
+
+
+            </div>
+        </div>
+
+
+
+    }
+
+
+}

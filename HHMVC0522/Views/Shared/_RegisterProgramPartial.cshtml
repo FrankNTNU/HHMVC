@@ -1,0 +1,54 @@
+﻿@model UI.ViewModels.RegisterProgramViewModel
+
+
+<div class="  bg-white " style="bottom: 0; border-radius: 0.9em; overflow: hidden; box-shadow: 5px 5px 30px #E0E0E0 ">
+
+    <h3>註冊挑戰吧!</h3>
+
+    @*//=====================style="text-align:center=========margin: auto;display:flex ;justify-content:center*@
+
+    <form method="post" action="~/Api/Register" name="RegisterProgramForm">
+        <input type="hidden" name="MemberID" value="@Model.MemberID" />
+        <input type="hidden" name="StatusID" value="1" />
+
+        <div class="row gtr-uniform m-auto">
+            <div class="col-12 col-12-xsmall">
+                <label for="Name" style="display:inline">幫減脂計畫取個名字</label>
+                <input type="text" name="Name" id="Name" value="" placeholder="例如: 還我六塊肌!!!" />
+            </div>
+
+            <!-- Break -->
+            <div class="col-12">
+                <label for="ActivityLevelID" style="display:inline">生活型態</label>
+                @Html.DropDownList("ActivityLevelID", Model.ActivityLevelsSelectListItem)
+            </div>
+            <div class="col-6 col-12-small">
+                <label for="StartDate" style="display:inline">開始日期</label>
+
+                <input type="text" name="StartDate" id="StartDate" readonly value="@DateTime.Now.Month/@DateTime.Now.Day/@DateTime.Now.Year">
+            </div>
+            <div class="col-6 col-12-small">
+                <label for="EndDate" style="display:inline">結束日期</label>
+                <input type="text" name="EndDate" id="EndDate" class="datepicker">
+            </div>
+            <!-- Break -->
+            <div class="col-6 col-12-small">
+                <label for="InitialWeight" style="display:inline">起始體重</label>
+
+                <input type="number" name="InitialWeight" id="InitialWeight" value="@Model.MemberLatestWeight" placeholder="請輸入目前體重" />
+            </div>
+            <div class="col-6 col-12-small">
+                <label for="TargetWeight" style="display:inline">目標體重</label>
+                <input type="number" name="TargetWeight" id="TargetWeight" value="@Model.MemberLatestWeight" max="@Model.MemberLatestWeight" placeholder="請輸入目標體重" />     @*min*@
+            </div>
+
+            <!-- Break -->
+            <div class="col-12">
+                <ul class="actions">
+                    <li><input type="submit" value="提交註冊" id="btnSendRegister" class="primary" /></li>
+                    <li><input type="reset" value="清空" /></li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>

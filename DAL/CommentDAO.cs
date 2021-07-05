@@ -19,7 +19,7 @@ namespace DAL
         public List<CommentDTO> GetAllComments()
         {
             List<CommentDTO> dtoList = new List<CommentDTO>();
-            using (HealthHelperEntities db = new HealthHelperEntities())
+            using (HealthHelperEntities6 db = new HealthHelperEntities6())
             {
                 var list = (from c in db.Comments
                             select new
@@ -62,7 +62,7 @@ namespace DAL
 
         public void DeleteComment(int ID)
         {
-            using (HealthHelperEntities db = new HealthHelperEntities())
+            using (HealthHelperEntities6 db = new HealthHelperEntities6())
             {
                 Comment comment = db.Comments.First(x => x.ID == ID);
                 db.Comments.Remove(comment);
@@ -72,7 +72,7 @@ namespace DAL
 
         public void ApproveComment(int ID)
         {
-            using (HealthHelperEntities db = new HealthHelperEntities())
+            using (HealthHelperEntities6 db = new HealthHelperEntities6())
             {
                 Comment comment = db.Comments.First(x => x.ID == ID);
                 comment.IsApproved = true;
@@ -83,7 +83,7 @@ namespace DAL
         public List<CommentDTO> GetAllComments(int userID)
         {
             List<CommentDTO> dtoList = new List<CommentDTO>();
-            using (HealthHelperEntities db = new HealthHelperEntities())
+            using (HealthHelperEntities6 db = new HealthHelperEntities6())
             {
                 var list = (from c in db.Comments
                             where c.MemberID == userID
@@ -123,7 +123,7 @@ namespace DAL
         public List<CommentDTO> GetUnapprovedComments()
         {
             List<CommentDTO> dtoList = new List<CommentDTO>();
-            using (HealthHelperEntities db = new HealthHelperEntities())
+            using (HealthHelperEntities6 db = new HealthHelperEntities6())
             {
                 var list = db.Comments.Where(x => x.IsApproved == false)
                     .Select(x => new

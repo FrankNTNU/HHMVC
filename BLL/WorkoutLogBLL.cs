@@ -14,5 +14,18 @@ namespace BLL
         {
             workoutLogDAO.DeleteByMemberID(ID);
         }
+
+
+        public double Past7DaysWorkoutBurnedCalsFromDate(int memberId, DateTime date )
+        {
+            return workoutLogDAO.Past7DaysWorkoutBurnedCalsFromDate(memberId, date);
+        }
+        public double[] GetMonthlyBurnedCals(int memberId, DateTime date)
+        {
+            return workoutLogDAO.GetMonthlyBurnedCals(memberId, date);
+        }
+
+
+
     }
 }

@@ -1,0 +1,1240 @@
+﻿@using DTO
+@using DTO.ViewModels
+@using DAL
+@using System
+@model DTO.CreateDietLogViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/HomeLayout2_0622.cshtml";
+}
+@section Styles{
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/Content/css/dietAddMeal.css" rel="stylesheet" />
+    <link href="~/Content/css/stylesPlay.css" rel="stylesheet" />
+    <link href="~/Content/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <style>
+
+
+
+
+        .styleIcon {
+            width: 110px;
+            height: 110px;
+            /*border: 1px solid gray;*/
+            margin: 0 20px
+        }
+
+            .styleIcon img {
+                width: 100%;
+            }
+
+        read_progress {
+            /* position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;*/
+            height: 20px;
+            /*background: rgba(0,0,0,.3);*/
+            background: #E0E0E0;
+        }
+
+        .read_progress_bar {
+            height: 20px;
+            width: 0%;
+            transition: width,1s
+        }
+
+        #read_progress_bar {
+            background: #81C0C0;
+        }
+
+        #temp_read_progress_bar {
+            background: #F0F0F0;
+        }
+    </style>
+}
+
+
+<!--<header id="header" style="background-color: #fff0f0; width: 100%; padding-right: 0px; overflow: hidden;" class="pt-3 pb-4 m-0  col-12">-->
+@*<div class="row col-12 d-flex" style="width: 100%; padding-right: 0px">*@
+
+
+<!--</header>-->
+
+<header id="header" style=" background-color: #fff0f0; width: 100%; padding-right: 0px" class="pt-5 pb-1 m-0 col-12">
+    <div class="row col-12 d-flex" style="width: 100%; padding-right: 0px">
+
+        <div class="col-4 col-sm-4 col-lg-2 p-2" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:100px;width:100%"></a>
+        </div>
+        <div class="col-8 col-sm-8 col-lg-10 p-1 justify-content-center">
+            <a href="/Home2/Index" class="logo" style="text-decoration: none;">
+                <div class="h-50">
+                    <strong id="logoText" style="font-size:1.7em;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">飲食歷史紀錄</strong>
+                </div>
+
+
+            </a>
+        </div>
+    </div>
+</header>
+
+<div class="my-5">
+    <ul class="slides">
+        @{
+
+
+            foreach (MealTagCategory mCtgy in Model.tagsCategories)
+            {
+                <li>
+                    <figure class="styleIcon ">
+                        @*<a href=""><img src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" height="280" /></a>*@
+
+                        <a href="@Url.Action("MealStyleList", "HHDiet", new { id = mCtgy.ID })">
+                            <img class="tagImg " src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" height="280">
+                        </a>
+
+                        <figcaption>
+                            @mCtgy.Name
+                        </figcaption>
+                    </figure>
+                </li>
+            }
+        }
+    </ul>
+
+</div>
+
+
+<div class="row mt-4 mb-5">
+
+    <div class="col-9" bottom="0" style="position:relative">
+        <div class="row gtr-uniform ">
+
+            <div class="col-6 col-12-xsmall">
+                <input type="text" id="txtSearchMeal" data-mealOptId="" name="mealKeyword" value="" placeholder="Name" />   @*name="demo-name"*@
+            </div>
+            <div class="col-2 col-12-xsmall">
+                <input type="button" id="btnSearchMeal" value="查詢" class="btn btn-default" />
+            </div>
+
+            <div class="col-2 ">
+                <select name="demo-category" id="likedListSelect">
+                </select>
+            </div>
+
+            <div class="col-2 col-12-xsmall">
+
+                <input type="button" id="btnMealNotFound" class="btn btn-default" data-toggle="modal" data-target="#addModal" value="找不到">
+
+
+
+
+            </div>
+
+        </div>
+        <div class=" bg-white p-3 py-2  my-4 shadow-sm" style="bottom: 0; border-radius: 0.9em; ">
+
+            <div class="my-xl-4">
+                @{
+                    if (Model.MemberHealthProfile.CurrProgram != null)
+                    {
+                        <h3 style="display:inline">@Model.MemberHealthProfile.CurrProgram.Name  @(Math.Ceiling((Model.MemberHealthProfile.CurrProgram.EndDate- Model.MemberHealthProfile.CurrProgram.StartDate).TotalDays))日挑戰計劃(倒數@(Math.Ceiling((Model.MemberHealthProfile.CurrProgram.EndDate-DateTime.Now).TotalDays))天)</h3>
+                        @Html.ActionLink("挑戰細節", "RegisterProgram", "HHPrograms", null, null)
+                        <div class="row pt-3">
+                            <div class="col-4">挑戰上限: <span class=" h2" style="color:#f56a6a">@Model.MemberHealthProfile.ProgramMaxCalOrTDEE</span> 大卡</div>
+                            <div class="col-4">目前攝取: <span class="h2 todayTotalGainedReal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.AllDayGained</span> 大卡<span id="realGainedPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.AllDayGainedPercent%)</span></div>
+                            <div class="col-4">TDEE: <span class=" h2" style="color:#f56a6a"> @Model.MemberHealthProfile.TDEE</span> 大卡</div>
+
+                        </div>
+
+                    }
+                    else
+                    {
+                        <h3 style="display: inline">飲食日常紀錄</h3>
+                        @Html.ActionLink("來註冊挑戰吧", "RegisterProgram", "HHPrograms", null, null)
+
+                        <div class="row pt-3">
+                            <div class="col-4">TDEE: <span class=" h2" style="color:#f56a6a">@Model.MemberHealthProfile.TDEE</span> 大卡</div>
+                            <div class="col-4">目前攝取: <span class="todayTotalGainedReal h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.AllDayGained</span> 大卡<span id="realGainedPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.AllDayGainedPercent%)</span></div>
+                        </div>
+
+                    }
+                }
+                <div class="row pt-2">
+                    <div class="col">早餐: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.BreakfastGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.BreakfastGainedPercent%)</span></div>
+                    <div class="col">午餐: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.LunchGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.LunchGainedPercent%)</span></div>
+                    <div class="col">點心: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.SnackGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.SnackGainedPercent%)</span></div>
+                    <div class="col">晚餐: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.DinnerGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.DinnerGainedPercent%)</span></div>
+                    <div class="col">宵夜: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.BedtimeSnackGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.BedtimeSnackGainedPercent%)</span></div>
+
+                </div>
+                <div class="col-2" id="presentingStatus"><span style="color: #f56a6a">目前表現: </span></div>
+
+            </div>
+
+
+
+
+        </div>
+        <div>
+            <h2>暫存飲食紀錄</h2>
+            <table id="tempDietLogTable" class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>時段</th>
+                        <th>品名</th>
+                        <th>每單位卡路里含量</th>
+                        <th>單位</th>
+                        <th>份量</th>
+                        <th>總卡路里</th>
+                        <th>刪除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ if (Model.TempDietLogs != null)
+                        {
+                            foreach (MixedDietLogDTO item in Model.TempDietLogs)
+                            {
+                                string theMonth = item.Date.Substring(0, 2);
+                                if (theMonth.StartsWith("0"))
+                                {
+                                    theMonth = theMonth.Substring(1);
+                                }
+                                string theDay = item.Date.Substring(2, 2);
+                                if (theDay.StartsWith("0"))
+                                {
+                                    theDay = theDay.Substring(1);
+
+                                }
+
+
+                                <tr data-MealOptionID=@item.MealOptionID>
+                                    <td class="date">
+                                        <input type="number" style="width: 4em" class="year" value="@item.Date.Substring(4,4)" />/
+                                        <input type="number" class="month" style="width: 3em" value="@theMonth" />/
+                                        <input type="number" class="day" style="width: 3em" value="@theDay" />
+                                    </td>
+                                    <td>
+                                        <select class="tempTimeOfDay">
+                                            @{ foreach (var tod in Model.TimesOfDays)
+                                                {
+                                                    <option value="@tod.ID">@tod.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </td>
+                                    <td class="mealName">@item.Name</td>
+                                    <td class="perUnitMealCal">@item.Calories</td>
+                                    <td class="mealUnitName">@item.UnitName</td>
+                                    <td class="tempPortion"><input type="number" value=@item.Portion min="0" max="30" /></td>
+                                    <td class="tempMealTotalCal">@item.Calories</td>
+                                    <td><button type="button" class="tempBtnDel button primary fit"> 刪除 </button></td>
+                                </tr>
+
+
+                            }
+
+                        }
+
+                    }
+
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7" class="text-right">
+                            總卡路里: <span id="tempTotalCal"></span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+
+            <input type="button" id="btnSendToDB" value="確認送出" class="btn btn-default" />
+        </div>
+        @*<div class="pb-2" style="position:absolute; bottom:0">
+
+                以獲取卡路里
+                <div class="read_progress">
+                    <div id="read_progress_bar" class="read_progress_bar transition"></div>
+                </div>
+                將獲取卡路里
+                <div class="read_progress ">
+                    <div id="temp_read_progress_bar" class="read_progress_bar transition"></div>
+                </div>
+            </div>*@
+
+        <div class="  col-11" style="position: absolute; bottom: 0; ">
+            <div class="pb-2">
+                以獲取卡路里
+                <div class="progress ">
+                    <div class="progress-bar" id="gainedCalsProgressBar" role="progressbar" style="background-color: rgba(60, 120, 0, 0.4); width: @Model.MemberHealthProfile.GainedCalDatas.AllDayGainedPercent% " aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div>
+
+                將獲取卡路里
+                <div class="progress ">
+                    <div class="progress-bar" id="tempToGainedCalsProgressBar" role="progressbar" style="background-color: rgba(255, 255, 255,0.6); width: 0%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="mealInfoDiv col-3 px-0   bg-white " style="bottom: 0; border-radius: 0.9em; overflow: hidden; box-shadow: 5px 5px 30px #E0E0E0 ">
+        <input type="hidden" value="" id="hiddenMealID" />
+        <div style="height:23em">
+
+            <img id="mealInfoImage" src="~/Content/Images/MealOptionImages/mealDefault.jpg" height="100%" />
+        </div>
+        <ul class="list-group-flush mx-3 mb-3">
+            <li class="list-group-item"><h4 id="mealInfoName">餐點名稱</h4></li>
+            <li class="list-group-item">每單位卡路里(大卡): <span style="float:right" id="mealInfoCal"></span></li>
+            <li class="list-group-item">單位: <span style="float:right" id="mealInfoUnitName"></span></li>
+            <li class="list-group-item">碳水化合物含量(公克):<a href="@Url.Action("MealStyleList", "HHDiet")">a</a> <span id="mealInfoCarbs" style="float:right"></span></li>
+            <li class="list-group-item">蛋白質含量(公克):<a href="@Url.Action("MealStyleList", "HHDiet")">a</a> <span id="mealInfoProtein" style="float:right"></span></li>
+            <li class="list-group-item">脂肪含量(公克):<a href="@Url.Action("MealStyleList", "HHDiet")">a</a> <span id="mealInfoFat" style="float:right"></span></li>
+            <li class="list-group-item">糖含量(公克):<<a href="@Url.Action("MealStyleList", "HHDiet")">a</a> <span id="mealInfoSugar" style="float:right"></span></li>
+            <li class="list-group-item">鈉含量(豪克):<a href="@Url.Action("MealStyleList", "HHDiet")">a</a> <span id="mealInfoNa" style="float:right"></span></li>
+
+        </ul>
+
+
+        <ul class="actions mx-3 mb-3 pt-3" style="border-top: solid #f56a6a 2.5px ">
+            <li id="addToTempList" class="col-6 text-center" style="border-right: solid #f56a6a 2px;color: #f56a6a">加入</li>
+            <li id="btnToggleLiked" class="col-6 text-center" style="color: #f56a6a"><i id="fontLike" class="far fa-heart 2em"></i></li>
+        </ul>
+
+
+
+
+    </div>
+</div>
+
+
+<div style="border-radius: 0.9em; " class="shadow bg-white py-3">
+
+
+    <div class="row">
+        <div class="col-4" style="height: 400px; width: 400px; margin: auto ">
+            <h3 style="text-align:center">暴飲暴食?</h3>
+            <canvas id="past7DayBarID"></canvas>
+        </div>
+        <div class="col-4" style="height: 400px; width: 400px; margin: auto ">
+            <h3 style="text-align:center">飲食時段分配圖</h3>
+            <canvas id="CalRadarID"></canvas>
+        </div>
+        <div class="col-4" style="height: 400px; width: 400px; margin: auto ">
+            <h3 style="text-align:center">營養攝取分配圖</h3>
+
+            <canvas id="NutritionRadarID"></canvas>
+        </div>
+
+    </div>
+
+
+</div>
+
+<section>
+    <div>
+        <span>
+            <h2 style="float:left">今日紀錄</h2>
+            <a href='@Url.Action("DietLogsHistory", "HHDietHistory")'><input type="button" value="修改" class="btn btn-default" style=" float:right" /></a>
+
+        </span>
+        <table id="realDiletLogTable" class="table ">
+            <thead>
+                <tr>
+                    <th>餐點圖片</th>
+                    <th>時段</th>
+                    <th>品名</th>
+                    <th>每單位卡路里含量</th>
+                    <th>單位</th>
+                    <th>份量</th>
+                    <th>總卡路里</th>
+                </tr>
+            </thead>
+            <tbody>
+                @Html.Partial("_DietLogsHistoryPartial", Model.TodayDietLogs)
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6" class="text-right">
+                        總卡路里:  <span class="todayTotalGainedReal">0</span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+
+</section>
+
+<!-- Modal -->
+
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">自傳餐點 <span></span></h5>
+
+            </div>
+            <div class="modal-body">
+                <form id="CustomerAddMeal" name="CustomerAddMeal">
+                    <input type="hidden" id="MealOptionID" name="ID" value=-1 />
+                    <div class="form-group">
+                        <label for="txtName">餐點名稱</label>
+                        <input class="form-control" type="text" name="Name" id="txtName" placeholder="請輸入餐點名稱包含店家名" />
+                    </div>
+                    <div class="form-group">
+                        <label for="numCal">卡路里含量</label>
+                        <input class="form-control" type="number" name="Calories" id="numCal" placeholder="卡路里" />
+                    </div>
+                    <div class="form-group">
+                        <label for="numCal">單位名稱</label>
+                        <input class="form-control" type="text" name="UnitName" id="txtUnitName" placeholder="單位名稱" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="inputFileImg">選擇照片</label>
+                        <input type="file" class="form-control-file" id="inputFileImg" name="Image" onchange="readURL(this);">
+                    </div>
+                </form>
+
+                <img id="imgFromUser" src="~/Content/Images/MealDefaultImages/defaultCustomeMeal.jpg" width="100%" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+                <button type="button" class="btn btn-default" id="btnNewCustomerMeal">送出</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/Content/js/chart.min.js"></script>
+    <script src="~/Content/js/jquery-ui.js"></script>
+    <script src="~/Content/js/popper.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
+    <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.4/themes/blitzer/jquery-ui.css" />
+
+    <script>
+
+
+
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#imgFromUser')
+                            .attr('src', e.target.result);
+                            //.width(150)
+                            //.height(200);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+
+
+
+
+        $(document).ready(function () {
+          
+            
+            UpdateLikedList()
+            GetTimesOfDay()
+            SetTempInfoDefaut()
+            GetTempDietLogsSession()
+            DynamicTempChange()
+
+
+
+
+        })
+
+      function GetTempDietLogsSession() {
+             fetch('@Url.Action("GetSession", "HHApi_DietLog")', {
+                method: "GET",
+             }).then(response => response.json()).then(data => {
+                 if (data == 0) {  return; }
+                 else {
+                     RenderTempDietLogsBySession(data)
+                 }
+            })
+
+        }
+
+        var likedMeals = null;
+
+
+        var latestMeal = {
+            value: null,
+            letMeKnow() {
+                UpdateMealInfo(this.value)
+            },
+            get Meal() {
+                return this.value;
+            },
+            set Meal(value) {
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+        var todGainedCalsPer = '@Html.Raw(Json.Encode(Model.MemberHealthProfile.GainedCalDatas.TODPercents))';
+        var past7DaysGainedCals = '@Html.Raw(Json.Encode(Model.MemberHealthProfile.Past7DaysGainedCalFromDate))';
+        var suggestedNutritionRanges = '@Html.Raw(Json.Encode(Model.MemberHealthProfile.GainedNutritionDatas.SuggestedNutritionsPercents))';
+        var suggestedNutritionRangesArr = JSON.parse(suggestedNutritionRanges);
+        var GainedNutritionsPer = '@Html.Raw(Json.Encode(Model.MemberHealthProfile.GainedNutritionDatas.GainedNutritionsPercents))';
+        var dayGainedCalPer = '@Html.Raw(Json.Encode(Model.MemberHealthProfile.GainedCalDatas.AllDayGainedPercent))';
+
+        var timesOfDays = null;
+        var tempTotal = 0;
+        var tempBfGainedCal = 0
+        var tempLchGainedCal = 0
+        var tempDnGainedCal = 0
+        var tempSnGainedCal = 0
+        var tempBedSnGainedCal = 0
+
+
+        var past7DaysGainedCalsArr = {
+            value: JSON.parse(past7DaysGainedCals),
+            letMeKnow() {
+                past7DayBarChart.data.datasets[0].data = this.value
+                past7DayBarChart.update();
+                $(".todayTotalGainedReal").text(this.value[this.value.length - 1])
+
+
+            },
+            get Arr() {
+                return this.value;
+            },
+            set Arr(value) {
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+        var todGainedCalsPerArr = {
+            value: JSON.parse(todGainedCalsPer),
+            letMeKnow() {
+                CalRadarChart.data.datasets[0].data = this.value
+                CalRadarChart.data.datasets[1].data = null
+                CalRadarChart.update();
+
+                $(".realTODPer").each(function (index, element) {
+                    $(this).text(`(${todGainedCalsPerArr.Arr[index]}%)`)
+
+                })
+            },
+            get Arr() {
+                return this.value;
+            },
+            set Arr(value) {
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+
+
+
+
+
+
+        var dayGainedCalPercent = {
+            value: JSON.parse(dayGainedCalPer),
+            letMeKnow() {
+                $("#gainedCalsProgressBar").css("width", this.value + "%")
+                if (this.value >= 100) { $("#gainedCalsProgressBar").css("background-color", "rgba(255,0 , 0, 0.9)") }
+
+                $("#realGainedPer").text(`(${this.value}%)`)
+            }
+            ,
+            get Val() {
+                return this.value;
+            },
+            set Val(value) {
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+
+
+
+        var GainedNutritionsPerArr = {
+            value: JSON.parse(GainedNutritionsPer),
+            letMeKnow() {
+                NutritionRadarChart.data.datasets[1].data = this.value
+                NutritionRadarChart.update();
+
+                }
+       ,
+            get Arr() {
+                return this.value;
+            },
+            set Arr(value) {
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+
+
+
+
+
+
+        //===========Event===============
+
+        function SetTempInfoDefaut() {
+              tempTotal = 0;
+            tempBfGainedCal = 0
+             tempLchGainedCal = 0
+             tempDnGainedCal = 0
+             tempSnGainedCal = 0
+             tempBedSnGainedCal = 0
+            $("#tempTotalCal").text(tempTotal)
+            $("#tempToGainedCalsProgressBar").css("background-color", "rgba(255, 255, 255,0.6)")
+            $("#tempToGainedCalsProgressBar").css("width", "0%")
+
+        }
+
+
+
+
+
+
+        $("#tempDietLogTable").on("click", ".tempBtnDel", function () {
+            $(this).closest("tr").remove();
+            DynamicTempChange()
+        })
+
+    function RenderTempDietLogsBySession(json) {
+
+        json.forEach((item, index, arr) => {
+
+            alert(item.Date)
+            alert(arr)
+            //todo render
+        })
+    }
+    jQuery.fn.serializeObject = function () {
+        var formData = {};
+        var formArray = this.serializeArray();
+        for (var i = 0, n = formArray.length; i < n; ++i) {
+            formData[formArray[i].name] = formArray[i].value;
+        }
+        return formData;
+    };
+
+
+    $("#btnNewCustomerMeal").click(() => {
+
+        const obj = $("#CustomerAddMeal").serializeObject()
+        latestMeal.Meal =obj
+        //let customImgPath = $("#inputFileImg").val()
+        //AddTempDietLogRow(latestMeal.Meal, customImgPath)
+        $('#addModal').modal('hide')
+    })
+        $(function () {
+            $("#txtSearchMeal").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/HHApi_DietLog/GetMealNameByKeyword",
+                        data: "{'mealKeyword':'" + request.term + "'}",
+                        datatype: "json",
+                        type:"POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item)
+                            {
+                                return {
+                                    label: item.MealName, value: item.MealOptionID, data: item
+                                }
+
+                            }))
+                        },
+
+
+                    });
+                },
+
+                select: function (event, ui) {
+                    $(this).attr("data-mealOptId", ui.item.value)
+                    return ""
+
+                },
+                minLength:2,
+
+            })
+        })
+
+        $("#btnSearchMeal").click( ()=> {
+            const mealID = $("#txtSearchMeal").attr("data-mealOptId")
+               $.ajax({
+                type: "GET",
+                   url: '@Url.Action("GetMealInfoByID", "HHApi_DietLog")?id=' + mealID+'&memberId='+ @Model.MemberHealthProfile.MemberID,
+                contentType: "html",
+                   success: function (result) {
+                       latestMeal.Meal =result;
+                       UpdateMealInfo(latestMeal.Meal)
+
+
+                   }
+
+
+               })
+            SetInputEleDeFault()
+        })
+
+        function AddTempDietLogRow(latestMeal, customImgPath)   //add file name
+        {
+            const cell1 =`<td class="date"><input type="number" style="width: 4em" class="year" value="@DateTime.Now.Year"/>/<input type="number" class="month" style="width: 3em" value="@DateTime.Now.Month"/>/<input type="number" class="day" style="width: 3em" value="@DateTime.Now.Day"/></td>`
+            const cell2 = `<td><select class="tempTimeOfDay">${FillTODSelectEle()}</select></td>`
+            const cell3 = `<td class="mealName">${latestMeal.Name}</td>`
+            const cell4 = `<td class="perUnitMealCal">${latestMeal.Calories}</td>`
+            const cell5 = `<td class="mealUnitName">${latestMeal.UnitName}</td>`
+            const cell6 = `<td class="tempPortion"><input type="number" value=1 min="0" max="30" /></td>`
+            const cell7 = `<td class="tempMealTotalCal">${latestMeal.Calories}</td>`
+            const cell8 = `<td><button type="button" class="tempBtnDel button primary fit">刪除</button></td>`
+            const row = $('<tr></tr>').append([cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8])
+            row.attr("data-MealOptionID", latestMeal.ID)
+            row.attr("data-CustomMealImgFile", customImgPath)
+
+            $("#tempDietLogTable tbody").append(row)
+
+            DynamicTempChange()
+
+        }
+
+
+        $("#addToTempList").click(() => {
+            if (latestMeal.Meal ==null) return;
+            AddTempDietLogRow(latestMeal.Meal, null);
+
+
+        })
+
+
+            function LeadingZero(monthOrDay) {
+                let fixedVal = monthOrDay;
+                if (monthOrDay.length< 10) {
+                    fixedVal = "0" + monthOrDay
+                }
+
+                return fixedVal
+
+            }
+
+        $("#btnSendToDB").click(() => {
+
+            const hhAndCustomerMealsArr = PackageTempList();
+            if (hhAndCustomerMealsArr.length == 0) return;
+
+            $.ajax({
+                type: "POST",
+                  url: '@Url.Action("SentTempListToDB", "HHApi_DietLog")',
+                data: JSON.stringify(hhAndCustomerMealsArr),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (report) {
+
+                    const dietLogs = report.DietLogs;
+                    $("#realDiletLogTable tbody").html("")
+                    //var TodayTotalGainedRealCal = 0
+                    dietLogs.forEach((dietlog) => {
+                        let mealImgPathPrefix = "/Content/Images/MealOptionImages/";
+                        if (dietlog.IsCustomUploaded == true) {
+                            mealImgPathPrefix = "/Content/Images/CustomerMealUploadImages/";
+                        }
+
+                        const cell1 = `<td><img width="108" height="85" src ='${mealImgPathPrefix}${dietlog.MealImage}'/></td>`
+                        const cell2 = `<td>${dietlog.TimesOfDayName}</td>`
+                        const cell3 = `<td>${dietlog.MealName}</td>`
+                        const cell4 = `<td >${dietlog.MealCal}</td>`
+                        const cell5 = `<td>${dietlog.MealUnitName}</td>`
+                        const cell6 = `<td>${dietlog.Portion}</td>`
+                        const cell7 = `<td >${dietlog.MealTotalGainedCal}</td>`
+                        const row = $('<tr></tr>').append([cell1, cell2, cell3, cell4, cell5, cell6, cell7])
+                        //TodayTotalGainedRealCal += dietlog.MealTotalGainedCal
+                        row.appendTo($("#realDiletLogTable tbody"))
+
+                    });
+
+
+                    //$(".todayTotalGainedReal").text(TodayTotalGainedRealCal)
+                    past7DaysGainedCalsArr.Arr = report.DietProfile.Past7DaysGainedCalFromDate;
+                    GainedNutritionsPerArr.Arr = report.DietProfile.GainedNutritionDatas.GainedNutritionsPercents
+                    todGainedCalsPerArr.Arr = report.DietProfile.GainedCalDatas.TODPercents;
+                    //=======
+                    var todGainedCals = [report.DietProfile.GainedCalDatas.BreakfastGained,
+                        report.DietProfile.GainedCalDatas.LunchGained,
+                        report.DietProfile.GainedCalDatas.SnackGained,
+                        report.DietProfile.GainedCalDatas.DinnerGained,
+                        report.DietProfile.GainedCalDatas.BedtimeSnackGained];
+                    $(".realTODCals").each(function (idx, ele) {
+                        $(this).text(todGainedCals[idx])
+                    })
+
+                    //=======
+                    dayGainedCalPercent.Val = report.DietProfile.GainedCalDatas.AllDayGainedPercent;
+
+
+                    //=======
+
+
+
+
+                },
+                failure: function () { alert("not working..."); }
+            });
+
+            SetTempInfoDefaut()
+             @{Session[CDictionary.KEY_DIETLOGCART_ITEMS] = null;}
+             $("#tempDietLogTable tbody").empty()
+
+
+
+
+        })
+
+            function PackageTempList() {
+
+                let mixedDietLogsToSent = []
+            $("#tempDietLogTable tbody").find("tr").each(
+                function (idx, value) {
+                    const portion = $(value).find(".tempPortion").find("input").val();
+                    const todID = $(value).find(".tempTimeOfDay").find(":selected").val();
+                    const memberID =@Model.MemberHealthProfile.MemberID;
+
+                    const y = $(value).find(".date").find(".year").val();
+                    const m = LeadingZero($(value).find(".date").find(".month").val());
+                    const d = LeadingZero($(value).find(".date").find(".day").val());
+                    const date = m + d + y;
+                    const mealOptionID = $(value).attr("data-MealOptionID")
+                    const mealName = $(value).find(".mealName").text();
+                    const mealCal = $(value).find(".perUnitMealCal").text();
+                    const mealUnitName = $(value).find(".mealUnitName").text();
+                    const customMealImagePath = $(value).attr("data-CustomMealImgFile")
+                    let itemObj = {
+                        "MemberID": memberID, "Portion": portion, "Name": mealName, "Calories": mealCal, "MealOptionID": mealOptionID,
+                        "TimeOfDayID": todID, "Date": date, "UnitName": mealUnitName, "ImagePath": customMealImagePath};
+
+
+                    mixedDietLogsToSent.push(itemObj)
+                    }
+
+            )
+                return mixedDietLogsToSent;
+            }
+
+        $("#tempDietLogTable").on("change keyup", ".tempPortion", DynamicTempChange);
+        $("#tempDietLogTable").on("change", ".tempTimeOfDay ", DynamicTempChange);
+        $("#tempDietLogTable").on("change", ".date", DynamicTempChange);
+
+
+
+
+        function DynamicTempChange() {  //todo
+            SetTempInfoDefaut()
+            tempMealTr = $("#tempDietLogTable tbody").children()
+            tempMealTr.each(function () {
+                let perUnitMCal = $(this).find(".perUnitMealCal").text();
+
+                let tempPortion = $(this).find(".tempPortion").find("input").val();
+
+                let mTtlCal = perUnitMCal * tempPortion;
+                let y = $(this).find(".date").find(".year").val();
+                let m = LeadingZero($(this).find(".date").find(".month").val());
+                let d = LeadingZero($(this).find(".date").find(".day").val());
+                let date = m + d + y;
+                $(this).find(".tempMealTotalCal").text(mTtlCal);
+
+                if ("@Model.DateOfToday" === date) {
+                    tempTotal += mTtlCal;
+                    let tempMealTOD = $(this).find(".tempTimeOfDay").children(":selected").val()
+                    console.log(tempMealTOD)
+                    let tempPerTODGainedPer = Math.round((mTtlCal / @Model.MemberHealthProfile.TDEE) * 100);
+                    switch (tempMealTOD) {
+                        case "1":
+                            tempBfGainedCal += tempPerTODGainedPer; break;
+                        case "2":
+                            tempLchGainedCal += tempPerTODGainedPer; break;
+                        case "3":
+                            tempSnGainedCal += tempPerTODGainedPer; break;
+                        case "4":
+                            tempDnGainedCal += tempPerTODGainedPer; break;
+                        case "5":
+                            tempBedSnGainedCal += tempPerTODGainedPer; break;
+                        }
+                }
+
+            })
+            var todTempAddedCals = new Array();
+            todTempAddedCals[0] = tempBfGainedCal;
+            todTempAddedCals[1] = tempLchGainedCal;
+            todTempAddedCals[2] = tempSnGainedCal;
+            todTempAddedCals[3] = tempDnGainedCal;
+            todTempAddedCals[4] = tempBedSnGainedCal;
+
+            var arrForTempCalRadar = todGainedCalsPerArr.Arr.map(function (num, idx) {
+                return num + todTempAddedCals[idx]
+            });
+            $("#tempTotalCal").text(tempTotal);
+            UpdateCalRadarChartTemp(CalRadarChart, arrForTempCalRadar)
+            //-----------------------UpdateTempProgressBar--------------------------
+            let tempToGainedPer = arrForTempCalRadar.reduce((a, b) => a + b, 0)
+            if (tempToGainedPer == dayGainedCalPercent.Val) {
+                $("#tempToGainedCalsProgressBar").css("width", "0%");
+                return;
+            }
+            $("#tempToGainedCalsProgressBar").css("width", tempToGainedPer + "%")
+            if (tempToGainedPer >= 100) { $("#tempToGainedCalsProgressBar").css("background-color", "rgba(255,0 , 0, 0.1)") }
+
+            //----------------------------------------------------------------------
+
+
+
+      }
+
+
+
+
+
+        function FillTODSelectEle() {
+            if (!timesOfDays) return;
+            let optinnerHTML =""
+            timesOfDays.forEach((item, index, arr)=>{
+                const opt = `<option value=${item.ID} >${item.Name}</option>`
+                optinnerHTML += opt
+            })
+            console.log(optinnerHTML)
+            return optinnerHTML
+
+        }
+
+
+        $("#btnToggleLiked").click(() => {
+            console.log(latestMeal.Meal)
+
+            if (!latestMeal.Meal || latestMeal.Meal.ID<=0) { return;}
+             $.ajax({
+                type: "GET",
+                 url: '@Url.Action("LikeMealToggle", "HHApi_DietLog")?memberId=' +@Model.MemberHealthProfile.MemberID + '&mealId=' + latestMeal.Meal.ID,
+                contentType: "html",
+             }).done(function (isLiked) {
+                 if (isLiked == true) {
+                     $("#fontLike").removeClass("far").addClass("fas");
+                 }
+                 else { $("#fontLike").removeClass("fas").addClass("far"); }
+
+                 UpdateLikedList()
+                 })
+
+        })
+
+
+
+
+        $("#likedListSelect").on("change", function () {
+            let mealID = $(":selected").val()
+
+            //latestMeal.Meal=null
+            if (mealID) {
+                for (let meal of likedMeals) {
+                    if (meal.ID == mealID) {
+                        latestMeal.Meal =meal
+                        break;
+                    }
+                }
+            }
+            UpdateMealInfo(latestMeal.Meal)
+            SetInputEleDeFault()
+
+        })
+
+        //=================================
+        var CalRadarEle = document.getElementById('CalRadarID').getContext('2d');
+
+        var CalRadarChart = new Chart(CalRadarEle, {
+            type: 'radar',
+            data: {
+
+
+                labels: ['早餐', '午餐', '點心', '晚餐', '宵夜'],
+                datasets: [{
+                    label: '目前攝取 (單位 %): ',
+                    data: todGainedCalsPerArr.Arr,
+                    backgroundColor: [
+                        'rgba(245, 145, 145, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(245, 145, 145, 1)'
+                    ],
+                    borderWidth: 1
+                },
+                {
+                    label: '即將攝取 (單位 %): ',
+                    //data: [bfPer, lchPer, snPer, dnPer, bedSnPer],
+                    backgroundColor: [
+                        'rgba(0, 99, 132, 0)'
+                    ],
+                    borderColor: [
+                        'rgba(0, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+
+                scale: {
+                    min: 0,
+                    max: 60,
+
+                },
+            },
+
+
+
+        });
+         //=================================
+
+
+        var NutritionRadarEle = document.getElementById('NutritionRadarID').getContext('2d');
+        var NutritionRadarChart = new Chart(NutritionRadarEle, {
+            type: 'radar',
+            data: {
+                labels: ['蛋白質', '碳水化合物', '脂肪'],
+                datasets: [{
+                    label: 'Min (單位 %): ',
+                    data: suggestedNutritionRangesArr[0],
+
+
+                    backgroundColor: [
+                        'rgba(112, 112, 112, 0.1)'
+                    ]
+                    ,
+                    borderColor: [
+                        'rgba(112, 112, 112, 1)'
+                    ],
+                    borderWidth: 0.1
+                },
+                {
+                    label: '攝取分布 (單位 %): ',
+                    data: GainedNutritionsPerArr.Arr,
+                    backgroundColor: [
+                        'rgba(252, 223, 32, 0.3)'
+                    ],
+                    borderColor: [
+                        'rgba(252, 223, 32, 1)'
+                    ],
+                    borderWidth: 2
+                },
+                {
+                    label: 'Max(單位 %): ',
+                    data: suggestedNutritionRangesArr[1],
+                    backgroundColor: [
+                        'rgba(112, 112, 112, 0.1)'
+                    ]
+                    ,
+                    borderColor: [
+                        'rgba(112, 112, 112, 1)'
+                    ],
+                    borderWidth: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+
+                scale: {
+                    min: 0,
+                    max: 60,
+
+                },
+            },
+
+
+
+        });
+
+
+
+        //====================================================================
+        var past7DayBarEle = document.getElementById('past7DayBarID').getContext('2d');
+
+        var past7DayBarChart = new Chart(past7DayBarEle, {
+            type: 'bar',
+            data: {
+                labels: ['今天-6','今天-5','今天-4', '今天-3', '今天-2', '今天-1', '今天'],
+                datasets: [{
+                    label: '過去七天攝取 (單位 KCal): ',
+                    data: past7DaysGainedCalsArr.Arr,
+                    backgroundColor: [
+                        'rgba(112, 112, 112, 0.1)',
+                        'rgba(112, 112, 112, 0.1)',
+                        'rgba(112, 112, 112, 0.1)',
+                        'rgba(112, 112, 112, 0.1)',
+                        'rgba(112, 112, 112, 0.1)',
+                        'rgba(112, 112, 112, 0.1)',
+                        'rgba(60, 120, 0, 0.2)'
+
+
+
+                    ],
+                    borderColor: [
+                        'rgba(112, 112, 112, 0.3)',
+                        'rgba(112, 112, 112, 0.3)',
+                        'rgba(112, 112, 112, 0.3)',
+                        'rgba(112, 112, 112, 0.3)',
+                        'rgba(112, 112, 112, 0.3)',
+                        'rgba(112, 112, 112, 0.3)',
+                        'rgba(60, 120, 0, 1)',
+
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+
+                scale: {
+                    min: 0,
+                    max: @Model.MemberHealthProfile.TDEE*1.5,
+
+                },
+            },
+
+
+
+
+
+
+
+
+        });
+
+
+
+        //====================================================================
+
+        //============functions=================================
+
+        function GetTimesOfDay() {
+              $.ajax({
+                type: "GET",
+                  url: '@Url.Action("GetTimesOfDay", "HHApi_DietLog")',
+                contentType: "html"
+              }).done(function (datas) {
+                  timesOfDays = datas
+              })
+        }
+
+
+        function UpdateLikedList() {
+            //const likedListSelectEle = document.querySelector('#likedListSelect')
+            //likedListSelectEle.Options
+
+            $("#likedListSelect").empty();
+            $("#likedListSelect").html('<option value="" disabled selected hidden>-我的最愛-</option>')
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetLikedList", "HHApi_DietLog")?memberId=' + @Model.MemberHealthProfile.MemberID,
+                contentType: "html"
+            }).done(function (datas) {
+                likedMeals = datas
+                likedMeals.forEach(function (item) {
+                    const opt = `<option value=${item.ID} >${item.Name}</option>`
+                    $("#likedListSelect").append(opt)
+                })
+            })
+
+        }
+
+        $(".tagImg").click(() => {
+             $.ajax({
+                type: "POST",
+                  url: '@Url.Action("UpdateSession", "HHApi_DietLog")',
+                 data: JSON.stringify(PackageTempList()),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                 success: function (data) {
+                     console.log(data)
+
+                 },
+                failure: function () {  }
+            });
+
+
+
+
+        })
+
+        function SetInputEleDeFault() {
+            $("#txtSearchMeal").val("")
+            $("#likedListSelect").val("")
+        }
+
+
+        function UpdateMealInfo(mealVModel) {
+            if (!mealVModel) { SetMealInfoDefault(); return;}
+            $("#hiddenMealID").val(mealVModel.ID)
+            let mealImgPath =  `/Content/Images/MealOptionImages/${mealVModel.Image}`;
+            if (mealVModel.ID <= 0) {mealImgPath = "/Content/Images/MealDefaultImages/defaultCustomeMeal.jpg"}
+            $("#mealInfoImage").attr("src",mealImgPath)
+            $("#mealInfoName").html(mealVModel.Name)
+            $("#mealInfoCal").html(Math.round(mealVModel.Calories))
+            $("#mealInfoUnitName").html(mealVModel.UnitName)
+            $("#mealInfoCarbs").html(Math.round(mealVModel.Carbs))
+            $("#mealInfoProtein").html(Math.round(mealVModel.Protein))
+            $("#mealInfoFat").html(Math.round(mealVModel.Fat))
+            $("#mealInfoNa").html(Math.round(mealVModel.Na))
+            $("#mealInfoSugar").html(Math.round(mealVModel.Sugar))
+            if (mealVModel.IsLiked == true) {
+                $("#fontLike").removeClass("far").addClass("fas");
+            }
+            else { $("#fontLike").removeClass("fas").addClass("far"); }
+
+
+
+        }
+
+        function SetMealInfoDefault() {
+            $("#mealInfoName").html("餐點名稱")
+            $("#mealInfoImage").attr("src", "/Content/Images/MealOptionImages/mealDefault.jpg" )
+            $(".mealInfoDiv li span").html("")
+        }
+
+
+
+
+
+
+
+
+
+         function UpdateCalRadarChartTemp(chart, arr) {
+            chart.data.datasets[1].data = arr
+            chart.update();
+        }
+
+
+
+
+    </script>
+
+}

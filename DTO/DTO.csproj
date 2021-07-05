@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -56,6 +57,7 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,18 +66,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="A.cs" />
+    <Compile Include="B.cs" />
+    <Compile Include="C.cs" />
+    <Compile Include="CCalculator.cs" />
+    <Compile Include="CDictionary.cs" />
     <Compile Include="CommentDTO.cs" />
     <Compile Include="CountDTO.cs" />
+    <Compile Include="CreateMtrlDTO.cs" />
+    <Compile Include="CustomerMealDTO.cs" />
+    <Compile Include="ProgramDTO.cs" />
+    <Compile Include="DietLogEditDTO.cs" />
+    <Compile Include="MemberForDietDTO.cs" />
+    <Compile Include="TempCustomerMealDTO.cs" />
+    <Compile Include="DietLogDTO.cs" />
     <Compile Include="LayoutDTO.cs" />
+    <Compile Include="MealOptionDTO.cs" />
+    <Compile Include="MixedDietLogDTO.cs" />
     <Compile Include="PostCategoryDTO.cs" />
     <Compile Include="PostDTO.cs" />
     <Compile Include="PostImageDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeOfDayDTO.cs" />
     <Compile Include="UserDTO.cs" />
     <Compile Include="UserStatic.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
