@@ -14,13 +14,7 @@
     </ol>
 </section>
 <br />
-@*<div class="card-footer">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Comment/AddComment'">新增留言</button>
-</div>*@
-@*@using DTO
-    @{
-        CountDTO countDTO = (CountDTO)ViewData["AllCounts"];
-    }*@
+
 <div class="card">
     <!--</div>-->
     <!-- /.row -->
@@ -30,8 +24,9 @@
             <thead>
                 <tr>
                     <th>標題</th>
-                    <th>內容</th>
+                    <th>留言者</th>
                     <th>文章標題</th>
+                    <th>內容</th>
                     <th>新增日期</th>
                     <th>核准</th>
                     <th>刪除</th>
@@ -43,18 +38,21 @@
                 <tr id="a_@item.ID">
                     <td>@item.Title</td>
                     <td>
-                        @item.CommentContent
+                        @item.MemberName
                     </td>
                     <td>
-                        @item.TargetCommentTitle
+                        @item.PostTitle
                     </td>
                     <td>
-                        @item.AddDate.ToString("dd.MM.yyyy, dddd")
+                        @Html.Raw(item.CommentContent)
+                    </td>
+                    <td>
+                        @item.AddDate.ToString("yyyy.MM.dd")
                     </td>
                     @if (!item.IsApproved)
                     {
                         <td align="center" valign="middle">
-                            <a href="/Admin/Comment/ApproveComment/@item.ID">
+                            <a href="../Comment/ApproveComment/@item.ID">
                                 <img src="~/Areas/Admin/Content/icon/approve.png" />
                             </a>
                         </td>
@@ -79,6 +77,7 @@
                     <th>標題</th>
                     <th>內容</th>
                     <th>文章標題</th>
+                    <th>內容</th>
                     <th>新增日期</th>
                     <th>核准</th>
                     <th>刪除</th>

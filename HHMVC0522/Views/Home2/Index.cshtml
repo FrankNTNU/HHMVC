@@ -3,137 +3,190 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/HomeLayout2_0622.cshtml";
 }
+@model DTO.LayoutDTO
 
-<div id="main">
-    <div class="inner">
 
-        <!-- Header -->
-        <header id="header">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" width="50"></a>
-            <a href="index.html" class="logo"><strong>Editorial</strong> by HTML5 UP</a>
+@section Styles {
+    <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
+    <link href="~/Content/toastr/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .d-md-block {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px 10px;
+        }
+        a {
+            color: #e82a2a;
+        }
+        @@media only screen and (max-width: 550px) {
+            #titleText {
+                font-size: 1.5em;
+            }
+            #bannerText>h2 {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+}<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
 
-            <ul class="icons">
-                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-                <li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-                <li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
-            </ul>
-        </header>
-
-        <!-- Banner -->
-        <section id="banner">
-            <div class="content">
-                <header>
-                    <h1>
-                        Hi, @DTO.UserStatic.NameSurname<br />
-                        歡迎回到HealthHelper，<br />你的健康管理助手
-                    </h1>
-                    <p>A free and fully responsive site template</p>
-                </header>
-                <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. Pellentesque sapien ac quam. Lorem ipsum dolor sit nullam.</p>
-                <ul class="actions">
-                    <li><a href="#" class="button big">Learn More</a></li>
-                </ul>
-            </div>
-            <span class="image object">
-                <img src="~/Content/img/slides/health1.jpg" alt="" />
-            </span>
-        </section>
-
-        <!-- Section -->
-        <section>
-            <header class="major">
-                <h2>Erat lacinia</h2>
-            </header>
-            <div class="features">
-                <article>
-                    <span class="icon fa-gem"></span>
-                    <div class="content">
-                        <h3>Portitor ullamcorper</h3>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    </div>
-                </article>
-                <article>
-                    <span class="icon solid fa-paper-plane"></span>
-                    <div class="content">
-                        <h3>Sapien veroeros</h3>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    </div>
-                </article>
-                <article>
-                    <span class="icon solid fa-rocket"></span>
-                    <div class="content">
-                        <h3>Quam lorem ipsum</h3>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    </div>
-                </article>
-                <article>
-                    <span class="icon solid fa-signal"></span>
-                    <div class="content">
-                        <h3>Sed magna finibus</h3>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- Section -->
-        <section>
-            <header class="major">
-                <h2>Ipsum sed dolor</h2>
-            </header>
-            <div class="posts">
-                <article>
-                    <a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-                    <h3>Interdum aenean</h3>
-                    <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </article>
-                <article>
-                    <a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
-                    <h3>Nulla amet dolore</h3>
-                    <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </article>
-                <article>
-                    <a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
-                    <h3>Tempus ullamcorper</h3>
-                    <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </article>
-                <article>
-                    <a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
-                    <h3>Sed etiam facilis</h3>
-                    <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </article>
-                <article>
-                    <a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
-                    <h3>Feugiat lorem aenean</h3>
-                    <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </article>
-                <article>
-                    <a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
-                    <h3>Amet varius aliquam</h3>
-                    <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </article>
-            </div>
-        </section>
-
+        <div class="col-3 col-sm-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-8 col-sm-7 col-lg-8 p-1 align-self-center" >
+            <h2 id="titleText"><strong>HealthHelper</strong> <text style="white-space: nowrap">您的健康管理助手</text></h2>
+        </div>
+        
     </div>
+</header><header id="header" class="m-0 p-0"></header>
+        <!-- Banner -->
+        <section id="banner" class="pt-3 pb-2">
+            <div class="row">
+                <div class="col-12 col-lg-6 mb-3" id="bannerText">
+                    @if (Session["ID"] != null)
+                    {
+                        <h2><i class="far fa-flag"></i>
+                            Hi, @Session["Name"]<br />
+                            歡迎回到 HealthHelper，<br />你的健康管理助手
+                        </h2>
+                    }
+                    else
+                    {
+                        <h2>
+                            歡迎來到<span style="font-size:0.9em"> HealthHelper</span>
+
+                        </h2>
+                        <h2>登入以啟用更多功能</h2>
+                    }
+                <div class="actions pt-2 m-auto">
+                    @if (Session["ID"] == null)
+                    {
+                        <a href="~/Home2/Login" class="button primary big mr-5" style="text-decoration: none"><i class="fas fa-user"></i> 登入</a>}<a href="#" class="button big" style="text-decoration: none"><i class="fas fa-book"></i> 遊戲規則</a>
+                    </div>
+
+                   
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <a href="#" class="image" style="width:auto; margin:auto">
+                                    <img class="d-block w-100" src="~/Areas/Admin/Content/tempimage/healthImg.png" alt="First slide">
+
+                                    <div class="carousel-caption d-md-block">
+                                        <h5>歡迎來到HealthHelper</h5>
+                                        <p>現在就加入健康管理助手</p>
+                                    </div>
+                                </a>
+
+                            </div>
+                            @foreach (var item in Model.Rules)
+                            {
+                                <div class="carousel-item">
+                                    <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image" style="        width: auto;
+        margin: auto
+">
+                                        <img class="d-block w-100" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="First slide">
+
+                                        <div class="carousel-caption d-md-block">
+                                            <h5>@item.Title</h5>
+                                            <p>@item.ShortContent</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- Section -->
+        <section class="pt-5 pb-5">
+            <header class="row">
+                <div class="row col-12">
+                    <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
+                        <h3 style="margin-bottom: 10px;">
+                            <i class="far fa-file"></i> 最新貼文
+                        </h3>
+                    </div>
+                    <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
+                        <a href="~/FrontPost/AllPosts"><label class="button primary">檢視全部</label></a>
+                    </div>
+                </div>
+
+            </header>
+            <header class="major"><p class="col-12"></p></header>
+            <div class="row">
+                @foreach (var item in Model.Posts)
+                {
+                    <div class="col-12 col-md-6 col-lg-4">
+
+
+                        <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image">
+                            @if (item.ImagePath != "~/Content/img/slides/health1.jpg")
+                            {
+                                <img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="" style="max-width:100%" />
+                            }
+
+                            else
+                            {
+                                <img src="~/Content/img/slides/health1.jpg" alt="" style="max-width:100%" />
+                            }
+                        </a>
+                        <text>
+                            <span class="button" style="        margin-right: 10px;
+        pointer-events: none
+">@item.CategoryName</span><a href="@Url.Action("PostDetail","FrontPost", new { @ID = item.ID })" style="text-decoration: none"><strong>@item.Title</strong></a>
+</text><span>@item.AddDate.ToString("yyyy/MM/dd")</span>
+<p>@item.ShortContent</p>
+@*<ul class="actions">
+        <li><a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="button">More</a></li>
+    </ul>*@
+
 </div>
+}
+            </div>
+        </section>
+
+
+@section Scripts {
+    <script src="~/Content/toastr/toastr.min.js"></script>
+    <script src="~/Content/js/jquery.likebtn.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        $('.carousel').carousel({
+            interval: 2000
+        })
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var result = "@ViewData["CommentState"]";
+            if (result != "") {
+
+                if (result == "Success") {
+                    toastr.success("動作成功");
+                }
+                else {
+                    toastr.error("失敗");
+                }
+            }
+
+        })
+
+    </script>
+}

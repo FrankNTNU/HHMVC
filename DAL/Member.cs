@@ -17,20 +17,20 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Member()
         {
+            this.Comments = new HashSet<Comment>();
             this.DietLogs = new HashSet<DietLog>();
             this.GiftCarts = new HashSet<GiftCart>();
+            this.GroupChats = new HashSet<GroupChat>();
+            this.LikedMeals = new HashSet<LikedMeal>();
             this.LikedPosts = new HashSet<LikedPost>();
             this.Points1 = new HashSet<Point>();
+            this.Posts = new HashSet<Post>();
             this.WorkoutPreferences = new HashSet<WorkoutPreference>();
             this.Programs = new HashSet<Program>();
             this.TempCustomerMealOptions = new HashSet<TempCustomerMealOption>();
+            this.WaterLogs = new HashSet<WaterLog>();
             this.WeightLogs = new HashSet<WeightLog>();
             this.WorkoutLogs = new HashSet<WorkoutLog>();
-            this.LikedMeals = new HashSet<LikedMeal>();
-            this.Posts = new HashSet<Post>();
-            this.Comments = new HashSet<Comment>();
-            this.GroupChats = new HashSet<GroupChat>();
-            this.WaterLogs = new HashSet<WaterLog>();
         }
     
         public int ID { get; set; }
@@ -50,17 +50,27 @@ namespace DAL
         public string Name { get; set; }
         public int Points { get; set; }
         public Nullable<int> MealCount { get; set; }
+        public string ActiveCode { get; set; }
+        public string GoogleID { get; set; }
     
         public virtual ActivityLevel ActivityLevel { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comment> Comments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DietLog> DietLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiftCart> GiftCarts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GroupChat> GroupChats { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LikedMeal> LikedMeals { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LikedPost> LikedPosts { get; set; }
         public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Point> Points1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Post> Posts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkoutPreference> WorkoutPreferences { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -68,18 +78,10 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TempCustomerMealOption> TempCustomerMealOptions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WaterLog> WaterLogs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WeightLog> WeightLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkoutLog> WorkoutLogs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LikedMeal> LikedMeals { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Post> Posts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comment> Comments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GroupChat> GroupChats { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WaterLog> WaterLogs { get; set; }
     }
 }

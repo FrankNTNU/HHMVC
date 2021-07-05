@@ -8,7 +8,7 @@ namespace DAL
 {
     public class HHContext
     {
-        public static HealthHelperEntities6 db = new HealthHelperEntities6();
+        public static HealthHelperEntities db = new HealthHelperEntities();
         
     }
 }

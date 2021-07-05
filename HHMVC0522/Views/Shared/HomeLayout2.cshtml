@@ -1,138 +1,196 @@
 ﻿
-@{
-    Layout = null;
-}
+@{ Layout = null; }
 
 <!DOCTYPE HTML>
 <!--
     Editorial by HTML5 UP
-    html5up.net | 
+    html5up.net |
     Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
 <head>
-    <title>Editorial by HTML5 UP</title>
+    <title>HealthHelper 你的健康管理助手</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="~/Content/css/main.css" />
-    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+
+
     @RenderSection("Styles", required: false)
+<style>
+        a.toggle {
+            color: red;
+        }
 
+        a {
+            border-bottom: none;
+        }
+        img {
+            border-radius: 15px 15px;
+        }
+
+    #sidebar {
+        width: 15em;
+        padding: 10px;
+    }  
+        nav{
+            padding:15px;
+        }
+
+        #sidebar.inactive {
+            margin-left: -15em;
+        }
+        #sidebar .toggle {
+            left: 15em;
+        }
+    #sidebar > .inner {
+        width: 15em;
+        position: absolute;
+        background-color: #fffcfc;
+    }
+</style>
 </head>
-<body class="is-preload">
 
+<body class="is-preload">
     <!-- Wrapper -->
     <div id="wrapper">
+        <!-- Main -->
         <div id="main">
             <div class="inner">
-                <!-- Header -->
                
-                <!-- Main -->
-
                 @RenderBody()
-
             </div>
         </div>
+
         <!-- Sidebar -->
-        <div id="sidebar">
+        <div id="sidebar" class="p-0 w-auto">
             <div class="inner">
 
                 <!-- Search -->
-                <section id="search" class="alt">
-                    <form method="post" action="#">
-                        <input type="text" name="query" id="query" placeholder="Search" />
-                    </form>
-                </section>
-
                 <!-- Menu -->
-                <nav id="menu">
+                <nav id="menu" style="margin:0px">
                     <header class="major">
-                        <h2>Menu</h2>
+                        <h2>選單</h2>
                     </header>
-                    <ul>
-                        <li><a href="index.html">Homepage</a></li>
-                        <li>@Html.ActionLink("紀錄飲食", "Create", "HHDiet")</li>
-                        <li>@Html.ActionLink("飲食History", "DietLogsHistory", "HHDietHistory")</li>
-                        <li>@Html.ActionLink("參加挑戰", "RegisterProgram", "HHPrograms")</li>
-                        <li>@Html.ActionLink("禮物商店", "MyGiftShop", "HHGiftShop")</li>
-                        <li>@Html.ActionLink("我的禮物卡", "ShowGiftList", "HHGiftCard")</li>
-                        <li>@Html.ActionLink("test", "test", "HHDiet")</li>
+                    <ul style="font-size: 1.3em;">
+                        <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-home" style="width:30px"></i> 首頁</a></li>
+                        @if (Session["ID"] == null)
+                        {
+                            <li><a href="~/Home2/Login" style="text-decoration:none"> <i class="fas fa-user" style="width:30px"></i> 登入</a></li>
+                        }
+                        else
+                        {
+
+
+
+                            <li>
+                                <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
+                                <ul>
+                                    <li><a href="#" style="text-decoration:none"><i class="far fa-user" style="width:30px"></i> 會員資訊</a></li>
+                                    <li><a href="#" style="text-decoration:none"><i class="fas fa-weight" style="width:30px"></i> 體重管理</a></li>
+                                    <li><a href="#" style="text-decoration:none"><i class="fas fa-chart-bar" style="width:30px"></i> 我的綜合圖表</a></li>
+
+
+                                </ul>
+
+                            </li>
+                        }
+                        <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-book" style="width:30px"></i> 遊戲規則</a></li>
+
+
+                        @if (Session["ID"] != null)
+                        {
+
+                            <li>
+                                <span class="opener"><i class="fas fa-utensils" style="width:30px"></i> 飲食</span>
+                                <ul>
+
+                                    <li><a href="#" style="text-decoration:none"><i class="fas fa-pen" style="width:30px"></i> 紀錄飲食</a></li>
+
+                                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 飲食歷史</a></li>
+
+                                </ul>
+
+                            </li>
+
+
+                            <li>
+                                <span class="opener"><i class="fas fa-dumbbell" style="width:30px"></i> 運動</span>
+                                <ul>
+
+                                    <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 運動紀錄</a></li>
+
+                                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-calendar" style="width:30px"></i> 運動排程</a></li>
+                                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-heart" style="width:30px"></i> 喜好管理</a></li>
+
+
+                                </ul>
+
+                            </li>
+
+                            <li>
+                                <span class="opener"><i class="fas fa-fist-raised" style="width:30px"></i> 挑戰</span>
+                                <ul>
+
+                                    <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-pen-nib" style="width:30px"></i> 參加挑戰</a></li>
+                                    <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-running" style="width:30px"></i> 我的挑戰</a></li>
+                                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 過去挑戰</a></li>
+
+
+                                </ul>
+
+                            </li>
+                        }
 
 
 
                         <li>
-                            <span class="opener">Submenu</span>
+                            <span class="opener"><i class="fas fa-gifts" style="width:30px"></i> 禮物</span>
                             <ul>
-                                <li><a href="#">Lorem Dolor</a></li>
-                                <li><a href="#">Ipsum Adipiscing</a></li>
-                                <li><a href="#">Tempus Magna</a></li>
-                                <li><a href="#">Feugiat Veroeros</a></li>
+                                <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 禮物店</a></li>
+                                @if (Session["ID"] != null)
+                                {
+                                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 已兌換禮物</a></li>
+                                }
+
                             </ul>
+
                         </li>
-                        <li><a href="#">Etiam Dolore</a></li>
-                        <li><a href="#">Adipiscing</a></li>
                         <li>
-                            <span class="opener">Another Submenu</span>
+                            <span class="opener"><i class="fas fa-file" style="width:30px"></i> 貼文</span>
                             <ul>
-                                <li><a href="#">Lorem Dolor</a></li>
-                                <li><a href="#">Ipsum Adipiscing</a></li>
-                                <li><a href="#">Tempus Magna</a></li>
-                                <li><a href="#">Feugiat Veroeros</a></li>
+                                <li><a href="~/FrontPost/AllPosts" style="text-decoration:none"><i class="far fa-file" style="width:30px"></i> 所有貼文</a></li>
+                                @if (Session["ID"] != null)
+                                {
+
+                                    <li><a href="~/FrontPost/UserPostList" style="text-decoration:none"><i class="fas fa-user-edit" style="width:30px"></i> 我的貼文</a></li>
+                                }
                             </ul>
                         </li>
-                        <li><a href="#">Maximus Erat</a></li>
-                        <li><a href="#">Sapien Mauris</a></li>
-                        <li><a href="#">Amet Lacinia</a></li>
+                        @if (Session["ID"] != null)
+                        {
+                            <li><a href="~/FrontContact/Chat" style="text-decoration:none"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a></li>
+                        }
+
+                        @if (Session["ID"] != null)
+                        {
+                            <li><a href="~/Admin/Login/Index" style="text-decoration:none"><i class="fas fa-user-cog" style="width:30px"></i> 後台</a></li>
+                        }
+
+                        @if (Session["ID"] != null)
+                        {
+                            <li><a href="~/Home2/Logout" style="text-decoration:none"><i class="fas fa-sign-out-alt" style="width:30px"></i> 登出</a></li>
+                        }
+
                     </ul>
                 </nav>
 
-                <!-- Section -->
-                <section>
-                    <header class="major">
-                        <h2>Ante interdum</h2>
-                    </header>
-                    <div class="mini-posts">
-                        <article>
-                            <a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
-                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                        </article>
-                        <article>
-                            <a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
-                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                        </article>
-                        <article>
-                            <a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
-                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                        </article>
-                    </div>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </section>
 
-                <!-- Section -->
-                <section>
-                    <header class="major">
-                        <h2>Get in touch</h2>
-                    </header>
-                    <p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                    <ul class="contact">
-                        <li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-                        <li class="icon solid fa-phone">(000) 000-0000</li>
-                        <li class="icon solid fa-home">
-                            1234 Somewhere Road #8254<br />
-                            Nashville, TN 00000-0000
-                        </li>
-                    </ul>
-                </section>
-
-                <!-- Footer -->
-                <footer id="footer">
-                    <p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-                </footer>
 
             </div>
         </div>
+
+
+
 
     </div>
 
@@ -144,11 +202,10 @@
     <script src="~/Content/js/util.js"></script>
     <script src="~/Content/js/main.js"></script>
 
-
-
-    
-
     @RenderSection("Scripts", required: false)
+
+
+
 
 </body>
 </html>

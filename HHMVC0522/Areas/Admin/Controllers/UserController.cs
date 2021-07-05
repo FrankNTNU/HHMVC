@@ -14,7 +14,6 @@ namespace UI.Areas.Admin.Controllers
     {
         // GET: Admin/User
         UserBLL userBLL = new UserBLL();
-        [Authorize(Users = "admin")]
         public ActionResult UserList()
         {
             var user = User.Identity.Name;
@@ -76,7 +75,6 @@ namespace UI.Areas.Admin.Controllers
             return View(dto);
         }
         [HttpPost]
-        [Authorize(Users = "admin")]
         public ActionResult UpdateUser(UserDTO model)
         {
             if (!ModelState.IsValid)
@@ -126,23 +124,20 @@ namespace UI.Areas.Admin.Controllers
             }
             model.Statuses = StatusBLL.GetStatusesForDropDown();
             model.ActivityLevels = ActivityLevelBLL.GetActivityLevelsForDropDown();
-            if (UserStatic.UserID == model.ID) // Updated yourself
+            if (Session["ID"] != null) 
             {
-                UserStatic.NameSurname = model.Name;
-                UserStatic.ImagePath = model.ImagePath;
+                if ((int)Session["ID"] == model.ID) // Updated yourself
+                {
+                    Session["Name"] = model.Name;
+                    Session["ImagePath"] = model.ImagePath;
+                }
             }
+            
             return View(model);
         }
-        WeightLogBLL weightLogBLL = new WeightLogBLL();
-        WorkoutLogBLL workoutLogBLL = new WorkoutLogBLL();
-        DietLogBLL dietLogBLL = new DietLogBLL();
-        CommentBLL commentBLL = new CommentBLL();
+        
         public JsonResult DeleteUser(int ID)
         {
-            weightLogBLL.DeleteByMemberID(ID);
-            workoutLogBLL.DeleteByMemberID(ID);
-            dietLogBLL.DeleteByMemberID(ID);
-            commentBLL.DeleteByMemberID(ID);
             string imagePath = userBLL.DeleteUser(ID);
             string ImageFullPath = Server.MapPath(@"~\Areas\Admin\Content\UserImage\" + imagePath);
             if (System.IO.File.Exists(ImageFullPath))

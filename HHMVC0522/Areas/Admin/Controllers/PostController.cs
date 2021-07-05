@@ -20,11 +20,9 @@ namespace UI.Areas.Admin.Controllers
         }
         public ActionResult PostList()
         {
-            //CountDTO countDTO = new CountDTO();
-            //countDTO = bll.GetAllCounts();
-            //ViewData["AllCounts"] = countDTO;
+            postBLL = new PostBLL();
             List<PostDTO> postList = new List<PostDTO>();
-            postList = postBLL.GetPosts();
+            postList = postBLL.GetAllPosts();
             return View(postList);
         }
         public ActionResult AddPost()
@@ -56,16 +54,17 @@ namespace UI.Areas.Admin.Controllers
                 List<PostImageDTO> imageList = new List<PostImageDTO>();
                 foreach (HttpPostedFileBase postedFile in model.PostImage)
                 {
-                    Bitmap image = new Bitmap(postedFile.InputStream);
-                    Bitmap resizedImage = new Bitmap(image, 740, 416);
-                    string uniqueNumber = Guid.NewGuid().ToString();
-                    string fileName = uniqueNumber + postedFile.FileName;
-                    resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/PostImages/" + fileName));
+                    Bitmap image = new Bitmap(postedFile.InputStream); // 把上傳圖片轉成Bitmap
+                    Bitmap resizedImage = new Bitmap(image, 740, 416); // 設定長寬
+                    string uniqueNumber = Guid.NewGuid().ToString(); // 設定唯一字串
+                    string fileName = uniqueNumber + postedFile.FileName; // 圖片路徑  = 唯一字串 + 圖片檔名
+                    resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/PostImages/" + fileName)); // 存在資料夾
                     PostImageDTO dto = new PostImageDTO();
-                    dto.ImagePath = fileName;
+                    dto.ImagePath = fileName; // 把圖片路徑存在DTO的屬性
                     imageList.Add(dto);
                 }
                 model.PostImages = imageList;
+                model.IsApproved = true;
                 if (postBLL.AddPost(model))
                 {
                     ViewBag.ProcessState = General.Messages.AddSuccess;
@@ -115,7 +114,7 @@ namespace UI.Areas.Admin.Controllers
                     foreach (HttpPostedFileBase postedFile in model.PostImage)
                     {
                         Bitmap image = new Bitmap(postedFile.InputStream);
-                        Bitmap resizedImage = new Bitmap(image, 740, 690);
+                        Bitmap resizedImage = new Bitmap(image, 740, 416);
                         string uniqueNumber = Guid.NewGuid().ToString();
                         string fileName = uniqueNumber + postedFile.FileName;
                         resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/PostImages/" + fileName));
@@ -167,6 +166,16 @@ namespace UI.Areas.Admin.Controllers
                 }
             }
             return Json("");
+        }
+        public ActionResult ApprovePost(int ID)
+        {
+            postBLL.ApprovePost(ID);
+            return RedirectToAction("PostList", "Post");
+        }
+        public ActionResult BlockPost(int ID)
+        {
+            postBLL.BlockPost(ID);
+            return RedirectToAction("PostList", "Post");
         }
     }
 }

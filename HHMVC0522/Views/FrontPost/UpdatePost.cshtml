@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "UpdatePost";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+
+
+        a.toggle {
+            color: red;
+        }
+    </style>
+}
+
+<!-- Content -->
+@model DTO.PostDTO
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
+
+        <div class="col-3 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-pen-alt"></i> 編輯貼文</h2>
+        </div>
+        <div class="col-2 col-md-2 align-self-end justify-content-end d-flex">
+
+            <a href="~/FrontPost/AllPosts"><label class="button primary"><i class="far fa-file"></i> 所有貼文</label></a>
+
+
+        </div>
+    </div>
+</header><header id="header" class="m-0 p-0"></header>
+
+<section class="pt-3 pb-2">
+
+    <div class="col-12 col-md-8 p-0" style="color:white" id="messageInfo">@Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")</div>
+    @using (Html.BeginForm("UpdatePost", "FrontPost", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+
+
+<div class="row gtr-uniform">
+
+    <div class="col-6">
+        <input hidden value="@Session["ID"]">
+        <label>顯示名稱</label>
+
+        <input type="text" id="demo-name" value="@Session["Name"]" placeholder="Name" readonly style="        height: 45px" disabled />
+    </div>
+    <div class="col-6">
+        <label>標題</label>
+        @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "標題", @maxlength = "50", @style = "height:45px" })
+
+        @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
+
+    </div>
+  
+    <div class="col-12">
+        <label>大綱</label>
+        @Html.TextBoxFor(x => x.ShortContent, new { @class = "form-control", @placeholder = "內容綱要", @maxlength = "100", @style = "height:45px" })                       @Html.ValidationMessageFor(x => x.ShortContent, "", new { @style = "color:red" })
+
+    </div>
+
+
+    <div class="col-12">
+        <label>貼文內容</label>
+        @Html.TextAreaFor(x => x.PostContent, new { @class = "ckeditor" })
+        @Html.ValidationMessageFor(x => x.PostContent, "", new { @style = "color:red" })
+
+    </div>
+
+
+    <div class="col-12 col-md-8">
+
+        <label>圖片(建議長寬比16:9，單邊400px以上大圖)</label>
+        <div>
+            <label for="files" class="button icon solid fa-download">瀏覽...</label>
+            <input id="files" style="visibility:hidden;" type="file" name="PostImage" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])">
+
+            <img id="PostImage" width="800" height="450" style="max-width:100%; top:10px;border-radius:0px" />
+            <br />
+        </div>
+    </div>
+
+    <!-- Break -->
+    <div class="col-12 col-md-8">
+        <ul class="actions">
+            <li><input type="submit" value="提交" class="primary" onclick="return confirm('確定要修改嗎?')" /></li>
+
+        </ul>
+    </div>
+</div>
+    }
+    <!-- /.card-header -->
+    @if (Model.IsUpdate)
+    {
+        <!-- /.card-header -->
+        <label>貼文圖片</label>
+
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>圖片</th>
+                    <th>刪除</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PostImages)
+                {
+                    <tr id="a_@item.ID">
+                        <td>
+                            <img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" width="160" height="90" />
+                        </td>
+                        <td valign="middle">
+                            <a href="#">
+
+                                @Html.ActionLink("刪除圖片", "DeletePostImage", "FrontPost", new { ID = item.ID }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "button" })
+                               
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>圖片</th>
+                    <th>刪除</th>
+                </tr>
+            </tfoot>
+        </table>
+    }
+
+</section>
+
+@section Scripts{
+
+
+    <script src="~/Areas/Admin/Content/JS/bs-custom-file-input.min.js"></script>
+    <script src="~/Areas/Admin/Content/JS/jquery.min.js"></script>
+    <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
+    <script>
+        $(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
+}
+

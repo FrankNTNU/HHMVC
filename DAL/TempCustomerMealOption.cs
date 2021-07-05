@@ -28,7 +28,6 @@ namespace DAL
         public double Portion { get; set; }
         public string UnitName { get; set; }
     
-        public virtual MealOption MealOption { get; set; }
         public virtual Member Member { get; set; }
         public virtual Status Status { get; set; }
         public virtual TimesOfDay TimesOfDay { get; set; }

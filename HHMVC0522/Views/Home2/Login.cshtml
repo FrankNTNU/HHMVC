@@ -8,14 +8,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 }
 @model DTO.UserDTO
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
 
-<!-- Header -->
-<div><p></p></div>
-<header class="major">
-    <p style="font-size:2em; margin-bottom:10px">
-        <i class="far fa-user"></i> 登入
-    </p>
-</header>
+        <div class="col-3 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-8 col-sm-8 col-lg-10 p-1 align-self-center">
+            <h2 style="font-size:1.8em"><i class="far fa-user"> </i> 使用者登入</h2>
+        </div>
+       
+    </div>
+</header><header id="header" class="m-0 p-0"></header>
+
+
 @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
 <form action="@Url.Action("Login")" method="post">
     <div class="row">

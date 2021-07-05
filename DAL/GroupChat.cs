@@ -16,7 +16,7 @@ namespace DAL
     {
         public int ID { get; set; }
         public int GroupID { get; set; }
-        public int MemberID { get; set; }
+        public Nullable<int> MemberID { get; set; }
         public string Message { get; set; }
         public System.DateTime TimeStamp { get; set; }
     

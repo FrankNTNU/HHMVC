@@ -18,9 +18,8 @@ namespace DAL
         public MealOption()
         {
             this.DietLogs = new HashSet<DietLog>();
-            this.MealTags = new HashSet<MealTag>();
-            this.TempCustomerMealOptions = new HashSet<TempCustomerMealOption>();
             this.LikedMeals = new HashSet<LikedMeal>();
+            this.MealTags = new HashSet<MealTag>();
         }
     
         public int ID { get; set; }
@@ -33,12 +32,10 @@ namespace DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DietLog> DietLogs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LikedMeal> LikedMeals { get; set; }
         public virtual Nutrient Nutrient { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MealTag> MealTags { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TempCustomerMealOption> TempCustomerMealOptions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LikedMeal> LikedMeals { get; set; }
     }
 }

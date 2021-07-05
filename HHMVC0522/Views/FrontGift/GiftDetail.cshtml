@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewBag.Title = "GiftDetail";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+
+@model DTO.GiftDTO
+@section Styles{
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+
+        .corner {
+            
+            transform: translate(-50%, -50%);
+            
+            color: rgba(255, 212, 20,1);
+           
+        }
+    </style>
+}
+<!-- Content -->
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
+
+        <div class="col-3 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-8 col-sm-6 col-md-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-gift"></i> 禮物資訊</h2>
+        </div>
+        <div class="col-0 col-sm-3 col-md-3 col-lg-2 align-self-end d-none d-sm-block">
+
+            <a href="~/FrontGift/GiftList"><label class="button primary"><i class="fas fa-gifts"></i> 禮物商店</label></a>
+
+
+        </div>
+    </div>
+</header>
+<header id="header" class="m-0 p-0"></header>
+
+<section class="pt-2">
+    <div class="col-12 d-flex p-0">
+        <div class="d-sm-none" style="width:100%">
+            @if (Session["ID"] != null)
+            {<a href="~/FrontGift/GiftList"><label class="button primary" style="width:100%"><i class="fas fa-gifts"> </i> 禮物商店</label></a>
+            }
+            else
+            {
+                <a href="~/Home2/Login"><label class="button primary" style="width:100%">登入</label></a>
+
+            }
+        </div>
+    </div>
+
+
+    @if (Session["ID"] != null)
+    {
+        <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
+            <i class="far fa-user"> </i>  <strong>@Session["Name"]</strong> 目前擁有 <strong>
+                @Session["Points"]
+            </strong>點
+        </div>
+    }
+    <div class="row mt-1">
+
+        <div class="col-12 col-md-4 col-md-4" style="text-align:center">
+            <img class="image" src="~/Areas/Admin/Content/GiftImages/@Model.Image" style="max-width:90%" />
+            
+        </div>
+        <div class="col-12 col-md-8 col-md-8">
+            <!-- Table -->
+            <h3 style="padding-bottom:0px;margin-top:10px;text-align:center;font-weight:bolder">@Model.Name @if(Model.IsPremium) {<span class="corner"><i class="fas fa-crown"></i></span>}</h3>
+            <div class="table-wrapper">
+                <table style="margin-bottom:0px;width:100%">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th style="text-align:end; font-weight:500">編號: @Model.ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td width="100px"><strong>所需點數</strong></td>
+                            <td>@Model.Points 點</td>
+                        </tr>
+                        <tr>
+                            <td><strong>兌換期限</strong></td>
+                            <td>@Model.EndDate.ToString("yyyy/MM/dd")</td>
+                        </tr>
+                        <tr>
+                            <td><strong>剩餘件數</strong></td>
+                            <td>@Model.Quantity</td>
+
+                        </tr>
+                        <tr>
+                            <td><strong>商家資訊</strong></td>
+                            <td>@Html.Raw(@Model.Store)</td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><a href="~/FrontGift/GiftList"></a></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                @if (Session["ID"] != null)
+                {
+                    if (@Model.EndDate >= DateTime.Today)
+                    {<div style="text-align:center">
+                            <label class="button default" style="width:300px" id="btnRedeem">兌換</label>
+                        </div>}
+                    else
+                    {
+                        <div style="text-align:center">
+                            <label class="button default disabled" style="width:300px" id="btnRedeem">已截止</label>
+                        </div>
+                    }
+                }
+
+
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section Scripts {
+
+    <script>
+        $("#btnRedeem").click(function () {
+            if (@Model.Points > parseInt(@Session["Points"])) {
+                alert("持有點數不足\n尚差" + (@Model.Points - parseInt(@Session["Points"])) + "點數");
+            }
+            else if (@Model.Quantity <= 0) {
+                alert("商品已經兌換完畢");
+            }
+            else {
+                const answer = confirm("確定要兌換?\n兌換前點數: " + parseInt(@Session["Points"]) + "\n將剩餘點數: " +(parseInt(@Session["Points"]) - @Model.Points));
+                if (answer) {
+                    $.ajax({
+                        type: "post",
+                        url: "../IsSameItemExist?giftID=" + @Model.ID,
+                        success: function (result) {
+                            console.log(result);
+                            if (result == "yes") {
+                                alert("已兌換過該禮物");
+                            }
+                            else {
+                                alert("兌換成功!\n剩餘點數: " + (parseInt(@Session["Points"]) - @Model.Points));
+                                window.location.href = "~/FrontGift/AddCart/?giftID=@Model.ID";
+                            }
+                        }
+                    })
+                }
+
+            }
+
+       })
+    </script>
+
+}

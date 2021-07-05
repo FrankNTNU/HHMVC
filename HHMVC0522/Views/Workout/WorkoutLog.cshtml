@@ -1,0 +1,279 @@
+﻿@using DAL
+@model List<Workout>
+
+@{
+    ViewBag.Title = "WorkoutLog";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+
+
+@section Styles
+{
+
+    <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui-timepicker/jquery-ui-timepicker-addon.css" />
+    <style>
+        .box {
+            border: solid 2px gray;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .operate {
+            min-height: 200px;
+            margin: 0 2px;
+        }
+
+        #mainDiv {
+            width: 80%;
+            margin: auto;
+            margin-top: 5%;
+        }
+
+        label {
+            display:inline-block;
+            text-align:left;
+        }
+
+        #wHours, #wTime {
+            display: inline-block;
+        }
+
+        #wName {
+            display: inline-block;
+            width: 200px;
+        }
+
+        #new {
+            float:right;
+            font-size: 14px;
+        }
+
+        #wlTable_filter label input {
+            display:inline-block;
+            width:120px;
+            float:right;
+        }
+
+        #wlTable_filter label {
+            display:flex;
+            align-items:center;
+        }
+    </style>
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "wlForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+
+<div id="mainDiv">
+
+    <div style="display:flex; width:100%; padding:5px 0" class="form-inline">
+        <div class="box operate" style="width: 30%; "></div>
+        <div class="box operate" style="width: 40%;">
+            <div class="form-group" style="margin-bottom:2px; width:100%; height:45px; display:block">
+                <label for="wName">運動項目</label>
+                @Html.DropDownList("wName", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
+            </div>
+            <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
+                <span id="Al"></span>，【<span id="Wc"></span>】類型
+            </div>
+            <div class="form-group" style="margin-bottom:2px; display:block">
+                <label for="wTime">運動時間</label>
+                <input type="text" class="form-control" id="wTime" style="width:140px; display:inline-block" autocomplete="off" />
+            </div>
+            <div class="form-group" style="margin-bottom:2px; display:block">
+                <label for="wHours">運動多久</label>
+                <input type="text" class="form-control" id="wHours" style="width:100px" placeholder="小時" />
+                <div id="new" class="button primary fit">新增</div>
+            </div>
+        </div>
+        <div class="box operate" style="width: 40%;"></div>
+    </div>
+    <div class="box" style="width:100%; min-height:150px; margin-bottom:5px"></div>
+    <div class="box" style="width:100%; min-height:300px;">
+        <table id="wlTable" class="display">
+        </table>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="~/Content/moment-js/moment.min.js"></script>
+    <script type="text/javascript" src="~/Content/jquery-ui-timepicker/jquery-ui-timepicker-addon.js"></script>
+    <script>
+
+
+        var minDate = null, maxDate = null;
+
+        $(function () {
+
+            var form = $('#wlForm');
+            var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+            let table = $("#wlTable").DataTable({
+                ajax: {
+                    url: "GetWorkoutLog",
+                    type: "post",
+                    data: { __RequestVerificationToken: token },
+                    dataSrc: ""
+                },
+                columns: [
+                    { data: "ID", title: "ID" },
+                    { data: "EditTime", title: "編輯時間" },
+                    { data: "Name", title: "運動項目" },
+                    { data: "WorkoutTime", title: "運動時間" },
+                    { data: "WorkoutHours", title: "運動多久" },
+                    { data: "Status", title: "紀錄狀態" },
+                ],
+                columnDefs: [
+                    {
+                        targets: [0],
+                        visible: false,
+                        searchable: false
+                    },
+                    {
+                        targets: [1, 3],
+                        render: function (date) {
+                            return moment(date).format("MM月DD日yyyy年 hh:mm");
+                        }
+                    }
+                ],
+                order: [[1, "desc"]],
+                lengthChange: false,
+                pageLength: 10,
+                initComplete: function () {
+
+                    let wrap = document.createElement("div");
+                    $(wrap).addClass("form-group").addClass("form-inline")
+                        .css("display", "inline-block").css("float", "left");
+
+                    let lbl1 = document.createElement("label");
+                    lbl1.innerHTML = "運動時間 從 ";
+                    $(lbl1).css("margin", "3px");
+
+                    let input1 = document.createElement("input");
+                    input1.type = "text";
+                    input1.className = "form-control";
+                    input1.id = "start";
+                    $(input1).css("display", "inline-block").css("width", "120px");
+
+                    let lbl2 = document.createElement("label");
+                    lbl2.innerHTML = " 到 ";
+                    $(lbl2).css("margin", "3px");
+
+                    let input2 = document.createElement("input");
+                    input2.type = "text";
+                    input2.className = "form-control";
+                    input2.id = "end";
+                    $(input2).css("display", "inline-block").css("width", "120px");
+
+                    $(wrap).append(lbl1).append(input1).append(lbl2).append(input2);
+                    $(".dataTables_wrapper").prepend($(wrap));
+
+                    $(input1).datepicker();
+                    $(input2).datepicker();
+
+                }
+            });
+
+            $("#wName").change(function () {
+                let v = $(this).val();
+                $.ajax({
+                    url: "GetWorkoutAlWc",
+                    type: "post",
+                    data: { wid: v },
+                    success: function (data) {
+                        $("#Al").text(data.Al);
+                        $("#Wc").text(data.Wc);
+                    }
+                });
+            });
+
+            $("#wName").change();
+
+            //=============================================================
+
+            let d = new Date();
+            d = new Date(d.toDateString());
+            let ms = d.getTime() + 24 * 60 * 60 * 1000 * 7;
+            let d7 = new Date(ms);
+
+            $("#wTime").datetimepicker({
+                minDate: new Date(),
+                maxDate: d7
+            });
+
+            $("#wTime").change(function () {
+
+
+                if ($(this).datetimepicker("getDate").toDateString() == d.toDateString()) {
+
+                    $("#new").text("新增");
+
+                } else {
+
+                    $("#new").text("預定");
+
+                }
+
+            });
+
+            $("#new").click(function () {
+                if ($(this).text() == "新增") {
+                    $.ajax();
+                } else if ($(this).text() == "預定") {
+
+                }
+            });
+
+            //=======================================================
+
+            $("body").on("change", "#start", function () {
+                minDate = $(this).datepicker("getDate");
+                table.draw();
+            });
+
+            $("body").on("change", "#end", function () {
+                maxDate = $(this).datepicker("getDate");
+                maxDate.setDate(maxDate.getDate() + 1);
+                table.draw();
+            });
+            
+        });
+
+        
+
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var min = null;
+                var max = null;
+
+                if (minDate != null) {
+                    min = minDate.getTime();
+                }
+                if (maxDate != null) {
+                    max = maxDate.getTime();
+                }
+
+                var date = moment(data[3], "MM月DD日yyyy年").valueOf();
+
+                if (
+                    (min === null && max === null) ||
+                    (min === null && date < max) ||
+                    (min <= date && max === null) ||
+                    (min <= date && date < max)
+                ) {
+                    return true;
+                }
+                return false;
+            }
+        );
+    </script>
+}
+

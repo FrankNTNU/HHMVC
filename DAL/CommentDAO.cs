@@ -19,7 +19,7 @@ namespace DAL
         public List<CommentDTO> GetAllComments()
         {
             List<CommentDTO> dtoList = new List<CommentDTO>();
-            using (HealthHelperEntities6 db = new HealthHelperEntities6())
+            using (HealthHelperEntities db = new HealthHelperEntities())
             {
                 var list = (from c in db.Comments
                             select new
@@ -29,7 +29,8 @@ namespace DAL
                                 Content = c.CommentContent,
                                 TargetCommentTitle = c.Post.Title,
                                 AddDate = c.AddDate,
-                                IsApproved = c.IsApproved
+                                IsApproved = c.IsApproved,
+                                MemberName = c.Member.Name
                             }).OrderBy(x => x.AddDate).ToList();
                 foreach (var item in list)
                 {
@@ -37,13 +38,29 @@ namespace DAL
                     dto.ID = item.ID;
                     dto.Title = item.Title;
                     dto.CommentContent = item.Content;
-                    dto.TargetCommentTitle = item.TargetCommentTitle;
+                    dto.PostTitle = item.TargetCommentTitle;
                     dto.AddDate = item.AddDate;
                     dto.IsApproved = item.IsApproved;
+                    dto.MemberName = item.MemberName;
                     dtoList.Add(dto);
                 }
             }
             return dtoList;
+        }
+
+        public CommentDTO GetComment(int commentID)
+        {
+            CommentDTO commentDTO = new CommentDTO();
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                Comment comment = db.Comments.FirstOrDefault(x => x.ID == commentID);
+                commentDTO.ID = comment.ID;
+                commentDTO.Title = comment.Title;
+                commentDTO.MemberID = comment.MemberID;
+                commentDTO.Name = comment.Name;
+                commentDTO.CommentContent = comment.CommentContent;
+            }
+            return commentDTO;
         }
 
         public void AddComment(Comment comment)
@@ -62,7 +79,7 @@ namespace DAL
 
         public void DeleteComment(int ID)
         {
-            using (HealthHelperEntities6 db = new HealthHelperEntities6())
+            using (HealthHelperEntities db = new HealthHelperEntities())
             {
                 Comment comment = db.Comments.First(x => x.ID == ID);
                 db.Comments.Remove(comment);
@@ -72,10 +89,13 @@ namespace DAL
 
         public void ApproveComment(int ID)
         {
-            using (HealthHelperEntities6 db = new HealthHelperEntities6())
+            using (HealthHelperEntities db = new HealthHelperEntities())
             {
-                Comment comment = db.Comments.First(x => x.ID == ID);
+                Comment comment = db.Comments.Find(ID);
                 comment.IsApproved = true;
+                db.Comments.Attach(comment);
+                var entry = db.Entry(comment);
+                entry.State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
             }
         }
@@ -83,7 +103,7 @@ namespace DAL
         public List<CommentDTO> GetAllComments(int userID)
         {
             List<CommentDTO> dtoList = new List<CommentDTO>();
-            using (HealthHelperEntities6 db = new HealthHelperEntities6())
+            using (HealthHelperEntities db = new HealthHelperEntities())
             {
                 var list = (from c in db.Comments
                             where c.MemberID == userID
@@ -102,7 +122,7 @@ namespace DAL
                     dto.ID = item.ID;
                     dto.Title = item.Title;
                     dto.CommentContent = item.Content;
-                    dto.TargetCommentTitle = item.TargetCommentTitle;
+                    dto.PostTitle = item.TargetCommentTitle;
                     dto.AddDate = item.AddDate;
                     dto.IsApproved = item.IsApproved;
                     dtoList.Add(dto);
@@ -110,20 +130,23 @@ namespace DAL
             }
             return dtoList;
         }
-
-        public void UpdateComment(LayoutDTO model)
+        
+        public void UpdateComment(CommentDTO model)
         {
-            Comment comment = db.Comments.First(x => x.ID == model.Comment.ID);
-            comment.Title = model.Comment.Title;
-            comment.CommentContent = model.Comment.CommentContent;
+            Comment comment = db.Comments.First(x => x.ID == model.ID);
+            comment.Name = model.Name;
+            comment.Title = model.Title;
+            comment.CommentContent = model.CommentContent;
             comment.IsApproved = false;
+            comment.AddDate = DateTime.Today;
+            db.Comments.Attach(comment);
+            db.Entry(comment).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
         }
-
         public List<CommentDTO> GetUnapprovedComments()
         {
             List<CommentDTO> dtoList = new List<CommentDTO>();
-            using (HealthHelperEntities6 db = new HealthHelperEntities6())
+            using (HealthHelperEntities db = new HealthHelperEntities())
             {
                 var list = db.Comments.Where(x => x.IsApproved == false)
                     .Select(x => new
@@ -146,6 +169,12 @@ namespace DAL
                 }
             }
             return dtoList;
+        }
+        public void DeleteCommentByPostID(int postID)
+        {
+            List<Comment> comments = db.Comments.Where(x => x.PostID == postID).ToList();
+            db.Comments.RemoveRange(comments);
+            db.SaveChanges();
         }
     }
 }

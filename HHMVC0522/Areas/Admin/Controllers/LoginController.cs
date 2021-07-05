@@ -28,19 +28,17 @@ namespace UI.Areas.Admin.Controllers
                 UserDTO user = userBLL.GetUserWithUsernameAndPassword(model);
                 if (user.ID != 0)
                 {
-                    UserStatic.UserID = user.ID;
-                    UserStatic.isAdmin = user.IsAdmin;
-                    UserStatic.NameSurname = user.Name;
-                    UserStatic.ImagePath = user.ImagePath;
-                    UserStatic.StatusID = user.StatusID;
-                    if (UserStatic.isAdmin)
+                    Session["name"] = user.Name;
+                    Session["ImagePath"] = user.ImagePath;
+                    Session["IsAdmin"] = user.IsAdmin;
+                    Session["ID"] = user.ID;
+                    if (user.IsAdmin) // 成功登入後
                     {
-                        FormsAuthentication.RedirectFromLoginPage("admin", true);
-                        return RedirectToAction("UserList", "User");
+                        FormsAuthentication.RedirectFromLoginPage(user.ID.ToString(), false);
+                        return RedirectToAction("MainPage", "MainPage"); // 跳轉的頁面
                     }
                     else
                     {
-                        //FormsAuthentication.RedirectFromLoginPage("regular", true);
                         ViewBag.ProcessState = General.Messages.NotAdmin;
                         return View(model);
                     }
@@ -57,5 +55,6 @@ namespace UI.Areas.Admin.Controllers
             }
 
         }
+       
     }
 }

@@ -18,7 +18,7 @@ namespace DAL
         public IQueryable<TempCustomerMealOption> GetCustomerMealByDate(int memberId, string date)
         {
            
-                return db.TempCustomerMealOptions.Where(cm => cm.MemberID == memberId && cm.Date == date && cm.StatusID != CDictionary.StatusAprove).OrderBy(dl => dl.TimeOfDayID).ThenByDescending(dl => dl.MealOption.Calories).Select(dl => dl);
+                return db.TempCustomerMealOptions.Where(cm => cm.MemberID == memberId && cm.Date == date && cm.StatusID != CDictionary.StatusAprove).OrderBy(dl => dl.TimeOfDayID).ThenByDescending(dl => dl.Calories).Select(dl => dl);
 
         }
     }

@@ -13,10 +13,10 @@ namespace DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class HealthHelperEntities6 : DbContext
+    public partial class HealthHelperEntities : DbContext
     {
-        public HealthHelperEntities6()
-            : base("name=HealthHelperEntities6")
+        public HealthHelperEntities()
+            : base("name=HealthHelperEntities")
         {
         }
     
@@ -26,15 +26,19 @@ namespace DAL
         }
     
         public virtual DbSet<ActivityLevel> ActivityLevels { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<DietLog> DietLogs { get; set; }
         public virtual DbSet<GiftCart> GiftCarts { get; set; }
         public virtual DbSet<Gift> Gifts { get; set; }
+        public virtual DbSet<GroupChat> GroupChats { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<LikedMeal> LikedMeals { get; set; }
         public virtual DbSet<LikedPost> LikedPosts { get; set; }
         public virtual DbSet<MealOption> MealOptions { get; set; }
         public virtual DbSet<MealTagCategory> MealTagCategories { get; set; }
         public virtual DbSet<MealTag> MealTags { get; set; }
         public virtual DbSet<Member> Members { get; set; }
+        public virtual DbSet<ModelCollection> ModelCollections { get; set; }
         public virtual DbSet<Nutrient> Nutrients { get; set; }
         public virtual DbSet<Point> Points { get; set; }
         public virtual DbSet<PostCategory> PostCategories { get; set; }
@@ -43,16 +47,14 @@ namespace DAL
         public virtual DbSet<Program> Programs { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Table> Tables { get; set; }
         public virtual DbSet<TempCustomerMealOption> TempCustomerMealOptions { get; set; }
         public virtual DbSet<TimesOfDay> TimesOfDays { get; set; }
+        public virtual DbSet<WaterLog> WaterLogs { get; set; }
         public virtual DbSet<WeightLog> WeightLogs { get; set; }
         public virtual DbSet<WorkoutCategory> WorkoutCategories { get; set; }
         public virtual DbSet<WorkoutLog> WorkoutLogs { get; set; }
         public virtual DbSet<WorkoutPreference> WorkoutPreferences { get; set; }
         public virtual DbSet<Workout> Workouts { get; set; }
-        public virtual DbSet<Comment> Comments { get; set; }
-        public virtual DbSet<GroupChat> GroupChats { get; set; }
-        public virtual DbSet<Group> Groups { get; set; }
-        public virtual DbSet<WaterLog> WaterLogs { get; set; }
     }
 }

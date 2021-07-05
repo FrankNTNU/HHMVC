@@ -1,0 +1,318 @@
+﻿
+@{
+    ViewBag.Title = "MainPage";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+@model DTO.CountDTO
+<section class="content">
+
+    <div class="row">
+
+
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>@Model.UserCount</h3>
+
+                    <p>會員總人數</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+                <a href="../User/UserList" class="small-box-footer">查看所有會員 <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>@Model.UnapprovedPostCount</h3>
+
+                    <p>待審核文章</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <a href="../Post/PostList" class="small-box-footer">所有文章 <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>@Model.UnapprovedCommentCount</h3>
+
+                    <p>待審核留言</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <a href="../Comment/UnapprovedComments" class="small-box-footer">查看待審核留言 <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-gradient-danger">
+                <div class="inner">
+                    <h3>@Model.UnderstockedGifts</h3>
+
+                    <p>件數 < 10</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-gifts"></i>
+                </div>
+                <a href="../Gift/GiftList" class="small-box-footer">管理禮物項目 <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-4">
+            <div class="card card-blue">
+                <div class="card-header">
+                    <h3 class="card-title">網站功能使用統計</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card card-gray">
+                <div class="card-header">
+                    <h3 class="card-title">會員紀錄月筆數</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">會員成長變化</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+    </div>
+
+</section>
+@section Scripts {
+    <script src="~/Areas/Admin/Content/JS/Chart.js"></script>
+    <script>
+        $(function () {
+            // 圓餅圖
+            var donutData = {
+                labels: [
+                    '飲食紀錄次數',
+                    '體重記錄筆數',
+                    '運動紀錄筆數',
+                    '禮物兌換次數',
+                    '文章發布數',
+                    '總留言人次',
+                ],
+                datasets: [
+                    {
+                        data: [@Model.DietLogCount,
+                               @Model.WeightLogCount,
+                               @Model.WorkoutLogCount,
+                               @Model.GiftCartCount,
+                               @Model.PostCount,
+                               @Model.CommentCount],
+                        backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+                    }
+                ]
+            }
+            var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+            var pieData = donutData;
+            var pieOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+            }
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+            new Chart(pieChartCanvas, {
+                type: 'pie',
+                data: pieData,
+                options: pieOptions
+            })
+            var months = [];
+            var monthData = @Html.Raw(Json.Encode(Model.PastSixMonths));
+            jQuery.each(monthData, function (i, val) {
+                months.push(val);
+            })
+            var dietlogs = [];
+            var dietlogData = @Html.Raw(Json.Encode(Model.HalfOfYearDietLogCount));
+            jQuery.each(dietlogData, function (i, val) {
+                dietlogs.push(val);
+            })
+            var workoutlogs = [];
+            var workoutlogData = @Html.Raw(Json.Encode(Model.HalfOfYearWeightLogCount));
+            jQuery.each(workoutlogData, function (i, val) {
+                workoutlogs.push(val);
+            })
+            // 長調圖
+
+            var areaChartData = {
+                labels: months,
+                datasets: [
+                    {
+                        label: '飲食紀錄次數',
+                        backgroundColor: 'rgba(255, 160, 143,0.9)',
+                        borderColor: 'rgba(255, 160, 143,0.8)',
+                        pointRadius: false,
+                        pointColor: '#ff8f8f',
+                        pointStrokeColor: 'rgba(255, 160, 143,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: dietlogs
+                    },
+                    {
+                        label: '運動紀錄筆數',
+                        backgroundColor: 'rgba(143, 167, 255, 1)',
+                        borderColor: 'rgba(143, 167, 255, 1)',
+                        pointRadius: false,
+                        pointColor: 'rgba(143, 167, 255, 1)',
+                        pointStrokeColor: '#8fa7ff',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: workoutlogs
+                    },
+                ]
+            }
+            var barChartCanvas = $('#barChart').get(0).getContext('2d')
+            var barChartData = $.extend(true, {}, areaChartData)
+            var temp0 = areaChartData.datasets[0]
+            var temp1 = areaChartData.datasets[1]
+            barChartData.datasets[0] = temp1
+            barChartData.datasets[1] = temp0
+
+            var barChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                datasetFill: false
+            }
+
+            new Chart(barChartCanvas, {
+                type: 'bar',
+                data: barChartData,
+                options: barChartOptions
+            })
+            // 曲線圖
+
+            //-------------
+            //- LINE CHART -
+            //--------------
+
+            var areaChartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: false,
+                        }
+                    }]
+                }
+            }
+             var memberCounts = [];
+            var memberData = @Html.Raw(Json.Encode(Model.HalfOfYearMemberCount));
+            jQuery.each(memberData, function (i, val) {
+                memberCounts.push(val);
+            })
+            var memberSums = [];
+            var memberSumData = @Html.Raw(Json.Encode(Model.HalfOfYearMemberSum));
+            jQuery.each(memberSumData, function (i, val) {
+                memberSums.push(val);
+            })
+            var lineChartData = {
+                labels: months,
+                datasets: [
+                    {
+                        label: '新入會員',
+                        backgroundColor: 'rgba(210, 214, 222, 1)',
+                        borderColor: 'rgba(210, 214, 222, 1)',
+                        pointColor: 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor: '#8fa7ff',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(210, 214, 222, 1)',
+                        data: memberData
+
+                    },
+                    {
+                        label: '會員總人數',
+                        backgroundColor: 'rgba(60,141,188,1)',
+                        borderColor: 'rgba(60,141,188,1)',
+                        pointColor: 'rgba(60,141,188,1)',
+                        pointStrokeColor: '#8fa7ff',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: memberSumData
+                    },
+                ]
+            }
+            var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
+            lineChartData.datasets[0].fill = false;
+            lineChartData.datasets[1].fill = false;
+
+            var lineChart = new Chart(lineChartCanvas, {
+                type: 'line',
+                data: lineChartData,
+                options: {
+                    response: true,
+                    maintainAspectRatio: false,
+                    datasetFill: false,
+
+                }
+            })
+
+        })
+
+
+    </script>
+}

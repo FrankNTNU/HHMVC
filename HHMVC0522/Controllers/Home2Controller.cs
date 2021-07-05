@@ -12,9 +12,9 @@ namespace UI.Controllers
     public class Home2Controller : Controller
     {
         // GET: Home2
-        LayoutBLL layoutBLL = new LayoutBLL();
-        PostBLL postBLL = new PostBLL();
-        UserBLL userBLL = new UserBLL();
+        readonly LayoutBLL layoutBLL = new LayoutBLL();
+        readonly PostBLL postBLL = new PostBLL();
+        readonly UserBLL userBLL = new UserBLL();
         public ActionResult Index()
         {
             LayoutDTO layoutDTO = new LayoutDTO();

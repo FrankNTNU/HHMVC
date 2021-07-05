@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "GiftList";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@model List<DTO.GiftDTO>
+<section class="content-header">
+    <h1>所有禮物</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>禮物</a></li>
+        <li class="breadcrumb-item active"><a>所有禮物</a></li>
+    </ol>
+</section>
+<br />
+<div class="card-footer">
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='../Gift/AddGift'">新增禮物</button>
+</div>
+
+<div class="card">
+    <!--</div>-->
+    <!-- /.row -->
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>名稱</th>
+                    <th>圖片</th>
+                    <th>庫存</th>
+                    <th>點數</th>
+                    <th>下架日期</th>
+                    <th>更新</th>
+                    <th>刪除</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr id="a_@item.ID">
+                        <td>@item.Name</td>
+                        <td>
+                            <img src="~/Areas/Admin/Content/GiftImages/@item.Image" width="150" />
+                        </td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                        <td>
+                            @item.Points
+                        </td>
+                        <td>
+                            @item.EndDate.ToString("yyyy.MM.dd")
+                        </td>
+                        <td align="center" valign="middle">
+
+                            <a href="../Gift/UpdateGift/@item.ID">
+                                <img src="~/Areas/Admin/Content/icon/update-icon.png" />
+                            </a>
+
+
+                        </td>
+                        <td align="center" valign="middle">
+
+                            <a href="#">
+                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Gift/DeleteGift/', @item.ID)" />
+                            </a>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>名稱</th>
+                    <th>圖片</th>
+                    <th>庫存</th>
+                    <th>點數</th>
+                    <th>下架日期</th>
+                    <th>更新</th>
+                    <th>刪除</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
+    <!-- /.card-body -->
+</div>
+<!-- /.card -->
+
+@section Scripts {
+
+    <script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>
+}

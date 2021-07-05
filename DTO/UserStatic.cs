@@ -6,12 +6,19 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    public class UserStatic
+    public static class UserStatic
     {
-        public static int UserID { get; set; }
-        public static bool isAdmin { get; set; }
-        public static string NameSurname { get; set; }
-        public static string ImagePath { get; set; }
-        public static int StatusID { get; set; }
+        public static List<UserDetail> ConnectedUsers = new List<UserDetail>();
+    }
+    public static class UserHandler
+    {
+        public static HashSet<string> ConnectedIds = new HashSet<string>();
+    }
+    public class UserDetail
+    {
+        public string ConnID { get; set; }
+        public string UserID { get; set; }
+        public string UserName { get; set; }
+        public string ImagePath { get; set; }
     }
 }

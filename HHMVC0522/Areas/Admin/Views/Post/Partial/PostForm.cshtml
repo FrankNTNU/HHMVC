@@ -7,49 +7,73 @@
 <div class="box-body">
     <input type="number" value="@Model.ID" name="ID" hidden />
     <div class="form-group">
-        <label>分類</label>
-        @Html.DropDownList("CategoryID", Model.Categories, "選擇貼文分類", new { @class = "form-control" })
-        @Html.ValidationMessageFor(x => x.CategoryID)
-    </div>
-    <div class="form-group">
-        <label>標題</label>
-        @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "標題" })
-        @Html.ValidationMessageFor(x => x.Title)
-    </div>
-    <div class="form-group">
-        <label>內容綱要</label>
-        @Html.TextBoxFor(x => x.ShortContent, new { @class = "form-control", @placeholder = "內容綱要" })
-        @Html.ValidationMessageFor(x => x.ShortContent)
-    </div>
-    @if (!Model.IsUpdate)
-    {
-        <div class="form-group">
-            <label>作者</label>
-            <input class="form-control" disabled value="@DTO.UserStatic.NameSurname"/>
+        <div class="row">
+            <div class="col-4">
+                @if (!Model.IsUpdate)
+                {
+                    <div class="form-group">
+                        <label>作者</label>
+                        <input class="form-control" disabled value="@Session["Name"]" />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label>作者</label>
+                        @Html.TextBoxFor(x => x.MemberName, new { @class = "form-control", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(x => x.MemberName, "", new { @style = "color:red" })
+                    </div>
+                }
+            </div>
+            <div class="col-4">
+                <label>分類</label>
+                @Html.DropDownList("CategoryID", Model.Categories, "選擇貼文分類", new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.CategoryID, "", new { @style = "color:red" })
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label>標題</label>
+                    @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "標題" })
+                    @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
+                </div>
+            </div>
         </div>
-    }
-    else
-    {
-        <div class="form-group">
-            <label>作者</label>
-            @Html.TextBoxFor(x => x.MemberName, new { @class = "form-control", @disabled = "disabled" })
-            @Html.ValidationMessageFor(x => x.MemberName)
-        </div>
-    }
+        
+            
+                <div class="form-group">
+                    <label>內容綱要</label>
+                    @Html.TextBoxFor(x => x.ShortContent, new { @class = "form-control", @placeholder = "內容綱要" })
+                    @Html.ValidationMessageFor(x => x.ShortContent, "", new { @style = "color:red" })
+                </div>
+            </div>
+       
+   
 
     <div class="form-group">
         <label>貼文內容</label>
         @Html.TextAreaFor(x => x.PostContent, new { @class = "ckeditor" })
-        @Html.ValidationMessageFor(x => x.PostContent)
+        @Html.ValidationMessageFor(x => x.PostContent, "", new { @style = "color:red" })
     </div>
 
     <div class="form-group">
+
+
         <label>圖片(建議長寬比16:9，單邊400px以上大圖)</label>
         <div class="input-group">
-            <div class="custom-file">
-                <input type="file" name="PostImage" id="gallery-photo-add" class="custom-file-input" accept="image/gif, image/jpeg, image/png, image/jpg" multiple />
-                <label class="custom-file-label" for="PostImage">選擇圖片</label>
+            <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" name="PostImage" class="custom-file-input" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])" />
+                    <label class="custom-file-label" for="PostImage">選擇圖片</label>
+                </div>
+                <br />
             </div>
+            <img src="" width="400" height="225" id="PostImage" />
+            @*<div class="custom-file">
+            <input type="file" name="PostImage" id="gallery-photo-add" class="custom-file-input" accept="image/gif, image/jpeg, image/png, image/jpg" multiple />
+            <label class="custom-file-label" for="PostImage" onchange="$('#PostImage')[0].src = window.URL.createObjectURL(this.files[0])">選擇圖片</label>
+            <img src="" width="200" height="200" id="PostImage" />
+        </div>*@
+
             <br />
         </div>
     </div>
