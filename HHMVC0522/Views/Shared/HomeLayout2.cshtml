@@ -509,7 +509,7 @@
         </div>
         <div class="chatFooter">
             <input id="serviceMessage" type="text" name="message" placeholder="在此輸入訊息">
-            <div id="sendmessage" class="button primary">送出</div>
+            <div id="sendServiceMessage" class="button primary">送出</div>
         </div>
     </div>
     <!--=============================================================-->
@@ -527,7 +527,7 @@
 
 
     <!--恩旗-->
-    <script>
+<script>
     $(window).on("unload", function () {
         $.cookies.del('.ASPXAUTH');
     });
@@ -540,7 +540,9 @@
 
     $(function () {
 
+        var userId = "@Html.Raw(User.Identity.Name)";
 
+        console.log(userId);
 
         var getPoints = @Json.Encode(Session["GotPoints"]);
         var noWeightLog = @Json.Encode(Session["NoWeightLog"]);
@@ -612,8 +614,7 @@
             url: "/FrontContact/IsConnected",
             type: "POST"
         }).done(function (data) {
-            if (data.IsConnected) {
-                $("#chatPanel").css("display", "flex");
+            if (userId != "") {
                 connect();
             }
         });
@@ -652,16 +653,16 @@
 
         $("#showContact").click(function () {
             $("#chatPanel").css("display", "flex");
-            $.ajax({
-                url: "/FrontContact/IsConnected",
-                type: "POST"
-            }).done(function (data) {
-                if (!data.IsConnected) {
-                    notReadCount = 0;
-                    ResetNotReadCountSession();
-                    connect();
-                }
-            });
+            //$.ajax({
+            //    url: "/FrontContact/IsConnected",
+            //    type: "POST"
+            //}).done(function (data) {
+            //    if (!data.IsConnected) {
+            //        notReadCount = 0;
+            //        ResetNotReadCountSession();
+            //        connect();
+            //    }
+            //});
         });
         //=============================================================
     });
@@ -759,11 +760,13 @@
 
     //===================================================
 
+    
+
     function connect() {
 
-        var chat = $.connection.chatHub;
+        var chat2 = $.connection.chatHub;
 
-        chat.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
+        chat2.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
 
             if ($("#collapse i.fa-minus").length == 0) {
                 if (notReadCount == 0) {
@@ -785,6 +788,7 @@
         }
 
         $.connection.hub.start().done(function () {
+
             $.ajax({
                 url: "/FrontContact/AddToServiceGroup",
                 type: "POST",
@@ -799,9 +803,9 @@
                 ResetNotReadCountSession();
             });
 
-            $("#sendmessage").click(function () {
+            $("#sendServiceMessage").click(function () {
 
-                if ($("#message").val() == "") {
+                if ($("#serviceMessage").val() == "") {
                     alert("請輸入訊息");
                     return;
                 }
@@ -816,6 +820,10 @@
                     }
                 });
             });
+
+            if (typeof AddToChatGroup != "undefined") {
+                AddToChatGroup();
+            }
 
         });
     }
@@ -936,6 +944,6 @@
 
         $("#serviceChatBox").append(NotReadDiv);
     }
-    </script>
+</script>
 </body>
 </html>

@@ -30,7 +30,7 @@ namespace UI
 
             //=====================================================
             //For CustomerService
-            
+
             int UserId = int.Parse(Context.User.Identity.Name);
             Member member = dbContext.Members.SingleOrDefault(m => m.ID == UserId);
 
@@ -135,13 +135,6 @@ namespace UI
 
             return base.OnDisconnected(stopCalled);
         }
-
-        //public void Send(string name, string imagePath, string message)
-        //{
-        //    // Call the addNewMessageToPage method to update clients.
-        //    Clients.All.addNewMessageToPage(name, imagePath, message);
-        //    //Clients.Client(connID).addNewMessageToPage(name, imagePath, message);
-        //}
 
     }
 }

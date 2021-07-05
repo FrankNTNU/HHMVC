@@ -173,7 +173,7 @@ namespace UI.Controllers
             var Context = GlobalHost.ConnectionManager.GetHubContext<GroupChatHub>();
 
             //Add To Static Dictionary
-            if (UserStatic.UserChatGroups.Keys.Contains(groupId))
+            if (UserStatic.UserChatGroups.ContainsKey(groupId))
             {
                 //Add
                 Context.Groups.Add(connId, groupId);
@@ -327,6 +327,11 @@ namespace UI.Controllers
         [HttpPost]
         public void SendMessage(string connId, string groupId, string message)
         {
+            if (!UserStatic.UserChatGroups.ContainsKey(groupId))
+            {
+                return;
+            }
+
             //Add count to NotRead dictionary
             foreach (var UserID in UserStatic.ChatGroupNotRead.Keys.ToList())
             {

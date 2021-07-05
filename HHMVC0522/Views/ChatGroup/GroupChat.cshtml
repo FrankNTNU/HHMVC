@@ -242,8 +242,6 @@
 
         $(function () {
 
-            
-
             var chat = $.connection.groupChatHub;
 
             chat.client.receiveFromGroupMember = function (connIds, userName, message, timeStamp, image) {
@@ -256,165 +254,7 @@
                 chatBox.scrollTop = chatBox.scrollHeight;
             }
 
-            $.connection.hub.start().done(function () {
-
-                //Set groupId When Return
-                if ($("#groupId").val() == "") {
-
-                    $.ajax({
-                        url: "GetGroupId",
-                        type: "POST",
-                        data: {
-                            connId: $.connection.hub.id
-                        },
-                        success: function (data) {
-                            $("#groupId").val(data.GroupID);
-                            $("#groupTitle").text(`聊天群組：${data.GroupName}`);
-                            LoadMessages();
-                        }
-                    });
-                }
-
-                //New Group
-                $("#newGroup").click(function () {
-
-                    if ($("#groupId").val() != "") {
-                        if (!confirm("確定離開目前群組嗎？")) {
-                            return;
-                        }
-                    }
-
-                    $("#groupDetail").dialog({
-                        title: "聊天群",
-                        modal: true,
-                        open: function (event, ui) {
-                            $('.ui-dialog .btnOK').addClass("primary")
-                                .css("padding", "10px").css("border-radius", "5px")
-                                .css("outline-color", "white");
-                            $(this).parent().focus();
-
-                            $.ajax({
-                                url: "GetDifficulty",
-                                type: "POST",
-                                success: function (data) {
-                                    console.log(data);
-                                    if (data == "Easy") {
-                                        $("#difficulty span").html("簡單");
-                                    } else if (data == "Normal") {
-                                        $("#difficulty span").html("正常");
-                                    } else if (data == "Hard") {
-                                        $("#difficulty span").html("困難");
-                                    }
-                                }
-                            });
-                        },
-                        dialogClass: "no-close",
-                        buttons: [{
-                            text: "確認",
-                            class: "btnOK",
-                            click: function () {
-
-                                if ($("#groupName").val() == "") {
-                                    alert("請輸入聊天群名稱");
-                                    return;
-                                }
-
-                                if ($("#groupName").val().length > 6) {
-                                    alert("聊天群名稱須為6個字以內");
-                                    return;
-                                }
-
-                                if ($("#weight1").val() >= $("#weight2").val()) {
-                                    alert("體重區間錯誤");
-                                    return;
-                                }
-
-                                let patt = /^[0-9]+$/
-
-                                if (!patt.test($("#weight1").val()) || !patt.test($("#weight2").val())) {
-                                    alert("請輸入有效體重");
-                                    return;
-                                }
-
-                                $.ajax({
-                                    url: "NewGroup",
-                                    type: "POST",
-                                    data: {
-                                        connId: $.connection.hub.id,
-                                        groupName: $("#groupName").val(),
-                                        weight1: $("#weight1").val(),
-                                        weight2: $("#weight2").val(),
-                                        preGroupId: $("#groupId").val()
-                                    },
-                                    success: function (data) {
-                                        if (data.Result == "Success") {
-                                            alert(data.Result);
-                                            $("#groupName").val("");
-                                            $("#weight1").val("");
-                                            $("#weight2").val("");
-                                            $("#groupId").val(data.GroupID);
-                                            $("#groupTitle").text(`聊天群組：${data.GroupName}`);
-                                            $("#chatbox").html("");
-                                        } else {
-                                            alert(data.Result);
-                                        }
-                                    }
-                                });
-
-                                $("#groupDetail").dialog("close");
-                            }
-                        },
-                        {
-                            text: "取消",
-                            class: "btnOK",
-                            click: function () {
-                                $("#groupDetail").dialog("close");
-                            }
-                        }]
-                    });
-
-                    $('.ui-dialog button').mousedown(function (e) {
-                        e.preventDefault();
-                    });
-                });
-
-                //Change Group
-                $("body").on("click", ".chatGroup", function () {
-
-                    if ($(this).attr("data-groupId") == $("#groupId").val()) {
-                        alert("已在此群組");
-                        return;
-                    } else {
-                        if ($("#groupId").val() != "" && !confirm("確定離開目前群組嗎？")) {
-                            return;
-                        }
-                    }
-
-                    $.ajax({
-                        url: "AddToGroup",
-                        type: "POST",
-                        data: {
-                            connId: $.connection.hub.id,
-                            groupId: $(this).attr("data-groupId"),
-                            groupName: $(this).attr("data-groupName"),
-                            preGroupId: $("#groupId").val()
-                        },
-                        success: function (data) {
-                            if (data.Result == "Success") {
-                                alert(data.Result);
-                                $("#groupId").val(data.GroupID);
-                                $("#groupTitle").text(`聊天群組：${data.GroupName}`);
-                                LoadMessages();
-                            } else {
-                                alert(data.Result);
-                            }
-                        }
-                    });
-                });
-            });
-
             let IntervalID = setInterval(function () {
-
 
                 //Refresh Group
                 $.ajax({
@@ -488,6 +328,12 @@
             }, 1500);
 
             $("#sendmessage").click(function () {
+
+                if ($("#message").val() == "") {
+                    alert("請輸入訊息");
+                    return;
+                }
+
                 $.ajax({
                     url: "SendMessage",
                     type: "POST",
@@ -543,6 +389,169 @@
 
         }
 
+        function AddToChatGroup() {
+            
+            //Set groupId When Return
+            if ($("#groupId").val() == "") {
+
+                $.ajax({
+                    url: "GetGroupId",
+                    type: "POST",
+                    data: {
+                        connId: $.connection.hub.id
+                    },
+                    success: function (data) {
+
+                        alert($.connection.hub.id);
+
+                        alert("groupId " + data.GroupID);
+
+                        $("#groupId").val(data.GroupID);
+                        $("#groupTitle").text(`聊天群組：${data.GroupName}`);
+                        LoadMessages();
+                    }
+                });
+            }
+
+            //New Group
+            $("#newGroup").click(function () {
+
+                if ($("#groupId").val() != "") {
+                    if (!confirm("確定離開目前群組嗎？")) {
+                        return;
+                    }
+                }
+
+                $("#groupDetail").dialog({
+                    title: "聊天群",
+                    modal: true,
+                    open: function (event, ui) {
+                        $('.ui-dialog .btnOK').addClass("primary")
+                            .css("padding", "10px").css("border-radius", "5px")
+                            .css("outline-color", "white");
+                        $(this).parent().focus();
+
+                        $.ajax({
+                            url: "GetDifficulty",
+                            type: "POST",
+                            success: function (data) {
+                                console.log(data);
+                                if (data == "Easy") {
+                                    $("#difficulty span").html("簡單");
+                                } else if (data == "Normal") {
+                                    $("#difficulty span").html("正常");
+                                } else if (data == "Hard") {
+                                    $("#difficulty span").html("困難");
+                                }
+                            }
+                        });
+                    },
+                    dialogClass: "no-close",
+                    buttons: [{
+                        text: "確認",
+                        class: "btnOK",
+                        click: function () {
+
+                            if ($("#groupName").val() == "") {
+                                alert("請輸入聊天群名稱");
+                                return;
+                            }
+
+                            if ($("#groupName").val().length > 6) {
+                                alert("聊天群名稱須為6個字以內");
+                                return;
+                            }
+
+                            if ($("#weight1").val() >= $("#weight2").val()) {
+                                alert("體重區間錯誤");
+                                return;
+                            }
+
+                            let patt = /^[0-9]+$/
+
+                            if (!patt.test($("#weight1").val()) || !patt.test($("#weight2").val())) {
+                                alert("請輸入有效體重");
+                                return;
+                            }
+
+                            $.ajax({
+                                url: "NewGroup",
+                                type: "POST",
+                                data: {
+                                    connId: $.connection.hub.id,
+                                    groupName: $("#groupName").val(),
+                                    weight1: $("#weight1").val(),
+                                    weight2: $("#weight2").val(),
+                                    preGroupId: $("#groupId").val()
+                                },
+                                success: function (data) {
+                                    if (data.Result == "Success") {
+                                        alert(data.Result);
+                                        $("#groupName").val("");
+                                        $("#weight1").val("");
+                                        $("#weight2").val("");
+                                        $("#groupId").val(data.GroupID);
+                                        $("#groupTitle").text(`聊天群組：${data.GroupName}`);
+                                        $("#chatbox").html("");
+                                    } else {
+                                        alert(data.Result);
+                                    }
+                                }
+                            });
+
+                            $("#groupDetail").dialog("close");
+                        }
+                    },
+                    {
+                        text: "取消",
+                        class: "btnOK",
+                        click: function () {
+                            $("#groupDetail").dialog("close");
+                        }
+                    }]
+                });
+
+                $('.ui-dialog button').mousedown(function (e) {
+                    e.preventDefault();
+                });
+            });
+
+            //Change Group
+            $("body").on("click", ".chatGroup", function () {
+
+                if ($(this).attr("data-groupId") == $("#groupId").val()) {
+                    alert("已在此群組");
+                    return;
+                } else {
+                    if ($("#groupId").val() != "" && !confirm("確定離開目前群組嗎？")) {
+                        return;
+                    }
+                }
+
+                $.ajax({
+                    url: "AddToGroup",
+                    type: "POST",
+                    data: {
+                        connId: $.connection.hub.id,
+                        groupId: $(this).attr("data-groupId"),
+                        groupName: $(this).attr("data-groupName"),
+                        preGroupId: $("#groupId").val()
+                    },
+                    success: function (data) {
+                        if (data.Result == "Success") {
+                            alert(data.Result);
+                            $("#groupId").val(data.GroupID);
+                            $("#groupTitle").text(`聊天群組：${data.GroupName}`);
+                            LoadMessages();
+                        } else {
+                            alert(data.Result);
+                        }
+                    }
+                });
+            });
+            
+        }
+
         //todo Load Group Messages
         function LoadMessages() {
             if ($("#groupId").val() != "") {
@@ -553,8 +562,6 @@
                         groupId: $("#groupId").val()
                     },
                     success: function (data) {
-
-                        alert(data.NotReadCount);
 
                         $("#chatbox").html("");
 
