@@ -503,6 +503,7 @@
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\fontawesome-all.min.css" />
     <Content Include="Content\css\main.css" />
+    <Content Include="Content\css\pagination.css" />
     <Content Include="Content\font\fontawesome\fontawesome-webfont.svg" />
     <Content Include="Content\ico\apple-touch-icon-114-precomposed.png" />
     <Content Include="Content\ico\apple-touch-icon-144-precomposed.png" />
@@ -584,6 +585,7 @@
     <Content Include="Content\img\slides\refine\slide3.png" />
     <Content Include="Content\img\small-avatar.png" />
     <Content Include="Content\img\ui.totop.png" />
+    <Content Include="Content\js\ASPSnippets_Pager.min.js" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\Gift\GiftList.cshtml" />
     <Content Include="Areas\Admin\Views\Gift\AddGift.cshtml" />
@@ -625,13 +627,21 @@
     <Content Include="Content\js\jquery.likebtn.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\main.js" />
+    <Content Include="Content\js\pagination.js" />
     <Content Include="Content\js\util.js" />
     <Content Include="Content\moment-js\moment-with-locales.js" />
     <Content Include="Content\moment-js\moment-with-locales.min.js" />
     <Content Include="Content\moment-js\moment.js" />
     <Content Include="Content\moment-js\moment.min.js" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\pointsPage\coins.jpg" />
+    <Content Include="Content\pointsPage\gifts.jpg" />
+    <Content Include="Content\pointsPage\pay.jpg" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\tempImg\chartImg.jpg" />
+    <Content Include="Content\tempImg\dietImg.jpg" />
+    <Content Include="Content\tempImg\exerciseImg.jpg" />
+    <Content Include="Content\tempImg\healthImg.jpg" />
     <Content Include="Content\toastr\toastr.css" />
     <Content Include="Content\toastr\toastr.min.css" />
     <Content Include="Content\toastr\toastr.min.js" />
@@ -660,6 +670,7 @@
     <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\FrontContactController.cs" />
     <Compile Include="Controllers\FrontGiftController.cs" />
+    <Compile Include="Controllers\FrontPointController.cs" />
     <Compile Include="Controllers\FrontPostController.cs" />
     <Compile Include="Controllers\Home2Controller.cs" />
     <Compile Include="Controllers\WorkoutController.cs" />
@@ -785,6 +796,7 @@
     <Content Include="Views\FrontPost\UserPostList.cshtml" />
     <Content Include="Views\FrontContact\Chat.cshtml" />
     <Content Include="Views\FrontPost\ReplyToComment.cshtml" />
+    <Content Include="Views\Home2\UserPoints.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -807,6 +819,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\FrontPoint\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">

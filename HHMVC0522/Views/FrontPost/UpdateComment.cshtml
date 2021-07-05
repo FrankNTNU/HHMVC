@@ -5,8 +5,10 @@
 }
 
 @section Styles{
-    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    
 
 }
 @model DTO.CommentDTO
@@ -21,18 +23,18 @@
         </div>
         <div class="col-sm-4 col-md-3 col-lg-2 align-self-end justify-content-end d-none d-sm-block">
 
-            <a href="~/FrontPost/PostDetail?ID=@ViewBag.CurrentPostID"><label class="button primary"><i class="fas fa-pen"></i> 返回貼文</label></a>
+            <a href="~/FrontPost/PostDetail?ID=@Session["PostID"]"><label class="button primary"><i class="fas fa-pen"></i> 返回貼文</label></a>
 
         </div>
     </div>
 </header><header id="header" class="m-0 p-0 mb-2"></header>
 
-         <div class="col-12 d-flex p-0">
-             <div class="d-sm-none" style="width:100%">
-                 <a href="~/FrontPost/PostDetail?ID=@ViewBag.CurrentPostID"><label class="button primary" style="width:100%"><i class="fas fa-pen"></i> 返回貼文</label></a>
+<div class="col-12 d-flex p-0">
+    <div class="d-sm-none" style="width:100%">
+        <a href="~/FrontPost/PostDetail?ID=@Session["PostID"]"><label class="button primary" style="width:100%"><i class="fas fa-pen"></i> 返回貼文</label></a>
 
-             </div>
-         </div>
+    </div>
+</div>
 @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
 <form action="@Url.Action("UpdateComment")" method="post">
     <input hidden value="@Model.ID" name="ID" />
@@ -46,7 +48,7 @@
         </div>
         <div class="col-12 col-md-6">
             <label>標題</label>
-            @Html.TextBoxFor(x => x.Title, new { @placeholder = "你的留言標題", @style = "height: 45px;" })            
+            @Html.TextBoxFor(x => x.Title, new { @placeholder = "你的留言標題", @style = "height: 45px;" })
             @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
 
         </div>
@@ -72,7 +74,28 @@
 
 
 @section Scripts{
-
+    <script src="~/Content/toastr/toastr.min.js"></script>
     <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
+    <script>
+        $(document).ready(function () {
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "text-align": "center",
+                "onclick": null,
+                "fadeIn": 300,
+                "fadeOut": 1000,
+                "timeOut": 5000,
+                "extendedTimeOut": 1000
+            }
+            var result = "@TempData["State"]";
+            console.log(result);
+            if (result != "") {
+                if (result == "Error") {
+                    toastr.warning("請填寫所有欄位");
+                }
 
+            }
+        })
+    </script>
 }

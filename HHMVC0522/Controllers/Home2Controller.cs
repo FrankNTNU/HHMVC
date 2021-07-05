@@ -57,6 +57,12 @@ namespace UI.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index");
         }
-        
+        public ActionResult UserPoints()
+        {
+            if (Session["ID"] == null)
+                return Redirect("~/Home2/Login");
+            Session["Points"] = userBLL.GetPoints((int)Session["ID"]);
+            return View();
+        }
     }
 }

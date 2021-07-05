@@ -7,6 +7,8 @@
 @using DTO
 
 @section Styles{
+    <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
     <style>
@@ -21,7 +23,9 @@
         .like__btn {
             border-radius: 0.4rem;
         }
-
+        a:hover {
+            text-decoration:none;
+        }
 
         #commentAreaBtn {
             text-decoration: none;
@@ -207,35 +211,34 @@
     }
     else
     { <div class="container">
-            <button class="like__btn animated default" data-assigned-id="@Model.PostDetail.ID" style="border-style: none;">
+            <a class="like__btn animated default" data-assigned-id="@Model.PostDetail.ID" style="border-style: none;">
                 <i class="like__icon fa fa-heart"></i>
                 <span class="like__number">@Model.PostDetail.LikeCount</span>
-            </button>
+            </a>
         </div>}
 
 }
 
 <!--文章留言區-->
-@if (Model.CommentCount > 0)
-{
-    <div class="row" style="margin-top:20px">
-        <div class="col-8 col-12-medium">
-            <header class="major">
-                <h2 class="mb-1">
-                    @Model.CommentCount 則留言 <i class="far fa-comment"></i>
-                </h2>
-            </header>
 
+<div class="row" style="margin-top:20px">
+    <div class="col-8 col-12-medium">
+        <header class="major">
+            <h2 class="mb-1">
+                @Model.CommentCount 則留言 <i class="far fa-comment"></i>
+            </h2>
+        </header>
 
-        </div>
 
     </div>
-    <div style="background-color: #ffe9e8;
+
+</div>
+<div style="background-color: #ffe9e8;
         padding: 15px;border-radius:20px
         ">
-        @DisplayComments(Model.CommentRoot.ChildComments)
-    </div>
-}
+    @DisplayComments(Model.CommentRoot.ChildComments)
+</div>
+
 @if (Session["ID"] != null)
 {
     <header class="major mt-3">
@@ -303,6 +306,7 @@
 {
     if (item.IsApproved || (item.MemberID == (Session["ID"] == null ? 0 : (int)Session["ID"])))
     {
+
         <div class="row pl-1" style="width: 100%;margin-bottom:10px;" id="commentArea">
 
             @if (item.PostID == 0)
@@ -354,14 +358,36 @@
 
 
 @section Scripts {
+    <script src="~/Content/toastr/toastr.min.js"></script>
+
     <script type="text/javascript">
+
         $(document).ready(function () {
 
-            var result = "@ViewData["CommentState"]";
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "text-align": "center",
+                "onclick": null,
+                "fadeIn": 300,
+                "fadeOut": 1000,
+                "timeOut": 5000,
+                "extendedTimeOut": 1000
+            }
+            var result = "@TempData["State"]";
+           console.log(result);
             if (result != "") {
-
-                if (result == "Success") {
-                    toastr.success("動作成功");
+                if (result == "AddSuccess") {
+                    toastr.success("成功留言，待審查中");
+                }
+                else if (result == "UpdateSuccess") {
+                    toastr.success("修改成功，待審查中");
+                }
+                else if (result == "ReplySuccess") {
+                    toastr.success("回覆成功，待審查中");
+                }
+                else if (result == "DeleteSuccess") {
+                    toastr.success("刪除成功");
                 }
                 else {
                     toastr.error("失敗");

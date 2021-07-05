@@ -178,9 +178,7 @@ namespace DAL
                     dto.ViewCount = item.ViewCount;
                     dtoList.Add(dto);
                 }
-
             }
-           
             return dtoList;
         }
         public List<PostDTO> GetUserPosts(int userID)
@@ -293,7 +291,7 @@ namespace DAL
                 dto.IsApproved = post.IsApproved;
                 dto.LikeCount = post.LikeCount;
                 dto.ViewCount = post.ViewCount;
-                dto.CommentList = GetCommentsWithPostID(ID);
+                //dto.CommentList = GetCommentsWithPostID(ID);
             }
             return dto;        
         }
@@ -460,7 +458,7 @@ namespace DAL
                 post.PostContent = model.PostContent;
                 post.CategoryID = model.CategoryID;
                 post.AddDate = DateTime.Now;
-                post.IsApproved = true;
+                post.IsApproved = false;
                 db.Posts.Attach(post);
                 var entry = db.Entry(post);
                 entry.State = System.Data.Entity.EntityState.Modified;

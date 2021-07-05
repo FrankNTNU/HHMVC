@@ -7,22 +7,26 @@
 
 
 @section Styles {
+ 
     <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
-    <link href="~/Content/toastr/toastr.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
     <style>
         .d-md-block {
             background-color: rgba(0, 0, 0, 0.6);
             border-radius: 10px 10px;
         }
+
         a {
             color: #e82a2a;
         }
+
         @@media only screen and (max-width: 550px) {
             #titleText {
                 font-size: 1.5em;
             }
-            #bannerText>h2 {
+
+            #bannerText > h2 {
                 font-size: 1.4em;
             }
         }
@@ -33,27 +37,28 @@
         <div class="col-3 col-sm-3 col-lg-2 p-2 p-0" style="text-align:center">
             <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
-        <div class="col-8 col-sm-7 col-lg-8 p-1 align-self-center" >
+        <div class="col-8 col-sm-7 col-lg-8 p-1 align-self-center">
             <h2 id="titleText"><strong>HealthHelper</strong> <text style="white-space: nowrap">您的健康管理助手</text></h2>
         </div>
-        
+
     </div>
 </header><header id="header" class="m-0 p-0"></header>
-        <!-- Banner -->
-        <section id="banner" class="pt-3 pb-2">
-            <div class="row">
-                <div class="col-12 col-lg-6 mb-3" id="bannerText">
-                    @if (Session["ID"] != null)
-                    {
-                        <h2><i class="far fa-flag"></i>
-                            Hi, @Session["Name"]<br />
-                            歡迎回到 HealthHelper，<br />你的健康管理助手
-                        </h2>
-                    }
-                    else
-                    {
-                        <h2>
-                            歡迎來到<span style="font-size:0.9em"> HealthHelper</span>
+<!-- Banner -->
+<section id="banner" class="pt-3 pb-2">
+    <div class="row">
+        <div class="col-12 col-lg-6 mb-3" id="bannerText">
+            @if (Session["ID"] != null)
+            {
+                <h2>
+                    <i class="far fa-flag"></i>
+                    Hi, @Session["Name"]<br />
+                    歡迎回到 HealthHelper，<br />你的健康管理助手
+                </h2>
+            }
+            else
+            {
+                <h2>
+                    歡迎來到<span style="font-size:0.9em"> HealthHelper</span>
 
                         </h2>
                         <h2>登入以啟用更多功能</h2>
@@ -64,89 +69,89 @@
                         <a href="~/Home2/Login" class="button primary big mr-5" style="text-decoration: none"><i class="fas fa-user"></i> 登入</a>}<a href="#" class="button big" style="text-decoration: none"><i class="fas fa-book"></i> 遊戲規則</a>
                     </div>
 
-                   
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <a href="#" class="image" style="width:auto; margin:auto">
-                                    <img class="d-block w-100" src="~/Areas/Admin/Content/tempimage/healthImg.png" alt="First slide">
 
-                                    <div class="carousel-caption d-md-block">
-                                        <h5>歡迎來到HealthHelper</h5>
-                                        <p>現在就加入健康管理助手</p>
-                                    </div>
-                                </a>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <a href="#" class="image" style="width:auto; margin:auto">
+                            <img class="d-block w-100" src="~/Areas/Admin/Content/tempimage/healthImg.png" alt="First slide">
 
+                            <div class="carousel-caption d-md-block">
+                                <h5>歡迎來到HealthHelper</h5>
+                                <p>現在就加入健康管理助手</p>
                             </div>
-                            @foreach (var item in Model.Rules)
-                            {
-                                <div class="carousel-item">
-                                    <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image" style="        width: auto;
+                        </a>
+
+                    </div>
+                    @foreach (var item in Model.Rules)
+                    {
+                        <div class="carousel-item">
+                            <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image" style="        width: auto;
         margin: auto
 ">
-                                        <img class="d-block w-100" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="First slide">
+                                <img class="d-block w-100" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="First slide">
 
-                                        <div class="carousel-caption d-md-block">
-                                            <h5>@item.Title</h5>
-                                            <p>@item.ShortContent</p>
-                                        </div>
-                                    </a>
+                                <div class="carousel-caption d-md-block">
+                                    <h5>@item.Title</h5>
+                                    <p>@item.ShortContent</p>
                                 </div>
-                            }
-                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
                             </a>
-                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-
                         </div>
-                    </div>
+                    }
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
 
 
-        <!-- Section -->
-        <section class="pt-5 pb-5">
-            <header class="row">
-                <div class="row col-12">
-                    <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
-                        <h3 style="margin-bottom: 10px;">
-                            <i class="far fa-file"></i> 最新貼文
-                        </h3>
-                    </div>
-                    <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
-                        <a href="~/FrontPost/AllPosts"><label class="button primary">檢視全部</label></a>
-                    </div>
-                </div>
+<!-- Section -->
+<section class="pt-5 pb-5">
+    <header class="row">
+        <div class="row col-12">
+            <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
+                <h3 style="margin-bottom: 10px;">
+                    <i class="far fa-file"></i> 最新貼文
+                </h3>
+            </div>
+            <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
+                <a href="~/FrontPost/AllPosts"><label class="button primary">檢視全部</label></a>
+            </div>
+        </div>
 
-            </header>
-            <header class="major"><p class="col-12"></p></header>
-            <div class="row">
-                @foreach (var item in Model.Posts)
-                {
-                    <div class="col-12 col-md-6 col-lg-4">
+    </header>
+    <header class="major"><p class="col-12"></p></header>
+    <div class="row">
+        @foreach (var item in Model.Posts)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
 
 
-                        <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image">
-                            @if (item.ImagePath != "~/Content/img/slides/health1.jpg")
-                            {
-                                <img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="" style="max-width:100%" />
-                            }
+                <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image">
+                    @if (item.ImagePath != "~/Content/img/slides/health1.jpg")
+                    {
+                        <img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="" style="max-width:100%" />
+                    }
 
-                            else
-                            {
-                                <img src="~/Content/img/slides/health1.jpg" alt="" style="max-width:100%" />
-                            }
-                        </a>
-                        <text>
-                            <span class="button" style="        margin-right: 10px;
+                    else
+                    {
+                        <img src="~/Content/img/slides/health1.jpg" alt="" style="max-width:100%" />
+                    }
+                </a>
+                <text>
+                    <span class="button" style="        margin-right: 10px;
         pointer-events: none
 ">@item.CategoryName</span><a href="@Url.Action("PostDetail","FrontPost", new { @ID = item.ID })" style="text-decoration: none"><strong>@item.Title</strong></a>
 </text><span>@item.AddDate.ToString("yyyy/MM/dd")</span>
@@ -157,8 +162,8 @@
 
 </div>
 }
-            </div>
-        </section>
+    </div>
+</section>
 
 
 @section Scripts {
@@ -174,19 +179,28 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-
-            var result = "@ViewData["CommentState"]";
-            if (result != "") {
-
-                if (result == "Success") {
-                    toastr.success("動作成功");
-                }
-                else {
-                    toastr.error("失敗");
-                }
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "text-align": "center",
+                "onclick": null,
+                "fadeIn": 300,
+                "fadeOut": 1000,
+                "timeOut": 5000,
+                "extendedTimeOut": 1000
             }
+            var result = "@TempData["State"]";
+            console.log(result);
+            if (result != "") {
+                if (result == "AddPostSuccess") {
+                    toastr.success("發布成功，待審核中");
+                }
+                else if (result == "DeleteSuccess") {
+                    toastr.success("刪除成功");
+                }
+               
 
+            }
         })
-
     </script>
 }

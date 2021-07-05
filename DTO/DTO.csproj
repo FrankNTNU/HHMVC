@@ -95,6 +95,8 @@
     <Compile Include="GiftCartDTO.cs" />
     <Compile Include="GiftDTO.cs" />
     <Compile Include="LayoutDTO.cs" />
+    <Compile Include="PointDTO.cs" />
+    <Compile Include="PointLogDTO.cs" />
     <Compile Include="PostCategoryDTO.cs" />
     <Compile Include="PostDTO.cs" />
     <Compile Include="PostImageDTO.cs" />
