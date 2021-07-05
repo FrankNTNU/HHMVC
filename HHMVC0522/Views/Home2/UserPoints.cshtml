@@ -1,0 +1,257 @@
+﻿
+@{
+    ViewBag.Title = "UserPoints";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+@section Styles
+{
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .features article .icon:after {
+            content: none;
+        }
+
+        .features article .icon {
+            border: 1px solid #a8a3a3;
+            border-radius: 30px;
+        }
+
+        a {
+            color: red;
+            text-decoration: none;
+        }
+
+            a:hover {
+                color: red;
+                text-decoration: none;
+            }
+            a.page {
+                background-color: #fff0f0;
+                margin: 5px;
+                padding: 10px;
+            }
+            .Pager {
+                text-align:center;
+            }
+                .Pager span {
+                    background-color: lightgray;
+                    margin: 5px;
+                    padding: 10px;
+                }
+    </style>
+}
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
+
+        <div class="col-3 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-8 col-sm-5 col-md-6 col-lg-8 p-1 align-self-center">
+            <h2 style="font-size: 1.8em"><i class="fas fa-search-dollar"></i> 點數管理</h2>
+        </div>
+    </div>
+</header><header id="header" class="m-0 p-0"></header>
+
+<section class="pt-3">
+    <div class="box mt-1" style="text-align: center; " ;>
+        <h5><i class="fas fa-coins"></i><strong> @Session["Name"]</strong> 目前擁有點數: <strong style="color: #ff6363">@Session["Points"]</strong> 點</h5>
+
+    </div>
+    <div class="row">
+
+        <div class="col-12 col-md-4 mb-2">
+            <a href="#" id="pointsHistory">
+                <img src="~/Content/pointsPage/coins.jpg" style="max-width:100%" class="image" />
+            </a>
+            <h3 style="text-align:center" class="m-2">點數紀錄</h3>
+            <p style="text-align:center">查看點數獲取歷史紀錄</p>
+        </div>
+        <div class="col-12 col-md-4 mb-2">
+            <a href="#" id="pointsManagement">
+                <img src="~/Content/pointsPage/pay.jpg" style="max-width:100%" class="image" />
+            </a>
+            <h3 style="text-align:center" class="m-2">升級會員</h3>
+            <p style="text-align:center">線上儲值與查看儲值優惠說明</p>
+
+        </div>
+        <div class="col-12 col-md-4 mb-2">
+            <a href="~/FrontGift/GiftList" id="giftShop">
+                <img src="~/Content/pointsPage/gifts.jpg" style="max-width:100%" class="image" />
+            </a>
+            <h3 style="text-align:center" class="m-2">禮物商店</h3>
+            <p style="text-align:center">利用會員累積點數兌換免費多樣的禮物</p>
+        </div>
+    </div>
+
+
+    <div id="historyDiv">
+        <div class="row mb-1">
+            <div class="col-6">
+                <header class="major">
+                    <h3 class="mb-2"><i class="far fa-clipboard"></i> 點數紀錄</h3>
+                </header>
+            </div>
+
+            <div class="col-6">
+                <select id="timeRangeFilter">
+                    <option value="all" selected>- 期間搜尋 -</option>
+                    <option value="today">今日</option>
+                    <option value="pastThreeDays">過去三天</option>
+                    <option value="pastWeek">過去一週</option>
+                    <option value="pastMonth">本月</option>
+                </select>
+            </div>
+        </div>
+        <table class="alt" id="pointLogTb">
+            <tr style="background-color: #ffebeb; ">
+                <th class="pt-3" style="border-radius: 10px 0 0 0"><a href="javascript:;">時間</a></th>
+                <th><a href="javascript:;">說明</a></th>
+                <th style="border-radius: 0 10px 0 0"><a href="javascript:;">獲得點數</a></th>
+
+            </tr>
+            <tr style="display:none;">
+                <td>日期</td>
+                <td>說明</td>
+                <td>獲得點數</td>
+            </tr>
+        </table>
+        <table class="alt" id="emptyTb">
+            <tr style="background-color: #ffebeb; ">
+                <th class="pt-3" style="border-radius: 10px 0 0 0"><a href="javascript:;">時間</a></th>
+                <th><a href="javascript:;">說明</a></th>
+                <th style="border-radius: 0 10px 0 0"><a href="javascript:;">獲得點數</a></th>
+
+            </tr>
+            <tr>
+                <td colspan="3">查無資料</td>
+            </tr>
+        </table>
+        <div class="Pager mb-4"></div>
+    </div>
+    <div id="managementDiv">
+        <div class="col-12">
+            <header class="major row">
+                <h3 class="mb-3"><i class="far fa-user"></i> 升級會員</h3>
+            </header>
+        </div>
+        <div class="features">
+            <article>
+                <span class="icon solid fa-user-shield"></span>
+                <div class="content">
+                    <h3 class="pb-1">新型的健康管理系統</h3>
+                    <ul class="alt">
+                        <li>一個月99元可立即得會員點數200點</li>
+                        <li>與活動成功點數加成(一般會員的點數x1.5)</li>
+                        <li>高級會員專屬兌換禮品</li>
+                    </ul>
+                </div>
+            </article>
+            <article>
+                <span class="icon solid fa-utensils"></span>
+                <div class="content">
+                    <h3>彈性的飲食紀錄計畫</h3>
+                    <p>記錄每日飲食，立即查看熱量熱取資訊。 </p>
+                </div>
+            </article>
+            <article>
+                <span class="icon solid fa-weight"></span>
+                <div class="content">
+                    <h3>完善運動與體重控管</h3>
+                    <p>縝密的預定運動計畫以及完整的體重管理。</p>
+                </div>
+            </article>
+            <article>
+                <span class="icon solid fa-signal"></span>
+                <div class="content">
+                    <h3>豐富報表與分析資訊</h3>
+                    <p>享有完整報表與每日貼心提醒</p>
+                </div>
+            </article>
+        </div>
+        <input type="submit" value="馬上加入" class="primary fit" />
+
+    </div>
+</section>
+@section Scripts
+{
+    <script src="~/Content/js/ASPSnippets_Pager.min.js"></script>
+    <script type="text/javascript">
+        $("#pointsHistory").click(function () {
+            $('html, body').animate({
+                scrollTop: $("#historyDiv").offset().top - 20
+            }, 500);
+        });
+        $("#pointsManagement").click(function () {
+            $('html, body').animate({
+                scrollTop: $("#managementDiv").offset().top - 20
+            }, 500);
+        });
+        // 日期篩選
+        var timeRangeValue = "all";
+        $('#timeRangeFilter').change(function () {
+            timeRangeValue = $('#timeRangeFilter').val();
+            GetCustomers(1);
+        })
+        var sortName = "";
+        var sortDirection = "ASC";
+        $(function () {
+            GetCustomers(1);
+        });
+        $("body").on("click", "#pointLogTb th a", function () {
+            sortName = "AddDate";
+            var headerString = $(this).html();
+            if (headerString == "時間") sortName = "AddDate";
+            else if (headerString == "說明") sortName = "Description"
+            else if (headerString == "獲得點數") sortName = "Points"
+            sortDirection = sortDirection == "ASC" ? "DESC" : "ASC";
+            GetCustomers(1);
+        });
+        $("body").on("click", ".Pager .page", function () {
+            GetCustomers(parseInt($(this).attr('page')));
+        });
+        function GetCustomers(pageIndex) {        
+            $.ajax({
+                url: "/FrontPoint/GetLogs?pageIndex=" + pageIndex + "&sortName=" + sortName + "&sortDirection=" + sortDirection + "&timeRange=" + timeRangeValue,
+                type: "POST",
+                //data: {
+                //    pageIndex: pageIndex,
+                //    sortName: sortName,
+                //    sortDirection: sortDirection,
+                //    timeRange: timeRangeValue
+                //},
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess
+            });
+        }
+        function OnSuccess(response) {
+            var dto = response;
+            if (dto.PointLogs.length != 0) {
+                $("#pointLogTb").show();
+                $("#emptyTb").hide();
+                $(".Pager").show();
+                var row = $("#pointLogTb tr:last-child").removeAttr("style").clone(true);
+                $("#pointLogTb tr").not($("#pointLogTb tr:first-child")).remove();
+                $.each(dto.PointLogs, function () {
+                    var point = this;
+                    var d = new Date(parseInt(point.AddTime.substr(6)));
+                    $("td", row).eq(0).html(d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate());
+                    $("td", row).eq(1).html(point.StatusName);
+                    $("td", row).eq(2).html(point.Points);
+                    $("#pointLogTb").append(row);
+                    row = $("#pointLogTb tr:last-child").clone(true);
+                });
+                $(".Pager").ASPSnippets_Pager({
+                    PageIndex: dto.PageIndex,
+                    PageSize: dto.PageSize,
+                    RecordCount: dto.RecordCount
+                });
+            }
+            else {
+                $("#pointLogTb").hide();
+                $("#emptyTb").show();
+                $(".Pager").hide();
+            }
+        }
+    </script>
+}

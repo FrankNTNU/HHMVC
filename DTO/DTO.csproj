@@ -103,6 +103,8 @@
     <Compile Include="GiftDTO.cs" />
     <Compile Include="CreateMtrlDTO.cs" />
     <Compile Include="CustomerMealDTO.cs" />
+    <Compile Include="PointDTO.cs" />
+    <Compile Include="PointLogDTO.cs" />
     <Compile Include="ProgramDTO.cs" />
     <Compile Include="DietLogEditDTO.cs" />
     <Compile Include="MemberForDietDTO.cs" />

@@ -957,7 +957,6 @@
     <Content Include="Views\HHGiftShop\MyGiftShop.cshtml" />
     <Content Include="Views\HHDietHistory\DietLogsHistory.cshtml" />
     <Content Include="Views\Shared\HomeLayout2.cshtml" />
-    <Content Include="Views\Home2\Index.cshtml" />
     <Content Include="Views\Home2\Login.cshtml" />
     <Content Include="Views\Workout\WorkoutLog.cshtml" />
     <Content Include="Views\FrontPost\AddPost.cshtml" />
@@ -976,7 +975,6 @@
     <Content Include="Views\Shared\_DietLogsHistoryPartial.cshtml" />
     <Content Include="Views\HHDiet\test.cshtml" />
     <Content Include="Views\Shared\HomeLayout2_0622.cshtml" />
-    <Content Include="Views\Home2\Login.cshtml" />
     <Content Include="Views\HHHealthReport\HealthReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
