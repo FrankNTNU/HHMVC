@@ -569,11 +569,8 @@
                         });
 
                         if ($(".groupchatNotRead").length != 0) {
-                            console.log("scrollTop: " + $("#chatbox").scrollTop());
-                            console.log("top: " + $(".groupchatNotRead").position().top);
                             $("#chatbox").scrollTop($("#chatbox").scrollTop() + $(".groupchatNotRead").position().top);
                         } else {
-                            console.log("height: " + $("#chatbox").prop("scrollHeight"));
                             $("#chatbox").scrollTop($("#chatbox").prop("scrollHeight"));
                         }
                     }

@@ -28,6 +28,21 @@
         .direct-chat-msg a:hover {
             color: aqua !important;
         }
+
+        #serviceChatBox {
+            position: relative;
+            scroll-behavior: smooth;
+        }
+
+        .adminNotRead {
+            width: 80%;
+            text-align: center;
+            font-size: 1em;
+            color: white;
+            background-color: lightgray;
+            border-radius: 12px;
+            margin: 5px auto;
+        }
     </style>
     
 }
@@ -143,10 +158,13 @@
                     let chatBox = document.getElementById("serviceChatBox");
                     chatBox.scrollTop = chatBox.scrollHeight;
 
-                } else if ($.inArray(groupId, notRead) == -1) {
-
-                    notRead.push(groupId);
-
+                } else if (notRead.findIndex(nr => nr.GroupID == groupId) == -1) {
+                    notRead.push({
+                        GroupID: groupId,
+                        notReadNum: 1
+                    });
+                } else {
+                    notRead[notRead.findIndex(nr => nr.GroupID == groupId)].notReadNum++;
                 }
             }
             //================================================
@@ -240,9 +258,12 @@
         //Change Customer and loadMessages
         $("tbody").on("click", "a", function () {
 
-            console.log(notRead);
-
             let groupId = $(this).parent().prev().prev().text();
+
+            if ($("#serviceGroupId").val() == groupId) {
+                return;
+            }
+
             $("#serviceGroupId").val(groupId);
 
             let userName = $(this).parent().prev().text();
@@ -251,14 +272,8 @@
             $(this).text("已連線");
             connected.push(groupId);
 
-            let index = notRead.indexOf(groupId);
-            if (index != -1) {
-                notRead.splice(index, 1);
-            }
-
-            console.log(notRead);
-            
             LoadMessages();
+
         })
 
         //==========================================================
@@ -291,8 +306,11 @@
 
                         let cell4 = $("<td></td>").append($("<a></a>").addClass("btn btn-sm"));
 
-                        if ($.inArray(value.GroupID, notRead) != -1) {
-                            $(cell4).children("a").addClass("btn-danger").text("新訊息");
+                        if (notRead.findIndex(nr => nr.GroupID == value.GroupID) != -1) {
+
+                            let notReadNum = notRead[notRead.findIndex(nr => nr.GroupID == value.GroupID)].notReadNum;
+                            $(cell4).children("a").addClass("btn-danger").text(`新訊息(${notReadNum})`);
+
                         } else if ($.inArray(value.GroupID, connected) != -1) {
                             $(cell4).children("a").addClass("btn-primary").text("已連線");
                         } else {
@@ -305,8 +323,8 @@
                     })
 
                     //Remove offline group from notRead Array
-                    $.each(notRead, function (index, value) {
-                        if ($.inArray(value, onlineGroup) == -1) {
+                    $.each(notRead, function (index, obj) {
+                        if ($.inArray(obj.GroupID, onlineGroup) == -1) {
                             notRead.splice(index, 1);
                         }
                     });
@@ -342,15 +360,40 @@
 
                         $("#serviceChatBox").html("");
 
+                        let notReadIndex = notRead.findIndex(nr => nr.GroupID == $("#serviceGroupId").val());
+                        let notReadNum = 0;
+
+                        if (notReadIndex != -1) {
+                            notReadNum = notRead[notReadIndex].notReadNum;
+                        }
+
                         $.each(data, function (i, msg) {
+                            if (i == (data.length - notReadNum)) {
+                                appendNotReadForAdmin();
+                            }
                             write(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
                         });
 
-                        let chatBox = document.getElementById("serviceChatBox");
-                        chatBox.scrollTop = chatBox.scrollHeight;
+                        if ($(".adminNotRead").length != 0) {
+                            $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".adminNotRead").position().top);
+                        } else {
+                            $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
+                        }
+
+                        let index = notRead.findIndex(nr => nr.GroupID == $("#serviceGroupId").val());
+                        if (index != -1) {
+                            notRead.splice(index, 1);
+                        }
                     }
                 });
             }
+        }
+
+        function appendNotReadForAdmin() {
+
+            let NotReadDiv = $("<div></div>").addClass("adminNotRead").append("以下為未讀訊息");
+
+            $("#serviceChatBox").append(NotReadDiv);
         }
     </script>
 }
