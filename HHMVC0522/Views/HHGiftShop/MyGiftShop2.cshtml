@@ -1,0 +1,14 @@
+﻿@*@model DAL.Member*@
+@{
+    ViewBag.Title = "MyGiftShop";
+}
+
+<h2>Hello @*@Model.Name*@ 你目前的點數為 @*@Model.Points*@ 點</h2>
+
+@Html.ActionLink("全部點數商品","MyGiftShop","HHGiftShop", null, new { @class = "btn btn-warning" })
+@Html.ActionLink("2000點以下", "MyGiftShop", "HHGiftShop", null, new { @class = "btn btn-warning" })
+@Html.ActionLink("2000~6000點", "MyGiftShop", "HHGiftShop", null, new { @class = "btn btn-warning" })
+@Html.ActionLink("6000點以上", "MyGiftShop", "HHGiftShop", null, new { @class = "btn btn-warning" })
+
+
+

@@ -33,8 +33,8 @@ namespace DAL
     
         public virtual ActivityLevel ActivityLevel { get; set; }
         public virtual Member Member { get; set; }
-        public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Point> Points { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

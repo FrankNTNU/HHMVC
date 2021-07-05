@@ -1,0 +1,52 @@
+
+.wrapper {
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+.highlight {
+    color: red;
+}
+
+
+
+.read_progress {
+    /* position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;*/
+    height: 20px;
+    /*background: rgba(0,0,0,.3);*/
+    background: #E0E0E0;
+}
+
+.read_progress_bar {
+    height: 20px;
+    width: 0%;
+    transition: width,1s
+}
+
+#read_progress_bar {
+    background: #81C0C0;
+}
+
+#temp_read_progress_bar {
+    background: #F0F0F0;
+}
+
+.chartDiv {
+    display: inline-block;
+    width: 500px;
+    height: 500px;
+}
+
+.txtTODRcd {
+    top: 0px;
+    display: inline-block
+}
+
+.transition {
+    /**/
+}
+
+

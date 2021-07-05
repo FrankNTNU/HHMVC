@@ -243,6 +243,8 @@ namespace DAL
             return dtoList;
         }
 
+       
+
         public void AddViewCount(int postID)
         {
             using (HealthHelperEntities db = new HealthHelperEntities())
@@ -378,6 +380,26 @@ namespace DAL
         public static int Notice = 3;
         public static int Rules = 4;
        
+
+        
+        //public List<PostDTO> GetNews()
+        //{
+        //    List<Post> news = db.Posts.Where(x => x.CategoryID == News || x.CategoryID == Notice).ToList();
+        //    List<PostDTO> newsList = new List<PostDTO>();
+        //    foreach (var item in news)
+        //    {
+        //        PostDTO dto = new PostDTO();
+        //        dto.ID = item.ID;
+        //        dto.Title = item.Title;
+        //        dto.ShortContent = item.ShortContent;
+        //        dto.PostContent = item.PostContent;
+        //        dto.CategoryName = item.PostCategory.Name;
+        //        dto.ImagePath = db.PostImages.Where(x => x.PostID == item.ID).Select(x => x.ImagePath).DefaultIfEmpty("defaultImg.jpg").First();
+        //        dto.AddDate = item.AddDate;
+        //        newsList.Add(dto);
+        //    }
+        //    return newsList;
+        //}
 
         private List<CommentDTO> GetCommentsWithPostID(int postID)
         {

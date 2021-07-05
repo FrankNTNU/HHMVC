@@ -17,10 +17,9 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Post()
         {
-            this.LikeCount = 0;
             this.Comments = new HashSet<Comment>();
-            this.PostImages = new HashSet<PostImage>();
             this.LikedPosts = new HashSet<LikedPost>();
+            this.PostImages = new HashSet<PostImage>();
         }
     
         public int ID { get; set; }
@@ -36,11 +35,11 @@ namespace DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LikedPost> LikedPosts { get; set; }
         public virtual Member Member { get; set; }
         public virtual PostCategory PostCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PostImage> PostImages { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LikedPost> LikedPosts { get; set; }
     }
 }

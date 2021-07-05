@@ -1,0 +1,78 @@
+﻿@model UI.ViewModels.DietLogsHistoryViewModel
+@using UI.ViewModels
+@using DAL
+@using DTO
+@using System.Globalization
+
+<input id="currDisplayDate" type="hidden" value="@Model.Date" />
+<input id="daysDiff" type="hidden" value="@Model.DayDifference" />
+
+@{
+    foreach (DietLogViewModel dl in @Model.DietLogsOfTheDate)
+    {
+    <tr data-dietLogId="@dl.ID" data-IsCustomeUploaded="@dl.IsCustomUploaded ">
+        <td class="mealImg">
+            @{
+                if (dl.IsCustomUploaded == true)
+                {
+                    <img src="~/Content/Images/CustomerMealUploadImages/@dl.MealImage" width="108" height="85" />
+
+                }
+                else
+                {
+                    <img src="~/Content/Images/MealOptionImages/@dl.MealImage" width="108" height="85" />
+
+                }
+
+            }
+
+
+
+
+        </td>
+        @*<td>
+            @dl.Date
+        </td>*@
+        <td>
+            @dl.TimesOfDayName
+        </td>
+        <td class="mealName">
+            @dl.MealName
+        </td>
+        <td class="mealCal">
+            @dl.MealCal
+        </td>
+        <td class="mealUnitName">
+            @dl.MealUnitName
+        </td>
+        <td class="portion">
+            @dl.Portion
+        </td>
+        <td>
+            @dl.MealTotalGainedCal
+        </td>
+        @{ if (Model.NeedDeleteEditOpts)
+            {
+                <td>
+                    @{
+
+                        if (DateTime.ParseExact(dl.Date, "MMddyyyy", CultureInfo.InvariantCulture) >= DateTime.Now.Date.AddDays(-5))
+                        {
+                            @*<input type="button" style="display: inline" value="修改" class="btn btn-default btnEditDietLog" />
+                            <input type="button" style="display: inline" value="刪除" class="btn btn-default btnDeleteDietLog" />*@
+                            <input type="button" class="btn btn-default btnEditDietLog" data-toggle="modal" data-target=".bd-example-modal-sm" value="修改">
+
+                            <input type="button" style="display: inline" value="刪除" class="btn btn-default btnDeleteDietLog" />
+                        }
+                    }
+                </td>
+            }
+        }
+
+
+
+    </tr>
+    }
+}
+
+
