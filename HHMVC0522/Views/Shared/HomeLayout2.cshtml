@@ -111,6 +111,17 @@
         text-align: center;
     }
 
+    #notReadForSidebar {
+        width:20px;
+        font-size: 0.6em !important;
+        font-weight: 300 !important;
+        color: white !important;
+        left: 118px;
+        top: 18px;
+        position:absolute;
+        text-align:center;
+    }
+
     .notReadText {
         width:80%;
         text-align:center;
@@ -361,7 +372,7 @@
                                         <a href="~/Weight/WeightLog" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-weight" style="width:30px"></i> 體重管理</a>
                                         @if (Session["NoWeightLog"] != null && (bool)Session["NoWeightLog"])
                                         {   //if last 7 days has no weightlog, show this icon
-                                            <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px"></i>
+                                    <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>
                                         }
                                     </li>
                                     <li><a href="#" style="text-decoration:none"><i class="fas fa-chart-area" style="width:30px"></i> 我的綜合圖表</a></li>
@@ -400,7 +411,7 @@
                                         <a href="~/Workout/WorkoutPreferences" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-star" style="width:30px"></i> 喜好管理</a>
                                         @if (Session["NoPreferences"] != null && (bool)Session["NoPreferences"])
                                         {   //if last 7 days has no weightlog, show this icon
-                                            <i id="preferencesNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px"></i>
+                                            <i id="preferencesNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>
                                         }
                                     </li>
 
@@ -417,7 +428,9 @@
                                     <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 過去挑戰</a></li>
                                     @if (Session["InProgram"] != null && (bool)Session["InProgram"])
                                     {
-                                        <li><a href="~/ChatGroup/GroupChat" style="text-decoration:none"><i class="fas fa-sms" style="width:30px"></i>減重聊天群</a></li>
+                                        <li>
+                                            <a href="~/ChatGroup/GroupChat" style="text-decoration:none"><i class="fas fa-sms" style="width:30px"></i>減重聊天群</a>
+                                        </li>
                                     }
 
                                 </ul>
@@ -449,7 +462,10 @@
                         </li>
                         @if (Session["ID"] != null)
                         {
-                            <li><a id="showContact" @*href="~/FrontContact/Chat"*@ style="text-decoration:none"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a></li>
+                            <li style="position:relative">
+                                <a id="showContact" style="text-decoration:none; width:fit-content; display:inline-block"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a>
+                                <i id="serviceNotify" class="fa fa-comment" style="color:#f56a6a; display:none; top:-7px; left:-3px; font-size:25px;"></i><div id="notReadForSidebar"></div>
+                            </li>
                         }
 
                         @if (Session["ID"] != null)
@@ -536,13 +552,15 @@
     //恩旗
     //Show NoWeightLog dialog
 
-    let notReadCount = 0;
+    let notReadCount = @Json.Encode(Session["NotReadCount"]);
+
+    if (notReadCount == null) {
+        notReadCount = 0;
+    }
 
     $(function () {
 
         var userId = "@Html.Raw(User.Identity.Name)";
-
-        console.log(userId);
 
         var getPoints = @Json.Encode(Session["GotPoints"]);
         var noWeightLog = @Json.Encode(Session["NoWeightLog"]);
@@ -649,10 +667,22 @@
 
         $("#closePanel").click(function () {
             $("#chatPanel").css("display", "none");
+            $(".notReadText").remove();
         });
 
         $("#showContact").click(function () {
             $("#chatPanel").css("display", "flex");
+            $("#serviceNotify").css("display", "none");
+
+            if ($("#collapse i.fa-minus").length != 0) {
+                if ($(".notReadText").length != 0) {
+                    $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
+                }
+                $("#notRead").css("visibility", "hidden");
+                notReadCount = 0;
+                ResetNotReadCountSession();
+            }
+
             //$.ajax({
             //    url: "/FrontContact/IsConnected",
             //    type: "POST"
@@ -760,8 +790,6 @@
 
     //===================================================
 
-    
-
     function connect() {
 
         var chat2 = $.connection.chatHub;
@@ -769,20 +797,36 @@
         chat2.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
 
             if ($("#collapse i.fa-minus").length == 0) {
+
                 if (notReadCount == 0) {
                     appendNotRead();
                 }
-                writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image)
-
-                //=============================================
+                writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
                 notReadCount++;
                 SetNotReadCountSession();
+
                 $("#notRead span").text(notReadCount);
-                //==============================================
+
+                if ($("#chatPanel").css("display") == "none") {
+                    $("#serviceNotify").css("display", "inline-block");
+                    $("#notReadForSidebar").text(notReadCount);
+                }
+
                 $("#notRead").css("visibility", "visible")
                 blink();
+            } else if ($("#chatPanel").css("display") == "none") {
+
+                if (notReadCount == 0) {
+                    appendNotRead();
+                }
+
+                writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
+                notReadCount++;
+                SetNotReadCountSession();
+                $("#serviceNotify").css("display", "inline-block");
+                $("#notReadForSidebar").text(notReadCount);
             } else {
-                writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image)
+                writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
                 $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
             }
         }
@@ -799,8 +843,7 @@
                 alert(data.Result);
                 $("#serviceGroupId").val(data.GroupId);
                 LoadMessagesForService(@Json.Encode(Session["NotReadCount"]));
-                notReadCount = 0;
-                ResetNotReadCountSession();
+                showNotReadForSidebar(@Json.Encode(Session["NotReadCount"]));
             });
 
             $("#sendServiceMessage").click(function () {
@@ -901,6 +944,10 @@
                 },
                 success: function (data) {
 
+                    if (notReadCount == null) {
+                        notReadCount = 0;
+                    }
+
                     $("#serviceChatBox").html("");
 
                     $.each(data, function (i, msg) {
@@ -910,10 +957,6 @@
                         writeForService(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
 
                     });
-
-                    if ($(".notReadText").length != 0) {
-                        $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
-                    }
                 }
             });
         }
@@ -943,6 +986,18 @@
         let NotReadDiv = $("<div></div>").addClass("notReadText").append("以下為未讀訊息");
 
         $("#serviceChatBox").append(NotReadDiv);
+    }
+
+    function showNotReadForSidebar(notReadCount) {
+
+        if (notReadCount == null) {
+            notReadCount = 0;
+        }
+
+        if (notReadCount > 0) {
+            $("#serviceNotify").css("display", "inline-block");
+            $("#notReadForSidebar").text(notReadCount);
+        }
     }
 </script>
 </body>
