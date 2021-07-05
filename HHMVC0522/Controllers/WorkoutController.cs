@@ -322,9 +322,7 @@ namespace UI.Controllers
         [NonAction]
         public string EstimateCal(int wid, double whours, DateTime wTime)
         {
-            DateTime today = DateTime.Now.Date;
-            DateTime tomorrow = today.AddDays(1);
-
+            
             var cal = dbContext.Workouts.SingleOrDefault(w => w.ID == wid).Calories;
             var weight = GetCurrentWeight(wTime);
 
