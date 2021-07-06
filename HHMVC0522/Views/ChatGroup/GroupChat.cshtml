@@ -402,10 +402,6 @@
                     },
                     success: function (data) {
 
-                        alert($.connection.hub.id);
-
-                        alert("groupId " + data.GroupID);
-
                         $("#groupId").val(data.GroupID);
                         $("#groupTitle").text(`聊天群組：${data.GroupName}`);
                         LoadMessages();

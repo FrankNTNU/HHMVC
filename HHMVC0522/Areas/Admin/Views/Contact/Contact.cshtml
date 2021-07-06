@@ -158,13 +158,15 @@
                     let chatBox = document.getElementById("serviceChatBox");
                     chatBox.scrollTop = chatBox.scrollHeight;
 
-                } else if (notRead.findIndex(nr => nr.GroupID == groupId) == -1) {
-                    notRead.push({
-                        GroupID: groupId,
-                        notReadNum: 1
-                    });
-                } else {
-                    notRead[notRead.findIndex(nr => nr.GroupID == groupId)].notReadNum++;
+                } else if ($.inArray(groupId, connected) != -1) {
+                    if (notRead.findIndex(nr => nr.GroupID == groupId) == -1) {
+                        notRead.push({
+                            GroupID: groupId,
+                            notReadNum: 1
+                        });
+                    } else {
+                        notRead[notRead.findIndex(nr => nr.GroupID == groupId)].notReadNum++;
+                    }
                 }
             }
             //================================================
@@ -312,13 +314,17 @@
                             $(cell4).children("a").addClass("btn-danger").text(`新訊息(${notReadNum})`);
 
                         } else if ($.inArray(value.GroupID, connected) != -1) {
+
                             $(cell4).children("a").addClass("btn-primary").text("已連線");
+
                         } else {
+
                             if (value.PreMsgCount != 0) {
                                 $(cell4).children("a").addClass("btn-primary").text(`未連線(${value.PreMsgCount})`);
                             } else {
                                 $(cell4).children("a").addClass("btn-primary").text("未連線");
                             }
+
                         }
 
                         $(docFrag).append($("<tr></tr>").append(cell1, cell2, cell3, cell4));
