@@ -129,16 +129,13 @@ namespace UI.Controllers
             dbContext.SaveChanges();
 
             //Online Admins List
-            List<Tuple<string, int>> admins = UserStatic.ConnectedUsers.Select(cu => new
-            {
-                cu.ConnID,
-                UserID = int.Parse(cu.UserID)
-            }).Where(cu => dbContext.Members.SingleOrDefault(cu1 => cu1.ID == cu.UserID).IsAdmin)
-                .Select(cu => new Tuple<string, int>(cu.ConnID, cu.UserID)).ToList();
+            List<Tuple<string, string>> admins = UserStatic.ConnectedUsers
+                .Where(cu => cu.Role == "Admin" && cu.UserID != User.Identity.Name)
+                .Select(cu => new Tuple<string, string>(cu.ConnID, cu.UserID)).ToList();
 
-            Tuple<string, int> admin = null;
+            Tuple<string, string> admin = null;
             string adminConnId = "";
-            int adminId = 0;
+            string adminId = "";
 
             if (admins.Count != 0)
             {
@@ -161,7 +158,7 @@ namespace UI.Controllers
                 GroupName = User.Identity.Name,
                 UserConnId = connId,
                 AdminConnId = adminConnId,
-                AdminId = adminId.ToString()
+                AdminId = adminId
             });
 
             return Json(new { Result = "Success", GroupId = group.ID.ToString() });
@@ -191,11 +188,8 @@ namespace UI.Controllers
             dbContext.SaveChanges();
 
             //Online Admins List
-            var admins = UserStatic.ConnectedUsers.Select(cu => new
-            {
-                cu.ConnID,
-                UserID = int.Parse(cu.UserID)
-            }).Where(cu => dbContext.Members.SingleOrDefault(cu1 => cu1.ID == cu.UserID).IsAdmin)
+            var admins = UserStatic.ConnectedUsers
+                .Where(cu => cu.Role == "Admin" && cu.UserID != User.Identity.Name)
                 .Select(cu => cu).ToList();
 
             if (admins.Count == 0)
@@ -210,7 +204,7 @@ namespace UI.Controllers
         public JsonResult GetGroupMsgs(string groupId)
         {
             var msgList = dbContext.GroupChats.Where(gc => gc.GroupID.ToString() == groupId
-                && gc.Group.IsService)
+                    && gc.Group.IsAlive && gc.Group.IsService)
                 .OrderBy(gc => gc.TimeStamp).ToList()
                 .Select(gc =>
                 {
@@ -231,10 +225,15 @@ namespace UI.Controllers
                     }
                     else
                     {
+                        UserDetail admin = UserStatic.ConnectedUsers
+                            .SingleOrDefault(cu => cu.ConnID == UserStatic.ServiceGroups[groupId].AdminConnId
+                                && cu.UserID == gc.MemberID.ToString());
 
-                        Member member = dbContext.Members.SingleOrDefault(m => m.ID == gc.MemberID);
+                        UserDetail customer = UserStatic.ConnectedUsers
+                            .SingleOrDefault(cu => cu.ConnID == UserStatic.ServiceGroups[groupId].UserConnId
+                                && cu.UserID == gc.MemberID.ToString());
 
-                        if (member.IsAdmin)
+                        if (admin != null || customer == null)
                         {
                             connId = UserStatic.ServiceGroups[groupId].AdminConnId;
                             userName = "客服人員";
@@ -242,10 +241,26 @@ namespace UI.Controllers
                         }
                         else
                         {
+                            Member member = dbContext.Members.SingleOrDefault(m => m.ID == gc.MemberID);
                             connId = UserStatic.ServiceGroups[groupId].UserConnId;
                             userName = member.UserName;
                             image = member.Image;
                         }
+
+                        //Member member = dbContext.Members.SingleOrDefault(m => m.ID == gc.MemberID);
+
+                        //if (member.IsAdmin)
+                        //{
+                        //    connId = UserStatic.ServiceGroups[groupId].AdminConnId;
+                        //    userName = "客服人員";
+                        //    image = "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png";
+                        //}
+                        //else
+                        //{
+                        //    connId = UserStatic.ServiceGroups[groupId].UserConnId;
+                        //    userName = member.UserName;
+                        //    image = member.Image;
+                        //}
 
                         return new
                         {

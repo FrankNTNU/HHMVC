@@ -634,7 +634,11 @@
 
         $("#closePanel").click(function () {
             $("#chatPanel").css("display", "none");
-            $(".notReadText").remove();
+
+            if ($("#collapse i.fa-minus").length != 0) {
+                $(".notReadText").remove();
+            }
+            
         });
 
         $("#showContact").click(function () {
@@ -644,7 +648,10 @@
             if ($("#collapse i.fa-minus").length != 0) {
                 if ($(".notReadText").length != 0) {
                     $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
+                } else {
+                    $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
                 }
+
                 $("#notRead").css("visibility", "hidden");
                 notReadCount = 0;
                 ResetNotReadCountSession();
@@ -923,6 +930,7 @@
                         writeForService(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
 
                     });
+
                 }
             });
         }

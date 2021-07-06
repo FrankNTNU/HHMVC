@@ -77,7 +77,8 @@ namespace UI.Areas.Admin.Controllers
         {
             //====================================================================
 
-            var userList = UserStatic.ServiceGroups.Where(sg => sg.Value.AdminConnId == connId)
+            var userList = UserStatic.ServiceGroups.Where(sg => sg.Value.AdminConnId == connId
+                    && sg.Value.GroupName != User.Identity.Name)
                 .Select(sg =>
             {
                 Member member = dbContext.Members.SingleOrDefault(m => m.ID.ToString() == sg.Value.GroupName);
@@ -109,8 +110,8 @@ namespace UI.Areas.Admin.Controllers
                 }
             }
 
-            int UserId = int.Parse(User.Identity.Name);
-            Member member = dbContext.Members.SingleOrDefault(m => m.ID == UserId);
+            Member member = dbContext.Members
+                .SingleOrDefault(m => m.ID.ToString() == User.Identity.Name);
 
             if (member.IsAdmin)
             {
@@ -118,7 +119,8 @@ namespace UI.Areas.Admin.Controllers
 
                 foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                 {
-                    if (UserStatic.ServiceGroups[groupId].AdminConnId == "")
+                    if (UserStatic.ServiceGroups[groupId].AdminConnId == "" 
+                        && UserStatic.ServiceGroups[groupId].GroupName != User.Identity.Name)
                     {
                         UserStatic.ServiceGroups[groupId].AdminConnId = connId;
                         UserStatic.ServiceGroups[groupId].AdminId = User.Identity.Name;
@@ -160,7 +162,7 @@ namespace UI.Areas.Admin.Controllers
         public JsonResult GetGroupMsgs(string groupId)
         {
             var msgList = dbContext.GroupChats.Where(gc => gc.GroupID.ToString() == groupId
-                && gc.Group.IsService)
+                 && gc.Group.IsAlive && gc.Group.IsService)
                 .OrderBy(gc => gc.TimeStamp).ToList()
                 .Select(gc =>
                 {
@@ -181,9 +183,16 @@ namespace UI.Areas.Admin.Controllers
                     }
                     else
                     {
-                        Member member = dbContext.Members.SingleOrDefault(m => m.ID == gc.MemberID);
 
-                        if (member.IsAdmin)
+                        UserDetail admin = UserStatic.ConnectedUsers
+                            .SingleOrDefault(cu => cu.ConnID == UserStatic.ServiceGroups[groupId].AdminConnId
+                                && cu.UserID == gc.MemberID.ToString());
+
+                        UserDetail customer = UserStatic.ConnectedUsers
+                            .SingleOrDefault(cu => cu.ConnID == UserStatic.ServiceGroups[groupId].UserConnId
+                                && cu.UserID == gc.MemberID.ToString());
+
+                        if (admin != null || customer == null)
                         {
                             connId = UserStatic.ServiceGroups[groupId].AdminConnId;
                             userName = "客服人員";
@@ -191,6 +200,7 @@ namespace UI.Areas.Admin.Controllers
                         }
                         else
                         {
+                            Member member = dbContext.Members.SingleOrDefault(m => m.ID == gc.MemberID);
                             connId = UserStatic.ServiceGroups[groupId].UserConnId;
                             userName = member.UserName;
                             image = member.Image;

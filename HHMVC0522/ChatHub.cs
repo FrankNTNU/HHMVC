@@ -19,23 +19,23 @@ namespace UI
 
         public override Task OnConnected()
         {
-            
+
+            string fromPage = Context.Headers["referer"].Split('/')[3];
+
             UserHandler.ConnectedIds.Add(Context.ConnectionId);
             UserDetail user = new UserDetail
             {
                 ConnID = Context.ConnectionId,
                 UserID = Context.User.Identity.Name,
+                Role = fromPage == "Admin" ? "Admin" : "Customer"
             };
             UserStatic.ConnectedUsers.Add(user);
 
             //=====================================================
             //For CustomerService
-
-            int UserId = int.Parse(Context.User.Identity.Name);
-            Member member = dbContext.Members.SingleOrDefault(m => m.ID == UserId);
-
+            
             //Admin Reconnect When Return
-            if (member.IsAdmin)
+            if (user.Role == "Admin")
             {
                 foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                 {
@@ -51,7 +51,7 @@ namespace UI
                 }
             }
             //User Reconnect When Return
-            else
+            else if (user.Role == "Customer")
             {
                 foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                 {
@@ -85,7 +85,7 @@ namespace UI
 
             try
             {   //When Admin disconnect, only remove AdminConnId and AdminId
-                if (member.IsAdmin)
+                if (disconntectedUser.Role == "Admin")
                 {
                     foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                     {
@@ -101,7 +101,7 @@ namespace UI
                     }
                 }
                 //When User disconnect, remove ServiceGroup
-                else
+                else if (disconntectedUser.Role == "Customer")
                 {
                     foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                     {
