@@ -12,10 +12,10 @@ namespace UI.Controllers
         // GET: HHGiftShop
         MemberBLL mBLL = new MemberBLL();
         GiftBLL gBLL = new GiftBLL();
-        public ActionResult MyGiftShop()
-        {
+        //public ActionResult MyGiftShop()
+        //{
             
-            return View(gBLL.GetGiftByLevel());
-        }
+        //    return View(gBLL.GetGiftByLevel());
+        //}
     }
 }

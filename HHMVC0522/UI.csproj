@@ -761,6 +761,8 @@
     <Content Include="Content\webfonts\fa-regular-400.svg" />
     <Content Include="Content\webfonts\fa-solid-900.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\jquery.signalR-2.4.2.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.2.min.js" />
     <Content Include="Views\Shared\_MealOptionViewModelPartial.cshtml" />
     <None Include="Properties\PublishProfiles\HealthHelper - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
@@ -780,6 +782,8 @@
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
+    <Compile Include="Controllers\HHGiftCardController.cs" />
+    <Compile Include="Controllers\HHGiftShopController.cs" />
     <Compile Include="GroupChatHub.cs" />
     <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\ChatGroupController.cs" />
