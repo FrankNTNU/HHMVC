@@ -94,7 +94,7 @@
 
             <div class="col-6">
                 <select id="timeRangeFilter">
-                    <option value="all" selected>- 期間搜尋 -</option>
+                    <option value="all" selected>- 全部期間 -</option>
                     <option value="today">今日</option>
                     <option value="pastThreeDays">過去三天</option>
                     <option value="pastWeek">過去一週</option>
@@ -193,7 +193,7 @@
             GetCustomers(1);
         })
         var sortName = "";
-        var sortDirection = "ASC";
+        var sortDirection = "DESC";
         $(function () {
             GetCustomers(1);
         });
@@ -235,7 +235,8 @@
                 $.each(dto.PointLogs, function () {
                     var point = this;
                     var d = new Date(parseInt(point.AddTime.substr(6)));
-                    $("td", row).eq(0).html(d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate());
+                    console.log(d);
+                    $("td", row).eq(0).html(d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + " " + d.toTimeString().substr(0,5));
                     $("td", row).eq(1).html(point.StatusName);
                     $("td", row).eq(2).html(point.Points);
                     $("#pointLogTb").append(row);

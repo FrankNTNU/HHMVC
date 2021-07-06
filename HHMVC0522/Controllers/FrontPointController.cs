@@ -25,7 +25,7 @@ namespace UI.Controllers
             switch (timeRange)
             {
                 case "today":
-                    timeConstrait = DateTime.Today.AddDays(-1);
+                    timeConstrait = DateTime.Today;
                     break;
                 case "pastThreeDays":
                     timeConstrait = DateTime.Today.AddDays(-3);
@@ -34,7 +34,7 @@ namespace UI.Controllers
                     timeConstrait = DateTime.Today.AddDays(-7);
                     break;
                 case "pastMonth":
-                    timeConstrait = DateTime.Today.AddDays(-30);
+                    timeConstrait = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
                     break;
             }
             PointLogDTO logDTO = new PointLogDTO
@@ -54,6 +54,7 @@ namespace UI.Controllers
                     {
                         List<Point> list = db.Points
                             .OrderBy(x => x.GetPointsDateTime)
+                            .ThenByDescending(x => x.GetPoints)
                             .Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
                             .Skip(startIndex)
                             .Take(logDTO.PageSize).ToList();
@@ -72,7 +73,7 @@ namespace UI.Controllers
                     else
                     {
                         List<Point> list = db.Points
-                           .OrderByDescending(x => x.GetPointsDateTime).Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
+                           .OrderByDescending(x => x.GetPointsDateTime).ThenByDescending(x => x.GetPoints).Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
                            .Skip(startIndex)
                            .Take(logDTO.PageSize).ToList();
                         foreach (var item in list)
@@ -92,7 +93,7 @@ namespace UI.Controllers
                     if (sortDirection == "ASC")
                     {
                         List<Point> list = db.Points
-                            .OrderBy(x => x.Status.Name).Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
+                            .OrderBy(x => x.Status.Name).ThenByDescending(x => x.GetPoints).Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
                             .Skip(startIndex)
                             .Take(logDTO.PageSize).ToList();
                         foreach (var item in list)
@@ -110,7 +111,7 @@ namespace UI.Controllers
                     else
                     {
                         List<Point> list = db.Points
-                           .OrderByDescending(x => x.Status.Name).Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
+                           .OrderByDescending(x => x.Status.Name).ThenByDescending(x => x.GetPoints).Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
                            .Skip(startIndex)
                            .Take(logDTO.PageSize).ToList();
                         foreach (var item in list)
