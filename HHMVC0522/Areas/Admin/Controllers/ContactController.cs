@@ -77,13 +77,17 @@ namespace UI.Areas.Admin.Controllers
             var userList = UserStatic.ServiceGroups.Where(sg => sg.Value.AdminConnId == connId)
                 .Select(sg =>
             {
-                int UserID = int.Parse(sg.Value.GroupName);
-                Member member = dbContext.Members.SingleOrDefault(m => m.ID == UserID);
+                Member member = dbContext.Members.SingleOrDefault(m => m.ID.ToString() == sg.Value.GroupName);
+
+                int preMsgCount = dbContext.GroupChats.Count(gc => gc.GroupID.ToString() == sg.Key 
+                    && gc.Group.IsAlive && gc.Group.IsService);
+
                 return new
                 {
                     ImagePath = member.Image,
                     GroupID = sg.Key,
-                    UserName = member.UserName
+                    UserName = member.UserName,
+                    PreMsgCount = preMsgCount
                 };
             }).ToList();
 

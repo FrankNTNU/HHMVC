@@ -314,7 +314,11 @@
                         } else if ($.inArray(value.GroupID, connected) != -1) {
                             $(cell4).children("a").addClass("btn-primary").text("已連線");
                         } else {
-                            $(cell4).children("a").addClass("btn-primary").text("未連線");
+                            if (value.PreMsgCount != 0) {
+                                $(cell4).children("a").addClass("btn-primary").text(`未連線(${value.PreMsgCount})`);
+                            } else {
+                                $(cell4).children("a").addClass("btn-primary").text("未連線");
+                            }
                         }
 
                         $(docFrag).append($("<tr></tr>").append(cell1, cell2, cell3, cell4));
