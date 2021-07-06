@@ -37,4 +37,12 @@ namespace DTO
         public int LikeCount { get; set; } = 0;
         public bool IsApproved { get; set; }
     }
+    public static class Icons
+    {
+        public static string Information = "<i class='fas fa-file-alt'></i>";
+        public static string Post = "<i class='fas fa-file-alt'></i>";
+        public static string Rule = "<i class='fas fa-book'></i>";
+        public static string Notice = "<i class='fas fa-scroll'></i>";
+    }
+
 }

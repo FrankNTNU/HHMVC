@@ -211,7 +211,7 @@
         });
         function GetCustomers(pageIndex) {        
             $.ajax({
-                url: "/FrontPoint/GetLogs?pageIndex=" + pageIndex + "&sortName=" + sortName + "&sortDirection=" + sortDirection + "&timeRange=" + timeRangeValue,
+                url: "../FrontPoint/GetLogs?pageIndex=" + pageIndex + "&sortName=" + sortName + "&sortDirection=" + sortDirection + "&timeRange=" + timeRangeValue,
                 type: "POST",
                 //data: {
                 //    pageIndex: pageIndex,

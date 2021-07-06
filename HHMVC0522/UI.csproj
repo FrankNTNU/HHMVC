@@ -458,8 +458,10 @@
     <Content Include="Areas\Admin\Content\PostImages\61d654ed-c450-464d-8355-df5cf1e4a514workout.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\6497b55a-13a2-46e1-b0c8-26f6b3b45bd9gift.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\7c1469aa-2d2a-4c43-8c86-d9aeaab9685abooks.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\9a12a30b-05c8-4a6d-92ca-46f8d73d7906PlantBasedMilks_Lead.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\9a387752-da1f-4387-9fe4-b1a0ba2f6e18protein.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\9c64e3d0-40c6-40e4-add3-f40ad025fecdmoney.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\9e50a121-112c-4a02-9459-2d9a3947a260healthImg.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\a57053eb-772a-46e1-9552-b3214eda9e3ceatingFruit.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\a99f1d12-ba34-4cd5-8c71-1b768d9dc220health2.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\a9ce1170-6010-4bfc-8ed9-1043bd9885e9veggie.jpg" />
@@ -976,6 +978,7 @@
     <Content Include="Views\HHDiet\test.cshtml" />
     <Content Include="Views\Shared\HomeLayout2_0622.cshtml" />
     <Content Include="Views\HHHealthReport\HealthReport.cshtml" />
+    <Content Include="Views\Home2\UserPoints.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
