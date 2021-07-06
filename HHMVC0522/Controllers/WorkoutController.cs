@@ -710,15 +710,15 @@ namespace UI.Controllers
 
         
         [NonAction]
-        private decimal GetCurrentWeight(DateTime now)
+        private decimal GetCurrentWeight(DateTime moment)
         {
             //if there is no weightlog, set weight to 0 kg
             decimal weight = 0m;
 
             string UserID = User.Identity.Name;
 
-            var prgList = dbContext.Programs.Where(prg => DbFunctions.TruncateTime(prg.StartDate) <= now.Date
-                && DbFunctions.TruncateTime(prg.EndDate) >= now.Date && prg.StatusID == 1)
+            var prgList = dbContext.Programs.Where(prg => DbFunctions.TruncateTime(prg.StartDate) <= moment.Date
+                && DbFunctions.TruncateTime(prg.EndDate) >= moment.Date && prg.StatusID == 1)
                 .OrderByDescending(prg => prg.StartDate);
 
             var program = prgList.SingleOrDefault(prg => prg.MemberID.ToString() == UserID);
@@ -730,7 +730,7 @@ namespace UI.Controllers
             else
             {
                 var weightLog = dbContext.WeightLogs
-                    .Where(wgtl => wgtl.UpdatedDate <= now)
+                    .Where(wgtl => wgtl.UpdatedDate <= moment)
                     .OrderByDescending(wgtl => wgtl.UpdatedDate)
                     .FirstOrDefault(wgt => wgt.MemberID.ToString() == UserID);
 
