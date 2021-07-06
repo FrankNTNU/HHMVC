@@ -47,6 +47,8 @@ namespace UI.Controllers
         {
             if (Session["ID"] == null)
                 return Redirect("~/Home2/Login");
+            UserBLL userBLL = new UserBLL();
+            Session["Points"] = userBLL.GetPoints((int)Session["ID"]);
             List<GiftCartDTO> carts = new List<GiftCartDTO>();
             carts = cartBLL.GetGiftCarts(userID);
             return View(carts);
@@ -80,17 +82,6 @@ namespace UI.Controllers
                 return RedirectToAction("GiftDetail", new { ID = giftID });
             }
         }
-        public JsonResult GetGifts(string text)
-        {
-            List<GiftDTO> dtoList = giftBLL.GetGifts(text);
-            return Json(dtoList, JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult GetOrderedGifts(string isAscending)
-        {
-            bool isAscend = isAscending == "0" ? true : false;
-            List<GiftDTO> dtoList = giftBLL.GetGifts(isAscend);
-            return Json(dtoList, JsonRequestBehavior.AllowGet);
-        }
         public JsonResult GetCarts(string text)
         {
             List<GiftCartDTO> dtoList = cartBLL.GetGiftCarts(text);
@@ -100,6 +91,14 @@ namespace UI.Controllers
         {
             bool isAscend = isAscending == "1" ? true : false;
             List<GiftCartDTO> dtoList = cartBLL.GetGiftCarts(isAscend);
+            return Json(dtoList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSearchResult(string name, int sortBy, string isPremiumChecked)
+        {
+            
+            bool isPremium = isPremiumChecked == "true";
+            List<GiftDTO> dtoList = giftBLL.GetSearchResult(name, sortBy, isPremium);
             return Json(dtoList, JsonRequestBehavior.AllowGet);
         }
         public ActionResult SendBarcode(string barcode)

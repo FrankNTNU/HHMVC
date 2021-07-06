@@ -1,0 +1,82 @@
+﻿@model DAL.Program
+
+@{
+    ViewBag.Title = "ShowActiveProgram";
+}
+
+<h2>ShowActiveProgram</h2>
+
+<div>
+    <h4>Program</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MemberID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MemberID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TargetWeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TargetWeight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActivityLevelID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActivityLevelID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InitialWeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InitialWeight)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("終止計畫", "Delete", "HHPrograms", new { programID = Model.ID }, new { OnClick = "return confirm('Are you sure to delete?')", @class = "btn btn-danger" })  |
+    @Html.ActionLink("Back to List", "Index")
+</p>

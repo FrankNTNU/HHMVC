@@ -235,8 +235,8 @@
 
 @section scripts {
 
-    <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
-    <script src="~/signalr/hubs"></script>
+    @*<script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>*@
     <script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
     <script>
 
@@ -458,7 +458,7 @@
                                 return;
                             }
 
-                            if ($("#weight1").val() >= $("#weight2").val()) {
+                            if (parseInt($("#weight1").val(), 10) >= parseInt($("#weight2").val(), 10)) {
                                 alert("體重區間錯誤");
                                 return;
                             }

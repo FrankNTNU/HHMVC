@@ -19,10 +19,12 @@ namespace DTO
         public int Quantity { get; set; }
         public DateTime AddDate { get; set; }
         [Required(ErrorMessage = "請輸入下架日期")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
         [Required(ErrorMessage = "請輸入商家名稱")]
         public string Store { get; set; }
         public bool IsUpdate { get; set; } = false;
+        public bool IsPremium { get; set; }
     }
 }

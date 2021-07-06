@@ -156,6 +156,16 @@
           <Property Name="Points" Type="int" Nullable="false" />
           <Property Name="MealCount" Type="int" />
           <Property Name="ActiveCode" Type="nchar" MaxLength="10" />
+          <Property Name="GoogleID" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ModelCollection">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GetPoints" Type="int" Nullable="false" />
+          <Property Name="GetPointsDateTime" Type="datetime" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Nutrient">
           <Key>
@@ -248,6 +258,17 @@
           <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberID" Type="int" Nullable="false" />
+          <Property Name="GetEvents" Type="int" Nullable="false" />
+          <Property Name="GetEventsDateTime" Type="datetime" Nullable="false" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
+          <Property Name="ProgramID" Type="int" />
         </EntityType>
         <EntityType Name="TempCustomerMealOptions">
           <Key>
@@ -799,6 +820,7 @@
           <EntitySet Name="MealTagCategories" EntityType="Self.MealTagCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MealTags" EntityType="Self.MealTags" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ModelCollection" EntityType="Self.ModelCollection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nutrient" EntityType="Self.Nutrient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Points" EntityType="Self.Points" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PostCategories" EntityType="Self.PostCategories" Schema="dbo" store:Type="Tables" />
@@ -807,6 +829,7 @@
           <EntitySet Name="Programs" EntityType="Self.Programs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TempCustomerMealOptions" EntityType="Self.TempCustomerMealOptions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TimesOfDay" EntityType="Self.TimesOfDay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WaterLogs" EntityType="Self.WaterLogs" Schema="dbo" store:Type="Tables" />
@@ -1147,6 +1170,7 @@
           <Property Name="Points" Type="Int32" Nullable="false" />
           <Property Name="MealCount" Type="Int32" />
           <Property Name="ActiveCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="GoogleID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ActivityLevel" Relationship="Self.FK_Members_ActivityLevels" FromRole="Members" ToRole="ActivityLevels" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Members" FromRole="Members" ToRole="Comments" />
           <NavigationProperty Name="DietLogs" Relationship="Self.FK_DietLog_Members" FromRole="Members" ToRole="DietLog" />
@@ -1163,6 +1187,15 @@
           <NavigationProperty Name="WaterLogs" Relationship="Self.FK_WaterLogs_Members" FromRole="Members" ToRole="WaterLogs" />
           <NavigationProperty Name="WeightLogs" Relationship="Self.FK_WeightLog_Members" FromRole="Members" ToRole="WeightLog" />
           <NavigationProperty Name="WorkoutLogs" Relationship="Self.FK_WorkoutLog_Members" FromRole="Members" ToRole="WorkoutLog" />
+        </EntityType>
+        <EntityType Name="ModelCollection">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GetPoints" Type="Int32" Nullable="false" />
+          <Property Name="GetPointsDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Nutrient">
           <Key>
@@ -1275,6 +1308,17 @@
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberID" Type="Int32" Nullable="false" />
+          <Property Name="GetEvents" Type="Int32" Nullable="false" />
+          <Property Name="GetEventsDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <Property Name="ProgramID" Type="Int32" />
         </EntityType>
         <EntityType Name="TempCustomerMealOption">
           <Key>
@@ -1843,6 +1887,7 @@
           <EntitySet Name="MealTagCategories" EntityType="Self.MealTagCategory" />
           <EntitySet Name="MealTags" EntityType="Self.MealTag" />
           <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="ModelCollections" EntityType="Self.ModelCollection" />
           <EntitySet Name="Nutrients" EntityType="Self.Nutrient" />
           <EntitySet Name="Points" EntityType="Self.Point" />
           <EntitySet Name="PostCategories" EntityType="Self.PostCategory" />
@@ -1851,6 +1896,7 @@
           <EntitySet Name="Programs" EntityType="Self.Program" />
           <EntitySet Name="Status" EntityType="Self.Status" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Tables" EntityType="Self.Table" />
           <EntitySet Name="TempCustomerMealOptions" EntityType="Self.TempCustomerMealOption" />
           <EntitySet Name="TimesOfDays" EntityType="Self.TimesOfDay" />
           <EntitySet Name="WaterLogs" EntityType="Self.WaterLog" />
@@ -2180,6 +2226,17 @@
                 <ScalarProperty Name="Points" ColumnName="Points" />
                 <ScalarProperty Name="MealCount" ColumnName="MealCount" />
                 <ScalarProperty Name="ActiveCode" ColumnName="ActiveCode" />
+                <ScalarProperty Name="GoogleID" ColumnName="GoogleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ModelCollections">
+            <EntityTypeMapping TypeName="HealthHelperModel.ModelCollection">
+              <MappingFragment StoreEntitySet="ModelCollection">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="GetPoints" ColumnName="GetPoints" />
+                <ScalarProperty Name="GetPointsDateTime" ColumnName="GetPointsDateTime" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2280,6 +2337,18 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tables">
+            <EntityTypeMapping TypeName="HealthHelperModel.Table">
+              <MappingFragment StoreEntitySet="Table">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="GetEvents" ColumnName="GetEvents" />
+                <ScalarProperty Name="GetEventsDateTime" ColumnName="GetEventsDateTime" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

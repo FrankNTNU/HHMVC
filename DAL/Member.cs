@@ -51,6 +51,7 @@ namespace DAL
         public int Points { get; set; }
         public Nullable<int> MealCount { get; set; }
         public string ActiveCode { get; set; }
+        public string GoogleID { get; set; }
     
         public virtual ActivityLevel ActivityLevel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

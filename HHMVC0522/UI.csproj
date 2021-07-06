@@ -1,6 +1,5 @@
 ﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
-  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -45,10 +44,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.4.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.4.2\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
@@ -140,14 +139,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Content\Barcode\073d5322209642459.png" />
+    <Content Include="Areas\Admin\Content\Barcode\10f07d3a4dcb4f53a.png" />
+    <Content Include="Areas\Admin\Content\Barcode\394659d415584b5db.png" />
+    <Content Include="Areas\Admin\Content\Barcode\3d7e6abb94174fc69.png" />
+    <Content Include="Areas\Admin\Content\Barcode\495c57d5f10c4f2e8.png" />
+    <Content Include="Areas\Admin\Content\Barcode\4c11a6b3c08342af8.png" />
+    <Content Include="Areas\Admin\Content\Barcode\4e8888e722394b5d9.png" />
+    <Content Include="Areas\Admin\Content\Barcode\4f585fb75be44403a.png" />
+    <Content Include="Areas\Admin\Content\Barcode\526859213101443f9.png" />
+    <Content Include="Areas\Admin\Content\Barcode\6e740d8cca7748079.png" />
+    <Content Include="Areas\Admin\Content\Barcode\a29e5a09b16c4ff9a.png" />
+    <Content Include="Areas\Admin\Content\Barcode\dd5796acf7f84242a.png" />
     <Content Include="Areas\Admin\Content\CartImages\1d0323fe-65a3-47dd-962f-53226e71f352cocoDrink1.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\3f249f4e-50e7-4bef-8b9a-b405cdfab1c3coffee2.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\4eb11526-2861-413b-932c-46806b33c2b8BK_FrenchFries_detail.png" />
+    <Content Include="Areas\Admin\Content\CartImages\4eb86db6-b013-4fbe-9d49-d13f1ca74dc9flywheel.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\5321cf4d-3700-4cbd-8f3b-1cfecd75b473bread.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\8dc56d25-b0b4-49ff-ac0d-9ac9bf2b1c8fdonut1.jpeg" />
     <Content Include="Areas\Admin\Content\CartImages\9de5e2ce-7973-4c37-af07-9598da520558coffee.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\b5e068a1-473f-4969-9f5c-a8db733b42a2bigmac.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\cac3758a-0c2c-4a8b-93c8-dc43ebbbddf6fries2.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\cee02b37-8f94-4731-9834-c93e53bf6d5fteaEggs.jpg" />
     <Content Include="Areas\Admin\Content\CSS\adminlte.min.css" />
     <Content Include="Areas\Admin\Content\CSS\all.min.css" />
     <Content Include="Areas\Admin\Content\CSS\bootstrap-4.min.css" />
@@ -157,11 +169,15 @@
     <Content Include="Areas\Admin\Content\CSS\responsive.bootstrap4.min.css" />
     <Content Include="Areas\Admin\Content\CSS\tempusdominus-bootstrap-4.min.css" />
     <Content Include="Areas\Admin\Content\GiftImages\1d0323fe-65a3-47dd-962f-53226e71f352cocoDrink1.jpg" />
+    <Content Include="Areas\Admin\Content\GiftImages\2c01724e-61d2-4bb6-8317-e770cbff9d2aworkoutShirt.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\3f249f4e-50e7-4bef-8b9a-b405cdfab1c3coffee2.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\4eb11526-2861-413b-932c-46806b33c2b8BK_FrenchFries_detail.png" />
+    <Content Include="Areas\Admin\Content\GiftImages\4eb86db6-b013-4fbe-9d49-d13f1ca74dc9flywheel.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\5321cf4d-3700-4cbd-8f3b-1cfecd75b473bread.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\8dc56d25-b0b4-49ff-ac0d-9ac9bf2b1c8fdonut1.jpeg" />
+    <Content Include="Areas\Admin\Content\GiftImages\9c4f83c5-f0a9-4bde-879a-ba621504379aworkoutGloves.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\9de5e2ce-7973-4c37-af07-9598da520558coffee.jpg" />
+    <Content Include="Areas\Admin\Content\GiftImages\b5e068a1-473f-4969-9f5c-a8db733b42a2bigmac.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\cac3758a-0c2c-4a8b-93c8-dc43ebbbddf6fries2.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\cee02b37-8f94-4731-9834-c93e53bf6d5fteaEggs.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\f856422c-d5ed-4ffc-865e-85a6e39d94edoolong.jpg" />
@@ -178,80 +194,13 @@
     <Content Include="Areas\Admin\Content\JS\buttons.colVis.min.js" />
     <Content Include="Areas\Admin\Content\JS\buttons.html5.min.js" />
     <Content Include="Areas\Admin\Content\JS\buttons.print.min.js" />
+    <Content Include="Areas\Admin\Content\JS\Chart.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\adapters\jquery.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\build-config.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\ckeditor.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\config.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\contents.css" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\af.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\ar.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\az.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\bg.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\bn.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\bs.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\ca.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\cs.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\cy.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\da.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\de-ch.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\de.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\el.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\en-au.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\en-ca.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\en-gb.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\lang\en.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\eo.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\es-mx.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\es.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\et.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\eu.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\fa.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\fi.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\fo.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\fr-ca.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\fr.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\gl.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\gu.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\he.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\hi.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\hr.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\hu.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\id.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\is.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\it.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\ja.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\ka.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\km.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\ko.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\ku.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\lt.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\lv.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\mk.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\mn.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\ms.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\nb.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\nl.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\no.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\oc.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\pl.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\pt-br.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\pt.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\ro.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\ru.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\si.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\sk.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\sl.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\sq.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\sr-latn.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\sr.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\sv.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\th.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\tr.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\tt.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\ug.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\uk.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\vi.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\lang\zh-cn.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\lang\zh.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\a11yhelp\dialogs\a11yhelp.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\a11yhelp\dialogs\lang\af.js" />
@@ -327,6 +276,8 @@
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\dialog\styles\dialog.css" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\icons.png" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\icons_hidpi.png" />
+    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\iframe\dialogs\iframe.js" />
+    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\iframe\images\placeholder.png" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\image\dialogs\image.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\image\images\noimage.png" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\link\dialogs\anchor.js" />
@@ -412,77 +363,6 @@
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\tabletools\dialogs\tableCell.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\table\dialogs\table.js" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\widget\images\handle.png" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\dialogs\ciframe.html" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\dialogs\tmpFrameset.html" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\dialogs\wsc.css" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\dialogs\wsc.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\dialogs\wsc_ie.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\icons\hidpi\spellchecker.png" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\icons\spellchecker.png" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\af.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\ar.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\bg.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\bn.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\bs.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\ca.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\cs.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\cy.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\da.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\de.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\el.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\en-au.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\en-ca.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\en-gb.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\en.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\eo.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\es.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\et.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\eu.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\fa.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\fi.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\fo.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\fr-ca.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\fr.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\gl.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\gu.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\he.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\hi.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\hr.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\hu.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\is.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\it.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\ja.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\ka.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\km.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\ko.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\ku.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\lt.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\lv.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\mk.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\mn.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\ms.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\nb.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\nl.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\no.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\pl.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\pt-br.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\pt.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\ro.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\ru.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\sk.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\sl.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\sr-latn.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\sr.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\sv.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\th.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\tr.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\ug.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\uk.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\vi.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\zh-cn.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\lang\zh.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\plugin.js" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\skins\moono-lisa\wsc.css" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\samples\css\samples.css" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\samples\img\github-top.png" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\samples\img\header-bg.png" />
@@ -584,12 +464,16 @@
     <Content Include="Areas\Admin\Content\JS\vfs_fonts.js" />
     <Content Include="Areas\Admin\Content\PostImages\1aad9c8b-8e8c-4332-9fe5-deaac5134a7fgym.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\27d354e7-8b72-4c19-822e-acf3ce64ed25books.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\494540c3-68e1-4b2b-8bf9-1053d44bf7c3hamburger.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\51b00e76-3048-4f50-b345-ec65fa125251diet.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\5912c8f6-1ed2-4b2c-9be6-98d6d0bf85acexercise.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\61d654ed-c450-464d-8355-df5cf1e4a514workout.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\6497b55a-13a2-46e1-b0c8-26f6b3b45bd9gift.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\7c1469aa-2d2a-4c43-8c86-d9aeaab9685abooks.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\9a12a30b-05c8-4a6d-92ca-46f8d73d7906PlantBasedMilks_Lead.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\9a387752-da1f-4387-9fe4-b1a0ba2f6e18protein.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\9c64e3d0-40c6-40e4-add3-f40ad025fecdmoney.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\9e50a121-112c-4a02-9459-2d9a3947a260healthImg.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\a57053eb-772a-46e1-9552-b3214eda9e3ceatingFruit.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\a99f1d12-ba34-4cd5-8c71-1b768d9dc220health2.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\a9ce1170-6010-4bfc-8ed9-1043bd9885e9veggie.jpg" />
@@ -629,15 +513,104 @@
     <Content Include="Areas\Admin\Content\webfonts\fa-regular-400.svg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-solid-900.svg" />
     <Content Include="Content\color\default.css" />
+    <Content Include="Content\css\dietAddMeal.css" />
     <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\dataTables.bootstrap5.min.css" />
+    <Content Include="Content\css\font-awesome-4.7.0\css\font-awesome.css" />
+    <Content Include="Content\css\font-awesome-4.7.0\css\font-awesome.min.css" />
+    <Content Include="Content\css\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\css\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="Content\css\fontawesome-all.min.css" />
     <Content Include="Content\css\main.css" />
+    <Content Include="Content\css\stylesPlay.css" />
     <Content Include="Content\font\fontawesome\fontawesome-webfont.svg" />
     <Content Include="Content\ico\apple-touch-icon-114-precomposed.png" />
     <Content Include="Content\ico\apple-touch-icon-144-precomposed.png" />
     <Content Include="Content\ico\apple-touch-icon-57-precomposed.png" />
     <Content Include="Content\ico\apple-touch-icon-72-precomposed.png" />
     <Content Include="Content\ico\favicon.ico" />
+    <Content Include="Content\Images\CustomerMealUploadImages\defaultCustomeMeal.jpg" />
+    <Content Include="Content\Images\DietImages\internationalstyle\mealstyle01.jpg" />
+    <Content Include="Content\Images\DietImages\internationalstyle\slide1.jpg" />
+    <Content Include="Content\Images\DietImages\internationalstyle\slide2.jpg" />
+    <Content Include="Content\Images\DietImages\internationalstyle\slide3.jpg" />
+    <Content Include="Content\Images\DietImages\internationalstyle\slide4.jpg" />
+    <Content Include="Content\Images\DietImages\internationalstyle\slide5.jpg" />
+    <Content Include="Content\Images\DietImages\mealDefault.jpg" />
+    <Content Include="Content\Images\GiftImages\161845921140825_P11774857.jpg" />
+    <Content Include="Content\Images\GiftImages\6cd40485-a233-4600-8c7f-a6d051129a53coco.jpg" />
+    <Content Include="Content\Images\GiftImages\82e1b8df-9ae8-4a3b-8598-51e647be4a1a麥味登.jpg" />
+    <Content Include="Content\Images\GiftImages\a85e26e9-94d7-4878-a107-09ada5d0d8ec2767503.jpg" />
+    <Content Include="Content\Images\GiftImages\b6291f94-7737-4ef4-994a-af560f7f48bacoco.jpg" />
+    <Content Include="Content\Images\GiftImages\c949bb31-81f3-45f6-8cdb-1730c864c5fd9d95c31e76f487693b84e39768846d28.jpg" />
+    <Content Include="Content\Images\GiftImages\d07a350e-943e-4962-8cc1-a481984680a5frappuccino_200512.jpg" />
+    <Content Include="Content\Images\GiftImages\d45f415b-88c9-48f5-b1b5-867d69a7ae9d9d95c31e76f487693b84e39768846d28.jpg" />
+    <Content Include="Content\Images\Infography\rice reference.jpg" />
+    <Content Include="Content\Images\Infography\riceBowlImg.jpg" />
+    <Content Include="Content\Images\Infography\riceBowlImg2.jpg" />
+    <Content Include="Content\Images\Infography\riceBowlImg3.jpg" />
+    <Content Include="Content\Images\MealOptionImages\07419b26-8464-41d6-b00e-f5058bbc03d8G07.png" />
+    <Content Include="Content\Images\MealOptionImages\0fb9e7d4-95fb-4388-8e77-62273c2a5ae1M02.jpg" />
+    <Content Include="Content\Images\MealOptionImages\1648c6ba-aac8-4325-87f8-6e9b73a3d76eG02.png" />
+    <Content Include="Content\Images\MealOptionImages\20761032-1fae-4aae-9a2b-a5d429345b0bM01.jpg" />
+    <Content Include="Content\Images\MealOptionImages\217ff0a5-e257-4d40-b6a6-408f3a36efa4G08.png" />
+    <Content Include="Content\Images\MealOptionImages\4143069e-cfed-49a0-b3bb-b33e2313490b1406480948-3163372718_n.jpg" />
+    <Content Include="Content\Images\MealOptionImages\49fa68f7-35b4-4cba-905b-d63110a9bfbdM13.jpg" />
+    <Content Include="Content\Images\MealOptionImages\4a88f330-2368-4b43-be44-25f342cc44b3tags.jpg" />
+    <Content Include="Content\Images\MealOptionImages\4c102ca9-d36a-46bd-b1f2-a7bd5c22a82b5cc62539c4060c2a0d2415485f4f47c0.png" />
+    <Content Include="Content\Images\MealOptionImages\4c2d53e1-fb99-4589-9cd7-971c6d2065b5M14.jpg" />
+    <Content Include="Content\Images\MealOptionImages\543ec2e1-9e17-4cfa-9106-9f94b74efc50G03.png" />
+    <Content Include="Content\Images\MealOptionImages\57720312-9349-4d43-9aa9-2f27358efd0aM16.jpg" />
+    <Content Include="Content\Images\MealOptionImages\57f92bd5-53e1-44e5-937a-74a724bee7f3M15.jpg" />
+    <Content Include="Content\Images\MealOptionImages\5a10b2c6-0202-424f-8208-6606e87d5e44M03.jpg" />
+    <Content Include="Content\Images\MealOptionImages\65f523cb-e33f-4eb5-9bb7-a555c040b2c60201.jpg" />
+    <Content Include="Content\Images\MealOptionImages\6cfba608-5a20-4edf-b161-cb4d1311f9ab0201.jpg" />
+    <Content Include="Content\Images\MealOptionImages\7bd54b16-35aa-4074-ab6e-ba8a3ad56c6bM09.jpg" />
+    <Content Include="Content\Images\MealOptionImages\7f0a509e-6c0c-4fca-a6c2-6a8dd9bd135bG04.png" />
+    <Content Include="Content\Images\MealOptionImages\8aff7c51-ce3c-47a0-a74d-f265a2dae54aM04.jpg" />
+    <Content Include="Content\Images\MealOptionImages\962e8958-d4dd-491e-b106-bbe34761a0baG06.png" />
+    <Content Include="Content\Images\MealOptionImages\982ff8ef-9f7e-4586-9ffe-9e52ff29eef1G05.png" />
+    <Content Include="Content\Images\MealOptionImages\a2bbacde-f03f-4458-b26c-fabedc24db15M05.jpg" />
+    <Content Include="Content\Images\MealOptionImages\af4e1492-1f9a-4912-bbc6-41991b373045M07.jpg" />
+    <Content Include="Content\Images\MealOptionImages\b2661b8f-1c38-42f8-9921-2d9ef6a523340201.jpg" />
+    <Content Include="Content\Images\MealOptionImages\bao.jpg" />
+    <Content Include="Content\Images\MealOptionImages\bigmac.jpg" />
+    <Content Include="Content\Images\MealOptionImages\c6689f65-69c7-4065-94ad-512e30bdbc65M08.jpg" />
+    <Content Include="Content\Images\MealOptionImages\ch.jpg" />
+    <Content Include="Content\Images\MealOptionImages\d14c1770-a45c-43c1-834d-8c94ce687b75G01.png" />
+    <Content Include="Content\Images\MealOptionImages\d9699760-8a52-4684-ab43-1a05b0a69d9671101.jpg" />
+    <Content Include="Content\Images\MealOptionImages\d96d7696-923c-4986-a598-3f14c7d19c705cc62539c4060c2a0d2415485f4f47c0.png" />
+    <Content Include="Content\Images\MealOptionImages\dd8e3210-6153-4d4d-8d1d-37c0f6d8dd80M10.jpg" />
+    <Content Include="Content\Images\MealOptionImages\ddb25e25-8d5b-4467-9aba-af554d88aeb61406480948-3163372718_n.jpg" />
+    <Content Include="Content\Images\MealOptionImages\de01922d-cb26-41d7-a93e-53c7b1f784e0M06.jpg" />
+    <Content Include="Content\Images\MealOptionImages\dia.jpg" />
+    <Content Include="Content\Images\MealOptionImages\ding.jpg" />
+    <Content Include="Content\Images\MealOptionImages\dou.jpg" />
+    <Content Include="Content\Images\MealOptionImages\Ice.jpg" />
+    <Content Include="Content\Images\MealOptionImages\mealDefault.jpg" />
+    <Content Include="Content\Images\MealOptionImages\meat.jpg" />
+    <Content Include="Content\Images\MealOptionImages\sale.jpg" />
+    <Content Include="Content\Images\MealOptionImages\shinf.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\14739ea7-f2d5-4f1f-9ec8-83a801825c09早午餐 %282%29.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\19f6bc72-3e43-459b-9eaa-da32ba009f14點心.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\20824055-5a09-416b-850f-0ea753bb63e0894894198.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\4175b786-faac-45bf-93f7-cff64f74fd1a泰式 %282%29.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\41a07225-5d6c-4fdb-a17b-fe01dfaf6003韓式.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\57af1ad7-f191-42b5-9ef0-01d1d6e42f89日式.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\6fa60c66-1501-4280-bc54-b45bd06b0963輕食.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\7f86a182-16c4-4790-af63-67f7d56a9fdccoffee_518739751-600x400.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\859569fa-01b2-4fa5-9322-b773e45349a60602NEW.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\9b6e4ab9-6bb1-43f8-85ea-5ae3a3ee3513GetImg.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\a01782b2-b643-4d9f-acf6-d8c0cbab39cdmaxresdefault.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\a18d2c6e-953c-457a-a9d4-899fc9288c562767503.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\ab8ed605-f644-4395-93b8-08005acf80f4湯.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\c7b5d912-1f78-4896-b2a7-e4b60a9b963dS__79134742.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\c856d991-9707-41f9-8341-2d66dac967687676878.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\cbddf8c7-aedb-47e2-8d01-16835df63a48161207-5006-02-xyDdI.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\cf0ccee9-8212-47a1-9fe1-4bc00dd00acfS__79134742.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\d086e9be-2d66-446d-8167-c54017557d061406480948-3163372718_n.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\fbf4b27e-2298-418b-b3f5-56fd9f1f219cw644.jpg" />
+    <Content Include="Content\Images\TagCategoriesImages\TagCategories.jpg" />
     <Content Include="Content\img\avatar.png" />
     <Content Include="Content\img\bg_direction_nav.png" />
     <Content Include="Content\img\bs-docs-masthead-pattern.png" />
@@ -717,6 +690,7 @@
     <Content Include="Content\jquery-ui-monthpicker\jquery.ui.monthpicker.js" />
     <Content Include="Content\jquery-ui-scrollbar\jquery.scrollbar.css" />
     <Content Include="Content\jquery-ui-scrollbar\jquery.scrollbar.min.js" />
+    <Content Include="Content\js\ASPSnippets_Pager.min.js" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\Gift\GiftList.cshtml" />
     <Content Include="Areas\Admin\Views\Gift\AddGift.cshtml" />
@@ -726,6 +700,7 @@
     <Content Include="Areas\Admin\Views\Gift\GiftCarts.cshtml" />
     <Content Include="Areas\Admin\Views\Contact\Contact.cshtml" />
     <Content Include="Areas\Admin\Content\webfonts\BarcodeFont.ttf" />
+    <Content Include="Areas\Admin\Views\MainPage\MainPage.cshtml" />
     <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
@@ -751,19 +726,34 @@
     <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.theme.css" />
     <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.theme.min.css" />
     <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\LICENSE.txt" />
+    <Content Include="Content\js\chart.min.js" />
+    <Content Include="Content\js\HHRadarChart.js" />
     <Content Include="Content\js\breakpoints.min.js" />
     <Content Include="Content\js\browser.min.js" />
     <Content Include="Content\js\DeleteRecord.js" />
     <Content Include="Content\js\jquery.likebtn.js" />
+    <Content Include="Content\js\dataTables.bootstrap5.min.js" />
+    <Content Include="Content\js\jquery-3.5.1.js" />
+    <Content Include="Content\js\jquery-3.6.0.min.js" />
+    <Content Include="Content\js\jquery-ui.js" />
+    <Content Include="Content\js\jquery.dataTables.min.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\main.js" />
+    <Content Include="Content\js\popper.min.js" />
     <Content Include="Content\js\util.js" />
     <Content Include="Content\moment-js\moment-with-locales.js" />
     <Content Include="Content\moment-js\moment-with-locales.min.js" />
     <Content Include="Content\moment-js\moment.js" />
     <Content Include="Content\moment-js\moment.min.js" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\pointsPage\coins.jpg" />
+    <Content Include="Content\pointsPage\gifts.jpg" />
+    <Content Include="Content\pointsPage\pay.jpg" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\tempImg\chartImg.jpg" />
+    <Content Include="Content\tempImg\dietImg.jpg" />
+    <Content Include="Content\tempImg\exerciseImg.jpg" />
+    <Content Include="Content\tempImg\healthImg.jpg" />
     <Content Include="Content\toastr\toastr.css" />
     <Content Include="Content\toastr\toastr.min.css" />
     <Content Include="Content\toastr\toastr.min.js" />
@@ -771,13 +761,11 @@
     <Content Include="Content\webfonts\fa-regular-400.svg" />
     <Content Include="Content\webfonts\fa-solid-900.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Shared\_MealOptionViewModelPartial.cshtml" />
     <None Include="Properties\PublishProfiles\HealthHelper - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\healthhelperweb - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.4.2.js" />
-    <Content Include="Scripts\jquery.signalR-2.4.2.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -788,6 +776,7 @@
     <Compile Include="Areas\Admin\Controllers\ContactController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiftController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MainPageController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
@@ -796,15 +785,51 @@
     <Compile Include="Controllers\ChatGroupController.cs" />
     <Compile Include="Controllers\FrontContactController.cs" />
     <Compile Include="Controllers\FrontGiftController.cs" />
+    <Compile Include="Controllers\FrontPointController.cs" />
     <Compile Include="Controllers\FrontPostController.cs" />
+    <Compile Include="Controllers\HHApi_HealthReportController.cs" />
+    <Compile Include="Controllers\HHHealthReportController.cs" />
+    <Compile Include="Controllers\HHApi_DietLogController.cs" />
+    <Compile Include="Controllers\HHApi_DietLogsHistoryController.cs" />
+    <Compile Include="Controllers\HHApi_WaterLogController.cs" />
+    <Compile Include="Controllers\HHDietHistoryController.cs" />
+    <Compile Include="Controllers\HHDietController.cs" />
+    <Compile Include="Controllers\HHApi_ProgramController.cs" />
+    <Compile Include="Controllers\HHProgramsController.cs" />
     <Compile Include="Controllers\Home2Controller.cs" />
     <Compile Include="Controllers\WeightController.cs" />
     <Compile Include="Controllers\WorkoutController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Calculator.cs" />
+    <Compile Include="Models\CMealAutoComplete.cs" />
+    <Compile Include="Models\HealthCalculator.cs" />
+    <Compile Include="Models\MemberHealthProfile.cs" />
+    <Compile Include="Models\MemberProfile.cs" />
     <Compile Include="HHDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CMealTagCategoryViewModel.cs" />
+    <Compile Include="ViewModels\CreateDietLogViewModel.cs" />
+    <Compile Include="ViewModels\DietLogCartItemViewModel.cs" />
+    <Compile Include="ViewModels\DietLogsHistoryViewModel.cs" />
+    <Compile Include="ViewModels\DietLogViewModel.cs" />
+    <Compile Include="ViewModels\GainedCaloriesViewModel.cs" />
+    <Compile Include="ViewModels\GainedNutritionViewModel.cs" />
+    <Compile Include="ViewModels\GeneralPerformancesViewModel.cs" />
+    <Compile Include="ViewModels\HealthReportChartViewModel.cs" />
+    <Compile Include="ViewModels\MealOptionViewModel.cs" />
+    <Compile Include="ViewModels\MealStyleListViewModel.cs" />
+    <Compile Include="ViewModels\MealStyleViewModel.cs" />
+    <Compile Include="ViewModels\MemberBasicHealthProfile.cs" />
+    <Compile Include="ViewModels\MemberDietReport.cs" />
+    <Compile Include="ViewModels\MemberHealthViewModel.cs" />
+    <Compile Include="ViewModels\ProfileAndTodayDietLogsViewModel.cs" />
+    <Compile Include="ViewModels\ShowProgramViewModel.cs" />
+    <Compile Include="ViewModels\RegisterProgramViewModel.cs" />
+    <Compile Include="ViewModels\ProgramPageViewModel.cs" />
+    <Compile Include="ViewModels\TimesOfDayViewModel.cs" />
+    <Compile Include="ViewModels\WaterLogDatasViewModel.cs" />
     <Compile Include="ViewModels\WorkoutSuggestViewModel.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -819,8 +844,6 @@
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\scayt\CHANGELOG.md" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\scayt\LICENSE.md" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\scayt\README.md" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\LICENSE.md" />
-    <Content Include="Areas\Admin\Content\JS\ckeditor\plugins\wsc\README.md" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\README.md" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\samples\old\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="Areas\Admin\Content\JS\ckeditor\samples\toolbarconfigurator\font\config.json" />
@@ -904,6 +927,39 @@
     <Content Include="Content\webfonts\fa-solid-900.ttf" />
     <Content Include="Content\webfonts\fa-solid-900.woff" />
     <Content Include="Content\webfonts\fa-solid-900.woff2" />
+    <Content Include="Content\css\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\css\font-awesome-4.7.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\css\font-awesome-4.7.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\css\font-awesome-4.7.0\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\css\font-awesome-4.7.0\fonts\FontAwesome.otf" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\animated.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\bordered-pulled.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\core.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\fixed-width.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\font-awesome.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\icons.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\larger.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\list.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\mixins.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\path.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\rotated-flipped.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\screen-reader.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\stacked.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\less\variables.less" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\font-awesome.scss" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\_animated.scss" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\_bordered-pulled.scss" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\_core.scss" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\_fixed-width.scss" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\_icons.scss" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\_larger.scss" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\_list.scss" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\_mixins.scss" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\_path.scss" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\_rotated-flipped.scss" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\_screen-reader.scss" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\_stacked.scss" />
+    <Content Include="Content\css\font-awesome-4.7.0\scss\_variables.scss" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.map" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.slim.min.map" />
     <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\package.json" />
@@ -911,8 +967,19 @@
     <Content Include="Content\moment-js\moment.min.js.map" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\ModalMessage.cshtml" />
-    <Content Include="Views\Shared\HomeLayout2.cshtml" />
+    <Content Include="Views\Shared\HomeLayout3.cshtml" />
     <Content Include="Views\Home2\Index.cshtml" />
+    <Content Include="Views\HHDietHistory\List2.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\HHDiet\Create.cshtml" />
+    <Content Include="Views\HHPrograms\RegisterProgram.cshtml" />
+    <Content Include="Views\HHPrograms\ShowActiveProgram.cshtml" />
+    <Content Include="Views\HHGiftShop\MyGiftShop2.cshtml" />
+    <Content Include="Views\HHGiftCard\ShowGiftList.cshtml" />
+    <Content Include="Views\HHDiet\MealStyleList.cshtml" />
+    <Content Include="Views\HHGiftShop\MyGiftShop.cshtml" />
+    <Content Include="Views\HHDietHistory\DietLogsHistory.cshtml" />
+    <Content Include="Views\Shared\HomeLayout2.cshtml" />
     <Content Include="Views\Home2\Login.cshtml" />
     <Content Include="Views\Workout\WorkoutLog.cshtml" />
     <Content Include="Views\FrontPost\AddPost.cshtml" />
@@ -925,6 +992,14 @@
     <Content Include="Views\FrontGift\GiftCart.cshtml" />
     <Content Include="Views\FrontPost\UserPostList.cshtml" />
     <Content Include="Views\FrontContact\Chat.cshtml" />
+    <Content Include="Views\FrontPost\ReplyToComment.cshtml" />
+    <Content Include="Views\Shared\_RegisterProgramPartial.cshtml" />
+    <Content Include="Views\Shared\_ShowProgramPartial.cshtml" />
+    <Content Include="Views\Shared\_DietLogsHistoryPartial.cshtml" />
+    <Content Include="Views\HHDiet\test.cshtml" />
+    <Content Include="Views\Shared\HomeLayout2_0622.cshtml" />
+    <Content Include="Views\HHHealthReport\HealthReport.cshtml" />
+    <Content Include="Views\Home2\UserPoints.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Weight\WeightLog.cshtml" />
@@ -935,16 +1010,30 @@
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.HealthHelper - Web Deploy.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.HealthHelper - Web Deploy1.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.healthhelperweb - Web Deploy.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Content\Barcode\" />
+    <Folder Include="Areas\Admin\Content\JS\ckeditor\plugins\iframe\icons\hidpi\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\HHApi_DietLogsHistory\" />
+    <Folder Include="Views\HHApi_DietLog\" />
+    <Folder Include="Views\HHApi_HealthReport\" />
+    <Folder Include="Views\HHApi_WaterLog\" />
+    <Folder Include="Views\HHProgram\" />
+    <Folder Include="Views\Programs\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">
@@ -995,11 +1084,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
-    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
-  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

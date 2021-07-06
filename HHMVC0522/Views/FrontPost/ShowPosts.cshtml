@@ -10,10 +10,11 @@
     <link href="~/Content/PagedList.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
-        .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus  {
+        .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
             background-color: #fff0f0;
-            border:1px solid grey;
+            border: 1px solid grey;
         }
+
         a {
             color: #e82a2a;
         }
@@ -24,13 +25,13 @@
 <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
     <div class="row" style="width: 100%; padding-right: 20px">
 
-        <div class="col-4 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        <div class="col-3 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
-        <div class="col-6 col-sm-4 col-md-6 col-lg-8 p-1 align-self-center">
+        <div class="col-8 col-sm-5 col-md-6 col-lg-8 p-1 align-self-center">
             <h2><i class="fas fa-file-alt"></i> 所有文章</h2>
         </div>
-        <div class="col-2 col-sm-4 col-md-3 col-lg-2 align-self-end justify-content-end d-none d-sm-block">
+        <div class="col-2 col-sm-3 col-md-3 col-lg-2 align-self-end justify-content-end d-none d-sm-block">
 
             <a href="~/FrontPost/AddPost"><label class="button primary"><i class="fas fa-pen"></i> 發布文章</label></a>
 
@@ -38,7 +39,13 @@
     </div>
 </header><header id="header" class="m-0 p-0"></header>
 
-<section class="pt-3">
+<section class="pt-2">
+    <div class="col-12 d-flex p-0">
+        <div class="d-sm-none" style="width:100%">
+            <a href="~/FrontPost/AddPost"><label class="button primary" style="width:100%"><i class="fas fa-pen"></i> 發布文章</label></a>
+
+        </div>
+    </div>
     <div class="d-flex justify-content-center" style="padding:0px">
         <h3 style="margin-bottom:10px" id="CountInfo">
             <i class="far fa-file"></i> <span id="postCount">共有 @Model.TotalItemCount 則文章，第 @Model.PageNumber / @Model.PageCount 頁 </span>
@@ -46,7 +53,7 @@
     </div>
     <div class="row">
         <div class="col-6 col-lg-5 col-md-4" style="margin-bottom:20px">
-            <select id="SearchCategory" class="form-control">
+            <select id="SearchCategory">
                 <option selected value="0">所有分類</option>
                 <option value="1">貼文</option>
                 <option value="2">資訊</option>
@@ -77,35 +84,43 @@
                 <div class="col-12 col-lg-8 col-md-8 col-sm-8">
                     <div class="row">
                         <div class="col-4 col-md-3 col-lg-2">
-                            <p class="button small fit" style=" font-weight: bolder; pointer-events: none; margin-bottom: 5px; font-size: 12px">@item.CategoryName</p>
-        <p>時間</p>
-        <p>文章大要</p>
+                            <span style="color: #ff756b;font-size:1.5em">@DisplayIcon(item.CategoryName) <span style="font-size: 0.8em;" class="mb-2">@item.CategoryName </span></span>
+                            <p>時間</p>
+                            <p>文章大要</p>
 
-    </div>
-    <div class="col-8 col-lg-10">
-        <p>
-            @if (!item.IsApproved)
-            {
-                <span class="button small primary" style="opacity:0.5;cursor:default;margin-right:10px"> 核准中...</span>
-            }<strong style="font-weight:bolder">@item.Title </strong><i class="far fa-comment"></i> @item.CommentCount <i class="far fa-heart"></i> @item.LikeCount
-        </p>
-        <p>@item.AddDate</p>
-        <p>@item.ShortContent</p>
+                        </div>
+                        <div class="col-8 col-lg-10">
+                            <p>
+                                @if (!item.IsApproved)
+                                {
+                                    <span class="button small primary" style="opacity:0.5;cursor:default;margin-right:10px"> 核准中...</span>
+                                }<strong style="font-weight:bolder">@item.Title </strong><i class="far fa-comment"></i> @item.CommentCount <i class="far fa-heart"></i> @item.LikeCount
+                            </p>
+                            <p>@item.AddDate</p>
+                            <p>@item.ShortContent</p>
 
-    </div>
-</div>
-</div>
-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-}
+        }
 
     </div>
     <div style="font-size:1.5em;text-align:center;justify-content:center" id="PageInfo" class="d-flex">
         @Html.PagedListPager(Model, page => Url.Action("ShowPosts", new { page }))
     </div>
 </section>
-
+@functions{
+    IHtmlString DisplayIcon(string name)
+    {
+        if (name == "貼文") return Html.Raw(@DTO.Icons.Post);
+        else if (name == "資訊") return Html.Raw(@DTO.Icons.Information);
+        else if (name == "公告") return Html.Raw(@DTO.Icons.Notice);
+        else return Html.Raw(@DTO.Icons.Rule);
+    }
+}
 <script src="~/Content/js/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -122,29 +137,8 @@
                 var CountInfo = $("#CountInfo");
                 SetData.html('');
                 $("#PageInfo").html('');
-                window.location.href = '/FrontPost/GetPostsWithSearchText/?SearchCategory=' + SearchCategory + "&SearchText=" + SearchText;
-                //$.ajax({
-                //    type: "post",
-                //    url: "GetSearchPost?SearchCategory=" + SearchCategory + "&SearchText=" + SearchText,
-                //    contentType: "html",
-                //    success: function (result) {
-                //        if (result.length == 0) {
-                //            alert("沒有對應結果");
-                //            CountInfo.html("");
-                //            CountInfo.append("共有 " + result.length + " 則文章符合搜尋結果");
-                //        }
-                //        else {
-                //            CountInfo.html("");
-                //            CountInfo.append("共有 " + result.length + " 則文章符合搜尋結果");
-                //            console.log(result);
-                //            $.each(result, function (index, value) {
-                //                var Data = '<div class="col-12 col-lg-4"><a href=../Home2/PostDetail?ID=' + value.ID + ' class="image"><img class="image" src="../Areas/Admin/Content/PostImages/' + value.ImagePath + '" style="max-width:100%" /></a></div>';
-                //                Data += "<div class='col-12 col-lg-8'><div class='row'><div class='col-4 col-lg-2'><p class='button small fit' style='        font-weight: bolder;pointer-events: none;margin-bottom:5px'>" + value.CategoryName + "</p><p>文章大要 </p></div><div class='col-8'><p><strong> " + value.Title + "</strong> <i class='far fa-comment'></i> " + value.CommentCount + " </span><i class='far fa-heart'></i> " + value.LikeCount + " <p>" + value.ShortContent + "</p></div></div></div>"
-                //                SetData.append(Data);
-                //            })
-                //        }
-                //    }
-                //})
+                window.location.href = '../FrontPost/GetPostsWithSearchText/?SearchCategory=' + SearchCategory + "&SearchText=" + SearchText;
+
             }
 
         })

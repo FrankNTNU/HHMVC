@@ -14,5 +14,26 @@ namespace BLL
         {
             weightLogDAO.DeleteByMemberID(ID);
         }
+
+        public WeightLog GetLatestWeightByMemberID(int memberId)
+        {
+            return weightLogDAO.GetLatestWeightByMemberID(memberId);
+        }
+
+        public WeightLog GetLatestWeightByMemberIdPriorDate(int memberId, string date)
+        {
+            return weightLogDAO.GetLatestWeightByMemberIdPriorDate(memberId, date);
+        }
+
+        public void AddWeightLogViaProgramRegister(int memberID, int weight)
+        {
+            weightLogDAO.AddWeightLogViaProgramRegister(memberID, weight);
+        }
+
+        public double[] GetMonthlyWeights(int memberId, DateTime date)
+        {
+            return weightLogDAO.GetMonthlyWeights(memberId, date);
+
+        }
     }
 }

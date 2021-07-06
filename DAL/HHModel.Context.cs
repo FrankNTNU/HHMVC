@@ -38,6 +38,7 @@ namespace DAL
         public virtual DbSet<MealTagCategory> MealTagCategories { get; set; }
         public virtual DbSet<MealTag> MealTags { get; set; }
         public virtual DbSet<Member> Members { get; set; }
+        public virtual DbSet<ModelCollection> ModelCollections { get; set; }
         public virtual DbSet<Nutrient> Nutrients { get; set; }
         public virtual DbSet<Point> Points { get; set; }
         public virtual DbSet<PostCategory> PostCategories { get; set; }
@@ -46,6 +47,7 @@ namespace DAL
         public virtual DbSet<Program> Programs { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Table> Tables { get; set; }
         public virtual DbSet<TempCustomerMealOption> TempCustomerMealOptions { get; set; }
         public virtual DbSet<TimesOfDay> TimesOfDays { get; set; }
         public virtual DbSet<WaterLog> WaterLogs { get; set; }

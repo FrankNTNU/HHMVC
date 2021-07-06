@@ -61,7 +61,73 @@ namespace DAL
             }
             return dtoList;
         }
-
+        public static CommentDTO Root { get; set; } // 存放結果留言清單
+        public CommentDTO GetNestedComments(int postID)
+        {
+            Root = new CommentDTO();
+            CommentDTO tempRoot = Root;
+            CurrentLevel = 0;
+            PopulateNestedComments(postID, null, ref tempRoot); 
+            // 一開始呼叫時只有postID, 沒有指定留言ID
+            return Root; 
+        }
+        private CommentDTO ConvertToModel(Comment comment)
+        {
+            CommentDTO dto = new CommentDTO();
+            dto.ID = comment.ID;
+            dto.Title = comment.Title;
+            dto.CommentContent = comment.CommentContent;
+            dto.MemberID = comment.MemberID;
+            dto.Name = comment.Name;
+            dto.AddDate = comment.AddDate;
+            dto.MemberImage = comment.Member.Image;
+            dto.PostID = (int?)comment.PostID ?? 0;
+            dto.ParentCommentID = (int?)comment.ParentCommentID ?? 0;
+            dto.Level = CurrentLevel;
+            dto.IsApproved = comment.IsApproved;
+            return dto;
+        }
+        private int CurrentLevel = 0;
+        public void PopulateNestedComments(int? postID, int? commentID, ref CommentDTO tempRoot)
+        {
+           
+            List<Comment> comments = new List<Comment>();
+            tempRoot.ChildComments = new List<CommentDTO>();
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                if (postID.HasValue && postID != 0)
+                // 如果是第一層留言 (postDI != null)
+                {
+                    Post post = db.Posts.Single(x => x.ID == postID.Value);
+                    comments = post.Comments.Where(x => x.ParentCommentID == null).ToList();
+                    foreach (Comment item in comments)
+                    {
+                        var temp = ConvertToModel(item);
+                        tempRoot.ChildComments.Add(temp);
+                    }
+                    // 取得第一層留言 (commentID == null)
+                }
+                else
+                {
+                    CurrentLevel++;
+                    comments = db.Comments.Where(x => x.ParentCommentID == commentID).ToList();
+                    foreach (Comment item in comments)
+                    {
+                        var temp = ConvertToModel(item);
+                        tempRoot.ChildComments.Add(temp);
+                    }
+                    // 取得第 n 層的留言
+                }
+            }
+            for (int i = 0; i < tempRoot.ChildComments.Count; i++)
+            {
+                tempRoot.ChildComments[i].ChildComments = new List<CommentDTO>();
+                CommentDTO tempComment = tempRoot.ChildComments[i];
+                PopulateNestedComments(null, tempRoot.ChildComments[i].ID, ref tempComment);
+                CurrentLevel--;
+                // 各自去底下找下一層的評論
+            }        
+        }
         public void DeleteLikedPostsByMemberID(int userID)
         {
             List<LikedPost> likedPosts = db.LikedPosts.Where(x => x.MemberID == userID).ToList();
@@ -79,37 +145,40 @@ namespace DAL
         public List<PostDTO> GetPosts()
         {
             List<PostDTO> dtoList = new List<PostDTO>();
-            List<PostDTO> postList = (from p in db.Posts
-                                      where p.IsApproved == true
-                            select new PostDTO
-                            {
-                                ID = p.ID,
-                                Title = p.Title,
-                                ShortContent = p.ShortContent,
-                                CategoryName = p.PostCategory.Name,
-                                AddDate = p.AddDate,
-                                MemberID = (int?)p.MemberID ?? 0,
-                                CommentCount = db.Comments.Where(x => x.PostID == p.ID).Count(),
-                                LikeCount = p.LikeCount,
-                                ViewCount = p.ViewCount,
-                                IsApproved = p.IsApproved
-                            }).OrderByDescending(x => x.AddDate).ToList();
-            foreach (var item in postList)
-            {
-                PostDTO dto = new PostDTO();
-                dto.Title = item.Title;
-                dto.ID = item.ID;
-                dto.ShortContent = item.ShortContent;
-                dto.CategoryName = item.CategoryName;
-                dto.AddDate = item.AddDate;
-                dto.MemberID = item.MemberID;
-                dto.CommentCount = item.CommentCount;
-                dto.ImagePath = db.PostImages.Where(x => x.PostID == item.ID).Select(x => x.ImagePath).DefaultIfEmpty("defaultImg.jpg").First();
-                dto.LikeCount = item.LikeCount;
-                dto.IsApproved = item.IsApproved;
-                dto.ViewCount = item.ViewCount;
-                dtoList.Add(dto);
-            }            
+
+            using (HealthHelperEntities db = new HealthHelperEntities()) {
+                List<PostDTO> postList = (from p in db.Posts
+                                          where p.IsApproved == true
+                                          select new PostDTO
+                                          {
+                                              ID = p.ID,
+                                              Title = p.Title,
+                                              ShortContent = p.ShortContent,
+                                              CategoryName = p.PostCategory.Name,
+                                              AddDate = p.AddDate,
+                                              MemberID = (int?)p.MemberID ?? 0,
+                                              CommentCount = db.Comments.Where(x => x.PostID == p.ID).Count(),
+                                              LikeCount = p.LikeCount,
+                                              ViewCount = p.ViewCount,
+                                              IsApproved = p.IsApproved
+                                          }).OrderByDescending(x => x.AddDate).ToList();
+                foreach (var item in postList)
+                {
+                    PostDTO dto = new PostDTO();
+                    dto.Title = item.Title;
+                    dto.ID = item.ID;
+                    dto.ShortContent = item.ShortContent;
+                    dto.CategoryName = item.CategoryName;
+                    dto.AddDate = item.AddDate;
+                    dto.MemberID = item.MemberID;
+                    dto.CommentCount = item.CommentCount;
+                    dto.ImagePath = db.PostImages.Where(x => x.PostID == item.ID).Select(x => x.ImagePath).DefaultIfEmpty("defaultImg.jpg").First();
+                    dto.LikeCount = item.LikeCount;
+                    dto.IsApproved = item.IsApproved;
+                    dto.ViewCount = item.ViewCount;
+                    dtoList.Add(dto);
+                }
+            }
             return dtoList;
         }
         public List<PostDTO> GetUserPosts(int userID)
@@ -149,10 +218,19 @@ namespace DAL
             return dtoList;
         }
 
+        public void AddReply(Comment comment)
+        {
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                db.Comments.Add(comment);
+                db.SaveChanges();
+            }
+        }
+
         public List<PostDTO> GetPostsByCategory(int categoryID)
         {
             List<PostDTO> dtoList = new List<PostDTO>();
-            using (HealthHelperEntities db= new HealthHelperEntities())
+            using (HealthHelperEntities db = new HealthHelperEntities())
             {
                 List<int> postIDs = db.Posts.Where(x => x.CategoryID == categoryID && x.IsApproved == true).Select(x => x.ID).ToList();
                 foreach (var item in postIDs)
@@ -164,6 +242,8 @@ namespace DAL
             }
             return dtoList;
         }
+
+       
 
         public void AddViewCount(int postID)
         {
@@ -213,7 +293,7 @@ namespace DAL
                 dto.IsApproved = post.IsApproved;
                 dto.LikeCount = post.LikeCount;
                 dto.ViewCount = post.ViewCount;
-                dto.CommentList = GetCommentsWithPostID(ID);
+                //dto.CommentList = GetCommentsWithPostID(ID);
             }
             return dto;        
         }
@@ -299,6 +379,9 @@ namespace DAL
         public static int News = 2;
         public static int Notice = 3;
         public static int Rules = 4;
+       
+
+        
         //public List<PostDTO> GetNews()
         //{
         //    List<Post> news = db.Posts.Where(x => x.CategoryID == News || x.CategoryID == Notice).ToList();
@@ -397,7 +480,7 @@ namespace DAL
                 post.PostContent = model.PostContent;
                 post.CategoryID = model.CategoryID;
                 post.AddDate = DateTime.Now;
-                post.IsApproved = true;
+                post.IsApproved = false;
                 db.Posts.Attach(post);
                 var entry = db.Entry(post);
                 entry.State = System.Data.Entity.EntityState.Modified;
@@ -498,6 +581,9 @@ namespace DAL
             {
                 Post post = db.Posts.FirstOrDefault(x => x.ID == postID);
                 post.IsApproved = true;
+                db.Posts.Attach(post);
+                var entry = db.Entry(post);
+                entry.State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
             }
         }

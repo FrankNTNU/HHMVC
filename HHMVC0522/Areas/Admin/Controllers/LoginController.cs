@@ -32,10 +32,10 @@ namespace UI.Areas.Admin.Controllers
                     Session["ImagePath"] = user.ImagePath;
                     Session["IsAdmin"] = user.IsAdmin;
                     Session["ID"] = user.ID;
-                    if (user.IsAdmin)
+                    if (user.IsAdmin) // 成功登入後
                     {
                         FormsAuthentication.RedirectFromLoginPage(user.ID.ToString(), false);
-                        return RedirectToAction("UserList", "User");
+                        return RedirectToAction("MainPage", "MainPage"); // 跳轉的頁面
                     }
                     else
                     {
@@ -55,5 +55,6 @@ namespace UI.Areas.Admin.Controllers
             }
 
         }
+       
     }
 }

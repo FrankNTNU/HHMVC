@@ -16,7 +16,7 @@
 </section>
 <br />
 <div class="card-footer">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Post/AddPost'">新增貼文</button>
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='../Post/AddPost'">新增貼文</button>
 </div>
 @*@using DTO
     @{
@@ -53,7 +53,7 @@
                         @if (!item.IsApproved)
                         {
                             <td align="center" valign="middle">
-                                <a href="/Admin/Post/ApprovePost/@item.ID">
+                                <a href="../Post/ApprovePost/@item.ID">
                                     <img src="~/Areas/Admin/Content/icon/approve.png" />
                                 </a>
                             </td>
@@ -67,7 +67,7 @@
                         @if (item.IsApproved)
                         {
                             <td align="center" valign="middle">
-                                <a href="/Admin/Post/BlockPost/@item.ID">
+                                <a href="../Post/BlockPost/@item.ID">
                                     <img src="~/Areas/Admin/Content/icon/lockIcon.png" />
                                 </a>
                             </td>
@@ -80,7 +80,7 @@
                         }
                         <td align="center" valign="middle">
 
-                            <a href="/Admin/Post/UpdatePost/@item.ID">
+                            <a href="../Post/UpdatePost/@item.ID">
                                 <img src="~/Areas/Admin/Content/icon/update-icon.png" />
                             </a>
                         </td>

@@ -17,7 +17,7 @@ namespace UI.Areas.Admin.Models.Attributes
         {
             if (HttpContext.Current.Session["ID"] == null)
             {
-                filterContext.HttpContext.Response.Redirect("/Admin/Login/Index");
+                filterContext.HttpContext.Response.Redirect("~/Admin/Login/Index");
             }
         }
     }

@@ -14,9 +14,9 @@ namespace UI.Controllers
     public class Home2Controller : Controller
     {
         // GET: Home2
-        LayoutBLL layoutBLL = new LayoutBLL();
-        PostBLL postBLL = new PostBLL();
-        UserBLL userBLL = new UserBLL();
+        readonly LayoutBLL layoutBLL = new LayoutBLL();
+        readonly PostBLL postBLL = new PostBLL();
+        readonly UserBLL userBLL = new UserBLL();
         public ActionResult Index()
         {
             LayoutDTO layoutDTO = new LayoutDTO();
@@ -73,7 +73,7 @@ namespace UI.Controllers
 
         public ActionResult PostDetail(int ID)
         {
-            layoutBLL = new LayoutBLL();
+            //layoutBLL = new LayoutBLL();
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPostDetailPageItemWithID(ID);
             return View(layoutDTO);
@@ -315,5 +315,12 @@ namespace UI.Controllers
         }
         //=========================================================
 
+        public ActionResult UserPoints()
+        {
+            if (Session["ID"] == null)
+                return Redirect("~/Home2/Login");
+            Session["Points"] = userBLL.GetPoints((int)Session["ID"]);
+            return View();
+        }
     }
 }

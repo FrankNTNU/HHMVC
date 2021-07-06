@@ -286,9 +286,8 @@
         }
     #sidebar > .inner {
         width: 15em;
-        position:absolute;
-        background-color:white;
-
+        position: absolute;
+        background-color: #fffcfc;
     }
     </style>
 </head>
@@ -324,24 +323,7 @@
         <!-- Main -->
         <div id="main">
             <div class="inner">
-                <!-- Header -->
-                @*<header id="header" style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
-                        <div class="row col-12 d-flex" style="width: 100%; padding-right: 0px">
-
-                            <div class="col-4 col-sm-4 col-lg-2 p-2" style="text-align:center">
-                                <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:100px;width:100%"></a>
-                            </div>
-                            <div class="col-8 col-sm-8 col-lg-10 p-1 justify-content-center">
-                                <a href="/Home2/Index" class="logo" style="text-decoration: none;">
-                                    <div class="h-50">
-                                        <strong id="logoText" style="font-size:1.7em;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">HealthHelper</strong>
-                                    </div>
-
-                                    <div class="h-50" style="font-size:1.5em">健康管理助手</div>
-                                </a>
-                            </div>
-                        </div>
-                    </header>*@
+               
                 @RenderBody()
             </div>
         </div>
@@ -375,8 +357,8 @@
                                     <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>
                                         }
                                     </li>
-                                    <li><a href="#" style="text-decoration:none"><i class="fas fa-chart-area" style="width:30px"></i> 我的綜合圖表</a></li>
-
+                                    <li><a href="#" style="text-decoration:none"><i class="fas fa-chart-area" style="width:30px"></i> 綜合圖表</a></li>
+                                    <li><a href="~/Home2/UserPoints" style="text-decoration:none"><i class="fas fa-coins" style="width:30px"></i> 儲值管理</a></li>
 
                                 </ul>
 
@@ -392,9 +374,9 @@
                                 <span class="opener"><i class="fas fa-utensils" style="width:30px"></i> 飲食</span>
                                 <ul>
 
-                                    <li><a href="#" style="text-decoration:none"><i class="fas fa-pen" style="width:30px"></i> 紀錄飲食</a></li>
+                                    <li><a href="~/HHDiet/Create" style="text-decoration:none"><i class="fas fa-pen" style="width:30px"></i> 紀錄飲食</a></li>
 
-                                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 飲食歷史</a></li>
+                                    <li><a href="~/HHDietHistory/DietLogsHistory" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 飲食歷史</a></li>
 
                                 </ul>
 
@@ -419,23 +401,12 @@
 
                             </li>
 
-                            <li>
-                                <span class="opener"><i class="fas fa-fist-raised" style="width:30px"></i> 挑戰</span>
-                                <ul>
-
-                                    <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-pen-nib" style="width:30px"></i> 參加挑戰</a></li>
-                                    <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-running" style="width:30px"></i> 我的挑戰</a></li>
-                                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 過去挑戰</a></li>
-                                    @if (Session["InProgram"] != null && (bool)Session["InProgram"])
-                                    {
-                                        <li>
-                                            <a href="~/ChatGroup/GroupChat" style="text-decoration:none"><i class="fas fa-sms" style="width:30px"></i>減重聊天群</a>
-                                        </li>
-                                    }
-
-                                </ul>
-
-                            </li>
+                            <li><a href="~/HHDiet/Create" style="text-decoration:none"><i class="fas fa-fist-raised" style="width:30px"></i> 挑戰</a></li>
+ 
+                            if (Session["InProgram"] != null && (bool)Session["InProgram"])
+                            {
+                                <li><a href="~/ChatGroup/GroupChat" style="text-decoration:none"><i class="fas fa-sms" style="width:30px"></i>減重聊天群</a></li>
+                            }
                         }
 
                         <li>
@@ -480,13 +451,8 @@
 
                     </ul>
                 </nav>
-
-
-
             </div>
         </div>
-
-
 
     </div>
 
@@ -530,6 +496,7 @@
     </div>
     <!--=============================================================-->
     <!-- Scripts -->
+   
     <script src="~/Content/js/jquery.min.js"></script>
     <script src="~/Content/js/browser.min.js"></script>
     <script src="~/Content/js/breakpoints.min.js"></script>

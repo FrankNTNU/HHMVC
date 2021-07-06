@@ -13,6 +13,7 @@ namespace DTO
         public CommentDTO Comment { get; set; }
         public int CommentCount { get; set; }
         public List<PostDTO> Rules { get; set; }
+        public CommentDTO CommentRoot { get; set; }
 
     }
 }

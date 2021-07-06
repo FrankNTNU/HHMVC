@@ -1,0 +1,22 @@
+﻿@model UI.ViewModels.ShowProgramViewModel
+@using DTO
+<div class="  bg-white " style="bottom: 0; border-radius: 0.9em; overflow: hidden; box-shadow: 5px 5px 30px #E0E0E0 ">
+    <h4 class="mr-3" id="currProgramName">@Model.CurrProgram.Name</h4>
+    <input type="hidden" id="currProgramId" value="@Model.CurrProgram.ID">
+    <ul class="list-group-flush mx-3 mb-3" style="border-bottom: solid #f56a6a 2.5px">
+        <li class="list-group-item">起始日期: <span style="float:right" id="">@Model.CurrProgram.StartDate.ToString(CDictionary.MMSlashddSlashyyyy)</span></li>
+        <li class="list-group-item">結束日期: <span style="float:right" id="">@Model.CurrProgram.EndDate.ToString(CDictionary.MMSlashddSlashyyyy)</span></li>
+        <li class="list-group-item">剩餘天數: <span style="float:right" id="restDays">@(Math.Ceiling((Model.CurrProgram.EndDate-DateTime.Now).TotalDays)) 天</span></li>
+
+        <li class="list-group-item">起使體重: <span id="" style="float:right">@Model.CurrProgram.InitialWeight 公斤</span></li>
+        <li class="list-group-item">目前體重: <span id="" style="float:right">@Model.MemberLatestWeight 公斤</span></li>
+        <li class="list-group-item">目標體重: <span id="" style="float:right">@Model.CurrProgram.TargetWeight 公斤</span></li>
+        @*<li class="list-group-item">我的活動等級: <span style="float:right" id="">@Model.CurrProgram.ActivityLevel.Description</span></li>*@
+
+    </ul>
+
+    <ul class="list-group-flush mx-3 mb-3">
+        <li id="" class="list-group-item"><b>計畫細節...</b></li>
+        <li id="btnTerminateProgram" class="list-group-item" style="color: lightgray">取消計畫</li>
+    </ul>
+</div>

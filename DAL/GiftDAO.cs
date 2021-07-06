@@ -26,6 +26,7 @@ namespace DAL
                     dto.AddDate = item.AddDate;
                     dto.EndDate = item.EndDate;
                     dto.Store = item.Store;
+                    dto.IsPremium = item.IsPremium;
                     giftList.Add(dto);
                 }
             }
@@ -72,14 +73,70 @@ namespace DAL
                     dto.Points = item.Points;
                     dto.Quantity = item.Quantity;
                     dto.Image = item.Image;
-                    
+                    dto.IsPremium = item.IsPremium;
                     dtoList.Add(dto);
                 }
             }
             return dtoList;
         }
+        public static class SortingMethod
+        {
+            public static int PointsAsc = 1;
+            public static int PointsDes = 2;
+            public static int QuantityAsc = 3;
+            public static int QuantiyDes = 4;
 
-       
+        }
+        public List<Gift> GetSearchResult(string name, int sortingMethod)
+        {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+            {
+                if (sortingMethod == SortingMethod.PointsAsc)
+                {
+                    return db.Gifts.OrderBy(x => x.Points).ToList();
+                }
+                else if (sortingMethod == SortingMethod.PointsDes)
+                {
+                    return db.Gifts.OrderByDescending(x => x.Points).ToList();
+                }
+                else if (sortingMethod == SortingMethod.QuantityAsc)
+                {
+                    return db.Gifts.OrderBy(x => x.Quantity).ToList();
+                }
+                else if (sortingMethod == SortingMethod.QuantiyDes)
+                {
+                    return db.Gifts.OrderByDescending(x => x.Quantity).ToList();
+                }
+                else // Sorting method not selected.
+                {
+                    return db.Gifts.ToList();
+                }
+            }
+            else
+            {
+                if (sortingMethod == SortingMethod.PointsAsc)
+                {
+                    return db.Gifts.Where(x => x.Name.Contains(name)).OrderBy(x => x.Points).ToList();
+                }
+                else if (sortingMethod == SortingMethod.PointsDes)
+                {
+                    return db.Gifts.Where(x => x.Name.Contains(name)).OrderByDescending(x => x.Points).ToList();
+                }
+                else if (sortingMethod == SortingMethod.QuantityAsc)
+                {
+                    return db.Gifts.Where(x => x.Name.Contains(name)).OrderBy(x => x.Quantity).ToList();
+                }
+                else if (sortingMethod == SortingMethod.QuantiyDes)
+                {
+                    return db.Gifts.Where(x => x.Name.Contains(name)).OrderByDescending(x => x.Quantity).ToList();
+                }
+                else // Sorting method not selected.
+                {
+                    return db.Gifts.Where(x => x.Name.Contains(name)).ToList();
+                }
+            }
+        }
+
         public List<GiftDTO> GetGifts(string text)
         {
             List<GiftDTO> dtoList = new List<GiftDTO>();
@@ -94,6 +151,7 @@ namespace DAL
                     dto.Points = item.Points;
                     dto.Quantity = item.Quantity;
                     dto.Image = item.Image;
+                    dto.IsPremium = item.IsPremium;
                     dtoList.Add(dto);
                 }
             }
@@ -114,6 +172,7 @@ namespace DAL
                 model.AddDate = gift.AddDate;
                 model.EndDate = gift.EndDate;
                 model.Store = gift.Store;
+                model.IsPremium = gift.IsPremium;
                 return model;
             }
         }
@@ -135,6 +194,7 @@ namespace DAL
                 gift.AddDate = model.AddDate;
                 gift.EndDate = model.EndDate;
                 gift.Store = model.Store;
+                gift.IsPremium = model.IsPremium;
                 db.SaveChanges();
             }
             return oldImagePath;

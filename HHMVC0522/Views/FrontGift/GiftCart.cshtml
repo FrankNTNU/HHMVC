@@ -38,8 +38,8 @@
 <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
     <div class="row" style="width: 100%; padding-right: 20px">
 
-        <div class="col-4 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        <div class="col-3 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-8 col-sm-6 col-md-6 col-lg-8 p-1 align-self-center">
             <h2><i class="fas fa-shopping-cart"> </i> 已兌換禮物</h2>
@@ -55,13 +55,20 @@
 <header id="header" class="m-0 p-0"></header>
 
 <section class="pt-2">
+    <div class="col-12 d-flex p-0">
+        <div class="d-sm-none" style="width:100%">
+            <a href="~/FrontGift/GiftList"><label class="button primary" style="width:100%"><i class="fas fa-gifts"> </i> 返回禮物商店</label></a>
+            
+           
+        </div>
+    </div>
     @if (Session["ID"] != null)
     {
-    <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
-        <i class="far fa-user"> </i> <strong>@Session["Name"]</strong> 目前剩餘 <strong>
-            @Session["Points"]
-        </strong>點
-    </div>
+        <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
+            <i class="far fa-user"> </i> <strong>@Session["Name"]</strong> 目前剩餘 <strong>
+                @Session["Points"]
+            </strong>點
+        </div>
     }
     <div class="row" style="margin-bottom:5px">
         <div class="col-12 col-md-6 mb-1">
@@ -81,12 +88,16 @@
             <div class="col-12 col-sm-4 col-md-4 d-flex justify-content-center" style="margin:auto;">
                 @if (item.EndDate < DateTime.Today)
                 {
-                    <img class="image" src="~/Areas/Admin/Content/CartImages/@item.Image" style="max-width:200px;width:100%;opacity:0.45" />
-                    <div class="centered"><h5>已截止</h5></div>
+                    <a href="~/FrontGift/GiftDetail/@item.GiftID" class="image">
+                        <img class="image" src="~/Areas/Admin/Content/CartImages/@item.Image" style="max-width:200px;width:100%;opacity:0.45" />
+                        <div class="centered"><h5>已截止</h5></div>
+                    </a>
                 }
                 else
                 {
-                    <img class="image" src="~/Areas/Admin/Content/CartImages/@item.Image" style="max-width:200px;width:100%" />
+                    <a href="~/FrontGift/GiftDetail/@item.GiftID" class="image">
+                        <img class="image" src="~/Areas/Admin/Content/CartImages/@item.Image" style="max-width:200px;width:100%" />
+                    </a>
                 }
 
             </div>
@@ -107,7 +118,7 @@
                             </tr>
                             <tr>
                                 <td><strong>商家通路</strong></td>
-                                <td>@item.Store</td>
+                                <td colspan="2">@Html.Raw(@item.Store)</td>
                             </tr>
                             <tr>
                                 <td width="30%"><strong>兌換期限</strong></td>
@@ -201,76 +212,9 @@
                         contentType: "html",
                         success: function (result) {
                             $.each(result, function (index, value) {
-                                let resultDiv = $("<div></div>")
-                                    .addClass("col-12 col-sm-4 col-md-4 d-flex justify-content-center")
-                                    .css("margin", "auto");
-                                $("<img/>")
-                                    .addClass("image")
-                                    .css("max-width", "200px").css("width", "100%")
-                                    .attr("src", "/Areas/Admin/Content/CartImages/" + value.Image)
-                                    .appendTo(resultDiv);
-
-                                let infoDiv = $("<div></div>").addClass("col-12 col-sm-8 col-md-8");
-
-                                let outTbDiv = $("<div></div>").addClass("table-wrapper").appendTo(infoDiv);
-
-                                let tbDiv = $("<table></table>")
-                                    .css("margin-bottom", "0px")
-                                    .appendTo(outTbDiv)
-                                    .append("<thead><tr><th></th><th></th></tr></thead>");
-
-                                let bodyDiv = $("<tbody></tbody>").appendTo(tbDiv)
-
-                                let firstRow = $("<tr></tr>").appendTo(bodyDiv);
-                                let nameText = $("<strong></strong>").text("名稱");
-                                $("<td></td>").append(nameText).appendTo(firstRow);
-                                $("<td></td>").text(value.Name).appendTo(firstRow);
-                                $("<td></td>").appendTo(firstRow);
-
-                                let secondRow = $("<tr></tr>").appendTo(bodyDiv);
-                                storeText = $("<strong></strong>").text("商家通路");
-                                $("<td></td>").append(storeText).appendTo(secondRow);
-                                $("<td></td>").text(value.Store).appendTo(secondRow);
-
-                                let thirdRow = $("<tr></tr>").appendTo(bodyDiv);
-                                storeText = $("<strong></strong>").text("兌換期限");
-                                $("<td></td>").css("width", "30%").append(storeText).appendTo(thirdRow);
-                                $("<td></td>").text(value.Duration).appendTo(thirdRow);
-                                $("<td></td>").appendTo(thirdRow);
-
-
-                                let fourthRow = $("<tr></tr>").appendTo(bodyDiv);
-                                storeText = $("<strong></strong>").text("掃描條碼");
-                                $("<td></td>").css("vertical-align", "middle").append(storeText).appendTo(fourthRow);
-                                $("<td></td>")
-                                    .addClass("barcodeFont")
-                                    .css("font-size", "3em").css("padding", "0px").css("padding-left", "10px")
-                                    .text(value.Barcode).appendTo(fourthRow);
-
-
-
-
-                                if (!value.IsExpired) {
-                                    let sendBtn = $("<td></td>").css("vertical-align", "middle").css("text-align", "end").appendTo(fourthRow);
-
-                                    let icon = $("<i></i>").addClass("fas fa-envelope");
-                                    let link = $("<a/>").attr("href", "/FrontGift/SendBarcode?barcode=" + value.Barcode)
-                                        .addClass("button default m-0")
-                                        .css("text-decoration", "none")
-                                        .text(" 寄給我 ")
-                                        .on("click", function () { return confirm("確定要將條碼送到信箱嗎?"); }).appendTo(sendBtn);
-                                    icon.prependTo(link);
-                                }
-                                else {
-                                    let expireLabel = $("<label></label>").addClass("button disabled primary m-0").text("已截止");
-                                    $("<td></td>").css("vertical-align", "middle").css("text-align", "end").append(expireLabel).appendTo(fourthRow);;
-                                }
-
-                                tbDiv.append("<tfoot><tr><td></td><td></td></tr></tfoot>")
-
-                                resultDiv.appendTo('#cartList');
-                                infoDiv.appendTo("#cartList")
+                                DisplayResult(value);
                             })
+                            // End of loop.
                         }
                     })
                     $('#cartList').html('');
@@ -287,75 +231,79 @@
                     contentType: "html",
                     success: function (result) {
                         $.each(result, function (index, value) {
-                            let resultDiv = $("<div></div>")
-                                .addClass("col-12 col-sm-4 col-md-4 d-flex justify-content-center")
-                                .css("margin", "auto");
-                            $("<img/>")
-                                .addClass("image")
-                                .css("max-width", "200px").css("width", "100%")
-                                .attr("src", "/Areas/Admin/Content/CartImages/" + value.Image)
-                                .appendTo(resultDiv);
-
-                            let infoDiv = $("<div></div>").addClass("col-12 col-sm-8 col-md-8");
-
-                            let outTbDiv = $("<div></div>").addClass("table-wrapper").appendTo(infoDiv);
-
-                            let tbDiv = $("<table></table>")
-                                .css("margin-bottom", "0px")
-                                .appendTo(outTbDiv)
-                                .append("<thead><tr><th></th><th></th></tr></thead>");
-
-                            let bodyDiv = $("<tbody></tbody>").appendTo(tbDiv)
-
-                            let firstRow = $("<tr></tr>").appendTo(bodyDiv);
-                            let nameText = $("<strong></strong>").text("名稱");
-                            $("<td></td>").append(nameText).appendTo(firstRow);
-                            $("<td></td>").text(value.Name).appendTo(firstRow);
-                            $("<td></td>").appendTo(firstRow);
-
-                            let secondRow = $("<tr></tr>").appendTo(bodyDiv);
-                            storeText = $("<strong></strong>").text("商家通路");
-                            $("<td></td>").append(storeText).appendTo(secondRow);
-                            $("<td></td>").text(value.Store).appendTo(secondRow);
-
-                            let thirdRow = $("<tr></tr>").appendTo(bodyDiv);
-                            storeText = $("<strong></strong>").text("兌換期限");
-                            $("<td></td>").css("width", "30%").append(storeText).appendTo(thirdRow);
-                            $("<td></td>").text(value.Duration).appendTo(thirdRow);
-                            $("<td></td>").appendTo(thirdRow);
-
-                            let fourthRow = $("<tr></tr>").appendTo(bodyDiv);
-                            storeText = $("<strong></strong>").text("掃描條碼");
-                            $("<td></td>").css("vertical-align", "middle").append(storeText).appendTo(fourthRow);
-                            $("<td></td>")
-                                .addClass("barcodeFont")
-                                .css("font-size", "3em").css("padding", "0px").css("padding-left", "10px")
-                                .text(value.Barcode).appendTo(fourthRow);
-
-                            if (!value.IsExpired) {
-                                let sendBtn = $("<td></td>").css("vertical-align", "middle").css("text-align", "end").appendTo(fourthRow);
-
-                                let icon = $("<i></i>").addClass("fas fa-envelope");
-                                let link = $("<a/>").attr("href", "/FrontGift/SendBarcode?barcode=" + value.Barcode)
-                                    .addClass("button default m-0")
-                                    .css("text-decoration", "none")
-                                    .text(" 寄給我 ")
-                                    .on("click", function () { return confirm("確定要將條碼送到信箱嗎?"); }).appendTo(sendBtn);
-                                icon.prependTo(link);
-                            }
-                            else {
-                                let expireLabel = $("<label></label>").addClass("button disabled primary m-0").text("已截止");
-                                $("<td></td>").css("vertical-align", "middle").css("text-align", "end").append(expireLabel).appendTo(fourthRow);;
-                            }
-
-                            tbDiv.append("<tfoot><tr><td></td><td></td></tr></tfoot>")
-
-                            resultDiv.appendTo('#cartList');
-                            infoDiv.appendTo("#cartList")
+                            DisplayResult(value);
                         })
+                        // End of loop.
                     }
                 })
             })
+            function DisplayResult(value) {
+                let resultDiv = $("<div></div>")
+                    .addClass("col-12 col-sm-4 col-md-4 d-flex justify-content-center")
+                    .css("margin", "auto");
+                $("<img/>")
+                    .addClass("image")
+                    .css("max-width", "200px").css("width", "100%")
+                    .attr("src", "../Areas/Admin/Content/CartImages/" + value.Image)
+                    .appendTo(resultDiv);
+
+                let infoDiv = $("<div></div>").addClass("col-12 col-sm-8 col-md-8");
+
+                let outTbDiv = $("<div></div>").addClass("table-wrapper").appendTo(infoDiv);
+
+                let tbDiv = $("<table></table>")
+                    .css("margin-bottom", "0px")
+                    .appendTo(outTbDiv)
+                    .append("<thead><tr><th></th><th></th></tr></thead>");
+
+                let bodyDiv = $("<tbody></tbody>").appendTo(tbDiv)
+
+                let firstRow = $("<tr></tr>").appendTo(bodyDiv);
+                let nameText = $("<strong></strong>").text("名稱");
+                $("<td></td>").append(nameText).appendTo(firstRow);
+                $("<td></td>").text(value.Name).appendTo(firstRow);
+                $("<td></td>").appendTo(firstRow);
+
+                let secondRow = $("<tr></tr>").appendTo(bodyDiv);
+                storeText = $("<strong></strong>").text("商家通路");
+                $("<td></td>").append(storeText).appendTo(secondRow);
+                $("<td></td>").html(value.Store).appendTo(secondRow);
+
+                let thirdRow = $("<tr></tr>").appendTo(bodyDiv);
+                storeText = $("<strong></strong>").text("兌換期限");
+                $("<td></td>").css("width", "30%").append(storeText).appendTo(thirdRow);
+                $("<td></td>").text(value.Duration).appendTo(thirdRow);
+                $("<td></td>").appendTo(thirdRow);
+
+                let fourthRow = $("<tr></tr>").appendTo(bodyDiv);
+                storeText = $("<strong></strong>").text("掃描條碼");
+                $("<td></td>").css("vertical-align", "middle").append(storeText).appendTo(fourthRow);
+                $("<td></td>")
+                    .addClass("barcodeFont")
+                    .css("font-size", "3em").css("padding", "0px").css("padding-left", "10px")
+                    .text(value.Barcode).appendTo(fourthRow);
+
+                if (!value.IsExpired) {
+                    let sendBtn = $("<td></td>").css("vertical-align", "middle").css("text-align", "end").appendTo(fourthRow);
+
+                    let icon = $("<i></i>").addClass("fas fa-envelope");
+                    let link = $("<a/>").attr("href", "../FrontGift/SendBarcode?barcode=" + value.Barcode)
+                        .addClass("button default m-0")
+                        .css("text-decoration", "none")
+                        .text(" 寄給我 ")
+                        .on("click", function () { return confirm("確定要將條碼送到信箱嗎?"); }).appendTo(sendBtn);
+                    icon.prependTo(link);
+                }
+                else {
+                    let expireLabel = $("<label></label>").addClass("button disabled primary m-0").text("已截止");
+                    $("<td></td>").css("vertical-align", "middle").css("text-align", "end").append(expireLabel).appendTo(fourthRow);;
+                }
+
+                tbDiv.append("<tfoot><tr><td></td><td></td></tr></tfoot>")
+
+                resultDiv.appendTo('#cartList');
+                infoDiv.appendTo("#cartList")
+            }
         })
 
     </script>
