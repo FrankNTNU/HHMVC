@@ -150,7 +150,7 @@
                             }
                             else {
                                 alert("兌換成功!\n剩餘點數: " + (parseInt(@Session["Points"]) - @Model.Points));
-                                window.location.href = "~/FrontGift/AddCart/?giftID=@Model.ID";
+                                window.location.href = "../AddCart/?giftID=@Model.ID";
                             }
                         }
                     })

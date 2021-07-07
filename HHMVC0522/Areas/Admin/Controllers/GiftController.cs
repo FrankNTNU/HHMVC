@@ -128,6 +128,7 @@ namespace UI.Areas.Admin.Controllers
             }
             return View(model);
         }
+        [HttpPost]
         public JsonResult DeleteGift(int ID)
         {
             string imagePath = giftBLL.DeleteGift(ID);
@@ -143,6 +144,7 @@ namespace UI.Areas.Admin.Controllers
         {
             string imagePath = giftCartBLL.DeleteCart(ID);
             string ImageFullPath = Server.MapPath(@"~\Areas\Admin\Content\CartImages\" + imagePath);
+            //bug: 若有人有相同的禮物，圖片會跟著刪掉
             if (System.IO.File.Exists(ImageFullPath))
             {
                 System.IO.File.Delete(ImageFullPath);
