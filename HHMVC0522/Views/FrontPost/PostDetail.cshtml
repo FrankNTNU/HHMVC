@@ -23,8 +23,9 @@
         .like__btn {
             border-radius: 0.4rem;
         }
+
         a:hover {
-            text-decoration:none;
+            text-decoration: none;
         }
 
         #commentAreaBtn {
@@ -127,10 +128,7 @@
 
         <div class="col-12">
             <header class="major">
-                <span class="button" style="        font-weight: bolder;
-        margin-right: 10px;
-        pointer-events: none
-">@Model.PostDetail.CategoryName</span> <span class="d-sm-none"><a href="~/FrontPost/AllPosts"><label class="button primary"><i class="far fa-file"></i> 所有貼文</label></a></span>
+                <span style="color: #ff756b;font-size:2em">@DisplayIcon(Model.PostDetail.CategoryName) <span style="font-size: 0.9em;">@Model.PostDetail.CategoryName </span></span> <span class="d-sm-none"><a href="~/FrontPost/AllPosts"><label class="button primary"><i class="far fa-file"></i> 所有貼文</label></a></span>
 @if (!Model.PostDetail.IsApproved)
 {
     <span class="button primary" style="opacity:0.5;cursor:default;margin-right:10px;font-size:0.7em"> 核准中...</span>
@@ -211,7 +209,7 @@
     }
     else
     { <div class="container">
-            <a class="like__btn animated default" data-assigned-id="@Model.PostDetail.ID" style="border-style: none;">
+            <a class="like__btn animated button default" data-assigned-id="@Model.PostDetail.ID" style="border-style: none;">
                 <i class="like__icon fa fa-heart"></i>
                 <span class="like__number">@Model.PostDetail.LikeCount</span>
             </a>
@@ -301,6 +299,16 @@
 
     }
 }
+}
+
+@functions{
+    IHtmlString DisplayIcon(string name)
+    {
+        if (name == "貼文") return Html.Raw(@DTO.Icons.Post);
+        else if (name == "資訊") return Html.Raw(@DTO.Icons.Information);
+        else if (name == "公告") return Html.Raw(@DTO.Icons.Notice);
+        else return Html.Raw(@DTO.Icons.Rule);
+    }
 }
 @helper DisplayComment(CommentDTO item)
 {

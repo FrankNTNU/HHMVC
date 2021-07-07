@@ -80,7 +80,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                        with font-awesome or any other icon font library -->
+    with font-awesome or any other icon font library -->
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -196,15 +196,15 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="~/Admin/SocialMedia/SocialMediaList" class="nav-link">
+                                    <a href="~/Admin/WorkoutCat/List" class="nav-link">
                                         <i class="fas fa-basketball-ball nav-icon"></i>
-                                        <p>所有運動項目</p>
+                                        <p>所有運動類別</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="~/Admin/SocialMedia/AddSocialMedia" class="nav-link">
+                                    <a href="~/Admin/Workout/List" class="nav-link">
                                         <i class="fas fa-tag nav-icon"></i>
-                                        <p>所有運動類別</p>
+                                        <p>所有運動項目</p>
                                     </a>
                                 </li>
                             </ul>
@@ -225,7 +225,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="~/Admin/Gift/AddGift" class="nav-link">
+                                    <a href="~/Admin/WorkoutLog/List" class="nav-link">
                                         <i class="far fa-user nav-icon"></i>
                                         <p>使用者運動紀錄</p>
                                     </a>
@@ -261,8 +261,14 @@
                                 </li>
                             </ul>
                         </li>
-
-
+                        <li class="nav-item">
+                            <a href="~/Admin/Contact/Contact" class="nav-link">
+                                <i class="nav-icon fas fa-comments"></i>
+                                <p>
+                                    客服
+                                </p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -317,6 +323,14 @@
     @RenderSection("Scripts", false)
 
     <script>
+
+        //==================================
+        //恩旗
+        $(window).on("unload", function () {
+            $.cookies.del('.ASPXAUTH');
+        });
+        //==================================
+
         $(function () {
             $("#example1").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,

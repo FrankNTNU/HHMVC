@@ -27,7 +27,63 @@ namespace DAL
             }
             return dto;
         }
-        
+        public UserDTO GetUserWithEmailAndPassword(UserDTO model)
+        {
+            UserDTO dto = new UserDTO();
+            Member user = db.Members.FirstOrDefault(x => x.Email == model.Email &&
+            x.Password == model.Password);
+            if (user != null && user.ID != 0)
+            {
+                dto.ID = user.ID;
+                dto.UserName = user.UserName;
+                dto.Email = user.Email;
+                dto.Name = user.Name;
+                dto.ImagePath = user.Image;
+                dto.IsAdmin = user.IsAdmin;
+                dto.StatusID = user.StatusID;
+                dto.Points = user.Points;
+            }
+            return dto;
+        }
+        public UserDTO GetUserWithEmailAndPwdAndCode(UserDTO model)
+        {
+            UserDTO dto = new UserDTO();
+            Member user = db.Members.FirstOrDefault(x => x.Email == model.Email &&
+            x.Password == model.Password && x.ActiveCode==model.ActiveCode);
+            if (user != null && user.ID != 0)
+            {
+                dto.ID = user.ID;
+                dto.UserName = user.UserName;
+                dto.Email = user.Email;
+                dto.Name = user.Name;
+                dto.ImagePath = user.Image;
+                dto.IsAdmin = user.IsAdmin;
+                dto.StatusID = user.StatusID;
+                dto.Points = user.Points;
+                dto.ActiveCode = user.ActiveCode;
+            }
+            return dto;
+        }
+
+        public UserDTO GetUserWithGoogleID(string googleID)
+        {
+            UserDTO dto = new UserDTO();
+            Member user = db.Members.FirstOrDefault(x => x.GoogleID == googleID);
+            if (user != null && user.ID != 0)
+            {
+                dto.ID = user.ID;
+                dto.UserName = user.UserName;
+                dto.Email = user.Email;
+                dto.Name = user.Name;
+                dto.ImagePath = user.Image;
+                dto.IsAdmin = user.IsAdmin;
+                dto.StatusID = user.StatusID;
+                dto.Points = user.Points;
+                dto.GoogleID = user.GoogleID;
+            }
+            return dto;
+        }
+
         public UserDTO GetUserWithID(int ID)
         {
             UserDTO dto = new UserDTO();
@@ -51,6 +107,13 @@ namespace DAL
                 dto.Name = user.Name;
             }
             return dto;
+        }
+
+        public void ActivateUser(int userID)
+        {
+            Member member = db.Members.First(x => x.ID == userID);
+            member.StatusID = 1;
+            db.SaveChanges();
         }
 
         public static string UpdateUser(UserDTO model)

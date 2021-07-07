@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "EditMember";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+
+<h2>修改會員資料</h2>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-9">
+            @Html.Partial("~/Views/Shared/MessageForm.cshtml")
+            <div class="box box-primary">
+                @using (Html.BeginForm("EditUser", "Member", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    @Html.Partial("Partial/MemberForm")
+                }
+            </div>
+        </div>
+    </div>
+</section>

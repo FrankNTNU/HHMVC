@@ -1,0 +1,74 @@
+﻿@model IEnumerable<DTO.WorkoutLogDTO>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+<section class="content-header">
+    <h1>所有運動紀錄</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>運動紀錄</a></li>
+        <li class="breadcrumb-item active"><a>所有運動紀錄</a></li>
+    </ol>
+</section>
+<br />
+@*<div class="card-footer">
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/WorkoutLog/Create'">新增運動紀錄</button>
+</div>*@
+<div class="card">
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>會員ID</th>
+                    <th>會員名稱</th>
+                    <th>運動項目名稱</th>
+                    <th>運動時間</th>
+                    <th>消耗的卡路里</th>
+                    <th>修改</th>
+                    <th>刪除</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MemberID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MemberName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WorkoutName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WorkoutHours)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Calories)
+                        </td>
+                        <td align="center" valign="middle">
+
+                            <a href="/Admin/WorkoutLog/Edit/@item.ID">
+                                <img src="~/Areas/Admin/Content/icon/update-icon.png" />
+                            </a>
+                        </td>
+                        <td align="center" valign="middle">
+
+                            <a href="#">
+                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/WorkoutLog/Delete/', @item.ID)" />
+                            </a>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
+</div>
+
+<script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>
+

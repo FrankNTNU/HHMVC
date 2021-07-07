@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,20 @@ namespace DAL
                     Value = x.ID.ToString()
                 }).ToList();
             return activityLevels;
+        }
+        public List<ActivityLevelDTO> GetLevels()
+        {
+            List<ActivityLevelDTO> activities = new List<ActivityLevelDTO>();
+            var list = db.ActivityLevels.ToList();
+
+            foreach (var item in list)
+            {
+                ActivityLevelDTO dto = new ActivityLevelDTO();
+                dto.ID = item.ID;
+                dto.Description = item.Description;
+                activities.Add(dto);
+            }
+            return activities;
         }
     }
 }
