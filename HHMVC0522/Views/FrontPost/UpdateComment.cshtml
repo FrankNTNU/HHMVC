@@ -5,44 +5,52 @@
 }
 
 @section Styles{
-    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    
 
 }
 @model DTO.CommentDTO
 <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
     <div class="row" style="width: 100%; ">
 
-        <div class="col-4 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        <div class="col-3 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
-        <div class="col-6 col-sm-4 col-md-6 col-lg-8 p-1 align-self-center">
-            <h2><i class="far fa-edit"></i> 修改留言</h2>
+        <div class="col-9 col-sm-5 col-md-6 col-lg-7 p-1 align-self-center">
+            <h2 style="font-size:1.8em"><i class="far fa-edit"></i> 修改留言</h2>
         </div>
-        <div class="col-2 col-sm-4 col-md-3 col-lg-2 align-self-end justify-content-end d-none d-sm-block">
+        <div class="col-sm-4 col-md-3 col-lg-2 align-self-end justify-content-end d-none d-sm-block">
 
-            <a href="~/FrontPost/PostDetail?ID=@ViewBag.CurrentPostID"><label class="button primary"><i class="fas fa-pen"></i> 返回貼文</label></a>
+            <a href="~/FrontPost/PostDetail?ID=@Session["PostID"]"><label class="button primary"><i class="fas fa-pen"></i> 返回貼文</label></a>
 
         </div>
     </div>
 </header><header id="header" class="m-0 p-0 mb-2"></header>
 
+<div class="col-12 d-flex p-0">
+    <div class="d-sm-none" style="width:100%">
+        <a href="~/FrontPost/PostDetail?ID=@Session["PostID"]"><label class="button primary" style="width:100%"><i class="fas fa-pen"></i> 返回貼文</label></a>
 
+    </div>
+</div>
 @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
 <form action="@Url.Action("UpdateComment")" method="post">
     <input hidden value="@Model.ID" name="ID" />
 
     <div class="row gtr-uniform">
-        <div class="col-6 col-12-xsmall">
+        <div class="col-12 col-md-6">
             <label>暱稱</label>
 
             @Html.TextBoxFor(x => x.Name, new { @placeholder = "留言暱稱", @style = "height: 45px;" })
             @Html.ValidationMessageFor(x => x.Name, "", new { @style = "color:red" })
         </div>
-        <div class="col-6 col-12-xsmall">
+        <div class="col-12 col-md-6">
             <label>標題</label>
-            @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
             @Html.TextBoxFor(x => x.Title, new { @placeholder = "你的留言標題", @style = "height: 45px;" })
+            @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
+
         </div>
 
 
@@ -66,7 +74,28 @@
 
 
 @section Scripts{
-
+    <script src="~/Content/toastr/toastr.min.js"></script>
     <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
+    <script>
+        $(document).ready(function () {
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "text-align": "center",
+                "onclick": null,
+                "fadeIn": 300,
+                "fadeOut": 1000,
+                "timeOut": 5000,
+                "extendedTimeOut": 1000
+            }
+            var result = "@TempData["State"]";
+            console.log(result);
+            if (result != "") {
+                if (result == "Error") {
+                    toastr.warning("請填寫所有欄位");
+                }
 
+            }
+        })
+    </script>
 }

@@ -1,0 +1,637 @@
+﻿
+@{
+    ViewBag.Title = "WeightLog";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+
+@section Styles
+{
+    <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/r-2.2.7/datatables.min.css" />
+    <style>
+        .mainTitle {
+            position: relative;
+            left: -5px;
+            padding-left: 0;
+        }
+
+        #mainDiv {
+            width: 100%;
+            margin: auto;
+            margin-top: 16px;
+            position: relative;
+            /*width: 500px;*/
+            /*top: 80px;*/
+        }
+
+        #mainRow {
+            position: relative;
+            left: 20px;
+            width: 100%;
+        }
+
+        .myBox {
+            /*border: solid 2px gray;
+            border-radius: 10px;*/
+            padding: 15px;
+        }
+
+        .myInnerBox {
+            border: solid 1px #f56a6a;
+            border-radius: 0.9em;
+            padding: 5px;
+            box-shadow: 5px 5px 10px 5px #E0E0E0;
+        }
+
+        .operate {
+            width: 100%;
+            min-height: 200px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /*label {
+            display: inline-block;
+            font-size: 1.2em;
+        }*/
+
+        #weightTable_filter label input {
+            display: inline-block;
+            width: 120px;
+            float: right;
+        }
+
+        #weightTable_filter label {
+            display: flex;
+            align-items: center;
+            margin-left: 3px;
+        }
+
+        #weightTable_filter{
+            margin-left: auto;
+        }
+
+        #weightTable_wrapper {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        @@media screen and (max-width:584px) {
+
+            #btnReload {
+                margin-left: auto;
+            }
+        }
+
+        #newTitle, #editTitle {
+            font-size: 2em;
+            font-weight: 600;
+            color: #f56a6a;
+            text-align: center;
+        }
+
+        .ui-datepicker {
+            width: 300px;
+            height: max-content;
+        }
+
+        .ui-datepicker select {
+            height: 1.5em;
+            display: inline-block;
+            background: white !important;
+            padding: 0px !important;
+            padding-left: 2em !important;
+        }
+
+        @*Slider Bar*@
+        #slider-range {
+            width: 300px;
+            margin-bottom: 6px;
+        }
+
+        .mySlider {
+            background-color: #f56a6a !important;
+            border-radius: 10px !important;
+        }
+
+        .mySlider:focus {
+            outline: 0 !important;
+        }
+
+        #mySliderContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-left: auto;
+            width: 320px;
+            height: 56px;
+            border: solid 1px #f56a6a;
+            border-radius: 5px
+        }
+
+    </style>
+}
+
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
+        <div class="col-4 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-weight"></i> 體重紀錄</h2>
+        </div>
+    </div>
+</header>
+<header id="header" class="m-0 p-0"></header>
+<section class="pt-2">
+    <div id="mainDiv">
+        <div id="mainRow" class="row">
+            <div class="myBox col-md-5 col-sm-12 col-12" style="display:flex; flex-direction:column">
+                <div class="myInnerBox operate" style="margin-bottom:30px">
+                    <div id="newTitle">新增體重紀錄</div>
+                    <div class="form-group" style="margin-bottom:10px; margin-top:auto">
+                        <label for="wgtForNew" style="width:100%; font-size:20px">今天的體重</label>
+                        <input type="text" id="wgtForNew" placeholder="現在多重呢" style="display:inline-block; width:80%">
+                        <label style="display: inline-block; font-size: 20px"> kg</label>
+                    </div>
+                    <div id="btnNew" class="button primary fit" style="font-size:1em; margin-top:auto">新增</div>
+                </div>
+                <div class="myInnerBox operate">
+                    <div id="editTitle">修改體重紀錄</div>
+                    <div class="form-group" style="margin-bottom:10px; margin-top:auto">
+                        <label for="wgtForEdit" style="width:100%; font-size:20px"><span id="wgtDateForEdit">某一天</span> 的體重</label>
+                        <input type="text" id="wgtForEdit" placeholder="當時多重呢" style="display:inline-block; width:80%">
+                        <label style="display: inline-block; font-size: 20px"> kg</label>
+                    </div>
+                    <div id="btnEdit" class="button primary fit" style="font-size:1em; margin-top:auto">修改</div>
+                </div>
+            </div>
+            <div class="myBox col-md-7 col-sm-12 col-12" style="min-height:450px">
+                <div class="myInnerBox" style="height:100%">
+                    <table id="weightTable" class="display responsive nowrap" style="width:100%">
+                    </table>
+                </div>
+            </div>
+            <div class="myBox col-12" style="min-height:400px">
+                <div class="myInnerBox">
+                    <div style="width:100%; display:flex; flex-wrap:wrap; align-items:center; grid-row-gap:10px; column-gap:10px">
+                        <div id="mySliderContainer">
+                            <div style="font-size: 1.2em; font-weight: 600; color: black; margin-bottom: 2px">從</div>
+                            <div id="startMonth" style=" margin:0 5px 2px 5px"></div>
+                            <div style="font-size: 1.2em; font-weight: 600; color: black; margin-bottom: 2px">到</div>
+                            <div id="endMonth" style="margin:0 5px 2px 5px"></div>
+                            <div style="height:1px; flex-basis:100%"></div>
+                            <div id="slider-range"></div>
+                        </div>
+                        <div id="btnReload" class="button primary" style="display:inline-block; font-size:1em;">
+                            更新圖表
+                        </div>
+                    </div>
+                    <div id="highChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "weightForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/r-2.2.7/datatables.min.js"></script>
+    <script type="text/javascript" src="~/Content/moment-js/moment.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    @*<script src="~/Content/jquery-ui-monthpicker/jquery.mtz.monthpicker.js"></script>*@
+    <script>
+
+        var minDate = null, maxDate = null;
+        var token = null;
+
+        $(function () {
+
+            console.log(@ViewBag.initialWeightLog);
+
+            var form = $('#weightForm');
+            token = $('input[name="__RequestVerificationToken"]', form).val();
+
+            //========================================================
+            //Slider Bar
+            let firstMonth = (new Date().getFullYear() - new Date("2018-01-01").getFullYear()) * 12;
+
+            let nowMonth = firstMonth
+                + (new Date().getMonth() - new Date("2018-01-01").getMonth());
+
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 95,
+                values: [firstMonth, nowMonth],
+                slide: function (event, ui) {
+                    $("#startMonth").text(moment("2018-01-01").add(ui.values[0], "M").format("yyyy年MM月"));
+                    $("#endMonth").text(moment("2018-01-01").add(ui.values[1], "M").format("yyyy年MM月"));
+                },
+                classes: {
+                    "ui-slider-handle": "mySlider"
+                }
+            });
+
+            $("#startMonth").text(moment("2018-01-01").add($("#slider-range").slider("values", 0), "M").format("yyyy年MM月"));
+            $("#endMonth").text(moment("2018-01-01").add($("#slider-range").slider("values", 1), "M").format("yyyy年MM月"));
+
+            //========================================================
+            //Date Variable
+
+            let today = new Date();
+            today = new Date(today.toDateString());
+
+            let tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            ms = today.getTime() - 24 * 60 * 60 * 1000 * 7;
+            let d7b = new Date(ms);
+
+            //========================================================
+            //Row Data
+            let rowData = null;
+
+            //========================================================
+            //Initiate Datatable
+
+            let table = $("#weightTable").DataTable({
+                ajax: {
+                    url: "GetWeightLog",
+                    type: "post",
+                    data: { __RequestVerificationToken: token },
+                    dataSrc: ""
+                },
+                columns: [
+                    { data: "ID", title: "ID" },
+                    { data: "UpdatedDate", title: "記錄時間" },
+                    { data: "Weight", title: "體重" }
+                ],
+                columnDefs: [
+                    {
+                        targets: [0],
+                        visible: false,
+                        searchable: false
+                    },
+                    {
+                        targets: [1],
+                        render: function (date) {
+                            return moment(date).format("yyyy年MM月DD日 HH:mm");
+                        },
+                        type: "datetime"
+                    }
+                ],
+                order: [[1, "desc"]],
+                lengthChange: false,
+                pageLength: 7,
+                responsive: true,
+                initComplete: function () {
+
+                    let wrap = document.createElement("div");
+                    $(wrap).addClass("form-group").addClass("form-inline")
+                        .css("display", "inline-block").css("float", "left")
+                        .css("margin-bottom", "3px").css("display", "flex")
+                        .css("flex-wrap", "wrap");
+
+                    let lbl1 = document.createElement("label");
+                    lbl1.innerHTML = "紀錄時間 從 ";
+                    $(lbl1).css("margin", "3px").css("width", "6em");
+
+                    let input1 = document.createElement("input");
+                    input1.type = "text";
+                    input1.className = "form-control";
+                    input1.id = "start";
+                    $(input1).css("display", "inline-block").css("width", "120px")
+                        .attr("autocomplete", "off");
+
+                    let lbl2 = document.createElement("label");
+                    lbl2.innerHTML = " 到 ";
+                    $(lbl2).css("margin", "3px");
+
+                    let input2 = document.createElement("input");
+                    input2.type = "text";
+                    input2.className = "form-control";
+                    input2.id = "end";
+                    $(input2).css("display", "inline-block").css("width", "120px")
+                        .attr("autocomplete", "off");;
+
+                    $(wrap).append(lbl1).append(input1).append(lbl2).append(input2);
+                    $(".dataTables_wrapper").prepend($(wrap));
+
+                    $(input1).datepicker({
+                        dateFormat: "yy/mm/dd",
+                        changeMonth: true,
+                        changeYear: true
+                    });
+
+                    $(input2).datepicker({
+                        dateFormat: "yy/mm/dd",
+                        changeMonth: true,
+                        changeYear: true
+                    });
+
+                }
+            });
+
+            //=============================================================
+            //DataTable Date Filter
+
+            $("body").on("change", "#start", function () {
+                minDate = $(this).datepicker("getDate");
+                table.draw();
+            });
+
+            $("body").on("change", "#end", function () {
+                maxDate = $(this).datepicker("getDate");
+                maxDate.setDate(maxDate.getDate() + 1);
+                table.draw();
+            });
+
+            $("body").on("blur", "#start", function () {
+                table.draw();
+            });
+
+            $("body").on("blur", "#end", function () {
+                table.draw();
+            });
+
+            //========================================================
+            //Initiate MonthPicker
+            //$("#chartStart").monthpicker({
+            //    pattern: 'yyyy/mm',
+            //    startYear: 2018,
+            //    finalYear: 2025
+            //});
+
+            //$("#chartEnd").monthpicker({
+            //    pattern: 'yyyy/mm',
+            //    startYear: 2018,
+            //    finalYear: 2025
+            //});
+
+            //$("#chartStart").val(`${today.getFullYear()}/01`);
+
+            //$("#chartEnd").val(moment(today).format("yyyy/MM"));
+
+            //======================================================
+            //Initiate Highchart
+
+            let initialMonthRange = GetMonthArray($("#startMonth").text(), $("#endMonth").text());
+
+            let chart = Highcharts.chart('highChart', {
+
+                title: {
+                    text: $("#startMonth").text() + " 至 " + $("#endMonth").text() + " 期間的體重變化"
+                },
+
+                subtitle: {
+                    text: 'HealthHelper'
+                },
+
+                yAxis: {
+                    title: {
+                        text: 'Weight(kgs)'
+                    }
+                },
+
+                xAxis: {
+                    accessibility: {
+                        rangeDescription: 'Range: 2010 to 2017'
+                    },
+                    categories: initialMonthRange
+
+                },
+
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        }
+                    }
+                },
+
+                series: [{
+                    name: '@Session["UserName"]',
+                    data: @Html.Raw(ViewBag.initialWeightLog)
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+
+            });
+
+            //=====================================================
+            //Reload Highchart
+
+            $("#btnReload").click(function () {
+
+                chart.setTitle({
+                    text: $("#startMonth").text() + " 至 " + $("#endMonth").text() + " 期間的體重變化"
+                });
+
+                let monthArray = GetMonthArray($("#startMonth").text(), $("#endMonth").text());
+
+                chart.xAxis[0].update({ categories: monthArray });
+
+                $.ajax({
+                    url: "GetWeightLogForChart",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        startMonth: moment(new Date(moment($("#startMonth").text(), "yyyy年MM月"))).format("YYYY-MM-DD HH:mm"),
+                        endMonth: moment(new Date(moment($("#endMonth").text(), "yyyy年MM月"))).format("YYYY-MM-DD HH:mm")
+                    },
+                    success: function (data) {
+
+                        chart.series[0].setData(data);
+                    }
+                });
+            });
+
+            //===========================================================
+            //Row Selection
+
+            $('#weightTable').on('click', 'tbody tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+
+                rowData = table.row(this).data();
+
+                $("#wgtDateForEdit").text(moment(rowData.UpdatedDate).format("yyyy年MM月DD日"));
+                $("#wgtForEdit").val(rowData.Weight);
+
+                let updatedDate = new Date(moment(rowData.UpdatedDate).format("MM/DD/yyyy"));
+
+                if (updatedDate.getTime() < d7b.getTime() || updatedDate.getTime() >= tomorrow.getTime()) {
+
+                    $("#wgtForEdit").attr("disabled", true);
+                    $("#btnEdit").text("無法修改").removeClass("primary").attr("disabled", true);
+
+                } else {
+
+                    $("#wgtForEdit").removeAttr("disabled", true);
+                    $("#btnEdit").text("修改").addClass("primary").removeAttr("disabled");
+                }
+            });
+
+            //========================================================
+            //Add New WeightLog
+
+            $("#btnNew").click(function () {
+
+                let patt = /^[0-9]+[.]?[0-9]*$/
+
+                if (!patt.test($("#wgtForNew").val())) {
+                    alert("請輸入有效體重");
+                    return;
+                }
+
+                $.ajax({
+                    url: "AddWeightLog",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        Weight: parseFloat($("#wgtForNew").val())
+                    },
+                    success: function (data) {
+                        alert(data.Result);
+                        alert("Error：" + data.Error);
+                        table.ajax.reload();
+
+                        if ($("#weightNotify").length) {
+                            $("#weightNotify").remove();
+                        }
+                    }
+                });
+            });
+
+            //========================================================
+            //Edit WeightLog
+
+            $("#btnEdit").click(function () {
+
+                if ($("#btnEdit").attr("disabled")) {
+                    return;
+                }
+
+                let patt = /^[0-9]+[.]?[0-9]*$/
+
+                if (!patt.test($("#wgtForEdit").val())) {
+                    alert("請輸入有效體重");
+                    return;
+                }
+
+                $.ajax({
+                    url: "EditWeightLog",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        ID: rowData.ID,
+                        Weight: parseFloat($("#wgtForEdit").val())
+                    },
+                    success: function (data) {
+                        alert(data.Result);
+                        alert("Error：" + data.Error);
+                        table.ajax.reload();
+                    }
+                });
+            });
+
+        });
+
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var min = null;
+                var max = null;
+
+                if (minDate != null) {
+                    min = minDate.getTime();
+                }
+                if (maxDate != null) {
+                    max = maxDate.getTime();
+                }
+
+                var date = moment(data[1], "yyyy年MM月DD日").valueOf();
+
+                if (
+                    (min === null && max === null) ||
+                    (min === null && date < max) ||
+                    (min <= date && max === null) ||
+                    (min <= date && date < max)
+                ) {
+                    return true;
+                }
+                return false;
+            }
+        );
+
+        function GetMonthArray(startMonth, endMonth) {
+            startMonth = new Date(moment(startMonth, "yyyy/MM"));
+            endMonth = new Date(moment(endMonth, "yyyy/MM"));
+
+            let monthArray = [];
+
+            while (startMonth.getFullYear() < endMonth.getFullYear()
+                || startMonth.getFullYear() == endMonth.getFullYear()
+                && startMonth.getMonth() <= endMonth.getMonth()) {
+
+                monthArray.push(`${startMonth.getFullYear()}年${startMonth.getMonth() + 1}月`);
+                startMonth.setMonth(startMonth.getMonth() + 1);
+            }
+
+            return monthArray;
+        }
+
+        jQuery.fn.dataTableExt.oSort['datetime-asc'] = function (x, y) {
+            let xDate = new Date(moment(x, "yyyy年MM月DD日 HH:mm"));
+            let yDate = new Date(moment(y, "yyyy年MM月DD日 HH:mm"));
+            if (xDate.getTime() > yDate.getTime()) {
+                return 1;
+            } else {
+                return -1;
+            }
+        };
+
+        jQuery.fn.dataTableExt.oSort['datetime-desc'] = function (x, y) {
+            let xDate = new Date(moment(x, "yyyy年MM月DD日 HH:mm"));
+            let yDate = new Date(moment(y, "yyyy年MM月DD日 HH:mm"));
+            if (xDate.getTime() > yDate.getTime()) {
+                return -1;
+            } else {
+                return 1;
+            }
+        };
+    </script>
+}

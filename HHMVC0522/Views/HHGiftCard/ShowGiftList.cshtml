@@ -1,0 +1,10 @@
+﻿@model DAL.Member
+
+@{
+    ViewBag.Title = "ShowGiftList";
+}
+
+<h2>Hello @Model.Name 你目前的點數為 @Model.Points 點</h2>
+@Html.ActionLink("前往禮物商店", "MyGiftShop", "HHGiftShop", null, new { @class = "btn btn-danger" })
+
+<h2>禮物如下</h2>

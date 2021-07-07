@@ -1,0 +1,839 @@
+﻿@using DAL
+@model  UI.ViewModels.WorkoutSuggestViewModel
+
+@{
+    ViewBag.Title = "WorkoutSchedule";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+
+@section Styles
+{
+
+    <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+    
+    <style>
+        .mainTitle {
+            position: relative;
+            left: -5px;
+            padding-left: 0;
+        }
+
+        .myBox {
+            /*border: solid 2px gray;
+            border-radius: 10px;*/
+            padding: 15px;
+        }
+
+        .myInnerBox {
+            border: solid 1px #f56a6a;
+            border-radius: 0.9em;
+            padding: 5px;
+            box-shadow: 5px 5px 10px 5px #E0E0E0;
+        }
+
+        .operate {
+            min-height: 200px;
+            box-sizing: border-box;
+        }
+
+        #mainDiv {
+            width: 100%;
+            margin: auto;
+            margin-top: 16px;
+            position: relative;
+            /*width: 500px;*/
+            /*top: 80px;*/
+        }
+
+        #mainRow {
+            position: relative;
+            left: 20px;
+            width: 100%;
+        }
+
+        .innerRow {
+            position: relative;
+            /*left: 10px;*/
+            padding: 10px;
+            width: 100%;
+            margin: 0px;
+        }
+
+        label {
+            display: inline-block;
+            text-align: left;
+        }
+
+        #innerSchedulekRow {
+            display: flex;
+            flex-direction:column;
+            row-gap: 5px;
+        }
+
+        .scheduleBox {
+            display: block;
+            padding: 0px;
+        }
+
+        .schedule {
+            width: 100%;
+            text-align: center;
+            border: solid 2px #2894FF;
+            border-radius: 10px;
+            font-weight: bold;
+            margin: 0px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 5px;
+        }
+
+            /*.schedule.tomorrow {
+            width: 70%;
+        }*/
+
+            .schedule .item {
+                border: solid 2px #2894FF;
+                border-radius: 10px;
+                width: 90%;
+                display: inline-block;
+                margin: auto;
+            }
+
+                .schedule .item:nth-child(2n+1) {
+                    background-color: #2894FF;
+                    color: white;
+                }
+
+                .schedule .item > div:nth-child(1) {
+                    display: inline-block;
+                    width: 3em;
+                }
+
+                .schedule .item > div:nth-child(2) {
+                    display: inline-block;
+                    width: 10em;
+                }
+
+                .schedule .item > div:nth-child(3) {
+                    display: inline-block;
+                    width: 4em;
+                }
+
+            .schedule > .title {
+                display: flex;
+                justify-content:center;
+                align-items:center;
+                border-right: solid 1px #2894FF;
+                width: 12%;
+                padding-right: 5px;
+                align-self: stretch;
+            }
+
+            .schedule .weekWl {
+                display: flex;
+                flex-direction:column;
+                width:88%;
+                row-gap:5px;
+            }
+        /*@@media screen and (max-width:738px) {
+            .schedule.tomorrow {
+                width: 100%;
+            }
+        }*/
+        .tdee {
+            color: #f56a6a;
+        }
+
+        .consume {
+            color: #2894FF;
+        }
+
+        .ingest {
+            color: plum;
+        }
+
+        #todayConsume, #todayIngest, #tdee {
+            font-size: 3em;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .calConsume {
+            font-size: 1.2em;
+            font-style: italic;
+        }
+
+        #checkTitle, #suggestTitle, #scheduleTitle, #chartTitle {
+            font-size: 2em;
+            font-weight: 600;
+            color: #f56a6a;
+            text-align: center;
+        }
+
+        #checkTitle, #scheduleTitle {
+            /*border-bottom: solid 2px #f56a6a;*/
+            margin-bottom: 5px;
+        }
+
+        .wsWrapper {
+            display: flex;
+            align-items: center;
+            border-bottom: solid 2px #f56a6a;
+            padding-right: 1.5em;
+            margin-bottom: 10px;
+            height:5em;
+        }
+
+        #checkRow {
+            padding: 0px 20px 20px 20px;
+        }
+
+        #scheduleRow {
+            padding: 0px 20px 20px 20px;
+        }
+
+        .scrollDiv1 {
+            height: 180px;
+            width: 100%;
+            overflow:auto;
+            padding:0px;
+        }
+
+        .scrollDiv2 {
+            height: 325px;
+            width: 100%;
+            overflow:auto;
+            padding:0px;
+        }
+
+        .scrollDownTitle {
+            box-shadow: 0px 5px 10px 0px #E0E0E0;
+        }
+
+        .dot {
+            width:20px;
+            height:20px;
+            border-radius:10px;
+            display:inline-block;
+            margin-left: 5em;
+        }
+
+        #suggestBox {
+            display:flex;
+            width: 100%;
+            height: 80%;
+            margin: 0px;
+        }
+
+        #suggestBox > div{
+            margin-bottom: 10px;
+        }
+
+        #suggestBox > div:not(:last-child) {
+            border-right: solid 2px #f56a6a;
+        }
+
+        .suggestInnerBox {
+            padding: 0px;
+        }
+
+        #IngestReport, .Suggestion {
+            margin: 0px 10px;
+        }
+
+        #IngestReport > div > span {
+            font-size: 1.5em;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .Suggestion .consume, .Suggestion .tdee {
+            font-size: 1.2em;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .Suggestion, #IngestReport {
+            height: 100%;
+        }
+
+        .SuggestItem {
+            font-size: 1.1em;
+            font-weight: 500;
+            line-height: 1.2em;
+            width: max-content;
+            height: min-content;
+            margin: 3px;
+            padding: 5px;
+            display: inline-block;
+        }
+
+        @@media screen and (max-width:992px) {
+            #suggestBox > div:nth-child(2n+1) {
+                border-right: solid 2px #f56a6a;
+            }
+
+            #suggestBox > div:nth-child(2n) {
+                border-right: none;
+            }
+
+            .suggestInnerBox > div {
+                border-bottom: solid 2px #f56a6a;
+            }
+        }
+
+        @@media screen and (max-width:768px) {
+
+            .suggestInnerBox > div:not(:last-child) {
+                border-bottom: solid 2px #f56a6a;
+            }
+
+            #suggestBox > div:nth-child(2n+1) {
+                border-right: none;
+            }
+        }
+    </style>
+}
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
+        <div class="col-4 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-running"></i> 運動排程</h2>
+        </div>
+    </div>
+</header>
+<header id="header" class="m-0 p-0"></header>
+<section class="pt-2">
+    <div id="mainDiv">
+        <div id="mainRow" class="row">
+            <div id="check" class="myBox operate col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="myInnerBox" style="margin-bottom: 30px; padding: 0px">
+                    <div id="checkTitle">今日運動排程</div>
+                    <div id="checkRow" class="row innerRow">
+                        <div id="innerCheckRow" class="scrollDiv1">
+                        </div>
+                    </div>
+                </div>
+                <div class="myInnerBox" style="padding: 0px">
+                    <div id="scheduleTitle">未來7天運動排程</div>
+                    <div id="scheduleRow" class="row innerRow">
+                        <div id="innerSchedulekRow" class="scrollDiv2">
+                            <div class="scheduleBox">
+                                <div class="schedule tomorrow">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
+                            </div>
+                            <div class="scheduleBox">
+                                <div class="schedule">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
+                            </div>
+                            <div class="scheduleBox">
+                                <div class="schedule">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
+                            </div>
+                            <div class="scheduleBox">
+                                <div class="schedule">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
+                            </div>
+                            <div class="scheduleBox">
+                                <div class="schedule">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
+                            </div>
+                            <div class="scheduleBox">
+                                <div class="schedule">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
+                            </div>
+                            <div class="scheduleBox">
+                                <div class="schedule future">
+                                    <div class="title">明天</div>
+                                    <div class="weekWl"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="myBox operate col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="myInnerBox" style="min-height:685px;">
+                    <div id="chartTitle">今日熱量</div>
+                    <div class="dot" style="background-color: #f56a6a"></div>　今日TDEE　<span id="tdee" class="tdee"></span>　卡路里<br />
+                    <div class="dot" style="background-color: plum"></div>　今日已攝取　<span id="todayIngest" class="ingest"></span>　卡路里<br />
+                    <div class="dot" style="background-color: #2894FF"></div>　今日已消耗　<span id="todayConsume" class="consume"></span>　卡路里
+                    <div id="container" style="width: 65%; margin:auto"></div>
+                </div>
+            </div>
+            <div class="myBox col-md-12 col-sm-12 col-12">
+                <div class="myInnerBox" style="min-height:125px;">
+                    <div id="suggestTitle">運動推薦</div>
+                    <div id="suggestBox" class="row">
+                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
+                            <div id="IngestReport" class="align-center">
+                                <div>實際熱量<span class="tdee">@Model.Warning</span></div>
+                                @for (int i = 0; i < Model.TimeOfDay.Count; i++)
+                                {
+                                    if (@Model.IngestReport[i] != -1)
+                                    {
+                                        <div>@Model.TimeOfDay[i] 攝取了<span class="ingest">@Model.IngestReport[i]</span> 卡路里</div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
+                            <div class="Suggestion align-left">
+                                <div>依據你的<span class="tdee">喜好</span>　推薦</div><div><span class="consume">@Model.ActivityLevel</span>　如下：</div>
+                                <div style="display:flex; flex-wrap:wrap">
+                                    @if (Model.SuggestionByPreferences.Count == 0)
+                                    {
+                                        <div>目前無喜好的運動類型，<br/><a href="/workout/workoutpreferences">新增幾筆喜好的運動類型吧</a></div>
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in Model.SuggestionByPreferences)
+                                        {
+                                            @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem button primary", target = "_blank" })
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
+                            <div class="Suggestion align-left">
+                                <div>依據你的<span class="tdee">運動紀錄</span>　推薦</div><div><span class="consume">@Model.ActivityLevel</span>　如下：</div>
+                                <div>
+                                    @if (Model.SuggestionByLog.Count == 0)
+                                    {
+                                        <div>目前無該強度的運動紀錄，<br /><a href="/workout/workoutlog">新增幾筆紀錄吧</a></div>
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in Model.SuggestionByLog)
+                                        {
+
+                                            @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem button primary", target = "_blank" })
+
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
+                            <div class="Suggestion align-left">
+                                <div>依據你的<span class="tdee">年齡層</span>　推薦</div><div><span class="consume">@Model.ActivityLevel</span>　如下：</div>
+                                <div>
+                                    @foreach (var item in Model.SuggestionByAge)
+                                    {
+
+                                        @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem button primary", target = "_blank" })
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "wsForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Content/moment-js/moment.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.src.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    @*<script src="https://code.highcharts.com/modules/exporting.js"></script>*@
+
+    <script>
+
+        //=================================================================
+        //global variable
+
+        var minDate = null, maxDate = null;
+        var token = null;
+        let today = new Date();
+        today = new Date(today.toDateString());
+
+        //==================================================================
+        $(function () {
+
+            //==============================================================
+            $(".scrollDiv1, .scrollDiv2").scroll(function () {
+                if ($(this).scrollTop() > 0) {
+                    $(this).parent().prev().addClass("scrollDownTitle");
+                } else {
+                    $(this).parent().prev().removeClass("scrollDownTitle");
+                }
+            });
+            //==============================================================
+            var form = $('#wsForm');
+            token = $('input[name="__RequestVerificationToken"]', form).val();
+
+            //==============================================================
+            //Show Today Schedule
+
+            $.ajax({
+                url: "GetTodayWorkout",
+                type: "post",
+                data: {
+                    __RequestVerificationToken: token
+                },
+                success: function (data) {
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        let wsWrapper = document.createElement("div");
+                        $(wsWrapper).addClass("wsWrapper")
+                            .addClass("col-12").addClass("col-md-12").addClass("col-sm-12");
+
+                        let wsDetail = document.createElement("div");
+                        $(wsDetail).css("display", "inline-block");
+
+                        let wt = document.createElement("span");
+                        let w = document.createElement("span");
+                        let wh = document.createElement("span");
+                        let consume = document.createElement("span");
+
+                        //$(wt).addClass("wsTime");
+                        //$(w).addClass("wsName");
+                        //$(wh).addClass("wsHours");
+
+                        $(wt).text(moment(data[i].WorkoutTime).format("MM月DD日yyyy年 HH:mm"))
+                        $(w).text(data[i].Name).css("margin-left", "1em");
+                        $(wh).text(data[i].WorkoutHours + "hrs").css("margin-left", "1em");
+                        $(consume).html(`估計消耗<span class="calConsume consume">${data[i].Consume}</span>卡路里`).css("margin-left", "2em");;
+
+                        $(wsDetail).append(wt).append("<br/>")
+                            .append(w).append(wh).append("<br/>")
+                            .append(consume);
+
+                        let chkBtn = document.createElement("div");
+                        $(chkBtn).addClass("button")
+                        $(chkBtn).css("padding", "0px 5px").css("display", "inline-block")
+                            .css("margin-left", "auto");
+
+                        if (data[i].StatusID == 4) {
+                            $(chkBtn).addClass("primary")
+                            $(chkBtn).attr("data-wlid", data[i].ID);
+                            $(chkBtn).text("確認執行");
+                        } else if (data[i].StatusID == 5) {
+                            $(chkBtn).attr("data-wlid", data[i].ID).attr("disabled", true);
+                            $(chkBtn).text("執行成功");
+                        } else if (data[i].StatusID == 6) {
+                            $(chkBtn).attr("data-wlid", data[i].ID).attr("disabled", true);
+                            $(chkBtn).text("執行失敗");
+                        }
+
+
+                        $(wsWrapper).append(wsDetail).append(chkBtn);
+
+                        $("#innerCheckRow").append(wsWrapper);
+
+                    }
+
+                }
+            });
+
+            //=================================================================
+            //Check Schedule
+            $("body").on("click", "#checkRow .button", function () {
+
+                if ($(this).attr("disabled")) {
+                    return;
+                }
+
+                //var option = $("#wNameForNew")
+                //    .children(`option:contains(${$(this).parent().find(".wsName").text()})`);
+
+                //let wTime = moment($(this).parent().find(".wsTime").text(), "MM月DD日yyyy年 HH:mm");
+
+                //let wHours = $(this).parent().find(".wsHours").text();
+                //wHours = wHours.substring(0, wHours.length - 3);
+
+                let wlid = $(this).attr("data-wlid");
+
+                $.ajax({
+                    url: "CheckTodaySchedule",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        ID: wlid
+                        //WorkoutID: option.val(),
+                        //WorkoutTime: moment(wTime).format("YYYY-MM-DD HH:mm"),
+                        //WorkoutHours: parseFloat(wHours),
+                        //StatusID: 5
+                    },
+                    success: function (data) {
+                        alert(data.Result);
+
+                        $("#checkRow .button[data-wlid=" + wlid + "]").removeClass("primary")
+                            .text("執行成功").attr("disabled", true);
+
+                        $("#todayConsume").text(data.TodayConsume);
+
+                        chart.series[0].setData([{
+                            y: data.TDEEPercent
+                        }]);
+
+                        chart.series[1].setData([{
+                            y: data.IngestPercent
+                        }]);
+
+                        chart.series[2].setData([{
+                            y: data.ConsumePercent
+                        }]);
+
+                    }
+                });
+
+            });
+
+            //=================================================================
+            //Show Week Schedule
+
+            $(".schedule .title").each(function (i, ele) {
+
+                if (i == 0) {
+                    $(ele).text("明天");
+                    return;
+                }
+
+                let tempDay = new Date(today);
+                tempDay.setDate(tempDay.getDate() + i + 1);
+                $(ele).text(intToWeekday(tempDay.getDay()));
+            });
+
+            $.ajax({
+                url: "GetSchedule",
+                type: "post",
+                data: {
+                    __RequestVerificationToken: token
+                },
+                success: function (data) {
+
+                    let today = new Date();
+                    today = new Date(today.toDateString());
+                    let tomorrow = new Date(today);
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    let d2a = new Date(today);
+                    d2a.setDate(d2a.getDate() + 2);
+                    let d3a = new Date(today);
+                    d3a.setDate(d3a.getDate() + 3);
+                    let d4a = new Date(today);
+                    d4a.setDate(d4a.getDate() + 4);
+                    let d5a = new Date(today);
+                    d5a.setDate(d5a.getDate() + 5);
+                    let d6a = new Date(today);
+                    d6a.setDate(d6a.getDate() + 6);
+                    let d7a = new Date(today);
+                    d7a.setDate(d7a.getDate() + 7);
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        let tempDay = new Date(moment(data[i].WorkoutTime).format("YYYY-MM-DD HH:mm"));
+
+                        let tempDiv = document.createElement("div");
+                        $(tempDiv).addClass("item");
+                        $(tempDiv).attr("data-wlid", data[i].ID);
+                        $(tempDiv).html(
+                            `<div>${moment(data[i].WorkoutTime).format("HH:mm")}</div>
+                                                    <div>${data[i].Name}</div>
+                                                    <div>${data[i].WorkoutHours}hrs</div>`);
+
+                        if (tempDay.toDateString() == tomorrow.toDateString()) {
+
+                            $(".schedule").eq(0).children(".weekWl").append(tempDiv);
+
+                        } else if (tempDay.toDateString() == d2a.toDateString()) {
+
+                            $(".schedule").eq(1).children(".weekWl").append(tempDiv);
+
+                        } else if (tempDay.toDateString() == d3a.toDateString()) {
+
+                            $(".schedule").eq(2).children(".weekWl").append(tempDiv);
+
+                        } else if (tempDay.toDateString() == d4a.toDateString()) {
+
+                            $(".schedule").eq(3).children(".weekWl").append(tempDiv);
+
+                        } else if (tempDay.toDateString() == d5a.toDateString()) {
+
+                            $(".schedule").eq(4).children(".weekWl").append(tempDiv);
+
+                        } else if (tempDay.toDateString() == d6a.toDateString()) {
+
+                            $(".schedule").eq(5).children(".weekWl").append(tempDiv);
+
+                        } else if (tempDay.toDateString() == d7a.toDateString()) {
+
+                            $(".schedule").eq(6).children(".weekWl").append(tempDiv);
+                        }
+
+                    }
+                }
+            });
+
+            //========================================================================
+            //Today Consume
+            $.ajax({
+                url: "GetTodayInfo",
+                type: "post",
+                data: {
+                    __RequestVerificationToken: token
+                },
+                success: function (data) {
+                    $("#tdee").text(data.TDEE);
+                    $("#todayIngest").text(data.TodayIngest);
+                    $("#todayConsume").text(data.TodayConsume);
+                }
+            });
+
+
+            //=========================================================================
+            //initiate gauge
+
+            var chart = Highcharts.chart('container', {
+
+                chart: {
+                    type: 'solidgauge',
+                    height: '110%'
+                },
+
+                title: null,
+
+                tooltip: {
+                    borderWidth: 0,
+                    backgroundColor: 'none',
+                    shadow: false,
+                    style: {
+                        fontSize: '16px'
+                    },
+                    pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>',
+                    positioner: function (labelWidth) {
+                        return {
+                            x: (this.chart.chartWidth - labelWidth) / 2,
+                            y: (this.chart.plotHeight / 2) - 20
+                        };
+                    }
+                },
+
+                pane: {
+                    startAngle: 0,
+                    endAngle: 360,
+                    background: [{ // Track for Move
+                        outerRadius: '112%',
+                        innerRadius: '88%',
+                        backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[0])
+                            .setOpacity(0.3)
+                            .get(),
+                        borderWidth: 0
+                    }, { // Track for Exercise
+                        outerRadius: '87%',
+                        innerRadius: '63%',
+                        backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[1])
+                            .setOpacity(0.3)
+                            .get(),
+                        borderWidth: 0
+                    }, { // Track for Stand
+                        outerRadius: '62%',
+                        innerRadius: '38%',
+                        backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[2])
+                            .setOpacity(0.3)
+                            .get(),
+                        borderWidth: 0
+                    }]
+                },
+
+                yAxis: {
+                    min: 0,
+                    max: 100,
+                    lineWidth: 0,
+                    tickPositions: []
+                },
+
+                plotOptions: {
+                    solidgauge: {
+                        dataLabels: {
+                            enabled: false
+                        },
+                        linecap: 'round',
+                        stickyTracking: false,
+                        rounded: true,
+                    }
+                },
+
+                series: [{
+                    name: 'TDEE',
+                    data: [{
+                        color: "#f56a6a",
+                        radius: '112%',
+                        innerRadius: '88%',
+                        y: @ViewBag.TDEE
+                    }]
+                }, {
+                    name: '熱量攝取',
+                    data: [{
+                        color: "plum",
+                        radius: '87%',
+                        innerRadius: '63%',
+                        y: @ViewBag.Ingest
+                    }]
+                }, {
+                    name: '運動消耗',
+                    data: [{
+                        color: "#2894FF",
+                        radius: '62%',
+                        innerRadius: '38%',
+                        y: @ViewBag.Consume
+                    }]
+                }]
+            });
+        });
+
+        function intToWeekday(wd) {
+
+            switch (wd) {
+                case 0:
+                    return "星期日";
+                case 1:
+                    return "星期一";
+                case 2:
+                    return "星期二";
+                case 3:
+                    return "星期三";
+                case 4:
+                    return "星期四";
+                case 5:
+                    return "星期五";
+                case 6:
+                    return "星期六";
+            }
+
+            
+        }
+    </script>
+}
+
+
+

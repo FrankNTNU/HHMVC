@@ -25,6 +25,11 @@ namespace BLL
             return postDAO.GetPosts().Take(number).ToList();
         }
 
+        public CommentDTO GetNestedComments(int postID)
+        {
+            return postDAO.GetNestedComments(postID);
+        }
+
         internal List<PostDTO> GetRules()
         {
             return postDAO.GetRules();
@@ -176,6 +181,21 @@ namespace BLL
         public List<PostDTO> GetPostsByCategory(int categoryID)
         {
             return postDAO.GetPostsByCategory(categoryID);
+        }
+
+        public void AddReply(CommentDTO model)
+        {
+            Comment comment = new Comment()
+            {
+                Title = model.Title,
+                CommentContent = model.CommentContent,
+                Name = model.Name,
+                AddDate = DateTime.Today,
+                ParentCommentID = model.ParentCommentID,
+                MemberID = model.MemberID,
+                IsApproved = false
+            };
+            postDAO.AddReply(comment);
         }
     }
 }

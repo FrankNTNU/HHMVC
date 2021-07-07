@@ -84,9 +84,14 @@ namespace BLL
             memberDAO.AddGoogleID(email, googleID);
         }
 
-        public void GetNewPassword(string email, string password)
+        public Member GetMemberByMemberID(int memberID)
         {
             memberDAO.GetNewPassword(email, password);
+        }
+        public void GetNewPassword(string email, string password)
+        {
+            return dao.GetMemberByMemberID(memberID);
+            
         }
     }
 }

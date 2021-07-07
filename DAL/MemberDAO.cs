@@ -175,11 +175,15 @@ namespace DAL
         {
            string activeCode="";
             using (HealthHelperEntities db = new HealthHelperEntities())
-            {
+        {
                 Member member = db.Members.FirstOrDefault(x => x.ID == userID);
                activeCode = member.ActiveCode;
             }
             return activeCode;
+        }
+        public Member GetMemberByMemberID(int memberID)
+        {
+            return db.Members.FirstOrDefault(m => m.ID == memberID);
         }
     }
 }

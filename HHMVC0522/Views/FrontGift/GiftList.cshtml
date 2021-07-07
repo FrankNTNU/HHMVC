@@ -14,17 +14,36 @@
             transform: translate(-50%, -50%);
             color: black;
         }
+        .corner {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0,0,0,0.6);
+            border-radius: 15px;
+            color: rgba(255, 212, 20,1);
+            height: 25px;
+            width: 25px;
+        }
+        .crownIcon {
+            
+            color: rgba(255, 212, 20,1);
+            border-radius: 15px;
+            height: 25px;
+            width: 25px;
+            line-height: 25px;
+        }
     </style>
 } <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
     <div class="row" style="width: 100%; padding-right: 20px">
 
-        <div class="col-4 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        <div class="col-3 col-sm-3 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
-        <div class="col-6 col-sm-6 col-md-7 col-lg-8 p-1 align-self-center">
-            <h2><i class="fas fa-gift"> </i> 禮物商店</h2>
+        <div class="col-8 col-sm-5 col-md-6 col-lg-8 p-1 align-self-center">
+            <h2 style="font-size: 1.8em"><i class="fas fa-gift"> </i> 禮物商店</h2>
         </div>
-        <div class="col-2 col-sm-2 col-md-2 align-self-end justify-content-end d-flex">
+        <div class="col-2 col-sm-3 col-md-2 align-self-end justify-content-end d-none d-sm-block">
             @if (Session["ID"] != null)
             {<a href="~/FrontGift/GiftCart?userID=@Session["ID"]"><label class="button primary"><i class="fas fa-shopping-cart"> </i> 檢視已兌換</label></a>
             }
@@ -38,152 +57,168 @@
 </header><header id="header" class="m-0 p-0"></header>
 
 <!-- Section -->
-<section class="pt-3">
-    @if (Session["ID"] != null)
-    {
-        <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
-            <i class="far fa-user"> </i> <strong>@Session["Name"]</strong> 目前擁有 <strong>
-                @Session["Points"]
-            </strong>點
-        </div>
-    }
-    <div class="row" style="margin-bottom:5px">
-        <div class="col-12 col-md-6 mb-1">
-            <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
-        </div>
-        <div class="col-12 col-md-6 mb-1">
-            <select id="searchFilter" class="form-control">
-                <option selected disabled value="-1">排序條件</option>
-                <option value=0>點數: 低 => 高</option>
-                <option value=1>點數: 高 => 低</option>
-            </select>
-        </div>
-    </div>
-    <div class="row" id="resultList">
+         <section class="pt-2">
+             <div class="col-12 d-flex p-0">
+                 <div class="d-sm-none" style="width:100%">
+                     @if (Session["ID"] != null)
+                     {<a href="~/FrontGift/GiftCart?userID=@Session["ID"]"><label class="button primary" style="width:100%"><i class="fas fa-shopping-cart"> </i> 檢視已兌換</label></a>
+                     }
+                     else
+                     {
+                         <a href="~/Home2/Login"><label class="button primary" style="width:100%">登入</label></a>
 
-    </div>
-    <div class="row" id="cartList">
-        @foreach (var item in Model)
-        {
-            <div class="col-6 col-sm-4 col-md-4 col-lg-3 mb-5" style="text-align:center">
-                @if (item.EndDate < DateTime.Today)
-                {
-                    <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
-                        <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%;opacity:0.3" />
-                        <div class="centered"><h5>已截止</h5></div>
-                    </a>
-                }
-                else
-                { <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
-                        <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%" />
-                    </a>
-                }
+                     }
+                 </div>
+             </div>
+            
+             @if (Session["ID"] != null)
+             {
+                 <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
+                     <i class="far fa-user"> </i> <strong>@Session["Name"]</strong> 目前擁有 <strong>
+                         @Session["Points"]
+                     </strong>點
+                 </div>
+             }
+             <div class="row" style="margin-bottom:5px">
+                 <div class="col-12 col-md-6 mb-1">
+                     <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
+                 </div>
+                 <div class="col-6 col-md-3 mb-1">
+                     <select id="searchFilter" class="form-control">
+                         <option selected value=0>不排序</option>
+                         <option value=1>點數: 低 => 高</option>
+                         <option value=2>點數: 高 => 低</option>
+                         <option value=3>剩餘件數: 少 => 多</option>
+                         <option value=4>剩餘件數: 多 => 少</option>
+                     </select>
+                 </div>
+                 <div class="col-6 col-md-3 mt-2">
+                     <input type="checkbox" class="form-control" id="premiumCheckbox"/>
+                     <label for="premiumCheckbox"><i class="fas fa-crown crownIcon"></i> 會員商品</label>
 
-                <div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">
-                    <label style="font-weight: bolder;font-size:1em;display: inline-block;margin:0px">
-                        @item.Points 點
-                    </label>
-                </div>
-                <strong style="text-align: center">@item.Name</strong>
-                <p>剩餘 @item.Quantity 件</p>
-            </div>
-        }
-    </div>
+                 </div>
+             </div>
+             <div class="row" id="resultList">
 
-</section>
+             </div>
+             <div class="row" id="cartList">
+                 @foreach (var item in Model)
+                 {
+                 <div class="col-6 col-sm-4 col-md-4 col-lg-3 mb-5" style="text-align:center">
+                     @if (item.EndDate < DateTime.Today)
+                     {
+                         <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
+                             <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%;opacity:0.3" />
+                             <div class="centered"><h5>已截止</h5></div>
+                         </a>
+                     }
+                     else if (item.IsPremium)
+                     { <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
+                             <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%" /><div class="corner"><i class="fas fa-crown"></i></div>
+                         </a>
+                     }
+                     else
+                     {
+                         <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
+                             <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%" />
+                         </a>
+                     }
+
+                     <div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">
+                         <label style="font-weight: bolder;font-size:1em;display: inline-block;margin:0px">
+                             @item.Points 點
+                         </label>
+                     </div>
+                     <strong style="text-align: center">@item.Name</strong>
+                     <p>剩餘 @item.Quantity 件</p>
+                 </div>
+                 }
+             </div>
+
+         </section>
 
 @section Scripts {
-
-
     <script>
         var timeOut = null;
         $(document).ready(function () {
+            $('#premiumCheckbox').change(function () {
+                var isChecked = $('#premiumCheckbox').prop('checked');
+                var text = $('#searchText').val();
+                var sortingMethod = $('#searchFilter').val();
+                $('#cartList').html('');
+                callAjax(text, sortingMethod, isChecked);
+            })
+
             $('#searchText').keyup(function () {
                 if (timeOut != null) {
                     clearTimeout(timeOut);
                 }
                 timeOut = setTimeout(function () {
                     timeOut = null;
-                    const text = $('#searchText').val();
-                    $('#searchFilter').val("-1");
-                    $('#cartList').hide();
-                    $('#cartList').empty();
-                    $.ajax({ // 呼叫非同步
-                        type: "post",
-                        url: "GetGifts?text=" + text, // 動作名稱 + 參數
-                        contentType: "html",
-                        success: function (result) { // 做什麼事情
-                            $.each(result, function (index, value) { // 跑回圈
-                                let resultDiv = $("<div></div>")
-                                    .addClass("col-6 col-sm-4 col-md-4 col-lg-3 mb-5")
-                                    .css("text-align", "center");
-                                let imageDiv = $("<a></a>").attr("href", "GiftDetail/" + value.ID)
-                                    .addClass("image")
-                                    .appendTo(resultDiv);
-                                $("<img/>").attr("src", "/Areas/Admin/Content/GiftImages/" + value.Image)
-                                    .css("max-width", "100%")
-                                    .css("max-height", "100%").appendTo(imageDiv);
-                                let pointDiv = $("<div></div>").addClass("button fit mt-1")
-                                    .css("pointer-events", "none")
-                                    .css("font-size", "1.4em")
-                                    .css("line-height", "1.5em")
-                                    .css("height", "auto")
-                                    .css("text-align", "center").appendTo(resultDiv);
-                                $("<label></label>")
-                                    .text(value.Points + "點")
-                                    .css("margin", "0px")
-                                    .appendTo(pointDiv);
-                                $("<strong></strong>")
-                                    .css("text-align", "center")
-                                    .text(value.Name).appendTo(resultDiv);
-                                $("<p></p>").text("剩餘" + value.Quantity + "件").appendTo(resultDiv);
-                                $("#cartList").append(resultDiv);
-                            })
-                            $('#cartList').show();
-                        }
-                    })
+                    var text = $('#searchText').val();
+                    var sortingMethod = $('#searchFilter').val();
+                    var isChecked = $('#premiumCheckbox').prop('checked');
+                    $('#cartList').html('');
+                    callAjax(text, sortingMethod, isChecked);
+
                 }, 200)
                 return false;
             })
             $('#searchFilter').change(function () {
-                const isAscending = $(this).val();
-                $('#searchText').val("");
+                var text = $('#searchText').val();
+                var sortingMethod = $('#searchFilter').val();
+                var isChecked = $('#premiumCheckbox').prop('checked');
                 $('#cartList').html('');
+                callAjax(text, sortingMethod, isChecked);
+                
+            })
+            function callAjax(text, sortingMethod, isChecked) {
                 $.ajax({
-                    type: "post",
-                    url: "GetOrderedGifts?isAscending=" + isAscending,
-                    contentType: "html",
+                    url: "GetSearchResult",
+                    data: { name: text, sortBy: sortingMethod, isPremiumChecked: isChecked },
                     success: function (result) {
                         $.each(result, function (index, value) {
-                            let resultDiv = $("<div></div>")
-                                .addClass("col-6 col-sm-4 col-md-4 col-lg-3 mb-5")
-                                .css("text-align", "center");
-                            let imageDiv = $("<a></a>").attr("href", "GiftDetail/" + value.ID)
-                                .addClass("image")
-                                .appendTo(resultDiv);
-                            $("<img/>").attr("src", "/Areas/Admin/Content/GiftImages/" + value.Image)
-                                .css("max-width", "100%")
-                                .css("max-height", "100%").appendTo(imageDiv);
-                            let pointDiv = $("<div></div>").addClass("button fit mt-1")
-                                .css("pointer-events", "none")
-                                .css("font-size", "1.4em")
-                                .css("line-height", "1.5em")
-                                .css("height", "auto")
-                                .css("text-align", "center").appendTo(resultDiv);
-                            $("<label></label>")
-                                .text(value.Points + "點")
-                                .css("margin", "0px")
-                                .appendTo(pointDiv);
-                            $("<strong></strong>")
-                                .css("text-align", "center")
-                                .text(value.Name).appendTo(resultDiv);
-                            $("<p></p>").text("剩餘" + value.Quantity + "件").appendTo(resultDiv);
-                            $("#cartList").append(resultDiv);
-                            $('#cartList').show();
+                            populateList(value);
                         })
+                        $('#cartList').show();
                     }
                 })
-            })
+            }
+            function populateList(value) {
+                let resultDiv = $("<div></div>")
+                    .addClass("col-6 col-sm-4 col-md-4 col-lg-3 mb-5")
+                    .css("text-align", "center");
+                let imageDiv = $("<a></a>").attr("href", "GiftDetail/" + value.ID)
+                    .addClass("image")
+                    .appendTo(resultDiv);
+                let imageContent = $("<img/>")
+                    .attr("src", "../Areas/Admin/Content/GiftImages/" + value.Image)
+                    .css("max-width", "100%")
+                    .css("max-height", "100%");
+
+                let crownDiv = $("<div></div>").addClass("corner");
+                let crownIcon = $("<i></i>").addClass("fas fa-crown");
+                crownIcon.appendTo(crownDiv);
+                if (value.IsPremium) {
+                    crownDiv.appendTo(imageDiv);
+                }
+                imageContent.appendTo(imageDiv);
+                let pointDiv = $("<div></div>").addClass("button fit mt-1")
+                    .css("pointer-events", "none")
+                    .css("font-size", "1.4em")
+                    .css("line-height", "1.5em")
+                    .css("height", "auto")
+                    .css("text-align", "center").appendTo(resultDiv);
+                $("<label></label>")
+                    .text(value.Points + "點")
+                    .css("margin", "0px")
+                    .appendTo(pointDiv);
+                $("<strong></strong>")
+                    .css("text-align", "center")
+                    .text(value.Name).appendTo(resultDiv);
+                $("<p></p>").text("剩餘" + value.Quantity + "件").appendTo(resultDiv);
+                $("#cartList").append(resultDiv);
+               }
         })
     </script>
 }

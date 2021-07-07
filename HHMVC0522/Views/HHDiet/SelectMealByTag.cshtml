@@ -1,0 +1,32 @@
+﻿@model IQueryable<MealOption>
+@using DAL
+@{
+    ViewBag.Title = "SelectMealByTag";
+}
+<style>
+    .divMealItem {
+    float:left;
+    border: 1px solid pink;
+    margin: 0 2em 0 0;
+    width:400px
+    }
+        .divMealItem img {
+        
+            width:100%
+
+        }
+</style>
+<h2>SelectMealByTag</h2>
+
+@{ foreach (MealOption m in Model)
+    {
+    <div class="divMealItem">
+        <img src="~/Content/Images/DietImages/mealDefault.jpg" />            
+        <h2>@m.Name</h2>
+        <p>卡路里: @m.Calories</p>
+    </div>
+
+    }
+
+
+}

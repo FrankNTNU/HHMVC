@@ -1,0 +1,297 @@
+﻿@{
+    ViewBag.Title = "WorkoutPlaces";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+
+@section Styles
+{
+
+    @*<link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />*@
+    @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">*@
+
+    <style type="text/css">
+        /* Always set the map height explicitly to define the size of the div
+            * element that contains the map. */
+        #map {
+            height: 500px;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /*div.ui-tooltip {*/
+        /*max-width: 400px;*/
+        /*word-wrap: break-word;
+        }
+
+        div.ui-tooltip-content {
+            font-size: 10pt;
+        }*/
+
+        /*.gm-style-iw > button {
+            border: none !important;
+            box-shadow: none !important;
+        }*/
+
+        .mainTitle {
+            position: relative;
+            left: -5px;
+            padding-left: 0;
+        }
+
+        #mainDiv {
+            width: 100%;
+            margin: auto;
+            margin-top: 16px;
+            position: relative;
+            /*width: 500px;*/
+            /*top: 80px;*/
+        }
+
+        #mainRow {
+            position: relative;
+            left: 15px;
+            width: 100%;
+        }
+
+        .myBox {
+            /*border: solid 2px gray;
+            border-radius: 10px;*/
+            padding: 15px;
+        }
+
+        .myInnerBox {
+            border: solid 1px #f56a6a;
+            border-radius: 0.9em;
+            padding: 0px;
+            overflow:hidden;
+            box-shadow: 5px 5px 10px 5px #E0E0E0;
+        }
+
+        button[aria-label="顯示街道地圖"], button[aria-label="顯示衛星圖"] {
+            background-color: #f56a6a !important;
+            color: white !important;
+            border-radius: 10px !important;
+            display: flex !important;
+            align-items: center !important;
+            margin-left: 10px !important;
+        }
+
+        button[aria-label="鍵盤快速鍵"] {
+            height: 1em !important;
+            line-height: 1em !important;
+            border-color: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .gm-style-iw > button {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+            .gm-style-iw > button:focus {
+                outline: none !important;
+            }
+
+        li[aria-label="顯示包含地形的街道地圖"], li[aria-label="顯示包含街道名稱的圖像"] {
+            display: flex;
+            height: 2em;
+        }
+    </style>
+
+}
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
+        <div class="col-4 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-map-marker-alt"></i> 運動地點</h2>
+        </div>
+    </div>
+</header>
+<header id="header" class="m-0 p-0"></header>
+<section class="pt-2">
+    <div id="mainDiv">
+        <div id="mainRow" class="row">
+            <div id="map" class="myInnerBox col-12"></div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    @*<script src="~/Content/jquery-3.6.0/jquery-3.6.0.js"></script>*@
+    @*<script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>*@
+    @*<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>*@
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>*@
+    <script>
+
+    let map;
+    let service;
+    let infowindow;
+
+    //$(function () {
+    //    $(".myTooltip").tooltip();
+    //});
+
+    // This example requires the Places library. Include the libraries=places
+    // parameter when you first load the API. For example:
+    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+
+    function initMap() {
+
+        let keyword = "@Html.Raw(ViewBag.Keyword)";
+
+        //=========================================
+        //For 五行健康操
+        if (keyword == "五行健康操") {
+            $("#map").append($("<iframe></iframe>").css("width", "100%").css("height", "100%")
+                .attr("src", "https://www.youtube.com/embed/RKB4NxhENyY"));
+            return;
+        }
+        //=========================================
+
+        infowindow = new google.maps.InfoWindow({
+            pixelOffset: new google.maps.Size(0, 20)
+        });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+
+                    map = new google.maps.Map(document.getElementById("map"), {
+                        center: pos,
+                        zoom: 15
+                    });
+
+                    const marker = new google.maps.Marker({
+                        map,
+                        position: pos,
+                    });
+
+                    google.maps.event.addListener(marker, "click", () => {
+                        infowindow.setContent("目前位置");
+                        infowindow.open(map, marker);
+                    });
+
+                    //google.maps.event.addListener(infowindow, 'domready', function () {
+                    //    $(".ui-tooltip").remove();
+                    //});
+
+                    //google.maps.event.addListener(infowindow, 'closeclick', function () {
+                    //    $(".ui-tooltip").remove();
+                    //});
+
+                    const request = {
+                        keyword: "@Html.Raw(ViewBag.Keyword)",
+                        location: map.getCenter(),
+                        radius: "2000",
+                        language: "zh-TW"
+                    };
+
+                    service = new google.maps.places.PlacesService(map);
+                    service.nearbySearch(request, (results, status) => {
+                        if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+                            for (let i = 0; i < results.length; i++) {
+                                createMarker(results[i]);
+                            }
+                        }
+                    });
+
+                    const cityCircle = new google.maps.Circle({
+                        strokeColor: "#2894FF",
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: "#2894FF",
+                        fillOpacity: 0.35,
+                        map,
+                        center: map.getCenter(),
+                        radius: 2000,
+                    });
+
+                },
+                () => {
+                    handleLocationError(true, infowindow, map.getCenter());
+                }
+
+            );
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infowindow, map.getCenter());
+        }
+
+
+    }
+
+    function handleLocationError(browserHasGeolocation, infowindow, pos) {
+        infowindow.setPosition(pos);
+        infowindow.setContent(
+            browserHasGeolocation
+                ? "Error: The Geolocation service failed."
+                : "Error: Your browser doesn't support geolocation."
+        );
+        infowindow.open(map);
+    }
+
+    function createMarker(place) {
+
+        if (!place.geometry || !place.geometry.location) return;
+
+        var request = {
+            placeId: place.place_id,
+            fields: ['website']
+        };
+
+        //service = new google.maps.places.PlacesService(map);
+        service.getDetails(request, (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+
+                const marker = new google.maps.Marker({
+                    map,
+                    position: place.geometry.location,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                const infoDiv = document.createElement("div");
+                //infoDiv.innerHTML = (typeof (results.website) == "undefined") ? "無網頁" : results.website;
+                infoDiv.innerHTML = place.name;
+                infoDiv.title = (typeof (results.website) == "undefined") ? "無網頁" : results.website;
+                infoDiv.style.cursor = "pointer";
+                infoDiv.addEventListener("click", function () {
+                    window.open(results.website, "_blank");
+                });
+
+                marker.addListener("click", function () {
+                    infowindow.setContent(infoDiv);
+                    infowindow.open(map, marker);
+                });
+
+                //google.maps.event.addListener(marker, "click", () => {
+                //    infowindow.setContent(`ID:${place.place_id}\n${place.name}` || "");
+                //    infowindow.open(map, marker);
+                //});
+
+            }
+        });
+
+
+    }
+    </script>
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAE3Hi6N9QONHypztdZAvYkdTIOXdnzNE4&callback=initMap&libraries=places&v=weekly"
+            async></script>
+
+}

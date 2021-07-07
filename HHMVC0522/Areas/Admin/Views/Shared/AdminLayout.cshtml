@@ -31,6 +31,13 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="~/Admin/MainPage/MainPage" class="nav-link">首頁</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="~/Home2/Index" class="nav-link">前臺</a>
                 </li>
             </ul>
             <!-- Right navbar links -->
@@ -38,26 +45,19 @@
                 <!-- Navbar Search -->
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/Contact/Contact">
+                    <a class="nav-link" href="../Contact/Contact">
                         <i class="far fa-comments"></i>
                         <span class="badge badge-danger navbar-badge" id="CommentCount"></span>
                     </a>
                 </li>
-                <!-- Notifications Dropdown Menu -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/Admin/Contact/UnreadMessages">
-                        <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge" id="MessageCount"></span>
-                    </a>
-
-                </li>
+               
             </ul>
         </nav>
         <!-- /.navbar -->
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="/Home2/Index" class="brand-link">
+            <a href="~/Admin/MainPage/MainPage" class="brand-link">
                 <img src="~/Areas/Admin/Content/tempimage/hLogo.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">HealthHelper</span>
             </a>
@@ -75,23 +75,12 @@
                     </div>
                 </div>
 
-                <!-- SidebarSearch Form -->
-                @*<div class="form-inline">
-                        <div class="input-group" data-widget="sidebar-search">
-                            <input class="form-control form-control-sidebar" type="search" placeholder="搜尋分類" aria-label="Search">
-                            <div class="input-group-append">
-                                <button class="btn btn-sidebar">
-                                    <i class="fas fa-search fa-fw"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>*@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                        with font-awesome or any other icon font library -->
+    with font-awesome or any other icon font library -->
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -272,8 +261,14 @@
                                 </li>
                             </ul>
                         </li>
-
-
+                        <li class="nav-item">
+                            <a href="~/Admin/Contact/Contact" class="nav-link">
+                                <i class="nav-icon fas fa-comments"></i>
+                                <p>
+                                    客服
+                                </p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -328,6 +323,14 @@
     @RenderSection("Scripts", false)
 
     <script>
+
+        //==================================
+        //恩旗
+        $(window).on("unload", function () {
+            $.cookies.del('.ASPXAUTH');
+        });
+        //==================================
+
         $(function () {
             $("#example1").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
@@ -359,9 +362,8 @@
         function GetCounts() {
             $.ajax({
                 url: "@Url.Action("GetCounts", "Contact")",
-                type: "POST",
                 success: function (result) {
-                    $("#CommentCount").html(result);
+                    //$("#CommentCount").html(result);
                 }
             })
         }

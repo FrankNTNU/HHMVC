@@ -3,7 +3,10 @@
     ViewBag.Title = "AddUser";
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
-
+@section Styles
+{
+    <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
+}
 
 <section class="content-header">
     <h1>修改禮物</h1>
@@ -15,11 +18,11 @@
 </section>
 <br />
 <div class="card-footer">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Gift/GiftList'">所有禮物</button>
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='../Gift/GiftList'">所有禮物</button>
 </div>
 <section class="content">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-12">
             @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
             <div class="box box-primary">
                 @using (Html.BeginForm("UpdateGift", "Gift", FormMethod.Post, new { @enctype = "multipart/form-data" }))
@@ -33,12 +36,4 @@
 </section>
 @section Scripts {
 
-    <script src="~/Areas/Admin/Content/JS/jquery.inputmask.min.js"></script>
-    <script>
-        $(function () {
-            //Datemask dd/mm/yyyy
-            $('#datemask').inputmask('yyyy/mm/dd', { 'placeholder': 'yyyy/mm/dd' })
-            $('[data-mask]').inputmask()
-        })
-    </script>
 }

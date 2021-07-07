@@ -136,6 +136,8 @@
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="CommentDAO.cs" />
+    <Compile Include="CustomerMealDAO.cs" />
+    <Compile Include="CountDAO.cs" />
     <Compile Include="DietLog.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
@@ -148,7 +150,12 @@
     </Compile>
     <Compile Include="GiftCartDAO.cs" />
     <Compile Include="GiftDAO.cs" />
-    <Compile Include="HHContext.cs" />
+    <Compile Include="Group.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GroupChat.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="HHModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -182,7 +189,13 @@
     <Compile Include="Member.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ModelCollection.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Nutrient.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Point.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Post.cs">
@@ -191,26 +204,42 @@
     <Compile Include="PostCategory.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PostCategoryDAO.cs" />
-    <Compile Include="PostDAO.cs" />
     <Compile Include="PostImage.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Status.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="StatusDAO.cs" />
     <Compile Include="sysdiagram.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Table.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TempCustomerMealOption.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TimesOfDay.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="WaterLogDAO.cs" />
+    <Compile Include="HHContext.cs" />
+    <Compile Include="MealDAO.cs" />
+    <Compile Include="MealTagDAO.cs" />
+    <Compile Include="MemberDAO.cs" />
+    <Compile Include="PostCategoryDAO.cs" />
+    <Compile Include="PostDAO.cs" />
+    <Compile Include="ProgramDAO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatusDAO.cs" />
+    <Compile Include="TimeOfDayDAO.cs" />
     <Compile Include="UserDAO.cs" />
+    <Compile Include="WaterLog.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="WeightLog.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
@@ -246,6 +275,12 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DTO\DTO.csproj">
+      <Project>{dad2ea66-6fe9-43db-b186-e3bfb93fd117}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="HHModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HHModel.edmx</DependentUpon>
@@ -256,12 +291,6 @@
       <DependentUpon>HHModel.edmx</DependentUpon>
       <LastGenOutput>HHModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DTO\DTO.csproj">
-      <Project>{dad2ea66-6fe9-43db-b186-e3bfb93fd117}</Project>
-      <Name>DTO</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

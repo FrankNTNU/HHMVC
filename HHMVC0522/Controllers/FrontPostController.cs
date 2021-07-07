@@ -13,17 +13,19 @@ namespace UI.Controllers
 {
     public class FrontPostController : Controller
     {
+        private static int currentPostID;
         // GET: FrontPost
         public ActionResult Index()
         {
             return View();
         }
         LayoutBLL layoutBLL;
+        public static int level = 0;
         public ActionResult PostDetail(int ID)
         {
             layoutBLL = new LayoutBLL();
             LayoutDTO layoutDTO = new LayoutDTO();
-            postID = ID;
+            currentPostID = ID;
             postBLL.AddViewCount(ID);
             layoutDTO = layoutBLL.GetPostDetailPageItemWithID(ID);
             return View(layoutDTO);
@@ -37,18 +39,18 @@ namespace UI.Controllers
             {
                 if (postBLL.AddComment(model))
                 {
-                    ViewData["CommentState"] = "Success";
+                    TempData["State"] = "AddSuccess";
                     ModelState.Clear();
                 }
                 else
                 {
-                    ViewData["CommentState"] = "Error";
+                    TempData["State"] = "Error";
                     ViewBag.ProcessState = General.Messages.GeneralError;
                 }
             }
             else
             {
-                ViewData["CommentState"] = "Error";
+                TempData["State"] = "Error";
                 ViewBag.ProcessState = General.Messages.EmptyArea;
 
             }
@@ -71,7 +73,8 @@ namespace UI.Controllers
         [Authorize]
         public ActionResult AddPost()
         {
-            
+            if (Session["ID"] == null)
+                return Redirect("~/Home2/Index");
             PostDTO postDTO = new PostDTO();
             postDTO.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
             return View(postDTO);
@@ -84,6 +87,7 @@ namespace UI.Controllers
             {
                 ViewBag.ProcessState = General.Messages.ImageMissing;
                 model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
+                TempData["State"] = "ImageMissing";
                 return View(model);
             }
             else if (ModelState.IsValid)
@@ -95,6 +99,7 @@ namespace UI.Controllers
                     {
                         ViewBag.ProcessState = General.Messages.ExtensionError;
                         model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
+                        TempData["State"] = "ExtensionError";
                         return View(model);
                     }
                 }
@@ -114,16 +119,16 @@ namespace UI.Controllers
                 model.CategoryID = General.Category.UserPost;
                 if (postBLL.AddPost(model))
                 {
-                    ViewData["CommentState"] = "Success";
                     ModelState.Clear();
                     ViewBag.ProcessState = General.Messages.AddSuccess;
-
+                    TempData["State"] = "AddPostSuccess";
                     model = new PostDTO();
                 }
                 else
                 {
                     ViewBag.ProcessState = General.Messages.GeneralError;
                     model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
+                    TempData["State"] = "Error";
                     return View(model);
                 }
             }
@@ -131,16 +136,19 @@ namespace UI.Controllers
             {
                 ViewBag.ProcessState = General.Messages.EmptyArea;
                 model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
+                TempData["State"] = "EmptyArea";
                 return View(model);
             }
             return RedirectToAction("Index", "Home2");
         }
+        private static int categoryID;
         public ActionResult UpdatePost(int ID)
         {
             PostDTO model = new PostDTO();
             model = postBLL.GetPostWithID(ID);
             model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
             model.IsUpdate = true;
+            categoryID = model.CategoryID;
             return View(model);
         }
         [HttpPost]
@@ -177,11 +185,12 @@ namespace UI.Controllers
                     model.PostImages = imageList;
 
                 }
+                model.CategoryID = categoryID;
                 if (postBLL.UpdatePost(model))
                 {
+                    TempData["State"] = "UpdateSuccess";
                     ViewBag.ProcessState = General.Messages.UpdateSuccess;
                     return RedirectToAction("PostDetail/" + model.ID, "FrontPost");
-
                 }
                 else
                 {
@@ -232,6 +241,7 @@ namespace UI.Controllers
                     System.IO.File.Delete(imageFullPath);
                 }
             }
+            TempData["State"] = "DeleteSuccess";
             return RedirectToAction("Index", "Home2");
         }
         public ActionResult GetPostsWithSearchText(string SearchCategory, string SearchText)
@@ -275,12 +285,11 @@ namespace UI.Controllers
             else return "false";
         }
         CommentBLL commentBLL = new CommentBLL();
-        static int postID;
         public ActionResult UpdateComment(int commentID)
         {
             CommentDTO model = new CommentDTO();
             model = commentBLL.GetComment(commentID);
-            ViewBag.CurrentPostID = postID;
+            ViewBag.CurrentPostID = currentPostID;
             return View(model);
         }
         [HttpPost]
@@ -291,23 +300,22 @@ namespace UI.Controllers
             {
                 if (commentBLL.UpdateComment(model))
                 {
-                    ViewData["CommentState"] = "Success";
-                    ViewBag.ProcessState = General.Messages.AddSuccess;
+                    TempData["State"] = "UpdateSuccess";
                     ModelState.Clear();
-                    return RedirectToAction("PostDetail/" + postID, "FrontPost");
+                    return RedirectToAction("PostDetail/" + currentPostID, "FrontPost");
 
                 }
                 else
                 {
-                    ViewData["CommentState"] = "Error";
-                    ViewBag.ProcessState = General.Messages.GeneralError;
+                    TempData["State"] = "Error";
+                    Session["PostID"] = currentPostID;
                     return View(model);
                 }
             }
             else
             {
-                ViewData["CommentState"] = "Error";
-                ViewBag.ProcessState = General.Messages.EmptyArea;
+                TempData["State"] = "Error";
+                Session["PostID"] = currentPostID;
                 return View(model);
             }
             
@@ -315,9 +323,35 @@ namespace UI.Controllers
         public ActionResult DeleteComment(int ID, int postID)
         {
             commentBLL.DeleteComment(ID);
-            ViewData["CommentState"] = "Success";
+            TempData["State"] = "DeleteSuccess";
             ModelState.Clear();
             return RedirectToAction("PostDetail/" + postID, "FrontPost");
+        }
+        public ActionResult ReplyToComment(int commentID)
+        {
+            CommentDTO model = new CommentDTO();
+            parentCommentID = commentID;
+            ViewBag.CurrentPostID = currentPostID;
+            return View(model);
+        }
+        static int parentCommentID;
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult ReplyToComment(CommentDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.MemberID = (int)Session["ID"];
+                model.ParentCommentID = parentCommentID;
+                postBLL.AddReply(model);
+                TempData["State"] = "ReplySuccess";
+                return RedirectToAction("PostDetail/" + currentPostID, "FrontPost");
+            }
+            else
+            {
+                ViewBag.ProcessState = General.Messages.EmptyArea;
+                return View(model);
+            }
         }
     }
 }

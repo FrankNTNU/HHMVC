@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 @section Styles{
+   
+    <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         #messageInfo strong {
@@ -21,8 +23,8 @@
 <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
     <div class="row" style="width: 100%; padding-right: 20px">
 
-        <div class="col-4 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        <div class="col-3 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-6 col-sm-4 col-md-6 col-lg-8 p-1 align-self-center">
             <h2><i class="fas fa-pencil-alt"> </i> 新增貼文</h2>
@@ -36,7 +38,7 @@
 
 <section class="pt-3">
 
-    <div class="col-12 col-md-8" style="padding:0px"> @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")</div>
+    <div class="col-12" style="padding:0px"> @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")</div>
 
     @using (Html.BeginForm("AddPost", "FrontPost", FormMethod.Post, new { @enctype = "multipart/form-data" }))
     {
@@ -44,24 +46,23 @@
 
         <div class="row gtr-uniform">
 
-            <div class="col-12 col-md-8">
+            <div class="col-6">
                 <input hidden value="@Session["ID"]">
                 <label>顯示名稱</label>
-
-                <input type="text" id="demo-name" value="@Session["Name"]" placeholder="Name" readonly style="height:45px" />
+                <input type="text" id="demo-name" value="@Session["Name"]" placeholder="Name" readonly style="height:45px" disabled />
             </div>
-            <div class="col-12 col-md-8">
+            <div class="col-6">
                 <label>標題</label>
                 <input type="text" name="Title" id="demo-email" value="" placeholder="標題" maxlength="50" style="height:45px" />                            @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
 
             </div>
-            <div class="col-12 col-md-8">
+            <div class="col-12">
                 <label>大綱</label>
                 <input type="text" name="ShortContent" id="demo-email" value="" placeholder="內容大綱" maxlength="100" style="height:45px" />                            @Html.ValidationMessageFor(x => x.ShortContent, "", new { @style = "color:red" })
 
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12">
                 <label>貼文內容</label>
                 <textarea name="PostContent" id="demo-message" placeholder="輸入你的貼文內容" rows="6" class="ckeditor"></textarea>                            @Html.ValidationMessageFor(x => x.PostContent, "", new { @style = "color:red" })
 
@@ -70,7 +71,7 @@
 
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12">
 
                 <label>圖片(建議長寬比16:9，單邊400px以上大圖)</label>
                 <div>
@@ -100,9 +101,30 @@
     <script src="~/Areas/Admin/Content/JS/bs-custom-file-input.min.js"></script>
     <script src="~/Areas/Admin/Content/JS/jquery.min.js"></script>
     <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
+    <script src="~/Content/toastr/toastr.min.js"></script>
     <script>
-        $(function () {
-            //    bsCustomFileInput.init();
-        });
+        $(document).ready(function () {
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "text-align": "center",
+                "onclick": null,
+                "fadeIn": 300,
+                "fadeOut": 1000,
+                "timeOut": 5000,
+                "extendedTimeOut": 1000
+            }
+            var result = "@TempData["State"]";
+            console.log(result);
+            if (result != "") {
+                if (result == "EmptyArea") {
+                    toastr.error("請填寫所有欄位");
+                }
+                else if (result == "ImageMissing") {
+                    toastr.error("請選擇圖片");
+                }
+
+            }
+        })
     </script>
 }

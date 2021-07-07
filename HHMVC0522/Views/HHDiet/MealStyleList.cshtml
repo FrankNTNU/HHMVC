@@ -1,0 +1,445 @@
+﻿@model UI.ViewModels.MealStyleListViewModel
+@using DAL
+@using DTO
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/HomeLayout2_0622.cshtml";
+}
+@section Styles{
+    <script src="https://kit.fontawesome.com/8e104d5e19.js" crossorigin="anonymous"></script>
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/Content/css/dietAddMeal.css" rel="stylesheet" />
+    <link href="~/Content/css/stylesPlay.css" rel="stylesheet" />
+
+    <style>
+
+        .styleIcon {
+            width: 110px;
+            height: 110px;
+            /*border: 1px solid gray;*/
+            margin: 0 20px
+        }
+
+            .styleIcon img {
+                width: 100%;
+            }
+    </style>
+}
+
+@*<header id="header">
+    <div id="frame" class="my-xl-4">
+        <ul class="slides">
+            @{
+
+
+                foreach (MealTagCategory mCtgy in Model.TagsCategories)
+                {
+                    <li class="mealTagImg">
+                        <figure class="styleIcon">
+                            <img src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" data-ctgyID="@mCtgy.ID" height="280" class="mTagImg">
+                            <figcaption>
+                                @mCtgy.Name
+                            </figcaption>
+                        </figure>
+                    </li>
+
+
+                }
+            }
+        </ul>
+    </div>
+</header>*@
+
+
+
+<header id="header" style="background-color: #fff0f0; width: 100%; padding-right: 0px; overflow: hidden; " class="pt-3 pb-4 m-0  col-12">
+    @*<div class="row col-12 d-flex" style="width: 100%; padding-right: 0px">*@
+
+    <div >
+        <ul class="slides">
+            @{
+
+
+                foreach (MealTagCategory mCtgy in Model.TagsCategories)
+                {
+                    <li class="mealTagImg">
+                        <figure class="styleIcon">
+                            <img src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" data-ctgyID="@mCtgy.ID" height="280" class="mTagImg">
+                            <figcaption>
+                                @mCtgy.Name
+                            </figcaption>
+                        </figure>
+                    </li>
+
+
+                }
+            }
+        </ul>
+
+    </div>
+</header>
+
+
+
+
+<div class=" bg-white p-3 py-2  my-4 shadow-sm mb-lg-5" style="bottom: 0;   ">
+    <div class="row ">
+        <div class="col-6">
+            <h1 id="hTagName" style="float:left">@Model.TheMealStyle.MealStyleName</h1>
+        </div>
+        <div class="col-6 row">
+            <div class="col-3">
+                <span style="color: #f56a6a"><span id="" style="font-weight: bold ;font-size:16px">暫存累計熱量: </span></span>
+            </div>         
+            <div class="col-3" style="color: #f56a6a">
+                @{
+                    if (Model.MemberProfile.CurrProgram != null)
+                    {
+                        <label>我的挑戰上限</label>
+
+
+                    }
+                    else
+                    {
+                        <label>我的TDEE</label>
+                    }
+                }
+                <span> @Model.MemberProfile.ProgramMaxCalOrTDEE</span>
+
+            </div>
+            
+            <div class="col-3">
+                <span style="color: #f56a6a"><i class="fa-solid fa-heart"></i><span id="LikedCount" style="font-weight: bold ;font-size:16px"></span></span>
+
+            </div>
+            <div class="col-3">
+                <a href="@Url.Action("Create", "HHDiet")">
+                    <input type="button" id="TempListCount" value="" class="btn btn-default " style="font-size:16px" />
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row py-md-3">
+        <div class="col-6 col-md-6">
+            <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
+        </div>
+        <div class="col-6 col-md-6">
+            <select id="selSort" class="form-control">
+                <option selected disabled value="0">排序條件</option>
+                <option value=1>依卡路里含量排序: 低 -> 高</option>
+                <option value=2>依卡路里含量排序: 高 -> 低</option>
+                <option value=3>依蛋白質含量排序: 低 -> 高</option>
+                <option value=4>依蛋白質含量排序: 高 -> 低</option>
+                <option value=5>依碳水化合物含量排序: 低 -> 高</option>
+                <option value=6>依碳水化合物含量排序: 高 -> 低</option>
+                <option value=7>依脂肪含量排序: 低 -> 高</option>
+                <option value=8>依脂肪含量排序: 高 -> 低</option>
+
+            </select>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <input type="button" id="btnAllMeals" class="button primary large col-4" value="全部餐點">
+
+    <input type="button" id="btnShowTDEE" class="button large col-4" value="TDEE">
+
+
+
+    @{
+        if (Model.MemberProfile.CurrProgram != null)
+        {
+            <input type="button" id="btnLightProMeals" class="button large col-4" value="符合計畫">
+
+        }
+        else
+        {
+            <input type="button" id="btnLightProMeals" class="button large col-4" value="輕食一下">
+        }
+    }
+</div>
+
+
+
+<div id="mealList" class="row gx-5 mt-lg-4">
+
+    @Html.Partial("_MealOptionViewModelPartial", Model.TheMealStyle.Meals)
+
+</div>
+
+@section Scripts{
+    <script>
+
+        var glCurrMealTagID;
+
+        $(document).ready(() => {
+            glCurrMealTagID =@Model.TheMealStyle.MealStyleID
+            UpdateLikedCount()
+            GetTempDietLogsSession()
+
+        })
+
+
+
+        function GetTempDietLogsSession() {
+             fetch('@Url.Action("GetSession", "HHApi_DietLog")', {
+                method: "GET",
+             }).then(response => response.json()).then(data => {
+                 let showTempCount = 0;
+                 if (data != 0) { showTempCount = data.length;}
+                 $("#TempListCount").val("暫存飲食清單: " + showTempCount)
+            })
+
+        }
+        //==============================
+
+
+        $("#btnAllMeals").click(QueryMeetRequredMeals)
+        $("#btnShowTDEE").click(QueryMeetRequredMeals)
+        $("#btnLightProMeals").click(QueryMeetRequredMeals)
+
+        function QueryMeetRequredMeals() {
+            $(this).addClass("primary").siblings().removeClass("primary");
+            let theUrl = null
+            switch ($(this).attr("id")) {
+                case "btnAllMeals":
+                    theUrl = '@Url.Action("GetMealsByTag", "HHApi_DietLog")?mealTagID=' + glCurrMealTagID
+                    break;
+                case "btnShowTDEE":
+
+                    theUrl = '@Url.Action("GetMealsByTDEE", "HHApi_DietLog")?memberHProfile=' + @Model.MemberProfile + '&mealTagID=' + glCurrMealTagID
+                    break;
+
+                case "btnLightProMeals":
+                    theUrl = '@Url.Action("GetMealsByProOrLight", "HHApi_DietLog")?memberHProfile=' +  @Model.MemberProfile  + '&mealTagID=' + glCurrMealTagID
+                    break;
+
+            }
+            $.ajax({
+                type: "GET",
+                url: theUrl,
+                contentType: "html"
+            }).done(function (items) {
+                if (items.length == 0) {
+                    $("#mealList").html('<p style="color: #f56a6a">今天已經吃太多了 沒有符合的餐點:*)</p>')
+                    return
+                }
+                $("#mealList").html("")
+                items.forEach(item => {
+                    $("#mealList").append(MealOptViewMaker(item))
+
+                })
+            })
+
+        }
+
+        $("#mealList").on("click", ".btnToggleLiked", (e) => {
+            mealID = $(e.currentTarget).parent().parent().find(".hiddenMealID").val()
+            console.log(mealID)
+              $.ajax({
+                type: "GET",
+                  url: '@Url.Action("LikeMealToggle", "HHApi_DietLog")?memberId=' +@Model.MemberProfile.MemberID + '&mealId=' + mealID,
+                contentType: "html",
+              }).done(function (isLiked) {
+                  if (isLiked == true) {
+
+                      $(e.currentTarget).find(".fontLike").removeClass("far").addClass("fas ");
+                     }
+                  else {
+                      $(e.currentTarget).find(".fontLike").removeClass("fas").addClass("far ");
+
+                  }
+
+
+                 UpdateLikedCount()
+                 })
+
+
+
+        })
+
+        $("#mealList").on("click", ".addToTempList", (e) => {
+            let mealOptionID = $(e.currentTarget).parent().parent().find(".hiddenMealID").val()
+            let mealName = $(e.currentTarget).parent().parent().find(".mealInfoName").text()
+            let mealCal = $(e.currentTarget).parent().parent().find(".mealInfoCal").text()
+            let mealUnitName = $(e.currentTarget).parent().parent().find(".mealInfoUnitName").text()
+
+
+            let itemObj = {
+                "MemberID": @Model.MemberProfile.MemberID, "Portion": 1, "Name": mealName, "Calories": mealCal, "MealOptionID": mealOptionID,
+                "TimeOfDayID": 1, "Date": '@DateTime.Now.ToString(CDictionary.MMddyyyy)', "UnitName": mealUnitName
+            };
+            console.log(JSON.stringify(itemObj))
+             @*fetch('@Url.Action("AddItemToSession", "HHApi_DietLog")', {
+                 method: "POST",
+                 data: JSON.stringify(itemObj),
+             }).then(response => response.json()).then(() => {
+                 GetTempDietLogsSession()
+
+            })*@
+
+        $.ajax({
+                type: "POST",
+                  url: '@Url.Action("AddItemToSession", "HHApi_DietLog")',
+                data: JSON.stringify(itemObj),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                 success: function (data) {
+                     console.log(data)
+                     GetTempDietLogsSession()
+
+                 },
+                failure: function () {  }
+            });
+
+
+
+
+        })
+
+
+
+
+        $(".mTagImg").on("click", (e) => {
+            mealTagID = $(e.currentTarget).attr("data-ctgyID")
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetMealsByTag", "HHApi_DietLog")?mealTagID=' + mealTagID +'&memberId='+@Model.MemberProfile.MemberID,  //todo
+                contentType: "html"
+            }).done(function (items) {
+                glCurrMealTagID = mealTagID
+                $("#mealList").html(items)
+               $("#hTagName").text($(e.currentTarget).parent().find("figcaption").html())
+
+            })
+        })
+
+
+
+
+
+        function MealOptViewMaker(item) {
+            const itemViewHtml =
+                `<div class="col-3">`+
+                `<div class="mealInfoDiv  px-0 mb-5  bg-white " style="bottom: 0; border-radius: 0.9em; overflow: hidden; box-shadow: 5px 5px 30px #E0E0E0 ">`+
+                `<input type="hidden" value=${item.ID} class="hiddenMealID" />` +
+                `<div style="height:20em">` +
+                `<img id="mealInfoImage" src="/Content/Images/MealOptionImages/${item.Image}" height="100%"  />` +
+                `</div >` +
+                `<ul class="list-group-flush mx-3 mb-3" style="border-bottom: solid #f56a6a 2.5px">`+
+                `<li class="list-group-item"><h4 id="mealInfoName class="mealInfoName" >${item.Name}</h4></li>`+
+                `<li class="list-group-item">每單位卡路里(大卡): <span style="float:right" id="mealInfoCal" class="mealInfoCal">${Math.round(item.Calories)}</span></li>`+
+                `<li class="list-group-item">單位: <span style="float:right" id="mealInfoUnitName" class="mealInfoUnitName">${item.UnitName}</span></li>`+
+                `<li class="list-group-item">碳水化合物含量(公克): <span id="mealInfoCarbs" style="float:right">${Math.round(item.Carbs)}</span></li>`+
+                `<li class="list-group-item">蛋白質含量(公克): <span id="mealInfoProtein" style="float:right">${Math.round(item.Protein)}</span></li>`+
+                `<li class="list-group-item">脂肪含量(公克): <span id="mealInfoFat" style="float:right">${Math.round(item.Fat)}</span></li>` +
+                `<li class="list-group-item">糖含量(公克): <span id="mealInfoSugar" style="float:right">${Math.round(item.Sugar)}</span></li>` +
+                `<li class="list-group-item">鈉含量(豪克): <span id="mealInfoNa" style="float:right">${Math.round(item.Na)}</span></li>` +
+                `</ul>`+
+                `<ul class="actions mx-3 mb-3">`+
+                    `<li  class="addToTempList col-6 text-center" style="border-right: solid #f56a6a 2px;color: #f56a6a">加入</li>`+
+                    `<li class="btnToggleLiked col-6 text-center" style="color: #f56a6a">最愛</li>`+
+                `</ul>`+
+                `</div>` +
+                `</div>`
+
+
+            return itemViewHtml
+        }
+
+
+        $("#searchText").keyup(() => {
+            console.log($("#searchText").val())
+
+
+        })
+
+        //==============================
+
+
+        function UpdateLikedCount() {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetLikedList", "HHApi_DietLog")?memberId=' + 17,  //todo
+                contentType: "html"
+            }).done(function (datas) {
+                //likedMeals = datas
+                //likedMeals.forEach(function (item) {
+                //    const opt = `<option value=${item.ID} >${item.Name}</option>`
+                //    $("#likedListSelect").append(opt)
+                $("#LikedCount").text("最愛: " + datas.length)
+
+                })
+
+
+        }
+
+        $("#selSort").change(function () {
+
+            const selectedSortId = $(this).find(":selected").val()
+            let theClass = ""
+            const highToLow = [1, -1]
+            const lowToHigh = [-1, 1]
+            let order;
+            switch (selectedSortId) {
+                case '1': //依卡路里含量排序: 低 -> 高
+                    theClass = ".mealInfoCal";
+                    order = lowToHigh;
+                    break;
+                case '2':  //依卡路里含量排序: 高 -> 低
+                    theClass = ".mealInfoCal";
+                    order = highToLow;
+                    break;
+                case '3': //依蛋白質含量排序: 低 -> 高                   
+                    theClass = ".mealInfoProtein";
+                    order = lowToHigh;
+                    break;
+                case '4': //依蛋白質含量排序: 高 -> 低
+                    theClass = ".mealInfoProtein";
+                    order = highToLow;
+                    break;
+                case '5': // 依碳水化合物含量排序: 低 -> 高
+                    theClass = ".mealInfoCarbs";
+                    order = lowToHigh;
+                    break;
+                case '6': // <option value=6 > 依碳水化合物含量排序: 高 -> 低</option >
+                    theClass = ".mealInfoCarbs";
+                    order = highToLow;
+                    break;
+                case '7': // <option value=7 > 依脂肪含量排序: 低 -> 高</option >
+                    theClass = ".mealInfoFat";
+                    order = lowToHigh;
+                    break;
+                case '8': // <option value=8 > 依脂肪含量排序: 高 -> 低</option >
+                    theClass = ".mealInfoFat";
+                    order = highToLow;
+                    break;
+            }
+            console.log(theClass)
+            console.log($('.divMealOpt').find(theClass))
+            //大=>小
+            var result = $('.divMealOpt').sort(function (a, b) {
+
+                var contentA = parseInt($(a).find(theClass).text());
+                var contentB = parseInt($(b).find(theClass).text());
+                console.log(contentA)
+
+                console.log(contentB)
+
+                return (contentA < contentB) ? order[0] : (contentA > contentB) ? order[1] : 0;
+            });
+
+            $('#mealList').html(result);
+        })
+
+
+
+    </script>
+}
+
+

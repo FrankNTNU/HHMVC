@@ -6,114 +6,288 @@
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 
-
 @section Styles
 {
 
     <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">*@
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/r-2.2.7/datatables.min.css" />*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/r-2.2.7/datatables.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui-timepicker/jquery-ui-timepicker-addon.css" />
+
     <style>
-        .box {
-            border: solid 2px gray;
-            border-radius: 10px;
-            padding: 10px;
+        .mainTitle {
+            position: relative;
+            left: -5px;
+            padding-left: 0;
+        }
+
+        .myBox {
+            /*border: solid 2px gray;
+            border-radius: 10px;*/
+            padding: 15px;
+        }
+
+        .myInnerBox {
+            border: solid 1px #f56a6a;
+            border-radius:  0.9em;
+            padding: 5px;
+            box-shadow: 5px 5px 10px 5px #E0E0E0;
         }
 
         .operate {
             min-height: 200px;
-            margin: 0 2px;
+            box-sizing: border-box;
         }
 
         #mainDiv {
-            width: 80%;
+            width: 100%;
             margin: auto;
-            margin-top: 5%;
+            margin-top: 16px;
+            position: relative;
+            /*width: 500px;*/
+            /*top: 80px;*/
+        }
+
+        #mainRow {
+            position: relative;
+            left: 20px;
+            width: 100%;
+        }
+
+        .innerRow {
+            position: relative;
+            left: 10px;
+            padding: 10px;
         }
 
         label {
-            display:inline-block;
-            text-align:left;
+            display: inline-block;
+            text-align: left;
         }
 
-        #wHours, #wTime {
+        #wHoursForNew, #wTimeForNew, #wHoursForEdit, #wTimeForEdit {
             display: inline-block;
         }
 
-        #wName {
+        #wNameForNew, #wNameForEdit {
             display: inline-block;
             width: 200px;
         }
 
-        #new {
-            float:right;
+        #new, #Edit, #Delete {
+            float: right;
             font-size: 14px;
         }
 
         #wlTable_filter label input {
-            display:inline-block;
-            width:120px;
-            float:right;
+            display: inline-block;
+            width: 120px;
+            float: right;
         }
 
         #wlTable_filter label {
-            display:flex;
-            align-items:center;
+            display: flex;
+            align-items: center;
+            margin-left: 3px;
+        }
+
+        #wlTable_filter {
+            margin-left: auto;
+        }
+
+        #wlTable_paginate {
+            margin-left: auto;
+        }
+
+        #wlTable_wrapper {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .calConsume {
+            font-size: 1.2em;
+            font-style: italic;
+            color: #f56a6a;
+        }
+
+        #consumeForNew, #consumeForEdit {
+            height: 2em;
+        }
+
+        #newTitle, #editTitle {
+            font-size: 2em;
+            font-weight: 600;
+            color: #f56a6a;
+            text-align: center;
+        }
+
+        .ui-datepicker {
+            width: 300px;
+            height: max-content;
+        }
+
+            .ui-datepicker select {
+                height: 1.5em;
+                display: inline-block;
+                background: white !important;
+                padding: 0px !important;
+                padding-left: 2em !important;
+            }
+
+                .ui-datepicker select span {
+                    display: none;
+                }
+
+        .ui-timepicker-div dl {
+            all: initial;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center
+        }
+
+            .ui-timepicker-div dl dt {
+                all: initial;
+                width: 30%;
+                display: inline-block;
+                margin-bottom: 10px
+            }
+
+            .ui-timepicker-div dl dd {
+                all: initial;
+                width: 60%;
+                display: inline-block;
+                margin-bottom: 10px
+            }
+
+        .fa-check-square, .fa-square, #mainDiv .fa-star {
+            color: #f56a6a;
         }
     </style>
 }
+
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
+        <div class="col-4 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="fas fa-clipboard-list"></i> 運動紀錄</h2>
+        </div>
+    </div>
+</header>
+<header id="header" class="m-0 p-0"></header>
+<section class="pt-2">
+    <div id="mainDiv">
+        <div id="mainRow" class="row">
+            <div class="myBox operate col-md-6 col-sm-12 col-12" style="display:flex; flex-direction:column">
+                <div class="myInnerBox">
+                    <div id="newTitle">新增 / 預定 運動紀錄</div>
+                    <div class="form-group" style="margin-bottom:2px; width:100%; display:block">
+                        <label for="wNameForNew">運動項目</label>
+                        @Html.DropDownList("wNameForNew", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
+                    </div>
+                    <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
+                        <span id="AlForNew"></span>，【<span id="WcForNew"></span>】類型<span id="IsPreferenceForNew"></span>
+                    </div>
+                    <div class="form-group" style="margin-bottom:2px; display:block">
+                        <label for="wTimeForNew">運動時間</label>
+                        <input type="text" class="form-control" id="wTimeForNew" style="width:160px; display:inline-block" autocomplete="off" />
+                    </div>
+                    <div class="form-group" style="margin-bottom:2px; display:block">
+                        <label for="wHoursForNew">運動多久</label>
+                        <input type="text" class="form-control" id="wHoursForNew" style="width:120px" placeholder="小時" />
+                    </div>
+                    <div id="consumeForNew" style="margin-bottom:2px; display:block">
+                    </div>
+                    <div id="new" class="button primary fit" style="margin-top:auto">新增</div>
+                </div>
+            </div>
+            <div class="myBox operate col-md-6 col-sm-12 col-12" style="display:flex; flex-direction:column">
+                <div class="myInnerBox">
+                    <div id="editTitle">修改 / 刪除 運動紀錄</div>
+                    <div class="form-group" style="margin-bottom:2px; width:100%; display:block">
+                        <label for="wNameForEdit">運動項目</label>
+                        @Html.DropDownList("wNameForEdit", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
+                    </div>
+                    <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
+                        <span id="AlForEdit"></span>，【<span id="WcForEdit"></span>】類型<span id="IsPreferenceForEdit"></span>
+                    </div>
+                    <div class="form-group" style="margin-bottom:2px; display:block">
+                        <label for="wTimeForEdit">運動時間</label>
+                        <input type="text" class="form-control" id="wTimeForEdit" style="width:160px; display:inline-block" autocomplete="off" />
+                    </div>
+                    <div class="form-group" style="margin-bottom:2px; display:block">
+                        <label for="wHoursForEdit">運動多久</label>
+                        <input type="text" class="form-control" id="wHoursForEdit" style="width:120px" placeholder="小時" />
+                        <div style="display:inline-block">
+                            <select id="wStatusForEdit">
+                                <option value="4">預定中</option>
+                                <option value="5">執行成功</option>
+                                <option value="6">執行失敗</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="consumeForEdit" style="margin-bottom:2px; display:block">
+                    </div>
+                    <div style="display:flex; column-gap:5px; margin-top:auto">
+                        <div id="Edit" class="button primary fit">修改</div>
+                        <div id="Delete" class="button primary fit">刪除</div>
+                    </div>
+                </div>
+            </div>
+            <div class="myBox col-12">
+                <div class="myInnerBox">
+                    <table id="wlTable" class="display responsive nowrap" style="width:100%">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "wlForm" }))
 {
     @Html.AntiForgeryToken()
 }
 
-<div id="mainDiv">
-
-    <div style="display:flex; width:100%; padding:5px 0" class="form-inline">
-        <div class="box operate" style="width: 30%; "></div>
-        <div class="box operate" style="width: 40%;">
-            <div class="form-group" style="margin-bottom:2px; width:100%; height:45px; display:block">
-                <label for="wName">運動項目</label>
-                @Html.DropDownList("wName", new SelectList(Model, "ID", "Name"), new { @class = "form-control" })
-            </div>
-            <div style="display:block; line-height:3em; border-bottom:solid 2px #f56a6a; margin-bottom:5px">
-                <span id="Al"></span>，【<span id="Wc"></span>】類型
-            </div>
-            <div class="form-group" style="margin-bottom:2px; display:block">
-                <label for="wTime">運動時間</label>
-                <input type="text" class="form-control" id="wTime" style="width:140px; display:inline-block" autocomplete="off" />
-            </div>
-            <div class="form-group" style="margin-bottom:2px; display:block">
-                <label for="wHours">運動多久</label>
-                <input type="text" class="form-control" id="wHours" style="width:100px" placeholder="小時" />
-                <div id="new" class="button primary fit">新增</div>
-            </div>
-        </div>
-        <div class="box operate" style="width: 40%;"></div>
-    </div>
-    <div class="box" style="width:100%; min-height:150px; margin-bottom:5px"></div>
-    <div class="box" style="width:100%; min-height:300px;">
-        <table id="wlTable" class="display">
-        </table>
-    </div>
-</div>
-
 @section Scripts
 {
     <script type="text/javascript" src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/r-2.2.7/datatables.min.js"></script>
     <script type="text/javascript" src="~/Content/moment-js/moment.min.js"></script>
     <script type="text/javascript" src="~/Content/jquery-ui-timepicker/jquery-ui-timepicker-addon.js"></script>
     <script>
 
 
         var minDate = null, maxDate = null;
+        var token = null;
 
         $(function () {
 
             var form = $('#wlForm');
-            var token = $('input[name="__RequestVerificationToken"]', form).val();
+            token = $('input[name="__RequestVerificationToken"]', form).val();
+
+            //let beforeEditStatus = null;
+
+            //===================================================================
+            //Estimate Cal
+            $("#wHoursForNew").change(function () {
+
+                let wTime = new Date($("#wTimeForNew").datetimepicker().val());
+
+                EstimateCal($("#wNameForNew").val(), $("#wHoursForNew").val(), wTime, "#consumeForNew");
+            });
+
+            $("#wHoursForEdit").change(function () {
+
+                let wTime = new Date($("#wTimeForEdit").datetimepicker().val());
+
+                EstimateCal($("#wNameForEdit").val(), $("#wHoursForEdit").val(), wTime, "#consumeForEdit");
+            });
+
+            //===================================================================
+            //Initiate Datatable
 
             let table = $("#wlTable").DataTable({
                 ajax: {
@@ -124,33 +298,56 @@
                 },
                 columns: [
                     { data: "ID", title: "ID" },
+                    { data: "WorkoutID", title: "WorkoutID" },
                     { data: "EditTime", title: "編輯時間" },
                     { data: "Name", title: "運動項目" },
                     { data: "WorkoutTime", title: "運動時間" },
                     { data: "WorkoutHours", title: "運動多久" },
+                    { data: "Consume", title: "運動消耗" },
                     { data: "Status", title: "紀錄狀態" },
+                    {
+                        data: "IsPreference",
+                        title: "喜好",
+                        render: function (data, type, row) {
+                            if (data == true) {
+                                return '<div style="text-align:center"><p style="visibility: hidden; display: none;">' + data + '</p><i class="fas fa-star"></i></div>';
+                            } else {
+                                return '<div style="text-align:center"><p style="visibility: hidden; display: none;">' + data + '</p><i class="far fa-star"></i></div>';
+                            }
+                        }
+                    }
                 ],
                 columnDefs: [
                     {
-                        targets: [0],
+                        targets: [0, 1],
                         visible: false,
                         searchable: false
                     },
                     {
-                        targets: [1, 3],
+                        targets: [2],
                         render: function (date) {
-                            return moment(date).format("MM月DD日yyyy年 hh:mm");
-                        }
+                            return moment(date).format("yyyy年MM月DD日 HH:mm:ss");
+                        },
+                        type: "datetime"
+                    },
+                    {
+                        targets: [4],
+                        render: function (date) {
+                            return moment(date).format("yyyy年MM月DD日 HH:mm");
+                        },
+                        type: "datetime"
                     }
                 ],
-                order: [[1, "desc"]],
+                order: [[2, "desc"]],
                 lengthChange: false,
                 pageLength: 10,
+                responsive: true,
                 initComplete: function () {
 
                     let wrap = document.createElement("div");
                     $(wrap).addClass("form-group").addClass("form-inline")
-                        .css("display", "inline-block").css("float", "left");
+                        .css("float", "left")
+                        .css("margin-bottom", "3px");
 
                     let lbl1 = document.createElement("label");
                     lbl1.innerHTML = "運動時間 從 ";
@@ -160,7 +357,8 @@
                     input1.type = "text";
                     input1.className = "form-control";
                     input1.id = "start";
-                    $(input1).css("display", "inline-block").css("width", "120px");
+                    $(input1).css("display", "inline-block").css("width", "120px")
+                        .attr("autocomplete", "off");
 
                     let lbl2 = document.createElement("label");
                     lbl2.innerHTML = " 到 ";
@@ -170,68 +368,180 @@
                     input2.type = "text";
                     input2.className = "form-control";
                     input2.id = "end";
-                    $(input2).css("display", "inline-block").css("width", "120px");
+                    $(input2).css("display", "inline-block").css("width", "120px")
+                        .attr("autocomplete", "off");;
 
                     $(wrap).append(lbl1).append(input1).append(lbl2).append(input2);
                     $(".dataTables_wrapper").prepend($(wrap));
 
-                    $(input1).datepicker();
-                    $(input2).datepicker();
+                    $(input1).datepicker({
+                        dateFormat: "yy/mm/dd",
+                        changeMonth: true,
+                        changeYear: true
+                    });
+
+                    $(input2).datepicker({
+                        dateFormat: "yy/mm/dd",
+                        changeMonth: true,
+                        changeYear: true
+                    });
 
                 }
             });
 
-            $("#wName").change(function () {
+            //==========================================================
+            // New and Edit WorkoutLog DropdownList
+
+            $("#wNameForNew").change(function () {
                 let v = $(this).val();
                 $.ajax({
                     url: "GetWorkoutAlWc",
                     type: "post",
-                    data: { wid: v },
+                    data: {
+                        __RequestVerificationToken: token,
+                        wid: v
+                    },
                     success: function (data) {
-                        $("#Al").text(data.Al);
-                        $("#Wc").text(data.Wc);
+                        $("#AlForNew").text(data.Al);
+                        $("#WcForNew").text(data.Wc);
+
+                        if (data.IsPreference) {
+                            $("#IsPreferenceForNew").html('<i class="fas fa-star"></i>');
+                        } else {
+                            $("#IsPreferenceForNew").html("");
+                        }
+                        
+                        if ($("#wHoursForNew").val() != "") {
+                            let wTime = new Date($("#wTimeForNew").datetimepicker().val());
+
+                            EstimateCal($("#wNameForNew").val(), $("#wHoursForNew").val(), wTime, "#consumeForNew");
+                        }
                     }
                 });
+
+                
             });
 
-            $("#wName").change();
+            $("#wNameForEdit").change(function (e) {
+
+                let v = $(this).val();
+                $.ajax({
+                    url: "GetWorkoutAlWc",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        wid: v
+                    },
+                    success: function (data) {
+                        $("#AlForEdit").text(data.Al);
+                        $("#WcForEdit").text(data.Wc);
+
+                        if (data.IsPreference) {
+                            $("#IsPreferenceForEdit").html('<i class="fas fa-star"></i>');
+                        } else {
+                            $("#IsPreferenceForEdit").html("");
+                        }
+
+                        if ($("#wHoursForEdit").val() != "") {
+                            let wTime = new Date($("#wTimeForEdit").datetimepicker().val());
+
+                            EstimateCal($("#wNameForEdit").val(), $("#wHoursForEdit").val(), wTime, "#consumeForEdit");
+                        }
+                    }
+                });
+
+            });
+
+            $("#wNameForNew").change();
+            $("#wNameForEdit").change();
 
             //=============================================================
+            //Initiate DateTimePicker For New
 
-            let d = new Date();
-            d = new Date(d.toDateString());
-            let ms = d.getTime() + 24 * 60 * 60 * 1000 * 7;
+            let today = new Date();
+            today = new Date(today.toDateString());
+
+            let ms = today.getTime() + 24 * 60 * 60 * 1000 * 7;
             let d7 = new Date(ms);
+            ms = today.getTime() + 24 * 60 * 60 * 1000 * 8 - 1;
+            let d8 = new Date(ms);
 
-            $("#wTime").datetimepicker({
-                minDate: new Date(),
-                maxDate: d7
+            $("#wTimeForNew").datetimepicker({
+                minDate: today,
+                maxDate: d8,
+                showButtonPanel: false,
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "yy/mm/dd",
+                onClose: function () {
+                    if ($(this).val() != "") {
+                        let wTime = new Date($(this).datetimepicker().val());
+                        EstimateCal($("#wNameForNew").val(), $("#wHoursForNew").val(), wTime, "#consumeForNew");
+                    }
+                }
             });
 
-            $("#wTime").change(function () {
+            $("#wTimeForNew").change(function () {
 
+                let wTime = new Date($(this).datetimepicker().val());
 
-                if ($(this).datetimepicker("getDate").toDateString() == d.toDateString()) {
+                if (wTime.toDateString() == today.toDateString()) {
 
                     $("#new").text("新增");
+                    $("#new").attr("data-status", 5);
 
                 } else {
 
                     $("#new").text("預定");
-
+                    $("#new").attr("data-status", 4);
                 }
 
             });
 
-            $("#new").click(function () {
-                if ($(this).text() == "新增") {
-                    $.ajax();
-                } else if ($(this).text() == "預定") {
+            //=============================================================
+            //Initiate DateTimePicker For Edit
 
+            ms = today.getTime() + 24 * 60 * 60 * 1000 * 1;
+            let d1 = new Date(ms);
+
+            ms = today.getTime() - 24 * 60 * 60 * 1000 * 7;
+            let d7b = new Date(ms);
+
+            $("#wTimeForEdit").datetimepicker({
+                minDate: d7b,
+                maxDate: d8,
+                showButtonPanel: false,
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "yy/mm/dd",
+                onClose: function () {
+                    if ($(this).val() != "") {
+                        let wTime = new Date($(this).datetimepicker().val());
+                        EstimateCal($("#wNameForEdit").val(), $("#wHoursForEdit").val(), wTime, "#consumeForEdit");
+                    }
                 }
             });
 
-            //=======================================================
+            $("#wTimeForEdit").change(function () {
+
+                let wTime = new Date($(this).datetimepicker().val());
+
+                //If wTime after tomorrow 00:00
+                //"預定中" can't be modified, and remove "disabled" so that can get it's value
+                if (wTime.getTime() >= d1.getTime()) {
+
+                    $("#wStatusForEdit").val(4).attr("disabled", true);
+                    $("#wStatusForEdit option").eq(0).removeAttr("disabled");
+                } else {
+                    //If wTime before tomorrow 00:00
+                    //"預定中" set to be "disabled"
+                    $("#wStatusForEdit option").eq(0).attr("disabled", true);
+                }
+                
+            });
+
+            //=============================================================
+            //DataTable Date Filter
 
             $("body").on("change", "#start", function () {
                 minDate = $(this).datepicker("getDate");
@@ -243,10 +553,247 @@
                 maxDate.setDate(maxDate.getDate() + 1);
                 table.draw();
             });
-            
+
+            $("body").on("blur", "#start", function () {
+                table.draw();
+            });
+
+            $("body").on("blur", "#end", function () {
+                table.draw();
+            });
+
+
+            //=================================================================
+            //Add New WorkoutLog
+
+            $("#new").click(function () {
+
+                if (!Date.parse($("#wTimeForNew").datetimepicker().val())) {
+                    alert("請輸入有效日期");
+                    return;
+                }
+
+                let patt = /^[0-9]+[.]?[0-9]*$/
+
+                if (!patt.test($("#wHoursForNew").val())) {
+                    alert("請輸入有效時間長度");
+                    return;
+                }
+
+                let wTime = new Date($("#wTimeForNew").datetimepicker().val());
+                let status = $(this).attr("data-status");
+
+                $.ajax({
+                    url: "AddWorkoutLog",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        WorkoutID: $("#wNameForNew").val(),
+                        WorkoutTime: moment(wTime).format("YYYY-MM-DD HH:mm"),
+                        WorkoutHours: parseFloat($("#wHoursForNew").val()),
+                        StatusID: status
+                    },
+                    success: function (data) {
+
+                        alert(data.Result);
+                        table.ajax.reload();
+
+                    }
+                });
+            });
+
+            //===================================================================
+            //Delete WorkoutLog
+            $("#Delete").click(function () {
+
+                let wlid = $(this).attr("data-wlid");
+
+                if (typeof wlid == "undefined") {
+                    alert("請選擇一筆紀錄刪除");
+                    return;
+                }
+
+                if (!confirm("確定刪除嗎？")) {
+                    return;
+                }
+
+                $.ajax({
+                    url: "DeleteWorkoutLog",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        ID: wlid
+                    },
+                    success: function (data) {
+                        alert(data.Result);
+                        table.ajax.reload();
+
+                        //$(".schedule .item[data-wlid=" + wlid + "]").remove();
+                    }
+                });
+            });
+
+            //===================================================================
+            //Eidt Workout
+            $("#Edit").click(function () {
+
+                if ($(this).attr("disabled")) {
+                    return;
+                }
+
+                if ($("#wStatusForEdit").val() == null) {
+                    alert("請選擇執行成功或失敗");
+                    return;
+                }
+
+                if (!Date.parse($("#wTimeForEdit").datetimepicker().val())) {
+                    alert("請輸入有效日期");
+                    return;
+                }
+
+                let patt = /^[0-9]+[.]?[0-9]*$/
+
+                if (!patt.test($("#wHoursForEdit").val())) {
+                    alert("請輸入有效時間長度");
+                    return;
+                }
+
+                let wlid = $(this).attr("data-wlid");
+
+                if (typeof wlid == "undefined") {
+                    alert("請選擇一筆紀錄修改");
+                    return;
+                }
+
+                let wTime = new Date($("#wTimeForEdit").datetimepicker().val());
+
+                $.ajax({
+                    url: "EditWorkoutLog",
+                    type: "post",
+                    data: {
+                        __RequestVerificationToken: token,
+                        ID: wlid,
+                        WorkoutID: $("#wNameForEdit").val(),
+                        WorkoutTime: moment(wTime).format("YYYY-MM-DD HH:mm"),
+                        WorkoutHours: parseFloat($("#wHoursForEdit").val()),
+                        StatusID: $("#wStatusForEdit").val()
+                    },
+                    success: function (data) {
+                        alert(data.Result);
+                        table.ajax.reload();
+                    }
+                });
+            });
+
+            //===================================================================
+            //Row Selection
+
+            $('#wlTable').on('click', 'tbody tr', function () {
+
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+
+                let rowData = table.row(this).data();
+
+                let workoutTime = new Date(moment(rowData.WorkoutTime).format("MM/DD/yyyy HH:mm"));
+
+                let status = null;
+
+                if (rowData.Status == "預定中") {
+                    status = 4;
+                } else if (rowData.Status == "執行成功") {
+                    status = 5;
+                } else if (rowData.Status == "執行失敗") {
+                    status = 6;
+                }
+
+                let tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                let beforeTomorrow = new Date(tomorrow.getTime() - 1);
+
+                //If WorkoutLog is "預定中", then only can change it's date to future 7 days
+                //and if this workoutlog's date is today, then can't change it's date
+                if (status == 4) {
+                    $("#wTimeForEdit").datetimepicker("option", "minDate", tomorrow);
+                    $("#wTimeForEdit").datetimepicker("option", "maxDate", d8);
+                    if (workoutTime.toDateString() == today.toDateString()) {
+                        $("#wTimeForEdit").attr("disabled", true);
+                    }
+                //If WorkoutLog is "執行成功或失敗", then only can change it's date to past 7 days
+                } else if (status == 5 || status == 6) {
+                    $("#wTimeForEdit").datetimepicker("option", "minDate", d7b);
+                    $("#wTimeForEdit").datetimepicker("option", "maxDate", beforeTomorrow);
+                    $("#wTimeForEdit").removeAttr("disabled");
+                }
+
+                //beforeEditStatus = status;
+
+                //Load data to EditCard
+                $("#wNameForEdit").val(rowData.WorkoutID);
+                $("#wNameForEdit").change();
+
+                //According to data's WorkoutTime, set Status dropdown list to disable
+                // or only disable "預定中"
+                $("#wTimeForEdit").val(moment(rowData.WorkoutTime).format("yyyy/MM/DD HH:mm"));
+                $("#wTimeForEdit").change();
+                //==========================
+
+                $("#wHoursForEdit").val(rowData.WorkoutHours);
+                $("#wStatusForEdit").val(status);
+                $('#Edit').attr("data-wlid", rowData.ID);
+                $('#Delete').attr("data-wlid", rowData.ID);
+
+                //If workoutTime out of range, then this data can't be modified
+                if (workoutTime.getTime() < d7b.getTime()
+                    || workoutTime.getTime() > d8.getTime()) {
+
+                    $("#wNameForEdit").attr("disabled", true);
+                    $("#wTimeForEdit").attr("disabled", true);
+                    $("#wHoursForEdit").attr("disabled", true);
+                    $("#wStatusForEdit").attr("disabled", true);
+                    $("#Edit").text("無法修改").removeClass("primary").attr("disabled", true);
+
+                } else {
+                    //If workoutTime in range, then name and hours can be modified
+                    $("#wNameForEdit").removeAttr("disabled");
+                    $("#wHoursForEdit").removeAttr("disabled");
+
+                    //If status is "預定中" and workoutTime is today, keep datetimepicker disabled
+                    if (!(status == 4 && workoutTime.toDateString() == today.toDateString())) {
+                        $("#wTimeForEdit").removeAttr("disabled");
+                    }
+
+                    //If status is "預定中", keep status dropdown list disabled
+                    if ($("#wStatusForEdit").val() != 4) {
+                        $("#wStatusForEdit").removeAttr("disabled");
+                    }
+
+                    $("#Edit").text("修改").addClass("primary").removeAttr("disabled");
+                }
+
+            });
         });
 
-        
+        function EstimateCal(wid, whours, wTime, selector) {
+            $.ajax({
+                url: "GetEstimateCal",
+                type: "POST",
+                data: {
+                    __RequestVerificationToken: token,
+                    wid: wid,
+                    whours: whours,
+                    wTime: moment(wTime).format("YYYY-MM-DD HH:mm")
+                },
+                success: function (data) {
+                    $(selector).html(`估計消耗<span class="calConsume">${data.Consume}</span>卡路里`);
+                }
+            });
+        }
 
         // Custom filtering function which will search data in column four between two values
         $.fn.dataTable.ext.search.push(
@@ -261,7 +808,7 @@
                     max = maxDate.getTime();
                 }
 
-                var date = moment(data[3], "MM月DD日yyyy年").valueOf();
+                var date = moment(data[4], "yyyy年MM月DD日").valueOf();
 
                 if (
                     (min === null && max === null) ||
@@ -274,6 +821,26 @@
                 return false;
             }
         );
+
+        jQuery.fn.dataTableExt.oSort['datetime-asc'] = function (x, y) {
+            let xDate = new Date(moment(x, "yyyy年MM月DD日 HH:mm:ss"));
+            let yDate = new Date(moment(y, "yyyy年MM月DD日 HH:mm:ss"));
+            if (xDate.getTime() > yDate.getTime()) {
+                return 1;
+            } else {
+                return -1;
+            }
+        };
+
+        jQuery.fn.dataTableExt.oSort['datetime-desc'] = function (x, y) {
+            let xDate = new Date(moment(x, "yyyy年MM月DD日 HH:mm:ss"));
+            let yDate = new Date(moment(y, "yyyy年MM月DD日 HH:mm:ss"));
+            if (xDate.getTime() > yDate.getTime()) {
+                return -1;
+            } else {
+                return 1;
+            }
+        };
     </script>
 }
 

@@ -1,0 +1,243 @@
+﻿@model UI.ViewModels.HealthReportChartViewModel
+@{
+    ViewBag.Title = "HealthReport";
+    Layout = "~/Views/Shared/HomeLayout2_0622.cshtml";
+}
+
+@section Styles{
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+
+
+}
+<header id="header" style=" background-color: #fff0f0; width: 100%; padding-right: 0px" class="pt-5 pb-1 m-0 col-12">
+    <div class="row col-12 d-flex" style="width: 100%; padding-right: 0px">
+
+        <div class="col-4 col-sm-4 col-lg-2 p-2" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:100px;width:100%"></a>
+        </div>
+        <div class="col-8 col-sm-8 col-lg-10 p-1 justify-content-center">
+            <a href="/Home2/Index" class="logo" style="text-decoration: none;">
+                <div class="h-50">
+                    <strong id="logoText" style="font-size:1.7em;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">飲食歷史紀錄</strong>
+                </div>
+
+
+            </a>
+        </div>
+    </div>
+</header>
+
+<div class="d-flex justify-content-between mb-3">
+    <input type="button" id="btnPrevMonth" value="<" class="btn btn-default" />
+
+    <h1 id="titleMonth" style="display:inline">@Model.YearMonth</h1>
+
+
+    <input type="button" id="btnNextMonth" value=">" class="btn btn-default" />
+
+</div>
+
+<div class="row pb-3 mt-4">
+    <div class="col-12" style="height: 850px; margin: auto ">
+        <canvas id="generalChart"></canvas>
+
+    </div>
+</div>
+
+
+
+
+<div class="row queryBtns my-5">
+    <input type="button" id="btnShowGained" value="攝取" class="button   col-4" />
+
+
+    <input type="button" id="btnShowBurned" value="消耗" class="button   col-4" />
+
+
+    <input type="button" id="btnShowWeight" value="體重" class="button   col-4" />
+</div>
+
+@section Scripts{
+    <script src="~/Content/js/chart.min.js"></script>
+    <script src="~/Content/js/jquery-ui.js"></script>
+    <script src="~/Content/js/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script>
+            var monthlyGainedCals = '@Html.Raw(Json.Encode(Model.GainedCalsByMonth))';
+            //var monthlyGainedCalsArr = JSON.parse(monthlyGainedCals);
+            var monthlyDays = '@Html.Raw(Json.Encode(Model.MonthlyDays))';
+            var monthlyDaysArr = JSON.parse(monthlyDays);
+            var monthlyBurnedCals = '@Html.Raw(Json.Encode(Model.MonthlyBurnedCals))';
+            var monthlyBurnedCalsArr = JSON.parse(monthlyBurnedCals);
+            var monthlySubstratedGainedCals = '@Html.Raw(Json.Encode(Model.MonthlySubstratedGained))';
+            var monthlySubstratedGainedCalsArr = JSON.parse(monthlySubstratedGainedCals);
+            var monthlyWeights = '@Html.Raw(Json.Encode(Model.MonthlyWeights))';
+        var monthlyWeightsArr = JSON.parse(monthlyWeights);
+
+
+
+        //====================================
+        var monthlyGainedCalsArr = {
+            value: JSON.parse(monthlyGainedCals),
+            letMeKnow() {
+                alert(`The variable has changed to ${this.CurrVal}`);
+            },
+            get CurrVal() {
+                return this.value;
+            },
+            set CurrVal(value) {
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+
+       
+
+
+        var glMonthFlag = 0;
+
+        //==================
+
+        //$(":button").toggleClass("primary");
+
+
+        //==================================
+
+            var generalChartEle = document.getElementById('generalChart').getContext('2d');
+
+            var generalChart = new Chart(generalChartEle, {
+                data: {
+                    labels: monthlyDaysArr,
+                    datasets: [{
+                        type: 'bar',
+                        label: '攝取 (單位 KCal): ',
+                        data: monthlySubstratedGainedCalsArr,
+                        backgroundColor: [
+                            'rgba(156, 213, 0, 0.1)',
+
+
+                        ],
+                        borderColor: [
+                            'rgba(156, 213, 0, 1)',
+
+                        ],
+                        borderWidth: 1,
+                        yAxisID: 'y',
+                    }, {
+                        type: 'bar',
+
+                            label: '消耗 (單位 KCal): ',
+                        data: monthlyBurnedCalsArr,
+                            backgroundColor: [
+                                'rgba(120, 120, 120, 0.1)',
+
+
+
+                            ],
+                            borderColor: [
+                                'rgba(120, 120, 120, 1)',
+
+                            ],
+                        borderWidth: 1,
+                        yAxisID: 'y',
+
+                        },
+                        {
+                            type: 'line',
+
+                            label: '體重 (單位 Kg): ',
+                            data: monthlyWeightsArr,
+                            backgroundColor: [
+                                'rgba(120, 120, 120, 0.1)',
+
+
+
+                            ],
+                            borderColor: [
+                                'rgba(255, 221, 0, 1)',
+
+                            ],
+                            borderWidth: 3,
+                            yAxisID: 'y1',
+
+                        }]
+                },
+
+                options: {
+                    responsive: true,
+
+                    scale: {
+                        //min: 0,
+                        //max: 4000,
+
+                            x: {
+                                stacked: true
+                            },
+                            y: {
+                                stacked: true,
+                                display: true,
+                                position: 'left',
+                        },
+
+                        y1: {
+                            stacked: true,
+
+                            display: true,
+                            position: 'right',
+                            min: 0,
+
+                            // grid line settings
+                            grid: {
+                                drawOnChartArea: false, // only want the grid lines for one axis to show up
+                            },
+                        }
+
+                    },
+
+                },
+
+            });
+
+
+        //==================================
+
+        $("#btnPrevMonth").click(() => {
+            glMonthFlag -= 1;
+            console.log(glMonthFlag)
+            GetChartJson();
+        })
+        $("#btnNextMonth").click(() => {
+            glMonthFlag += 1;
+            if (glMonthFlag >= 0) { glMonthFlag = 0;}
+            GetChartJson();
+
+        })
+
+        function GetChartJson() {
+
+            fetch('@Url.Action("GetGeneralHealthChartDatas", "HHApi_HealthReport")?memberId='+@Model.MemberID +'&monthFlag=' + glMonthFlag, {
+                    method: "GET",
+            }).then(response => response.json()).then(data => {
+                $("#titleMonth").text(data.YearMonth)
+                monthlyGainedCalsArr.CurrVal = data.GainedCalsByMonth;
+                monthlyBurnedCalsArr = data.MonthlyBurnedCals;
+                monthlySubstratedGainedCalsArr =data.MonthlySubstratedGained
+                monthlyDaysArr = data.MonthlyDays;
+                monthlyWeightsArr = data.MonthlyWeights;
+                console.log(monthlyGainedCalsArr.CurrVal);
+                console.log(monthlyBurnedCalsArr);
+                console.log(monthlyDaysArr);
+
+                 })
+        }
+        //====================================
+       
+
+      
+
+
+
+
+
+    </script>
+}

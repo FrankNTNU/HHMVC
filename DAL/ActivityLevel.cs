@@ -18,8 +18,8 @@ namespace DAL
         public ActivityLevel()
         {
             this.Members = new HashSet<Member>();
-            this.Workouts = new HashSet<Workout>();
             this.Programs = new HashSet<Program>();
+            this.Workouts = new HashSet<Workout>();
         }
     
         public int ID { get; set; }
@@ -28,8 +28,8 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Member> Members { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Workout> Workouts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Program> Programs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Workout> Workouts { get; set; }
     }
 }
