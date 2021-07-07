@@ -66,9 +66,12 @@ namespace UI.Controllers
             string fileName = giftDTO.Image;
             string sourcePath = @"~/Areas/Admin/Content/GiftImages/";
             string targetPath = @"~/Areas/Admin/Content/CartImages/";
+            string newFileName = Guid.NewGuid().ToString() + fileName.Substring(36);
             string sourceFile = Path.Combine(Server.MapPath(sourcePath), fileName);
-            string destFile = Path.Combine(Server.MapPath(targetPath), fileName);
-            System.IO.File.Copy(sourceFile, destFile, true);
+            string destFile = Path.Combine(Server.MapPath(targetPath), newFileName);
+            string cartImage = newFileName;
+            System.IO.File.Copy(sourceFile, destFile, false);
+            
             if (cartBLL.AddCart(giftDTO))
             {
                 UserBLL userBLL = new UserBLL();
@@ -101,6 +104,7 @@ namespace UI.Controllers
             List<GiftDTO> dtoList = giftBLL.GetSearchResult(name, sortBy, isPremium);
             return Json(dtoList, JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
         public ActionResult SendBarcode(string barcode)
         {
             // 建立字體

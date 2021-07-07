@@ -146,7 +146,6 @@
     <Content Include="Areas\Admin\Content\CartImages\5321cf4d-3700-4cbd-8f3b-1cfecd75b473bread.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\8dc56d25-b0b4-49ff-ac0d-9ac9bf2b1c8fdonut1.jpeg" />
     <Content Include="Areas\Admin\Content\CartImages\9de5e2ce-7973-4c37-af07-9598da520558coffee.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\b5e068a1-473f-4969-9f5c-a8db733b42a2bigmac.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\cac3758a-0c2c-4a8b-93c8-dc43ebbbddf6fries2.jpg" />
     <Content Include="Areas\Admin\Content\CSS\adminlte.min.css" />
     <Content Include="Areas\Admin\Content\CSS\all.min.css" />
@@ -156,6 +155,7 @@
     <Content Include="Areas\Admin\Content\CSS\icheck-bootstrap.min.css" />
     <Content Include="Areas\Admin\Content\CSS\responsive.bootstrap4.min.css" />
     <Content Include="Areas\Admin\Content\CSS\tempusdominus-bootstrap-4.min.css" />
+    <Content Include="Areas\Admin\Content\GiftImages\0edbc09f-f7ee-4ac5-adfe-c06e0ca364e2bigmac.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\1d0323fe-65a3-47dd-962f-53226e71f352cocoDrink1.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\2c01724e-61d2-4bb6-8317-e770cbff9d2aworkoutShirt.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\3f249f4e-50e7-4bef-8b9a-b405cdfab1c3coffee2.jpg" />
@@ -471,6 +471,7 @@
     <Content Include="Areas\Admin\Content\PostImages\e9c5f14a-462f-4ac8-b08f-22d61fea0f5afruitCubes.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\ea82d513-e3bd-4200-aca1-352b9af80e3dbooks.jpg" />
     <Content Include="Areas\Admin\Content\tempimage\healthImg.png" />
+    <Content Include="Areas\Admin\Content\tempimage\HHLogo.png" />
     <Content Include="Areas\Admin\Content\tempimage\hLogo.png" />
     <Content Include="Areas\Admin\Content\tempimage\hLogoRed.jpg" />
     <Content Include="Areas\Admin\Content\UserImage\0442a875-bc36-4d35-aa71-d89cf419b947user5.png" />
