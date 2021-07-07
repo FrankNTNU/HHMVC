@@ -480,7 +480,7 @@ namespace DAL
                 post.PostContent = model.PostContent;
                 post.CategoryID = model.CategoryID;
                 post.AddDate = DateTime.Now;
-                post.IsApproved = false;
+                post.IsApproved = model.IsApproved;
                 db.Posts.Attach(post);
                 var entry = db.Entry(post);
                 entry.State = System.Data.Entity.EntityState.Modified;
@@ -521,6 +521,7 @@ namespace DAL
                 dto.PostContent = post.PostContent;
                 dto.CategoryID = post.CategoryID;
                 dto.MemberName = post.Member.Name;
+                dto.IsApproved = post.IsApproved;
             }
             return dto;
         }

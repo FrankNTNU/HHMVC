@@ -1,0 +1,87 @@
+﻿@model DTO.WorkoutDTO
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<section class="content-header">
+    <h1>所有運動項目</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>運動項目</a></li>
+        <li class="breadcrumb-item active"><a>@ViewBag.CatName</a></li>
+    </ol>
+</section>
+<br>
+
+
+
+<div class="card">
+    <div class="row">
+        <div class="col-md-2 card-body">
+            <table class="table table-bordered table-striped">
+                <thead><tr><th>運動類別</th></tr></thead>
+                <tbody>
+                    @foreach (var item in Model.Categories)
+                    {
+                        <tr>
+                            <td>
+                                @*@item.Name*@
+                                @Html.ActionLink(item.Name, "List", new { ID = item.ID })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-9">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>運動名稱</th>
+                        <th>消耗卡路里(大卡/kg/hr)</th>
+                        <th>運動強度等級</th>
+                        <th>修改</th>
+                        <th>刪除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.WorkoutItems)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Calories)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ActivityLevel)
+                            </td>
+                            <td>
+                                <a href="/Admin/Workout/Edit/@item.ID">
+                                    <img src="~/Areas/Admin/Content/icon/update-icon.png" />
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#">
+                                    <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Workout/Delete/', @item.ID)" />
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <button  type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Workout/Create/@ViewBag.CatID'">新增運動項目</button>
+        </div>        
+    </div>
+    @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
+</div>
+
+@section Scripts{
+    <script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>    
+    } 
+
+
+                

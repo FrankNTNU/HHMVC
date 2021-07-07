@@ -340,7 +340,7 @@
         <!-- Main -->
         <div id="main">
             <div class="inner">
-
+               
                 @RenderBody()
             </div>
         </div>
@@ -366,7 +366,7 @@
                             <li>
                                 <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
                                 <ul>
-                                    <li><a href="#" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 會員資訊</a></li>
+                                    <li><a href="~/Member/EditMember?ID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 會員資訊</a></li>
                                     <li>
                                         <a href="~/Weight/WeightLog" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-weight" style="width:30px"></i> 體重管理</a>
                                         @if (Session["NoWeightLog"] != null && (bool)Session["NoWeightLog"])
@@ -419,7 +419,7 @@
                             </li>
 
                             <li><a href="~/HHDiet/Create" style="text-decoration:none"><i class="fas fa-fist-raised" style="width:30px"></i> 挑戰</a></li>
-
+ 
                             if (Session["InProgram"] != null && (bool)Session["InProgram"])
                             {
                                 <li><a href="~/ChatGroup/GroupChat" style="text-decoration:none"><i class="fas fa-sms" style="width:30px"></i>減重聊天群</a></li>
@@ -519,7 +519,7 @@
     </div>
     <!--=============================================================-->
     <!-- Scripts -->
-
+   
     <script src="~/Content/js/jquery.min.js"></script>
     <script src="~/Content/js/browser.min.js"></script>
     <script src="~/Content/js/breakpoints.min.js"></script>
@@ -533,7 +533,7 @@
 
 
     <!--恩旗-->
-    <script>
+<script>
     $(window).on("unload", function () {
         $.cookies.del('.ASPXAUTH');
     });
@@ -656,7 +656,7 @@
             if ($("#collapse i.fa-minus").length != 0) {
                 $(".notReadText").remove();
             }
-
+            
         });
 
         $("#showContact").click(function () {
@@ -821,7 +821,9 @@
                     connId: $.connection.hub.id
                 }
             }).done(function (data) {
+
                 //alert(data.Result);
+
                 $("#serviceGroupId").val(data.GroupId);
                 LoadMessagesForService(@Json.Encode(Session["NotReadCount"]));
                 showNotReadForSidebar(@Json.Encode(Session["NotReadCount"]));
@@ -981,43 +983,43 @@
         }
     }
 
-        //ForDemo================================
+    //ForDemo================================
 
-        let p1;
+    let p1;
 
-        function autoInputMsgs1() {
-            msgs = [
-                "請問有客服人員在嗎？",
-                "我遇到了減重的問題",
-                "我這週爆胖了5公斤"
-            ];
+    function autoInputMsgs1() {
+        msgs = [
+            "請問有客服人員在嗎？",
+            "我遇到了減重的問題",
+            "我這週爆胖了5公斤"
+        ];
 
-            autoInputForService(msgs);
-        }
+        autoInputForService(msgs);
+    }
 
-        function autoInputMsgs2() {
-            msgs = [
-                "客服人員給我出來",
-                "我想請你喝飲料",
-                "謝謝你幫我減了1公斤"
-            ];
+    function autoInputMsgs2() {
+        msgs = [
+            "客服人員給我出來",
+            "我想請你喝飲料",
+            "謝謝你幫我減了1公斤"
+        ];
 
-            autoInputForService(msgs);
-        }
+        autoInputForService(msgs);
+    }
 
-        function autoInputForService(msgs) {
-            $("#serviceMessage").val(msgs[0]);
-            $("#sendServiceMessage").click();
-            p1.then(function () {
-                $("#serviceMessage").val(msgs[1]);
-                $("#sendServiceMessage").click()
-                return p1;
-            })
-            .then(function () {
-                $("#serviceMessage").val(msgs[2]);
-                $("#sendServiceMessage").click()
-            });
-        }
-    </script>
+    function autoInputForService(msgs) {
+        $("#serviceMessage").val(msgs[0]);
+        $("#sendServiceMessage").click();
+        p1.then(function () {
+            $("#serviceMessage").val(msgs[1]);
+            $("#sendServiceMessage").click()
+            return p1;
+        })
+        .then(function () {
+            $("#serviceMessage").val(msgs[2]);
+            $("#sendServiceMessage").click()
+        });
+    }
+</script>
 </body>
 </html>

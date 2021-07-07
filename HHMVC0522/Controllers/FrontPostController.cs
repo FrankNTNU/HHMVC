@@ -117,6 +117,7 @@ namespace UI.Controllers
                 }
                 model.PostImages = imageList;
                 model.CategoryID = General.Category.UserPost;
+                model.IsApproved = false;
                 if (postBLL.AddPost(model))
                 {
                     ModelState.Clear();
@@ -186,6 +187,7 @@ namespace UI.Controllers
 
                 }
                 model.CategoryID = categoryID;
+                model.IsApproved = false;
                 if (postBLL.UpdatePost(model))
                 {
                     TempData["State"] = "UpdateSuccess";

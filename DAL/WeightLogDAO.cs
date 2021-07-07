@@ -68,5 +68,11 @@ namespace DAL
             //else { 
             //}
         }
+
+        public void AddWeightLog(WeightLog weightLog)
+        {
+            db.WeightLogs.Add(weightLog);
+            db.SaveChanges();
+        }
     }
 }

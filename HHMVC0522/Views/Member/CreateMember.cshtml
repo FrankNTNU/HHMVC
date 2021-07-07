@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "CreateMember";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+
+<h2>註冊新會員</h2>
+<section class="content">
+    <div class="row">
+        <div class="col-md-9">
+            @Html.Partial("~/Views/Shared/MessageForm.cshtml")
+            <div class="box box-primary">
+                @using (Html.BeginForm("CreateMember", "Member", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    @Html.Partial("Partial/MemberForm")
+                }
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script>
+            $("#txtEmail").focusout(function () {
+                var yourEmail = $("#txtEmail").val();
+                $.ajax({
+                    url: "IsEmailExist",
+                    data: { email: yourEmail },
+                    //參數名稱/txt的內容
+                    success: function (result) {
+                        if (result == "true") {
+                            $("#errorEmail").text("此帳號已註冊過").css("color","red")
+                        }
+                    }
+                })
+            });
+
+    </script>
+}
