@@ -813,7 +813,7 @@
                     connId: $.connection.hub.id
                 }
             }).done(function (data) {
-                alert(data.Result);
+                //alert(data.Result);
                 $("#serviceGroupId").val(data.GroupId);
                 LoadMessagesForService(@Json.Encode(Session["NotReadCount"]));
                 showNotReadForSidebar(@Json.Encode(Session["NotReadCount"]));
