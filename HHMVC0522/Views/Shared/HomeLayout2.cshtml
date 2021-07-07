@@ -207,5 +207,425 @@
 
 
 
+        if (!dialogShown && $("#dialogDiv > ul > li").length) {
+            $("#dialogDiv").dialog({
+                title: "提醒",
+                modal: true,
+                open: function (event, ui) {
+                    $('.ui-dialog .btnOK').addClass("primary")
+                        .css("padding", "10px").css("border-radius", "5px")
+                        .css("outline-color", "white");
+                    $(this).parent().focus();
+                },
+                dialogClass: "no-close",
+                buttons: [{
+                    text: "OK",
+                    class: "btnOK",
+                    click: function () {
+                        $("#dialogDiv").dialog("close");
+                        $.ajax({
+                            url: "/Home2/SetDialogShownSession",
+                            type: "POST"
+                        });
+
+                        if (programFrozen != null && programFrozen > -1) {
+                            alertProgramFrozen(programFrozen);
+                        }
+                    }
+                }]
+            });
+
+            //$('.ui-dialog button').blur();
+            $('.ui-dialog button').mousedown(function (e) {
+                e.preventDefault();
+            });
+
+        } else if (!dialogShown && programFrozen != null && programFrozen > -1) {
+            alertProgramFrozen(programFrozen);
+        }
+
+
+        //====================================================
+        //For CustomerService
+
+        $.ajax({
+            url: "/FrontContact/IsConnected",
+            type: "POST"
+        }).done(function (data) {
+            if (userId != "") {
+                connect();
+            }
+        });
+
+        $("#collapse").click(function () {
+            if ($("#collapse i.fa-minus").length != 0) {
+                $(".chatBody").fadeOut(100, function () {
+                    $("#chatPanel").animate({ height: 45 }, function () {
+                        $(".chatFooter").fadeOut(0, function () {
+                            $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
+                            $(".notReadText").remove();
+                        });
+                    });
+                })
+            } else {
+                $("#chatPanel").animate({ height: 400 }, function () {
+                    $(".chatFooter").fadeIn(600, function () {
+                        $("#collapse i").removeClass("fas fa-plus").addClass("fas fa-minus");
+                        $(".chatBody").fadeIn(function () {
+                            if ($(".notReadText").length != 0) {
+                                $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
+                            }
+                            $("#notRead").css("visibility", "hidden");
+                            notReadCount = 0;
+                            ResetNotReadCountSession();
+                        });
+
+                    });
+                });
+            }
+        });
+
+        $("#closePanel").click(function () {
+            $("#chatPanel").css("display", "none");
+
+            if ($("#collapse i.fa-minus").length != 0) {
+                $(".notReadText").remove();
+            }
+            
+        });
+
+        $("#showContact").click(function () {
+            $("#chatPanel").css("display", "flex");
+            $("#serviceNotify").css("display", "none");
+
+            if ($("#collapse i.fa-minus").length != 0) {
+                if ($(".notReadText").length != 0) {
+                    $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
+                } else {
+                    $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
+                }
+
+                $("#notRead").css("visibility", "hidden");
+                notReadCount = 0;
+                ResetNotReadCountSession();
+            }
+
+            //$.ajax({
+            //    url: "/FrontContact/IsConnected",
+            //    type: "POST"
+            //}).done(function (data) {
+            //    if (!data.IsConnected) {
+            //        notReadCount = 0;
+            //        ResetNotReadCountSession();
+            //        connect();
+            //    }
+            //});
+        });
+        //=============================================================
+    });
+
+    function alertProgramFrozen(programFrozen) {
+        $("#programFrozen span").text(programFrozen);
+        $("#programFrozen").dialog({
+            title: "提醒",
+            modal: true,
+            open: function (event, ui) {
+                $('.ui-dialog .btnOK').addClass("primary")
+                    .css("padding", "10px").css("border-radius", "5px")
+                    .css("outline-color", "white");
+                $(this).parent().focus();
+            },
+            dialogClass: "no-close",
+            buttons: [{
+                text: "確認",
+                class: "btnOK",
+                click: function () {
+
+                    let patt = /^[0-9]+$/
+
+                    if (!patt.test($("#resultWeight").val())) {
+                        alert("請輸入有效體重");
+                        return;
+                    }
+
+                    if (confirm("確定送出嗎？")) {
+
+                        $.ajax({
+                            url: "/Home2/SetResultWeight",
+                            type: "POST",
+                            data: {
+                                resultWeight: $("#resultWeight").val()
+                            },
+                            success: function (results) {
+                                fanfare(results);
+                            }
+                        });
+
+                        $("#programFrozen").dialog("close");
+                    }
+                }
+            },
+            {
+                text: "取消",
+                class: "btnOK",
+                click: function () {
+                    $("#programFrozen").dialog("close");
+                    $.ajax({
+                        url: "/Home2/SetDialogShownSession",
+                        type: "POST"
+                    });
+                }
+            }]
+        });
+
+        $('.ui-dialog button').mousedown(function (e) {
+            e.preventDefault();
+        });
+    }
+
+    function fanfare(results) {
+
+        if ($("#weightNotify").length) {
+            $("#weightNotify").remove();
+        }
+
+        $("#fanfare .programSuccessPts").prepend(results.GetPoints);
+        $("#fanfare").dialog({
+            title: "恭喜您",
+            modal: true,
+            open: function (event, ui) {
+                $('.ui-dialog .btnOK').addClass("primary")
+                    .css("padding", "10px").css("border-radius", "5px")
+                    .css("outline-color", "white");
+                $(this).parent().focus();
+            },
+            dialogClass: "no-close",
+            buttons: [{
+                text: "收下",
+                class: "btnOK",
+                click: function () {
+                    $("#fanfare").dialog("close");
+                }
+            }]
+        });
+
+        //$('.ui-dialog button').blur();
+        $('.ui-dialog button').mousedown(function (e) {
+            e.preventDefault();
+        });
+    }
+
+    //===================================================
+
+    function connect() {
+
+        var chat2 = $.connection.chatHub;
+
+        chat2.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
+
+            if ($("#collapse i.fa-minus").length == 0) {
+
+                if (notReadCount == 0) {
+                    appendNotRead();
+                }
+                writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
+                notReadCount++;
+                SetNotReadCountSession();
+
+                $("#notRead span").text(notReadCount);
+                $("#notRead").css("visibility", "visible")
+                blink();
+
+                if ($("#chatPanel").css("display") == "none") {
+                    $("#serviceNotify").css("display", "inline-block");
+                    $("#notReadForSidebar").text(notReadCount);
+                }
+            } else if ($("#chatPanel").css("display") == "none") {
+
+                if (notReadCount == 0) {
+                    appendNotRead();
+                }
+
+                writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
+                notReadCount++;
+                SetNotReadCountSession();
+                $("#serviceNotify").css("display", "inline-block");
+                $("#notReadForSidebar").text(notReadCount);
+            } else {
+                writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
+                $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
+            }
+        }
+
+        $.connection.hub.start().done(function () {
+
+            $.ajax({
+                url: "/FrontContact/AddToServiceGroup",
+                type: "POST",
+                data: {
+                    connId: $.connection.hub.id
+                }
+            }).done(function (data) {
+                //alert(data.Result);
+                $("#serviceGroupId").val(data.GroupId);
+                LoadMessagesForService(@Json.Encode(Session["NotReadCount"]));
+                showNotReadForSidebar(@Json.Encode(Session["NotReadCount"]));
+            });
+
+            $("#sendServiceMessage").click(function () {
+
+                if ($("#serviceMessage").val() == "") {
+                    alert("請輸入訊息");
+                    return;
+                }
+
+                $.ajax({
+                    url: "/FrontContact/SendMessage",
+                    type: "POST",
+                    data: {
+                        connId: $.connection.hub.id,
+                        groupId: $("#serviceGroupId").val(),
+                        message: $("#serviceMessage").val()
+                    }
+                });
+            });
+
+            if (typeof AddToChatGroup != "undefined") {
+                AddToChatGroup();
+            }
+
+        });
+    }
+
+    function writeForService(userName, message, isSelf, timeStamp, image) {
+
+        if (isSelf) {
+            let dialogDiv = $("<div></div>").addClass("messageRow");
+
+            $("<div></div>").css("flex-basis", "100%")
+                .append($("<span></span>").css("float", "left").text(userName))
+                .append($("<span></span>").css("float", "right").text(timeStamp))
+                .appendTo(dialogDiv);
+
+            let textDiv = $("<div></div>").addClass("textDiv");
+
+            $("<img/>").addClass("myImage").css("margin-left", "0px").css("margin-right", "10px")
+                .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                .appendTo(textDiv);
+
+            let innerTextDiv = $("<div></div>").addClass("ArrowToLeft").css("margin-right", "auto");
+
+            $("<div></div>").addClass("selfText")
+                .css("background-color", "plum").css("color", "white").css("border-color", "plum")
+                .html(message)
+                .appendTo(innerTextDiv);
+
+            $(innerTextDiv).appendTo(textDiv);
+
+            $(dialogDiv).append(textDiv);
+
+            $("#serviceChatBox").append(dialogDiv);
+
+
+        } else {
+            let dialogDiv = $("<div></div>").addClass("messageRow");;
+
+            $("<div></div>").css("flex-basis", "100%")
+                .append($("<span></span>").css("float", "right").text(userName))
+                .append($("<span></span>").css("float", "left").text(timeStamp))
+                .appendTo(dialogDiv);
+
+            let textDiv = $("<div></div>").addClass("textDiv reverse");
+
+            $("<img/>").addClass("myImage").css("margin-right", "0px").css("margin-left", "10px")
+                .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                .appendTo(textDiv);
+
+            let innerTextDiv = $("<div></div>").addClass("ArrowToRight").css("margin-left", "auto");
+
+            $("<div></div>").addClass("otherText")
+                .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
+                .html(message)
+                .appendTo(innerTextDiv);
+
+            $(innerTextDiv).appendTo(textDiv);
+
+            $(dialogDiv).append(textDiv);
+
+            $("#serviceChatBox").append(dialogDiv);
+
+
+        }
+
+    }
+
+    //todo Load Group Messages
+    function LoadMessagesForService(notReadCount) {
+        if ($("#serviceGroupId").val() != "") {
+            $.ajax({
+                url: "/FrontContact/GetGroupMsgs",
+                type: "POST",
+                data: {
+                    groupId: $("#serviceGroupId").val()
+                },
+                success: function (data) {
+
+                    if (notReadCount == null) {
+                        notReadCount = 0;
+                    }
+
+                    $("#serviceChatBox").html("");
+
+                    $.each(data, function (i, msg) {
+                        if (i == (data.length - notReadCount)) {
+                            appendNotRead();
+                        }
+                        writeForService(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
+
+                    });
+
+                }
+            });
+        }
+    }
+
+    function SetNotReadCountSession()
+    {
+        $.ajax({
+            url: "/FrontContact/SetNotReadCountSession",
+            type: "POST"
+        });
+    }
+
+    function ResetNotReadCountSession(){
+        $.ajax({
+            url: "/FrontContact/ResetNotReadCountSession",
+            type: "POST"
+        });
+    }
+
+    function blink() {
+        $("#notRead").fadeOut(500).fadeIn(500, blink);
+    }
+
+    function appendNotRead() {
+
+        let NotReadDiv = $("<div></div>").addClass("notReadText").append("以下為未讀訊息");
+
+        $("#serviceChatBox").append(NotReadDiv);
+    }
+
+    function showNotReadForSidebar(notReadCount) {
+
+        if (notReadCount == null) {
+            notReadCount = 0;
+        }
+
+        if (notReadCount > 0) {
+            $("#serviceNotify").css("display", "inline-block");
+            $("#notReadForSidebar").text(notReadCount);
+        }
+    }
+</script>
 </body>
 </html>
