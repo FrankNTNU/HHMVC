@@ -111,17 +111,14 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GetWorkoutLog()
         {
-            DateTime today = DateTime.Now.Date;
-
-            DateTime tomorrow = today.AddDays(1);
-
-            string UserID = User.Identity.Name;
-
-            var q = dbContext.WorkoutLogs.Where(wl => wl.MemberID.ToString() == UserID).ToList()
+            
+            var q = dbContext.WorkoutLogs
+                .Where(wl => wl.MemberID.ToString() == User.Identity.Name).AsEnumerable()
                 .Select(wl =>
                 {
-                    bool isPreference = dbContext.WorkoutPreferences.Where(wp => wp.MemberID.ToString() == UserID)
+                    bool isPreference = dbContext.WorkoutPreferences.Where(wp => wp.MemberID.ToString() == User.Identity.Name)
                         .Any(wp => wp.WorkoutCategoryID == wl.Workout.WorkoutCategoryID);
+
                     return new
                     {
                         wl.ID,
