@@ -21,7 +21,7 @@
 
     @RenderSection("Styles", required: false)
 
-    <style>
+<style>
     @*恩旗=====================================*@
     #dialogDiv, #programFrozen, #fanfare {
         display: none;
@@ -284,12 +284,29 @@
         #sidebar .toggle {
             left: 15em;
         }
-    #sidebar > .inner {
-        width: 15em;
-        position: absolute;
-        background-color: #fffcfc;
-    }
-    </style>
+
+        #sidebar > .inner {
+            width: 15em;
+            position: absolute;
+            background-color: #fffcfc;
+        }
+
+        @*ForServiceDemo=========================*@
+        .demoService {
+            display: flex;
+            position: fixed;
+            left: 35em !important;
+            bottom: 50px;
+            column-gap:10px;
+        }
+
+        .demoButtonService {
+            background-color: darkseagreen;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+        }
+</style>
 </head>
 
 <!--恩旗-->
@@ -349,12 +366,12 @@
                             <li>
                                 <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
                                 <ul>
-                                    <li><a href="#" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 會員資訊</a></li>
+                                    <li><a href="~/Member/EditMember?ID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 會員資訊</a></li>
                                     <li>
                                         <a href="~/Weight/WeightLog" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-weight" style="width:30px"></i> 體重管理</a>
                                         @if (Session["NoWeightLog"] != null && (bool)Session["NoWeightLog"])
                                         {   //if last 7 days has no weightlog, show this icon
-                                    <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>
+                                            <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>
                                         }
                                     </li>
                                     <li><a href="#" style="text-decoration:none"><i class="fas fa-chart-area" style="width:30px"></i> 綜合圖表</a></li>
@@ -495,6 +512,12 @@
         </div>
     </div>
     <!--=============================================================-->
+    <!--ForServiceDemo===============================================-->
+    <div class="demoService">
+        <div class="demoButtonService" onclick="autoInputMsgs1()">enchi</div>
+        <div class="demoButtonService" onclick="autoInputMsgs2()">wevmn</div>
+    </div>
+    <!--=============================================================-->
     <!-- Scripts -->
    
     <script src="~/Content/js/jquery.min.js"></script>
@@ -595,14 +618,9 @@
         //====================================================
         //For CustomerService
 
-        $.ajax({
-            url: "/FrontContact/IsConnected",
-            type: "POST"
-        }).done(function (data) {
-            if (userId != "") {
-                connect();
-            }
-        });
+        if (userId != "") {
+            connect();
+        }
 
         $("#collapse").click(function () {
             if ($("#collapse i.fa-minus").length != 0) {
@@ -657,16 +675,6 @@
                 ResetNotReadCountSession();
             }
 
-            //$.ajax({
-            //    url: "/FrontContact/IsConnected",
-            //    type: "POST"
-            //}).done(function (data) {
-            //    if (!data.IsConnected) {
-            //        notReadCount = 0;
-            //        ResetNotReadCountSession();
-            //        connect();
-            //    }
-            //});
         });
         //=============================================================
     });
@@ -813,7 +821,9 @@
                     connId: $.connection.hub.id
                 }
             }).done(function (data) {
+
                 //alert(data.Result);
+
                 $("#serviceGroupId").val(data.GroupId);
                 LoadMessagesForService(@Json.Encode(Session["NotReadCount"]));
                 showNotReadForSidebar(@Json.Encode(Session["NotReadCount"]));
@@ -826,7 +836,7 @@
                     return;
                 }
 
-                $.ajax({
+                p1 = $.ajax({
                     url: "/FrontContact/SendMessage",
                     type: "POST",
                     data: {
@@ -834,7 +844,7 @@
                         groupId: $("#serviceGroupId").val(),
                         message: $("#serviceMessage").val()
                     }
-                });
+                }).promise();
             });
 
             if (typeof AddToChatGroup != "undefined") {
@@ -900,7 +910,6 @@
             $(dialogDiv).append(textDiv);
 
             $("#serviceChatBox").append(dialogDiv);
-
 
         }
 
@@ -972,6 +981,44 @@
             $("#serviceNotify").css("display", "inline-block");
             $("#notReadForSidebar").text(notReadCount);
         }
+    }
+
+    //ForDemo================================
+
+    let p1;
+
+    function autoInputMsgs1() {
+        msgs = [
+            "請問有客服人員在嗎？",
+            "我遇到了減重的問題",
+            "我這週爆胖了5公斤"
+        ];
+
+        autoInputForService(msgs);
+    }
+
+    function autoInputMsgs2() {
+        msgs = [
+            "客服人員給我出來",
+            "我想請你喝飲料",
+            "謝謝你幫我減了1公斤"
+        ];
+
+        autoInputForService(msgs);
+    }
+
+    function autoInputForService(msgs) {
+        $("#serviceMessage").val(msgs[0]);
+        $("#sendServiceMessage").click();
+        p1.then(function () {
+            $("#serviceMessage").val(msgs[1]);
+            $("#sendServiceMessage").click()
+            return p1;
+        })
+        .then(function () {
+            $("#serviceMessage").val(msgs[2]);
+            $("#sendServiceMessage").click()
+        });
     }
 </script>
 </body>

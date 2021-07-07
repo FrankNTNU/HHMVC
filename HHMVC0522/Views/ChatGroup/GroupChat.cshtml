@@ -161,6 +161,23 @@
         .groupRow:last-child {
             margin-bottom:auto;
         }
+
+        @*ForDemo=========================*@
+        .demo {
+            display: flex;
+            position: fixed;
+            left: 20em !important;
+            bottom: 50px;
+            column-gap:10px;
+        }
+
+        .demoButton {
+            background-color: cornflowerblue;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
     </style>
 }
 
@@ -231,8 +248,14 @@
     <input type="text" id="weight1" placeholder="體重"/>kg~<input type="text" id="weight2" placeholder="體重"/>kg
     <div id="difficulty">您的挑戰難度為<span></span></div>
 </div>
+<!--Demo=====================================================-->
+<div class="demo">
+    <div class="demoButton" onclick="autoInputMsgs3()">enchi</div>
+    <div class="demoButton" onclick="autoInputMsgs4()">wevmn</div>
+    <div class="demoButton" onclick="autoInputMsgs5()">frank</div>
+    <div class="demoButton" onclick="autoInputMsgs6()">zzzz</div>
+</div>
 <!--=========================================================-->
-
 @section scripts {
 
     @*<script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
@@ -327,23 +350,7 @@
 
             }, 1500);
 
-            $("#sendmessage").click(function () {
-
-                if ($("#message").val() == "") {
-                    alert("請輸入訊息");
-                    return;
-                }
-
-                $.ajax({
-                    url: "SendMessage",
-                    type: "POST",
-                    data: {
-                        connId: $.connection.hub.id,
-                        groupId: $("#groupId").val(),
-                        message: $("#message").val()
-                    }
-                });
-            });
+            
         });
 
         function write(userName, message, isSelf, timeStamp, image) {
@@ -545,6 +552,24 @@
                     }
                 });
             });
+
+            $("#sendmessage").click(function () {
+
+                if ($("#message").val() == "") {
+                    alert("請輸入訊息");
+                    return;
+                }
+
+                p2 = $.ajax({
+                    url: "SendMessage",
+                    type: "POST",
+                    data: {
+                        connId: $.connection.hub.id,
+                        groupId: $("#groupId").val(),
+                        message: $("#message").val()
+                    }
+                }).promise();
+            });
             
         }
 
@@ -586,6 +611,64 @@
             let NotReadDiv = $("<div></div>").addClass("groupchatNotRead").append("以下為未讀訊息");
 
             $("#chatbox").append(NotReadDiv);
+        }
+
+        //ForDemo================================
+
+        let p2;
+
+        function autoInputMsgs3() {
+            msgs = [
+                "我減了2公斤耶",
+                "沒有人？...",
+                "去揪一些人來"
+            ];
+
+            autoInput(msgs);
+        }
+
+        function autoInputMsgs4() {
+            msgs = [
+                "我也減了2公斤耶",
+                "真巧",
+                "一起努力吧"
+            ];
+
+            autoInput(msgs);
+        }
+
+        function autoInputMsgs5() {
+            msgs = [
+                "加不了另一個群組",
+                "只好自己開一個",
+                "等等看有沒有人會進來"
+            ];
+
+            autoInput(msgs);
+        }
+
+        function autoInputMsgs6() {
+            msgs = [
+                "可以進來耶",
+                "我減了3公斤",
+                "你呢？"
+            ];
+
+            autoInput(msgs);
+        }
+
+        function autoInput(msgs) {
+            $("#message").val(msgs[0]);
+            $("#sendmessage").click();
+            p2.then(function () {
+                $("#message").val(msgs[1]);
+                $("#sendmessage").click()
+                return p2;
+            })
+            .then(function () {
+                $("#message").val(msgs[2]);
+                $("#sendmessage").click()
+            });
         }
     </script>
 }

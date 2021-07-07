@@ -48,5 +48,7 @@ namespace DTO
         public int Points { get; set; }
         public List<GiftCartDTO> GiftCarts { get; set; }
 
+        public string GoogleID { get; set; }
+        public string ActiveCode { get; set; }
     }
 }

@@ -43,8 +43,24 @@
             border-radius: 12px;
             margin: 5px auto;
         }
+
+        @*ForServiceDemo=========================*@ 
+        .demoService {
+            display: flex;
+            position: fixed;
+            left: 35em !important;
+            bottom: 50px;
+            column-gap: 10px;
+        }
+
+        .demoButtonService {
+            background-color: darkseagreen;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+        }
     </style>
-    
+
 }
 <section class="content-header">
     <h1>線上客服</h1>
@@ -111,7 +127,7 @@
                         </div>
                         @*<div class="direct-chat-msg right" id="adminbox" style="margin: 10px">
 
-                        </div>*@
+                            </div>*@
                     </div>
 
                     <div class="card-footer">
@@ -131,8 +147,14 @@
             </div>
         </div>
     </div>
-
 </section>
+
+<!--ForServiceDemo===============================================-->
+<div class="demoService">
+    <div class="demoButtonService" onclick="autoInputMsgs7()">frank</div>
+    <div class="demoButtonService" onclick="autoInputMsgs8()">zzzz</div>
+</div>
+<!--=============================================================-->
 
 <!--</div>-->
 @section scripts {
@@ -198,7 +220,7 @@
                         return;
                     }
 
-                    $.ajax({
+                    p3 = $.ajax({
                         url: "SendMessage",
                         type: "POST",
                         data: {
@@ -206,7 +228,7 @@
                             groupId: $("#serviceGroupId").val(),
                             message: $("#message").val()
                         }
-                    });
+                    }).promise();
                 });
                 //==================================================
 
@@ -404,6 +426,44 @@
             let NotReadDiv = $("<div></div>").addClass("adminNotRead").append("以下為未讀訊息");
 
             $("#serviceChatBox").append(NotReadDiv);
+        }
+
+
+        //ForDemo================================
+
+        let p3;
+
+        function autoInputMsgs7() {
+            msgs = [
+                "那是因為你暴飲暴食",
+                "加上沒有運動",
+                "請多做時間管理"
+            ];
+
+            autoInputForCustomer(msgs);
+        }
+
+        function autoInputMsgs8() {
+            msgs = [
+                "我馬上來",
+                "謝謝你請我喝飲料",
+                "幫我增加了了1公斤"
+            ];
+
+            autoInputForCustomer(msgs);
+        }
+
+        function autoInputForCustomer(msgs) {
+            $("#message").val(msgs[0]);
+            $("#sendmessage").click();
+            p3.then(function () {
+                $("#message").val(msgs[1]);
+                $("#sendmessage").click()
+                return p3;
+            }).then(function () {
+                $("#message").val(msgs[2]);
+                $("#sendmessage").click()
+            });
         }
     </script>
 }

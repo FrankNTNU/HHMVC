@@ -1,0 +1,68 @@
+﻿@model IEnumerable<DTO.WorkoutCategoryDTO>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<section class="content-header">
+    <h1>所有運動類別</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>運動類別</a></li>
+        <li class="breadcrumb-item active"><a>所有運動類別</a></li>
+    </ol>
+</section>
+<br>
+<div class="card-footer">
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/WorkoutCat/Create'">新增運動類別</button>
+</div>
+@*<p>
+    @Html.ActionLink("新增類別", "Create")
+</p>*@
+<div class="card">
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>序號</th>
+                    <th>運動類別</th>
+                    <th>修改</th>
+                    <th>刪除</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int count = 0;
+                    foreach (var item in Model)
+                    {
+                        count++;
+                        <tr>
+                            <td>@count</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                <a href="/Admin/WorkoutCat/Edit/@item.ID">
+                                    <img src="~/Areas/Admin/Content/icon/update-icon.png" />
+                                </a>
+                                @*@Html.ActionLink("修改", "Edit", new { id = item.ID }, new { @class = "btn btn-success" })*@
+                            </td>
+                            <td>
+                                <a href="#">
+                                    <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/WorkoutCat/Delete/', @item.ID)" />
+                                </a>
+                                @*@Html.ActionLink("刪除", "Delete", new { id = item.ID }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger" })*@
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>          
+        </table>
+    </div>
+    @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
+</div>
+
+<script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>
+
+

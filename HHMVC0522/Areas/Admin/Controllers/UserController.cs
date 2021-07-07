@@ -71,8 +71,7 @@ namespace UI.Areas.Admin.Controllers
             UserDTO dto = new UserDTO();
             dto = userBLL.GetUserWithID(ID);
             dto.Statuses = StatusBLL.GetStatusesForDropDown();
-            dto.ActivityLevels = ActivityLevelBLL.GetActivityLevelsForDropDown();
-            return View(dto);
+            dto.ActivityLevels = ActivityLevelBLL.GetActivityLevelsForDropDown();   return View(dto);
         }
         [HttpPost]
         public ActionResult UpdateUser(UserDTO model)
