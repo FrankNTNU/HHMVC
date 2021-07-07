@@ -17,6 +17,24 @@ namespace BLL
             dto = userDAO.GetUserWithUsernameAndPassword(model);
             return dto;
         }
+        public UserDTO GetUserWithEmailAndPassword(UserDTO model)
+        {
+            UserDTO dto = new UserDTO();
+            dto = userDAO.GetUserWithEmailAndPassword(model);
+            return dto;
+        }
+        public UserDTO GetUserWithEmailAndPwdAndCode(UserDTO model)
+        {
+            UserDTO dto = new UserDTO();
+            dto = userDAO.GetUserWithEmailAndPwdAndCode(model);
+            return dto;
+        }
+        public UserDTO GetUserWithGoogleID(string googleID)
+        {
+            UserDTO dto = new UserDTO();
+            dto = userDAO.GetUserWithGoogleID(googleID);
+            return dto;
+        }
         public List<UserDTO> GetUsers()
         {
             return userDAO.GetUsers();
@@ -75,6 +93,10 @@ namespace BLL
         public int GetPoints(int userID)
         {
             return userDAO.GetPoints(userID);
+        }
+        public void ActivateUser(int userID)
+        {
+            userDAO.ActivateUser(userID);
         }
     }
 }

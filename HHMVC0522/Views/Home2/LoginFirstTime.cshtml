@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "LoginFirstTime";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
+}
+@section Styles {
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+}
+@model DTO.UserDTO
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
+
+        <div class="col-4 col-sm-4 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
+            <h2><i class="far fa-user"> </i> 使用者初次登入</h2>
+        </div>
+        <div class="col-2 col-md-2 align-self-end justify-content-end d-flex">
+
+
+        </div>
+    </div>
+</header><header id="header" class="m-0 p-0"></header>
+
+
+@Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
+}
+
+<form action="@Url.Action("Login")" method="post">
+
+    <div class="row">
+        <div class="col-12">
+            @Html.ValidationMessageFor(x => x.Email, "", new { @style = "color:red" })
+            <br /><label>帳號</label>
+
+            <input type="text" name="Email" id="demo-name" value="" placeholder="登入帳號" style="height:50px" autocomplete="off" />
+        </div>
+        <div class="col-12">
+            @Html.ValidationMessageFor(x => x.Password, "", new { @style = "color:red" })
+            <br /><label>密碼</label>
+
+            <input type="password" name="Password" id="demo-email" value="" placeholder="你的密碼" style="height:50px" />
+        </div>
+        <div class="col-12">
+            @Html.ValidationMessageFor(x => x.ActiveCode, "", new { @style = "color:red" })
+            <br /><label>認證碼</label>
+
+            <input type="password" name="Password" id="demo-email" value="" placeholder="註冊信箱內的認證碼" style="height:50px" />
+        </div>
+        <!-- Break -->
+        <!-- Break -->
+        <div class="col-12" style="margin-top:10px">
+            <ul class="actions">
+                <li style="font-size:1.1em"><input type="submit" value="登入" class="primary" /></li>
+                <li style="font-size:1.1em"><a class="button default m-0" href=" ~/Member/CreateMember">註冊新會員</a></li>
+            </ul>
+        </div>
+    </div>
+</form>
+
