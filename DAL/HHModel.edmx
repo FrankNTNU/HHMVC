@@ -1196,14 +1196,6 @@
           <Property Name="GetPoints" Type="Int32" Nullable="false" />
           <Property Name="GetPointsDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Comments" Relationship="HealthHelperModel.FK_Comments_Members" FromRole="Member" ToRole="Comment" />
-          <Property Name="Points" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="LikedPosts" Relationship="HealthHelperModel.FK_LikedPosts_Members" FromRole="Member" ToRole="LikedPost" />
-          <NavigationProperty Name="GiftCarts" Relationship="HealthHelperModel.FK_GiftCarts_Members" FromRole="Member" ToRole="GiftCart" />
-          <NavigationProperty Name="Programs" Relationship="HealthHelperModel.FK_Programs_Members" FromRole="Member" ToRole="Program" />
-          <Property Name="MealCount" Type="Int32" />
-          <Property Name="ActiveCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="GoogleID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Nutrient">
           <Key>
@@ -2066,148 +2058,6 @@
             <End Role="WorkoutLog" EntitySet="WorkoutLogs" />
           </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_Comments_Members">
-          <End Type="HealthHelperModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="HealthHelperModel.Comment" Role="Comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Comment">
-              <PropertyRef Name="MemberID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="LikedPost">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberID" Type="Int32" />
-          <Property Name="PostID" Type="Int32" />
-          <NavigationProperty Name="Member" Relationship="HealthHelperModel.FK_LikedPosts_Members" FromRole="LikedPost" ToRole="Member" />
-          <NavigationProperty Name="Post" Relationship="HealthHelperModel.FK_LikedPosts_Posts" FromRole="LikedPost" ToRole="Post" />
-        </EntityType>
-        <Association Name="FK_LikedPosts_Members">
-          <End Type="HealthHelperModel.Member" Role="Member" Multiplicity="0..1" />
-          <End Type="HealthHelperModel.LikedPost" Role="LikedPost" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LikedPost">
-              <PropertyRef Name="MemberID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LikedPosts_Posts">
-          <End Type="HealthHelperModel.Post" Role="Post" Multiplicity="0..1" />
-          <End Type="HealthHelperModel.LikedPost" Role="LikedPost" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Post">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LikedPost">
-              <PropertyRef Name="PostID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="GiftCart">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Image" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AddDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Store" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Barcode" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="BarcodeImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Member" Relationship="HealthHelperModel.FK_GiftCarts_Members" FromRole="GiftCart" ToRole="Member" />
-          <Property Name="GiftID" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Gift">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Image" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Points" Type="Int32" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" Nullable="false" />
-          <Property Name="AddDate" Type="DateTime" Precision="3" Nullable="false" />
-          <Property Name="Store" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IsPremium" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_GiftCarts_Members">
-          <End Type="HealthHelperModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="HealthHelperModel.GiftCart" Role="GiftCart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GiftCart">
-              <PropertyRef Name="MemberID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Program">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberID" Type="Int32" Nullable="false" />
-          <Property Name="StatusID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="TargetWeight" Type="Int32" Nullable="false" />
-          <Property Name="ActivityLevelID" Type="Int32" Nullable="false" />
-          <Property Name="InitialWeight" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ActivityLevel" Relationship="HealthHelperModel.FK_Programs_ActivityLevels" FromRole="Program" ToRole="ActivityLevel" />
-          <NavigationProperty Name="Member" Relationship="HealthHelperModel.FK_Programs_Members" FromRole="Program" ToRole="Member" />
-          <NavigationProperty Name="Status" Relationship="HealthHelperModel.FK_Programs_Status" FromRole="Program" ToRole="Status" />
-          <Property Name="ResultWeight" Type="Int32" />
-        </EntityType>
-        <Association Name="FK_Programs_ActivityLevels">
-          <End Type="HealthHelperModel.ActivityLevel" Role="ActivityLevel" Multiplicity="1" />
-          <End Type="HealthHelperModel.Program" Role="Program" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ActivityLevel">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Program">
-              <PropertyRef Name="ActivityLevelID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Programs_Members">
-          <End Type="HealthHelperModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="HealthHelperModel.Program" Role="Program" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Program">
-              <PropertyRef Name="MemberID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Programs_Status">
-          <End Type="HealthHelperModel.Status" Role="Status" Multiplicity="1" />
-          <End Type="HealthHelperModel.Program" Role="Program" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Program">
-              <PropertyRef Name="StatusID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2225,7 +2075,6 @@
           <EntitySetMapping Name="Comments">
             <EntityTypeMapping TypeName="HealthHelperModel.Comment">
               <MappingFragment StoreEntitySet="Comments">
-                <ScalarProperty Name="ParentCommentID" ColumnName="ParentCommentID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="CommentContent" ColumnName="CommentContent" />
@@ -2359,10 +2208,6 @@
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="HealthHelperModel.Member">
               <MappingFragment StoreEntitySet="Members">
-                <ScalarProperty Name="GoogleID" ColumnName="GoogleID" />
-                <ScalarProperty Name="ActiveCode" ColumnName="ActiveCode" />
-                <ScalarProperty Name="MealCount" ColumnName="MealCount" />
-                <ScalarProperty Name="Points" ColumnName="Points" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="TaiwanID" ColumnName="TaiwanID" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
@@ -2592,62 +2437,6 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Calories" ColumnName="Calories" />
                 <ScalarProperty Name="ActivityLevelID" ColumnName="ActivityLevelID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LikedPosts">
-            <EntityTypeMapping TypeName="HealthHelperModel.LikedPost">
-              <MappingFragment StoreEntitySet="LikedPosts">
-                <ScalarProperty Name="PostID" ColumnName="PostID" />
-                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GiftCarts">
-            <EntityTypeMapping TypeName="HealthHelperModel.GiftCart">
-              <MappingFragment StoreEntitySet="GiftCarts">
-                <ScalarProperty Name="GiftID" ColumnName="GiftID" />
-                <ScalarProperty Name="BarcodeImage" ColumnName="BarcodeImage" />
-                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
-                <ScalarProperty Name="Store" ColumnName="Store" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="AddDate" ColumnName="AddDate" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Gifts">
-            <EntityTypeMapping TypeName="HealthHelperModel.Gift">
-              <MappingFragment StoreEntitySet="Gifts">
-                <ScalarProperty Name="IsPremium" ColumnName="IsPremium" />
-                <ScalarProperty Name="Store" ColumnName="Store" />
-                <ScalarProperty Name="AddDate" ColumnName="AddDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Points" ColumnName="Points" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Programs">
-            <EntityTypeMapping TypeName="HealthHelperModel.Program">
-              <MappingFragment StoreEntitySet="Programs">
-                <ScalarProperty Name="ResultWeight" ColumnName="ResultWeight" />
-                <ScalarProperty Name="InitialWeight" ColumnName="InitialWeight" />
-                <ScalarProperty Name="ActivityLevelID" ColumnName="ActivityLevelID" />
-                <ScalarProperty Name="TargetWeight" ColumnName="TargetWeight" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

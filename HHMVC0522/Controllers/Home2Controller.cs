@@ -281,7 +281,7 @@ namespace UI.Controllers
 
             if (actuallyLose > 0)
             {
-                dbContext.Points.Add(new Point
+                dbContext.Points.Add(new DAL.Point
                 {
                     MemberID = MemberID,
                     GetPoints = GetPoints,
@@ -292,7 +292,7 @@ namespace UI.Controllers
             }
             else
             {
-                dbContext.Points.Add(new Point
+                dbContext.Points.Add(new DAL.Point
                 {
                     MemberID = MemberID,
                     GetPoints = basePoint,
@@ -491,7 +491,7 @@ namespace UI.Controllers
                 using (Graphics g = Graphics.FromImage(map))
                 {
                     g.Clear(Color.White);
-                    g.DrawString(code, new Font("黑體", 18.0F), Brushes.Blue, new Point(10, 8));
+                    g.DrawString(code, new Font("黑體", 18.0F), Brushes.Blue, new System.Drawing.Point(10, 8));
                     //繪製干擾線(數字代表幾條)
                     PaintInterLine(g, 10, map.Width, map.Height);
                 }

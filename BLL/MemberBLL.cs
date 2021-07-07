@@ -86,11 +86,11 @@ namespace BLL
 
         public Member GetMemberByMemberID(int memberID)
         {
-            memberDAO.GetNewPassword(email, password);
+           return memberDAO.GetMemberByMemberID(memberID); 
         }
         public void GetNewPassword(string email, string password)
         {
-            return dao.GetMemberByMemberID(memberID);
+            memberDAO.GetNewPassword(email, password);
             
         }
     }

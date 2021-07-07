@@ -74,7 +74,7 @@ namespace DAL
                 user.Phone = model.Phone;
                 user.Gender = model.Gender;
                 user.MealCount = model.MealCount;
-                
+
                 db.SaveChanges();
                 return oldImagePath;
             }
@@ -173,11 +173,11 @@ namespace DAL
         }
         public string GetActiveCode(int userID)
         {
-           string activeCode="";
+            string activeCode = "";
             using (HealthHelperEntities db = new HealthHelperEntities())
-        {
+            {
                 Member member = db.Members.FirstOrDefault(x => x.ID == userID);
-               activeCode = member.ActiveCode;
+                activeCode = member.ActiveCode;
             }
             return activeCode;
         }
@@ -187,3 +187,4 @@ namespace DAL
         }
     }
 }
+
