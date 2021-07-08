@@ -23,13 +23,31 @@ namespace UI
             string fromPage = Context.Headers["referer"].Split('/')[3];
 
             UserHandler.ConnectedIds.Add(Context.ConnectionId);
-            UserDetail user = new UserDetail
+
+            UserDetail user = null;
+            bool isAdded = false;
+
+            foreach (var User in UserStatic.ConnectedUsers)
             {
-                ConnID = Context.ConnectionId,
-                UserID = Context.User.Identity.Name,
-                Role = fromPage == "Admin" ? "Admin" : "Customer"
-            };
-            UserStatic.ConnectedUsers.Add(user);
+                if (User.ConnID == Context.ConnectionId && User.UserID == Context.User.Identity.Name)
+                {
+                    isAdded = true;
+                    user = User;
+                    user.Role = fromPage == "Admin" ? "Admin" : "Customer";
+                    break;
+                }
+            }
+
+            if (!isAdded)
+            {
+                user = new UserDetail
+                {
+                    ConnID = Context.ConnectionId,
+                    UserID = Context.User.Identity.Name,
+                    Role = fromPage == "Admin" ? "Admin" : "Customer"
+                };
+                UserStatic.ConnectedUsers.Add(user);
+            }
 
             //=====================================================
             //For CustomerService

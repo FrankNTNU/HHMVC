@@ -77,8 +77,20 @@ namespace UI.Areas.Admin.Controllers
         {
             //====================================================================
 
-            var userList = UserStatic.ServiceGroups.Where(sg => sg.Value.AdminConnId == connId
-                    && sg.Value.GroupName != User.Identity.Name)
+            var userList = UserStatic.ServiceGroups.Where(sg => 
+            {
+                bool isCustomer = true;
+
+                foreach (var user in UserStatic.ConnectedUsers)
+                {
+                    if (user.ConnID == sg.Value.UserConnId && user.UserID == sg.Value.GroupName)
+                    {
+                        isCustomer = user.Role == "Customer";
+                    }
+                }
+
+                return isCustomer && sg.Value.AdminConnId == connId && sg.Value.GroupName != User.Identity.Name;
+            })
                 .Select(sg =>
             {
                 Member member = dbContext.Members.SingleOrDefault(m => m.ID.ToString() == sg.Value.GroupName);
