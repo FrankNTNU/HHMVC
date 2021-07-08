@@ -20,7 +20,7 @@ namespace UI
         public override Task OnConnected()
         {
 
-            string fromPage = Context.Headers["referer"].Split('/')[3];
+            string fromPage = Context.Headers["referer"].Split('/')[3].ToLower();
 
             UserHandler.ConnectedIds.Add(Context.ConnectionId);
 
@@ -33,7 +33,7 @@ namespace UI
                 {
                     isAdded = true;
                     user = User;
-                    user.Role = fromPage == "Admin" ? "Admin" : "Customer";
+                    user.Role = fromPage == "admin" ? "admin" : "customer";
                     break;
                 }
             }
@@ -44,7 +44,7 @@ namespace UI
                 {
                     ConnID = Context.ConnectionId,
                     UserID = Context.User.Identity.Name,
-                    Role = fromPage == "Admin" ? "Admin" : "Customer"
+                    Role = fromPage == "admin" ? "admin" : "customer"
                 };
                 UserStatic.ConnectedUsers.Add(user);
             }
@@ -53,7 +53,7 @@ namespace UI
             //For CustomerService
             
             //Admin Reconnect When Return
-            if (user.Role == "Admin")
+            if (user.Role == "admin")
             {
                 foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                 {
@@ -69,7 +69,7 @@ namespace UI
                 }
             }
             //User Reconnect When Return
-            else if (user.Role == "Customer")
+            else if (user.Role == "customer")
             {
                 foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                 {
@@ -103,7 +103,7 @@ namespace UI
 
             try
             {   //When Admin disconnect, only remove AdminConnId and AdminId
-                if (disconntectedUser.Role == "Admin")
+                if (disconntectedUser.Role == "admin")
                 {
                     foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                     {
@@ -119,7 +119,7 @@ namespace UI
                     }
                 }
                 //When User disconnect, remove ServiceGroup
-                else if (disconntectedUser.Role == "Customer")
+                else if (disconntectedUser.Role == "customer")
                 {
                     foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                     {

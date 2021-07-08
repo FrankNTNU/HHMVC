@@ -152,7 +152,7 @@
 <!--ForServiceDemo===============================================-->
 <div class="demoService">
     <div class="demoButtonService" onclick="autoInputMsgs7()">frank</div>
-    @*<div class="demoButtonService" onclick="autoInputMsgs8()">zzzz</div>*@
+    <div class="demoButtonService" onclick="autoInputMsgs8()">zzzz</div>
 </div>
 <!--=============================================================-->
 
@@ -443,15 +443,15 @@
             autoInputForCustomer(msgs);
         }
 
-        //function autoInputMsgs8() {
-        //    msgs = [
-        //        "我馬上來",
-        //        "謝謝你請我喝飲料",
-        //        "幫我增加了了1公斤"
-        //    ];
+        function autoInputMsgs8() {
+            msgs = [
+                "我馬上來",
+                "謝謝你請我喝飲料",
+                "幫我增加了了1公斤"
+            ];
 
-        //    autoInputForCustomer(msgs);
-        //}
+            autoInputForCustomer(msgs);
+        }
 
         function autoInputForCustomer(msgs) {
             $("#message").val(msgs[0]);

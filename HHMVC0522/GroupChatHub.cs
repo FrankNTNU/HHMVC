@@ -31,7 +31,7 @@ namespace UI
                 {
                     isAdded = true;
                     user = User;
-                    user.Role = "Customer";
+                    user.Role = "customer";
                     break;
                 }
             }

@@ -20,7 +20,7 @@ namespace UI.Controllers
     public class FrontContactController : AsyncController
     {
         HealthHelperEntities dbContext = new HealthHelperEntities();
-        Random rn = new Random();
+        
 
         // GET: FrontContact
         public ActionResult Index()
@@ -40,33 +40,33 @@ namespace UI.Controllers
         //=======================================================================
         //恩旗
         [HttpPost]
-        public async Task<ActionResult> Chat(string connId, string message)
-        {
-            HealthHelperEntities dbContext = new HealthHelperEntities();
+        //public async Task<ActionResult> Chat(string connId, string message)
+        //{
+        //    HealthHelperEntities dbContext = new HealthHelperEntities();
             
-            List<string> adminConnIds = UserStatic.ConnectedUsers.Select(cu => new
-            {
-                cu.ConnID,
-                UserID = int.Parse(cu.UserID)
-            }).Where(cu => dbContext.Members.SingleOrDefault(cu1 => cu1.ID == cu.UserID).IsAdmin)
-                .Select(cu => cu.ConnID).ToList();
+        //    List<string> adminConnIds = UserStatic.ConnectedUsers.Select(cu => new
+        //    {
+        //        cu.ConnID,
+        //        UserID = int.Parse(cu.UserID)
+        //    }).Where(cu => dbContext.Members.SingleOrDefault(cu1 => cu1.ID == cu.UserID).IsAdmin)
+        //        .Select(cu => cu.ConnID).ToList();
 
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+        //    var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
-            //todo AI認知服務
-            if (adminConnIds.Count == 0)
-            {
-                string answer = await GetAnsFromKB(message);
-                context.Clients.Client(connId).ReceiveFromService(answer);
-            }
-            else
-            {
-                context.Clients.Client(adminConnIds[rn.Next(0, adminConnIds.Count)])
-                    .ReceiveFromCustomer(connId, Session["UserName"], Session["ImagePath"], message);
-            }    
+        //    //todo AI認知服務
+        //    if (adminConnIds.Count == 0)
+        //    {
+        //        string answer = await GetAnsFromKB(message);
+        //        context.Clients.Client(connId).ReceiveFromService(answer);
+        //    }
+        //    else
+        //    {
+        //        context.Clients.Client(adminConnIds[rn.Next(0, adminConnIds.Count)])
+        //            .ReceiveFromCustomer(connId, Session["UserName"], Session["ImagePath"], message);
+        //    }    
 
-            return View();
-        }
+        //    return View();
+        //}
 
         //==============================================================
         //恩旗
@@ -108,12 +108,19 @@ namespace UI.Controllers
             {
                 if (UserStatic.ServiceGroups[groupId].GroupName == User.Identity.Name)
                 {
-                   return Json(new 
-                   { 
-                       Result = "Reconnect to old group", 
-                       GroupId = groupId,
-                       NotReadCount = UserStatic.ServiceNotRead[User.Identity.Name][groupId]
-                   });
+                    int notReadCount = 0;
+
+                    if (UserStatic.ServiceNotRead.ContainsKey(User.Identity.Name))
+                    {
+                        UserStatic.ServiceNotRead[User.Identity.Name].TryGetValue(groupId, out notReadCount);
+                    }
+
+                    return Json(new 
+                    { 
+                        Result = "Reconnect to old group", 
+                        GroupId = groupId,
+                        NotReadCount = notReadCount
+                    });
                 }
             }
 
@@ -130,21 +137,35 @@ namespace UI.Controllers
             dbContext.SaveChanges();
 
             //Online Admins List
-            List<Tuple<string, string>> admins = UserStatic.ConnectedUsers
-                .Where(cu => cu.Role == "Admin" && cu.UserID != User.Identity.Name)
-                .Select(cu => new Tuple<string, string>(cu.ConnID, cu.UserID)).ToList();
+            var admins = UserStatic.ConnectedUsers
+                .Where(cu => cu.Role == "admin" && cu.UserID != User.Identity.Name)
+                .Select(cu =>
+                {
+                    int serviceCount = 0;
 
-            Tuple<string, string> admin = null;
+                    foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
+                    {
+                        if (UserStatic.ServiceGroups[groupId].AdminId == cu.UserID)
+                        {
+                            serviceCount++;
+                        }
+                    }
+                    return new { cu, serviceCount };
+                });
+
+
             string adminConnId = "";
             string adminId = "";
 
-            if (admins.Count != 0)
+            if (admins.Any())
             {
-                admin = admins[rn.Next(0, admins.Count)];
-                adminConnId = admin.Item1;
-                adminId = admin.Item2;
+                var admin = admins.Aggregate((minServeAdmin, nextAdmin)
+                    => minServeAdmin.serviceCount <= nextAdmin.serviceCount ? minServeAdmin : nextAdmin);
+
+                adminConnId = admin.cu.ConnID;
+                adminId = admin.cu.UserID;
             }
-             
+            
             //Add to ServiceGroup
             var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
             Context.Groups.Add(connId, group.ID.ToString());
@@ -190,7 +211,7 @@ namespace UI.Controllers
 
             //Online Admins List
             var admins = UserStatic.ConnectedUsers
-                .Where(cu => cu.Role == "Admin" && cu.UserID != User.Identity.Name)
+                .Where(cu => cu.Role == "admin" && cu.UserID != User.Identity.Name)
                 .Select(cu => cu).ToList();
 
             if (admins.Count == 0)
@@ -296,19 +317,6 @@ namespace UI.Controllers
             dbContext.SaveChanges();
         }
 
-        //[HttpPost]
-        //public void SetNotReadCount()
-        //{
-        //    if (Session["NotReadCount"] == null)
-        //    {
-        //        Session["NotReadCount"] = 1;
-        //    }
-        //    else
-        //    {
-        //        int notReadCount = (int)Session["NotReadCount"];
-        //        Session["NotReadCount"] = ++notReadCount;
-        //    }
-        //}
 
         [HttpPost]
         public void ResetNotReadCount(string groupId)

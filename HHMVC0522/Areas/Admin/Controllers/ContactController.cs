@@ -81,11 +81,11 @@ namespace UI.Areas.Admin.Controllers
             {
                 bool isCustomer = true;
 
-                foreach (var user in UserStatic.ConnectedUsers)
+                foreach (var user in UserStatic.ConnectedUsers.ToList())
                 {
                     if (user.ConnID == sg.Value.UserConnId && user.UserID == sg.Value.GroupName)
                     {
-                        isCustomer = user.Role == "Customer";
+                        isCustomer = user.Role == "customer";
                     }
                 }
 
