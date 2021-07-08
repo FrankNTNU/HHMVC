@@ -307,6 +307,13 @@
             padding: 5px;
             border-radius: 10px;
         }
+
+        .loginButton {
+            background-color: darksalmon;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+        }
 </style>
 </head>
 
@@ -517,6 +524,11 @@
     <div class="demoService">
         <div class="demoButtonService" onclick="autoInputMsgs1()">enchi</div>
         <div class="demoButtonService" onclick="autoInputMsgs2()">wevmn</div>
+        <div class="loginButton" onclick="login1()">enchi</div>
+        <div class="loginButton" onclick="login2()">wevmn</div>
+        <div class="loginButton" onclick="login3()">frank</div>
+        <div class="loginButton" onclick="login4()">zzzz</div>
+        <div class="loginButton" onclick="login5()">Wily</div>
     </div>
     <!--=============================================================-->
     <!-- Scripts -->
@@ -1002,6 +1014,31 @@
             $("#serviceMessage").val(msgs[2]);
             $("#sendServiceMessage").click()
         });
+    }
+
+    function login1() {
+        $("#demo-email").val("bvwr@gmail.com");
+        $("#demo-pwd").val("2222");
+    }
+
+    function login2() {
+        $("#demo-email").val("rgwr@gmail.com");
+        $("#demo-pwd").val("erhr");
+    }
+
+    function login3() {
+        $("#demo-email").val("Frank666@gmail.com");
+        $("#demo-pwd").val("1111");
+    }
+
+    function login4() {
+        $("#demo-email").val("zzzz@gmail.com");
+        $("#demo-pwd").val("444");
+    }
+
+    function login5() {
+        $("#demo-email").val("yyy@gmail.com");
+        $("#demo-pwd").val("222");
     }
 </script>
 </body>
