@@ -1,4 +1,5 @@
 ﻿@using UI.Controllers
+@using DTO
 
 @{ Layout = null; }
 
@@ -533,7 +534,8 @@
 
 
     <!--恩旗-->
-<script>
+<script language="JavaScript">
+
     $(window).on("unload", function () {
         $.cookies.del('.ASPXAUTH');
     });
@@ -542,11 +544,6 @@
     //恩旗
     //Show NoWeightLog dialog
 
-    let notReadCount = @Json.Encode(Session["NotReadCount"]);
-
-    if (notReadCount == null) {
-        notReadCount = 0;
-    }
 
     $(function () {
 
@@ -641,10 +638,8 @@
                                 $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
                             }
                             $("#notRead").css("visibility", "hidden");
-                            notReadCount = 0;
-                            ResetNotReadCountSession();
+                            ResetNotReadCount();
                         });
-
                     });
                 });
             }
@@ -671,8 +666,7 @@
                 }
 
                 $("#notRead").css("visibility", "hidden");
-                notReadCount = 0;
-                ResetNotReadCountSession();
+                ResetNotReadCount();
             }
 
         });
@@ -776,16 +770,13 @@
 
         var chat2 = $.connection.chatHub;
 
-        chat2.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
+        chat2.client.receive = function (connId, userName, message, timeStamp, image, groupId, notReadCount) {
 
             if ($("#collapse i.fa-minus").length == 0) {
 
-                if (notReadCount == 0) {
-                    appendNotRead();
-                }
                 writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
-                notReadCount++;
-                SetNotReadCountSession();
+                $(".notReadText").remove();
+                appendNotRead(notReadCount);
 
                 $("#notRead span").text(notReadCount);
                 $("#notRead").css("visibility", "visible")
@@ -796,19 +787,17 @@
                     $("#notReadForSidebar").text(notReadCount);
                 }
             } else if ($("#chatPanel").css("display") == "none") {
-
-                if (notReadCount == 0) {
-                    appendNotRead();
-                }
-
+                
                 writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
-                notReadCount++;
-                SetNotReadCountSession();
+                $(".notReadText").remove();
+                appendNotRead(notReadCount);
+
                 $("#serviceNotify").css("display", "inline-block");
                 $("#notReadForSidebar").text(notReadCount);
             } else {
                 writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
                 $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
+                ResetNotReadCount();
             }
         }
 
@@ -822,11 +811,12 @@
                 }
             }).done(function (data) {
 
-                //alert(data.Result);
+                alert(data.Result);
 
                 $("#serviceGroupId").val(data.GroupId);
-                LoadMessagesForService(@Json.Encode(Session["NotReadCount"]));
-                showNotReadForSidebar(@Json.Encode(Session["NotReadCount"]));
+
+                LoadMessagesForService(data.NotReadCount);
+                showNotReadForSidebar(data.NotReadCount);
             });
 
             $("#sendServiceMessage").click(function () {
@@ -917,6 +907,7 @@
 
     //todo Load Group Messages
     function LoadMessagesForService(notReadCount) {
+
         if ($("#serviceGroupId").val() != "") {
             $.ajax({
                 url: "/FrontContact/GetGroupMsgs",
@@ -926,37 +917,27 @@
                 },
                 success: function (data) {
 
-                    if (notReadCount == null) {
-                        notReadCount = 0;
-                    }
-
                     $("#serviceChatBox").html("");
 
                     $.each(data, function (i, msg) {
-                        if (i == (data.length - notReadCount)) {
-                            appendNotRead();
-                        }
+                        
                         writeForService(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
 
                     });
 
+                    appendNotRead(notReadCount);
                 }
             });
         }
     }
 
-    function SetNotReadCountSession()
-    {
+    function ResetNotReadCount(){
         $.ajax({
-            url: "/FrontContact/SetNotReadCountSession",
-            type: "POST"
-        });
-    }
-
-    function ResetNotReadCountSession(){
-        $.ajax({
-            url: "/FrontContact/ResetNotReadCountSession",
-            type: "POST"
+            url: "/FrontContact/ResetNotReadCount",
+            type: "POST",
+            data: {
+                groupId: $("#serviceGroupId").val()
+            }
         });
     }
 
@@ -964,11 +945,13 @@
         $("#notRead").fadeOut(500).fadeIn(500, blink);
     }
 
-    function appendNotRead() {
+    function appendNotRead(notReadCount) {
 
         let NotReadDiv = $("<div></div>").addClass("notReadText").append("以下為未讀訊息");
 
-        $("#serviceChatBox").append(NotReadDiv);
+        let insertIndex = $("#serviceChatBox > div").length - notReadCount + 1;
+
+        $("#serviceChatBox > div:nth-child(" + insertIndex + ")").before(NotReadDiv);
     }
 
     function showNotReadForSidebar(notReadCount) {

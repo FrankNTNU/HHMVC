@@ -111,7 +111,8 @@ namespace UI.Controllers
                    return Json(new 
                    { 
                        Result = "Reconnect to old group", 
-                       GroupId = groupId
+                       GroupId = groupId,
+                       NotReadCount = UserStatic.ServiceNotRead[User.Identity.Name][groupId]
                    });
                 }
             }
@@ -161,7 +162,7 @@ namespace UI.Controllers
                 AdminId = adminId
             });
 
-            return Json(new { Result = "Success", GroupId = group.ID.ToString() });
+            return Json(new { Result = "Success", GroupId = group.ID.ToString(), NotReadCount = 0 });
         }
 
         [HttpPost]
@@ -247,21 +248,6 @@ namespace UI.Controllers
                             image = member.Image;
                         }
 
-                        //Member member = dbContext.Members.SingleOrDefault(m => m.ID == gc.MemberID);
-
-                        //if (member.IsAdmin)
-                        //{
-                        //    connId = UserStatic.ServiceGroups[groupId].AdminConnId;
-                        //    userName = "客服人員";
-                        //    image = "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png";
-                        //}
-                        //else
-                        //{
-                        //    connId = UserStatic.ServiceGroups[groupId].UserConnId;
-                        //    userName = member.UserName;
-                        //    image = member.Image;
-                        //}
-
                         return new
                         {
                             connId = connId,
@@ -310,24 +296,39 @@ namespace UI.Controllers
             dbContext.SaveChanges();
         }
 
+        //[HttpPost]
+        //public void SetNotReadCount()
+        //{
+        //    if (Session["NotReadCount"] == null)
+        //    {
+        //        Session["NotReadCount"] = 1;
+        //    }
+        //    else
+        //    {
+        //        int notReadCount = (int)Session["NotReadCount"];
+        //        Session["NotReadCount"] = ++notReadCount;
+        //    }
+        //}
+
         [HttpPost]
-        public void SetNotReadCountSession()
+        public void ResetNotReadCount(string groupId)
         {
-            if (Session["NotReadCount"] == null)
+            if (UserStatic.ServiceNotRead.ContainsKey(User.Identity.Name)
+                && UserStatic.ServiceNotRead[User.Identity.Name].ContainsKey(groupId))
             {
-                Session["NotReadCount"] = 1;
+                UserStatic.ServiceNotRead[User.Identity.Name][groupId] = 0;
+            }
+            else if (UserStatic.ServiceNotRead.ContainsKey(User.Identity.Name)
+                && !UserStatic.ServiceNotRead[User.Identity.Name].ContainsKey(groupId))
+            {
+                UserStatic.ServiceNotRead[User.Identity.Name].Add(groupId, 0);
             }
             else
             {
-                int notReadCount = (int)Session["NotReadCount"];
-                Session["NotReadCount"] = ++notReadCount;
+                UserStatic.ServiceNotRead.Add(User.Identity.Name, new Dictionary<string, int>());
+                UserStatic.ServiceNotRead[User.Identity.Name].Add(groupId, 0);
             }
-        }
-
-        [HttpPost]
-        public void ResetNotReadCountSession()
-        {
-            Session["NotReadCount"] = 0;
+            
         }
     }
 }

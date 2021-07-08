@@ -151,13 +151,34 @@ namespace UI.Areas.Admin.Controllers
         [HttpPost]
         public void SendMessage(string connId, string groupId, string message)
         {
+            //===================================================
+            //ServiceNotRead
+            string user = UserStatic.ServiceGroups[groupId].GroupName;
+
+            if (UserStatic.ServiceNotRead.ContainsKey(user)
+                && UserStatic.ServiceNotRead[user].ContainsKey(groupId))
+            {
+                UserStatic.ServiceNotRead[user][groupId]++;
+            }
+            else if (UserStatic.ServiceNotRead.ContainsKey(user)
+                && !UserStatic.ServiceNotRead[user].ContainsKey(groupId))
+            {
+                UserStatic.ServiceNotRead[user].Add(groupId, 1);
+            }
+            else
+            {
+                UserStatic.ServiceNotRead.Add(user, new Dictionary<string, int>());
+                UserStatic.ServiceNotRead[user].Add(groupId, 1);
+            }
+            //==================================================================
 
             var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
             DateTime timeStamp = DateTime.Now;
 
             Context.Clients.Group(groupId)
-                .receive(connId, "客服人員", message, timeStamp.ToString("M/d HH:mm"), "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png", groupId);
+                .receive(connId, "客服人員", message, timeStamp.ToString("M/d HH:mm"), 
+                    "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png", groupId, UserStatic.ServiceNotRead[user][groupId]);
 
             
             dbContext.GroupChats.Add(new GroupChat
@@ -169,6 +190,7 @@ namespace UI.Areas.Admin.Controllers
             });
 
             dbContext.SaveChanges();
+
         }
 
         public JsonResult GetGroupMsgs(string groupId)
