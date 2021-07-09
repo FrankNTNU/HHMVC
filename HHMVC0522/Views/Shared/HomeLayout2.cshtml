@@ -486,6 +486,7 @@
     <div id="programFrozen">
         挑戰已結束，請輸入目前體重<br />
         (還剩下&nbsp;<span style="color: #f56a6a"></span>&nbsp;天)：<br />
+        <div>初始體重<span id="initWeight" style="color: #f56a6a"></span>kg/目標體重<span id="tgtWeight" style="color: #f56a6a"></span>kg</div>
         <input type="text" id="resultWeight" placeholder="目前多重呢" autocomplete="off" />
         <label style="display:inline-block;font-size:1.2em">&nbsp;kg</label>
     </div>
@@ -569,7 +570,7 @@
 
         var dialogShown = @Json.Encode(Session["dialogShown"]);
         var pointShown = @Html.Raw(Request.Cookies["PointShown"] == null ? "false" : Request.Cookies["PointShown"].Value);
-
+        
         if (!pointShown && getPoints > 0) {
             let points = $("<span></span>").text(getPoints)
                 .addClass("points");
@@ -686,57 +687,68 @@
     });
 
     function alertProgramFrozen(programFrozen) {
+
         $("#programFrozen span").text(programFrozen);
-        $("#programFrozen").dialog({
-            title: "提醒",
-            modal: true,
-            open: function (event, ui) {
-                $('.ui-dialog .btnOK').addClass("primary")
-                    .css("padding", "10px").css("border-radius", "5px")
-                    .css("outline-color", "white");
-                $(this).parent().focus();
-            },
-            dialogClass: "no-close",
-            buttons: [{
-                text: "確認",
-                class: "btnOK",
-                click: function () {
 
-                    let patt = /^[0-9]+$/
+        $.ajax({
+            url: "/Home2/GetProgramWeight",
+            type: "POST"
+        }).done(function (data) {
 
-                    if (!patt.test($("#resultWeight").val())) {
-                        alert("請輸入有效體重");
-                        return;
+            $("#initWeight").text(data.initWeight);
+            $("#tgtWeight").text(data.tgtWeight);
+
+            $("#programFrozen").dialog({
+                title: "提醒",
+                modal: true,
+                open: function (event, ui) {
+                    $('.ui-dialog .btnOK').addClass("primary")
+                        .css("padding", "10px").css("border-radius", "5px")
+                        .css("outline-color", "white");
+                    $(this).parent().focus();
+                },
+                dialogClass: "no-close",
+                buttons: [{
+                    text: "確認",
+                    class: "btnOK",
+                    click: function () {
+
+                        let patt = /^[0-9]+$/
+
+                        if (!patt.test($("#resultWeight").val())) {
+                            alert("請輸入有效體重");
+                            return;
+                        }
+
+                        if (confirm("確定送出嗎？")) {
+
+                            $.ajax({
+                                url: "/Home2/SetResultWeight",
+                                type: "POST",
+                                data: {
+                                    resultWeight: $("#resultWeight").val()
+                                },
+                                success: function (results) {
+                                    fanfare(results);
+                                }
+                            });
+
+                            $("#programFrozen").dialog("close");
+                        }
                     }
-
-                    if (confirm("確定送出嗎？")) {
-
-                        $.ajax({
-                            url: "/Home2/SetResultWeight",
-                            type: "POST",
-                            data: {
-                                resultWeight: $("#resultWeight").val()
-                            },
-                            success: function (results) {
-                                fanfare(results);
-                            }
-                        });
-
+                },
+                {
+                    text: "取消",
+                    class: "btnOK",
+                    click: function () {
                         $("#programFrozen").dialog("close");
+                        $.ajax({
+                            url: "/Home2/SetDialogShownSession",
+                            type: "POST"
+                        });
                     }
-                }
-            },
-            {
-                text: "取消",
-                class: "btnOK",
-                click: function () {
-                    $("#programFrozen").dialog("close");
-                    $.ajax({
-                        url: "/Home2/SetDialogShownSession",
-                        type: "POST"
-                    });
-                }
-            }]
+                }]
+            });
         });
 
         $('.ui-dialog button').mousedown(function (e) {
@@ -823,7 +835,7 @@
                 }
             }).done(function (data) {
 
-                alert(data.Result);
+                //alert(data.Result);
 
                 $("#serviceGroupId").val(data.GroupId);
 
