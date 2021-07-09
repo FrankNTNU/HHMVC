@@ -220,7 +220,7 @@
                         return;
                     }
 
-                    p3 = $.ajax({
+                    promiseForDemo3 = $.ajax({
                         url: "SendMessage",
                         type: "POST",
                         data: {
@@ -431,7 +431,7 @@
 
         //ForDemo================================
 
-        let p3;
+        let promiseForDemo3;
 
         function autoInputMsgs7() {
             msgs = [
@@ -453,17 +453,12 @@
             autoInputForCustomer(msgs);
         }
 
-        function autoInputForCustomer(msgs) {
-            $("#message").val(msgs[0]);
-            $("#sendmessage").click();
-            p3.then(function () {
-                $("#message").val(msgs[1]);
-                $("#sendmessage").click()
-                return p3;
-            }).then(function () {
-                $("#message").val(msgs[2]);
-                $("#sendmessage").click()
-            });
+        async function autoInputForCustomer(msgs) {
+            for (let i = 0; i < msgs.length; i++) {
+                $("#message").val(msgs[i]);
+                $("#sendmessage").click();
+                await promiseForDemo3;
+            }
         }
     </script>
 }

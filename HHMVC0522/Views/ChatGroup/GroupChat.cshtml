@@ -252,8 +252,9 @@
 <div class="demo">
     <div class="demoButton" onclick="autoInputMsgs3()">enchi</div>
     <div class="demoButton" onclick="autoInputMsgs4()">wevmn</div>
-    <div class="demoButton" onclick="autoInputMsgs5()">frank</div>
-    <div class="demoButton" onclick="autoInputMsgs6()">zzzz</div>
+    <div class="demoButton" onclick="autoInputMsgs5()">User01</div>
+    <div class="demoButton" onclick="autoInputMsgs6()">frank</div>
+    <div class="demoButton" onclick="autoInputMsgs7()">zzzz</div>
 </div>
 <!--=========================================================-->
 @section scripts {
@@ -560,7 +561,7 @@
                     return;
                 }
 
-                p2 = $.ajax({
+                promiseForDemo2 = $.ajax({
                     url: "SendMessage",
                     type: "POST",
                     data: {
@@ -615,7 +616,7 @@
 
         //ForDemo================================
 
-        let p2;
+        let promiseForDemo2;
 
         function autoInputMsgs3() {
             msgs = [
@@ -639,6 +640,16 @@
 
         function autoInputMsgs5() {
             msgs = [
+                "虎哥來了嗎？",
+                "豹哥在等了",
+                "古哥今天不會來"
+            ];
+
+            autoInput(msgs);
+        }
+
+        function autoInputMsgs6() {
+            msgs = [
                 "加不了另一個群組",
                 "只好自己開一個",
                 "等等看有沒有人會進來"
@@ -647,7 +658,7 @@
             autoInput(msgs);
         }
 
-        function autoInputMsgs6() {
+        function autoInputMsgs7() {
             msgs = [
                 "可以進來耶",
                 "我減了3公斤",
@@ -657,18 +668,13 @@
             autoInput(msgs);
         }
 
-        function autoInput(msgs) {
-            $("#message").val(msgs[0]);
-            $("#sendmessage").click();
-            p2.then(function () {
-                $("#message").val(msgs[1]);
-                $("#sendmessage").click()
-                return p2;
-            })
-            .then(function () {
-                $("#message").val(msgs[2]);
-                $("#sendmessage").click()
-            });
+        async function autoInput(msgs) {
+            for (let i = 0; i < msgs.length; i++) {
+                $("#message").val(msgs[i]);
+                $("#sendmessage").click();
+                await promiseForDemo2;
+            }
         }
+
     </script>
 }
