@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using UI.ViewModels;
 using DTO;
+using System.Globalization;
 
 namespace UI.Controllers
 {
@@ -328,11 +329,62 @@ namespace UI.Controllers
 
         //======================================================
         //WorkoutSchedule Page
-
-        //todo QnA Maker是否可運用
         public ActionResult WorkoutSchedule()
         {
             WorkoutSuggestViewModel vm = new WorkoutSuggestViewModel();
+
+            //================================================================
+            //ProgramWinner
+            var winnerPrograms = dbContext.Programs.Where(prg => prg.StatusID == 5).ToList();
+
+            List<WorkoutLog> winnerWorkoutLogs = new List<WorkoutLog>();
+
+            winnerPrograms.ForEach(wprg => 
+            {
+                winnerWorkoutLogs.AddRange(dbContext.WorkoutLogs.Where(wl => wl.MemberID == wprg.MemberID
+                    && DbFunctions.TruncateTime(wl.WorkoutTime) >= DbFunctions.TruncateTime(wprg.StartDate)
+                    && DbFunctions.TruncateTime(wl.WorkoutTime) <= DbFunctions.TruncateTime(wprg.EndDate)).ToList());
+            });
+
+            //winnerFavorite
+            vm.winnerFavorite = winnerWorkoutLogs
+                .GroupBy(wl => wl.Workout).Select(group => new
+                {
+                    group.Key,
+                    Count = group.Count()
+                })
+                .OrderByDescending(group => group.Count).Select(group => group.Key.Name).Take(5).ToList();
+
+            //winnerDaysOfWeek
+            CultureInfo myCI = new CultureInfo("en-US");
+            Calendar cal = myCI.Calendar;
+
+            vm.winnerDaysOfWeek = winnerWorkoutLogs
+                .GroupBy(wl => new
+                {
+                    wl.MemberID,
+                    wl.WorkoutTime.Year,
+                    weekOfYear = cal.GetWeekOfYear(wl.WorkoutTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday)
+                })
+                .Select(group => new
+                {
+                    Count = group.Count()
+                })
+                .Average(c => c.Count).ToString("0.00");
+
+            //winnerHoursOfDay
+            vm.winnerHoursOfDay = winnerWorkoutLogs
+                .GroupBy(wl => new
+                {
+                    wl.MemberID,
+                    wl.WorkoutTime.Date
+                })
+                .Select(group => new
+                {
+                    Hours = group.Sum(wl => wl.WorkoutHours)
+                })
+                .Average(h => h.Hours).ToString("0.00");
+
 
             DateTime today = DateTime.Now;
             string todayString = today.ToString("MMddyyyy");
