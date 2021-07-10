@@ -27,10 +27,10 @@
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>文章標題</th>
-                    <th>內容</th>
+                    <th><span style="background-color: #fff6cf ">文章標題</span><br />與留言內容</th>
                     <th>留言者</th>
                     <th>新增日期</th>
+                    <th>負面指數</th>
                     <th>核准</th>
                     <th>刪除</th>
                 </tr>
@@ -38,36 +38,40 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr id="a_@item.ID">
-                        <td>@item.Title</td>
-                        <td>
-                            @item.CommentContent
-                        </td>
-                        <td>
-                            @item.MemberName
-                        </td>
-                        <td>
-                            @item.AddDate.ToString("yyyy.MM.dd")
-                        </td>
-                        <td align="center" valign="middle">
-                            <a href="../Comment/ApproveComment/@item.ID">
-                               <img src="~/Areas/Admin/Content/icon/approve.png" />
-                            </a>
-                        </td>
-                        <td align="center" valign="middle">
-                           <a href="#">
-                               <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../Comment/DeleteComment/', @item.ID)" />
-                           </a>
-                        </td>
-                    </tr>
+                <tr id="a_@item.ID">
+                    <td style="max-width:450px">
+                        <span style="background-color: #ffed9c">@item.PostTitle</span><br />
+                        @Html.Raw(item.CommentContent)
+                    </td>
+                    <td>
+                        @item.MemberName
+                    </td>
+                    <td>
+                        @item.AddDate.ToString("yyyy.MM.dd")
+                    </td>
+                    <td>
+                        @String.Format("{0:0.00}", @item.SentimentScore)
+
+                    </td>
+                    <td align="center" valign="middle">
+                        <a href="../Comment/ApproveComment/@item.ID">
+                            <img src="~/Areas/Admin/Content/icon/approve.png" />
+                        </a>
+                    </td>
+                    <td align="center" valign="middle">
+                        <a href="#">
+                            <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../Comment/DeleteComment/', @item.ID)" />
+                        </a>
+                    </td>
+                </tr>
                 }
             </tbody>
             <tfoot>
                 <tr>
-                    <th>文章標題</th>
-                    <th>內容</th>
+                    <th><span style="background-color: #fff6cf ">文章標題</span><br />與留言內容</th>
                     <th>留言者</th>
                     <th>新增日期</th>
+                    <th>負面指數</th>
                     <th>核准</th>
                     <th>刪除</th>
                 </tr>

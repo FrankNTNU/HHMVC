@@ -355,5 +355,11 @@ namespace UI.Controllers
                 return View(model);
             }
         }
+        public string ReportComment(int commentID)
+        {
+            commentBLL.ReportComment(commentID);
+            TempData["State"] = "ReportSent";
+            return "";
+        }
     }
 }

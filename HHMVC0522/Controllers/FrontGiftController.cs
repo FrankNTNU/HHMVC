@@ -69,10 +69,15 @@ namespace UI.Controllers
             string newFileName = Guid.NewGuid().ToString() + fileName.Substring(36);
             string sourceFile = Path.Combine(Server.MapPath(sourcePath), fileName);
             string destFile = Path.Combine(Server.MapPath(targetPath), newFileName);
-            string cartImage = newFileName;
-            System.IO.File.Copy(sourceFile, destFile, false);
-            
-            if (cartBLL.AddCart(giftDTO))
+            System.IO.File.Copy(sourceFile, destFile, true);
+            GiftCartDTO cartDTO = new GiftCartDTO();
+            cartDTO.GiftID = giftDTO.ID;
+            cartDTO.Name = giftDTO.Name;
+            cartDTO.Store = giftDTO.Store;
+            cartDTO.EndDate = giftDTO.EndDate;
+            cartDTO.Points = giftDTO.Points;
+            cartDTO.Image = newFileName;
+            if (cartBLL.AddCart(cartDTO))
             {
                 UserBLL userBLL = new UserBLL();
                 Session["Points"] = userBLL.GetPoints((int)Session["ID"]);

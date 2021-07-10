@@ -30,10 +30,10 @@ namespace BLL
         }
         UserDAO userDAO = new UserDAO(); 
 
-        public bool AddCart(GiftDTO model)
+        public bool AddCart(GiftCartDTO model)
         {
             GiftCart cart = new GiftCart();
-            cart.GiftID = model.ID;
+            cart.GiftID = model.GiftID;
             cart.Name = model.Name;
             cart.Store = model.Store;
             cart.MemberID = memberID;
@@ -50,11 +50,6 @@ namespace BLL
         {
             return giftCartDAO.DeleteCart(ID);
         }
-
-        //public GiftCartDTO GetGiftCart(int ID)
-        //{
-        //    return giftCartDAO.GetGiftCart(ID);
-        //}
 
         public bool IsSameItemExist(string name)
         {

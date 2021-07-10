@@ -15,6 +15,19 @@ namespace UI.Controllers
         {
             return View();
         }
+        public PointDTO ConvertToModel(Point point)
+        {
+            PointDTO dto = new PointDTO
+            {
+                MemberID = point.MemberID,
+                MemberName = point.Member.Name,
+                AddTime = point.GetPointsDateTime,
+                Points = point.GetPoints,
+                StatusID = point.StatusID,
+                StatusName = point.Status.Name
+            };
+            return dto;
+        }
         public static int pageSize = 10;
         [HttpPost]
         public JsonResult GetLogs(int pageIndex, string sortName, string sortDirection, string timeRange)
@@ -60,32 +73,20 @@ namespace UI.Controllers
                             .Take(logDTO.PageSize).ToList();
                         foreach (var item in list)
                         {
-                            PointDTO dto = new PointDTO();
-                            dto.MemberID = item.MemberID;
-                            dto.MemberName = item.Member.Name;
-                            dto.AddTime = item.GetPointsDateTime;
-                            dto.Points = item.GetPoints;
-                            dto.StatusID = item.StatusID;
-                            dto.StatusName = item.Status.Name;
-                            logDTO.PointLogs.Add(dto);
+                            logDTO.PointLogs.Add(ConvertToModel(item));
                         }
                     }
                     else
                     {
                         List<Point> list = db.Points
-                           .OrderByDescending(x => x.GetPointsDateTime).ThenByDescending(x => x.GetPoints).Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
+                           .OrderByDescending(x => x.GetPointsDateTime)
+                           .ThenByDescending(x => x.GetPoints)
+                           .Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
                            .Skip(startIndex)
                            .Take(logDTO.PageSize).ToList();
                         foreach (var item in list)
                         {
-                            PointDTO dto = new PointDTO();
-                            dto.MemberID = item.MemberID;
-                            dto.MemberName = item.Member.Name;
-                            dto.AddTime = item.GetPointsDateTime;
-                            dto.Points = item.GetPoints;
-                            dto.StatusID = item.StatusID;
-                            dto.StatusName = item.Status.Name;
-                            logDTO.PointLogs.Add(dto);
+                            logDTO.PointLogs.Add(ConvertToModel(item));
                         }
                     }
                     break;
@@ -93,37 +94,27 @@ namespace UI.Controllers
                     if (sortDirection == "ASC")
                     {
                         List<Point> list = db.Points
-                            .OrderBy(x => x.Status.Name).ThenByDescending(x => x.GetPoints).Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
+                            .OrderBy(x => x.Status.Name)
+                            .ThenByDescending(x => x.GetPoints)
+                            .Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
                             .Skip(startIndex)
                             .Take(logDTO.PageSize).ToList();
                         foreach (var item in list)
                         {
-                            PointDTO dto = new PointDTO();
-                            dto.MemberID = item.MemberID;
-                            dto.MemberName = item.Member.Name;
-                            dto.AddTime = item.GetPointsDateTime;
-                            dto.Points = item.GetPoints;
-                            dto.StatusID = item.StatusID;
-                            dto.StatusName = item.Status.Name;
-                            logDTO.PointLogs.Add(dto);
+                            logDTO.PointLogs.Add(ConvertToModel(item));
                         }
                     }
                     else
                     {
                         List<Point> list = db.Points
-                           .OrderByDescending(x => x.Status.Name).ThenByDescending(x => x.GetPoints).Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
+                           .OrderByDescending(x => x.Status.Name)
+                           .ThenByDescending(x => x.GetPoints)
+                           .Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
                            .Skip(startIndex)
                            .Take(logDTO.PageSize).ToList();
                         foreach (var item in list)
                         {
-                            PointDTO dto = new PointDTO();
-                            dto.MemberID = item.MemberID;
-                            dto.MemberName = item.Member.Name;
-                            dto.AddTime = item.GetPointsDateTime;
-                            dto.Points = item.GetPoints;
-                            dto.StatusID = item.StatusID;
-                            dto.StatusName = item.Status.Name;
-                            logDTO.PointLogs.Add(dto);
+                            logDTO.PointLogs.Add(ConvertToModel(item));
                         }
                     }
                     break;
@@ -131,37 +122,25 @@ namespace UI.Controllers
                     if (sortDirection == "ASC")
                     {
                         List<Point> list = db.Points
-                            .OrderBy(x => x.GetPoints).Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
+                            .OrderBy(x => x.GetPoints)
+                            .Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
                             .Skip(startIndex)
                             .Take(logDTO.PageSize).ToList();
                         foreach (var item in list)
                         {
-                            PointDTO dto = new PointDTO();
-                            dto.MemberID = item.MemberID;
-                            dto.MemberName = item.Member.Name;
-                            dto.AddTime = item.GetPointsDateTime;
-                            dto.Points = item.GetPoints;
-                            dto.StatusID = item.StatusID;
-                            dto.StatusName = item.Status.Name;
-                            logDTO.PointLogs.Add(dto);
+                            logDTO.PointLogs.Add(ConvertToModel(item));
                         }
                     }
                     else
                     {
                         List<Point> list = db.Points
-                           .OrderByDescending(x => x.GetPoints).Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
+                           .OrderByDescending(x => x.GetPoints)
+                           .Where(x => x.MemberID == userID && x.GetPointsDateTime >= timeConstrait)
                            .Skip(startIndex)
                            .Take(logDTO.PageSize).ToList();
                         foreach (var item in list)
                         {
-                            PointDTO dto = new PointDTO();
-                            dto.MemberID = item.MemberID;
-                            dto.MemberName = item.Member.Name;
-                            dto.AddTime = item.GetPointsDateTime;
-                            dto.Points = item.GetPoints;
-                            dto.StatusID = item.StatusID;
-                            dto.StatusName = item.Status.Name;
-                            logDTO.PointLogs.Add(dto);
+                            logDTO.PointLogs.Add(ConvertToModel(item));
                         }
                     }
                     break;

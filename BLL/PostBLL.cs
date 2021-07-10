@@ -121,12 +121,6 @@ namespace BLL
             return true;
         }
 
-        //public bool UpdateComment(LayoutDTO model)
-        //{
-        //    commentDAO.UpdateComment(model);
-        //    return true;
-        //}
-
         public string DeletePostImage(int ID)
         {
             string imagePath = postDAO.DeletePostImage(ID);
@@ -143,11 +137,6 @@ namespace BLL
         {
             return postDAO.GetUserPosts(userID);
         }
-
-        //public List<PostDTO> GetNews()
-        //{
-        //    return postDAO.GetNews();
-        //}
 
         public List<PostDTO> GetPosts(int categoryID, string text)
         {
@@ -196,6 +185,14 @@ namespace BLL
                 IsApproved = false
             };
             postDAO.AddReply(comment);
+        }
+        public static class PostStatistics
+        {
+            public static int PostCount { get => PostDAO.GetPostCount(); }
+            public static int UnapprovedCount { get => PostDAO.GetUnapprovedCount(); }
+            public static int RuleCount { get => PostDAO.GetRuleCount(); }
+            public static int InfoCount { get => PostDAO.GetInfoCount(); }
+
         }
     }
 }

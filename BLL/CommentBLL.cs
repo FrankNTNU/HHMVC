@@ -1,4 +1,5 @@
-﻿using DAL;
+﻿using Azure.AI.TextAnalytics;
+using DAL;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,11 @@ namespace BLL
         {
             commentDAO.DeleteByMemberID(ID);
         }
-
+        
         public List<CommentDTO> GetAllComments()
         {
-            return commentDAO.GetAllComments();
+            List<CommentDTO> comments = commentDAO.GetAllComments();
+            return comments;
         }
 
         public List<CommentDTO> GetUnapprovedComments()
@@ -50,6 +52,23 @@ namespace BLL
         public CommentDTO GetComment(int commentID)
         {
             return commentDAO.GetComment(commentID);
+        }
+
+        public void ReportComment(int commentID)
+        {
+            commentDAO.ReportComment(commentID);
+        }
+        public void ClearReport(int commentID)
+        {
+            commentDAO.ClearReport(commentID);
+        }
+        public static class CommentStatistics
+        {
+            public static int CommentCount { get => CommentDAO.GetCommentCount(); }
+            public static int UnapprovedCount { get => CommentDAO.GetUnapprovedCount(); }
+            public static int ReportedCount { get => CommentDAO.GetReportedCount(); }
+            public static int NegativeCount { get => CommentDAO.GetNegativeCount(); }
+
         }
     }
 }

@@ -85,6 +85,7 @@ namespace DAL
             dto.ParentCommentID = (int?)comment.ParentCommentID ?? 0;
             dto.Level = CurrentLevel;
             dto.IsApproved = comment.IsApproved;
+            dto.SentimentScore = comment.SentimentScore;
             return dto;
         }
         private int CurrentLevel = 0;
@@ -376,7 +377,7 @@ namespace DAL
             return postList;
         }
         public static int UserPost = 1;
-        public static int News = 2;
+        public static int Information = 2;
         public static int Notice = 3;
         public static int Rules = 4;
        
@@ -588,5 +589,11 @@ namespace DAL
                 db.SaveChanges();
             }
         }
+
+        public static int GetPostCount() => db.Posts.Count();
+        public static int GetUnapprovedCount() => db.Posts.Where(x => x.IsApproved == false).Count();
+        public static int GetRuleCount() => db.Posts.Where(x => x.CategoryID == Rules).Count();
+        public static int GetInfoCount() => db.Posts.Where(x => x.CategoryID == Information).Count();
+
     }
 }

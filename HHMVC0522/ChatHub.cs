@@ -85,6 +85,7 @@ namespace UI
 
             try
             {   //When Admin disconnect, only remove AdminConnId and AdminId
+                if (disconntectedUser == null) return null; //Frank暫時加上去
                 if (disconntectedUser.Role == "Admin")
                 {
                     foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
