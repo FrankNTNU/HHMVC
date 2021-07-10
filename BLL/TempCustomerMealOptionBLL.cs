@@ -65,14 +65,14 @@ namespace BLL
 
             DietLogDTO dietLogDTO = new DietLogDTO();
             DietLogBLL dietLogBLL = new DietLogBLL();
-            dietLogDTO.MemberID = dto.MemberID;
-            dietLogDTO.TimeOfDayID = dto.TimeOfDayID;
-            dietLogDTO.EditTime = dto.EditTime;
-            dietLogDTO.Portion = dto.Portion;
-            dietLogDTO.MealOptionID = mealID;
-            dietLogDTO.Date = dto.Date;
+            dietLogDTO.MemberID_Hui = dto.MemberID;
+            dietLogDTO.TimeOfDayID_Hui = dto.TimeOfDayID;
+            dietLogDTO.EditTime_Hui = dto.EditTime;
+            dietLogDTO.Portion_Hui = dto.Portion;
+            dietLogDTO.MealOptionID_Hui = mealID;
+            dietLogDTO.Date_Hui = dto.Date;
             dietLogDTO.IsValid = dto.IsValid;
-            dietLogBLL.Add(dietLogDTO);
+            dietLogBLL.Add_Hui(dietLogDTO);
 
             TempCustomerMealOptionDAO dao = new TempCustomerMealOptionDAO();
             dao.Update(dto.ID,mealID);

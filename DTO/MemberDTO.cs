@@ -57,7 +57,7 @@ namespace DTO
         public double Weight { get; set; }
         public string ActiveCode { get; set; }
         public List<MemberDetailDTO> Members { get; set; }
-        public List<StatusDetailDTO> Statuses { get; set; }
-        public List<ActivityLevelDetailDTO> ActivityLevels { get; set; }
+        //public List<StatusDetailDTO> Statuses { get; set; }
+        //public List<ActivityLevelDetailDTO> ActivityLevels { get; set; }
     }
 }

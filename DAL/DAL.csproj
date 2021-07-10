@@ -161,13 +161,13 @@
     </Compile>
     <Compile Include="GiftCartDAO.cs" />
     <Compile Include="GiftDAO.cs" />
-	  <Compile Include="HHContext.cs" />
     <Compile Include="Group.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupChat.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="HHContext.cs" />
     <Compile Include="HHModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -199,7 +199,6 @@
     <Compile Include="MealTagCategory.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="MealTagDAO.cs" />
     <Compile Include="Member.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
@@ -225,7 +224,6 @@
     <Compile Include="Program.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Status.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
@@ -235,11 +233,11 @@
     <Compile Include="Table.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
-	  <Compile Include="TagCategoryDetailDAO.cs" />
+    <Compile Include="TagCategoryDetailDAO.cs" />
     <Compile Include="TempCustomerMealOption.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
-	  <Compile Include="TempCustomerMealOptionDAO.cs" />
+    <Compile Include="TempCustomerMealOptionDAO.cs" />
     <Compile Include="TimesOfDay.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
@@ -247,8 +245,6 @@
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="WaterLogDAO.cs" />
-    <Compile Include="HHContext.cs" />
-    <Compile Include="MealDAO.cs" />
     <Compile Include="MealTagDAO.cs" />
     <Compile Include="MemberDAO.cs" />
     <Compile Include="PostCategoryDAO.cs" />

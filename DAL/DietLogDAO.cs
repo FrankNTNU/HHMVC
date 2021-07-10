@@ -435,7 +435,7 @@ namespace DAL
                 }
             }
         }
-        public void Add(DietLog dietLog)
+        public void AddToDietLog(DietLog dietLog)
         {
             try
             {

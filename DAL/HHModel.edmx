@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HealthHelperModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="HealthHelperModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ActivityLevels">
           <Key>
             <PropertyRef Name="ID" />
@@ -26,6 +26,8 @@
           <Property Name="PostID" Type="int" />
           <Property Name="ParentCommentID" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsReported" Type="bit" />
+          <Property Name="SentimentScore" Type="float" />
         </EntityType>
         <EntityType Name="DietLog">
           <Key>
@@ -918,10 +920,6 @@
             <End Role="Status" EntitySet="Status" />
             <End Role="Points" EntitySet="Points" />
           </AssociationSet>
-          <AssociationSet Name="FK_Points_Status" Association="Self.FK_Points_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Points" EntitySet="Points" />
-          </AssociationSet>
           <AssociationSet Name="FK_PostImages_Posts" Association="Self.FK_PostImages_Posts">
             <End Role="Posts" EntitySet="Posts" />
             <End Role="PostImages" EntitySet="PostImages" />
@@ -1024,6 +1022,8 @@
           <Property Name="PostID" Type="Int32" />
           <Property Name="ParentCommentID" Type="Int32" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsReported" Type="Boolean" />
+          <Property Name="SentimentScore" Type="Double" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Comments_Members" FromRole="Comments" ToRole="Members" />
           <NavigationProperty Name="Post" Relationship="Self.FK_Comments_Posts" FromRole="Comments" ToRole="Posts" />
         </EntityType>
@@ -1589,18 +1589,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_LikedPosts_Members">
-          <End Role="Members" Type="Self.Member" Multiplicity="0..1" />
-          <End Role="LikedPosts" Type="Self.LikedPost" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Members">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LikedPosts">
-              <PropertyRef Name="MemberID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_LikedPosts_Posts">
           <End Role="Posts" Type="Self.Post" Multiplicity="0..1" />
           <End Role="LikedPosts" Type="Self.LikedPost" Multiplicity="*" />
@@ -2001,10 +1989,6 @@
             <End Role="Members" EntitySet="Members" />
             <End Role="Points" EntitySet="Points" />
           </AssociationSet>
-          <AssociationSet Name="FK_Points_Members" Association="Self.FK_Points_Members">
-            <End Role="Members" EntitySet="Members" />
-            <End Role="Points" EntitySet="Points" />
-          </AssociationSet>
           <AssociationSet Name="FK_Posts_Members" Association="Self.FK_Posts_Members">
             <End Role="Members" EntitySet="Members" />
             <End Role="Posts" EntitySet="Posts" />
@@ -2105,6 +2089,8 @@
                 <ScalarProperty Name="PostID" ColumnName="PostID" />
                 <ScalarProperty Name="ParentCommentID" ColumnName="ParentCommentID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsReported" ColumnName="IsReported" />
+                <ScalarProperty Name="SentimentScore" ColumnName="SentimentScore" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2476,7 +2462,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
       </DesignerInfoPropertySet>
     </Options>

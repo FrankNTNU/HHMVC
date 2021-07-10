@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DTO;
-using DAL;
+
 
 namespace BLL
 {
     public class MealBLL
     {
+        MealDAO dao = new MealDAO();
         public List<MealDetailDTO> GetMeals()
         {
             List<MealDetailDTO> dto = new List<MealDetailDTO>();

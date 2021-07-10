@@ -60,8 +60,23 @@ namespace BLL
             entity.Portion = dto.Portion;
             entity.IsValid = (dto.Date == DateTime.Now.ToString(CDictionary.MMddyyyy)) ? true : false;
             entity.EditTime = DateTime.Now.ToString(CDictionary.yyyyMMddHHmmss);
-            dietLogDAO.Add(entity);
+            dietLogDAO.AddToDietLog(entity);
         }
+        public void Add_Hui(DietLogDTO entity)
+        {
+            DietLogDAO dao = new DietLogDAO();
+            DietLog dietLog = new DietLog();
+            dietLog.MemberID = entity.MemberID_Hui;
+            dietLog.TimeOfDayID = entity.TimeOfDayID_Hui;
+            dietLog.EditTime = entity.EditTime_Hui;
+            dietLog.Portion = entity.Portion_Hui;
+            dietLog.MealOptionID = entity.MealOptionID_Hui;
+            dietLog.Date = entity.Date_Hui;
+            dietLog.IsValid = entity.IsValid;
+
+            dao.Add(dietLog);
+        }
+
 
         public void EditDietLogByID(DietLogEditDTO editDto)
         {

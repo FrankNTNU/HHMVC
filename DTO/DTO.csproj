@@ -141,12 +141,10 @@
     <Compile Include="CDictionary.cs" />
     <Compile Include="ChatGroupDTO.cs" />
     <Compile Include="ActivityLevelDTO.cs" />
-	  <Compile Include="ActivityLevelDTO.cs" />
     <Compile Include="AuditPassDTO.cs" />
     <Compile Include="CommentDTO.cs" />
     <Compile Include="CountDTO.cs" />
     <Compile Include="GiftCartDTO.cs" />
-    <Compile Include="GiftDTO.cs" />
     <Compile Include="CreateMtrlDTO.cs" />
     <Compile Include="CustomerMealDTO.cs" />
     <Compile Include="PointDTO.cs" />
@@ -156,13 +154,13 @@
     <Compile Include="MemberForDietDTO.cs" />
     <Compile Include="TempCustomerMealDTO.cs" />
     <Compile Include="DietLogDTO.cs" />
-	  <Compile Include="GiftDTO.cs" />
+    <Compile Include="GiftDTO.cs" />
     <Compile Include="LayoutDTO.cs" />
     <Compile Include="MealDetailDTO.cs" />
     <Compile Include="MealDTO.cs" />
     <Compile Include="MealTagDTO.cs" />
     <Compile Include="MemberDetailDTO.cs" />
-	<Compile Include="MixedDietLogDTO.cs" />
+    <Compile Include="MixedDietLogDTO.cs" />
     <Compile Include="MemberDTO.cs" />
     <Compile Include="NutrientDTO.cs" />
     <Compile Include="PostCategoryDTO.cs" />
@@ -173,9 +171,8 @@
     <Compile Include="TagCategoryDetailDTO.cs" />
     <Compile Include="TagCategoryDTO.cs" />
     <Compile Include="TempCustomerMealOptionDTO.cs" />
-	<Compile Include="TimeOfDayDTO.cs" />
-	<Compile Include="ServiceGroupDTO.cs" />
-	  
+    <Compile Include="TimeOfDayDTO.cs" />
+    <Compile Include="ServiceGroupDTO.cs" />
     <Compile Include="UserDTO.cs" />
     <Compile Include="UserStatic.cs" />
     <Compile Include="WeightLogDetailDTO.cs" />
@@ -185,7 +182,7 @@
     <Compile Include="WorkoutDetailDTO.cs" />
     <Compile Include="WorkoutDTO.cs" />
     <Compile Include="WorkoutLogDetailDTO.cs" />
-	<Compile Include="WorkoutItemDTO.cs" />
+    <Compile Include="WorkoutItemDTO.cs" />
     <Compile Include="WorkoutLogDTO.cs" />
   </ItemGroup>
   <ItemGroup>

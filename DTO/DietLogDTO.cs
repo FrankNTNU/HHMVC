@@ -9,19 +9,22 @@ namespace DTO
     public class DietLogDTO
     {
         public int ID { get; set; }
-        public int MemberID { get; set; }
-        public int TimeOfDayID { get; set; }
-        public string EditTime { get; set; }
-        public float Portion { get; set; }
-        public int MealOptionID { get; set; }
-        public string Date { get; set; }
+        public int MemberID_Hui { get; set; }
+        public int TimeOfDayID_Hui { get; set; }
+        public string EditTime_Hui { get; set; }
+        public float Portion_Hui { get; set; }
+        public int MealOptionID_Hui { get; set; }
+        public string Date_Hui { get; set; }
         public bool IsValid { get; set; }
         private MixedDietLogDTO _mixedDietLogDTO;
         public DietLogDTO(MixedDietLogDTO dto) {
 
             _mixedDietLogDTO = dto;
         }
+        public DietLogDTO()
+        {
 
+        }
         public int MemberID { get { return _mixedDietLogDTO.MemberID; } }
         public int TimeOfDayID { get { return _mixedDietLogDTO.TimeOfDayID; } }
         public double Portion { get { return _mixedDietLogDTO.Portion; } }
