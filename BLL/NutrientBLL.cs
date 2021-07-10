@@ -22,7 +22,7 @@ namespace BLL
             dto = dao.GetNutrientUseNurtientID(ID);
             return dto;
         }
-        public void UpdateNutrient(NutrientDTO dto)
+        public void UpdateNutrient(MealDetailDTO dto)
         {
             NutrientDAO dao = new NutrientDAO();
             dao.UpdateNutrient(dto);

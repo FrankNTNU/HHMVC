@@ -18,116 +18,55 @@
 <div class="card">
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
-            <tr>
-                <th>
-                    營養ID
-                </th>
-                <th>
-                    餐點名稱
-                </th>
-                <th>
-                    卡路里
-                </th>
-                <th>
-                    脂肪
-                </th>
-                <th>
-                    蛋白質
-                </th>
-                <th>
-                    碳水化合物
-                </th>
-                <th>
-                    糖
-                </th>
-                <th>
-                    維生素A
-                </th>
-                <th>
-                    維生素B
-                </th>
-                <th>
-                    維生素C
-                </th>
-                <th>
-                    維生素D
-                </th>
-                <th>
-                    維生素E
-                </th>
-                <th>
-                    鈉
-                </th>
-                <th>
-                    鉀
-                </th>
-                <th>
-                    鈣
-                </th>
-                <th>
-                    鐵
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+            <thead>
                 <tr>
-                
-                    <td>
-                        @Html.DisplayFor(modelItem=>item.NutrientID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Calories)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Fat)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Protein)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Carbs)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Sugar)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VitA)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VitB)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VitC)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VitD)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VitE)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Na)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Potassium)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Calcium)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Icon)
-                    </td>
-                    <td>
-                        @Html.ActionLink("修改", "UpdateNutrient", new { id = item.NutrientID })
-                    </td>
+                    <th>營養ID</th>
+                    <th>餐點名稱</th>
+                    <th>卡路里</th>
+                    <th>脂肪</th>
+                    <th>蛋白質</th>
+                    <th>碳水化合物</th>
+                    <th>糖</th>
+                    <th>鈉</th>
+                    <th>修改</th>
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
 
+                    <tr id="a_@item.NutrientID">
+                        <td>@item.NutrientID</td>
+                        <td>@item.Name</td>
+                        <td>@item.Calories</td>
+                        <td>@item.Fat</td>
+                        <td>@item.Protein</td>
+                        <td>@item.Carbs</td>
+                        <td>@item.Sugar</td>
+                        <td>@item.Na</td>
+                        <td align="center" valign="middle">
+                            <a href="/Admin/Nutrient/UpdateNutrient/@item.ID">
+                                <img src="~/Areas/Admin/Content/icon/update-icon.png" />
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>營養ID</th>
+                    <th>餐點名稱</th>
+                    <th>卡路里</th>
+                    <th>脂肪</th>
+                    <th>蛋白質</th>
+                    <th>碳水化合物</th>
+                    <th>糖</th>
+                    <th>鈉</th>
+                    <th>修改</th>
+                </tr>
+            </tfoot>
         </table>
-        </div>
+    </div>
+    @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
 </div>
+<script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>

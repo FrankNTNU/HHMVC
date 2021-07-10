@@ -20,12 +20,19 @@ namespace DTO
         public HttpPostedFileBase MealOptionUpLoadImage { get; set; } // Uploaded image
         
         public string UnitName { get; set; }
+        [Required(ErrorMessage = "請選取餐點標籤")]
         public TagCategoryDetailDTO TagCategoryDetail { get; set; }
+        [Required(ErrorMessage = "請選取餐點標籤")]
         public string TagStringList { get; set; }
+        [Required(ErrorMessage = "請選取餐點標籤")]
+        public string[] TagStringListArray { get; set; }
+        [Required(ErrorMessage = "請選取餐點標籤")]
         public List<TagCategoryDetailDTO> TagList { get; set; }
         public string TagName { get; set; }
         public string TagImage { get; set; }
+        public int TagID { get; set; }
         public HttpPostedFileBase TagUpLoadImage { get; set; } // Uploaded image
+        public string IsVisable { get; set; } //True = 顯示 False = 隱藏
 
         public NutrientDTO Nutrient { get; set; }
         public int NutrientID { get; set; }

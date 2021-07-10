@@ -1,0 +1,51 @@
+﻿@model IEnumerable<DTO.TempCustomerMealOptionDTO>
+
+@{
+    ViewBag.Title = "TempCustomerMealOptionListTest";
+}
+
+<h2>TempCustomerMealOptionListTest</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3" id="NameDiv">
+            <ul class="list-group"></ul>
+        </div>
+        <div class="col-9" id="CreateDiv">
+
+        </div>
+    </div>
+
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Areas/Admin/Content/JS/jquery.min.js"></script>
+
+<script>
+    const ulName = document.querySelector('#NameDiv>ul')
+    const CreateDiv = document.querySelector('#CreateDiv')
+
+    fetch('~/Areas/Admin/Controllers/TempCustomerMealOptionListTest').then(response => {
+        if (!response.ok) throw new Error(response.statusText)
+        return response.json()
+    }).then(datas => {
+        const docFrag = document.createDocumentFragment()
+        datas.forEach(TempName => {
+            const { ID, Name } = TempName
+
+            const eleLi = document.createElement("li") //<li>
+            const txtli = document.createTextNode(Name) //Name
+            eleLi.appendChild(txtli) //<li>Name
+            eleLi.setAttribute("data-cid", ID)
+            eleLi.classList.add("list-group-item")
+            eleLi.addEventListener('click', function () {
+
+            })
+            docFrag.appendChild(eleLi)
+        })
+        ulName.appendChild(docFrag)
+        ulName.childNodes[0].classList.add('active')
+    })
+
+</script>

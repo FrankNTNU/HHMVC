@@ -58,7 +58,7 @@ namespace UI.Areas.Admin.Controllers
                     System.IO.File.Delete(imageFullPath);
                 }
             }
-            return RedirectToAction("MealTagCategroiesList");
+            return View();
         }
         public ActionResult UpadteTags(int ID)
         {
@@ -91,5 +91,42 @@ namespace UI.Areas.Admin.Controllers
             }
             return RedirectToAction("MealTagCategroiesList");
         }
+        public ActionResult GetMealsByTag(int ID)
+        {
+            TagCategoryDetailBLL bll = new TagCategoryDetailBLL();
+            List<MealDetailDTO> mealDto = new List<MealDetailDTO>();
+            mealDto = bll.GetMealsByTag(ID);
+            
+            return View(mealDto);
+        }
+
+       
+        public ActionResult DeleteMeal(int id, int tagID)
+        {
+            TagCategoryDetailBLL bll = new TagCategoryDetailBLL();
+            bll.DeleteMealInTag(id, tagID);
+
+            return RedirectToAction("GetMealsByTag",new {ID=tagID });
+        }
+       
+        //public ActionResult DeleteMeal(int id)
+        //{
+        //    int TagID = 0;
+           
+        //    TagCategoryDetailBLL bll = new TagCategoryDetailBLL();
+        //    bll.DeleteMealInTag(id, TagID);
+        //    return View();
+        //}
+
+        public ActionResult GetMealsByTagTest(int ID)
+        {
+
+            TagCategoryDetailBLL bll = new TagCategoryDetailBLL();
+            List<MealDetailDTO> mealDto = new List<MealDetailDTO>();
+            mealDto = bll.GetMealsByTag(ID);
+
+            return View(mealDto);
+        }
+
     }
 }

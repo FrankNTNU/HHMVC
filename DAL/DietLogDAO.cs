@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,19 @@ namespace DAL
             List<DietLog> dietLogs = db.DietLogs.Where(x => x.MemberID == ID).ToList();
             db.DietLogs.RemoveRange(dietLogs);
             db.SaveChanges();
+        }
+        public void Add(DietLog dietLog)
+        {
+            try
+            {
+                db.DietLogs.Add(dietLog);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

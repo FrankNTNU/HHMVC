@@ -33,10 +33,51 @@ namespace BLL
            TagCategoryDetailDAO dao = new TagCategoryDetailDAO();
            return dao.Delete(ID);
         }
+        public void DeleteMealInTag(int mealID, int TagID)
+        {
+            TagCategoryDetailDAO dao = new TagCategoryDetailDAO();
+            dao.DeleteMealInTag(mealID, TagID);
+        }
         public string Update(TagCategoryDetailDTO dto)
         {
             TagCategoryDetailDAO dao = new TagCategoryDetailDAO();
             return dao.Update(dto);
         }
+        public List<TagCategoryDetailDTO> GetTagForAddMeal()
+        {
+            TagCategoryDetailDAO dao = new TagCategoryDetailDAO();
+            List<TagCategoryDetailDTO> list = new List<TagCategoryDetailDTO>();
+            list = dao.GetTagsForAddMeal();
+            return list;
+        }
+        public List<MealDetailDTO> GetMealsByTag(int ID)
+        {
+            MealDAO dao = new MealDAO();
+            return dao.GetMealsByTag(ID);
+        }
+        public void AddMealTags(int mealID,string[] Tags)
+        {
+            TagCategoryDetailDAO dao = new TagCategoryDetailDAO();
+            dao.AddMealTags(mealID, Tags);
+        }
+        public void UpdateMealTags(int mealID,string[] Tags)
+        {
+            TagCategoryDetailDAO dao = new TagCategoryDetailDAO();
+            dao.UpdateMealTags(mealID, Tags);
+
+        }
+        //public void AddMealTags(int mealID, string[] Tags)
+        //{
+        //    List<MealTagDTO> Taglist = new List<MealTagDTO>();
+        //    MealTagDTO mealTagDTO = new MealTagDTO();
+        //    MealTag mealTag = new MealTag();
+        //    for (int i = 0; i < Tags.Length; i++)
+        //    {
+        //        mealTag.MealOptionID = mealID;
+        //        mealTag.MealTagCategoriesID = Convert.ToInt32(Tags[i]);
+        //        db.MealTags.Add(mealTag);
+        //        db.SaveChanges();
+        //    }
+        //}
     }
 }

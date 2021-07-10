@@ -6,9 +6,10 @@
 @model IEnumerable<DTO.MealDetailDTO>
 
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "ListTest";
     Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
 }
+
 
 <section class="content-header">
     <h1>所有餐點</h1>
@@ -20,144 +21,92 @@
 </section>
 <br />
 <div class="card-footer">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Meal/CreateMeal'">新增餐點</button>
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Meal/CreateMealWithTags'">新增餐點</button>
 </div>
-
 
 <div class="card">
+    <!-- /.card-header -->
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
-            <tr>
-                <th>
-                    餐點名稱
-                </th>
-                <th>
-                    熱量
-                </th>
-                <th>
-                    餐點圖片
-                </th>
-                <th>
-                    餐點份量
-                </th>
-                <th>
-                    標籤
-                </th>
-                @*<th>
-                        @Html.DisplayNameFor(model => model.Fat)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Protein)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Carbs)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Sugar)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.VitA)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.VitB)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.VitC)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.VitD)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.VitE)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Na)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.K)
-                    </th>*@
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Calories)
-                    </td>
-                    <td>
-                        <img src="~/Areas/Admin/Content/MealOptionImages/@item.MealOptionImage" style="height:100px" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UnitName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TagStringList)<br />
-                       @*@{ 
-                           string tagName ="";
-                           List<TagCategoryDetailDTO> list = new List<TagCategoryDetailDTO>();
-                           foreach (var taglist in Model)
-                           {
-                               list = taglist.TagList;
-                               foreach (var tag in list)
-                               {
-                                   TagCategoryDetailDTO dto = new TagCategoryDetailDTO();
-                                   dto.Name = tag.Name;
-                                   tagName = dto.Name;
-                                   <p>@tagName</p>
-                                   }
-                               break;
-                               }
-                           }*@
-                    </td>
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.Fat)
+                    <th>餐點ID</th>
+                    <th>名稱</th>
+                    <th>卡路里</th>
+                    <th>餐點圖片</th>
+                    <th>餐點標籤</th>
+                    <th>顯示狀態</th>
+                    <th>修改</th>
+                    <th>變更顯示狀態</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr id="a_@item.ID">
+                        <td>@item.ID</td>
+                        <td>@item.Name</td>
+                        <td>@item.Calories</td>
+                        <td>
+                            <img src="~/Areas/Admin/Content/MealOptionImages/@item.MealOptionImage" width="50" height="50" />
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Protein)
+                            @item.TagStringList
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Carbs)
+                            @{
+                                if (item.IsVisable == "True")
+                                {
+                                    <label>正常顯示</label>
+                                }
+                                else
+                                {
+                                    <label>隱藏中</label>
+                                }
+                            }
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Sugar)
+                        <td align="center" valign="middle">
+                            <a href="/Admin/Meal/UpdateWithTags/@item.ID">
+                                <img src="~/Areas/Admin/Content/icon/update-icon.png" />
+                            </a>
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.VitA)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.VitB)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.VitC)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.VitD)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.VitE)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Na)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.K)
+                        @*<td align="center" valign="middle">
+                            <a href="#">
+                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Meal/Delete/', @item.ID)" />
+                            </a>
                         </td>*@
                     <td>
-                        @Html.ActionLink("修改", "Update", new { id = item.ID }) |
-                        @Html.ActionLink("刪除", "Delete", new { id = item.ID }, new
-                        {
-                        onclicK = "return confirm('確定要刪除嗎?')"
-                        })
+                        @{
+                            if (item.IsVisable == "True")
+                            {
+                                @Html.ActionLink("隱藏餐點", "HiddenMeal", new { id = item.ID })
+                            }
+                            else
+                            {
+                                @Html.ActionLink("顯示餐點", "DisplayMeal", new { id = item.ID })
+                            }
+                        }
                     </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>餐點ID</th>
+                    <th>名稱</th>
+                    <th>卡路里</th>
+                    <th>餐點圖片</th>
+                    <th>餐點標籤</th>
+                    <th>顯示狀態</th>
+                    <th>修改</th>
+                    <th>變更顯示狀態</th>
                 </tr>
-            }
-
+            </tfoot>
         </table>
     </div>
+    @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
+    <!-- /.card-body -->
 </div>
-@*@Html.PagedListPager(Model, page => Url.Action("List", new { page }))*@
 <script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>
+<!-- /.card -->

@@ -66,8 +66,10 @@
   <ItemGroup>
     <Compile Include="ActivityLevelDetailDTO.cs" />
     <Compile Include="ActivityLevelDTO.cs" />
+    <Compile Include="AuditPassDTO.cs" />
     <Compile Include="CommentDTO.cs" />
     <Compile Include="CountDTO.cs" />
+    <Compile Include="DietLogDTO.cs" />
     <Compile Include="GiftDTO.cs" />
     <Compile Include="LayoutDTO.cs" />
     <Compile Include="MealDetailDTO.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="StatusDetailDTO.cs" />
     <Compile Include="TagCategoryDetailDTO.cs" />
     <Compile Include="TagCategoryDTO.cs" />
+    <Compile Include="TempCustomerMealOptionDTO.cs" />
     <Compile Include="UserDTO.cs" />
     <Compile Include="UserStatic.cs" />
     <Compile Include="WeightLogDetailDTO.cs" />

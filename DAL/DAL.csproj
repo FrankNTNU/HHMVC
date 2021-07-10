@@ -132,6 +132,9 @@
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="NutrientDAO.cs" />
+    <Compile Include="Point.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Post.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
@@ -155,6 +158,10 @@
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TagCategoryDetailDAO.cs" />
+    <Compile Include="TempCustomerMealOption.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TempCustomerMealOptionDAO.cs" />
     <Compile Include="TimesOfDay.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>

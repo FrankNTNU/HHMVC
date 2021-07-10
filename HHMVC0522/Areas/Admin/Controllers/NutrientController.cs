@@ -31,7 +31,7 @@ namespace UI.Areas.Admin.Controllers
             return View(dto);
         }
         [HttpPost]
-        public ActionResult UpdateNutrient(NutrientDTO dto)
+        public ActionResult UpdateNutrient(MealDetailDTO dto)
         {
             NutrientBLL bll = new NutrientBLL();
             bll.UpdateNutrient(dto);

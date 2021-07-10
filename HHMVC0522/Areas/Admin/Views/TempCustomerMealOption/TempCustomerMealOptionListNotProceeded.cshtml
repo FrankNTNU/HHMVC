@@ -1,0 +1,127 @@
+﻿@model IEnumerable<DTO.TempCustomerMealOptionDTO>
+
+@{
+    ViewBag.Title = "TempCustomerMealOptionListNotProceeded";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<section class="content-header">
+    <h1>餐點審核</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>飲食</a></li>
+        <li class="breadcrumb-item"><a>餐點審核</a></li>
+        <li class="breadcrumb-item active"><a>待審核項目</a></li>
+    </ol>
+</section>
+<br />
+<div class="card">
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>餐點名稱</th>
+                    <th>餐點熱量</th>
+                    <th>餐點圖片</th>
+                    <th>審核狀態</th>
+                    <th>餐點編號</th>
+                    <th>會員編號</th>
+                    <th>修改時間</th>
+                    <th>日期</th>
+                    <th>驗證</th>
+                    <th>時段</th>
+                    <th>份量</th>
+                    <th>單位</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Calories)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ImagePath)
+                        </td>
+                        @if (item.StatusID != 12)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.stausName)
+                            </td>
+                        }
+                        @if (item.StatusID == 12)
+                        {
+                            <td>
+                                <p>審核未通過</p>
+                            </td>
+                        }
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MealOptionID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MemberID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EditTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsValid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TimeOfDayID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Portion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UnitName)
+                        </td>
+                        @if (item.StatusID == 2)
+                        {
+                            <td>
+                                @Html.ActionLink("進行審核", "audit", new { id = item.ID })|
+                                @Html.ActionLink("審核不通過", "auditNotPassed", new { id = item.ID })
+                            </td>
+                        }
+                        @if (item.StatusID == 12)
+                        {
+                            <td>
+                                @Html.ActionLink("重新審核", "auditNotPassed", new { id = item.ID })
+                            </td>
+                        }
+                        @if (item.StatusID == 13)
+                        {
+                            <td>審核已通過</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>餐點名稱</th>
+                    <th>餐點熱量</th>
+                    <th>餐點圖片</th>
+                    <th>審核狀態</th>
+                    <th>餐點編號</th>
+                    <th>會員編號</th>
+                    <th>修改時間</th>
+                    <th>日期</th>
+                    <th>驗證</th>
+                    <th>時段</th>
+                    <th>份量</th>
+                    <th>單位</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

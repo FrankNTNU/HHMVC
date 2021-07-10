@@ -101,9 +101,9 @@ namespace DAL
                 throw ex;
             }
         }
-        public void UpdateNutrient(NutrientDTO entity)
+        public void UpdateNutrient(MealDetailDTO entity)
         {
-            Nutrient nutrient = db.Nutrients.First(x => x.ID == entity.ID);
+            Nutrient nutrient = db.Nutrients.First(x => x.ID == entity.NutrientID);
             nutrient.Fat = entity.Fat;
             nutrient.Protein = entity.Protein;
             nutrient.Carbs = entity.Carbs;

@@ -49,13 +49,13 @@ namespace DAL
                 dto.Protein = dto.Nutrient.Protein;
                 dto.Carbs = dto.Nutrient.Carbs;
                 dto.Sugar = dto.Nutrient.Sugar;
-                dto.VitA = dto.Nutrient.VitA;
-                dto.VitB = dto.Nutrient.VitB;
-                dto.VitC = dto.Nutrient.VitC;
-                dto.VitD = dto.Nutrient.VitD;
-                dto.VitE = dto.Nutrient.VitE;
+                //dto.VitA = dto.Nutrient.VitA;
+                //dto.VitB = dto.Nutrient.VitB;
+                //dto.VitC = dto.Nutrient.VitC;
+                //dto.VitD = dto.Nutrient.VitD;
+                //dto.VitE = dto.Nutrient.VitE;
                 dto.Na = dto.Nutrient.Na;
-                dto.Potassium = dto.Nutrient.Potassium;
+                //dto.Potassium = dto.Nutrient.Potassium;
 
                 List<TagCategoryDetailDTO> TagList = new List<TagCategoryDetailDTO>();
                 TagList = GetTagCategoryList(dto.ID);
@@ -64,24 +64,42 @@ namespace DAL
                     dto.TagStringList += tagstring.Name;
                     dto.TagStringList +="/";
                 }
-
-                //dto.TagCategoryDetail = GetTagCategory(dto.ID);
-                //dto.TagName = dto.TagCategoryDetail.Name;
-                //dto.TagImage = dto.TagCategoryDetail.Image;
-
-
-                //List<TagCategoryDetailDTO> tagDetailList = new List<TagCategoryDetailDTO>();
-                //TagCategoryDetailDTO tdto = new TagCategoryDetailDTO();
-                //var tagList = db.MealTags.Where(x => x.MealOptionID == item.ID).ToList();
-                //foreach (var tag in tagList)
-                //{
-                //    dto.TagName = tag.MealTagCategory.Name;
-                //    dto.TagCategoryDetail.Image = tag.MealT;
-                //} 
                 dtoList.Add(dto);
             }
             return dtoList;
         }
+        public List<MealDetailDTO> GetNutrientAndMeals()
+        {
+            var list = db.MealOptions.ToList();
+
+            List<MealDetailDTO> dtoList = new List<MealDetailDTO>();
+            foreach (var item in list)
+            {
+                MealDetailDTO dto = new MealDetailDTO();
+                dto.ID = item.ID;
+                dto.Name = item.Name;
+                dto.Calories = Convert.ToInt32(item.Calories);
+                dto.MealOptionImage = item.Image;
+                dto.UnitName = item.UnitName;
+                dto.Nutrient = GetNutrient(dto.ID);
+                dto.NutrientID = dto.Nutrient.ID;
+                dto.Fat = dto.Nutrient.Fat;
+                dto.Protein = dto.Nutrient.Protein;
+                dto.Carbs = dto.Nutrient.Carbs;
+                dto.Sugar = dto.Nutrient.Sugar;
+                dto.VitA = dto.Nutrient.VitA;
+                dto.VitB = dto.Nutrient.VitB;
+                dto.VitC = dto.Nutrient.VitC;
+                dto.VitD = dto.Nutrient.VitD;
+                dto.VitE = dto.Nutrient.VitE;
+                dto.Na = dto.Nutrient.Na;
+                dto.Potassium = dto.Nutrient.Potassium;
+
+                dtoList.Add(dto);
+            }
+            return dtoList;
+        }
+
         public MealDetailDTO GetMeals(int ID)
         {
             using (HealthHelperEntities db = new HealthHelperEntities())
@@ -113,6 +131,73 @@ namespace DAL
 
                 return dto;
             }
+
+        }
+        public MealDetailDTO GetMealAndTags(int ID)
+        {
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                MealOption mealOption = db.MealOptions.First(x => x.ID == ID);
+                MealDetailDTO dto = new MealDetailDTO();
+                dto.ID = mealOption.ID;
+                dto.Name = mealOption.Name;
+                dto.Calories = Convert.ToInt32(mealOption.Calories);
+                dto.MealOptionImage = mealOption.Image;
+                dto.UnitName = mealOption.UnitName;
+                var list = db.MealTagCategories.ToList();
+                List<TagCategoryDetailDTO> dtoList = new List<TagCategoryDetailDTO>();
+                foreach (var item in list)
+                {
+                    TagCategoryDetailDTO Tagdto = new TagCategoryDetailDTO();
+                    Tagdto.ID = item.ID;
+                    Tagdto.Name = item.Name;
+                    Tagdto.Image = item.Image;
+                    dtoList.Add(Tagdto);
+                }
+                MealTagDAO mealTagDAO = new MealTagDAO();
+                string tags = mealTagDAO.GetTagsListInString(dto.ID);
+                dto.TagStringList = tags;
+                dto.TagStringListArray = tags.Split('/');
+                dto.Tags = dtoList;
+                return dto;
+
+
+            }
+        }
+            public MealDetailDTO GetMealForAddWithTags(int ID)
+        {
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                MealOption mealOption = db.MealOptions.First(x => x.ID == ID);
+                MealDetailDTO dto = new MealDetailDTO();
+                dto.ID = mealOption.ID;
+                dto.Name = mealOption.Name;
+                dto.Calories = Convert.ToInt32(mealOption.Calories);
+                dto.MealOptionImage = mealOption.Image;
+                dto.UnitName = mealOption.UnitName;
+                dto.Nutrient = GetNutrient(dto.ID);
+                dto.NutrientID = dto.Nutrient.ID;
+                dto.Fat = dto.Nutrient.Fat;
+                dto.Protein = dto.Nutrient.Protein;
+                dto.Carbs = dto.Nutrient.Carbs;
+                dto.Sugar = dto.Nutrient.Sugar;
+                dto.VitA = dto.Nutrient.VitA;
+                dto.VitB = dto.Nutrient.VitB;
+                dto.VitC = dto.Nutrient.VitC;
+                dto.VitD = dto.Nutrient.VitD;
+                dto.VitE = dto.Nutrient.VitE;
+                dto.Na = dto.Nutrient.Na;
+                dto.Potassium = dto.Nutrient.Potassium;
+                var list = db.MealTagCategories.ToList();
+                foreach (var item in list)
+                {
+                    TagCategoryDetailDTO Tagdto = new TagCategoryDetailDTO();
+                    Tagdto.ID = item.ID;
+                    Tagdto.Name = item.Name;
+                    dto.TagList.Add(Tagdto);
+                }
+                return dto;
+            }
         }
         public int Add(MealOption meal)
         {
@@ -138,6 +223,19 @@ namespace DAL
             db.MealOptions.Remove(mealOption);
             db.SaveChanges();
         }
+        public void HiddenMeal(int ID)
+        {
+            MealOption meal = db.MealOptions.First(x => x.ID == ID);
+            meal.IsVisable = "Fales";
+            db.SaveChanges();
+        }
+        public void DisplayMeal(int ID)
+        {
+            MealOption meal = db.MealOptions.First(x => x.ID == ID);
+            meal.IsVisable = "True";
+            db.SaveChanges();
+        }
+
         public string UpdateMeal(MealDetailDTO entity)
         {
             MealOption meal = db.MealOptions.First(x => x.ID == entity.ID);
@@ -145,11 +243,90 @@ namespace DAL
             meal.Calories = entity.Calories;
             meal.UnitName = entity.UnitName;
             string oldImagePass = meal.Image;
+            if (entity.MealOptionImage != null)
+            {
             meal.Image = entity.MealOptionImage;
+            }
             db.SaveChanges();
             return oldImagePass;
 
 
+        }
+        public List<MealDetailDTO> GetOnlyMeals()
+        {
+            var list = db.MealOptions.ToList();
+
+            List<MealDetailDTO> dtoList = new List<MealDetailDTO>();
+            foreach (var item in list)
+            {
+                MealDetailDTO dto = new MealDetailDTO();
+                dto.ID = item.ID;
+                dto.Name = item.Name;
+                dto.Calories = Convert.ToInt32(item.Calories);
+                dto.MealOptionImage = item.Image;
+                dto.UnitName = item.UnitName;
+                dto.IsVisable = item.IsVisable;
+
+                List<TagCategoryDetailDTO> TagList = new List<TagCategoryDetailDTO>();
+                MealTagDAO mealTagDAO = new MealTagDAO();
+                string tags = mealTagDAO.GetTagsListInString(dto.ID);
+                dto.TagStringList = tags;
+                dtoList.Add(dto);
+            }
+            return dtoList;
+        }
+
+        public List<MealDetailDTO> GetMealsByTag(int TagID)
+        {
+            List<MealDetailDTO> mealDetailList = new List<MealDetailDTO>();
+            var list = db.MealTags.Where(x => x.MealTagCategoriesID == TagID).ToList();
+            var TagList = db.MealTagCategories.Where(x => x.ID == TagID).First();
+            foreach(var item in list)
+            {
+                var mealList = db.MealOptions.Where(x => x.ID == item.MealOptionID).ToList();
+                foreach (var meal in mealList)
+                {
+                    MealDetailDTO mealDto = new MealDetailDTO();
+                    mealDto.Name = meal.Name;
+                    mealDto.Calories = (int)meal.Calories;
+                    mealDto.MealOptionImage = meal.Image;
+                    mealDto.TagID = TagID;
+                    mealDto.ID = meal.ID;
+                    mealDto.TagName = TagList.Name;
+                    mealDetailList.Add(mealDto);
+                }
+            }
+            return mealDetailList;
+        }
+        
+
+        public void AddTag(int mealID, int categoryID)
+        {
+            try
+            {
+                MealTag tag = new MealTag();
+                tag.MealOptionID = mealID;
+                tag.MealTagCategoriesID = categoryID;
+                db.MealTags.Add(tag);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public bool checkMealName(string userInput)
+        {
+            var meal = db.MealOptions.Any(x => x.Name == userInput);
+            if(meal)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

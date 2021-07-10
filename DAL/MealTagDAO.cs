@@ -49,7 +49,7 @@ namespace DAL
             //}
             //    return dto;
 
-
+            string tagStringList = "";
             var tagList = db.MealTags.Where(x => x.MealOptionID == ID).ToList();
             TagCategoryDetailDTO tagDTO = new TagCategoryDetailDTO();
             List<TagCategoryDetailDTO> list = new List<TagCategoryDetailDTO>();
@@ -58,9 +58,28 @@ namespace DAL
                 tagDTO.ID = tag.ID;
                 tagDTO.Name = tag.MealTagCategory.Name;
                 tagDTO.Image = tag.MealTagCategory.Image;
+                tagStringList += tag.MealTagCategory.Name;
+                tagStringList += "/";
                 list.Add(tagDTO);
             }
             return list;
+        }
+        public string GetTagsListInString(int ID)
+        {
+
+            string tagStringList = "";
+            var tagList = db.MealTags.Where(x => x.MealOptionID == ID).ToList();
+            TagCategoryDetailDTO tagDTO = new TagCategoryDetailDTO();
+            foreach (var tag in tagList)
+            {
+                tagStringList += tag.MealTagCategory.Name;
+                tagStringList += "/";
+            }
+            if (tagStringList != "")
+            {
+                tagStringList = tagStringList.Substring(0, tagStringList.Length - 1);
+            }
+            return tagStringList;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,11 @@ namespace DAL
                     Value = x.ID.ToString()
                 }).ToList();
             return statuses;
+        }
+        public string GetStatus(int ID)
+        {
+            var status = db.Status.First(x => x.ID == ID);
+            return status.Name;
         }
     }
 }

@@ -17,7 +17,14 @@ namespace BLL
             dto = dao.GetMeals();
             return dto;
         }
-        
+        public List<MealDetailDTO> GetNutrientAndMeals()
+        {
+            List<MealDetailDTO> dto = new List<MealDetailDTO>();
+            MealDAO dao = new MealDAO();
+            dto = dao.GetNutrientAndMeals();
+            return dto;
+        }
+
         public MealDetailDTO GetMeals(int ID)
         {
             MealDetailDTO dto = new MealDetailDTO();
@@ -25,7 +32,23 @@ namespace BLL
             dto = dao.GetMeals(ID);
             return dto;
         }
-        public void Add(MealDetailDTO dto)
+        
+        public MealDetailDTO GetMealWithTags(int ID)
+        {
+            MealDetailDTO dto = new MealDetailDTO();
+            MealDAO dao = new MealDAO();
+            dto = dao.GetMealAndTags(ID);
+            return dto;
+        }
+        public List<MealDetailDTO> GetOnlyMeals()
+        {
+            List<MealDetailDTO> dto = new List<MealDetailDTO>();
+            MealDAO dao = new MealDAO();
+            dto = dao.GetOnlyMeals();
+
+            return dto;
+        }
+        public int Add(MealDetailDTO dto)
         {
             NutrientDAO ndao = new NutrientDAO();
             MealOption meal = new MealOption();
@@ -65,7 +88,7 @@ namespace BLL
             mdto.Potassium = ndto.Potassium;
             mdto.Calcium = ndto.Calcium;
             mdto.Icon = ndto.Icon;
-            MealAdd(mdto);
+            return MealAdd(mdto);
         }
         public int MealAdd(MealDetailDTO entity)
         {
@@ -76,6 +99,7 @@ namespace BLL
             meal.NutrientID = entity.NutrientID;
             meal.Image = entity.MealOptionImage;
             meal.UnitName = entity.UnitName;
+            meal.IsVisable = "True";
             return dao.Add(meal);
         }
         public void DeleteMeal(int ID)
@@ -83,10 +107,26 @@ namespace BLL
             MealDAO dao = new MealDAO();
             dao.DeleteMeal(ID);
         }
+        public void HiddenMeal(int ID)
+        {
+            MealDAO dao = new MealDAO();
+            dao.HiddenMeal(ID);
+        }
+        public void DisplayMeal(int ID)
+        {
+            MealDAO dao = new MealDAO();
+            dao.DisplayMeal(ID);
+        }
         public string UpdateMeal(MealDetailDTO dto)
         {
             MealDAO dao = new MealDAO();
             return dao.UpdateMeal(dto);
+        }
+        public bool checkMealName(string userInput)
+        {
+            MealDAO dao = new MealDAO();
+            bool check = dao.checkMealName(userInput);
+            return check;
         }
     }
 }
