@@ -10,5 +10,6 @@ namespace DTO
     {
         public int ID { get; set; }
         public string Description { get; set; }
+        public List<ActivityLevelDetailDTO> ActivityLevels { get; set; }
     }
 }

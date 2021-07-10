@@ -1,0 +1,26 @@
+﻿@model IEnumerable<DTO.TempCustomerMealOptionDTO>
+
+@{
+    ViewBag.Title = "TempCustomerMealOptionListTest2";
+}
+
+<h2>TempCustomerMealOptionListTest2</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3" id="NameDiv">
+            <ul class="list-group">
+                @{
+                    foreach (var item in Model)
+                    {
+                        <li class="list-group-item">@item.Name</li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="col-9" id="CreateDiv">
+
+        </div>
+    </div>
+
+</div>

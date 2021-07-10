@@ -145,6 +145,8 @@
     <Compile Include="MealBLL.cs" />
     <Compile Include="MealTagBLL.cs" />
     <Compile Include="MemberBLL.cs" />
+
+    <Compile Include="NutrientBLL.cs" />
     <Compile Include="PostBLL.cs" />
     <Compile Include="PostCategoryBLL.cs" />
     <Compile Include="PostImageBLL.cs" />
@@ -153,6 +155,8 @@
     <Compile Include="StatusBLL.cs" />
     <Compile Include="WaterLogBLL.cs" />
     <Compile Include="TimeOfDayBLL.cs" />
+    <Compile Include="TagCategoryDetailBLL.cs" />
+    <Compile Include="TempCustomerMealOptionBLL.cs" />
     <Compile Include="UserBLL.cs" />
     <Compile Include="WeightLogBLL.cs" />
     <Compile Include="WorkoutBLL.cs" />

@@ -12,6 +12,8 @@ namespace DTO
         public List<WorkoutItemDTO> WorkoutItems { get; set; }
         public List<ActivityLevelDTO> ActivityLevels { get; set; }
         public List<WorkoutCategoryDTO> Categories { get; set; }
+        public List<WorkoutDetailDTO> Workouts { get; set; }
+        public List<ActivityLevelDetailDTO> ActivityLevels { get; set; }
 
         public IEnumerable<SelectListItem> ActivityLevelNames { get; set; }
     }

@@ -918,6 +918,10 @@
             <End Role="Status" EntitySet="Status" />
             <End Role="Points" EntitySet="Points" />
           </AssociationSet>
+          <AssociationSet Name="FK_Points_Status" Association="Self.FK_Points_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Points" EntitySet="Points" />
+          </AssociationSet>
           <AssociationSet Name="FK_PostImages_Posts" Association="Self.FK_PostImages_Posts">
             <End Role="Posts" EntitySet="Posts" />
             <End Role="PostImages" EntitySet="PostImages" />
@@ -1585,6 +1589,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LikedPosts_Members">
+          <End Role="Members" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="LikedPosts" Type="Self.LikedPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LikedPosts">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_LikedPosts_Posts">
           <End Role="Posts" Type="Self.Post" Multiplicity="0..1" />
           <End Role="LikedPosts" Type="Self.LikedPost" Multiplicity="*" />
@@ -1980,6 +1996,10 @@
           <AssociationSet Name="FK_Members_Status" Association="Self.FK_Members_Status">
             <End Role="Status" EntitySet="Status" />
             <End Role="Members" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Points_Members" Association="Self.FK_Points_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Points" EntitySet="Points" />
           </AssociationSet>
           <AssociationSet Name="FK_Points_Members" Association="Self.FK_Points_Members">
             <End Role="Members" EntitySet="Members" />

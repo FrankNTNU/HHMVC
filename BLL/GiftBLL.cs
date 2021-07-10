@@ -64,7 +64,7 @@ namespace BLL
             if (isPremium) list = list.Where(x => x.IsPremium == isPremium).ToList();
             List<GiftDTO> dtoList = new List<GiftDTO>();
             foreach (Gift item in list)
-            {
+        {
                 GiftDTO dto = new GiftDTO();
                 dto.ID = item.ID;
                 dto.Name = item.Name;

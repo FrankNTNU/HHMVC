@@ -212,6 +212,7 @@
     <Content Include="Areas\Admin\Content\GiftImages\cee02b37-8f94-4731-9834-c93e53bf6d5fteaEggs.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\f856422c-d5ed-4ffc-865e-85a6e39d94edoolong.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\fc2008d5-ff1c-4179-81d8-4e7c53fedcf0starbucks.jpg" />
+	<Content Include="Areas\Admin\Content\GiftImages\161845921140825_P11774857.jpg" />
     <Content Include="Areas\Admin\Content\icon\approve.png" />
     <Content Include="Areas\Admin\Content\icon\close-icon.png" />
     <Content Include="Areas\Admin\Content\icon\lockIcon.png" />
@@ -740,6 +741,32 @@
     <Content Include="Areas\Admin\Views\WorkoutCat\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\WorkoutCat\List.cshtml" />
     <Content Include="Areas\Admin\Views\MainPage\MainPage.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\Creat.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\CreateMeal.cshtml" />
+    <Content Include="Areas\Admin\Views\Nutrient\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Nutrient\UpdateNutrient.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\MealTagCategories\MealTagCategroiesList.cshtml" />
+    <Content Include="Areas\Admin\Views\MealTagCategories\AddMealTagCategory.cshtml" />
+    <Content Include="Areas\Admin\Views\MealTagCategories\UpadteTags.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\ListTest.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\PageTest.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\CreateMealWithTags.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\UpdateWithTags.cshtml" />
+    <Content Include="Areas\Admin\Views\MealTagCategories\GetMealsByTag.cshtml" />
+    <Content Include="Areas\Admin\Views\MealTagCategories\GetMealsByTagTest.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListTest.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListTest2.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListTest3.cshtml" />
+    <Content Include="Areas\Admin\Views\PowerBI\PowerBI.cshtml" />
+    <Content Include="Areas\Admin\Views\PowerBI\PowerBI2.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\audit.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListNotProceeded.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListPassed.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListFailed.cshtml" />
     <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
@@ -819,7 +846,12 @@
     <Compile Include="Areas\Admin\Controllers\GiftController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\MainPageController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MealController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MealTagCategoriesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NutrientController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PowerBIController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TempCustomerMealOptionController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\WorkoutCatController.cs" />
     <Compile Include="Areas\Admin\Controllers\WorkoutController.cs" />
@@ -1083,7 +1115,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Content\MealOptionImages\" />
+    <Folder Include="Areas\Admin\Content\PostImages\" />
     <Folder Include="Areas\Admin\Content\JS\ckeditor\plugins\iframe\icons\hidpi\" />
+    <Folder Include="Areas\Admin\Content\TagCategoriesImages\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Content\MemberImgs\" />

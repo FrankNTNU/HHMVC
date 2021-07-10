@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "PowerBI";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<style>
+    div {
+        position:relative;
+        width:100%;
+        height:0;
+        padding-bottom:50%;
+    }
+    iframe {
+        position:absolute;
+        top:0;
+        left:0;
+        width:90%;
+        height:75%
+    }
+</style>
+
+<section class="content-header">
+    <h1>報表</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>報表</a></li>
+        <li class="breadcrumb-item"><a>會員計畫</a></li>
+    </ol>
+</section>
+<br />
+<div>
+    <iframe src="https://app.powerbi.com/view?r=eyJrIjoiM2MwM2I1YmEtNjZmZi00ODZiLWIzYmItNDk2MWU3ZWNhYTQ2IiwidCI6IjgwZDAyODRiLTBkZjYtNGE3Ny1iOTU3LTA2Mzg3ZDM1MDhhMiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+</div>
