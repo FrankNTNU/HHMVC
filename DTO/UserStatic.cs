@@ -18,6 +18,8 @@ namespace DTO
         public static Dictionary<string, ServiceGroupDTO> ServiceGroups = new Dictionary<string, ServiceGroupDTO>();
         //ChatGroupNotRead
         public static Dictionary<string, Dictionary<string, int>> ChatGroupNotRead = new Dictionary<string, Dictionary<string, int>>();
+        //ServiceNotRead
+        public static Dictionary<string, Dictionary<string, int>> ServiceNotRead = new Dictionary<string, Dictionary<string, int>>();
         //==============================================
     }
     public static class UserHandler

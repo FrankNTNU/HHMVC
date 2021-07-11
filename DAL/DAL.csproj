@@ -137,6 +137,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.6.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Text.Encodings.Web, Version=4.0.5.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -207,6 +208,7 @@
     <Compile Include="GroupChat.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="HHContext.cs" />
     <Compile Include="HHModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -228,6 +230,7 @@
     <Compile Include="LikedPost.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MealDAO.cs" />
     <Compile Include="MealOption.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
@@ -246,6 +249,7 @@
     <Compile Include="Nutrient.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="NutrientDAO.cs" />
     <Compile Include="Point.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
@@ -270,9 +274,11 @@
     <Compile Include="Table.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TagCategoryDetailDAO.cs" />
     <Compile Include="TempCustomerMealOption.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TempCustomerMealOptionDAO.cs" />
     <Compile Include="TimesOfDay.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
@@ -280,8 +286,6 @@
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="WaterLogDAO.cs" />
-    <Compile Include="HHContext.cs" />
-    <Compile Include="MealDAO.cs" />
     <Compile Include="MealTagDAO.cs" />
     <Compile Include="MemberDAO.cs" />
     <Compile Include="PostCategoryDAO.cs" />
@@ -330,6 +334,14 @@
       <Project>{dad2ea66-6fe9-43db-b186-e3bfb93fd117}</Project>
       <Name>DTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EntityFramework">
+      <Version>6.4.4</Version>
+    </PackageReference>
+    <PackageReference Include="EntityFramework.zh-Hant">
+      <Version>6.2.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="HHModel.Context.tt">

@@ -20,22 +20,40 @@ namespace UI
         public override Task OnConnected()
         {
 
-            string fromPage = Context.Headers["referer"].Split('/')[3];
+            string fromPage = Context.Headers["referer"].Split('/')[3].ToLower();
 
             UserHandler.ConnectedIds.Add(Context.ConnectionId);
-            UserDetail user = new UserDetail
+
+            UserDetail user = null;
+            bool isAdded = false;
+
+            foreach (var User in UserStatic.ConnectedUsers)
             {
-                ConnID = Context.ConnectionId,
-                UserID = Context.User.Identity.Name,
-                Role = fromPage == "Admin" ? "Admin" : "Customer"
-            };
-            UserStatic.ConnectedUsers.Add(user);
+                if (User.ConnID == Context.ConnectionId && User.UserID == Context.User.Identity.Name)
+                {
+                    isAdded = true;
+                    user = User;
+                    user.Role = fromPage == "admin" ? "admin" : "customer";
+                    break;
+                }
+            }
+
+            if (!isAdded)
+            {
+                user = new UserDetail
+                {
+                    ConnID = Context.ConnectionId,
+                    UserID = Context.User.Identity.Name,
+                    Role = fromPage == "admin" ? "admin" : "customer"
+                };
+                UserStatic.ConnectedUsers.Add(user);
+            }
 
             //=====================================================
             //For CustomerService
             
             //Admin Reconnect When Return
-            if (user.Role == "Admin")
+            if (user.Role == "admin")
             {
                 foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                 {
@@ -51,7 +69,7 @@ namespace UI
                 }
             }
             //User Reconnect When Return
-            else if (user.Role == "Customer")
+            else if (user.Role == "customer")
             {
                 foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                 {
@@ -102,7 +120,7 @@ namespace UI
                     }
                 }
                 //When User disconnect, remove ServiceGroup
-                else if (disconntectedUser.Role == "Customer")
+                else if (disconntectedUser.Role == "customer")
                 {
                     foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                     {

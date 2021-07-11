@@ -19,5 +19,6 @@ namespace DTO
         public double Calories { get; set; }
 
         public IEnumerable<SelectListItem> WorkoutNames { get; set; }
+        public List<WorkoutLogDetailDTO> workoutLogs { get; set; }
     }
 }

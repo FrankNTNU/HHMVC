@@ -275,6 +275,11 @@ namespace UI.Controllers
             decimal weightToLose = program.InitialWeight - program.TargetWeight;
             decimal actuallyLose = program.InitialWeight - resultWeight;
 
+            if (actuallyLose > weightToLose)
+            {
+                actuallyLose = weightToLose;
+            }
+
             int basePoint = HHDictionary.ProgramSuccessPoint;
 
             int GetPoints = (int)(basePoint + basePoint * actuallyLose / weightToLose);
@@ -355,6 +360,17 @@ namespace UI.Controllers
             {
                 context.Session["InProgram"] = false;
             }
+        }
+
+        public JsonResult GetProgramWeight()
+        {
+            HealthHelperEntities dbContext = new HealthHelperEntities();
+
+            Program program = dbContext.Programs
+                .SingleOrDefault(prg => prg.MemberID.ToString() == User.Identity.Name
+                && prg.StatusID == 3);
+
+            return Json(new { initWeight = program.InitialWeight, tgtWeight = program.TargetWeight });
         }
         //=========================================================
 

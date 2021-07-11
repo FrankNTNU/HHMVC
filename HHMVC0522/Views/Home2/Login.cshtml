@@ -66,10 +66,6 @@
                 <li style="font-size:1.1em"><a class="button default m-0" href=" ~/Member/CreateMember">註冊新會員</a></li>
             </ul>
         </div>
-        @if (ViewBag.ReturnUrl != null)
-        {
-            <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
-        }
     </div>
     <!--For Redirect-->
     @if (ViewBag.ReturnUrl != null)

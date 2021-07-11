@@ -14,7 +14,6 @@ namespace DAL
     
     public partial class MealTagCategory
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MealTagCategory()
         {
             this.MealTags = new HashSet<MealTag>();
@@ -24,7 +23,6 @@ namespace DAL
         public string Name { get; set; }
         public string Image { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MealTag> MealTags { get; set; }
     }
 }

@@ -72,7 +72,7 @@ namespace BLL
             comment.CommentContent = model.Comment.CommentContent;
             comment.AddDate = DateTime.Now;
             comment.IsApproved = false;
-            
+            //comment.Rating = 1;
             commentDAO.AddComment(comment);
             return true;
         }

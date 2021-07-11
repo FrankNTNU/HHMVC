@@ -446,7 +446,7 @@ namespace UI.Controllers
                     break;
             }
 
-            if (timeCoefficient > 0m && warning > HHDictionary.HighActivitySuggestThreshold * timeCoefficient)
+            if (timeCoefficient > 0m && warning > HHDictionary.HighActivitySuggestThreshold * timeCoefficient * 100)
             {
                 vm.SuggestionByPreferences = wpwList.Where(w => w.ActivityLevelID == 3)
                     .Select(w => w.Name).OrderBy(w => Guid.NewGuid()).Take(5).ToList();
@@ -456,7 +456,7 @@ namespace UI.Controllers
                     .Select(w => w.Key.Name).Take(5).ToList();
                 vm.ActivityLevel = "【高強度】運動";
             }
-            else if (timeCoefficient > 0m && warning > HHDictionary.MediumActivitySuggestThreshold * timeCoefficient)
+            else if (timeCoefficient > 0m && warning > HHDictionary.MediumActivitySuggestThreshold * timeCoefficient * 100)
             {
                 vm.SuggestionByPreferences = wpwList.Where(w => w.ActivityLevelID == 2)
                     .Select(w => w.Name).OrderBy(w => Guid.NewGuid()).Take(5).ToList();
@@ -466,7 +466,7 @@ namespace UI.Controllers
                     .Select(w => w.Key.Name).Take(5).ToList(); ;
                 vm.ActivityLevel = "【中強度】運動";
             }
-            else if (timeCoefficient > 0m && warning > HHDictionary.LowActivitySuggestThreshold * timeCoefficient)
+            else if (timeCoefficient > 0m && warning > HHDictionary.LowActivitySuggestThreshold * timeCoefficient * 100)
             {
                 vm.SuggestionByPreferences = wpwList.Where(w => w.ActivityLevelID == 1)
                     .Select(w => w.Name).OrderBy(w => Guid.NewGuid()).Take(5).ToList();
