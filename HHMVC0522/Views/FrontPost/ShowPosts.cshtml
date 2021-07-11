@@ -58,7 +58,7 @@
                 <option value="1">貼文</option>
                 <option value="2">資訊</option>
                 <option value="3">公告</option>
-                <option value="4">規則</option>
+                <option value="4">輪播牆訊息</option>
             </select>
         </div>
         <div class="col-6 col-lg-5 col-md-5">
@@ -118,7 +118,7 @@
         if (name == "貼文") return Html.Raw(@DTO.Icons.Post);
         else if (name == "資訊") return Html.Raw(@DTO.Icons.Information);
         else if (name == "公告") return Html.Raw(@DTO.Icons.Notice);
-        else return Html.Raw(@DTO.Icons.Rule);
+        else return Html.Raw(@DTO.Icons.Carousel);
     }
 }
 <script src="~/Content/js/jquery.min.js"></script>

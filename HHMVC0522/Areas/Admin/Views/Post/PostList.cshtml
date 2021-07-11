@@ -7,16 +7,16 @@
 
 @model List<DTO.PostDTO>
 <section class="content-header">
-    <h1>所有貼文</h1>
+    <h1>所有文章</h1>
     <ol class="breadcrumb float-sm-left">
         <li class="breadcrumb-item"><a>後臺頁面</a></li>
-        <li class="breadcrumb-item"><a>貼文</a></li>
-        <li class="breadcrumb-item active"><a>所有貼文</a></li>
+        <li class="breadcrumb-item"><a>文章</a></li>
+        <li class="breadcrumb-item active"><a>所有文章</a></li>
     </ol>
 </section>
 <br />
 <div class="card-footer">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='../Post/AddPost'">新增貼文</button>
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='../Post/AddPost'">新增文章</button>
 </div>
 @*@using DTO
     @{
@@ -62,9 +62,9 @@
             <span class="info-box-icon bg-gradient-warning elevation-1"><i class="fas fa-ad"></i></span>
 
             <div class="info-box-content">
-                <span class="info-box-text">輪播牆頁數 (規則分類)</span>
+                <span class="info-box-text">輪播牆頁數</span>
                 <span class="info-box-number">
-                    @BLL.PostBLL.PostStatistics.RuleCount
+                    @BLL.PostBLL.PostStatistics.CarouselCount
                 </span>
             </div>
             <!-- /.info-box-content -->

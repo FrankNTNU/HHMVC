@@ -138,7 +138,7 @@
 
         <div class="col-12" id="topArea">
             <header class="major">
-                <span style="color: #ff756b;font-size:2em">@DisplayIcon(Model.PostDetail.CategoryName) <span style="font-size: 0.9em;">@Model.PostDetail.CategoryName </span></span> <span class="d-sm-none"><a href="~/FrontPost/AllPosts"><label class="button primary"><i class="far fa-file"></i> 所有貼文</label></a></span>
+                <span style="color: #ff756b;font-size:2em">@DisplayIcon(Model.PostDetail.CategoryName) <span style="font-size: 0.9em;">@Model.PostDetail.CategoryName </span></span> <span class="d-sm-none"><a href="~/FrontPost/AllPosts"><label class="button primary"><i class="far fa-file"></i> 所有文章</label></a></span>
                 @if (!Model.PostDetail.IsApproved)
                 {
                     <span class="button primary" style="opacity:0.5;cursor:default;margin-right:10px;font-size:0.7em"> 核准中...</span>
@@ -317,7 +317,7 @@
         if (name == "貼文") return Html.Raw(@DTO.Icons.Post);
         else if (name == "資訊") return Html.Raw(@DTO.Icons.Information);
         else if (name == "公告") return Html.Raw(@DTO.Icons.Notice);
-        else return Html.Raw(@DTO.Icons.Rule);
+        else return Html.Raw(@DTO.Icons.Carousel);
     }
 }
 @helper DisplayComment(CommentDTO item)

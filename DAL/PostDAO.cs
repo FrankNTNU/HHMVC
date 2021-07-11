@@ -379,7 +379,7 @@ namespace DAL
         public static int UserPost = 1;
         public static int Information = 2;
         public static int Notice = 3;
-        public static int Rules = 4;
+        public static int Carousels = 4;
        
 
         
@@ -541,13 +541,13 @@ namespace DAL
                 throw ex;
             }
         }
-        public List<PostDTO> GetRules()
+        public List<PostDTO> GetCarousels()
         {
             using (HealthHelperEntities db= new HealthHelperEntities())
             {
                 List<PostDTO> dtoList = new List<PostDTO>();
                 List<PostDTO> postList = (from p in db.Posts
-                                          where p.CategoryID == Rules
+                                          where p.CategoryID == Carousels
                                           select new PostDTO
                                           {
                                               ID = p.ID,
@@ -592,7 +592,7 @@ namespace DAL
 
         public static int GetPostCount() => db.Posts.Count();
         public static int GetUnapprovedCount() => db.Posts.Where(x => x.IsApproved == false).Count();
-        public static int GetRuleCount() => db.Posts.Where(x => x.CategoryID == Rules).Count();
+        public static int GetCarouselCount() => db.Posts.Where(x => x.CategoryID == Carousels).Count();
         public static int GetInfoCount() => db.Posts.Where(x => x.CategoryID == Information).Count();
 
     }

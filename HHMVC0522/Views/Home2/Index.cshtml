@@ -10,7 +10,6 @@
 
     <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
     <style>
         .d-md-block {
             background-color: rgba(0, 0, 0, 0.6);
@@ -18,8 +17,12 @@
         }
 
         a {
-            color: #e82a2a;
+            color: black;
         }
+
+            a:hover {
+                text-decoration: none;
+            }
 
         @@media only screen and (max-width: 550px) {
             #titleText {
@@ -28,6 +31,32 @@
 
             #bannerText > h2 {
                 font-size: 1.4em;
+            }
+        }
+
+        .navigationImg {
+            max-width: 100%;
+            opacity: 0.8
+        }
+
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: black;
+        }
+
+            .centered > h3 {
+                font-weight: 700;
+                background-color: rgba(255, 255, 255, 0.6);
+                padding: 10px 10px 10px 10px;
+                border-radius: 5px;
+            }
+
+        @@media only screen and (max-width: 650px) {
+            .centered > h3 {
+                font-size: 1.2em;
             }
         }
     </style>
@@ -85,7 +114,7 @@
                         </a>
 
                     </div>
-                    @foreach (var item in Model.Rules)
+                    @foreach (var item in Model.Carousels)
                     {
                         <div class="carousel-item">
                             <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image" style="        width: auto;
@@ -118,12 +147,73 @@
 
 
 <!-- Section -->
+
 <section class="pt-5 pb-5">
+    @if (Session["ID"] != null)
+    {
+        <header class="row">
+            <div class="col-12 col-sm-9 col-md-10" style="display:inline;">
+                <h3 style="margin-bottom: 10px;">
+                    <i class="far fa-map"></i> 快速導覽
+                </h3>
+            </div>
+        </header>
+        <header class="major"><p class="col-12"></p></header>
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <div class="image">
+                    <img src="~/Areas/Admin/Content/tempimage/personalInfo.jpg" class=" mb-2 navigationImg" />
+                    <div class="centered"><h3>會員</h3></div>
+                </div>
+                <ul class="alt">
+                    <li><a href="~/Member/EditMember?ID=@Session["ID"]">會員資料 <i class="fas fa-angle-right" style="color:indianred"></i></a></li>
+                    <li><a href="">綜合圖表 <i class="fas fa-angle-right" style="color:indianred"></i></a></li>
+                    <li><a href="~/Weight/WeightLog">體重管理 <i class="fas fa-angle-right" style="color:indianred"></i></a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="image">
+                    <img src="~/Areas/Admin/Content/tempimage/dietLog.jpg" class=" mb-2 navigationImg" />
+                    <div class="centered"><h3>飲食</h3></div>
+                </div>
+
+                <ul class="alt">
+                    <li><a href="~/HHDiet/Create">紀錄飲食 <i class="fas fa-angle-right" style="color:indianred"></i></a></li>
+                    <li><a href="~/HHDietHistory/DietLogsHistory">飲食歷史 <i class="fas fa-angle-right" style="color:indianred"></i></a></li>
+                    <li><a href="~/HHDiet/Create">參加挑戰 <i class="fas fa-angle-right" style="color:indianred"></i></a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="image">
+                    <img src="~/Areas/Admin/Content/tempimage/workout.jpg" class=" mb-2 navigationImg" />
+                    <div class="centered"><h3>運動</h3></div>
+                </div>
+                <ul class="alt">
+                    <li><a href="~/Workout/WorkoutLog">運動紀錄 <i class="fas fa-angle-right" style="color:indianred"></i></a></li>
+                    <li><a href="~/Workout/WorkoutSchedule">運動排程 <i class="fas fa-angle-right" style="color:indianred"></i></a></li>
+                    <li><a href="~/Workout/WorkoutPreferences">喜好管理 <i class="fas fa-angle-right" style="color:indianred"></i></a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="image">
+
+                    <img src="~/Areas/Admin/Content/tempimage/gift.jpg" class=" mb-2 navigationImg" />
+                    <div class="centered"><h3>點數</h3></div>
+                </div>
+
+                <ul class="alt">
+                    <li><a href="~/Home2/UserPoints">點數紀錄 <i class="fas fa-angle-right" style="color:indianred"></i></a></li>
+                    <li><a href="~/FrontGift/GiftList">禮物商店 <i class="fas fa-angle-right" style="color:indianred"></i></a></li>
+                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]">已兌換禮物 <i class="fas fa-angle-right" style="color:indianred"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    }
     <header class="row">
         <div class="row col-12">
             <div class="col-8 col-sm-9 col-md-10" style="display:inline;">
                 <h3 style="margin-bottom: 10px;">
-                    <i class="far fa-file"></i> 最新貼文
+                    <i class="far fa-file"></i> 最新文章
                 </h3>
             </div>
             <div class="col-2 col-md-2" style="padding-right:0px; text-align:end">
@@ -152,12 +242,12 @@
                 </a>
                 <text>
                     <span style="color: #ff756b;font-size:2em">@DisplayIcon(item.CategoryName) <span style="font-size: 0.6em;">@item.CategoryName </span></span><a href="@Url.Action("PostDetail","FrontPost", new { @ID = item.ID })" style="text-decoration: none"><strong>@item.Title</strong></a>
-</text><span>@item.AddDate.ToString("yyyy/MM/dd")</span>
-<p>@item.ShortContent</p>
+                </text><span>@item.AddDate.ToString("yyyy/MM/dd")</span>
+                <p>@item.ShortContent</p>
 
 
-</div>
-}
+            </div>
+        }
     </div>
 </section>
 
@@ -167,7 +257,7 @@
         if (name == "貼文") return Html.Raw(@DTO.Icons.Post);
         else if (name == "資訊") return Html.Raw(@DTO.Icons.Information);
         else if (name == "公告") return Html.Raw(@DTO.Icons.Notice);
-        else return Html.Raw(@DTO.Icons.Rule);
+        else return Html.Raw(@DTO.Icons.Carousel);
     }
 }
 @section Scripts {

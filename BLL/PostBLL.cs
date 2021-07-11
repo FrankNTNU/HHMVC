@@ -30,9 +30,9 @@ namespace BLL
             return postDAO.GetNestedComments(postID);
         }
 
-        internal List<PostDTO> GetRules()
+        internal List<PostDTO> GetCarousels()
         {
-            return postDAO.GetRules();
+            return postDAO.GetCarousels();
         }
 
         public bool AddPost(PostDTO model)
@@ -190,7 +190,7 @@ namespace BLL
         {
             public static int PostCount { get => PostDAO.GetPostCount(); }
             public static int UnapprovedCount { get => PostDAO.GetUnapprovedCount(); }
-            public static int RuleCount { get => PostDAO.GetRuleCount(); }
+            public static int CarouselCount { get => PostDAO.GetCarouselCount(); }
             public static int InfoCount { get => PostDAO.GetInfoCount(); }
 
         }
