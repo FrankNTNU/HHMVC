@@ -1,4 +1,5 @@
 ﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -44,10 +45,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Google.Apis, Version=1.52.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.52.0\lib\net45\Google.Apis.dll</HintPath>
@@ -181,14 +182,11 @@
     <Content Include="Areas\Admin\Content\Barcode\6e740d8cca7748079.png" />
     <Content Include="Areas\Admin\Content\Barcode\a29e5a09b16c4ff9a.png" />
     <Content Include="Areas\Admin\Content\Barcode\dd5796acf7f84242a.png" />
-    <Content Include="Areas\Admin\Content\CartImages\1d0323fe-65a3-47dd-962f-53226e71f352cocoDrink1.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\3f249f4e-50e7-4bef-8b9a-b405cdfab1c3coffee2.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\4eb11526-2861-413b-932c-46806b33c2b8BK_FrenchFries_detail.png" />
-    <Content Include="Areas\Admin\Content\CartImages\4eb86db6-b013-4fbe-9d49-d13f1ca74dc9flywheel.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\5321cf4d-3700-4cbd-8f3b-1cfecd75b473bread.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\8dc56d25-b0b4-49ff-ac0d-9ac9bf2b1c8fdonut1.jpeg" />
-    <Content Include="Areas\Admin\Content\CartImages\9de5e2ce-7973-4c37-af07-9598da520558coffee.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\cac3758a-0c2c-4a8b-93c8-dc43ebbbddf6fries2.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\159fe7b7-e26d-43be-a8d1-27a37d1827e8bread.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\63797bf5-efd2-4213-8531-5a3b91eec72fstarbucks.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\a952f37f-4730-4c56-84d4-1ff4ec850c5dfries2.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\aa9756af-ac61-4985-97a7-8297a7406a6cbigmac.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\bed2d377-a6e5-4e30-9230-7ea13237b02eworkoutGloves.jpg" />
     <Content Include="Areas\Admin\Content\CSS\adminlte.min.css" />
     <Content Include="Areas\Admin\Content\CSS\all.min.css" />
     <Content Include="Areas\Admin\Content\CSS\bootstrap-4.min.css" />
@@ -197,7 +195,7 @@
     <Content Include="Areas\Admin\Content\CSS\icheck-bootstrap.min.css" />
     <Content Include="Areas\Admin\Content\CSS\responsive.bootstrap4.min.css" />
     <Content Include="Areas\Admin\Content\CSS\tempusdominus-bootstrap-4.min.css" />
-    <Content Include="Areas\Admin\Content\GiftImages\0edbc09f-f7ee-4ac5-adfe-c06e0ca364e2bigmac.jpg" />
+    <Content Include="Areas\Admin\Content\GiftImages\0c90b562-1a24-4ec5-a354-802acf6de780weightTrain.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\1d0323fe-65a3-47dd-962f-53226e71f352cocoDrink1.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\2c01724e-61d2-4bb6-8317-e770cbff9d2aworkoutShirt.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\3f249f4e-50e7-4bef-8b9a-b405cdfab1c3coffee2.jpg" />
@@ -210,9 +208,9 @@
     <Content Include="Areas\Admin\Content\GiftImages\b5e068a1-473f-4969-9f5c-a8db733b42a2bigmac.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\cac3758a-0c2c-4a8b-93c8-dc43ebbbddf6fries2.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\cee02b37-8f94-4731-9834-c93e53bf6d5fteaEggs.jpg" />
+    <Content Include="Areas\Admin\Content\GiftImages\d9956c3d-f613-4374-bde0-6577dfea506abigmac.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\f856422c-d5ed-4ffc-865e-85a6e39d94edoolong.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\fc2008d5-ff1c-4179-81d8-4e7c53fedcf0starbucks.jpg" />
-	<Content Include="Areas\Admin\Content\GiftImages\161845921140825_P11774857.jpg" />
     <Content Include="Areas\Admin\Content\icon\approve.png" />
     <Content Include="Areas\Admin\Content\icon\close-icon.png" />
     <Content Include="Areas\Admin\Content\icon\lockIcon.png" />
@@ -515,10 +513,14 @@
     <Content Include="Areas\Admin\Content\PostImages\defaultImg.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\e9c5f14a-462f-4ac8-b08f-22d61fea0f5afruitCubes.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\ea82d513-e3bd-4200-aca1-352b9af80e3dbooks.jpg" />
+    <Content Include="Areas\Admin\Content\tempimage\dietLog.jpg" />
+    <Content Include="Areas\Admin\Content\tempimage\gift.jpg" />
     <Content Include="Areas\Admin\Content\tempimage\healthImg.png" />
     <Content Include="Areas\Admin\Content\tempimage\HHLogo.png" />
     <Content Include="Areas\Admin\Content\tempimage\hLogo.png" />
     <Content Include="Areas\Admin\Content\tempimage\hLogoRed.jpg" />
+    <Content Include="Areas\Admin\Content\tempimage\personalInfo.jpg" />
+    <Content Include="Areas\Admin\Content\tempimage\workout.jpg" />
     <Content Include="Areas\Admin\Content\UserImage\0442a875-bc36-4d35-aa71-d89cf419b947user5.png" />
     <Content Include="Areas\Admin\Content\UserImage\05d8b14d-fc47-470d-bbb1-efe86c47b3a9user1.png" />
     <Content Include="Areas\Admin\Content\UserImage\13aacd3b-7979-4124-bfd8-0ec43dda6464user9.png" />
@@ -831,6 +833,7 @@
     <Content Include="Scripts\jquery.signalR-2.4.2.min.js" />
     <Content Include="Views\Shared\_MealOptionViewModelPartial.cshtml" />
     <None Include="Properties\PublishProfiles\HealthHelper - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
@@ -1109,15 +1112,17 @@
     <None Include="Web.healthhelperweb - Web Deploy.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.IISProfile.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Content\MealOptionImages\" />
-    <Folder Include="Areas\Admin\Content\PostImages\" />
     <Folder Include="Areas\Admin\Content\JS\ckeditor\plugins\iframe\icons\hidpi\" />
+    <Folder Include="Areas\Admin\Content\MealOptionImages\" />
     <Folder Include="Areas\Admin\Content\TagCategoriesImages\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
@@ -1179,7 +1184,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
