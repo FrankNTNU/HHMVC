@@ -199,6 +199,24 @@
         padding: 5px;
         width:100%;
         margin: 0px;
+        color: white !important;
+    }
+
+    .selfText p, .otherText p {
+        margin-bottom: 0px;
+    }
+
+    .selfText ul, .otherText ul {
+        margin-left:10px;
+        margin-bottom: 0px;
+    }
+
+    .selfText ul li, .otherText ul li {
+        padding-left: 0px;
+    }
+
+    .selfText strong, .otherText strong {
+        color: white !important;
     }
 
     .selfText a:link, .otherText a:link, .selfText a:visited, .otherText a:visited {
@@ -543,6 +561,7 @@
     <script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 
@@ -838,7 +857,7 @@
                 }
             }).done(function (data) {
 
-                //alert(data.Result);
+                alert(data.Result);
 
                 $("#serviceGroupId").val(data.GroupId);
 
@@ -873,6 +892,9 @@
 
     function writeForService(userName, message, isSelf, timeStamp, image) {
 
+        var converter = new showdown.Converter();
+            message = converter.makeHtml(message);
+
         if (isSelf) {
             let dialogDiv = $("<div></div>").addClass("messageRow");
 
@@ -890,7 +912,7 @@
             let innerTextDiv = $("<div></div>").addClass("ArrowToLeft").css("margin-right", "auto");
 
             $("<div></div>").addClass("selfText")
-                .css("background-color", "plum").css("color", "white").css("border-color", "plum")
+                .css("background-color", "plum").css("border-color", "plum")
                 .html(message)
                 .appendTo(innerTextDiv);
 
@@ -918,7 +940,7 @@
             let innerTextDiv = $("<div></div>").addClass("ArrowToRight").css("margin-left", "auto");
 
             $("<div></div>").addClass("otherText")
-                .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
+                .css("background-color", "#f56a6a").css("border-color", "#f56a6a")
                 .html(message)
                 .appendTo(innerTextDiv);
 
