@@ -219,12 +219,12 @@
         color: white !important;
     }
 
-    .selfText a:link, .otherText a:link, .selfText a:visited, .otherText a:visited {
+    .promptDiv a:link, .promptDiv a:visited, .selfText a:link, .otherText a:link, .selfText a:visited, .otherText a:visited {
         color: white;
         text-decoration: underline;
     }
 
-    .selfText a:hover, .otherText a:hover {
+    .promptDiv a:hover, .selfText a:hover, .otherText a:hover {
         color: aqua !important;
     }
 
@@ -255,6 +255,20 @@
 
     .textDiv.reverse {
         flex-direction:row-reverse;
+    }
+
+    .promptDiv {
+        display:flex;
+        justify-content:center;
+        margin: 5px 0px;
+    }
+
+    .promptButton {
+        width: max-content;
+        background-color: #2894FF;
+        color: white;
+        border-radius: 5px;
+        padding: 5px;
     }
 
     @*ForScrollbar=====================================*@
@@ -705,7 +719,20 @@
             }
 
         });
+
         //=============================================================
+        //prompt link
+        $("#serviceChatBox").on("click", ".promptDiv a", function () {
+            $.ajax({
+                url: "/FrontContact/SelectPrompt",
+                type: "POST",
+                data: {
+                    connId: $.connection.hub.id,
+                    groupId: $("#serviceGroupId").val(),
+                    qnaId: $(this).attr("data-qnaId")
+                }
+            });
+        });
     });
 
     function alertProgramFrozen(programFrozen) {
@@ -847,6 +874,12 @@
             }
         }
 
+        //receive prompt
+        chat2.client.receivePrompt = function (displayText, qnaId) {
+            writePrompt(displayText, qnaId);
+            $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
+        }
+
         $.connection.hub.start().done(function () {
 
             $.ajax({
@@ -952,6 +985,14 @@
 
         }
 
+    }
+
+    //write prompt
+    function writePrompt(displayText, qnaId) {
+        let promptDiv = $("<div></div>").addClass("promptDiv");
+        let prompt = $("<div></div>").addClass("promptButton").appendTo(promptDiv);
+        $("<a></a>").attr("data-qnaId", qnaId).append(displayText).appendTo(prompt);
+        $("#serviceChatBox").append(promptDiv);
     }
 
     //todo Load Group Messages
