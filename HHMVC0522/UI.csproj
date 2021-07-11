@@ -221,26 +221,11 @@
     <Content Include="Areas\Admin\Content\Barcode\6e740d8cca7748079.png" />
     <Content Include="Areas\Admin\Content\Barcode\a29e5a09b16c4ff9a.png" />
     <Content Include="Areas\Admin\Content\Barcode\dd5796acf7f84242a.png" />
-    <Content Include="Areas\Admin\Content\CartImages\07155593-f2f7-43da-b749-2774fb776944coffee2.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\0edbc09f-f7ee-4ac5-adfe-c06e0ca364e2bigmac.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\138a5fca-b0b7-40c2-8708-a4bf824b5e1bbigmac.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\3f249f4e-50e7-4bef-8b9a-b405cdfab1c3coffee2.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\44cd7307-a335-4158-98a6-3da2e0fac0c6BK_FrenchFries_detail.png" />
-    <Content Include="Areas\Admin\Content\CartImages\4eb86db6-b013-4fbe-9d49-d13f1ca74dc9flywheel.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\5321cf4d-3700-4cbd-8f3b-1cfecd75b473bread.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\697d07b6-f645-44a5-af3c-416d47478c38donut1.jpeg" />
-    <Content Include="Areas\Admin\Content\CartImages\865a64b8-ff20-46ff-8f5f-62bcbabec212donut1.jpeg" />
-    <Content Include="Areas\Admin\Content\CartImages\8d77f283-e646-4f1a-a9f8-a95110e90f89cocoDrink1.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\8dc56d25-b0b4-49ff-ac0d-9ac9bf2b1c8fdonut1.jpeg" />
-    <Content Include="Areas\Admin\Content\CartImages\8e96ab7f-a41c-426b-b898-50783030cf00coffee2.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\9590680e-0995-4010-b52d-4d3096fb1640coffee2.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\9aae5e22-0445-48cd-a74b-f6448dc8c829bigmac.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\9de5e2ce-7973-4c37-af07-9598da520558coffee.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\9e298693-7ebf-4c20-979d-0ad3bf21bdf4coffee2.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\b2648c95-dc07-4adf-9ebf-4d212882ce4cworkoutShirt.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\c0e5cfe5-ceb3-47c3-a00f-de2bade4925aBK_FrenchFries_detail.png" />
-    <Content Include="Areas\Admin\Content\CartImages\cac3758a-0c2c-4a8b-93c8-dc43ebbbddf6fries2.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\d9956c3d-f613-4374-bde0-6577dfea506abigmac.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\159fe7b7-e26d-43be-a8d1-27a37d1827e8bread.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\63797bf5-efd2-4213-8531-5a3b91eec72fstarbucks.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\a952f37f-4730-4c56-84d4-1ff4ec850c5dfries2.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\aa9756af-ac61-4985-97a7-8297a7406a6cbigmac.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\bed2d377-a6e5-4e30-9230-7ea13237b02eworkoutGloves.jpg" />
     <Content Include="Areas\Admin\Content\CSS\adminlte.min.css" />
     <Content Include="Areas\Admin\Content\CSS\all.min.css" />
     <Content Include="Areas\Admin\Content\CSS\bootstrap-4.min.css" />
@@ -249,6 +234,7 @@
     <Content Include="Areas\Admin\Content\CSS\icheck-bootstrap.min.css" />
     <Content Include="Areas\Admin\Content\CSS\responsive.bootstrap4.min.css" />
     <Content Include="Areas\Admin\Content\CSS\tempusdominus-bootstrap-4.min.css" />
+    <Content Include="Areas\Admin\Content\GiftImages\0c90b562-1a24-4ec5-a354-802acf6de780weightTrain.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\1d0323fe-65a3-47dd-962f-53226e71f352cocoDrink1.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\2c01724e-61d2-4bb6-8317-e770cbff9d2aworkoutShirt.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\3f249f4e-50e7-4bef-8b9a-b405cdfab1c3coffee2.jpg" />
@@ -1131,6 +1117,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.healthhelperweb - Web Deploy.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.IISProfile.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
