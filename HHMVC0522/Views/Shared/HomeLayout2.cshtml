@@ -664,6 +664,8 @@
 
             if ($("#collapse i.fa-minus").length != 0) {
                 $(".notReadText").remove();
+            } else {
+                showNotReadForSidebar($("#notRead span").text())
             }
             
         });
