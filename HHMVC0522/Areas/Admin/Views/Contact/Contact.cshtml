@@ -29,6 +29,23 @@
             color: aqua !important;
         }
 
+        .direct-chat-text p {
+            margin-bottom: 0px;
+        }
+
+        .direct-chat-text ul {
+            margin-left: 10px;
+            margin-bottom: 0px;
+        }
+
+        .direct-chat-text ul li {
+            padding-left: 0px;
+        }
+
+        .direct-chat-text strong {
+            color: white !important;
+        }
+
         #serviceChatBox {
             position: relative;
             scroll-behavior: smooth;
@@ -44,7 +61,7 @@
             margin: 5px auto;
         }
 
-        @*ForServiceDemo=========================*@ 
+        @*ForServiceDemo=========================*@
         .demoService {
             display: flex;
             position: fixed;
@@ -155,13 +172,13 @@
     <div class="demoButtonService" onclick="autoInputMsgs8()">zzzz</div>
 </div>
 <!--=============================================================-->
-
 <!--</div>-->
 @section scripts {
 
     <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script src="~/Content/moment-js/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
     <script>
 
         let notRead = [];
@@ -237,6 +254,9 @@
         });
 
         function write(userName, message, isSelf, timeStamp, image) {
+
+            var mdConverter = new showdown.Converter();
+            message = mdConverter.makeHtml(message);
 
             if (isSelf) {
                 let dialogDiv = $("<div></div>").addClass("direct-chat-msg");

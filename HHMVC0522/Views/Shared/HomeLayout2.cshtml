@@ -562,7 +562,7 @@
         <div class="loginButton" onclick="login3()">user01</div>
         <div class="loginButton" onclick="login4()">frank</div>
         <div class="loginButton" onclick="login5()">zzzz</div>
-        <div class="loginButton" onclick="login6()">Wily</div>
+        <div class="loginButton" onclick="login6()">Willy</div>
     </div>
     <!--=============================================================-->
     <!-- Scripts -->
@@ -698,7 +698,9 @@
             if ($("#collapse i.fa-minus").length != 0) {
                 $(".notReadText").remove();
             } else {
-                showNotReadForSidebar($("#notRead span").text())
+                if ($("#notRead span").text() != "0") {
+                    showNotReadForSidebar($("#notRead span").text());
+                }
             }
             
         });
@@ -925,8 +927,8 @@
 
     function writeForService(userName, message, isSelf, timeStamp, image) {
 
-        var converter = new showdown.Converter();
-            message = converter.makeHtml(message);
+        var mdConverter = new showdown.Converter();
+            message = mdConverter.makeHtml(message);
 
         if (isSelf) {
             let dialogDiv = $("<div></div>").addClass("messageRow");
@@ -1021,7 +1023,10 @@
         }
     }
 
-    function ResetNotReadCount(){
+    function ResetNotReadCount() {
+
+        $("#notRead span").text("0");
+
         $.ajax({
             url: "/FrontContact/ResetNotReadCount",
             type: "POST",

@@ -331,12 +331,8 @@ namespace UI.Controllers
 
             dbContext.SaveChanges();
 
-            foreach (var prompt in answer.Context.Prompts)
-            {
-                Context.Clients.Group(groupId)
-                    .receivePrompt(prompt.DisplayText, prompt.QnaId);
-            }
-            
+            ShowPrompt(answer, groupId);
+
             //======================================================================
             //send email to admin
 
@@ -407,6 +403,7 @@ namespace UI.Controllers
 
             dbContext.SaveChanges();
 
+            ShowPrompt(promptQna, groupId);
         }
 
         [HttpPost]
@@ -452,6 +449,20 @@ namespace UI.Controllers
 
             return UserStatic.ServiceNotRead[user][groupId];
             //==================================================================
+        }
+
+        private void ShowPrompt(QnASearchResult answer, string groupId)
+        {
+            var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+
+            if (answer.Context != null)
+            {
+                foreach (var prompt in answer.Context.Prompts)
+                {
+                    Context.Clients.Group(groupId)
+                        .receivePrompt(prompt.DisplayText, prompt.QnaId);
+                }
+            }
         }
     }
 }
