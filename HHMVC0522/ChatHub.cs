@@ -22,8 +22,6 @@ namespace UI
 
             string fromPage = Context.Headers["referer"].Split('/')[3].ToLower();
 
-            //UserHandler.ConnectedIds.Add(Context.ConnectionId);
-
             UserDetail user = null;
             bool isAdded = false;
 
@@ -95,14 +93,14 @@ namespace UI
             UserDetail disconntectedUser = UserStatic.ConnectedUsers
                 .SingleOrDefault(x => x.ConnID == Context.ConnectionId);
             UserStatic.ConnectedUsers.Remove(disconntectedUser);
-            //UserHandler.ConnectedIds.Remove(Context.ConnectionId);
 
             //For CustomerService
             Member member = dbContext.Members
                 .SingleOrDefault(m => m.ID.ToString() == Context.User.Identity.Name);
 
             try
-            {   //When Admin disconnect, only remove AdminConnId and AdminId
+            {
+                //When Admin disconnect, only remove AdminConnId and AdminId
                 if (disconntectedUser.Role == "admin")
                 {
                     foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
@@ -130,7 +128,7 @@ namespace UI
                             {
                                 Groups.Remove(UserStatic.ServiceGroups[groupId].AdminConnId, groupId);
                             }
-                            
+
                             UserStatic.ServiceGroups.Remove(groupId);
 
                             dbContext.Groups.SingleOrDefault(g => g.ID.ToString() == groupId).IsAlive = false;
@@ -149,7 +147,6 @@ namespace UI
                     writer.WriteLine(DateTime.Now.ToString("M/d HH:mm") + " Message : " + ex.ToString());
                 }
             }
-
             return base.OnDisconnected(stopCalled);
         }
 

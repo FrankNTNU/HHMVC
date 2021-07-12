@@ -83,32 +83,21 @@ namespace UI
             //恩旗
             //For GroupChats
             //Remove User From UserChatGroups
-            try
+
+            foreach (var groupId in UserStatic.UserChatGroups.Keys.ToList())
             {
-                foreach (var groupId in UserStatic.UserChatGroups.Keys.ToList())
+                foreach (var chatMember in UserStatic.UserChatGroups[groupId].GroupMembers.ToList())
                 {
-                    foreach (var chatMember in UserStatic.UserChatGroups[groupId].GroupMembers.ToList())
+                    if (chatMember.ConnID == Context.ConnectionId)
                     {
-                        if (chatMember.ConnID == Context.ConnectionId)
-                        {
-                            Groups.Remove(Context.ConnectionId, groupId);
-                            UserStatic.UserChatGroups[groupId].GroupMembers.Remove(chatMember);
-                        }
-
-                        ChatGroupController.RemoveGroup(this.dbContext, groupId);
+                        Groups.Remove(Context.ConnectionId, groupId);
+                        UserStatic.UserChatGroups[groupId].GroupMembers.Remove(chatMember);
                     }
+
+                    ChatGroupController.RemoveGroup(this.dbContext, groupId);
                 }
             }
-            catch (Exception ex)
-            {
-                string filePath = @"C:\Users\enchi\Desktop\Error1.txt";
-
-                using (StreamWriter writer = new StreamWriter(filePath, true))
-                {
-                    writer.WriteLine(DateTime.Now.ToString("M/d HH:mm") + " Message : " + ex.Message);
-                }
-            }
-
+            
             return base.OnDisconnected(stopCalled);
         }
 
