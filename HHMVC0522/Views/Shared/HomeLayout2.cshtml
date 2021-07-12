@@ -153,16 +153,18 @@
 
     .chatBody {
         border-bottom: solid 1px gray;
-        flex-basis: 100%;
+        flex: 1 1 0;
+        min-height: 0;
         background-color:white;
     }
 
     #serviceChatBox {
         position: relative;
-        height: 290px;
+        height: 100%;
         overflow: auto;
         scroll-behavior: smooth;
         padding:0px 5px;
+        border:none;
     }
 
     .messageRow {
@@ -197,7 +199,7 @@
 
     .selfText, .otherText {
         padding: 5px;
-        width:100%;
+        /*width:100%;*/
         margin: 0px;
         color: white !important;
     }
@@ -229,8 +231,14 @@
     }
 
     .ArrowToLeft, .ArrowToRight {
+        display:flex;
+        align-items: center;
         position:relative;
         width:100%;
+    }
+
+    .ArrowToRight {
+        flex-direction:row-reverse;
     }
 
     .ArrowToLeft::before {
@@ -271,6 +279,41 @@
         padding: 5px;
     }
 
+    @*Modal============================================*@
+
+    /* The Modal (background) */
+    #chatModal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+        justify-content:center;
+        align-items:center;
+    }
+
+    #chatPanel.ModalChatPanel {
+        bottom: unset;
+        right: unset;
+        width: calc(40% + 1px);
+        height: calc(50% + 1px) !important;
+        box-shadow: none;
+    }
+
+    #showChatModal {
+        background-color: white;
+        color: #f56a6a;
+        padding: 5px 5px;
+        line-height: 1em;
+        height: calc(1em + 10px);
+        text-align: center;
+    }
     @*ForScrollbar=====================================*@
         /* width */
         ::-webkit-scrollbar {
@@ -331,6 +374,7 @@
             left: 40em !important;
             bottom: 50px;
             column-gap:10px;
+            z-index: 100;
         }
 
         .demoButtonService {
@@ -528,6 +572,7 @@
     </div>
     <!--=============================================================-->
     <!--CustomerService==============================================-->
+    <div id="chatModal"></div>
     <div id="chatPanel" style="display:none">
         <div class="chatHeader">
             <div>聯絡客服：</div>
@@ -536,6 +581,9 @@
             </div>
             <div id="collapse" class="button">
                 <i class="fas fa-minus"></i>
+            </div>
+            <div id="showChatModal" class="button">
+                <i class="fas fa-expand-arrows-alt"></i>
             </div>
             <div id="closePanel" class="button">
                 <i class="fas fa-times"></i>
@@ -667,6 +715,16 @@
         }
 
         $("#collapse").click(function () {
+
+            if ($("#showChatModal i.fa-expand-arrows-alt").length == 0) {
+                closeChatModal();
+                $("#chatPanel").css("height", "45px");
+                $(".chatBody").hide();
+                $(".chatFooter").hide();
+                $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
+                return;
+            }
+
             if ($("#collapse i.fa-minus").length != 0) {
                 $(".chatBody").fadeOut(100, function () {
                     $("#chatPanel").animate({ height: 45 }, function () {
@@ -684,7 +742,7 @@
                             if ($(".notReadText").length != 0) {
                                 $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
                             }
-                            $("#notRead").css("visibility", "hidden");
+                            
                             ResetNotReadCount();
                         });
                     });
@@ -695,12 +753,15 @@
         $("#closePanel").click(function () {
             $("#chatPanel").css("display", "none");
 
+            if ($("#showChatModal i.fa-expand-arrows-alt").length == 0) {
+                closeChatModal();
+                return;
+            }
+
             if ($("#collapse i.fa-minus").length != 0) {
                 $(".notReadText").remove();
-            } else {
-                if ($("#notRead span").text() != "0") {
-                    showNotReadForSidebar($("#notRead span").text());
-                }
+            } else if ($("#notRead span").text() != "0") {
+                showNotReadForSidebar($("#notRead span").text());
             }
             
         });
@@ -710,13 +771,16 @@
             $("#serviceNotify").css("display", "none");
 
             if ($("#collapse i.fa-minus").length != 0) {
+
+                if (isChatPanelClose) {
+                    $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
+                }
+
                 if ($(".notReadText").length != 0) {
                     $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
                 } else {
                     $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
                 }
-
-                $("#notRead").css("visibility", "hidden");
                 ResetNotReadCount();
             }
 
@@ -735,7 +799,64 @@
                 }
             });
         });
+
+        //=============================================================
+        //expend chatPanel
+
+        let isChatPanelClose = false;
+
+        let oldScrollTop = 0;
+
+        $("#showChatModal").click(function () {
+
+            oldScrollTop = $("#serviceChatBox").scrollTop();
+
+            if ($("#collapse i.fa-minus").length == 0) {
+                isChatPanelClose = true;
+                openChatModal();
+                $("#chatPanel").addClass("ModalChatPanel");
+                $(".chatBody").show();
+                $(".chatFooter").show();
+                $("#collapse i").removeClass("fas fa-plus").addClass("fas fa-minus");
+                $("#serviceChatBox").scrollTop(oldScrollTop);
+                ResetNotReadCount();
+                
+            } else if ($("#showChatModal i.fa-expand-arrows-alt").length != 0) {
+                isChatPanelClose = false;
+                openChatModal();
+                $("#serviceChatBox").scrollTop(oldScrollTop);
+            } else {
+                closeChatModal();
+                $("#chatPanel").css("height", "400px");
+                $(".chatBody").show();
+                $(".chatFooter").show();
+                $("#serviceChatBox").scrollTop(oldScrollTop);
+            }
+
+        });
+        
+        $("#chatModal").click(function (event) {
+            if (event.target == this) {
+                closeChatModal();
+                if (isChatPanelClose) {
+                    $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
+                }
+            }
+        });
+
     });
+
+    function openChatModal() {
+        $("#chatPanel").addClass("ModalChatPanel").appendTo($("#chatModal"));
+        $("#showChatModal i").removeClass("fa-expand-arrows-alt").addClass("fa-compress-arrows-alt");
+        $("#chatModal").css("display", "flex");
+    }
+
+    function closeChatModal() {
+        $("#chatModal").css("display", "none");
+        $("#showChatModal i").removeClass("fa-compress-arrows-alt").addClass("fa-expand-arrows-alt");
+        $("#chatPanel").removeClass("ModalChatPanel").insertAfter($("#chatModal"));
+    }
 
     function alertProgramFrozen(programFrozen) {
 
@@ -1025,6 +1146,7 @@
 
     function ResetNotReadCount() {
 
+        $("#notRead").css("visibility", "hidden");
         $("#notRead span").text("0");
 
         $.ajax({
