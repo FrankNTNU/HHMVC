@@ -20,12 +20,12 @@ namespace UI
         public override Task OnConnected()
         {
             
-            UserHandler.ConnectedIds.Add(Context.ConnectionId);
+            //UserHandler.ConnectedIds.Add(Context.ConnectionId);
 
             UserDetail user = null;
             bool isAdded = false;
 
-            foreach (var User in UserStatic.ConnectedUsers)
+            foreach (var User in UserStatic.ChatGroupUsers)
             {
                 if (User.ConnID == Context.ConnectionId && User.UserID == Context.User.Identity.Name)
                 {
@@ -42,8 +42,9 @@ namespace UI
                 {
                     ConnID = Context.ConnectionId,
                     UserID = Context.User.Identity.Name,
+                    Role = "customer"
                 };
-                UserStatic.ConnectedUsers.Add(user);
+                UserStatic.ChatGroupUsers.Add(user);
             }
             
             //==================================================
@@ -73,10 +74,10 @@ namespace UI
 
         public override Task OnDisconnected(bool stopCalled = true)
         {
-            UserDetail disconntectedUser = UserStatic.ConnectedUsers
-                .FirstOrDefault(x => x.ConnID == Context.ConnectionId);
-            UserStatic.ConnectedUsers.Remove(disconntectedUser);
-            UserHandler.ConnectedIds.Remove(Context.ConnectionId);
+            UserDetail disconntectedUser = UserStatic.ChatGroupUsers
+                .SingleOrDefault(x => x.ConnID == Context.ConnectionId);
+            UserStatic.ChatGroupUsers.Remove(disconntectedUser);
+            //UserHandler.ConnectedIds.Remove(Context.ConnectionId);
 
             //========================================================
             //恩旗

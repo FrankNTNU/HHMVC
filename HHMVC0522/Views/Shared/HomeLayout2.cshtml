@@ -269,6 +269,7 @@
         display:flex;
         justify-content:center;
         margin: 5px 0px;
+        padding: 0px 0px 5px 0px;
     }
 
     .promptButton {
@@ -319,9 +320,17 @@
     #chatPanel.ModalChatPanel {
         bottom: unset;
         right: unset;
-        width: calc(40% + 3px);
-        height: calc(50% + 1px) !important;
+        width: calc(50% + 3px);
+        height: calc(60% + 1px) !important;
         box-shadow: none;
+    }
+
+    #chatPanel.ModalChatPanel #serviceChatBox {
+        font-size: 1.2em;
+    }
+
+    #chatPanel.ModalChatPanel #serviceMessage {
+        font-size: 1.2em;
     }
 
     #showChatModal {

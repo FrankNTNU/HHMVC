@@ -22,7 +22,7 @@ namespace UI
 
             string fromPage = Context.Headers["referer"].Split('/')[3].ToLower();
 
-            UserHandler.ConnectedIds.Add(Context.ConnectionId);
+            //UserHandler.ConnectedIds.Add(Context.ConnectionId);
 
             UserDetail user = null;
             bool isAdded = false;
@@ -33,7 +33,7 @@ namespace UI
                 {
                     isAdded = true;
                     user = User;
-                    user.Role = fromPage == "admin" ? "admin" : "customer";
+                    user.Role = (fromPage == "admin") ? "admin" : "customer";
                     break;
                 }
             }
@@ -44,7 +44,7 @@ namespace UI
                 {
                     ConnID = Context.ConnectionId,
                     UserID = Context.User.Identity.Name,
-                    Role = fromPage == "admin" ? "admin" : "customer"
+                    Role = (fromPage == "admin") ? "admin" : "customer"
                 };
                 UserStatic.ConnectedUsers.Add(user);
             }
@@ -95,7 +95,7 @@ namespace UI
             UserDetail disconntectedUser = UserStatic.ConnectedUsers
                 .SingleOrDefault(x => x.ConnID == Context.ConnectionId);
             UserStatic.ConnectedUsers.Remove(disconntectedUser);
-            UserHandler.ConnectedIds.Remove(Context.ConnectionId);
+            //UserHandler.ConnectedIds.Remove(Context.ConnectionId);
 
             //For CustomerService
             Member member = dbContext.Members

@@ -12,6 +12,8 @@ namespace DTO
 
         //==============================================
         //恩旗
+        //ChatGroupUsers
+        public static List<UserDetail> ChatGroupUsers = new List<UserDetail>();
         //UserChatGroup
         public static Dictionary<string, ChatGroupDTO> UserChatGroups = new Dictionary<string, ChatGroupDTO>();
         //CustomerServiceGroup
