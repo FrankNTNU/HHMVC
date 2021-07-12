@@ -89,11 +89,11 @@ namespace UI.Controllers
             decimal TDEE = 0;
             if (member.Gender)
             {
-                TDEE = (10 * weight + 6.25m * (decimal)member.Height + 5 * (decimal)age + 5) * pal;
+                TDEE = (10 * weight + 6.25m * (decimal)member.Height - 5 * (decimal)age + 5) * pal;
             }
             else
             {
-                TDEE = (10 * weight + 6.25m * (decimal)member.Height + 5 * (decimal)age - 161) * pal;
+                TDEE = (10 * weight + 6.25m * (decimal)member.Height - 5 * (decimal)age - 161) * pal;
             }
 
             return TDEE;

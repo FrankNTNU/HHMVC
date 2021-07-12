@@ -19,6 +19,12 @@ namespace UI.Controllers
         // GET: ChatGroup
         public ActionResult GroupChat()
         {
+            ViewBag.initWeight = dbContext.Programs
+                .SingleOrDefault(p => p.MemberID.ToString() == User.Identity.Name
+                    && DbFunctions.TruncateTime(p.StartDate) <= DateTime.Today
+                    && DbFunctions.TruncateTime(p.EndDate) >= DateTime.Today
+                    && p.StatusID == 1)?.InitialWeight;
+
             return View(UserStatic.UserChatGroups);
         }
 

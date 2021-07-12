@@ -245,6 +245,7 @@
 <div id="groupDetail">
     請輸入聊天群名稱和體重區間：
     <input type="text" id="groupName" autocomplete="off" placeholder="聊天群名稱"/>
+    <div>初始體重<span id="initWeight" style="color: #f56a6a">@ViewBag.initWeight</span>kg</div>
     <input type="text" id="weight1" placeholder="體重"/>kg~<input type="text" id="weight2" placeholder="體重"/>kg
     <div id="difficulty">您的挑戰難度為<span></span></div>
 </div>
@@ -351,7 +352,7 @@
 
             }, 1500);
 
-            
+
         });
 
         function write(userName, message, isSelf, timeStamp, image) {
@@ -398,7 +399,7 @@
         }
 
         function AddToChatGroup() {
-            
+
             //Set groupId When Return
             if ($("#groupId").val() == "") {
 
@@ -419,6 +420,11 @@
 
             //New Group
             $("#newGroup").click(function () {
+
+                if (@Json.Encode(ViewBag.initWeight) == null) {
+                    alert("您沒有進行挑戰");
+                    return;
+                }
 
                 if ($("#groupId").val() != "") {
                     if (!confirm("確定離開目前群組嗎？")) {
@@ -571,7 +577,7 @@
                     }
                 }).promise();
             });
-            
+
         }
 
         //todo Load Group Messages
