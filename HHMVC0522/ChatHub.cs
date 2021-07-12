@@ -101,8 +101,8 @@ namespace UI
             Member member = dbContext.Members
                 .SingleOrDefault(m => m.ID.ToString() == Context.User.Identity.Name);
 
-            try
-            {   //When Admin disconnect, only remove AdminConnId and AdminId
+            //try
+            //{   //When Admin disconnect, only remove AdminConnId and AdminId
                 if (disconntectedUser.Role == "admin")
                 {
                     foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
@@ -140,16 +140,16 @@ namespace UI
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                string filePath = @"C:\Users\enchi\Desktop\Error2.txt";
+            //}
+            //catch (Exception ex)
+            //{
+            //    string filePath = @"C:\Users\enchi\Desktop\Error2.txt";
 
-                using (StreamWriter writer = new StreamWriter(filePath, true))
-                {
-                    writer.WriteLine(DateTime.Now.ToString("M/d HH:mm") + " Message : " + ex.Message);
-                }
-            }
+            //    using (StreamWriter writer = new StreamWriter(filePath, true))
+            //    {
+            //        writer.WriteLine(DateTime.Now.ToString("M/d HH:mm") + " Message : " + ex.Message);
+            //    }
+            //}
 
             return base.OnDisconnected(stopCalled);
         }
