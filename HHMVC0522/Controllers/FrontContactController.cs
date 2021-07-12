@@ -333,32 +333,6 @@ namespace UI.Controllers
 
             ShowPrompt(answer, groupId);
 
-            //======================================================================
-            //send email to admin
-
-            //var groupMsgs = dbContext.GroupChats.Where(gc => gc.GroupID.ToString() == groupId).ToList();
-
-            //int QnAMakerReplyCount = groupMsgs.Where(gm => gm.MemberID == null).Count();
-
-            //if (QnAMakerReplyCount % 3 == 0)
-            //{
-            //    string to = "enchi.dong@hotmail.com.tw";
-            //    string from = "brandon.dong0207@gmail.com";
-            //    string subject = "有會員需要您的服務";
-            //    string body = "管理員您好，有會員需要您的服務，對話如下：\n";
-
-            //    foreach (var msg in groupMsgs)
-            //    {
-            //        body += "\t" + msg + "\n";
-            //    }
-
-            //    MailMessage emailMessage = new MailMessage(from, to, subject, body);
-
-            //    SmtpClient client = new SmtpClient();
-            //    client.EnableSsl = true;
-            //    client.Send(emailMessage);
-            //}
-
         }
 
         //when user click prompt

@@ -66,6 +66,26 @@
             scroll-behavior: smooth;
         }
 
+        .nameAndTime {
+            display: flex;
+            flex-basis: 100%;
+            align-items: baseline;
+        }
+
+        .nameAndTime.right {
+            flex-direction: row-reverse;
+        }
+
+        .name {
+            font-size: 1.2em;
+        }
+
+        .timeStamp {
+            font-size: 0.4em;
+            font-style: italic;
+            margin: 0px 5px;
+        }
+
         .adminNotRead {
             width: 80%;
             text-align: center;
@@ -276,9 +296,9 @@
             if (isSelf) {
                 let dialogDiv = $("<div></div>").addClass("direct-chat-msg");
 
-                $("<div></div>").addClass("direct-chat-infos clearfix")
-                    .append($("<span></span>").addClass("direct-chat-name float-left").text(userName))
-                    .append($("<span></span>").addClass("direct-chat-timestamp float-right").text(timeStamp))
+                $("<div></div>").addClass("nameAndTime")
+                    .append($("<span></span>").addClass("name").text(userName))
+                    .append($("<span></span>").addClass("timeStamp").text(timeStamp))
                     .appendTo(dialogDiv);
 
                 $("<img/>").addClass("direct-chat-img")
@@ -295,9 +315,9 @@
             } else {
                 let dialogDiv = $("<div></div>").addClass("direct-chat-msg right");
 
-                $("<div></div>").addClass("direct-chat-infos clearfix")
-                    .append($("<span></span>").addClass("direct-chat-name float-right").text(userName))
-                    .append($("<span></span>").addClass("direct-chat-timestamp float-left").text(timeStamp))
+                $("<div></div>").addClass("nameAndTime right")
+                    .append($("<span></span>").addClass("name").text(userName))
+                    .append($("<span></span>").addClass("timeStamp").text(timeStamp))
                     .appendTo(dialogDiv);
 
                 $("<img/>").addClass("direct-chat-img")
