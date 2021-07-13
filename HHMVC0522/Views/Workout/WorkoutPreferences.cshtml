@@ -11,9 +11,10 @@
     <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
     <style>
         .mainTitle {
-            position: relative;
-            left: -5px;
-            padding-left: 0;
+            text-align: center;
+            font-style: italic;
+            font-size: 3em;
+            font-weight: 500;
         }
 
         .myBox {
@@ -23,6 +24,7 @@
         }
 
         .myInnerBox {
+            min-height: 350px;
             border: solid 1px #f56a6a;
             border-radius: 0.9em;
             padding: 5px;
@@ -70,8 +72,8 @@
             display: inline-block;
             width: max-content;
             height: min-content;
-            margin: 3px;
-            padding: 5px;
+            margin: 5px;
+            padding: 10px;
             background-color: #B15BFF;
             color: white;
             border-radius: 5px;
@@ -86,14 +88,12 @@
             border: solid 2px #B15BFF;
             color: #B15BFF;
             background-color: white;
-            padding: 3px;
         }
 
         .item.selected.highlight {
             border: solid 2px #2894FF;
             color: #2894FF;
             background-color: white;
-            padding: 3px;
         }
 
         .drag {
@@ -102,16 +102,24 @@
             z-index: 100;
         }
 
-        /*#submit {
-            font-size: 1.3em;
-            line-height: 1.5em;
-            width: max-content;
-            height: min-content;
-            position: absolute;
-            top: -1px;
-            right: -1px;
-            padding: 15px 10px;
-        }*/
+        #divider {
+            height: 4em;
+            position:relative;
+            left: 15px;
+            padding: 0px;
+        }
+
+        #divider .arrowDown {
+            display: flex;
+            justify-content: center;
+            align-items:center;
+        }
+
+        #divider > div > i {
+            transform: scaleX(1.5);
+            transform: scaleY(3);
+            color: gray;
+        }
     </style>
 }
 <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
@@ -131,31 +139,41 @@
 <section class="pt-2">
     <div id="mainDiv">
         <div id="mainRow" class="row">
+            <div class="col-12 mainTitle">請向右拖拉選取喜好類型</div>
             <div class="row col-12" id="wcBox" style="padding:0; position:relative; left:20px;">
-                <div class="myInnerBox  col-md-5 col-sm-12 col-12" style="min-height:250px">
+                <div class="myInnerBox  col-md-5 col-sm-12 col-12">
                     <div class="title">運動類型</div>
                     <div id="wcSource"></div>
                 </div>
                 <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
                     <i class="fas fa-arrows-alt-h" style="font-size:100px; color:gray"></i>
                 </div>
-                <div class="myInnerBox  col-md-5 col-sm-12 col-12" style="min-height:250px">
-                    <div class="title">喜好的運動類型</div>
+                <div class="myInnerBox  col-md-5 col-sm-12 col-12">
+                    <div class="title">我喜好的運動類型</div>
                     <div id="wcTarget"></div>
                 </div>
+                <div id="divider" class="col-12 row">
+                    <div class="col-5 arrowDown">
+                        <i class="fas fa-long-arrow-alt-down"></i>
+                    </div>
+                    <div class="col-2"></div>
+                    <div class="col-5 arrowDown">
+                        <i class="fas fa-long-arrow-alt-down"></i>
+                    </div>
+                </div>
+                <div class="myInnerBox  col-md-5 col-sm-12 col-12">
+                    <div class="title">運動項目</div>
+                    <div id="wSource"></div>
+                </div>
+                <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
+
+                </div>
+                <div class="myInnerBox col-md-5 col-sm-12 col-12">
+                    <div class="title">喜好的運動項目</div>
+                    <div id="wTarget"></div>
+                </div>
             </div>
-            <hr class="col-12 my-12" />
-            <div class="myInnerBox  col-md-5 col-sm-12 col-12" style="min-height:250px">
-                <div class="title">運動項目</div>
-                <div id="wSource"></div>
-            </div>
-            <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
-                <i class="fas fa-arrows-alt-h" style="font-size:100px; color:gray"></i>
-            </div>
-            <div class="myInnerBox col-md-5 col-sm-12 col-12" style="min-height:250px">
-                <div class="title">喜好的運動項目</div>
-                <div id="wTarget"></div>
-            </div>
+            
         </div>
     </div>
 </section>
@@ -263,13 +281,13 @@
 
                     if ($(this).has(ui.draggable).length > 0) {
                         let wc = ui.draggable.data("wc");
-                        $("#wTarget > div[data-wcid=" + wc + "]").addClass("primary");
+                        $("#wTarget > div[data-wcid=" + wc + "]").addClass("selected").removeClass("highlight");
                         return;
                     }
 
                     ui.draggable.clone().fadeOut("fast", function () {
                         $(this).fadeIn("fast");
-                    }).appendTo($(this)).draggable({
+                    }).addClass("selected").appendTo($(this)).draggable({
                         containment: "#wcBox",
                         helper: "clone",
                         opacity: 0.5
@@ -283,7 +301,7 @@
 
                     $("#wSource > div[data-wcid=" + wc + "]").clone().fadeOut("fast", function () {
                         $(this).fadeIn("fast");
-                        $(this).addClass("primary");
+                        $(this).addClass("selected");
                     }).appendTo("#wTarget");
 
                     $("#wSource > div[data-wcid=" + wc + "]").fadeOut("slow", function () {
@@ -298,13 +316,13 @@
 
                     if ($(this).has(ui.draggable).length > 0) {
                         let wc = ui.draggable.data("wc");
-                        $("#wSource > div[data-wcid=" + wc + "]").addClass("primary");
+                        $("#wSource > div[data-wcid=" + wc + "]").removeClass("selected").removeClass("highlight");
                         return;
                     }
 
                     ui.draggable.clone().fadeOut("fast", function () {
                         $(this).fadeIn("fast");
-                    }).appendTo($(this)).draggable({
+                    }).removeClass("selected").appendTo($(this)).draggable({
                         containment: "#wcBox",
                         helper: "clone",
                         opacity: 0.5
@@ -318,7 +336,7 @@
 
                     $("#wTarget > div[data-wcid=" + wc + "]").clone().fadeOut("fast", function () {
                         $(this).fadeIn("fast");
-                        $(this).addClass("primary");
+                        $(this).removeClass("selected");
                     }).appendTo("#wSource");
 
                     $("#wTarget > div[data-wcid=" + wc + "]").fadeOut("slow", function () {

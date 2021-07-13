@@ -132,7 +132,18 @@
         }
 
         #btnEdit, #btnNew {
+            height: 50px;
+            line-height: 50px;
+            font-size: 1.2em;
             border-radius: calc(0.9em - 5px);
+        }
+
+        #btnNew {
+            background-color: #2894FF;
+        }
+
+        #btnEdit {
+            background-color: #02DF82;
         }
     </style>
 }
@@ -159,7 +170,7 @@
                         <input type="text" id="wgtForNew" placeholder="現在多重呢" style="display:inline-block; width:80%">
                         <label style="display: inline-block; font-size: 20px"> kg</label>
                     </div>
-                    <div id="btnNew" class="button primary fit" style="font-size:1em; margin-top:auto">新增</div>
+                    <div id="btnNew" class="button primary fit" style="margin-top:auto">新增</div>
                 </div>
                 <div class="myInnerBox operate">
                     <div id="editTitle">修改體重紀錄</div>
@@ -168,7 +179,7 @@
                         <input type="text" id="wgtForEdit" placeholder="當時多重呢" style="display:inline-block; width:80%">
                         <label style="display: inline-block; font-size: 20px"> kg</label>
                     </div>
-                    <div id="btnEdit" class="button primary fit" style="font-size:1em; margin-top:auto">修改</div>
+                    <div id="btnEdit" class="button primary fit" style="margin-top:auto">修改</div>
                 </div>
             </div>
             <div class="myBox col-md-7 col-sm-12 col-12" style="min-height:450px">

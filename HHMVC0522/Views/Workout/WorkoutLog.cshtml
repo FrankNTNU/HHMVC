@@ -76,9 +76,23 @@
         }
 
         #new, #Edit, #Delete {
+            height: 50px;
+            line-height:50px;
             float: right;
-            font-size: 14px;
+            font-size: 1.2em;
             border-radius: calc(0.9em - 5px);
+        }
+
+        #new {
+            background-color: #2894FF;
+        }
+
+        #Edit {
+            background-color: #02DF82;
+        }
+
+        #Delete {
+            background-color: #B15BFF;
         }
 
         #wlTable_filter label input {
@@ -165,26 +179,6 @@
             color: #f56a6a;
         }
 
-        @*ForSummary=====================================*@
-        #summaryRow {
-            position: relative;
-            left: 15px;
-            width: 100%;
-            padding: 0px 0px 15px 0px;
-        }
-
-        .summaryBox:not(:last-child) {
-            border-right: solid 2px #f56a6a;
-        }
-
-        .summaryBox {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 0px;
-        }
-
     </style>
 }
 
@@ -202,21 +196,6 @@
 <section class="pt-2">
     <div id="mainDiv">
         <div id="mainRow" class="row">
-            @*<div class="myBox col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="myInnerBox">
-                    <div id="summaryTitle">運動紀錄統計</div>
-                    <div id="summaryRow" class="row">
-                        <div class="col-lg-3 col-md-12 col-sm-12 col-12 summaryBox">
-                        </div>
-                        <div class="col-lg-3 col-md-12 col-sm-12 col-12 summaryBox">
-                        </div>
-                        <div class="col-lg-3 col-md-12 col-sm-12 col-12 summaryBox">
-                        </div>
-                        <div class="col-lg-3 col-md-12 col-sm-12 col-12 summaryBox">
-                        </div>
-                    </div>
-                </div>
-            </div>*@
             <div class="myBox operate col-md-6 col-sm-12 col-12" style="display:flex; flex-direction:column">
                 <div class="myInnerBox">
                     <div id="newTitle">新增 / 預定 運動紀錄</div>

@@ -95,21 +95,11 @@
 
     .chatHeader {
         display: flex;
+        column-gap: 5px;
         padding: 10px;
         background-color: #f56a6a;
         color: white;
         margin:0px;
-    }
-
-    #notRead {
-        visibility:hidden;
-        margin-left: auto;
-        background-color: white;
-        color: #f56a6a;
-        padding: 5px 7px;
-        line-height: 1em;
-        height: calc(1em + 10px);
-        text-align: center;
     }
 
     #notReadForSidebar {
@@ -133,29 +123,27 @@
         margin: 5px auto;
     }
 
-    #collapse {
-        background-color: white;
-        color: #f56a6a;
-        padding: 5px;
-        line-height: 1em;
-        height: calc(1em + 10px);
-        text-align: center;
+    #notRead {
+        visibility: hidden;
+        margin-left: auto;
     }
 
-    #closePanel {
+    #notRead, #collapse, #showChatModal, #closePanel {
+        display:flex;
+        justify-content:center;
+        align-items:center;
         background-color: white;
         color: #f56a6a;
-        padding: 5px 7px;
-        line-height: 1em;
-        height: calc(1em + 10px);
-        text-align: center;
+        border-radius: 2px;
+        width: 25px;
+        height: 25px;
     }
 
     .chatBody {
         border-bottom: solid 1px gray;
         flex: 1 1 0;
         min-height: 0;
-        background-color:white;
+        background-color: white;
     }
 
     #serviceChatBox {
@@ -243,7 +231,7 @@
 
     .ArrowToLeft::before {
         content: "\25C2";
-        color: plum;
+        color: #B15BFF;
         position: absolute;
         left: -9px;
         top: 0.25em;
@@ -301,6 +289,15 @@
         font-style: italic;
         margin: 0px 5px;
     }
+
+    #sendServiceMessage {
+        font-size: 1em;
+        width: 80px;
+        height: 44px;
+        line-height: 44px;
+        text-align: center;
+        padding: 0px;
+    }
     @*Modal============================================*@
     /* The Modal (background) */
     #chatModal {
@@ -327,6 +324,16 @@
         box-shadow: none;
     }
 
+    #chatPanel.ModalChatPanel .chatHeader {
+        font-size: 1.2em;
+    }
+
+    #chatPanel.ModalChatPanel #sendServiceMessage {
+        font-size: 1.2em;
+        height: 50px;
+        line-height: 50px;
+    }
+
     #chatPanel.ModalChatPanel #serviceChatBox {
         font-size: 1.2em;
     }
@@ -339,14 +346,6 @@
         font-size: 1.1em;
     }
 
-    #showChatModal {
-        background-color: white;
-        color: #f56a6a;
-        padding: 5px 5px;
-        line-height: 1em;
-        height: calc(1em + 10px);
-        text-align: center;
-    }
     @*ForScrollbar=====================================*@
         /* width */
         ::-webkit-scrollbar {
@@ -609,16 +608,16 @@
     <div id="chatPanel" style="display:none">
         <div class="chatHeader">
             <div>聯絡客服：</div>
-            <div id="notRead" class="button">
+            <div id="notRead">
                 <span></span>
             </div>
-            <div id="collapse" class="button">
+            <div id="collapse">
                 <i class="fas fa-minus"></i>
             </div>
-            <div id="showChatModal" class="button">
+            <div id="showChatModal">
                 <i class="fas fa-expand-arrows-alt"></i>
             </div>
-            <div id="closePanel" class="button">
+            <div id="closePanel">
                 <i class="fas fa-times"></i>
             </div>
         </div>
@@ -1120,7 +1119,7 @@
             let innerTextDiv = $("<div></div>").addClass("ArrowToLeft").css("margin-right", "auto");
 
             $("<div></div>").addClass("selfText")
-                .css("background-color", "plum").css("border-color", "plum")
+                .css("background-color", "#B15BFF").css("border-color", "#B15BFF")
                 .html(message)
                 .appendTo(innerTextDiv);
 
