@@ -198,8 +198,12 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public async Task SendMessage(string connId, string groupId, string message)
+        public async Task<JsonResult> SendMessage(string connId, string groupId, string message)
         {
+            if (UserStatic.ServiceGroups[groupId].UserConnId != connId)
+            {
+                return Json(new { Result = "已開啟新頁面，請在新頁面聯絡客服" });
+            }
 
             var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
@@ -232,6 +236,7 @@ namespace UI.Controllers
                 await Task.Run(() => ReplyByOnAMaker(answerTask, groupId, timeStamp));
             }
 
+            return Json(new { Result = "Success"});
         }
 
         public JsonResult GetGroupMsgs(string groupId)

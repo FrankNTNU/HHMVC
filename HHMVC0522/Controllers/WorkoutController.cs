@@ -148,9 +148,28 @@ namespace UI.Controllers
             bool isPreference = dbContext.WorkoutPreferences.Where(wp => wp.MemberID.ToString() == UserID)
                 .Any(wp => wp.WorkoutCategoryID == workout.WorkoutCategoryID); ;
 
+            string activityLevel = "";
+
+            if (workout.ActivityLevelID == 1)
+            {
+                activityLevel = "【低強度】運動";
+            }
+            else if (workout.ActivityLevelID == 2)
+            {
+                activityLevel = "【中強度】運動";
+            }
+            else if (workout.ActivityLevelID == 3)
+            {
+                activityLevel = "【高強度】運動";
+            }
+            else if (workout.ActivityLevelID == 6)
+            {
+                activityLevel = "【緩和】運動";
+            }
+
             return Json(new 
             { 
-                Al = workout.ActivityLevel.Description, 
+                Al = activityLevel, 
                 Wc = workout.WorkoutCategory.Name,
                 IsPreference = isPreference
             });

@@ -234,7 +234,7 @@
         display:flex;
         align-items: center;
         position:relative;
-        width:100%;
+        width:80%;
     }
 
     .ArrowToRight {
@@ -246,6 +246,7 @@
         color: plum;
         position: absolute;
         left: -9px;
+        top: 0.25em;
     }
 
     .ArrowToRight::after {
@@ -253,6 +254,7 @@
         color: #f56a6a;
         position: absolute;
         right: -9px;
+        top: 0.25em;
     }
 
     .textDiv {
@@ -331,6 +333,10 @@
 
     #chatPanel.ModalChatPanel #serviceMessage {
         font-size: 1.2em;
+    }
+
+    #chatPanel.ModalChatPanel .notReadText {
+        font-size: 1.1em;
     }
 
     #showChatModal {
@@ -741,10 +747,15 @@
             connect();
         }
 
+
+        let isChatPanelClose = false;
+
         $("#collapse").click(function () {
 
             if ($("#showChatModal i.fa-expand-arrows-alt").length == 0) {
+                isChatPanelClose = true;
                 closeChatModal();
+                $(".notReadText").remove();
                 $("#chatPanel").css("height", "45px");
                 $(".chatBody").hide();
                 $(".chatFooter").hide();
@@ -753,6 +764,7 @@
             }
 
             if ($("#collapse i.fa-minus").length != 0) {
+                isChatPanelClose = true;
                 $(".chatBody").fadeOut(100, function () {
                     $("#chatPanel").animate({ height: 45 }, function () {
                         $(".chatFooter").fadeOut(0, function () {
@@ -763,6 +775,7 @@
                 })
             } else {
                 $("#chatPanel").animate({ height: 400 }, function () {
+                    isChatPanelClose = false;
                     $(".chatFooter").fadeIn(600, function () {
                         $("#collapse i").removeClass("fas fa-plus").addClass("fas fa-minus");
                         $(".chatBody").fadeIn(function () {
@@ -782,6 +795,7 @@
 
             if ($("#showChatModal i.fa-expand-arrows-alt").length == 0) {
                 closeChatModal();
+                $(".notReadText").remove();
                 return;
             }
 
@@ -830,8 +844,6 @@
         //=============================================================
         //expend chatPanel
 
-        let isChatPanelClose = false;
-
         let oldScrollTop = 0;
 
         $("#showChatModal").click(function () {
@@ -839,21 +851,28 @@
             oldScrollTop = $("#serviceChatBox").scrollTop();
 
             if ($("#collapse i.fa-minus").length == 0) {
-                isChatPanelClose = true;
+                //isChatPanelClose = true;
                 openChatModal();
                 $("#chatPanel").addClass("ModalChatPanel");
                 $(".chatBody").show();
                 $(".chatFooter").show();
                 $("#collapse i").removeClass("fas fa-plus").addClass("fas fa-minus");
-                $("#serviceChatBox").scrollTop(oldScrollTop);
+
+                if ($(".notReadText").length != 0) {
+                    $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
+                } else {
+                    $("#serviceChatBox").scrollTop(oldScrollTop);
+                }
+
                 ResetNotReadCount();
                 
             } else if ($("#showChatModal i.fa-expand-arrows-alt").length != 0) {
-                isChatPanelClose = false;
+                //isChatPanelClose = false;
                 openChatModal();
                 $("#serviceChatBox").scrollTop(oldScrollTop);
             } else {
                 closeChatModal();
+                $(".notReadText").remove();
                 $("#chatPanel").css("height", "400px");
                 $(".chatBody").show();
                 $(".chatFooter").show();
@@ -865,6 +884,7 @@
         $("#chatModal").click(function (event) {
             if (event.target == this) {
                 closeChatModal();
+                $(".notReadText").remove();
                 if (isChatPanelClose) {
                     $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
                 }
@@ -1046,26 +1066,31 @@
 
                 LoadMessagesForService(data.NotReadCount);
                 showNotReadForSidebar(data.NotReadCount);
-            });
 
-            $("#sendServiceMessage").click(function () {
+                $("#sendServiceMessage").click(function () {
 
-                if ($("#serviceMessage").val() == "") {
-                    alert("請輸入訊息");
-                    return;
-                }
-
-                promiseForDemo1 = $.ajax({
-                    url: "/FrontContact/SendMessage",
-                    type: "POST",
-                    data: {
-                        connId: $.connection.hub.id,
-                        groupId: $("#serviceGroupId").val(),
-                        message: $("#serviceMessage").val()
+                    if ($("#serviceMessage").val() == "") {
+                        alert("請輸入訊息");
+                        return;
                     }
-                }).promise();
-            });
 
+                    promiseForDemo1 = $.ajax({
+                        url: "/FrontContact/SendMessage",
+                        type: "POST",
+                        data: {
+                            connId: $.connection.hub.id,
+                            groupId: $("#serviceGroupId").val(),
+                            message: $("#serviceMessage").val()
+                        },
+                        success: function (data) {
+                            if (data.Result != "Success") {
+                                alert(data.Result);
+                            }
+                        }
+                    }).promise();
+                });
+            });
+            
             if (typeof AddToChatGroup != "undefined") {
                 AddToChatGroup();
             }
