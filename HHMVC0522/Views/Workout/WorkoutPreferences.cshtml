@@ -67,13 +67,33 @@
             font-size: 1.1em;
             font-weight: 500;
             line-height: 1.2em;
-            display:inline-block;
+            display: inline-block;
             width: max-content;
             height: min-content;
             margin: 3px;
-            /*float: left;*/
             padding: 5px;
-            /*transition: all 500ms ease-in;*/
+            background-color: #B15BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .item.selected {
+            background-color: #2894FF;
+        }
+
+        .item.highlight {
+            border: solid 2px #B15BFF;
+            color: #B15BFF;
+            background-color: white;
+            padding: 3px;
+        }
+
+        .item.selected.highlight {
+            border: solid 2px #2894FF;
+            color: #2894FF;
+            background-color: white;
+            padding: 3px;
         }
 
         .drag {
@@ -182,10 +202,10 @@
                 wcDiv.innerHTML = wcArray[i].Name;
                 $(wcDiv).attr("data-wc", wcArray[i].ID);
                 $(wcDiv).addClass("item").addClass("drag")
-                    .addClass("button").addClass("primary");
+                    /*.addClass("button").addClass("primary")*/;
 
                 if ($.inArray(wcArray[i].ID, wpArray) != -1) {
-                    $(wcDiv).appendTo("#wcTarget");
+                    $(wcDiv).addClass("selected").appendTo("#wcTarget");
                 } else {
                     $(wcDiv).appendTo("#wcSource");
                 }
@@ -196,10 +216,10 @@
                 wDiv.innerHTML = wArray[i].Name;
                 $(wDiv).attr("data-wcid", wArray[i].wcid);
                 $(wDiv).addClass("item")
-                    .addClass("button").addClass("primary");
+                    /*.addClass("button").addClass("primary")*/;
 
                 if ($.inArray(wArray[i].wcid, wpArray) != -1) {
-                    $(wDiv).appendTo("#wTarget");
+                    $(wDiv).addClass("selected").appendTo("#wTarget");
                 } else {
                     $(wDiv).appendTo("#wSource");
                 }
@@ -210,22 +230,22 @@
 
             $("#wcSource").on("mouseenter", "div[data-wc]", function () {
                 let wc = $(this).data("wc");
-                $("#wSource > div[data-wcid=" + wc + "]").removeClass("primary");
+                $("#wSource > div[data-wcid=" + wc + "]").addClass("highlight");
             });
 
             $("#wcSource").on("mouseleave", "div[data-wc]", function () {
                 let wc = $(this).data("wc");
-                $("#wSource > div[data-wcid=" + wc + "]").addClass("primary");
+                $("#wSource > div[data-wcid=" + wc + "]").removeClass("highlight");
             });
 
             $("#wcTarget").on("mouseenter", "div[data-wc]", function () {
                 let wc = $(this).data("wc");
-                $("#wTarget > div[data-wcid=" + wc + "]").removeClass("primary");
+                $("#wTarget > div[data-wcid=" + wc + "]").addClass("highlight");
             });
 
             $("#wcTarget").on("mouseleave", "div[data-wc]", function () {
                 let wc = $(this).data("wc");
-                $("#wTarget > div[data-wcid=" + wc + "]").addClass("primary");
+                $("#wTarget > div[data-wcid=" + wc + "]").removeClass("highlight");
             });
 
             //=====================================================================

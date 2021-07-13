@@ -150,7 +150,7 @@
         }
 
         .ingest {
-            color: plum;
+            color: #B15BFF;
         }
 
         #todayConsume, #todayIngest, #tdee {
@@ -267,6 +267,13 @@
             margin: 3px;
             padding: 5px;
             display: inline-block;
+            background-color: #2894FF;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .SuggestItem:hover {
+            color: aqua !important;
         }
 
         @@media screen and (max-width:992px) {
@@ -404,7 +411,7 @@
                 <div class="myInnerBox" style="min-height:685px;">
                     <div id="chartTitle">今日熱量</div>
                     <div class="dot" style="background-color: #f56a6a"></div>　今日TDEE　<span id="tdee" class="tdee"></span>　卡路里<br />
-                    <div class="dot" style="background-color: plum"></div>　今日已攝取　<span id="todayIngest" class="ingest"></span>　卡路里<br />
+                    <div class="dot" style="background-color: #B15BFF"></div>　今日已攝取　<span id="todayIngest" class="ingest"></span>　卡路里<br />
                     <div class="dot" style="background-color: #2894FF"></div>　今日已消耗　<span id="todayConsume" class="consume"></span>　卡路里
                     <div id="container" style="width: 65%; margin:auto"></div>
                 </div>
@@ -437,7 +444,7 @@
                                     {
                                         foreach (var item in Model.SuggestionByPreferences)
                                         {
-                                            @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem button primary", target = "_blank" })
+                                            @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem", target = "_blank" })
                                         }
                                     }
                                 </div>
@@ -456,7 +463,7 @@
                                         foreach (var item in Model.SuggestionByLog)
                                         {
 
-                                            @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem button primary", target = "_blank" })
+                                            @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem", target = "_blank" })
 
                                         }
                                     }
@@ -470,7 +477,7 @@
                                     @foreach (var item in Model.SuggestionByAge)
                                     {
 
-                                        @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem button primary", target = "_blank" })
+                                        @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem", target = "_blank" })
 
                                     }
                                 </div>
@@ -489,7 +496,7 @@
                             <div style="flex-basis:100%; text-align:center">他們最愛做哪些運動：</div>
                             @foreach (var workout in Model.winnerFavorite)
                             {
-                                @Html.ActionLink(workout, "WorkoutPlaces", "Workout", new { workout = workout }, new { @class = "SuggestItem button primary", target = "_blank" })
+                                @Html.ActionLink(workout, "WorkoutPlaces", "Workout", new { workout = workout }, new { @class = "SuggestItem", target = "_blank" })
                             }
                         </div>
                         <div class="col-lg-4 col-md-12 col-sm-12 col-12 programWinBox">
@@ -849,7 +856,7 @@
                 }, {
                     name: '熱量攝取',
                     data: [{
-                        color: "plum",
+                        color: "#B15BFF",
                         radius: '87%',
                         innerRadius: '63%',
                         y: @ViewBag.Ingest

@@ -78,6 +78,7 @@
         #new, #Edit, #Delete {
             float: right;
             font-size: 14px;
+            border-radius: calc(0.9em - 5px);
         }
 
         #wlTable_filter label input {
@@ -115,7 +116,7 @@
             height: 2em;
         }
 
-        #newTitle, #editTitle {
+        #newTitle, #editTitle, #summaryTitle {
             font-size: 2em;
             font-weight: 600;
             color: #f56a6a;
@@ -127,17 +128,17 @@
             height: max-content;
         }
 
-            .ui-datepicker select {
-                height: 1.5em;
-                display: inline-block;
-                background: white !important;
-                padding: 0px !important;
-                padding-left: 2em !important;
-            }
+        .ui-datepicker select {
+            height: 1.5em;
+            display: inline-block;
+            background: white !important;
+            padding: 0px !important;
+            padding-left: 2em !important;
+        }
 
-                .ui-datepicker select span {
-                    display: none;
-                }
+        .ui-datepicker select span {
+            display: none;
+        }
 
         .ui-timepicker-div dl {
             all: initial;
@@ -146,23 +147,44 @@
             align-items: center
         }
 
-            .ui-timepicker-div dl dt {
-                all: initial;
-                width: 30%;
-                display: inline-block;
-                margin-bottom: 10px
-            }
+        .ui-timepicker-div dl dt {
+            all: initial;
+            width: 30%;
+            display: inline-block;
+            margin-bottom: 10px
+        }
 
-            .ui-timepicker-div dl dd {
-                all: initial;
-                width: 60%;
-                display: inline-block;
-                margin-bottom: 10px
-            }
+        .ui-timepicker-div dl dd {
+            all: initial;
+            width: 60%;
+            display: inline-block;
+            margin-bottom: 10px
+        }
 
         .fa-check-square, .fa-square, #mainDiv .fa-star {
             color: #f56a6a;
         }
+
+        @*ForSummary=====================================*@
+        #summaryRow {
+            position: relative;
+            left: 15px;
+            width: 100%;
+            padding: 0px 0px 15px 0px;
+        }
+
+        .summaryBox:not(:last-child) {
+            border-right: solid 2px #f56a6a;
+        }
+
+        .summaryBox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 0px;
+        }
+
     </style>
 }
 
@@ -180,6 +202,21 @@
 <section class="pt-2">
     <div id="mainDiv">
         <div id="mainRow" class="row">
+            @*<div class="myBox col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="myInnerBox">
+                    <div id="summaryTitle">運動紀錄統計</div>
+                    <div id="summaryRow" class="row">
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-12 summaryBox">
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-12 summaryBox">
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-12 summaryBox">
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-12 summaryBox">
+                        </div>
+                    </div>
+                </div>
+            </div>*@
             <div class="myBox operate col-md-6 col-sm-12 col-12" style="display:flex; flex-direction:column">
                 <div class="myInnerBox">
                     <div id="newTitle">新增 / 預定 運動紀錄</div>
