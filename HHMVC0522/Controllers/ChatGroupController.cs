@@ -318,11 +318,11 @@ namespace UI.Controllers
 
             var nameList = gmList.Select(gm =>
             {
-                return dbContext.Members.SingleOrDefault(m => m.ID.ToString() == gm).UserName;
+                return dbContext.Members.SingleOrDefault(m => m.ID.ToString() == gm).Name;
             }).Distinct().OrderBy(n => n).ToList();
 
             string UserName = dbContext.Members
-                .SingleOrDefault(m => m.ID.ToString() == User.Identity.Name).UserName;
+                .SingleOrDefault(m => m.ID.ToString() == User.Identity.Name).Name;
 
             nameList.Remove(UserName);
             nameList.Insert(0, UserName);
@@ -364,7 +364,7 @@ namespace UI.Controllers
             DateTime timeStamp = DateTime.Now;
 
             Context.Clients.Group(groupId)
-                .receiveFromGroupMember(connIds, member.UserName, message, timeStamp.ToString("M/d HH:mm"), member.Image);
+                .receiveFromGroupMember(connIds, member.Name, message, timeStamp.ToString("M/d HH:mm"), member.Image);
 
             dbContext.GroupChats.Add(new GroupChat
             {
@@ -412,7 +412,7 @@ namespace UI.Controllers
                     return new
                     {
                         connIds = connIds,
-                        userName = member.UserName,
+                        userName = member.Name,
                         message = gc.Message,
                         timeStamp = gc.TimeStamp.ToString("M/d HH:mm"),
                         image = member.Image

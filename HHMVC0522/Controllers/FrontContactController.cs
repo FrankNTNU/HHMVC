@@ -212,7 +212,7 @@ namespace UI.Controllers
             DateTime timeStamp = DateTime.Now;
 
             Context.Clients.Group(groupId)
-                .receive(connId, member.UserName, message, timeStamp.ToString("M/d HH:mm"), member.Image, groupId);
+                .receive(connId, member.Name, message, timeStamp.ToString("M/d HH:mm"), member.Image, groupId);
             
             dbContext.GroupChats.Add(new GroupChat
             {
@@ -281,7 +281,7 @@ namespace UI.Controllers
                         {
                             Member member = dbContext.Members.SingleOrDefault(m => m.ID == gc.MemberID);
                             connId = UserStatic.ServiceGroups[groupId].UserConnId;
-                            userName = member.UserName;
+                            userName = member.Name;
                             image = member.Image;
                         }
 
@@ -355,7 +355,7 @@ namespace UI.Controllers
             QnASearchResult promptQna = await promptTask;
 
             Context.Clients.Group(groupId)
-                .receive(connId, member.UserName, promptQna.Questions[0], timeStamp.ToString("M/d HH:mm"), member.Image, groupId);
+                .receive(connId, member.Name, promptQna.Questions[0], timeStamp.ToString("M/d HH:mm"), member.Image, groupId);
 
             dbContext.GroupChats.Add(new GroupChat
             {
