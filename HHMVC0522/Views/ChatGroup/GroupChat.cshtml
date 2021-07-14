@@ -12,13 +12,11 @@
     <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
     <style>
         .direct-chat-messages .right > .direct-chat-text::after {
-            border-left-color: #f56a6a;
-            color: #f56a6a;
+            border-left-color: #FF8040;
         }
 
         .direct-chat-messages :not(.right) > .direct-chat-text::before {
-            border-right-color: plum;
-            color: plum;
+            border-right-color: rgba(177,91,255,1);
         }
 
         .direct-chat-messages a {
@@ -295,11 +293,12 @@
 </div>
 <!--Demo=====================================================-->
 <div class="demo">
-    <div class="demoButton" onclick="autoInputMsgs3()">enchi</div>
-    <div class="demoButton" onclick="autoInputMsgs4()">wevmn</div>
-    <div class="demoButton" onclick="autoInputMsgs5()">User01</div>
-    <div class="demoButton" onclick="autoInputMsgs6()">frank</div>
-    <div class="demoButton" onclick="autoInputMsgs7()">zzzz</div>
+    <div class="demoButton" onclick="">阿舊</div>
+    <div class="demoButton" onclick="autoInput(msgs3)">路飛</div>
+    <div class="demoButton" onclick="autoInput(msgs4)">索隆</div>
+    <div class="demoButton" onclick="autoInput(msgs5)">山治</div>
+    @*<div class="demoButton" onclick="autoInputMsgs6()">frank</div>
+        <div class="demoButton" onclick="autoInputMsgs7()">zzzz</div>*@
 </div>
 <!--=========================================================-->
 @section scripts {
@@ -414,7 +413,7 @@
                     .appendTo(dialogDiv);
 
                 $("<div></div>").addClass("direct-chat-text")
-                    .css("background-color", "plum").css("color", "white").css("border-color", "plum")
+                    .css("background-color", "#B15BFF").css("color", "white").css("border-color", "#B15BFF")
                     .text(message)
                     .appendTo(dialogDiv);
 
@@ -433,7 +432,7 @@
                         .appendTo(dialogDiv);
 
                     $("<div></div>").addClass("direct-chat-text")
-                        .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
+                        .css("background-color", "#FF8040").css("color", "white").css("border-color", "#f56a6a")
                         .text(message)
                     .appendTo(dialogDiv);
 
@@ -611,7 +610,7 @@
                     return;
                 }
 
-                promiseForDemo2 = $.ajax({
+                $.ajax({
                     url: "SendMessage",
                     type: "POST",
                     data: {
@@ -619,7 +618,7 @@
                         groupId: $("#groupId").val(),
                         message: $("#message").val()
                     }
-                }).promise();
+                });
             });
 
         }
@@ -666,64 +665,24 @@
 
         //ForDemo================================
 
-        let promiseForDemo2;
+        //let promiseForDemo2;
 
-        function autoInputMsgs3() {
-            msgs = [
-                "我減了2公斤耶",
-                "沒有人？...",
-                "去揪一些人來"
-            ];
+        let msgs3 = [
+            "剛剛登入時，系統提醒我已經7天沒紀錄體重了，請問要去哪裡紀錄？",
+            "應該要去問問客服人員"
+        ];
 
-            autoInput(msgs);
-        }
+        let msgs4 = [
+                "系統跳出對話框，說我喜好類型沒有設定，要去哪設定啊？"
+        ];
 
-        function autoInputMsgs4() {
-            msgs = [
-                "我也減了2公斤耶",
-                "真巧",
-                "一起努力吧"
-            ];
-
-            autoInput(msgs);
-        }
-
-        function autoInputMsgs5() {
-            msgs = [
-                "虎哥來了嗎？",
-                "豹哥在等了",
-                "古哥今天不會來"
-            ];
-
-            autoInput(msgs);
-        }
-
-        function autoInputMsgs6() {
-            msgs = [
-                "加不了另一個群組",
-                "只好自己開一個",
-                "等等看有沒有人會進來"
-            ];
-
-            autoInput(msgs);
-        }
-
-        function autoInputMsgs7() {
-            msgs = [
-                "可以進來耶",
-                "我減了3公斤",
-                "你呢？"
-            ];
-
-            autoInput(msgs);
-        }
+        let msgs5 = [
+                "奇怪，剛剛有獲得點數，我是怎麼獲得的啊？"
+        ];
 
         async function autoInput(msgs) {
-            for (let i = 0; i < msgs.length; i++) {
-                $("#message").val(msgs[i]);
-                $("#sendmessage").click();
-                await promiseForDemo2;
-            }
+            $("#message").val(msgs.shift());
+            $("#sendmessage").click();
         }
 
     </script>

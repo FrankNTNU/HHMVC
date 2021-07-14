@@ -77,8 +77,8 @@
     @*ForCustomerService==========================*@
 
     #chatPanel {
-        width: 300px;
-        height: 400px;
+        width: 340px;
+        height: 450px;
         position: fixed;
         bottom: 20px;
         right: 20px;
@@ -403,7 +403,7 @@
         .demoService {
             display: flex;
             position: fixed;
-            left: 40em !important;
+            left: 45em !important;
             bottom: 50px;
             column-gap:10px;
             z-index: 100;
@@ -635,14 +635,13 @@
     <!--=============================================================-->
     <!--ForServiceDemo===============================================-->
     <div class="demoService">
-        <div class="demoButtonService" onclick="autoInputMsgs1()">enchi</div>
-        <div class="demoButtonService" onclick="autoInputMsgs2()">wevmn</div>
-        <div class="loginButton" onclick="login1()">enchi</div>
-        <div class="loginButton" onclick="login2()">wevmn</div>
-        <div class="loginButton" onclick="login3()">user01</div>
-        <div class="loginButton" onclick="login4()">frank</div>
-        <div class="loginButton" onclick="login5()">zzzz</div>
-        <div class="loginButton" onclick="login6()">Willy</div>
+        <div class="demoButtonService" onclick="autoInputForService(msgs1)">阿舊</div>
+        <div class="loginButton" onclick="login1()">阿舊</div>
+        <div class="loginButton" onclick="login2()">路飛</div>
+        <div class="loginButton" onclick="login3()">索隆</div>
+        <div class="loginButton" onclick="login4()">山治</div>
+        <div class="loginButton" onclick="login5()">frank</div>
+        <div class="loginButton" onclick="login6()">zzzz</div>
     </div>
     <!--=============================================================-->
     <!-- Scripts -->
@@ -819,9 +818,15 @@
                 if ($(".notReadText").length != 0) {
                     $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
                 } else {
-                    $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
+
+                    if ($(".messageRow").last().length != 0) {
+
+                        $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".messageRow").last().position().top);
+
+                    }
+
+                    ResetNotReadCount();
                 }
-                ResetNotReadCount();
             }
 
         });
@@ -1037,8 +1042,14 @@
                 $("#serviceNotify").css("display", "inline-block");
                 $("#notReadForSidebar").text(notReadCount);
             } else {
+
                 writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
-                $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
+
+                if ($(".messageRow").last().length != 0) {
+                    $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".messageRow").last().position().top);
+                    console.log($(".messageRow").last().position().top);
+                }
+
                 ResetNotReadCount();
             }
         }
@@ -1046,7 +1057,7 @@
         //receive prompt
         chat2.client.receivePrompt = function (displayText, qnaId) {
             writePrompt(displayText, qnaId);
-            $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
+            //$("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
         }
 
         $.connection.hub.start().done(function () {
@@ -1073,7 +1084,7 @@
                         return;
                     }
 
-                    promiseForDemo1 = $.ajax({
+                    $.ajax({
                         url: "/FrontContact/SendMessage",
                         type: "POST",
                         data: {
@@ -1086,7 +1097,7 @@
                                 alert(data.Result);
                             }
                         }
-                    }).promise();
+                    });
                 });
             });
             
@@ -1147,7 +1158,7 @@
             let innerTextDiv = $("<div></div>").addClass("ArrowToRight").css("margin-left", "auto");
 
             $("<div></div>").addClass("otherText")
-                .css("background-color", "#f56a6a").css("border-color", "#f56a6a")
+                .css("background-color", "#FF8040").css("border-color", "#FF8040")
                 .html(message)
                 .appendTo(innerTextDiv);
 
@@ -1236,39 +1247,22 @@
 
     //ForDemo================================
 
-    let promiseForDemo1;
+    //let promiseForDemo1;
 
-    function autoInputMsgs1() {
-        msgs = [
-            "請問有客服人員在嗎？",
-            "我遇到了減重的問題",
-            "我這週爆胖了5公斤"
-        ];
+    msgs1 = [
+        "請問客服人員，TDEE是什麼？",
+        "請問客服人員，聽說運動執行成功可獲得點數，除此之外還有其他方法嗎？"
+    ];
 
-        autoInputForService(msgs);
-    }
-
-    function autoInputMsgs2() {
-        msgs = [
-            "客服人員給我出來",
-            "我想請你喝飲料",
-            "謝謝你幫我減了1公斤"
-        ];
-
-        autoInputForService(msgs);
-    }
 
     async function autoInputForService(msgs) {
-        for (let i = 0; i < msgs.length; i++) {
-            $("#serviceMessage").val(msgs[i]);
-            $("#sendServiceMessage").click();
-            await promiseForDemo1;
-        }
+        $("#serviceMessage").val(msgs.shift());
+        $("#sendServiceMessage").click();
     }
 
     function login1() {
-        $("#demo-email").val("bvwr@gmail.com");
-        $("#demo-pwd").val("2222");
+        $("#demo-email").val("Aju@gmail.com");
+        $("#demo-pwd").val("1111");
     }
 
     function login2() {
@@ -1277,24 +1271,25 @@
     }
 
     function login3() {
+        $("#demo-email").val("bvwr@gmail.com");
+        $("#demo-pwd").val("2222");
+    }
+
+    function login4() {
         $("#demo-email").val("afjafe@gmail.com");
         $("#demo-pwd").val("1");
     }
 
-    function login4() {
+    function login5() {
         $("#demo-email").val("Frank666@gmail.com");
         $("#demo-pwd").val("1111");
     }
 
-    function login5() {
+    function login6() {
         $("#demo-email").val("zzzz@gmail.com");
         $("#demo-pwd").val("444");
     }
 
-    function login6() {
-        $("#demo-email").val("yyy@gmail.com");
-        $("#demo-pwd").val("222");
-    }
 </script>
 </body>
 </html>

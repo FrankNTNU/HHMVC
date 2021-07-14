@@ -91,6 +91,13 @@
             background-color: #02DF82;
         }
 
+        #Edit.cantEdit {
+            border: solid 2px #02DF82;
+            color: #02DF82 !important;
+            background-color: white;
+            box-sizing: border-box;
+        }
+
         #Delete {
             background-color: #B15BFF;
         }
@@ -130,7 +137,7 @@
             height: 2em;
         }
 
-        #newTitle, #editTitle, #summaryTitle {
+        #newTitle, #editTitle, #tableTitle {
             font-size: 2em;
             font-weight: 600;
             color: #f56a6a;
@@ -179,7 +186,11 @@
             color: #f56a6a;
         }
 
-        @*ForDemo=========================*@ 
+        #successRate {
+            color: #2894FF;
+        }
+
+        @*ForDemo=========================*@
         .demo {
             display: flex;
             position: fixed;
@@ -270,6 +281,7 @@
             </div>
             <div class="myBox col-12">
                 <div class="myInnerBox">
+                    <div id="tableTitle">運動紀錄表(執行成功率<span id="successRate">@ViewBag.SuccessRate</span>)</div>
                     <table id="wlTable" class="display responsive nowrap" style="width:100%">
                     </table>
                 </div>
@@ -634,6 +646,7 @@
 
                         alert(data.Result);
                         table.ajax.reload();
+                        $("#successRate").text(data.SuccessRate);
 
                     }
                 });
@@ -664,8 +677,7 @@
                     success: function (data) {
                         alert(data.Result);
                         table.ajax.reload();
-
-                        //$(".schedule .item[data-wlid=" + wlid + "]").remove();
+                        $("#successRate").text(data.SuccessRate);
                     }
                 });
             });
@@ -718,6 +730,7 @@
                     success: function (data) {
                         alert(data.Result);
                         table.ajax.reload();
+                        $("#successRate").text(data.SuccessRate);
                     }
                 });
             });
@@ -793,7 +806,7 @@
                     $("#wTimeForEdit").attr("disabled", true);
                     $("#wHoursForEdit").attr("disabled", true);
                     $("#wStatusForEdit").attr("disabled", true);
-                    $("#Edit").text("無法修改").removeClass("primary").attr("disabled", true);
+                    $("#Edit").text("無法修改").addClass("cantEdit").attr("disabled", true);
 
                 } else {
                     //If workoutTime in range, then name and hours can be modified
@@ -810,7 +823,7 @@
                         $("#wStatusForEdit").removeAttr("disabled");
                     }
 
-                    $("#Edit").text("修改").addClass("primary").removeAttr("disabled");
+                    $("#Edit").text("修改").removeClass("cantEdit").removeAttr("disabled");
                 }
 
             });

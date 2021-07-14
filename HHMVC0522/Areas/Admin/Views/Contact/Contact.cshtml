@@ -11,13 +11,11 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <style>
         .direct-chat-messages .right > .direct-chat-text::after {
-            border-left-color: #f56a6a;
-            color: #f56a6a;
+            border-left-color: #FF8040;
         }
 
         .direct-chat-messages :not(.right) > .direct-chat-text::before {
-            border-right-color: plum;
-            color: plum;
+            border-right-color: #B15BFF;
         }
 
         .direct-chat-msg a:link, .direct-chat-msg a:visited {
@@ -306,7 +304,7 @@
                     .appendTo(dialogDiv);
 
                 $("<div></div>").addClass("direct-chat-text")
-                    .css("background-color", "plum").css("color", "white").css("border-color", "plum")
+                    .css("background-color", "#B15BFF").css("color", "white").css("border-color", "#B15BFF")
                     .html(message)
                     .appendTo(dialogDiv);
 
@@ -325,7 +323,7 @@
                     .appendTo(dialogDiv);
 
                 $("<div></div>").addClass("direct-chat-text")
-                    .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
+                    .css("background-color", "#FF8040").css("color", "white").css("border-color", "#FF8040")
                     .html(message)
                     .appendTo(dialogDiv);
 

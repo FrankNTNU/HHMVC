@@ -105,6 +105,8 @@ namespace UI.Controllers
 
         public ActionResult WorkoutLog()
         {
+            ViewBag.SuccessRate = calcSuccessRate();
+
             return View(dbContext.Workouts.ToList());
         }
 
@@ -216,6 +218,8 @@ namespace UI.Controllers
 
             dbContext.WorkoutLogs.Add(wl);
 
+            
+
             try
             {
                 dbContext.SaveChanges();
@@ -225,7 +229,7 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            return Json(new { Result = "success", Error = "none", ID = wl.ID });
+            return Json(new { Result = "success", Error = "none", ID = wl.ID, SuccessRate = calcSuccessRate() });
 
         }
 
@@ -249,7 +253,7 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            return Json(new { Result = "success", Error = "none" });
+            return Json(new { Result = "success", Error = "none", SuccessRate = calcSuccessRate() });
 
         }
 
@@ -325,8 +329,20 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            return Json(new { Result = "success", Error = "none" });
+            return Json(new { Result = "success", Error = "none", SuccessRate = calcSuccessRate() });
 
+        }
+
+        private string calcSuccessRate()
+        {
+            var wlList = dbContext.WorkoutLogs
+                .Where(wl => wl.MemberID.ToString() == User.Identity.Name);
+
+            decimal wlCount = wlList.Count();
+
+            decimal successCount = wlList.Where(wl => wl.StatusID == 5).Count();
+
+            return ((successCount / wlCount) * 100).ToString("#0.0") + "%";
         }
 
         [HttpPost]
