@@ -349,6 +349,98 @@
 <section class="pt-2">
     <div id="mainDiv">
         <div id="mainRow" class="row">
+            <div class="myBox col-md-12 col-sm-12 col-12">
+                <div class="myInnerBox" style="min-height:125px;">
+                    <div id="suggestTitle">運動推薦</div>
+                    <div id="suggestBox" class="row">
+                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
+                            <div id="IngestReport" class="align-center">
+                                <div>實際熱量<span class="tdee">@Model.Warning</span></div>
+                                @for (int i = 0; i < Model.TimeOfDay.Count; i++)
+                                {
+                                    if (@Model.IngestReport[i] != -1)
+                                    {
+                                        <div>@Model.TimeOfDay[i] 攝取了<span class="ingest">@Model.IngestReport[i]</span> 卡路里</div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
+                            <div class="Suggestion align-left">
+                                <div>依據你的<span class="tdee">喜好</span>　推薦</div><div><span class="consume">@Model.ActivityLevel</span>　如下：</div>
+                                <div style="display:flex; flex-wrap:wrap">
+                                    @if (Model.SuggestionByPreferences.Count == 0)
+                                    {
+                                        <div>目前無喜好的運動類型，<br /><a href="/workout/workoutpreferences">新增幾筆喜好的運動類型吧</a></div>
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in Model.SuggestionByPreferences)
+                                        {
+                                            @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem", target = "_blank" })
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
+                            <div class="Suggestion align-left">
+                                <div>依據你<span class="tdee">最常做的運動</span>　推薦</div><div><span class="consume">@Model.ActivityLevel</span>　如下：</div>
+                                <div>
+                                    @if (Model.SuggestionByLog.Count == 0)
+                                    {
+                                        <div>目前無該強度的運動紀錄，<br /><a href="/workout/workoutlog">新增幾筆紀錄吧</a></div>
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in Model.SuggestionByLog)
+                                        {
+
+                                            @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem", target = "_blank" })
+
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
+                            <div class="Suggestion align-left">
+                                <div>依據你的<span class="tdee">年齡層</span>　推薦</div><div><span class="consume">@Model.ActivityLevel</span>　如下：</div>
+                                <div>
+                                    @foreach (var item in Model.SuggestionByAge)
+                                    {
+
+                                        @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem", target = "_blank" })
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="programWin" class="myBox col-12">
+                <div class="myInnerBox" style="position: relative;padding:0px">
+                    <div id="programWinTitle">
+                        悄悄跟你說　挑戰成功者的運動日常
+                    </div>
+                    <div id="programWinRow" class="row">
+                        <div class="col-lg-4 col-md-12 col-sm-12 col-12 programWinBox">
+                            <div style="flex-basis:100%; text-align:center">他們最愛做哪些運動：</div>
+                            @foreach (var workout in Model.winnerFavorite)
+                            {
+                                @Html.ActionLink(workout, "WorkoutPlaces", "Workout", new { workout = workout }, new { @class = "SuggestItem", target = "_blank" })
+                            }
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12 col-12 programWinBox">
+                            <div>他們平均一周運動<span class="tdee">@Model.winnerDaysOfWeek</span>天</div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12 col-12 programWinBox">
+                            <div>他們平均一天運動<span class="tdee">@Model.winnerHoursOfDay</span>小時</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="check" class="myBox operate col-lg-6 col-md-12 col-sm-12 col-12">
                 <div class="myInnerBox" style="margin-bottom: 30px; padding: 0px">
                     <div id="checkTitle">今日運動排程</div>
@@ -414,98 +506,6 @@
                     <div class="dot" style="background-color: #B15BFF"></div>　今日已攝取　<span id="todayIngest" class="ingest"></span>　卡路里<br />
                     <div class="dot" style="background-color: #2894FF"></div>　今日已消耗　<span id="todayConsume" class="consume"></span>　卡路里
                     <div id="container" style="width: 65%; margin:auto"></div>
-                </div>
-            </div>
-            <div class="myBox col-md-12 col-sm-12 col-12">
-                <div class="myInnerBox" style="min-height:125px;">
-                    <div id="suggestTitle">運動推薦</div>
-                    <div id="suggestBox" class="row">
-                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
-                            <div id="IngestReport" class="align-center">
-                                <div>實際熱量<span class="tdee">@Model.Warning</span></div>
-                                @for (int i = 0; i < Model.TimeOfDay.Count; i++)
-                                {
-                                    if (@Model.IngestReport[i] != -1)
-                                    {
-                                        <div>@Model.TimeOfDay[i] 攝取了<span class="ingest">@Model.IngestReport[i]</span> 卡路里</div>
-                                    }
-                                }
-                            </div>
-                        </div>
-                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
-                            <div class="Suggestion align-left">
-                                <div>依據你的<span class="tdee">喜好</span>　推薦</div><div><span class="consume">@Model.ActivityLevel</span>　如下：</div>
-                                <div style="display:flex; flex-wrap:wrap">
-                                    @if (Model.SuggestionByPreferences.Count == 0)
-                                    {
-                                        <div>目前無喜好的運動類型，<br /><a href="/workout/workoutpreferences">新增幾筆喜好的運動類型吧</a></div>
-                                    }
-                                    else
-                                    {
-                                        foreach (var item in Model.SuggestionByPreferences)
-                                        {
-                                            @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem", target = "_blank" })
-                                        }
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
-                            <div class="Suggestion align-left">
-                                <div>依據你的<span class="tdee">運動紀錄</span>　推薦</div><div><span class="consume">@Model.ActivityLevel</span>　如下：</div>
-                                <div>
-                                    @if (Model.SuggestionByLog.Count == 0)
-                                    {
-                                        <div>目前無該強度的運動紀錄，<br /><a href="/workout/workoutlog">新增幾筆紀錄吧</a></div>
-                                    }
-                                    else
-                                    {
-                                        foreach (var item in Model.SuggestionByLog)
-                                        {
-
-                                            @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem", target = "_blank" })
-
-                                        }
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div class="suggestInnerBox col-12 col-sm-12 col-md-6 col-lg-3">
-                            <div class="Suggestion align-left">
-                                <div>依據你的<span class="tdee">年齡層</span>　推薦</div><div><span class="consume">@Model.ActivityLevel</span>　如下：</div>
-                                <div>
-                                    @foreach (var item in Model.SuggestionByAge)
-                                    {
-
-                                        @Html.ActionLink(item, "WorkoutPlaces", "Workout", new { workout = item }, new { @class = "SuggestItem", target = "_blank" })
-
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="programWin" class="myBox col-12">
-                <div class="myInnerBox" style="position: relative;padding:0px">
-                    <div id="programWinTitle">
-                        悄悄跟你說　挑戰成功者的運動日常
-                    </div>
-                    <div id="programWinRow" class="row">
-                        <div class="col-lg-4 col-md-12 col-sm-12 col-12 programWinBox">
-                            <div style="flex-basis:100%; text-align:center">他們最愛做哪些運動：</div>
-                            @foreach (var workout in Model.winnerFavorite)
-                            {
-                                @Html.ActionLink(workout, "WorkoutPlaces", "Workout", new { workout = workout }, new { @class = "SuggestItem", target = "_blank" })
-                            }
-                        </div>
-                        <div class="col-lg-4 col-md-12 col-sm-12 col-12 programWinBox">
-                            <div>他們平均一周運動<span class="tdee">@Model.winnerDaysOfWeek</span>天</div>
-                        </div>
-                        <div class="col-lg-4 col-md-12 col-sm-12 col-12 programWinBox">
-                            <div>他們平均一天運動<span class="tdee">@Model.winnerHoursOfDay</span>小時</div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

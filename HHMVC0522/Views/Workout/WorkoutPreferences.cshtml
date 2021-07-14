@@ -74,27 +74,32 @@
             height: min-content;
             margin: 5px;
             padding: 10px;
-            background-color: #B15BFF;
+            background-color: #2894FF;
             color: white;
             border-radius: 5px;
             cursor: pointer;
         }
 
-        .item.selected {
-            background-color: #2894FF;
+        /*.item.selected {*/
+            /*background-color: #2894FF;*/
+            /*background-color: #2894FF;
+        }*/
+
+        #wSource > .item, #wTarget > .item {
+            background-color: #B15BFF;
         }
 
         .item.highlight {
             border: solid 2px #B15BFF;
             color: #B15BFF;
-            background-color: white;
+            background-color: white !important;
         }
 
-        .item.selected.highlight {
+        /*.item.selected.highlight {
             border: solid 2px #2894FF;
             color: #2894FF;
-            background-color: white;
-        }
+            background-color: white !important;
+        }*/
 
         .drag {
             /*width: max-content;
@@ -169,7 +174,7 @@
 
                 </div>
                 <div class="myInnerBox col-md-5 col-sm-12 col-12">
-                    <div class="title">喜好的運動項目</div>
+                    <div class="title">我喜好的運動項目</div>
                     <div id="wTarget"></div>
                 </div>
             </div>
@@ -281,13 +286,13 @@
 
                     if ($(this).has(ui.draggable).length > 0) {
                         let wc = ui.draggable.data("wc");
-                        $("#wTarget > div[data-wcid=" + wc + "]").addClass("selected").removeClass("highlight");
+                        $("#wTarget > div[data-wcid=" + wc + "]").removeClass("highlight");
                         return;
                     }
 
                     ui.draggable.clone().fadeOut("fast", function () {
                         $(this).fadeIn("fast");
-                    }).addClass("selected").appendTo($(this)).draggable({
+                    }).appendTo($(this)).draggable({
                         containment: "#wcBox",
                         helper: "clone",
                         opacity: 0.5
@@ -301,7 +306,7 @@
 
                     $("#wSource > div[data-wcid=" + wc + "]").clone().fadeOut("fast", function () {
                         $(this).fadeIn("fast");
-                        $(this).addClass("selected");
+                        $(this).removeClass("highlight");
                     }).appendTo("#wTarget");
 
                     $("#wSource > div[data-wcid=" + wc + "]").fadeOut("slow", function () {
@@ -316,13 +321,13 @@
 
                     if ($(this).has(ui.draggable).length > 0) {
                         let wc = ui.draggable.data("wc");
-                        $("#wSource > div[data-wcid=" + wc + "]").removeClass("selected").removeClass("highlight");
+                        $("#wSource > div[data-wcid=" + wc + "]").removeClass("highlight");
                         return;
                     }
 
                     ui.draggable.clone().fadeOut("fast", function () {
                         $(this).fadeIn("fast");
-                    }).removeClass("selected").appendTo($(this)).draggable({
+                    }).appendTo($(this)).draggable({
                         containment: "#wcBox",
                         helper: "clone",
                         opacity: 0.5
@@ -336,7 +341,7 @@
 
                     $("#wTarget > div[data-wcid=" + wc + "]").clone().fadeOut("fast", function () {
                         $(this).fadeIn("fast");
-                        $(this).removeClass("selected");
+                        $(this).removeClass("highlight");
                     }).appendTo("#wSource");
 
                     $("#wTarget > div[data-wcid=" + wc + "]").fadeOut("slow", function () {
