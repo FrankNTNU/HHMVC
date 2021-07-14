@@ -179,6 +179,22 @@
             color: #f56a6a;
         }
 
+        @*ForDemo=========================*@ 
+        .demo {
+            display: flex;
+            position: fixed;
+            left: 20em !important;
+            bottom: 50px;
+            column-gap: 10px;
+        }
+
+        .demoButton {
+            background-color: #97CBFF;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+        @*================================*@
     </style>
 }
 
@@ -261,6 +277,12 @@
         </div>
     </div>
 </section>
+<!--Demo=======================================================-->
+<div class="demo">
+    <div class="demoButton" onclick="autoInputMsgs3()">執行成功</div>
+    <div class="demoButton" onclick="autoInputMsgs4()">跑</div>
+</div>
+<!--===========================================================-->
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "wlForm" }))
 {
@@ -578,7 +600,6 @@
                 table.draw();
             });
 
-
             //=================================================================
             //Add New WorkoutLog
 
@@ -857,6 +878,14 @@
                 return 1;
             }
         };
+
+        function autoInputMsgs3() {
+            $("#wlTable_filter label input").val("執行成功");
+        }
+
+        function autoInputMsgs4() {
+            $("#wlTable_filter label input").val("跑");
+        }
     </script>
 }
 
