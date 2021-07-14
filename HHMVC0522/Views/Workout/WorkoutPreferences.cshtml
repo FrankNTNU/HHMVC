@@ -80,26 +80,19 @@
             cursor: pointer;
         }
 
-        /*.item.selected {*/
-            /*background-color: #2894FF;*/
-            /*background-color: #2894FF;
-        }*/
-
         #wSource > .item, #wTarget > .item {
-            background-color: #B15BFF;
+            border: solid 2px #2894FF;
+            background-color: white;
+            color: #2894FF;
+            padding: 8px;
         }
 
         .item.highlight {
-            border: solid 2px #B15BFF;
-            color: #B15BFF;
-            background-color: white !important;
+            font-size: 1.3em;
+            font-weight: 600;
+            background-color: #2894FF !important;
+            color: white !important;
         }
-
-        /*.item.selected.highlight {
-            border: solid 2px #2894FF;
-            color: #2894FF;
-            background-color: white !important;
-        }*/
 
         .drag {
             /*width: max-content;
@@ -123,7 +116,7 @@
         #divider > div > i {
             transform: scaleX(1.5);
             transform: scaleY(3);
-            color: gray;
+            color: #f56a6a;
         }
     </style>
 }
@@ -144,7 +137,7 @@
 <section class="pt-2">
     <div id="mainDiv">
         <div id="mainRow" class="row">
-            <div class="col-12 mainTitle">請向右拖拉選取喜好類型</div>
+            <div class="col-12 mainTitle">向右拖拉選取喜好運動類型</div>
             <div class="row col-12" id="wcBox" style="padding:0; position:relative; left:20px;">
                 <div class="myInnerBox  col-md-5 col-sm-12 col-12">
                     <div class="title">運動類型</div>
@@ -154,7 +147,7 @@
                     <i class="fas fa-arrows-alt-h" style="font-size:100px; color:gray"></i>
                 </div>
                 <div class="myInnerBox  col-md-5 col-sm-12 col-12">
-                    <div class="title">我喜好的運動類型</div>
+                    <div class="title">喜好類型</div>
                     <div id="wcTarget"></div>
                 </div>
                 <div id="divider" class="col-12 row">
@@ -167,14 +160,14 @@
                     </div>
                 </div>
                 <div class="myInnerBox  col-md-5 col-sm-12 col-12">
-                    <div class="title">運動項目</div>
+                    <div class="title">類型包含項目</div>
                     <div id="wSource"></div>
                 </div>
                 <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
 
                 </div>
                 <div class="myInnerBox col-md-5 col-sm-12 col-12">
-                    <div class="title">我喜好的運動項目</div>
+                    <div class="title">喜好包含項目</div>
                     <div id="wTarget"></div>
                 </div>
             </div>
