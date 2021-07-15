@@ -148,6 +148,13 @@
             background-color: #02DF82;
         }
 
+        #btnEdit.cantEdit {
+            border: solid 2px #02DF82;
+            color: #02DF82 !important;
+            background-color: white;
+            box-sizing: border-box;
+        }
+
         #btnReload {
             border-radius: calc(0.9em - 5px);
         }
@@ -480,7 +487,7 @@
             $("#btnReload").click(function () {
 
                 chart.setTitle({
-                    text: $("#startMonth").text() + " 至 " + $("#endMonth").text() + " 期間的體重變化"
+                    text: $("#startMonth").text() + " 至 " + $("#endMonth").text()
                 });
 
                 let monthArray = GetMonthArray($("#startMonth").text(), $("#endMonth").text());
@@ -524,12 +531,12 @@
                 if (updatedDate.getTime() < d7b.getTime() || updatedDate.getTime() >= tomorrow.getTime()) {
 
                     $("#wgtForEdit").attr("disabled", true);
-                    $("#btnEdit").text("無法修改").removeClass("primary").attr("disabled", true);
+                    $("#btnEdit").text("無法修改").addClass("cantEdit").attr("disabled", true);
 
                 } else {
 
                     $("#wgtForEdit").removeAttr("disabled", true);
-                    $("#btnEdit").text("修改").addClass("primary").removeAttr("disabled");
+                    $("#btnEdit").text("修改").removeClass("cantEdit").removeAttr("disabled");
                 }
             });
 

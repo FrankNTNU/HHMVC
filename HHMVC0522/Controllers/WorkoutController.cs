@@ -338,7 +338,7 @@ namespace UI.Controllers
             var wlList = dbContext.WorkoutLogs
                 .Where(wl => wl.MemberID.ToString() == User.Identity.Name);
 
-            decimal wlCount = wlList.Count();
+            decimal wlCount = wlList.Where(wl => wl.StatusID == 5 || wl.StatusID == 6).Count();
 
             decimal successCount = wlList.Where(wl => wl.StatusID == 5).Count();
 

@@ -293,10 +293,12 @@
 </div>
 <!--Demo=====================================================-->
 <div class="demo">
-    <div class="demoButton" onclick="">阿舊</div>
+    <div class="demoButton" onclick="autoInput(ajuMsgs)">阿舊</div>
     <div class="demoButton" onclick="autoInput(msgs3)">路飛</div>
     <div class="demoButton" onclick="autoInput(msgs4)">索隆</div>
     <div class="demoButton" onclick="autoInput(msgs5)">山治</div>
+    @*<div class="demoButton" onclick="newGroup1()">草帽團</div>
+    <div class="demoButton" onclick="newGroup2()">紳士團</div>*@
     @*<div class="demoButton" onclick="autoInputMsgs6()">frank</div>
         <div class="demoButton" onclick="autoInputMsgs7()">zzzz</div>*@
 </div>
@@ -667,9 +669,14 @@
 
         //let promiseForDemo2;
 
+        let ajuMsgs = [
+            "可以在「聯絡我們」功能詢問客服喔",
+            "聽說排程成功可獲得點數"
+        ];
+
         let msgs3 = [
             "剛剛登入時，系統提醒我已經7天沒紀錄體重了，請問要去哪裡紀錄？",
-            "應該要去問問客服人員"
+            "對啊，應該要去問問客服人員"
         ];
 
         let msgs4 = [
