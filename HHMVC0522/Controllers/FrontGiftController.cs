@@ -1,5 +1,6 @@
 ﻿using BLL;
 using DTO;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -22,23 +23,64 @@ namespace UI.Controllers
             return View();
         }
         GiftBLL giftBLL = new GiftBLL();
+        public static List<GiftDTO> giftCartItems = new List<GiftDTO>();
+
         public ActionResult GiftList()
         {
+            Session["giftCartItems"] = "";
             UserBLL userBLL = new UserBLL();
             if (Session["ID"] != null)
             {
                 Session["Points"] = userBLL.GetPoints((int)Session["ID"]);
             }
-            List<GiftDTO> giftDTOs = new List<GiftDTO>();
-            giftDTOs = giftBLL.GetGifts();
+            Session["giftCartItems"] = giftCartItems;
+            List<GiftDTO> giftDTOs = giftBLL.GetFrontGifts();
             return View(giftDTOs);
         }
-        static int giftID;
+        public ActionResult AddToTempCart(int giftID)
+        {
+            GiftDTO giftItem = giftBLL.GetGift(giftID);
+            giftCartItems.Add(giftItem);
+            Session["giftCartItems"] = giftCartItems;
+            var json = JsonConvert.SerializeObject(giftCartItems);
+            return Content(json);
+        }
+        public ActionResult RemoveFromTempCart(int giftID)
+        {
+            GiftDTO itemToBeDelete = giftCartItems.FirstOrDefault(x => x.ID == giftID);
+            giftCartItems.Remove(itemToBeDelete);
+            Session["giftCartItems"] = giftCartItems;
+            var json = JsonConvert.SerializeObject(giftCartItems);
+            return Content(json);
+        }
+        [HttpPost]
+        public JsonResult CheckOut(List<GiftDTO> items)
+        {
+            int totalPrice = 0;
+            foreach (GiftDTO item in items)
+            {
+                totalPrice += item.Points;
+
+            }
+            if ((int)Session["Points"] > totalPrice)
+            {
+                foreach (GiftDTO item in items)
+                {
+                    cartBLL.AddCart(GenerateCartItem(item.ID));
+                }
+                return Json("success");
+            }
+            else return Json("error");
+        }
+        public void ClearTempCart()
+        {
+            giftCartItems.Clear();
+            Session["giftCartItems"] = giftCartItems;
+        }
         public ActionResult GiftDetail(int ID)
         {
             GiftDTO model = new GiftDTO();
             model = giftBLL.GetGift(ID);
-            giftID = ID;
             return View(model);
         }
         GiftCartBLL cartBLL = new GiftCartBLL();
@@ -53,29 +95,40 @@ namespace UI.Controllers
             carts = cartBLL.GetGiftCarts(userID);
             return View(carts);
         }
-        public JsonResult IsSameItemExist(int giftID) 
+        public JsonResult IsSameItemExist(int giftID)
         {
             bool isExist = cartBLL.IsSameItemExist((int)Session["ID"], giftID);
             string isItemExist = isExist ? "yes" : "no";
             return Json(isItemExist, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult AddCart(int giftID)
+        public GiftCartDTO GenerateCartItem(int giftID)
         {
-            GiftDTO giftDTO = new GiftDTO();
-            giftDTO = giftBLL.GetGift(giftID);
+            GiftDTO giftDTO = giftBLL.GetGift(giftID);
             string fileName = giftDTO.Image;
             string sourcePath = @"~/Areas/Admin/Content/GiftImages/";
             string targetPath = @"~/Areas/Admin/Content/CartImages/";
+            string newFileName = Guid.NewGuid().ToString() + fileName.Substring(36);
             string sourceFile = Path.Combine(Server.MapPath(sourcePath), fileName);
-            string destFile = Path.Combine(Server.MapPath(targetPath), fileName);
+            string destFile = Path.Combine(Server.MapPath(targetPath), newFileName);
             System.IO.File.Copy(sourceFile, destFile, true);
-            if (cartBLL.AddCart(giftDTO))
+            GiftCartDTO cartDTO = new GiftCartDTO();
+            cartDTO.GiftID = giftDTO.ID;
+            cartDTO.Name = giftDTO.Name;
+            cartDTO.Store = giftDTO.Store;
+            cartDTO.EndDate = giftDTO.EndDate;
+            cartDTO.Points = giftDTO.Points;
+            cartDTO.Image = newFileName;
+            return cartDTO;
+        }
+        public ActionResult AddCart(int giftID)
+        {
+            if (cartBLL.AddCart(GenerateCartItem(giftID)))
             {
                 UserBLL userBLL = new UserBLL();
                 Session["Points"] = userBLL.GetPoints((int)Session["ID"]);
                 giftBLL.RemoveOneGift(giftID);
-                
-                return RedirectToAction("GiftCart", new { userID = (int)Session["ID"] } );
+
+                return RedirectToAction("GiftCart", new { userID = (int)Session["ID"] });
             }
             else
             {
@@ -96,11 +149,12 @@ namespace UI.Controllers
 
         public JsonResult GetSearchResult(string name, int sortBy, string isPremiumChecked)
         {
-            
+
             bool isPremium = isPremiumChecked == "true";
             List<GiftDTO> dtoList = giftBLL.GetSearchResult(name, sortBy, isPremium);
             return Json(dtoList, JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
         public ActionResult SendBarcode(string barcode)
         {
             // 建立字體
@@ -141,7 +195,7 @@ namespace UI.Controllers
             client.Port = 25;
             client.Send(message);
             TempData["Sent"] = "Success";
-            return RedirectToAction("GiftCart", new { userID = (int)Session["ID"] }) ;
+            return RedirectToAction("GiftCart", new { userID = (int)Session["ID"] });
         }
     }
 }

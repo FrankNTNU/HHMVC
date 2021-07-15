@@ -10,7 +10,7 @@
     <style>
         @@font-face {
             font-family: 'BarcodeFont';
-            src: url('../Areas/Admin/Content/webfonts/BarcodeFont.ttf')
+            src: url('../../Areas/Admin/Content/webfonts/BarcodeFont.ttf')
         }
 
         tbody td {
@@ -88,16 +88,16 @@
             <div class="col-12 col-sm-4 col-md-4 d-flex justify-content-center" style="margin:auto;">
                 @if (item.EndDate < DateTime.Today)
                 {
-                    <a href="~/FrontGift/GiftDetail/@item.GiftID" class="image">
+                    
                         <img class="image" src="~/Areas/Admin/Content/CartImages/@item.Image" style="max-width:200px;width:100%;opacity:0.45" />
                         <div class="centered"><h5>已截止</h5></div>
-                    </a>
+                   
                 }
                 else
                 {
-                    <a href="~/FrontGift/GiftDetail/@item.GiftID" class="image">
+                    
                         <img class="image" src="~/Areas/Admin/Content/CartImages/@item.Image" style="max-width:200px;width:100%" />
-                    </a>
+                   
                 }
 
             </div>

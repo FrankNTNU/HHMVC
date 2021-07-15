@@ -27,7 +27,7 @@
                     <th>禮物名稱</th>
                     <th>會員名稱</th>
                     <th>兌換日期</th>
-                    <th>下架日期</th>
+                    <th>圖片檔名</th>
                     <th>條碼</th>
                     <th>刪除</th>
                 </tr>
@@ -43,7 +43,7 @@
                             @item.AddDate.ToString("yyyy.MM.dd")
                         </td>
                         <td>
-                            @item.EndDate.ToString("yyyy.MM.dd")
+                            @item.Image
                         </td>
                         <td>
                             @item.Barcode
@@ -52,7 +52,7 @@
                         <td align="center" valign="middle">
 
                             <a href="#">
-                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Gift/DeleteGiftCart/', @item.ID)" />
+                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../Gift/DeleteGiftCart/', @item.ID)" />
                             </a>
 
                         </td>

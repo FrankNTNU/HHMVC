@@ -7,6 +7,7 @@
 @using DTO
 
 @section Styles{
+    <link href="~/Content/toastr/toastr.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
     <style>
@@ -17,13 +18,27 @@
         textarea {
             width: 100%;
         }
-
+        
+        .changeButtonText span {
+            display: none;
+        }
+        .changeButtonText:after {
+            content: "收起留言";
+        }
+        
+        .hideContent {
+            display: none;
+            background-color: aqua;
+        }
         .like__btn {
             border-radius: 0.4rem;
         }
 
+        a:hover {
+            text-decoration: none;
+        }
 
-        #commentAreaBtn {
+        .commentAreaBtn {
             text-decoration: none;
             padding: 10px 15px 10px 15px;
             outline: none !important;
@@ -121,109 +136,105 @@
     <div class="row" style="font-size:1.1em;">
 
 
-        <div class="col-12">
+        <div class="col-12" id="topArea">
             <header class="major">
-                <span class="button" style="        font-weight: bolder;
-        margin-right: 10px;
-        pointer-events: none
-">@Model.PostDetail.CategoryName</span> <span class="d-sm-none"><a href="~/FrontPost/AllPosts"><label class="button primary"><i class="far fa-file"></i> 所有貼文</label></a></span>
-@if (!Model.PostDetail.IsApproved)
-{
-    <span class="button primary" style="opacity:0.5;cursor:default;margin-right:10px;font-size:0.7em"> 核准中...</span>
-}
-<h2 style="font-size:1.5em;" class="mb-3">@Model.PostDetail.Title <i class="far fa-heart"></i> @Model.PostDetail.LikeCount <i class="far fa-eye"></i>  @Model.PostDetail.ViewCount</h2>
-
-</header>
-</div>
-</div>
-
-<div class="row">
-    <div class="col-12 col-md-7">
-        <div class="row">
-            <div class="col-3 col-lg-2">
-                <img src="~/Areas/Admin/Content/UserImage/@Model.PostDetail.MemberImage" style="width:50px" />
-
-            </div>
-            <div class="col-8">
-                <h2 style="display:inline"><span><i class="far fa-user"></i> @Model.PostDetail.MemberName</span></h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3 col-lg-2">
-                <strong style="font-size:1.2em">日期:</strong>
-
-            </div>
-            <div class="col-8">
-
-                <div>@Model.PostDetail.AddDate.ToString("yyyy/MM/dd dddd")</div>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3 col-lg-2">
-                <strong style="font-size:1.2em">大綱:</strong>
-
-            </div>
-            <div class="col-8 pr-0">
-
-                <div class="image main mb-1" style="font-size:1.2em">@Model.PostDetail.ShortContent</div>
-
-            </div>
+                <span style="color: #ff756b;font-size:2em">@DisplayIcon(Model.PostDetail.CategoryName) <span style="font-size: 0.9em;">@Model.PostDetail.CategoryName </span></span> <span class="d-sm-none"><a href="~/FrontPost/AllPosts"><label class="button primary"><i class="far fa-file"></i> 所有文章</label></a></span>
+                @if (!Model.PostDetail.IsApproved)
+                {
+                    <span class="button primary" style="opacity:0.5;cursor:default;margin-right:10px;font-size:0.7em"> 核准中...</span>
+                }
+                <h2 style="font-size:1.5em;" class="mb-3">@Model.PostDetail.Title <i class="far fa-heart"></i> @Model.PostDetail.LikeCount <i class="far fa-eye"></i>  @Model.PostDetail.ViewCount <span><a class="button p-2 pb-3" style="font-size:small;" id="scrollToComment"><i class="fas fa-chevron-circle-down" ></i>至留言區</a></span></h2> 
+            </header>
         </div>
     </div>
-    @if (Model.PostDetail.PostImages.Count() > 0)
-    {
-        <div class="col-12 col-md-5 d-flex align-items-center justify-content-center "><span class="image main mb-1" style="float:right"><img src="~/Areas/Admin/Content/PostImages/@Model.PostDetail.PostImages[0].ImagePath" alt="" style="max-width:100%;margin:auto;" /></span></div>
-    }
 
-    else
-    {
-        <div class="col-6 col-12-medium"><span class="image main" style="float:right"><img src="~/Content/img/slides/health1.jpg" alt="" style="max-width:100%;float:right" /></span></div>
-    }
-</div>
-<div class="row mt-2">
-    <div class="col-12" style="font-size:1.1em">
-        @Html.Raw(Model.PostDetail.PostContent)
-    </div>
-</div>
-<p></p>
-@if (Session["ID"] != null)
-{
-    if (Model.PostDetail.MemberID == (int)Session["ID"])
-    {
-        <div class="row">
-            <div class="col-1 col-lg-8 col-md-6 col-sm-6"></div>
-            <div class="col-5 col-lg-2 col-md-3 col-sm-3">
-                <div style="font-size:1.1em"><a href="~/FrontPost/UpdatePost/@Model.PostDetail.ID"><input type="submit" value="修改貼文" class="primary" /></a></div>
+    <div class="row">
+        <div class="col-12 col-md-7">
+            <div class="row">
+                <div class="col-3 col-lg-2">
+                    <img src="~/Areas/Admin/Content/UserImage/@Model.PostDetail.MemberImage" style="width:50px" />
+
+                </div>
+                <div class="col-8">
+                    <h2 style="display:inline"><span><i class="far fa-user"></i> @Model.PostDetail.MemberName</span></h2>
+                </div>
             </div>
+            <div class="row">
+                <div class="col-3 col-lg-2">
+                    <strong style="font-size:1.2em">日期:</strong>
 
-            <div class="col-5 col-lg-2 col-md-3 col-sm-3" style="font-size:1.1em; padding-right:25px">
-                @Html.ActionLink("刪除貼文", "DeletePost", "FrontPost", new { ID = Model.PostDetail.ID }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "button" })
+                </div>
+                <div class="col-8">
+
+                    <div>@Model.PostDetail.AddDate.ToString("yyyy/MM/dd dddd")</div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3 col-lg-2">
+                    <strong style="font-size:1.2em">大綱:</strong>
+
+                </div>
+                <div class="col-8 pr-0">
+
+                    <div class="image main mb-1" style="font-size:1.2em">@Model.PostDetail.ShortContent</div>
+
+                </div>
             </div>
         </div>
+        @if (Model.PostDetail.PostImages.Count() > 0)
+        {
+            <div class="col-12 col-md-5 d-flex align-items-center justify-content-center "><span class="image main mb-1" style="float:right"><img src="~/Areas/Admin/Content/PostImages/@Model.PostDetail.PostImages[0].ImagePath" alt="" style="max-width:100%;margin:auto;" /></span></div>
+        }
+
+        else
+        {
+            <div class="col-6 col-12-medium"><span class="image main" style="float:right"><img src="~/Content/img/slides/health1.jpg" alt="" style="max-width:100%;float:right" /></span></div>
+        }
+    </div>
+    <div class="row mt-2">
+        <div class="col-12" style="font-size:1.1em">
+            @Html.Raw(Model.PostDetail.PostContent)
+        </div>
+    </div>
+    <p></p>
+    @if (Session["ID"] != null)
+    {
+        if (Model.PostDetail.MemberID == (int)Session["ID"])
+        {
+            <div class="row">
+                <div class="col-1 col-lg-8 col-md-6 col-sm-6"></div>
+                <div class="col-5 col-lg-2 col-md-3 col-sm-3">
+                    <div style="font-size:1.1em"><a href="~/FrontPost/UpdatePost/@Model.PostDetail.ID"><input type="submit" value="修改貼文" class="primary" /></a></div>
+                </div>
+
+                <div class="col-5 col-lg-2 col-md-3 col-sm-3" style="font-size:1.1em; padding-right:25px">
+                    @Html.ActionLink("刪除貼文", "DeletePost", "FrontPost", new { ID = Model.PostDetail.ID }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "button" })
+                </div>
+            </div>
 
 
+
+        }
+        else
+        { <div class="container">
+                <a class="like__btn animated button default" data-assigned-id="@Model.PostDetail.ID" style="border-style: none;">
+                    <i class="like__icon fa fa-heart"></i>
+                    <span class="like__number">@Model.PostDetail.LikeCount</span>
+                </a>
+            </div>}
 
     }
-    else
-    { <div class="container">
-            <button class="like__btn animated default" data-assigned-id="@Model.PostDetail.ID" style="border-style: none;">
-                <i class="like__icon fa fa-heart"></i>
-                <span class="like__number">@Model.PostDetail.LikeCount</span>
-            </button>
-        </div>}
 
-}
+    <!--文章留言區-->
 
-<!--文章留言區-->
-@if (Model.CommentCount > 0)
-{
-    <div class="row" style="margin-top:20px">
+    <div class="row" style="margin-top:20px" id="commentStart">
         <div class="col-8 col-12-medium">
             <header class="major">
                 <h2 class="mb-1">
-                    @Model.CommentCount 則留言 <i class="far fa-comment"></i>
+                    @Model.CommentCount 則留言 <i class="far fa-comment"></i> <span><a class="button" style="font-size:small;border-radius:30px" id="scrollToTop"><i class="fas fa-arrow-up" ></i></a></span>
                 </h2>
+
             </header>
 
 
@@ -235,45 +246,45 @@
         ">
         @DisplayComments(Model.CommentRoot.ChildComments)
     </div>
-}
-@if (Session["ID"] != null)
-{
-    <header class="major mt-3">
-        <h2 style="margin-bottom:5px">
-            新增留言 <i class="far fa-edit"></i>
-        </h2>
-    </header>
-    @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
 
-    <form action="@Url.Action("PostDetail")" method="post">
-        <input hidden value="@Model.PostDetail.ID" name="PostDetail.ID" />
+    @if (Session["ID"] != null)
+    {
+        <header class="major mt-3">
+            <h2 style="margin-bottom:5px">
+                新增留言 <i class="far fa-edit"></i>
+            </h2>
+        </header>
+        @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
 
-        <div class="row gtr-uniform">
-            <div class="col-6 col-12-xsmall">
-                <label>暱稱</label>
-                @Html.ValidationMessageFor(x => x.Comment.Name, "", new { @style = "color:red" })
-                <input type="text" name="Comment.Name" id="demo-name" value="" placeholder="留言用暱稱" style="height: 45px" />
+        <form action="@Url.Action("PostDetail")" method="post">
+            <input hidden value="@Model.PostDetail.ID" name="PostDetail.ID" />
+
+            <div class="row gtr-uniform">
+                <div class="col-6 col-12-xsmall">
+                    <label>暱稱</label>
+                    @Html.ValidationMessageFor(x => x.Comment.Name, "", new { @style = "color:red" })
+                    <input type="text" name="Comment.Name" id="demo-name" value="" placeholder="留言用暱稱" style="height: 45px" />
+                </div>
+                <div class="col-6 col-12-xsmall">
+                    <label>標題</label>
+                    @Html.ValidationMessageFor(x => x.Comment.Title, "", new { @style = "color:red" })
+                    <input type="text" name="Comment.Title" id="demo-email" value="" placeholder="你的留言標題" style="height: 45px;" />
+                </div>
+                <!-- Break -->
+                <div class="col-12">
+                    <label>內容</label>
+                    @Html.ValidationMessageFor(x => x.Comment.CommentContent, "", new { @style = "color:red" })
+                    <textarea name="Comment.CommentContent" id="demo-message" placeholder="你的留言內容" rows="6" class="ckeditor" style="width:305px"></textarea>
+                </div>
+                <!-- Break -->
+                <div class="col-12">
+                    <ul class="actions">
+                        <li style="font-size:1.1em"><input type="submit" value="提交" class="primary" /></li>
+                    </ul>
+                </div>
             </div>
-            <div class="col-6 col-12-xsmall">
-                <label>標題</label>
-                @Html.ValidationMessageFor(x => x.Comment.Title, "", new { @style = "color:red" })
-                <input type="text" name="Comment.Title" id="demo-email" value="" placeholder="你的留言標題" style="height: 45px;" />
-            </div>
-            <!-- Break -->
-            <div class="col-12">
-                <label>內容</label>
-                @Html.ValidationMessageFor(x => x.Comment.CommentContent, "", new { @style = "color:red" })
-                <textarea name="Comment.CommentContent" id="demo-message" placeholder="你的留言內容" rows="6" class="ckeditor" style="width:305px"></textarea>
-            </div>
-            <!-- Break -->
-            <div class="col-12">
-                <ul class="actions">
-                    <li style="font-size:1.1em"><input type="submit" value="提交" class="primary" /></li>
-                </ul>
-            </div>
-        </div>
-    </form>
-}
+        </form>
+    }
 </section>
 
 @helper DisplayComments(List<CommentDTO> comments)
@@ -299,10 +310,21 @@
     }
 }
 }
+
+@functions{
+    IHtmlString DisplayIcon(string name)
+    {
+        if (name == "貼文") return Html.Raw(@DTO.Icons.Post);
+        else if (name == "資訊") return Html.Raw(@DTO.Icons.Information);
+        else if (name == "公告") return Html.Raw(@DTO.Icons.Notice);
+        else return Html.Raw(@DTO.Icons.Carousel);
+    }
+}
 @helper DisplayComment(CommentDTO item)
 {
-    if (item.IsApproved || (item.MemberID == (Session["ID"] == null ? 0 : (int)Session["ID"])))
-    {
+if (item.IsApproved || (item.MemberID == (Session["ID"] == null ? 0 : (int)Session["ID"])))
+{
+    if (!item.IsApproved) { return; }
         <div class="row pl-1" style="width: 100%;margin-bottom:10px;" id="commentArea">
 
             @if (item.PostID == 0)
@@ -317,36 +339,79 @@
                 <img src="~/Areas/Admin/Content/UserImage/@item.MemberImage" style="width:50px" />
             </div>
             <div style="border: 1px solid #ff6b6b; border-radius: 10px; background-color: #fff5f5 ;" class="p-1 pr-3 pl-3" id="dialogArea">
-                <p class="mb-1">
-                    <strong>@item.Name</strong> @item.AddDate.ToString("yyyy/MM/dd") <span style="background-color:lightgoldenrodyellow;white-space:nowrap">@item.Title</span>&nbsp<span>
-                        @if (!item.IsApproved)
-                        {
-                            <span class="button primary" style="opacity:0.5;cursor:default;margin-right:10px;font-size:0.65em"> 核准中...</span>
-                        }
+                @if (item.SentimentScore > 0.9)
+                {<p style="font-size: small; color: #635c5c" class="m-0">本則留言可能含有敏感用詞</p> <a style="border-style: none;" class="button continueReadButton"><span>繼續閱讀</span></a>
+                    <div class="mb-1 sensitiveDetail hideContent">
+                        <strong>@item.Name</strong> @item.AddDate.ToString("yyyy/MM/dd") <span style="background-color:lightgoldenrodyellow;white-space:nowrap">@item.Title</span>&nbsp<span>
+    @*@if (!item.IsApproved)
+    {
+        <span class="button primary" style="opacity:0.5;cursor:default;margin-right:10px;font-size:0.65em"> 審核中...</span>
+    }*@
 
-                        @if (Session["ID"] != null)
-                        {
-                            if ((int)Session["ID"] == item.MemberID)
+    @if (Session["ID"] != null)
+    {
+        if ((int)Session["ID"] == item.MemberID)
+        {
+            <a href="~/FrontPost/UpdateComment?commentID=@item.ID" class="button primary commentAreaBtn">
+                <i class="fas fa-pencil-alt"></i>
+            </a>
+
+            <span class="p-1"></span>
+            <a href="~/FrontPost/DeleteComment?ID=@item.ID&postID=@Model.PostDetail.ID" class="button commentAreaBtn" onclick="return confirm('確定要刪除嗎?')" style="white-space:nowrap">
+                <i class="fas fa-trash-alt"></i>
+            </a>
+        }
+        else
+        {
+            @Html.ActionLink("回覆", "ReplyToComment", new { commentID = @item.ID }, new { @class = "button primary commentAreaBtn" })
+            <span class="p-1"></span>
+           
+            <a class="button commentAreaBtn reportButton" data-assigned-id="@item.ID" style="text-align:center">
+                <i class="fas fa-exclamation-triangle"></i>
+            </a>
+        }
+    }
+</span>
+                                                                                                                                                                                       <div>@Html.Raw(@item.CommentContent)</div>
+                    </div>
+                }
+                else
+                {
+
+                    <div class="mb-1">
+                        <strong>@item.Name</strong> @item.AddDate.ToString("yyyy/MM/dd") <span style="background-color:lightgoldenrodyellow;white-space:nowrap">@item.Title</span>&nbsp<span>
+                            @if (!item.IsApproved)
                             {
-                                <a href="~/FrontPost/UpdateComment?commentID=@item.ID" id="commentAreaBtn" class="button primary">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-
-                                <span class="p-2"></span>
-                                <a href="~/FrontPost/DeleteComment?ID=@item.ID&postID=@Model.PostDetail.ID" id="commentAreaBtn" class="button" onclick="return confirm('確定要刪除嗎?')" style="white-space:nowrap">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
-
-
+                                <span class="button primary" style="opacity:0.5;cursor:default;margin-right:10px;font-size:0.65em"> 核准中...</span>
                             }
-                            else
+
+                            @if (Session["ID"] != null)
                             {
-                                @Html.ActionLink("回復", "ReplyToComment", new { commentID = @item.ID }, new { @class = "button primary", @id = "commentAreaBtn" })
+                                if ((int)Session["ID"] == item.MemberID)
+                                {
+                                    <a href="~/FrontPost/UpdateComment?commentID=@item.ID" class="button primary commentAreaBtn">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+
+                                    <span class="p-1"></span>
+                                    <a href="~/FrontPost/DeleteComment?ID=@item.ID&postID=@Model.PostDetail.ID" class="button commentAreaBtn" onclick="return confirm('確定要刪除嗎?')" style="white-space:nowrap">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("回覆", "ReplyToComment", new { commentID = @item.ID }, new { @class = "button primary commentAreaBtn" })
+                                    <span class="p-1"></span>
+                                    <a class="button commentAreaBtn reportButton" style="white-space:nowrap" data-assigned-id="@item.ID">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </a>
+                                }
                             }
-                        }
-                    </span>
-                </p>
-                @Html.Raw(@item.CommentContent)
+                        </span>
+                        @Html.Raw(@item.CommentContent)
+                    </div>
+
+                }
             </div>
         </div>
     }
@@ -354,18 +419,49 @@
 
 
 @section Scripts {
+    <script src="~/Content/toastr/toastr.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-
-            var result = "@ViewData["CommentState"]";
+            $("#scrollToComment").click(function () {
+                $('html, body').animate({
+                    scrollTop: $("#commentStart").offset().top - 20
+                }, 650);
+            });
+            $("#scrollToTop").click(function () {
+                $('html, body').animate({
+                    scrollTop: $("#topArea").offset().top
+                }, 650);
+            });
+            $(".continueReadButton").click(function () {
+                $(this).toggleClass('changeButtonText');
+                console.log($(this).siblings('div').toggleClass('hideContent'));
+            });
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "text-align": "center",
+                "onclick": null,
+                "fadeIn": 300,
+                "fadeOut": 1000,
+                "timeOut": 5000,
+                "extendedTimeOut": 1000
+            }
+            var result = "@TempData["State"]";
             if (result != "") {
+                console.log(result);
+                if (result == "AddSuccess") {
+                    toastr.success("成功留言");
+                }
+                else if (result == "UpdateSuccess") {
+                    toastr.success("修改成功");
+                }
+                else if (result == "ReplySuccess") {
+                    toastr.success("回覆成功");
+                }
+                else if (result == "DeleteSuccess") {
+                    toastr.success("刪除成功");
+                }
 
-                if (result == "Success") {
-                    toastr.success("動作成功");
-                }
-                else {
-                    toastr.error("失敗");
-                }
             }
         })
 
@@ -373,7 +469,19 @@
     <script type="text/javascript">
         var flag = "notSure";
         $(document).ready(function ($) {
-
+            $('.reportButton').on('click', function () {
+                var result = confirm("確定要檢舉這則留言嗎?");
+                if (result == false) return;
+                var id = $(this).data('assigned-id');
+                console.log("id = " + id);
+                $.ajax({
+                    url: "@Url.Action("ReportComment", "FrontPost")",
+                    data: { commentID: id },
+                    success: function () {
+                        toastr.info("已遞交舉報");
+                    }
+                })
+            });
             $('.like__btn').on('click', function (event) {
                 var id = $(this).data('assigned-id');
                 // Check if it's already been clicked

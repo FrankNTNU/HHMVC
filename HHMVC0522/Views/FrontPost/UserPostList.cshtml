@@ -44,55 +44,61 @@
     </div>
 </header><header id="header" class="m-0 p-0"></header>
 
-         <section class="pt-2">
-             <div class="col-12 d-flex p-0">
-                 <div class="d-sm-none" style="width:100%">
-                     <a href="~/FrontPost/AddPost"><label class="button primary" style="width:100%"><i class="fas fa-pen"></i> 發布文章</label></a>
+<section class="pt-2">
+    <div class="col-12 d-flex p-0">
+        <div class="d-sm-none" style="width:100%">
+            <a href="~/FrontPost/AddPost"><label class="button primary" style="width:100%"><i class="fas fa-pen"></i> 發布文章</label></a>
 
-                 </div>
-             </div>
-             <div class="row" id="DataSearching">
-                 @foreach (var item in Model)
-                 {
-                     <div class="row" style="margin-bottom:5px;width:100%">
-                         <div class="col-12 col-lg-4 col-md-4 col-sm-4">
-                             <a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="image"><img class="image" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" style="max-width:100%" /></a>
-
-
-                         </div>
-                         <div class="col-12 col-lg-8 col-md-8 col-sm-8">
-                             <div class="row">
-                                 <div class="col-4 col-md-3 col-lg-2">
-                                     <p class="button small fit" style="        font-weight: bolder;
-        pointer-events: none;
-        margin-bottom: 5px;font-size:12px">@item.CategoryName</p>
-         <p>時間</p>
-         <p>文章大要</p>
-
-         </div>
-         <div class="col-8 col-lg-10">
-             <p>
-                 @if (!item.IsApproved)
-                 {
-                     <span class="button small primary" style="opacity: 0.5; cursor: default; margin-right: 10px; font-size: 12px"> 核准中...</span>
-                 }<strong style="font-weight:bolder">@item.Title </strong><i class="far fa-comment"></i> @item.CommentCount <i class="far fa-heart"></i> @item.LikeCount
-             </p>
-             <p>@item.AddDate</p>
-             <p>@item.ShortContent</p>
-
-         </div>
-         </div>
-         </div>
-         </div>
+        </div>
+    </div>
+    <div class="row" id="DataSearching">
+        @foreach (var item in Model)
+        {
+            <div class="row" style="margin-bottom:5px;width:100%">
+                <div class="col-12 col-lg-4 col-md-4 col-sm-4">
+                    <a href="@Url.Action("PostDetail", new { @ID = item.ID })" class="image"><img class="image" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" style="max-width:100%" /></a>
 
 
-     }
+                </div>
+                <div class="col-12 col-lg-8 col-md-8 col-sm-8">
+                    <div class="row">
+                        <div class="col-4 col-md-3 col-lg-2">
+                            <span style="color: #ff756b;font-size:1.5em">@DisplayIcon(item.CategoryName) <span style="font-size: 0.8em;" class="mb-2">@item.CategoryName </span></span>
+        <p>時間</p>
+        <p>文章大要</p>
 
-             </div>
-             <div style="font-size:1.5em;text-align:center;justify-content:center" id="PageInfo" class="d-flex">
-                 @Html.PagedListPager(Model, page => Url.Action("UserPostList", new { page }))
-             </div>
-         </section>
+    </div>
+    <div class="col-8 col-lg-10">
+        <p>
+            @if (!item.IsApproved)
+            {
+                <span class="button small primary" style="opacity: 0.5; cursor: default; margin-right: 10px; font-size: 12px"> 核准中...</span>
+            }<strong style="font-weight:bolder">@item.Title </strong><i class="far fa-comment"></i> @item.CommentCount <i class="far fa-heart"></i> @item.LikeCount
+        </p>
+        <p>@item.AddDate</p>
+        <p>@item.ShortContent</p>
+
+    </div>
+</div>
+</div>
+</div>
 
 
+}
 
+    </div>
+    <div style="font-size:1.5em;text-align:center;justify-content:center" id="PageInfo" class="d-flex">
+        @Html.PagedListPager(Model, page => Url.Action("UserPostList", new { page }))
+    </div>
+</section>
+
+
+@functions{
+    IHtmlString DisplayIcon(string name)
+    {
+        if (name == "貼文") return Html.Raw(@DTO.Icons.Post);
+        else if (name == "資訊") return Html.Raw(@DTO.Icons.Information);
+        else if (name == "公告") return Html.Raw(@DTO.Icons.Notice);
+        else return Html.Raw(@DTO.Icons.Carousel);
+    }
+}

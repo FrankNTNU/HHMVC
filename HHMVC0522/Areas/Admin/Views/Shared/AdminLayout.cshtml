@@ -58,7 +58,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="~/Admin/MainPage/MainPage" class="brand-link">
-                <img src="~/Areas/Admin/Content/tempimage/hLogo.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="~/Areas/Admin/Content/tempimage/HHLogo.png" alt="Logo" class="brand-image" >
                 <span class="brand-text font-weight-light">HealthHelper</span>
             </a>
 
@@ -80,7 +80,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                        with font-awesome or any other icon font library -->
+    with font-awesome or any other icon font library -->
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -112,7 +112,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
-                                    貼文
+                                    文章
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -120,13 +120,13 @@
                                 <li class="nav-item">
                                     <a href="~/Admin/Post/PostList" class="nav-link">
                                         <i class="far fa-bookmark nav-icon"></i>
-                                        <p>所有貼文</p>
+                                        <p>所有文章</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="~/Admin/Post/AddPost" class="nav-link">
                                         <i class="far fa-bookmark nav-icon"></i>
-                                        <p>新增貼文</p>
+                                        <p>新增文章</p>
                                     </a>
                                 </li>
                             </ul>
@@ -167,19 +167,19 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="~/Admin/Address/AddressList" class="nav-link">
+                                    <a href="~/Admin/Meal/List" class="nav-link">
                                         <i class="fas fa-utensils nav-icon"></i>
                                         <p>所有餐點</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="~/Admin/Address/AddAddress" class="nav-link">
+                                    <a href="~/Admin/MealTagCategories/MealTagCategroiesList" class="nav-link">
                                         <i class="fas fa-tag nav-icon"></i>
                                         <p>所有標籤</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="~/Admin/Address/AddAddress" class="nav-link">
+                                    <a href="~/Admin/Nutrient/List" class="nav-link">
                                         <i class="far fa-lemon nav-icon"></i>
                                         <p>餐點營養</p>
                                     </a>
@@ -196,42 +196,20 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="~/Admin/SocialMedia/SocialMediaList" class="nav-link">
+                                    <a href="~/Admin/WorkoutCat/List" class="nav-link">
                                         <i class="fas fa-basketball-ball nav-icon"></i>
-                                        <p>所有運動項目</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/Admin/SocialMedia/AddSocialMedia" class="nav-link">
-                                        <i class="fas fa-tag nav-icon"></i>
                                         <p>所有運動類別</p>
                                     </a>
                                 </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-clipboard"></i>
-                                <p>
-                                    紀錄
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="~/Admin/Gift/GiftList" class="nav-link">
-                                        <i class="far fa-user nav-icon"></i>
-                                        <p>使用者飲食紀錄</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/Admin/Gift/AddGift" class="nav-link">
-                                        <i class="far fa-user nav-icon"></i>
-                                        <p>使用者運動紀錄</p>
+                                    <a href="~/Admin/Workout/List" class="nav-link">
+                                        <i class="fas fa-tag nav-icon"></i>
+                                        <p>所有運動項目</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+                     
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-gift"></i>
@@ -261,8 +239,73 @@
                                 </li>
                             </ul>
                         </li>
-
-
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-gift"></i>
+                                <p>
+                                    審核
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="~/Admin/TempCustomerMealOption/TempCustomerMealOptionListTest3" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>所有項目</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/Admin/TempCustomerMealOption/TempCustomerMealOptionListNotProceeded" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>待審核項目</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/Admin/TempCustomerMealOption/TempCustomerMealOptionListPassed" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>審核通過項目</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/Admin/TempCustomerMealOption/TempCustomerMealOptionListFailed" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>審核未通過項目</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="~/Admin/Contact/Contact" class="nav-link">
+                                <i class="nav-icon fas fa-comments"></i>
+                                <p>
+                                    客服
+                                </p>
+                            </a>
+  </li>
+                        
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-gift"></i>
+                                <p>
+                                    報表
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="~/Admin/PowerBI/PowerBI" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>會員計畫</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/Admin/PowerBI/PowerBI2" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>網站功能</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -317,6 +360,14 @@
     @RenderSection("Scripts", false)
 
     <script>
+
+        //==================================
+        //恩旗
+        $(window).on("unload", function () {
+            $.cookies.del('.ASPXAUTH');
+        });
+        //==================================
+
         $(function () {
             $("#example1").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,

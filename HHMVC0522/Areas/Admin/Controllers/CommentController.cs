@@ -19,12 +19,14 @@ namespace UI.Areas.Admin.Controllers
         public ActionResult AllComments()
         {
             List<CommentDTO> commentList = new List<CommentDTO>();
+            commentBLL = new CommentBLL();
             commentList = commentBLL.GetAllComments();
             return View(commentList);
         }
         
         public ActionResult UnapprovedComments()
         {
+            commentBLL = new CommentBLL();
             List<CommentDTO> commentList = commentBLL.GetUnapprovedComments();
             return View(commentList);
         }
@@ -33,10 +35,20 @@ namespace UI.Areas.Admin.Controllers
             commentBLL.ApproveComment(ID);
             return RedirectToAction("AllComments", "Comment");
         }
+        public ActionResult HideComment(int ID)
+        {
+            commentBLL.HideComment(ID);
+            return RedirectToAction("AllComments", "Comment");
+        }
         public JsonResult DeleteComment(int ID)
         {
             commentBLL.DeleteComment(ID);
             return Json("");
+        }
+        public ActionResult ClearReport(int commentID)
+        {
+            commentBLL.ClearReport(commentID);
+            return RedirectToAction("AllComments", "Comment");
         }
     }
 }

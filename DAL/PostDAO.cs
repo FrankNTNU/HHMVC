@@ -85,6 +85,7 @@ namespace DAL
             dto.ParentCommentID = (int?)comment.ParentCommentID ?? 0;
             dto.Level = CurrentLevel;
             dto.IsApproved = comment.IsApproved;
+            dto.SentimentScore = comment.SentimentScore;
             return dto;
         }
         private int CurrentLevel = 0;
@@ -178,9 +179,7 @@ namespace DAL
                     dto.ViewCount = item.ViewCount;
                     dtoList.Add(dto);
                 }
-
             }
-           
             return dtoList;
         }
         public List<PostDTO> GetUserPosts(int userID)
@@ -295,7 +294,7 @@ namespace DAL
                 dto.IsApproved = post.IsApproved;
                 dto.LikeCount = post.LikeCount;
                 dto.ViewCount = post.ViewCount;
-                dto.CommentList = GetCommentsWithPostID(ID);
+                //dto.CommentList = GetCommentsWithPostID(ID);
             }
             return dto;        
         }
@@ -378,9 +377,9 @@ namespace DAL
             return postList;
         }
         public static int UserPost = 1;
-        public static int News = 2;
+        public static int Information = 2;
         public static int Notice = 3;
-        public static int Rules = 4;
+        public static int Carousels = 4;
        
 
         
@@ -482,7 +481,7 @@ namespace DAL
                 post.PostContent = model.PostContent;
                 post.CategoryID = model.CategoryID;
                 post.AddDate = DateTime.Now;
-                post.IsApproved = true;
+                post.IsApproved = model.IsApproved;
                 db.Posts.Attach(post);
                 var entry = db.Entry(post);
                 entry.State = System.Data.Entity.EntityState.Modified;
@@ -523,6 +522,7 @@ namespace DAL
                 dto.PostContent = post.PostContent;
                 dto.CategoryID = post.CategoryID;
                 dto.MemberName = post.Member.Name;
+                dto.IsApproved = post.IsApproved;
             }
             return dto;
         }
@@ -541,13 +541,13 @@ namespace DAL
                 throw ex;
             }
         }
-        public List<PostDTO> GetRules()
+        public List<PostDTO> GetCarousels()
         {
             using (HealthHelperEntities db= new HealthHelperEntities())
             {
                 List<PostDTO> dtoList = new List<PostDTO>();
                 List<PostDTO> postList = (from p in db.Posts
-                                          where p.CategoryID == Rules
+                                          where p.CategoryID == Carousels
                                           select new PostDTO
                                           {
                                               ID = p.ID,
@@ -589,5 +589,11 @@ namespace DAL
                 db.SaveChanges();
             }
         }
+
+        public static int GetPostCount() => db.Posts.Count();
+        public static int GetUnapprovedCount() => db.Posts.Where(x => x.IsApproved == false).Count();
+        public static int GetCarouselCount() => db.Posts.Where(x => x.CategoryID == Carousels).Count();
+        public static int GetInfoCount() => db.Posts.Where(x => x.CategoryID == Information).Count();
+
     }
 }

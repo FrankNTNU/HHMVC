@@ -30,9 +30,9 @@ namespace BLL
             return postDAO.GetNestedComments(postID);
         }
 
-        internal List<PostDTO> GetRules()
+        internal List<PostDTO> GetCarousels()
         {
-            return postDAO.GetRules();
+            return postDAO.GetCarousels();
         }
 
         public bool AddPost(PostDTO model)
@@ -71,8 +71,7 @@ namespace BLL
             comment.Title = model.Comment.Title;
             comment.CommentContent = model.Comment.CommentContent;
             comment.AddDate = DateTime.Now;
-            comment.IsApproved = false;
-            
+            comment.IsApproved = true;
             commentDAO.AddComment(comment);
             return true;
         }
@@ -121,12 +120,6 @@ namespace BLL
             return true;
         }
 
-        //public bool UpdateComment(LayoutDTO model)
-        //{
-        //    commentDAO.UpdateComment(model);
-        //    return true;
-        //}
-
         public string DeletePostImage(int ID)
         {
             string imagePath = postDAO.DeletePostImage(ID);
@@ -143,11 +136,6 @@ namespace BLL
         {
             return postDAO.GetUserPosts(userID);
         }
-
-        //public List<PostDTO> GetNews()
-        //{
-        //    return postDAO.GetNews();
-        //}
 
         public List<PostDTO> GetPosts(int categoryID, string text)
         {
@@ -193,9 +181,17 @@ namespace BLL
                 AddDate = DateTime.Today,
                 ParentCommentID = model.ParentCommentID,
                 MemberID = model.MemberID,
-                IsApproved = false
+                IsApproved = true
             };
             postDAO.AddReply(comment);
+        }
+        public static class PostStatistics
+        {
+            public static int PostCount { get => PostDAO.GetPostCount(); }
+            public static int UnapprovedCount { get => PostDAO.GetUnapprovedCount(); }
+            public static int CarouselCount { get => PostDAO.GetCarouselCount(); }
+            public static int InfoCount { get => PostDAO.GetInfoCount(); }
+
         }
     }
 }

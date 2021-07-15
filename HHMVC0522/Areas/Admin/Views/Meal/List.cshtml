@@ -1,0 +1,112 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@using DTO;
+@using BLL;
+
+@model IEnumerable<DTO.MealDetailDTO>
+
+@{
+    ViewBag.Title = "ListTest";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+
+<section class="content-header">
+    <h1>所有餐點</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>飲食</a></li>
+        <li class="breadcrumb-item active"><a>所有餐點</a></li>
+    </ol>
+</section>
+<br />
+<div class="card-footer">
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Meal/CreateMealWithTags'">新增餐點</button>
+</div>
+
+<div class="card">
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>餐點ID</th>
+                    <th>名稱</th>
+                    <th>卡路里</th>
+                    <th>餐點圖片</th>
+                    <th>餐點標籤</th>
+                    <th>顯示狀態</th>
+                    <th>修改</th>
+                    <th>變更顯示狀態</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr id="a_@item.ID">
+                        <td>@item.ID</td>
+                        <td>@item.Name</td>
+                        <td>@item.Calories</td>
+                        <td>
+                            <img src="~/Areas/Admin/Content/MealOptionImages/@item.MealOptionImage" width="50" height="50" />
+                        </td>
+                        <td>
+                            @item.TagStringList
+                        </td>
+                        <td>
+                            @{
+                                if (item.IsVisable == "True")
+                                {
+                                    <label>正常顯示</label>
+                                }
+                                else
+                                {
+                                    <label>隱藏中</label>
+                                }
+                            }
+                        </td>
+                        <td align="center" valign="middle">
+                            <a href="/Admin/Meal/UpdateWithTags/@item.ID">
+                                <img src="~/Areas/Admin/Content/icon/update-icon.png" />
+                            </a>
+                        </td>
+                        @*<td align="center" valign="middle">
+                            <a href="#">
+                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Meal/Delete/', @item.ID)" />
+                            </a>
+                        </td>*@
+                    <td>
+                        @{
+                            if (item.IsVisable == "True")
+                            {
+                                @Html.ActionLink("隱藏餐點", "HiddenMeal", new { id = item.ID })
+                            }
+                            else
+                            {
+                                @Html.ActionLink("顯示餐點", "DisplayMeal", new { id = item.ID })
+                            }
+                        }
+                    </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>餐點ID</th>
+                    <th>名稱</th>
+                    <th>卡路里</th>
+                    <th>餐點圖片</th>
+                    <th>餐點標籤</th>
+                    <th>顯示狀態</th>
+                    <th>修改</th>
+                    <th>變更顯示狀態</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
+    <!-- /.card-body -->
+</div>
+<script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>
+<!-- /.card -->

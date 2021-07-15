@@ -40,6 +40,7 @@ namespace DAL
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<ModelCollection> ModelCollections { get; set; }
         public virtual DbSet<Nutrient> Nutrients { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Point> Points { get; set; }
         public virtual DbSet<PostCategory> PostCategories { get; set; }
         public virtual DbSet<PostImage> PostImages { get; set; }

@@ -7,11 +7,109 @@
 @using DTO
 @section Styles {
     <link href="~/Areas/Admin/Content/CSS/adminlte.min.css" rel="stylesheet" />
-
-
     <link href="~/Content/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <style>
+        .direct-chat-messages .right > .direct-chat-text::after {
+            border-left-color: #FF8040;
+        }
 
+        .direct-chat-messages :not(.right) > .direct-chat-text::before {
+            border-right-color: #B15BFF;
+        }
+
+        .direct-chat-msg a:link, .direct-chat-msg a:visited {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .direct-chat-msg a:hover {
+            color: aqua !important;
+        }
+
+        .direct-chat-msg.right {
+            text-align: right;
+        }
+
+        .direct-chat-text {
+            display: inline-block;
+            margin: 0px 0px 0px 10px;
+            text-align: left !important;
+            max-width: 80%;
+        }
+
+        .direct-chat-msg.right .direct-chat-text {
+            margin: 0px 10px 0px 0px;
+        }
+
+        .direct-chat-text p {
+            margin-bottom: 0px;
+        }
+
+        .direct-chat-text ul {
+            margin-left: 10px;
+            margin-bottom: 0px;
+        }
+
+        .direct-chat-text ul li {
+            padding-left: 0px;
+        }
+
+        .direct-chat-text strong {
+            color: white !important;
+        }
+
+        #serviceChatBox {
+            position: relative;
+            scroll-behavior: smooth;
+        }
+
+        .nameAndTime {
+            display: flex;
+            flex-basis: 100%;
+            align-items: baseline;
+        }
+
+        .nameAndTime.right {
+            flex-direction: row-reverse;
+        }
+
+        .name {
+            font-size: 1.2em;
+        }
+
+        .timeStamp {
+            font-size: 0.4em;
+            font-style: italic;
+            margin: 0px 5px;
+        }
+
+        .adminNotRead {
+            width: 80%;
+            text-align: center;
+            font-size: 1em;
+            color: white;
+            background-color: lightgray;
+            border-radius: 12px;
+            margin: 5px auto;
+        }
+
+        @*ForServiceDemo=========================*@
+        .demoService {
+            display: flex;
+            position: fixed;
+            left: 35em !important;
+            bottom: 50px;
+            column-gap: 10px;
+        }
+
+        .demoButtonService {
+            background-color: darkseagreen;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+        }
+    </style>
 
 }
 <section class="content-header">
@@ -68,18 +166,18 @@
                 <!-- DIRECT CHAT WARNING -->
                 <div class="card direct-chat">
                     <div class="card-header " style="cursor: default; pointer-events: none; background-color: #007bff ">
-                        <h3 class="card-title mb-0" style="color:white;padding:5px">聯絡客服</h3>
+                        <h3 id="dialogTitle" class="card-title mb-0" style="color:white;padding:5px">聯絡客服：</h3>
                     </div>
-                    <input type="hidden" id="displayname" />
+                    <input type="hidden" id="serviceGroupId" />
 
-                    <div class="card-body" style="padding:0px">
+                    <div id="dialogContainer" class="card-body" style="padding:0px">
                         <!-- Conversations are loaded here -->
-                        <div class="direct-chat-messages" id="chatbox" style="margin: 10px; padding:10px">
+                        <div class="direct-chat-messages" id="serviceChatBox" style="margin: 10px; padding:10px">
 
                         </div>
-                        <div class="direct-chat-msg right" id="adminbox" style="margin: 10px">
+                        @*<div class="direct-chat-msg right" id="adminbox" style="margin: 10px">
 
-                        </div>
+                            </div>*@
                     </div>
 
                     <div class="card-footer">
@@ -93,131 +191,328 @@
 
                                 </span>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </section>
 
+<!--ForServiceDemo===============================================-->
+<div class="demoService">
+    <div class="demoButtonService" onclick="autoInputMsgs7()">frank</div>
+    <div class="demoButtonService" onclick="autoInputMsgs8()">zzzz</div>
+</div>
+<!--=============================================================-->
 <!--</div>-->
 @section scripts {
-    <!--Script references. -->
-    <script src="~/Areas/Admin/Content/JS/angular.min.js"></script>
 
-    <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
-    @*<script src="~/Scripts/jquery-1.6.4.min.js"></script>*@
-    <!--Reference the SignalR library. -->
-    <script src="~/Areas/Admin/Content/JS/jquery.signalR.min.js"></script>
-    <!--Reference the autogenerated SignalR hub script. -->
-    <script src="~/Areas/Admin/Content/JS/signalr-hub.js"></script>
-    <!--SignalR script to update the chat page and send messages.-->
+    <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
-
+    <script src="~/Content/moment-js/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
     <script>
-                $(function () {
-                    // Reference the auto-generated proxy for the hub.
-                    var chat = $.connection.chatHub;
-                    // Create a function that the hub can call back to display messages.
-                    chat.client.addNewMessageToPage = function (name, imagePath, message) {
-                        // Add the message to the page.
-                        $('#chatbox').append('\
-                            <div class= "direct-chat-infos clearfix">\
-                            <span class="direct-chat-name float-left">' + name
-                            + '</span>'
-                            + '<span class="direct-chat-timestamp float-right">'
-                            + Date($.now()).substring(4, 24)
-                            + '</span>'
-                            + '</div>'
-                            + '<img class="direct-chat-img" src="/Areas/Admin/Content/UserImage/' + imagePath
-                            + '">'
-                            + '<div class="direct-chat-text mb-1">' + message
-                            + '</div>'
-                            );
-                    };
 
-                    // Get the user name and store it to prepend to messages.
-                    //$('#displayname').val(prompt('Enter your name:', ''));
-                    // Set initial focus to message input box.
-                    $('#message').focus();
-                    // Start the connection.
-                    $.connection.hub.start().done(function () {
-                        $('#sendmessage').click(function () {
-                            if ($('#message').val().trim().length != 0) {
-                                // Call the Send method on the hub.
-                            chat.server.send(`@Session["Name"]`, `@Session["ImagePath"]`, $('#message').val());
-                            // Clear text box and reset focus for next comment.
-                            $('#message').val('').focus();
+        let notRead = [];
+        let connected = [];
 
+        $(function () {
+
+            //Receive
+            var chat = $.connection.chatHub;
+            chat.client.receive = function (connId, userName, message, timeStamp, image, groupId) {
+
+                if ($("#serviceGroupId").val() == groupId) {
+
+                    write(userName, message, $.connection.hub.id == connId, timeStamp, image)
+
+                    let chatBox = document.getElementById("serviceChatBox");
+                    chatBox.scrollTop = chatBox.scrollHeight;
+
+                } else if ($.inArray(groupId, connected) != -1) {
+                    if (notRead.findIndex(nr => nr.GroupID == groupId) == -1) {
+                        notRead.push({
+                            GroupID: groupId,
+                            notReadNum: 1
+                        });
+                    } else {
+                        notRead[notRead.findIndex(nr => nr.GroupID == groupId)].notReadNum++;
+                    }
+                }
+            }
+            //================================================
+            //send message
+
+            $.connection.hub.start().done(function () {
+
+                //Auto add to ServiceGroups
+                $.ajax({
+                    url: "AddToServiceGroups",
+                    method: "POST",
+                    data: {
+                        connId: $.connection.hub.id
+                    },
+                    success: function (data) {
+                        alert(data.Result);
+                    }
+                });
+                //===================================
+                $("#sendmessage").click(function () {
+
+                    if ($("#message").val() == "") {
+                        alert("請輸入訊息");
+                        return;
+                    }
+
+                    if ($("#serviceGroupId").val() == "") {
+                        alert("尚未連線");
+                        return;
+                    }
+
+                    promiseForDemo3 = $.ajax({
+                        url: "SendMessage",
+                        type: "POST",
+                        data: {
+                            connId: $.connection.hub.id,
+                            groupId: $("#serviceGroupId").val(),
+                            message: $("#message").val()
+                        }
+                    }).promise();
+                });
+                //==================================================
+
+            });
+
+        });
+
+        function write(userName, message, isSelf, timeStamp, image) {
+
+            var mdConverter = new showdown.Converter();
+            message = mdConverter.makeHtml(message);
+
+            if (isSelf) {
+                let dialogDiv = $("<div></div>").addClass("direct-chat-msg");
+
+                $("<div></div>").addClass("nameAndTime")
+                    .append($("<span></span>").addClass("name").text(userName))
+                    .append($("<span></span>").addClass("timeStamp").text(timeStamp))
+                    .appendTo(dialogDiv);
+
+                $("<img/>").addClass("direct-chat-img")
+                    .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                    .appendTo(dialogDiv);
+
+                $("<div></div>").addClass("direct-chat-text")
+                    .css("background-color", "#B15BFF").css("color", "white").css("border-color", "#B15BFF")
+                    .html(message)
+                    .appendTo(dialogDiv);
+
+                $("#serviceChatBox").append(dialogDiv);
+
+            } else {
+                let dialogDiv = $("<div></div>").addClass("direct-chat-msg right");
+
+                $("<div></div>").addClass("nameAndTime right")
+                    .append($("<span></span>").addClass("name").text(userName))
+                    .append($("<span></span>").addClass("timeStamp").text(timeStamp))
+                    .appendTo(dialogDiv);
+
+                $("<img/>").addClass("direct-chat-img")
+                    .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                    .appendTo(dialogDiv);
+
+                $("<div></div>").addClass("direct-chat-text")
+                    .css("background-color", "#FF8040").css("color", "white").css("border-color", "#FF8040")
+                    .html(message)
+                    .appendTo(dialogDiv);
+
+                $("#serviceChatBox").append(dialogDiv);
+            }
+
+        }
+
+        //Change Customer and loadMessages
+        $("tbody").on("click", "a", function () {
+
+            let groupId = $(this).parent().prev().prev().text();
+
+            if ($("#serviceGroupId").val() == groupId) {
+                return;
+            }
+
+            $("#serviceGroupId").val(groupId);
+
+            let userName = $(this).parent().prev().text();
+            $("#dialogTitle").text(`聯絡客服：${userName}`);
+
+            $(this).text("已連線");
+            connected.push(groupId);
+
+            LoadMessages();
+
+        })
+
+        //==========================================================
+
+        setInterval(function () {
+            GetOnlineUsers();
+        }, 1500);
+
+        function GetOnlineUsers() {
+            $.ajax({
+                url: "GetServiceGroups",
+                type: "POST",
+                data: {
+                    connId: $.connection.hub.id
+                },
+                success: function (result) {
+
+                    let docFrag = document.createDocumentFragment();
+                    let onlineGroup = [];
+
+                    $.each(result, function (index, value) {
+
+                        let cell1 = $("<td></td>")
+                            .append($("<img />").attr("src", "/Areas/Admin/Content/UserImage/" + value.ImagePath)
+                                .addClass("direct-chat-img"));
+
+                        let cell2 = $("<td></td>").append(value.GroupID);
+
+                        let cell3 = $("<td></td>").append(value.UserName);
+
+                        let cell4 = $("<td></td>").append($("<a></a>").addClass("btn btn-sm"));
+
+                        if (notRead.findIndex(nr => nr.GroupID == value.GroupID) != -1) {
+
+                            let notReadNum = notRead[notRead.findIndex(nr => nr.GroupID == value.GroupID)].notReadNum;
+                            $(cell4).children("a").addClass("btn-danger").text(`新訊息(${notReadNum})`);
+
+                        } else if ($.inArray(value.GroupID, connected) != -1) {
+
+                            $(cell4).children("a").addClass("btn-primary").text("已連線");
+
+                        } else {
+
+                            if (value.PreMsgCount != 0) {
+                                $(cell4).children("a").addClass("btn-primary").text(`未連線(${value.PreMsgCount})`);
+                            } else {
+                                $(cell4).children("a").addClass("btn-primary").text("未連線");
                             }
 
-                        });
-                    });
+                        }
 
+                        $(docFrag).append($("<tr></tr>").append(cell1, cell2, cell3, cell4));
 
-                });
-
-    </script>
-
-
-    <script type="text/javascript">
-        setInterval(function () {
-            //if (HasChanged() == "true") {
-            GetOnlineUsers();
-            //}
-        }, 5000)
-
-        @*function HasChanged() {
-            var hasChanged;
-            var listOfConnIDs = "";
-            var previousIds = @DTO.UserHandler.ConnectedIds;
-            previousIds.forEach(function (item, index) { listOfConnIDs += item; }));
-
-
-
-            $.ajax({
-                url: "HasChanged",
-                data: { previousList: listOfConnIDs },
-                success: function (result) {
-                    hasChanged = result;
-                    console.log(hasChanged);
-
-                }
-            })
-            return hasChanged;
-        }*@
-        function GetOnlineUsers() {
-            $('tbody').empty();
-            $.ajax({
-                url: "GetOnlineUsers",
-                success: function (result) {
-                    $.each(result, function (index, value) {
-                        var InsertedHtml = "<tr><td>"
-                            + '<img src="/Areas/Admin/Content/UserImage/'
-                            + value.ImagePath
-                            + '" class="direct-chat-img">'
-                            + "</td>"
-                            + "</td>"
-                            + "<td>"
-                            + value.ConnID
-                            + "<td>"
-                            + value.UserName
-                            + "</td>"
-                            + '<td class="project-actions">'
-                            + '<a class="btn btn-primary btn-sm" href="#">'
-                            + "連線"
-                            + "</a></td></tr>"; $('tbody').append(InsertedHtml);
+                        onlineGroup.push(value.GroupID);
                     })
 
+                    //Remove offline group from notRead Array
+                    $.each(notRead, function (index, obj) {
+                        if ($.inArray(obj.GroupID, onlineGroup) == -1) {
+                            notRead.splice(index, 1);
+                        }
+                    });
+
+                    //Remove offline group from connected Array
+                    $.each(connected, function (index, value) {
+                        if ($.inArray(value, onlineGroup) == -1) {
+                            connected.splice(index, 1);
+                        }
+                    });
+
+                    $("tbody").html("");
+                    $("tbody").append(docFrag);
+
+                    if (result.length == 0) {
+                        $("#dialogTitle").text("聯絡客服：");
+                        $("#serviceChatBox").html("");
+                    }
                 }
             })
         }
 
+        //todo Load Group Messages
+        function LoadMessages() {
+            if ($("#serviceGroupId").val() != "") {
+                $.ajax({
+                    url: "GetGroupMsgs",
+                    type: "POST",
+                    data: {
+                        groupId: $("#serviceGroupId").val()
+                    },
+                    success: function (data) {
+
+                        $("#serviceChatBox").html("");
+
+                        let notReadIndex = notRead.findIndex(nr => nr.GroupID == $("#serviceGroupId").val());
+                        let notReadNum = 0;
+
+                        if (notReadIndex != -1) {
+                            notReadNum = notRead[notReadIndex].notReadNum;
+                        }
+
+                        $.each(data, function (i, msg) {
+                            if (i == (data.length - notReadNum)) {
+                                appendNotReadForAdmin();
+                            }
+                            write(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
+                        });
+
+                        if ($(".adminNotRead").length != 0) {
+                            $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".adminNotRead").position().top);
+                        } else {
+                            $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
+                        }
+
+                        let index = notRead.findIndex(nr => nr.GroupID == $("#serviceGroupId").val());
+                        if (index != -1) {
+                            notRead.splice(index, 1);
+                        }
+                    }
+                });
+            }
+        }
+
+        function appendNotReadForAdmin() {
+
+            let NotReadDiv = $("<div></div>").addClass("adminNotRead").append("以下為未讀訊息");
+
+            $("#serviceChatBox").append(NotReadDiv);
+        }
 
 
+        //ForDemo================================
+
+        let promiseForDemo3;
+
+        function autoInputMsgs7() {
+            msgs = [
+                "那是因為你暴飲暴食",
+                "加上沒有運動",
+                "請多做時間管理"
+            ];
+
+            autoInputForCustomer(msgs);
+        }
+
+        function autoInputMsgs8() {
+            msgs = [
+                "我馬上來",
+                "謝謝你請我喝飲料",
+                "幫我增加了了1公斤"
+            ];
+
+            autoInputForCustomer(msgs);
+        }
+
+        async function autoInputForCustomer(msgs) {
+            for (let i = 0; i < msgs.length; i++) {
+                $("#message").val(msgs[i]);
+                $("#sendmessage").click();
+                await promiseForDemo3;
+            }
+        }
     </script>
 }
 

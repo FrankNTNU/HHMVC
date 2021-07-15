@@ -126,5 +126,11 @@ namespace DAL
                 db.SaveChanges();
             }
         }
+
+        public void AddWeightLog(WeightLog weightLog)
+        {
+            db.WeightLogs.Add(weightLog);
+            db.SaveChanges();
+        }
     }
 }

@@ -39,18 +39,18 @@ namespace UI.Controllers
             {
                 if (postBLL.AddComment(model))
                 {
-                    ViewData["CommentState"] = "Success";
+                    TempData["State"] = "AddSuccess";
                     ModelState.Clear();
                 }
                 else
                 {
-                    ViewData["CommentState"] = "Error";
+                    TempData["State"] = "Error";
                     ViewBag.ProcessState = General.Messages.GeneralError;
                 }
             }
             else
             {
-                ViewData["CommentState"] = "Error";
+                TempData["State"] = "Error";
                 ViewBag.ProcessState = General.Messages.EmptyArea;
 
             }
@@ -87,6 +87,7 @@ namespace UI.Controllers
             {
                 ViewBag.ProcessState = General.Messages.ImageMissing;
                 model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
+                TempData["State"] = "ImageMissing";
                 return View(model);
             }
             else if (ModelState.IsValid)
@@ -98,6 +99,7 @@ namespace UI.Controllers
                     {
                         ViewBag.ProcessState = General.Messages.ExtensionError;
                         model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
+                        TempData["State"] = "ExtensionError";
                         return View(model);
                     }
                 }
@@ -115,18 +117,19 @@ namespace UI.Controllers
                 }
                 model.PostImages = imageList;
                 model.CategoryID = General.Category.UserPost;
+                model.IsApproved = false;
                 if (postBLL.AddPost(model))
                 {
-                    ViewData["CommentState"] = "Success";
                     ModelState.Clear();
                     ViewBag.ProcessState = General.Messages.AddSuccess;
-
+                    TempData["State"] = "AddPostSuccess";
                     model = new PostDTO();
                 }
                 else
                 {
                     ViewBag.ProcessState = General.Messages.GeneralError;
                     model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
+                    TempData["State"] = "Error";
                     return View(model);
                 }
             }
@@ -134,6 +137,7 @@ namespace UI.Controllers
             {
                 ViewBag.ProcessState = General.Messages.EmptyArea;
                 model.Categories = PostCategoryBLL.GetPostCategoriesForDropDown();
+                TempData["State"] = "EmptyArea";
                 return View(model);
             }
             return RedirectToAction("Index", "Home2");
@@ -183,12 +187,12 @@ namespace UI.Controllers
 
                 }
                 model.CategoryID = categoryID;
+                model.IsApproved = false;
                 if (postBLL.UpdatePost(model))
                 {
-
+                    TempData["State"] = "UpdateSuccess";
                     ViewBag.ProcessState = General.Messages.UpdateSuccess;
                     return RedirectToAction("PostDetail/" + model.ID, "FrontPost");
-
                 }
                 else
                 {
@@ -239,6 +243,7 @@ namespace UI.Controllers
                     System.IO.File.Delete(imageFullPath);
                 }
             }
+            TempData["State"] = "DeleteSuccess";
             return RedirectToAction("Index", "Home2");
         }
         public ActionResult GetPostsWithSearchText(string SearchCategory, string SearchText)
@@ -297,31 +302,31 @@ namespace UI.Controllers
             {
                 if (commentBLL.UpdateComment(model))
                 {
-                    ViewData["CommentState"] = "Success";
-                    ViewBag.ProcessState = General.Messages.AddSuccess;
+                    TempData["State"] = "UpdateSuccess";
                     ModelState.Clear();
                     return RedirectToAction("PostDetail/" + currentPostID, "FrontPost");
 
                 }
                 else
                 {
-                    ViewData["CommentState"] = "Error";
-                    ViewBag.ProcessState = General.Messages.GeneralError;
+                    TempData["State"] = "Error";
+                    Session["PostID"] = currentPostID;
                     return View(model);
                 }
             }
             else
             {
-                ViewData["CommentState"] = "Error";
-                ViewBag.ProcessState = General.Messages.EmptyArea;
+                TempData["State"] = "Error";
+                Session["PostID"] = currentPostID;
                 return View(model);
             }
             
         }
         public ActionResult DeleteComment(int ID, int postID)
         {
-            commentBLL.DeleteComment(ID);
-            ViewData["CommentState"] = "Success";
+            //commentBLL.DeleteComment(ID);
+            commentBLL.HideComment(ID);
+            TempData["State"] = "DeleteSuccess";
             ModelState.Clear();
             return RedirectToAction("PostDetail/" + postID, "FrontPost");
         }
@@ -342,6 +347,7 @@ namespace UI.Controllers
                 model.MemberID = (int)Session["ID"];
                 model.ParentCommentID = parentCommentID;
                 postBLL.AddReply(model);
+                TempData["State"] = "ReplySuccess";
                 return RedirectToAction("PostDetail/" + currentPostID, "FrontPost");
             }
             else
@@ -349,6 +355,12 @@ namespace UI.Controllers
                 ViewBag.ProcessState = General.Messages.EmptyArea;
                 return View(model);
             }
+        }
+        public string ReportComment(int commentID)
+        {
+            commentBLL.ReportComment(commentID);
+            TempData["State"] = "ReportSent";
+            return "";
         }
     }
 }

@@ -43,11 +43,38 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Azure.AI.TextAnalytics, Version=5.1.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.AI.TextAnalytics.5.1.0\lib\netstandard2.0\Azure.AI.TextAnalytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Core, Version=1.16.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Core.1.16.0\lib\net461\Azure.Core.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis, Version=1.52.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.52.0\lib\net45\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth, Version=1.52.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.52.0\lib\net461\Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.52.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.52.0\lib\net461\Google.Apis.Auth.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.52.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.52.0\lib\net45\Google.Apis.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.52.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.52.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.4.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.4.2\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
@@ -58,21 +85,39 @@
     <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Azure.CognitiveServices.Knowledge.QnAMaker, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.CognitiveServices.Knowledge.QnAMaker.2.0.1\lib\net461\Microsoft.Azure.CognitiveServices.Knowledge.QnAMaker.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    <Reference Include="Microsoft.Owin, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.2.0\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.2.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.4.2.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.2.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.20\lib\net461\Microsoft.Rest.ClientRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Rest.ClientRuntime.Azure, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.Azure.3.3.18\lib\net452\Microsoft.Rest.ClientRuntime.Azure.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -83,9 +128,46 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.6.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory.Data, Version=1.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.Data.1.0.2\lib\net461\System.Memory.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.6.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.5.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.7.2\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.4.6.0\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -168,6 +250,7 @@
     <Content Include="Areas\Admin\Content\GiftImages\d9956c3d-f613-4374-bde0-6577dfea506abigmac.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\f856422c-d5ed-4ffc-865e-85a6e39d94edoolong.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\fc2008d5-ff1c-4179-81d8-4e7c53fedcf0starbucks.jpg" />
+	<Content Include="Areas\Admin\Content\GiftImages\161845921140825_P11774857.jpg" />
     <Content Include="Areas\Admin\Content\icon\approve.png" />
     <Content Include="Areas\Admin\Content\icon\close-icon.png" />
     <Content Include="Areas\Admin\Content\icon\lockIcon.png" />
@@ -685,6 +768,11 @@
     <Content Include="Content\img\slides\refine\slide3.png" />
     <Content Include="Content\img\small-avatar.png" />
     <Content Include="Content\img\ui.totop.png" />
+    <Content Include="Content\jquery-ui-monthpicker\jquery.mtz.monthpicker.js" />
+    <Content Include="Content\jquery-ui-monthpicker\jquery.ui.monthpicker.js" />
+    <Content Include="Content\jquery-ui-scrollbar\jquery.scrollbar.css" />
+    <Content Include="Content\jquery-ui-scrollbar\jquery.scrollbar.min.js" />
+    <Content Include="Content\js\ASPSnippets_Pager.min.js" />
     <Content Include="Content\js\bootstrap-slider.min.js" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\Gift\GiftList.cshtml" />
@@ -695,7 +783,41 @@
     <Content Include="Areas\Admin\Views\Gift\GiftCarts.cshtml" />
     <Content Include="Areas\Admin\Views\Contact\Contact.cshtml" />
     <Content Include="Areas\Admin\Content\webfonts\BarcodeFont.ttf" />
+    <Content Include="Areas\Admin\Views\Workout\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Workout\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Workout\List.cshtml" />
+    <Content Include="Areas\Admin\Views\WorkoutLog\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\WorkoutLog\List.cshtml" />
+    <Content Include="Areas\Admin\Views\WorkoutCat\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\WorkoutCat\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\WorkoutCat\List.cshtml" />
     <Content Include="Areas\Admin\Views\MainPage\MainPage.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\Creat.cshtml" />
+    <Content Include="Areas\Admin\Views\Gift\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\CreateMeal.cshtml" />
+    <Content Include="Areas\Admin\Views\Nutrient\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Nutrient\UpdateNutrient.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\MealTagCategories\MealTagCategroiesList.cshtml" />
+    <Content Include="Areas\Admin\Views\MealTagCategories\AddMealTagCategory.cshtml" />
+    <Content Include="Areas\Admin\Views\MealTagCategories\UpadteTags.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\ListTest.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\PageTest.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\CreateMealWithTags.cshtml" />
+    <Content Include="Areas\Admin\Views\Meal\UpdateWithTags.cshtml" />
+    <Content Include="Areas\Admin\Views\MealTagCategories\GetMealsByTag.cshtml" />
+    <Content Include="Areas\Admin\Views\MealTagCategories\GetMealsByTagTest.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListTest.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListTest2.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListTest3.cshtml" />
+    <Content Include="Areas\Admin\Views\PowerBI\PowerBI.cshtml" />
+    <Content Include="Areas\Admin\Views\PowerBI\PowerBI2.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\audit.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListNotProceeded.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListPassed.cshtml" />
+    <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListFailed.cshtml" />
     <Content Include="Content\css\fonts\flexslider-icon.ttf" />
     <Content Include="Content\css\fonts\flexslider-icon.woff" />
     <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
@@ -749,7 +871,14 @@
     <Content Include="Content\moment-js\moment.js" />
     <Content Include="Content\moment-js\moment.min.js" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\pointsPage\coins.jpg" />
+    <Content Include="Content\pointsPage\gifts.jpg" />
+    <Content Include="Content\pointsPage\pay.jpg" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\tempImg\chartImg.jpg" />
+    <Content Include="Content\tempImg\dietImg.jpg" />
+    <Content Include="Content\tempImg\exerciseImg.jpg" />
+    <Content Include="Content\tempImg\healthImg.jpg" />
     <Content Include="Content\toastr\toastr.css" />
     <Content Include="Content\toastr\toastr.min.css" />
     <Content Include="Content\toastr\toastr.min.js" />
@@ -757,8 +886,11 @@
     <Content Include="Content\webfonts\fa-regular-400.svg" />
     <Content Include="Content\webfonts\fa-solid-900.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\jquery.signalR-2.4.2.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.2.min.js" />
     <Content Include="Views\Shared\_MealOptionViewModelPartial.cshtml" />
     <None Include="Properties\PublishProfiles\HealthHelper - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
@@ -766,6 +898,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommentController.cs" />
@@ -773,12 +906,25 @@
     <Compile Include="Areas\Admin\Controllers\GiftController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\MainPageController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MealController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MealTagCategoriesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NutrientController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PowerBIController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TempCustomerMealOptionController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\WorkoutCatController.cs" />
+    <Compile Include="Areas\Admin\Controllers\WorkoutController.cs" />
+    <Compile Include="Areas\Admin\Controllers\WorkoutLogController.cs" />
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
+    <Compile Include="Controllers\HHGiftCardController.cs" />
+    <Compile Include="Controllers\HHGiftShopController.cs" />
+    <Compile Include="GroupChatHub.cs" />
     <Compile Include="ChatHub.cs" />
+    <Compile Include="Controllers\ChatGroupController.cs" />
     <Compile Include="Controllers\FrontContactController.cs" />
     <Compile Include="Controllers\FrontGiftController.cs" />
+    <Compile Include="Controllers\FrontPointController.cs" />
     <Compile Include="Controllers\FrontPostController.cs" />
     <Compile Include="Controllers\HHApi_HealthReportController.cs" />
     <Compile Include="Controllers\HHHealthReportController.cs" />
@@ -790,6 +936,9 @@
     <Compile Include="Controllers\HHApi_ProgramController.cs" />
     <Compile Include="Controllers\HHProgramsController.cs" />
     <Compile Include="Controllers\Home2Controller.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\WeightController.cs" />
     <Compile Include="Controllers\WorkoutController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -800,6 +949,7 @@
     <Compile Include="Models\HealthCalculator.cs" />
     <Compile Include="Models\MemberHealthProfile.cs" />
     <Compile Include="Models\MemberProfile.cs" />
+    <Compile Include="HHDictionary.cs" />
     <Compile Include="Models\ViewModelGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CMealTagCategoryViewModel.cs" />
@@ -823,6 +973,7 @@
     <Compile Include="ViewModels\ProgramPageViewModel.cs" />
     <Compile Include="ViewModels\TimesOfDayViewModel.cs" />
     <Compile Include="ViewModels\WaterLogDatasViewModel.cs" />
+    <Compile Include="ViewModels\WorkoutSuggestViewModel.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -971,7 +1122,6 @@
     <Content Include="Views\HHGiftShop\MyGiftShop.cshtml" />
     <Content Include="Views\HHDietHistory\DietLogsHistory.cshtml" />
     <Content Include="Views\Shared\HomeLayout2.cshtml" />
-    <Content Include="Views\Home2\Index.cshtml" />
     <Content Include="Views\Home2\Login.cshtml" />
     <Content Include="Views\Workout\WorkoutLog.cshtml" />
     <Content Include="Views\FrontPost\AddPost.cshtml" />
@@ -990,8 +1140,24 @@
     <Content Include="Views\Shared\_DietLogsHistoryPartial.cshtml" />
     <Content Include="Views\HHDiet\test.cshtml" />
     <Content Include="Views\Shared\HomeLayout2_0622.cshtml" />
-    <Content Include="Views\Home2\Login.cshtml" />
     <Content Include="Views\HHHealthReport\HealthReport.cshtml" />
+    <Content Include="Views\Home2\UserPoints.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Weight\WeightLog.cshtml" />
+    <Content Include="Views\Workout\WorkoutSchedule.cshtml" />
+    <Content Include="Views\Workout\WorkoutPreferences.cshtml" />
+    <Content Include="Views\Workout\WorkoutPlaces.cshtml" />
+    <Content Include="Views\ChatGroup\GroupChat.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Member\CreateMember.cshtml" />
+    <Content Include="Views\Shared\MessageForm.cshtml" />
+    <Content Include="Views\Member\Partial\MemberForm.cshtml" />
+    <Content Include="Views\Test\Test.cshtml" />
+    <Content Include="Views\Home2\GoogleLogin.cshtml" />
+    <Content Include="Views\Home2\LoginFirstTime.cshtml" />
+    <Content Include="Views\Member\EditMember.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1013,9 +1179,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Content\MealOptionImages\" />
+    <Folder Include="Areas\Admin\Content\PostImages\" />
     <Folder Include="Areas\Admin\Content\JS\ckeditor\plugins\iframe\icons\hidpi\" />
+    <Folder Include="Areas\Admin\Content\TagCategoriesImages\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
+    <Folder Include="Content\MemberImgs\" />
     <Folder Include="Views\HHApi_DietLogsHistory\" />
     <Folder Include="Views\HHApi_DietLog\" />
     <Folder Include="Views\HHApi_HealthReport\" />

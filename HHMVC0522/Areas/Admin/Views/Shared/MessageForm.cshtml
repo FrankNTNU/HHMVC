@@ -54,3 +54,21 @@ else if (ViewBag.ProcessState == BLL.General.Messages.NotAdmin)
         <strong>後臺頁面僅開放管理員</strong>
     </div>
 }
+else if (ViewBag.ProcessState == BLL.General.Messages.SameName)
+{
+    <div class="alert alert-danger">
+        <strong>名稱已存在</strong>
+    </div>
+}
+else if (ViewBag.ProcessState == BLL.General.Messages.GoogleLoginError)
+{
+    <div class="alert alert-warning">
+        <strong>Google帳號錯誤</strong>
+    </div>
+}
+else if (ViewBag.ProcessState == BLL.General.Messages.LoginFirstError)
+{
+    <div class="alert alert-danger">
+        <strong>帳號、密碼或認證碼錯誤</strong>
+    </div>
+}

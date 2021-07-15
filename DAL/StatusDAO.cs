@@ -19,5 +19,10 @@ namespace DAL
                 }).ToList();
             return statuses;
         }
+        public string GetStatus(int ID)
+        {
+            var status = db.Status.First(x => x.ID == ID);
+            return status.Name;
+        }
     }
 }

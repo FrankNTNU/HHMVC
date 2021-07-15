@@ -7,21 +7,87 @@
 
 @model List<DTO.PostDTO>
 <section class="content-header">
-    <h1>所有貼文</h1>
+    <h1>所有文章</h1>
     <ol class="breadcrumb float-sm-left">
         <li class="breadcrumb-item"><a>後臺頁面</a></li>
-        <li class="breadcrumb-item"><a>貼文</a></li>
-        <li class="breadcrumb-item active"><a>所有貼文</a></li>
+        <li class="breadcrumb-item"><a>文章</a></li>
+        <li class="breadcrumb-item active"><a>所有文章</a></li>
     </ol>
 </section>
 <br />
 <div class="card-footer">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='../Post/AddPost'">新增貼文</button>
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='../Post/AddPost'">新增文章</button>
 </div>
 @*@using DTO
     @{
         CountDTO countDTO = (CountDTO)ViewData["AllCounts"];
     }*@
+<!-- Info boxes -->
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-clipboard"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">總文章數</span>
+                <span class="info-box-number">
+                    @BLL.PostBLL.PostStatistics.PostCount
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-pen"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">待審核筆數</span>
+                <span class="info-box-number">
+                    @BLL.PostBLL.PostStatistics.UnapprovedCount
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix hidden-md-up"></div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-gradient-warning elevation-1"><i class="fas fa-ad"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">輪播牆頁數</span>
+                <span class="info-box-number">
+                    @BLL.PostBLL.PostStatistics.CarouselCount
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-gradient-primary elevation-1"><i class="fas fa-info"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">資訊筆數</span>
+                <span class="info-box-number">
+                    @BLL.PostBLL.PostStatistics.InfoCount
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+</div>
 <div class="card">
     <!--</div>-->
     <!-- /.row -->
@@ -87,7 +153,7 @@
                         <td align="center" valign="middle">
 
                             <a href="#">
-                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Post/DeletePost/', @item.ID)" />
+                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../Post/DeletePost/', @item.ID)" />
                             </a>
 
                         </td>

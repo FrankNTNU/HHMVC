@@ -11,8 +11,11 @@ namespace UI
     {
         public void Configuration(IAppBuilder app)
         {
+            
             // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
             app.MapSignalR();
+            App_Start.Startup startup = new App_Start.Startup();
+            startup.ConfigureAuth(app);
         }
     }
 }

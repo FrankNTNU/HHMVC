@@ -1,4 +1,6 @@
-﻿@using DTO
+﻿@using UI.Controllers
+@using DTO
+
 @{ Layout = null; }
 
 <!DOCTYPE HTML>
@@ -12,6 +14,7 @@
     <title>HealthHelper 你的健康管理助手</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
     <link rel="stylesheet" href="~/Content/css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     @*for waterLog*@
@@ -19,8 +22,354 @@
     <link rel="stylesheet" href="/resources/demos/style.css">
     <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
     @*for waterLog Above*@
+    <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+
+
     @RenderSection("Styles", required: false)
-    <style>
+
+<style>
+    @*恩旗=====================================*@
+    #dialogDiv, #programFrozen, #fanfare {
+        display: none;
+    }
+
+    #resultWeight {
+        display: inline-block;
+        width: 10em;
+    }
+
+    #dialogDiv ul {
+        list-style-type: none;
+    }
+
+    #dialogDiv ul li::before {
+        content: "\2022"; /* Add content: \2022 is the CSS Code/unicode for a bullet */
+        color: #f56a6a; /* Change the color */
+        font-weight: bold; /* If you want it to be bold */
+        display: inline-block; /* Needed to add space between the bullet and the text */
+        width: 1em; /* Also needed for space (tweak if needed) */
+        margin-left: -1em; /* Also needed for space (tweak if needed) */
+    }
+
+    .no-close .ui-dialog-titlebar-close {
+        display: none;
+    }
+
+    .btnOK {
+        all: initial;
+        border: none !important;
+    }
+
+    .ui-dialog-titlebar {
+        background-color: #f56a6a;
+        color: white;
+    }
+
+    .points {
+        font-size: 1.5em;
+        font-weight: 600;
+        font-style: italic;
+        color: #f56a6a;
+    }
+
+    .programSuccessPts {
+        font-size: 3em;
+        font-weight: 600;
+        font-style: italic;
+        color: #f56a6a;
+    }
+
+    @*ForCustomerService==========================*@
+
+    #chatPanel {
+        width: 340px;
+        height: 450px;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        border: solid 1px #f56a6a;
+        border-radius: 0.9em;
+        transition: height linear 0.5s;
+        display: flex;
+        flex-direction: column;
+        padding: 0px;
+        overflow: hidden;
+        background-color: white;
+        box-shadow: 5px 5px 10px 5px #E0E0E0;
+    }
+
+    .chatHeader {
+        display: flex;
+        column-gap: 5px;
+        padding: 10px;
+        background-color: #f56a6a;
+        color: white;
+        margin:0px;
+    }
+
+    #notReadForSidebar {
+        width:20px;
+        font-size: 0.6em !important;
+        font-weight: 300 !important;
+        color: white !important;
+        left: 115px;
+        top: 12px;
+        position:absolute;
+        text-align:center;
+    }
+
+    .notReadText {
+        width:80%;
+        text-align:center;
+        font-size:0.5em;
+        color:white;
+        background-color: lightgray;
+        border-radius:5px;
+        margin: 5px auto;
+    }
+
+    #notRead {
+        visibility: hidden;
+        margin-left: auto;
+    }
+
+    #notRead, #collapse, #showChatModal, #closePanel {
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background-color: white;
+        color: #f56a6a;
+        border-radius: 2px;
+        width: 25px;
+        height: 25px;
+    }
+
+    .chatBody {
+        border-bottom: solid 1px gray;
+        flex: 1 1 0;
+        min-height: 0;
+        background-color: white;
+    }
+
+    #serviceChatBox {
+        position: relative;
+        height: 100%;
+        overflow: auto;
+        scroll-behavior: smooth;
+        padding:0px 5px;
+        border:none;
+    }
+
+    .messageRow {
+        display:flex;
+        flex-wrap:wrap;
+        margin:5px;
+    }
+
+    .chatFooter {
+        display: flex;
+        margin-top: auto;
+        column-gap: 10px;
+        padding: 10px;
+        background-color:white;
+    }
+
+    .chatFooter input, .chatFooter div {
+        display: inline-block;
+    }
+
+    img.myImage {
+        width:30px;
+        height:30px;
+        margin:5px;
+    }
+
+    .myImage, .selfText, .otherText {
+        display:inline-block;
+        border-radius: 5px;
+        margin:5px;
+    }
+
+    .selfText, .otherText {
+        padding: 5px;
+        /*width:100%;*/
+        margin: 0px;
+        color: white !important;
+    }
+
+    .selfText p, .otherText p {
+        margin-bottom: 0px;
+    }
+
+    .selfText ul, .otherText ul {
+        margin-left:10px;
+        margin-bottom: 0px;
+    }
+
+    .selfText ul li, .otherText ul li {
+        padding-left: 0px;
+    }
+
+    .selfText strong, .otherText strong {
+        color: white !important;
+    }
+
+    .promptDiv a:link, .promptDiv a:visited, .selfText a:link, .otherText a:link, .selfText a:visited, .otherText a:visited {
+        color: white;
+        text-decoration: underline;
+    }
+
+    .promptDiv a:hover, .selfText a:hover, .otherText a:hover {
+        color: aqua !important;
+    }
+
+    .ArrowToLeft, .ArrowToRight {
+        display:flex;
+        align-items: center;
+        position:relative;
+        width:80%;
+    }
+
+    .ArrowToRight {
+        flex-direction:row-reverse;
+    }
+
+    .ArrowToLeft::before {
+        content: "\25C2";
+        color: #B15BFF;
+        position: absolute;
+        left: -9px;
+        top: 0.25em;
+    }
+
+    .ArrowToRight::after {
+        content: "\25B8";
+        color: #f56a6a;
+        position: absolute;
+        right: -9px;
+        top: 0.25em;
+    }
+
+    .textDiv {
+        display:flex;
+        width:100%;
+        padding:5px;
+    }
+
+    .textDiv.reverse {
+        flex-direction:row-reverse;
+    }
+
+    .promptDiv {
+        display:flex;
+        justify-content:center;
+        margin: 5px 0px;
+        padding: 0px 0px 5px 0px;
+    }
+
+    .promptButton {
+        width: max-content;
+        background-color: #2894FF;
+        color: white;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .nameAndTime {
+        display:flex;
+        flex-basis: 100%;
+        align-items: baseline;
+    }
+
+    .nameAndTime.right {
+        flex-direction:row-reverse;
+    }
+
+    .name {
+        font-size: 1.2em;
+    }
+
+    .timeStamp {
+        font-size: 0.4em;
+        font-style: italic;
+        margin: 0px 5px;
+    }
+
+    #sendServiceMessage {
+        font-size: 1em;
+        width: 80px;
+        height: 44px;
+        line-height: 44px;
+        text-align: center;
+        padding: 0px;
+    }
+    @*Modal============================================*@
+    /* The Modal (background) */
+    #chatModal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+        justify-content: center;
+        align-items: center;
+    }
+
+    #chatPanel.ModalChatPanel {
+        bottom: unset;
+        right: unset;
+        width: calc(50% + 3px);
+        height: calc(60% + 1px) !important;
+        box-shadow: none;
+    }
+
+    #chatPanel.ModalChatPanel .chatHeader {
+        font-size: 1.2em;
+    }
+
+    #chatPanel.ModalChatPanel #sendServiceMessage {
+        font-size: 1.2em;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    #chatPanel.ModalChatPanel #serviceChatBox {
+        font-size: 1.2em;
+    }
+
+    #chatPanel.ModalChatPanel #serviceMessage {
+        font-size: 1.2em;
+    }
+
+    #chatPanel.ModalChatPanel .notReadText {
+        font-size: 1.1em;
+    }
+
+    @*ForScrollbar=====================================*@
+        /* width */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: rgb(224,224,224);
+            border-radius: 4px;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: rgba(245,106,106, 0.5);
+            border-radius: 4px;
+        }
+    @*=================================================*@
+
         a.toggle {
             color: red;
         }
@@ -38,8 +387,8 @@
             padding: 10px;
         }
 
-        nav {
-            padding: 15px;
+        nav{
+            padding:15px;
         }
 
         #sidebar.inactive {
@@ -55,8 +404,57 @@
             position: absolute;
             background-color: #fffcfc;
         }
-    </style>
+
+        @*ForServiceDemo=========================*@
+        .demoService {
+            display: flex;
+            position: fixed;
+            left: 45em !important;
+            bottom: 50px;
+            column-gap:10px;
+            z-index: 100;
+        }
+
+        .demoButtonService {
+            background-color: #D0D0D0;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .loginButton {
+            background-color: #BEBEBE;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+        }
+</style>
 </head>
+
+<!--恩旗-->
+@if (Session["ID"] != null)
+{
+    if (Session["dialogShown"] == null)
+    {
+        Session["dialogShown"] = false;
+    }
+    else
+    {
+        Session["dialogShown"] = true;
+    }
+
+    if (!(bool)Session["dialogShown"])
+    {
+        var controller = ViewContext.Controller as Controller;
+        Home2Controller.SetWeightLogSession(controller.HttpContext);
+        Home2Controller.SetPreferencesSession(controller.HttpContext);
+        Home2Controller.SetPointsSession(controller.HttpContext);
+        Home2Controller.SetProgramFrozenSession(controller.HttpContext);
+        Home2Controller.SetInProgramSession(controller.HttpContext);
+    }
+}
+
+<!--================================================================-->
 
 <body class="is-preload">
     <!-- Wrapper -->
@@ -87,15 +485,20 @@
                         }
                         else
                         {
-
-
-
                             <li>
                                 <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
                                 <ul>
-                                    <li><a href="#" style="text-decoration:none"><i class="far fa-user" style="width:30px"></i> 會員資訊</a></li>
-                                    <li><a href="#" style="text-decoration:none"><i class="fas fa-weight" style="width:30px"></i> 體重管理</a></li>
-                                    <li><a href="~/HHHealthReport/HealthReport" style="text-decoration:none"><i class="fas fa-chart-bar" style="width:30px"></i> 我的綜合圖表</a></li>
+                                    <li><a href="~/Member/EditMember?ID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 會員資訊</a></li>
+                                    <li>
+                                        <a href="~/Weight/WeightLog" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-weight" style="width:30px"></i> 體重管理</a>
+                                        @if (Session["NoWeightLog"] != null && (bool)Session["NoWeightLog"])
+                                        {   //if last 7 days has no weightlog, show this icon
+                                            <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>
+                                        }
+                                    </li>
+                                    <li><a href="~/HHHealthReport/HealthReport" style="text-decoration:none"><i class="fas fa-chart-bar" style="width:30px"></i> 綜合圖表</a></li>
+
+                                    <li><a href="~/Home2/UserPoints" style="text-decoration:none"><i class="fas fa-coins" style="width:30px"></i> 儲值管理</a></li>
 
 
                                 </ul>
@@ -121,7 +524,7 @@
                             </li>
 
                             <li>
-                                <span data-toggle="modal" data-target=".bd-example-modal-lg" id="btnWaterLogTemp"><i class="fas fa-utensils" style="width:30px"></i> 補水計畫</span>
+                                <span data-toggle="modal" data-target=".bd-example-modal-lg" id="btnWaterLogPro"><i class="fas fa-tint" style="width:30px"></i> 補水計畫</span>
 
 
                             </li>
@@ -129,10 +532,16 @@
                                 <span class="opener"><i class="fas fa-dumbbell" style="width:30px"></i> 運動</span>
                                 <ul>
 
-                                    <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 運動紀錄</a></li>
+                                    <li><a href="~/Workout/WorkoutLog" style="text-decoration:none"><i class="fas fa-clipboard-list" style="width:30px"></i> 運動紀錄</a></li>
+                                    <li><a href="~/Workout/WorkoutSchedule" style="text-decoration:none"><i class="fas fa-running" style="width:30px"></i> 運動排程</a></li>
+                                    <li>
+                                        <a href="~/Workout/WorkoutPreferences" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-star" style="width:30px"></i> 喜好管理</a>
+                                        @if (Session["NoPreferences"] != null && (bool)Session["NoPreferences"])
+                                        {   //if last 7 days has no weightlog, show this icon
+                                            <i id="preferencesNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>
+                                        }
+                                    </li>
 
-                                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-calendar" style="width:30px"></i> 運動排程</a></li>
-                                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-heart" style="width:30px"></i> 喜好管理</a></li>
 
 
                                 </ul>
@@ -143,16 +552,20 @@
                                 <span class="opener"><i class="fas fa-fist-raised" style="width:30px"></i> 挑戰</span>
                                 <ul>
 
-                                    <li><a href="~/HHPrograms/RegisterProgram" style="text-decoration:none"><i class="fas fa-pen-nib" style="width:30px"></i> 挑戰計畫</a></li>
+                                    <li><a href="~/HHPrograms/RegisterProgram" style="text-decoration:none"><i class="fas fa-pen-nib" style="width:30px"></i> 減脂計畫</a></li>
 
 
 
                                 </ul>
 
                             </li>
+
+ 
+                            if (Session["InProgram"] != null && (bool)Session["InProgram"])
+                            {
+                                <li><a href="~/ChatGroup/GroupChat" style="text-decoration:none"><i class="fas fa-sms" style="width:30px"></i>減重聊天群</a></li>
+                            }
                         }
-
-
 
                         <li>
                             <span class="opener"><i class="fas fa-gifts" style="width:30px"></i> 禮物</span>
@@ -164,12 +577,11 @@
                                 }
 
                             </ul>
-
                         </li>
                         <li>
-                            <span class="opener"><i class="fas fa-file" style="width:30px"></i> 貼文</span>
+                            <span class="opener"><i class="fas fa-file" style="width:30px"></i> 文章</span>
                             <ul>
-                                <li><a href="~/FrontPost/AllPosts" style="text-decoration:none"><i class="far fa-file" style="width:30px"></i> 所有貼文</a></li>
+                                <li><a href="~/FrontPost/AllPosts" style="text-decoration:none"><i class="far fa-file" style="width:30px"></i> 所有文章</a></li>
                                 @if (Session["ID"] != null)
                                 {
 
@@ -179,7 +591,10 @@
                         </li>
                         @if (Session["ID"] != null)
                         {
-                            <li><a href="~/FrontContact/Chat" style="text-decoration:none"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a></li>
+                            <li style="position:relative">
+                                <a id="showContact" style="text-decoration:none; width:fit-content; display:inline-block"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a>
+                                <i id="serviceNotify" class="fa fa-comment" style="color: #f56a6a; display: none; position: relative; top:-7px; left: -3px; font-size: 25px;"></i><div id="notReadForSidebar"></div>
+                            </li>
                         }
 
                         @if (Session["ID"] != null)
@@ -194,15 +609,53 @@
 
                     </ul>
                 </nav>
-
-
-
             </div>
         </div>
 
+    </div>
 
-
-
+    <!--dialog=======================================================-->
+    <div id="dialogDiv"><ul></ul></div>
+    <div id="programFrozen">
+        挑戰已結束，請輸入目前體重<br />
+        (還剩下&nbsp;<span style="color: #f56a6a"></span>&nbsp;天)：<br />
+        <div>初始體重<span id="initWeight" style="color: #f56a6a"></span>kg/目標體重<span id="tgtWeight" style="color: #f56a6a"></span>kg</div>
+        <input type="text" id="resultWeight" placeholder="目前多重呢" autocomplete="off" />
+        <label style="display:inline-block;font-size:1.2em">&nbsp;kg</label>
+    </div>
+    <div id="fanfare">
+        恭喜您挑戰成功，獲得了：
+        <div style="text-align:center"><span class="programSuccessPts"></span>&nbsp;點</div>
+    </div>
+    <!--=============================================================-->
+    <!--CustomerService==============================================-->
+    <div id="chatModal"></div>
+    <div id="chatPanel" style="display:none">
+        <div class="chatHeader">
+            <div>聯絡客服：</div>
+            <div id="notRead">
+                <span></span>
+            </div>
+            <div id="collapse">
+                <i class="fas fa-minus"></i>
+            </div>
+            <div id="showChatModal">
+                <i class="fas fa-expand-arrows-alt"></i>
+            </div>
+            <div id="closePanel">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <div class="chatBody">
+            <input type="hidden" id="serviceGroupId" />
+            <!-- Conversations are loaded here -->
+            <div id="serviceChatBox" class="direct-chat-messages">
+            </div>
+        </div>
+        <div class="chatFooter">
+            <input id="serviceMessage" type="text" name="message" placeholder="在此輸入訊息">
+            <div id="sendServiceMessage" class="button primary">送出</div>
+        </div>
     </div>
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -227,7 +680,7 @@
                             </div>
                         </div>
                     </form>
-                    <canvas id="WaterLine" height="100" width="200"></canvas>
+                    <canvas id="WaterPro" height="100" width="200"></canvas>
 
                 </div>
                 <div class="modal-footer">
@@ -242,6 +695,18 @@
         </div>
     </div>
 
+    <!--=============================================================-->
+    <!--ForServiceDemo===============================================-->
+    @*<div class="demoService">
+        <div class="demoButtonService" onclick="autoInputForService(msgs1)">阿舊</div>
+        <div class="loginButton" onclick="login1()">阿舊</div>
+        <div class="loginButton" onclick="login2()">路飛</div>
+        <div class="loginButton" onclick="login3()">索隆</div>
+        <div class="loginButton" onclick="login4()">山治</div>
+        <div class="loginButton" onclick="login5()">frank</div>
+        <div class="loginButton" onclick="login6()">zzzz</div>
+    </div>*@
+    <!--=============================================================-->
     <!-- Scripts -->
 
     <script src="~/Content/js/jquery.min.js"></script>
@@ -255,19 +720,22 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>   @*FOR WATERLOG*@
-
+    <script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
 
     
 
     <script>
 
         //========================BELOW WATERLOG=======================
-    $("#btnWaterLogTemp").on("click", () => {
+    $("#btnWaterLogPro").on("click", () => {
             fetch('@Url.Action("GetWeeklyWateLogChartDatas", "HHApi_WaterLog")?memberId=' +@Session["ID"] + '&date='+ "@DateTime.Now.ToString(CDictionary.MMddyyyy)", {
                 method: "GET",
             }).then(response => response.json()).then(datas => {
-                RenderWeeklyWaterLogsChart_Suggested(WaterLineChar, datas.WeeklyWaterLogSuggestedRanges)
-                RenderWeeklyWaterLogsChart_Gained(WaterLineChar, datas.WeeklyWaterLogGaineds)
+                RenderWeeklyWaterLogsChart_Suggested(WaterProChar, datas.WeeklyWaterLogSuggestedRanges)
+                RenderWeeklyWaterLogsChart_Gained(WaterProChar, datas.WeeklyWaterLogGaineds)
 
             })
 
@@ -285,7 +753,7 @@
                 method: "POST",
                 body: formData
             }).then(response => response.json()).then(updatedWaterLog => {
-                RenderWeeklyWaterLogsChart_Gained(WaterLineChar, updatedWaterLog)
+                RenderWeeklyWaterLogsChart_Gained(WaterProChar, updatedWaterLog)
 
 
             })
@@ -311,9 +779,9 @@
     }
 
 
-    var WaterLineChartEle = document.getElementById('WaterLine').getContext('2d')
+    var WaterProChartEle = document.getElementById('WaterPro').getContext('2d')
 
-        var WaterLineChar = new Chart(WaterLineChartEle, {
+        var WaterProChar = new Chart(WaterProChartEle, {
             type: 'line',
             data: {
                 labels: ['周一', '周二','周三', '周四', 'ˋ周五', '周六', '周日'],
@@ -387,11 +855,642 @@
 
 
 
+    
 
     @RenderSection("Scripts", required: false)
 
 
+    <!--恩旗-->
+<script language="JavaScript">
+
+    $(window).on("unload", function () {
+        $.cookies.del('.ASPXAUTH');
+    });
+
+    //=====================================================
+    //恩旗
+    //Show NoWeightLog dialog
 
 
+    $(function () {
+
+        var userId = "@Html.Raw(User.Identity.Name)";
+
+        var getPoints = @Json.Encode(Session["GotPoints"]);
+        var noWeightLog = @Json.Encode(Session["NoWeightLog"]);
+        var noPreferences = @Json.Encode(Session["NoPreferences"]);
+
+        var programFrozen = @Json.Encode(Session["ProgramFrozen"]);
+
+        var dialogShown = @Json.Encode(Session["dialogShown"]);
+        var pointShown = @Html.Raw(Request.Cookies["PointShown"] == null ? "false" : Request.Cookies["PointShown"].Value);
+        
+        if (!pointShown && getPoints > 0) {
+            let points = $("<span></span>").text(getPoints)
+                .addClass("points");
+
+            $("#dialogDiv > ul").append($("<li></li>").append("昨天共得到了", points, " 點！"));
+
+        }
+
+        if (!dialogShown && noWeightLog) {
+            $("#dialogDiv > ul").append($("<li></li>").append("已經7天沒紀錄體重了"));
+        }
+
+        if (!dialogShown && noPreferences) {
+            $("#dialogDiv > ul").append($("<li></li>").append("還沒選擇喜好的運動類型"));
+        }
+
+        if (!dialogShown && $("#dialogDiv > ul > li").length) {
+            $("#dialogDiv").dialog({
+                title: "提醒",
+                modal: true,
+                open: function (event, ui) {
+                    $('.ui-dialog .btnOK').addClass("primary")
+                        .css("padding", "10px").css("border-radius", "5px")
+                        .css("outline-color", "white");
+                    $(this).parent().focus();
+                },
+                dialogClass: "no-close",
+                buttons: [{
+                    text: "OK",
+                    class: "btnOK",
+                    click: function () {
+                        $("#dialogDiv").dialog("close");
+                        $.ajax({
+                            url: "/Home2/SetDialogShownSession",
+                            type: "POST"
+                        });
+
+                        if (programFrozen != null && programFrozen > -1) {
+                            alertProgramFrozen(programFrozen);
+                        }
+                    }
+                }]
+            });
+
+            //$('.ui-dialog button').blur();
+            $('.ui-dialog button').mousedown(function (e) {
+                e.preventDefault();
+            });
+
+        } else if (!dialogShown && programFrozen != null && programFrozen > -1) {
+            alertProgramFrozen(programFrozen);
+        }
+
+
+        //====================================================
+        //For CustomerService
+
+        if (userId != "") {
+            connect();
+        }
+
+
+        let isChatPanelClose = false;
+
+        $("#collapse").click(function () {
+
+            if ($("#showChatModal i.fa-expand-arrows-alt").length == 0) {
+                isChatPanelClose = true;
+                closeChatModal();
+                $(".notReadText").remove();
+                $("#chatPanel").css("height", "45px");
+                $(".chatBody").hide();
+                $(".chatFooter").hide();
+                $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
+                return;
+            }
+
+            if ($("#collapse i.fa-minus").length != 0) {
+                isChatPanelClose = true;
+                $(".chatBody").fadeOut(100, function () {
+                    $("#chatPanel").animate({ height: 45 }, function () {
+                        $(".chatFooter").fadeOut(0, function () {
+                            $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
+                            $(".notReadText").remove();
+                        });
+                    });
+                })
+            } else {
+                $("#chatPanel").animate({ height: 400 }, function () {
+                    isChatPanelClose = false;
+                    $(".chatFooter").fadeIn(600, function () {
+                        $("#collapse i").removeClass("fas fa-plus").addClass("fas fa-minus");
+                        $(".chatBody").fadeIn(function () {
+                            if ($(".notReadText").length != 0) {
+                                $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
+                            }
+                            
+                            ResetNotReadCount();
+                        });
+                    });
+                });
+            }
+        });
+
+        $("#closePanel").click(function () {
+            $("#chatPanel").css("display", "none");
+
+            if ($("#showChatModal i.fa-expand-arrows-alt").length == 0) {
+                closeChatModal();
+                $(".notReadText").remove();
+                return;
+            }
+
+            if ($("#collapse i.fa-minus").length != 0) {
+                $(".notReadText").remove();
+            } else if ($("#notRead span").text() != "0") {
+                showNotReadForSidebar($("#notRead span").text());
+            }
+            
+        });
+
+        $("#showContact").click(function () {
+            $("#chatPanel").css("display", "flex");
+            $("#serviceNotify").css("display", "none");
+
+            if ($("#collapse i.fa-minus").length != 0) {
+
+                if (isChatPanelClose) {
+                    $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
+                }
+
+                if ($(".notReadText").length != 0) {
+                    $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
+                } else {
+
+                    if ($(".messageRow").last().length != 0) {
+
+                        $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".messageRow").last().position().top);
+
+                    }
+
+                    ResetNotReadCount();
+                }
+            }
+
+        });
+
+        //=============================================================
+        //prompt link
+        $("#serviceChatBox").on("click", ".promptDiv a", function () {
+            $.ajax({
+                url: "/FrontContact/SelectPrompt",
+                type: "POST",
+                data: {
+                    connId: $.connection.hub.id,
+                    groupId: $("#serviceGroupId").val(),
+                    qnaId: $(this).attr("data-qnaId")
+                }
+            });
+        });
+
+        //=============================================================
+        //expend chatPanel
+
+        let oldScrollTop = 0;
+
+        $("#showChatModal").click(function () {
+
+            oldScrollTop = $("#serviceChatBox").scrollTop();
+
+            if ($("#collapse i.fa-minus").length == 0) {
+                //isChatPanelClose = true;
+                openChatModal();
+                $("#chatPanel").addClass("ModalChatPanel");
+                $(".chatBody").show();
+                $(".chatFooter").show();
+                $("#collapse i").removeClass("fas fa-plus").addClass("fas fa-minus");
+
+                if ($(".notReadText").length != 0) {
+                    $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
+                } else {
+                    $("#serviceChatBox").scrollTop(oldScrollTop);
+                }
+
+                ResetNotReadCount();
+                
+            } else if ($("#showChatModal i.fa-expand-arrows-alt").length != 0) {
+                //isChatPanelClose = false;
+                openChatModal();
+                $("#serviceChatBox").scrollTop(oldScrollTop);
+            } else {
+                closeChatModal();
+                $(".notReadText").remove();
+                $("#chatPanel").css("height", "400px");
+                $(".chatBody").show();
+                $(".chatFooter").show();
+                $("#serviceChatBox").scrollTop(oldScrollTop);
+            }
+
+        });
+        
+        $("#chatModal").click(function (event) {
+            if (event.target == this) {
+                closeChatModal();
+                $(".notReadText").remove();
+                if (isChatPanelClose) {
+                    $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
+                }
+            }
+        });
+
+    });
+
+    function openChatModal() {
+        $("#chatPanel").addClass("ModalChatPanel").appendTo($("#chatModal"));
+        $("#showChatModal i").removeClass("fa-expand-arrows-alt").addClass("fa-compress-arrows-alt");
+        $("#chatModal").css("display", "flex");
+    }
+
+    function closeChatModal() {
+        $("#chatModal").css("display", "none");
+        $("#showChatModal i").removeClass("fa-compress-arrows-alt").addClass("fa-expand-arrows-alt");
+        $("#chatPanel").removeClass("ModalChatPanel").insertAfter($("#chatModal"));
+    }
+
+    function alertProgramFrozen(programFrozen) {
+
+        $("#programFrozen span").text(programFrozen);
+
+        $.ajax({
+            url: "/Home2/GetProgramWeight",
+            type: "POST"
+        }).done(function (data) {
+
+            $("#initWeight").text(data.initWeight);
+            $("#tgtWeight").text(data.tgtWeight);
+
+            $("#programFrozen").dialog({
+                title: "提醒",
+                modal: true,
+                open: function (event, ui) {
+                    $('.ui-dialog .btnOK').addClass("primary")
+                        .css("padding", "10px").css("border-radius", "5px")
+                        .css("outline-color", "white");
+                    $(this).parent().focus();
+                },
+                dialogClass: "no-close",
+                buttons: [{
+                    text: "確認",
+                    class: "btnOK",
+                    click: function () {
+
+                        let patt = /^[0-9]+$/
+
+                        if (!patt.test($("#resultWeight").val())) {
+                            alert("請輸入有效體重");
+                            return;
+                        }
+
+                        if (confirm("確定送出嗎？")) {
+
+                            $.ajax({
+                                url: "/Home2/SetResultWeight",
+                                type: "POST",
+                                data: {
+                                    resultWeight: $("#resultWeight").val()
+                                },
+                                success: function (results) {
+                                    fanfare(results);
+                                }
+                            });
+
+                            $("#programFrozen").dialog("close");
+                        }
+                    }
+                },
+                {
+                    text: "取消",
+                    class: "btnOK",
+                    click: function () {
+                        $("#programFrozen").dialog("close");
+                        $.ajax({
+                            url: "/Home2/SetDialogShownSession",
+                            type: "POST"
+                        });
+                    }
+                }]
+            });
+        });
+
+        $('.ui-dialog button').mousedown(function (e) {
+            e.preventDefault();
+        });
+    }
+
+    function fanfare(results) {
+
+        if ($("#weightNotify").length) {
+            $("#weightNotify").remove();
+        }
+
+        $("#fanfare .programSuccessPts").prepend(results.GetPoints);
+        $("#fanfare").dialog({
+            title: "恭喜您",
+            modal: true,
+            open: function (event, ui) {
+                $('.ui-dialog .btnOK').addClass("primary")
+                    .css("padding", "10px").css("border-radius", "5px")
+                    .css("outline-color", "white");
+                $(this).parent().focus();
+            },
+            dialogClass: "no-close",
+            buttons: [{
+                text: "收下",
+                class: "btnOK",
+                click: function () {
+                    $("#fanfare").dialog("close");
+                }
+            }]
+        });
+
+        //$('.ui-dialog button').blur();
+        $('.ui-dialog button').mousedown(function (e) {
+            e.preventDefault();
+        });
+    }
+
+    //===================================================
+
+    function connect() {
+
+        var chat2 = $.connection.chatHub;
+
+        chat2.client.receive = function (connId, userName, message, timeStamp, image, groupId, notReadCount) {
+
+            if ($("#collapse i.fa-minus").length == 0) {
+
+                writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
+                $(".notReadText").remove();
+                appendNotRead(notReadCount);
+
+                $("#notRead span").text(notReadCount);
+                $("#notRead").css("visibility", "visible")
+                blink();
+
+                if ($("#chatPanel").css("display") == "none") {
+                    $("#serviceNotify").css("display", "inline-block");
+                    $("#notReadForSidebar").text(notReadCount);
+                }
+            } else if ($("#chatPanel").css("display") == "none") {
+                
+                writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
+                $(".notReadText").remove();
+                appendNotRead(notReadCount);
+
+                $("#serviceNotify").css("display", "inline-block");
+                $("#notReadForSidebar").text(notReadCount);
+            } else {
+
+                writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
+
+                if ($(".messageRow").last().length != 0) {
+                    $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".messageRow").last().position().top);
+                    console.log($(".messageRow").last().position().top);
+                }
+
+                ResetNotReadCount();
+            }
+        }
+
+        //receive prompt
+        chat2.client.receivePrompt = function (displayText, qnaId) {
+            writePrompt(displayText, qnaId);
+            //$("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
+        }
+
+        $.connection.hub.start().done(function () {
+
+            $.ajax({
+                url: "/FrontContact/AddToServiceGroup",
+                type: "POST",
+                data: {
+                    connId: $.connection.hub.id
+                }
+            }).done(function (data) {
+
+                //alert(data.Result);
+
+                $("#serviceGroupId").val(data.GroupId);
+
+                LoadMessagesForService(data.NotReadCount);
+                showNotReadForSidebar(data.NotReadCount);
+
+                $("#sendServiceMessage").click(function () {
+
+                    if ($("#serviceMessage").val() == "") {
+                        alert("請輸入訊息");
+                        return;
+                    }
+
+                    $.ajax({
+                        url: "/FrontContact/SendMessage",
+                        type: "POST",
+                        data: {
+                            connId: $.connection.hub.id,
+                            groupId: $("#serviceGroupId").val(),
+                            message: $("#serviceMessage").val()
+                        },
+                        success: function (data) {
+                            if (data.Result != "Success") {
+                                alert(data.Result);
+                            }
+                        }
+                    });
+                });
+            });
+            
+            if (typeof AddToChatGroup != "undefined") {
+                AddToChatGroup();
+            }
+
+        });
+    }
+
+    function writeForService(userName, message, isSelf, timeStamp, image) {
+
+        var mdConverter = new showdown.Converter();
+            message = mdConverter.makeHtml(message);
+
+        if (isSelf) {
+            let dialogDiv = $("<div></div>").addClass("messageRow");
+
+            $("<div></div>").addClass("nameAndTime")
+                .append($("<span></span>").addClass("name").text(userName))
+                .append($("<span></span>").addClass("timeStamp").text(timeStamp))
+                .appendTo(dialogDiv);
+
+            let textDiv = $("<div></div>").addClass("textDiv");
+
+            $("<img/>").addClass("myImage").css("margin-left", "0px").css("margin-right", "10px")
+                .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                .appendTo(textDiv);
+
+            let innerTextDiv = $("<div></div>").addClass("ArrowToLeft").css("margin-right", "auto");
+
+            $("<div></div>").addClass("selfText")
+                .css("background-color", "#B15BFF").css("border-color", "#B15BFF")
+                .html(message)
+                .appendTo(innerTextDiv);
+
+            $(innerTextDiv).appendTo(textDiv);
+
+            $(dialogDiv).append(textDiv);
+
+            $("#serviceChatBox").append(dialogDiv);
+
+
+        } else {
+            let dialogDiv = $("<div></div>").addClass("messageRow");;
+
+            $("<div></div>").addClass("nameAndTime right")
+                .append($("<span></span>").addClass("name").text(userName))
+                .append($("<span></span>").addClass("timeStamp").text(timeStamp))
+                .appendTo(dialogDiv);
+
+            let textDiv = $("<div></div>").addClass("textDiv reverse");
+
+            $("<img/>").addClass("myImage").css("margin-right", "0px").css("margin-left", "10px")
+                .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                .appendTo(textDiv);
+
+            let innerTextDiv = $("<div></div>").addClass("ArrowToRight").css("margin-left", "auto");
+
+            $("<div></div>").addClass("otherText")
+                .css("background-color", "#FF8040").css("border-color", "#FF8040")
+                .html(message)
+                .appendTo(innerTextDiv);
+
+            $(innerTextDiv).appendTo(textDiv);
+
+            $(dialogDiv).append(textDiv);
+
+            $("#serviceChatBox").append(dialogDiv);
+
+        }
+
+    }
+
+    //write prompt
+    function writePrompt(displayText, qnaId) {
+        let promptDiv = $("<div></div>").addClass("promptDiv");
+        let prompt = $("<div></div>").addClass("promptButton").appendTo(promptDiv);
+        $("<a></a>").attr("data-qnaId", qnaId).append(displayText).appendTo(prompt);
+        $("#serviceChatBox").append(promptDiv);
+    }
+
+    //todo Load Group Messages
+    function LoadMessagesForService(notReadCount) {
+
+        if ($("#serviceGroupId").val() != "") {
+            $.ajax({
+                url: "/FrontContact/GetGroupMsgs",
+                type: "POST",
+                data: {
+                    groupId: $("#serviceGroupId").val()
+                },
+                success: function (data) {
+
+                    $("#serviceChatBox").html("");
+
+                    $.each(data, function (i, msg) {
+                        
+                        writeForService(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
+
+                    });
+
+                    appendNotRead(notReadCount);
+                }
+            });
+        }
+    }
+
+    function ResetNotReadCount() {
+
+        $("#notRead").css("visibility", "hidden");
+        $("#notRead span").text("0");
+
+        $.ajax({
+            url: "/FrontContact/ResetNotReadCount",
+            type: "POST",
+            data: {
+                groupId: $("#serviceGroupId").val()
+            }
+        });
+    }
+
+    function blink() {
+        $("#notRead").fadeOut(500).fadeIn(500, blink);
+    }
+
+    function appendNotRead(notReadCount) {
+
+        let NotReadDiv = $("<div></div>").addClass("notReadText").append("以下為未讀訊息");
+
+        let insertIndex = $("#serviceChatBox > div").length - notReadCount + 1;
+
+        $("#serviceChatBox > div:nth-child(" + insertIndex + ")").before(NotReadDiv);
+    }
+
+    function showNotReadForSidebar(notReadCount) {
+
+        if (notReadCount == null) {
+            notReadCount = 0;
+        }
+
+        if (notReadCount > 0) {
+            $("#serviceNotify").css("display", "inline-block");
+            $("#notReadForSidebar").text(notReadCount);
+        }
+    }
+
+    //ForDemo================================
+
+    //let promiseForDemo1;
+
+    msgs1 = [
+        "請問客服人員，TDEE是什麼？",
+        "請問客服人員，聽說運動執行成功可獲得點數，除此之外還有其他方法嗎？"
+    ];
+
+
+    async function autoInputForService(msgs) {
+        $("#serviceMessage").val(msgs.shift());
+        $("#sendServiceMessage").click();
+    }
+
+    function login1() {
+        $("#demo-email").val("Aju@gmail.com");
+        $("#demo-pwd").val("1111");
+    }
+
+    function login2() {
+        $("#demo-email").val("rgwr@gmail.com");
+        $("#demo-pwd").val("erhr");
+    }
+
+    function login3() {
+        $("#demo-email").val("bvwr@gmail.com");
+        $("#demo-pwd").val("2222");
+    }
+
+    function login4() {
+        $("#demo-email").val("afjafe@gmail.com");
+        $("#demo-pwd").val("1");
+    }
+
+    function login5() {
+        $("#demo-email").val("Frank666@gmail.com");
+        $("#demo-pwd").val("1111");
+    }
+
+    function login6() {
+        $("#demo-email").val("zzzz@gmail.com");
+        $("#demo-pwd").val("444");
+    }
+
+</script>
 </body>
 </html>

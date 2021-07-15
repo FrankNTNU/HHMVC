@@ -1,0 +1,72 @@
+﻿@model IEnumerable<DTO.MealDetailDTO>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<section class="content-header">
+    <h1>所有餐點</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>飲食</a></li>
+        <li class="breadcrumb-item active"><a>餐點營養</a></li>
+    </ol>
+</section>
+<br />
+
+<div class="card">
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>營養ID</th>
+                    <th>餐點名稱</th>
+                    <th>卡路里</th>
+                    <th>脂肪</th>
+                    <th>蛋白質</th>
+                    <th>碳水化合物</th>
+                    <th>糖</th>
+                    <th>鈉</th>
+                    <th>修改</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr id="a_@item.NutrientID">
+                        <td>@item.NutrientID</td>
+                        <td>@item.Name</td>
+                        <td>@item.Calories</td>
+                        <td>@item.Fat</td>
+                        <td>@item.Protein</td>
+                        <td>@item.Carbs</td>
+                        <td>@item.Sugar</td>
+                        <td>@item.Na</td>
+                        <td align="center" valign="middle">
+                            <a href="/Admin/Nutrient/UpdateNutrient/@item.ID">
+                                <img src="~/Areas/Admin/Content/icon/update-icon.png" />
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>營養ID</th>
+                    <th>餐點名稱</th>
+                    <th>卡路里</th>
+                    <th>脂肪</th>
+                    <th>蛋白質</th>
+                    <th>碳水化合物</th>
+                    <th>糖</th>
+                    <th>鈉</th>
+                    <th>修改</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
+</div>
+<script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>

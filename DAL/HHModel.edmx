@@ -26,6 +26,8 @@
           <Property Name="PostID" Type="int" />
           <Property Name="ParentCommentID" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsReported" Type="bit" />
+          <Property Name="SentimentScore" Type="float" />
         </EntityType>
         <EntityType Name="DietLog">
           <Key>
@@ -157,6 +159,7 @@
           <Property Name="MealCount" Type="int" />
           <Property Name="ActiveCode" Type="nchar" MaxLength="10" />
           <Property Name="GoogleID" Type="nvarchar(max)" />
+          <Property Name="IsVIP" Type="bit" />
         </EntityType>
         <EntityType Name="ModelCollection">
           <Key>
@@ -185,6 +188,17 @@
           <Property Name="Potassium" Type="float" />
           <Property Name="Calcium" Type="float" />
           <Property Name="Iron" Type="float" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberID" Type="int" Nullable="false" />
+          <Property Name="OrderNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OrderTime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OrderStatus" Type="bit" Nullable="false" />
+          <Property Name="PaidTime" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Points">
           <Key>
@@ -822,6 +836,7 @@
           <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ModelCollection" EntityType="Self.ModelCollection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nutrient" EntityType="Self.Nutrient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Points" EntityType="Self.Points" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PostCategories" EntityType="Self.PostCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PostImages" EntityType="Self.PostImages" Schema="dbo" store:Type="Tables" />
@@ -1020,6 +1035,8 @@
           <Property Name="PostID" Type="Int32" />
           <Property Name="ParentCommentID" Type="Int32" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsReported" Type="Boolean" />
+          <Property Name="SentimentScore" Type="Double" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Comments_Members" FromRole="Comments" ToRole="Members" />
           <NavigationProperty Name="Post" Relationship="Self.FK_Comments_Posts" FromRole="Comments" ToRole="Posts" />
         </EntityType>
@@ -1171,6 +1188,7 @@
           <Property Name="MealCount" Type="Int32" />
           <Property Name="ActiveCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="GoogleID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsVIP" Type="Boolean" />
           <NavigationProperty Name="ActivityLevel" Relationship="Self.FK_Members_ActivityLevels" FromRole="Members" ToRole="ActivityLevels" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Members" FromRole="Members" ToRole="Comments" />
           <NavigationProperty Name="DietLogs" Relationship="Self.FK_DietLog_Members" FromRole="Members" ToRole="DietLog" />
@@ -1216,6 +1234,17 @@
           <Property Name="Calcium" Type="Double" />
           <Property Name="Iron" Type="Double" />
           <NavigationProperty Name="MealOptions" Relationship="Self.FK_MealOptions_Nutrient" FromRole="Nutrient" ToRole="MealOptions" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberID" Type="Int32" Nullable="false" />
+          <Property Name="OrderNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OrderTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OrderStatus" Type="Boolean" Nullable="false" />
+          <Property Name="PaidTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Point">
           <Key>
@@ -1889,6 +1918,7 @@
           <EntitySet Name="Members" EntityType="Self.Member" />
           <EntitySet Name="ModelCollections" EntityType="Self.ModelCollection" />
           <EntitySet Name="Nutrients" EntityType="Self.Nutrient" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
           <EntitySet Name="Points" EntityType="Self.Point" />
           <EntitySet Name="PostCategories" EntityType="Self.PostCategory" />
           <EntitySet Name="PostImages" EntityType="Self.PostImage" />
@@ -2085,6 +2115,8 @@
                 <ScalarProperty Name="PostID" ColumnName="PostID" />
                 <ScalarProperty Name="ParentCommentID" ColumnName="ParentCommentID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsReported" ColumnName="IsReported" />
+                <ScalarProperty Name="SentimentScore" ColumnName="SentimentScore" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2227,6 +2259,7 @@
                 <ScalarProperty Name="MealCount" ColumnName="MealCount" />
                 <ScalarProperty Name="ActiveCode" ColumnName="ActiveCode" />
                 <ScalarProperty Name="GoogleID" ColumnName="GoogleID" />
+                <ScalarProperty Name="IsVIP" ColumnName="IsVIP" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2257,6 +2290,18 @@
                 <ScalarProperty Name="Potassium" ColumnName="Potassium" />
                 <ScalarProperty Name="Calcium" ColumnName="Calcium" />
                 <ScalarProperty Name="Iron" ColumnName="Iron" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="HealthHelperModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+                <ScalarProperty Name="OrderTime" ColumnName="OrderTime" />
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="PaidTime" ColumnName="PaidTime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

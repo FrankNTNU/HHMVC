@@ -460,5 +460,18 @@ namespace DAL
                 }
             }
         }
+        public void AddToDietLog(DietLog dietLog)
+        {
+            try
+            {
+                db.DietLogs.Add(dietLog);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

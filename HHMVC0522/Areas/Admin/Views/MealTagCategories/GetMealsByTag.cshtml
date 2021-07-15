@@ -1,0 +1,59 @@
+﻿@model IEnumerable<DTO.MealDetailDTO>
+
+@{
+    ViewBag.Title = "GetMealsByTag";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+
+
+<section class="content-header">
+    <h1>所有標籤</h1>
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item"><a>後臺頁面</a></li>
+        <li class="breadcrumb-item"><a>飲食</a></li>
+        <li class="breadcrumb-item"><a>所有標籤</a></li>
+        <li class="breadcrumb-item active"><a>標籤：</a></li>
+    </ol>
+</section>
+<br />
+
+
+<div class="card">
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>餐點名稱</th>
+                    <th>卡路里</th>
+                    <th>餐點圖片</th>
+                    <th>刪除</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Calories)</td>
+                    <td><img src="~/Areas/Admin/Content/MealOptionImages/@item.MealOptionImage" style="width:100px;height:100px" /></td>
+                    <td align="center" valign="middle">
+                        @Html.ActionLink("從標籤移除", "DeleteMeal", "MealTagCategories", new { id = item.ID, tagID = item.TagID }, null)
+                    </td>
+                </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>餐點名稱</th>
+                    <th>卡路里</th>
+                    <th>餐點圖片</th>
+                    <th>刪除</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
+</div>
+<script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>
+<script src="~/Areas/Admin/Content/JS/jquery.min.js"></script>

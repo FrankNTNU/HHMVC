@@ -19,6 +19,9 @@ namespace BLL
             public static int LoginError = 7;
             public static int WrongImageSize = 8;
             public static int NotAdmin = 9;
+            public static int SameName = 10;
+            public static int GoogleLoginError = 11;
+            public static int LoginFirstError = 12;
         }
         public static class Gender
         {

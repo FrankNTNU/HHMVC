@@ -1,0 +1,67 @@
+﻿@model IEnumerable<DTO.MealDetailDTO>
+
+@{
+    ViewBag.Title = "GetMealsByTagTest";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>GetMealsByTagTest</h2>
+    <div class="card">
+        <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>餐點名稱</th>
+                        <th>卡路里</th>
+                        <th>餐點圖片</th>
+                        <th>TagID</th>
+                        <th>ID</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Calories)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MealOptionImage)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TagID)
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.ID)</td>
+                            <td align="center" valign="middle">
+                                @*<a href="#">
+                                    <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/MealTagCategories/DeleteMeal/', @item.ID)" />
+                                </a>*@
+                                @Html.ActionLink("從標籤移除", "DeleteMeal", "MealTagCategories", new {id=item.ID,tagID=item.TagID },null)
+                            </td>
+                            <td><input type="text" name="tagID" value="@item.TagID" /></td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>餐點名稱</th>
+                        <th>卡路里</th>
+                        <th>餐點圖片</th>
+                        <th>ID</th>
+                        <th>TagID</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
+    </div>
+
+<script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>
+<script src="~/Areas/Admin/Content/JS/jquery.min.js"></script>

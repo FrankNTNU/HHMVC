@@ -12,7 +12,7 @@ namespace DTO
         public PostDTO PostDetail { get; set; }
         public CommentDTO Comment { get; set; }
         public int CommentCount { get; set; }
-        public List<PostDTO> Rules { get; set; }
+        public List<PostDTO> Carousels { get; set; }
         public CommentDTO CommentRoot { get; set; }
 
     }
