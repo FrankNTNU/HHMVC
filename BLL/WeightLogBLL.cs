@@ -19,7 +19,10 @@ namespace BLL
         {
             return weightLogDAO.GetLatestWeightByMemberID(memberId);
         }
-
+        public double[] GetMonthlyFilledWeights(int memberId,DateTime date)
+        {
+            return weightLogDAO.GetMonthlyFilledWeights(memberId ,date);
+        }
         public WeightLog GetLatestWeightByMemberIdPriorDate(int memberId, string date)
         {
             return weightLogDAO.GetLatestWeightByMemberIdPriorDate(memberId, date);
@@ -30,9 +33,9 @@ namespace BLL
             weightLogDAO.AddWeightLogViaProgramRegister(memberID, weight);
         }
 
-        public double[] GetMonthlyWeights(int memberId, DateTime date)
+        public double[] GetMonthlyRecordedWeights(int memberId, DateTime date)
         {
-            return weightLogDAO.GetMonthlyWeights(memberId, date);
+            return weightLogDAO.GetMonthlyRecordedWeights(memberId, date);
 
         }
     }

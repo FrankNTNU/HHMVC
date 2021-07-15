@@ -1,11 +1,17 @@
 ﻿@model UI.ViewModels.HealthReportChartViewModel
 @{
     ViewBag.Title = "HealthReport";
-    Layout = "~/Views/Shared/HomeLayout2_0622.cshtml";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 
 @section Styles{
     <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        #sliderNode .slider-handle {
+            background: #f56a6a;
+        }
+    </style>
 
 
 }
@@ -27,60 +33,282 @@
     </div>
 </header>
 
-<div class="d-flex justify-content-between mb-3">
-    <input type="button" id="btnPrevMonth" value="<" class="btn btn-default" />
 
-    <h1 id="titleMonth" style="display:inline">@Model.YearMonth</h1>
+<div class="row my-4">
+    <div class="col-1  ">
+        <span class="h4" style="color:#f56a6a">日期拉軸</span>
+    </div>
+    <div class="col-9  ">
+        <input style="width:100%" id="ex6" type="text" data-slider-min="-11" data-slider-id="sliderNode" data-slider-max="0" data-slider-step="1" data-slider-value="0" data-slider-handle="square" />
+    </div>
+    <div class="col-2 ">
+        <input type="button" id="btnThisMonth" value="本月紀錄" class="btn btn-default fit" />
 
-
-    <input type="button" id="btnNextMonth" value=">" class="btn btn-default" />
-
-</div>
-
-<div class="row pb-3 mt-4">
-    <div class="col-12" style="height: 850px; margin: auto ">
-        <canvas id="generalChart"></canvas>
-
+       
     </div>
 </div>
+    <div class="col-12  shadow bg-white mt-5" style="border-radius: 0.9em; height:850px; margin: auto">
+        <div class="d-flex justify-content-between mb-4 pt-3">
+            <input type="button" id="btnPrevMonth" value="<" class="btn btn-default" />
+
+            <h1 id="titleMonth" style="display:inline">@Model.YearMonth</h1>
+
+
+            <input type="button" id="btnNextMonth" value=">" class="btn btn-default" />
+
+        </div>
+        <canvas id="generalChart" class="pb-5"></canvas>
+
+    </div>
+
+    <div class="row my-5" style="display:flex;justify-content:center">
+        <div class="col-6 row">
+            <div class="col-6 p-1">
+                <input type="button" id="btnShowWater" value="水" class="button  fit " />
+            </div>
+            <div class="col-6  p-1">
+                <input type="button" id="btnShowWeight" value="體重" class="button  fit " />
+            </div>
+        </div>
+        <div id="btnsCals" class="col-6 row">
+            <div class="col-6  p-1">
+                <input type="button" id="btnShowGained" value="攝取" class="button primary  fit" />
+            </div>
+            <div class="col-6  p-1">
+
+                <input type="button" id="btnShowBurned" value="消耗" class="button  primary fit" />
+            </div>
+
+        </div>
+    </div>
+
+    <div id="editDoneModal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
 
 
 
+                    <h5 class="modal-title">資料載入中...</h5>
+                </div>
+                <div class="modal-body">
+                    <img src="/Content/Images/loadingDots.gif" />
 
-<div class="row queryBtns my-5">
-    <input type="button" id="btnShowGained" value="攝取" class="button   col-4" />
+                </div>
+                <div class="modal-footer">
+                    @* <input type="button" value="確定" class="btn btn-default fit" onclick="function CloseThisModal(){$('#editDoneModal').modal('hide')};CloseThisModal()" />*@
 
+                </div>
+            </div>
+        </div>
 
-    <input type="button" id="btnShowBurned" value="消耗" class="button   col-4" />
+    </div>
+    @section Scripts{
+        <script src="~/Content/js/chart.min.js"></script>
+        <script src="~/Content/js/jquery-ui.js"></script>
+        <script src="~/Content/js/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="~/Content/js/chartjs-plugin-datalabels.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
-    <input type="button" id="btnShowWeight" value="體重" class="button   col-4" />
-</div>
-
-@section Scripts{
-    <script src="~/Content/js/chart.min.js"></script>
-    <script src="~/Content/js/jquery-ui.js"></script>
-    <script src="~/Content/js/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-    <script>
+        <script>
             var monthlyGainedCals = '@Html.Raw(Json.Encode(Model.GainedCalsByMonth))';
-            //var monthlyGainedCalsArr = JSON.parse(monthlyGainedCals);
+
             var monthlyDays = '@Html.Raw(Json.Encode(Model.MonthlyDays))';
-            var monthlyDaysArr = JSON.parse(monthlyDays);
             var monthlyBurnedCals = '@Html.Raw(Json.Encode(Model.MonthlyBurnedCals))';
-            var monthlyBurnedCalsArr = JSON.parse(monthlyBurnedCals);
             var monthlySubstratedGainedCals = '@Html.Raw(Json.Encode(Model.MonthlySubstratedGained))';
-            var monthlySubstratedGainedCalsArr = JSON.parse(monthlySubstratedGainedCals);
             var monthlyWeights = '@Html.Raw(Json.Encode(Model.MonthlyWeights))';
-        var monthlyWeightsArr = JSON.parse(monthlyWeights);
+            var monthlyGainedWater = '@Html.Raw(Json.Encode(Model.MonthlyGainedWater))';
 
+        var monthlySuggestedWaterLogRanges = '@Html.Raw(Json.Encode(Model.MonthlySuggestedWaterLogRanges))';
+        var monthlyTDEEs = '@Html.Raw(Json.Encode(Model.MonthlyTDEEs))';
 
+        var monthlyIsSuccess = '@Html.Raw(Json.Encode(Model.MonthlyIsSuccess))';
 
         //====================================
-        var monthlyGainedCalsArr = {
-            value: JSON.parse(monthlyGainedCals),
+
+
+        var slider = new Slider("#ex6"
+        //    , {
+        //    formatter: function (value) {
+        //        const today = new Date();
+        //        const theDate = new Date();
+        //        // Add 1 Day
+        //        theDate.setDate(today.getDate() + value);
+
+
+        //        return theDate.toISOString().substring(0, 10);
+        //    }
+        //}
+        );
+        slider.on("slideStop", function (sliderValue) {
+            glMonthFlag.Val = sliderValue
+
+        });
+            $("#btnThisMonth").click(() => {
+                if (glMonthFlag.Val === 0) { return; }
+                glMonthFlag.Val = 0;
+            })
+
+
+        $(document).ready(() => {
+
+            monthlyWeightsArr.CurrVal = JSON.parse(monthlyWeights);  //formating
+            monthlyIsSuccessArr.letMeKnow()
+            monthlyTDEEsArr.letMeKnow()
+            Chart.defaults.font.size = 18;
+            CheckSelectedOption()
+            //alert(monthlyIsSuccessArr.CurrVal)
+        })
+        var monthlyIsSuccessArr = {
+            value: JSON.parse(monthlyIsSuccess),
             letMeKnow() {
-                alert(`The variable has changed to ${this.CurrVal}`);
+                let glIsSucessFilledColors = []
+                let glIsSucessBorderColors = []
+
+                for (let i = 0; i < this.value.length; i++)
+                {
+                    let filledColor = "rgba(60, 120, 0, 0.4)";
+                    let borderColor = "rgba(60, 120, 0, 1)";
+                    if (this.value[i] == false) {
+                       filledColor = "rgba(173, 0, 0, 0.4)";
+                         borderColor = "rgba(173, 0, 0, 1)";
+                    }
+                    glIsSucessFilledColors[i] = filledColor;
+                    glIsSucessBorderColors[i] = borderColor;
+
+                }
+                generalChart.data.datasets[0].backgroundColor = glIsSucessFilledColors
+                generalChart.data.datasets[0].borderColor = glIsSucessBorderColors
+
+
+            },
+            get CurrVal() {
+                return this.value;
+            },
+            set CurrVal(value) {
+
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+
+        var monthlyTDEEsArr = {
+            value: JSON.parse(monthlyTDEEs),
+            letMeKnow() {
+                generalChart.data.datasets[6].data = this.CurrVal
+                generalChart.update();
+                let BMRarr = []
+                for (let i = 0; i < this.value.length; i++)
+                {
+                    BMRarr[i] =this.value[i]*0.8
+                }
+                monthlyBMR.CurrVal = BMRarr
+            },
+            get CurrVal() {
+                return this.value;
+            },
+            set CurrVal(value) {
+
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+        var monthlyBMR = {
+            value: "",
+            letMeKnow() {
+                generalChart.data.datasets[7].data = this.CurrVal
+                generalChart.update();
+
+            },
+            get CurrVal() {
+                return this.value;
+            },
+            set CurrVal(value) {
+
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+
+
+        var MonthlySuggestedWaterLogRangesArr = {
+            value: JSON.parse(monthlySuggestedWaterLogRanges),
+            letMeKnow() {
+                generalChart.data.datasets[4].data = this.CurrVal[0]
+                generalChart.data.datasets[5].data = this.CurrVal[1]
+                generalChart.update();
+            },
+            get CurrVal() {
+                return this.value;
+            },
+            set CurrVal(value) {
+
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+
+        var monthlyGainedWaterArr = {
+            value: JSON.parse(monthlyGainedWater),
+            letMeKnow() {
+                generalChart.data.datasets[3].data = this.CurrVal
+                generalChart.update();
+            },
+            get CurrVal() {
+                return this.value;
+            },
+            set CurrVal(value) {
+
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+
+        var monthlyWeightsArr = {
+            value: JSON.parse(monthlyWeights),
+            letMeKnow() {
+                generalChart.data.datasets[2].data = this.CurrVal
+                generalChart.update();
+            },
+            get CurrVal() {
+                return this.value;
+            },
+            set CurrVal(value) {
+                let adjusted =[]
+                value.forEach(weight => {
+                    if (weight <= 0) { weight = null; }
+                    adjusted.push(weight)
+
+                });
+                this.value = adjusted;
+                this.letMeKnow();
+            }
+        }
+        var monthlySubstratedGainedCalsArr = {
+            value: JSON.parse(monthlySubstratedGainedCals),
+            letMeKnow() {
+                generalChart.data.datasets[0].data = this.CurrVal
+                generalChart.update();
+
+            },
+            get CurrVal() {
+                return this.value;
+            },
+            set CurrVal(value) {
+
+
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+
+        var monthlyBurnedCalsArr = {
+            value: JSON.parse(monthlyBurnedCals),
+            letMeKnow() {
+                generalChart.data.datasets[1].data = this.CurrVal
+                generalChart.update();
             },
             get CurrVal() {
                 return this.value;
@@ -91,45 +319,95 @@
             }
         }
 
-       
 
 
-        var glMonthFlag = 0;
+        var monthlyDaysArr = {
+            value: JSON.parse(monthlyDays),
+            letMeKnow() {
+                generalChart.data.labels = this.value
+                generalChart.update();
+            },
+            get CurrVal() {
+                return this.value;
+            },
+            set CurrVal(value) {
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+
+        var monthlyGainedCalsArr = {
+            value: JSON.parse(monthlyGainedCals),
+            letMeKnow() {
+
+            },
+            get CurrVal() {
+                return this.value;
+            },
+            set CurrVal(value) {
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
+
+
+
+
 
         //==================
+        var glMonthFlag = {
+            value: 0,
+            letMeKnow() {
+                GetChartJson();
 
-        //$(":button").toggleClass("primary");
+
+                $('#editDoneModal').modal('show')
+
+                /*GetDateDietLogsByDateAjex(this.Val, null)*/
+                slider.setValue(this.value)
+
+            },
+            get Val() {
+                return this.value;
+            },
+            set Val(value) {
+                if (value >= 0) {
+                    value = 0;
+                }
+                this.value = value;
+                this.letMeKnow();
+            }
+        }
 
 
         //==================================
 
             var generalChartEle = document.getElementById('generalChart').getContext('2d');
-
             var generalChart = new Chart(generalChartEle, {
                 data: {
-                    labels: monthlyDaysArr,
+                    labels: monthlyDaysArr.CurrVal,
                     datasets: [{
                         type: 'bar',
                         label: '攝取 (單位 KCal): ',
-                        data: monthlySubstratedGainedCalsArr,
+                        data: monthlySubstratedGainedCalsArr.CurrVal,
                         backgroundColor: [
-                            'rgba(156, 213, 0, 0.1)',
 
+                           "rgba(60, 120, 0, 0.4)",
 
                         ],
                         borderColor: [
-                            'rgba(156, 213, 0, 1)',
+                        "rgba(60, 120, 0, 1)",
 
                         ],
-                        borderWidth: 1,
-                        yAxisID: 'y',
+                        borderWidth: 2,
+                    //    yAxisID: 'y',
                     }, {
                         type: 'bar',
 
                             label: '消耗 (單位 KCal): ',
-                        data: monthlyBurnedCalsArr,
+                        data: monthlyBurnedCalsArr.CurrVal,
                             backgroundColor: [
-                                'rgba(120, 120, 120, 0.1)',
+                                'rgba(120, 120, 120, 0.4)',
 
 
 
@@ -138,61 +416,170 @@
                                 'rgba(120, 120, 120, 1)',
 
                             ],
-                        borderWidth: 1,
-                        yAxisID: 'y',
+                        borderWidth: 2,
+                        //yAxisID: 'y',
 
                         },
                         {
                             type: 'line',
-
+                            radius:0,
                             label: '體重 (單位 Kg): ',
-                            data: monthlyWeightsArr,
+                            data: monthlyWeightsArr.CurrVal,
                             backgroundColor: [
-                                'rgba(120, 120, 120, 0.1)',
+                                'rgba(120, 120, 120, 0.2)',
 
 
 
                             ],
                             borderColor: [
-                                'rgba(255, 221, 0, 1)',
+                                'rgba(255, 209, 5, 1)',
 
                             ],
-                            borderWidth: 3,
+                            borderWidth: 4,
+                            lineTension: 0.5,
+
+
+                        },
+                        //========================
+                        {
+                            type: 'line',
+                            data: monthlyGainedWaterArr.CurrVal,
+                            label: '攝取量 (單位: 毫升):',
+
+                            fill: true,
+                            lineTension: 0.5,
+                            radius: 0,
+                            backgroundColor: [
+                                "rgba(0, 76, 153,0.3)"
+
+                            ],
+                            borderColor: [
+                                'rgba(0, 89, 179,1)',
+                            ],
+                            borderWidth: 3
+                        },
+                        {
+                            type: 'line',
+                            data: MonthlySuggestedWaterLogRangesArr.CurrVal[0],
+                            label: '建議攝取量下限 (單位: 毫升):',
+                            //fillColor: "rgba(220,220,220,0.1)",
+                            //strokeColor: "rgba(220,220,220,0.1)",
+                            //pointColor: "rgba(220,220,220,0.1)",
+                            //pointStrokeColor: "rgba(220,220,220,0.1)",
+                            backgroundColor: [
+                                "rgba(220,220,220,0.5)"
+
+                            ],
+                            borderColor: [
+                                'rgba(220,220,220,0)',
+                            ],
+                            fill: true,
+                            lineTension: 0.5,
+                            radius: 0,
+                            //borderWidth: 1
+                        },
+
+                        {
+                            type: 'line',
+                            data: MonthlySuggestedWaterLogRangesArr.CurrVal[1],
+                            label: '建議攝取量上限 (單位: 毫升):',
+                            //data: [20, 80, 60, 90, 30, 50, 60],
+                            //fillColor: "rgba(220,220,220,0.1)",
+                            //strokeColor: "rgba(220,220,220,0.1)",
+                            //pointColor: "rgba(220,220,220,0.1)",
+                            //pointStrokeColor: "rgba(220,220,220,0.1)",
+                            backgroundColor: [
+                                "rgba(220,220,220,0.5)"
+
+                            ],
+                            borderColor: [
+                                'rgba(220,220,220,0)',
+                            ],
+                            fill: true,
+                            lineTension: 0.5,
+                            radius: 0
+
+                            //borderWidth: 1
+                        }, {
+                            type: 'line',
+                            data: monthlyTDEEsArr.CurrVal,
+                            borderDash: [10, 5],
+                            label: 'TDEE:',
+                            //data: [20, 80, 60, 90, 30, 50, 60],
+                            //fillColor: "rgba(220,220,220,0.1)",
+                            //strokeColor: "rgba(220,220,220,0.1)",
+                            //pointColor: "rgba(220,220,220,0.1)",
+                            //pointStrokeColor: "rgba(220,220,220,0.1)",
+
+                            borderColor: [
+                                'rgba(235, 117, 0,1)',
+                            ],
+
+                            lineTension: 0.5,
+                            radius: 0,
+
+                            borderWidth: 5,
                             yAxisID: 'y1',
 
-                        }]
+                        },
+                        {
+                            type: 'line',
+                            data: monthlyBMR.CurrVal,
+                            borderDash: [10, 5],
+                            label: 'BMR:',
+                            //data: [20, 80, 60, 90, 30, 50, 60],
+                            //fillColor: "rgba(220,220,220,0.1)",
+                            //strokeColor: "rgba(220,220,220,0.1)",
+                            //pointColor: "rgba(220,220,220,0.1)",
+                            //pointStrokeColor: "rgba(220,220,220,0.1)",
+
+                            borderColor: [
+                                'rgba(235, 117, 0,0.7)',
+                            ],
+
+                            lineTension: 0.5,
+                            radius: 0,
+
+                            borderWidth: 5,
+                            yAxisID: 'y1',
+
+                        }
+                        ]
                 },
 
                 options: {
                     responsive: true,
 
-                    scale: {
+                    scales: {
                         //min: 0,
-                        //max: 4000,
 
                             x: {
-                                stacked: true
+                            stacked: true,
+                            grid: { color:"rgba(255, 148, 201,0)"}
                             },
                             y: {
                                 stacked: true,
                                 display: true,
                                 position: 'left',
+                                min: 0,
+                                max: 3500,
+                                grid: { color: "rgba(122, 122, 122,0.1)"},
+
+
                         },
 
                         y1: {
-                            stacked: true,
-
-                            display: true,
+                            stacked: false,
+                            display: false,
                             position: 'right',
                             min: 0,
+                            max: 3500,
 
-                            // grid line settings
-                            grid: {
-                                drawOnChartArea: false, // only want the grid lines for one axis to show up
-                            },
-                        }
+
+                        },
 
                     },
+
 
                 },
 
@@ -202,42 +589,180 @@
         //==================================
 
         $("#btnPrevMonth").click(() => {
-            glMonthFlag -= 1;
-            console.log(glMonthFlag)
-            GetChartJson();
+            glMonthFlag.Val -= 1;
         })
         $("#btnNextMonth").click(() => {
-            glMonthFlag += 1;
-            if (glMonthFlag >= 0) { glMonthFlag = 0;}
-            GetChartJson();
+            glMonthFlag.Val += 1;
 
         })
 
+        $("#btnsCals").on("click", ":button", (e) => {
+            $(e.currentTarget).toggleClass("primary")
+            $("#btnShowWater").removeClass("primary")
+            $("#btnShowWeight").removeClass("primary")
+
+            CheckSelectedOption()
+        })
+        $("#btnShowWater").on("click", (e) => {
+            $(e.currentTarget).toggleClass("primary")
+            if ($("#btnShowWater").hasClass("primary")) {
+                $("#btnsCals :button").removeClass("primary")
+                $("#btnShowWeight").removeClass("primary")
+
+            }
+            else {
+
+            }
+            //remove cal btn?
+            CheckSelectedOption()
+        })
+
+        $("#btnShowWeight").on("click", (e) => {
+            $(e.currentTarget).toggleClass("primary")
+            if ($("#btnShowWeight").hasClass("primary")) {
+                $("#btnsCals :button").removeClass("primary")
+                $("#btnShowWater").removeClass("primary")
+
+            }
+            else {
+
+            }
+            //remove cal btn?
+            CheckSelectedOption()
+        })
+        //====================================
         function GetChartJson() {
 
-            fetch('@Url.Action("GetGeneralHealthChartDatas", "HHApi_HealthReport")?memberId='+@Model.MemberID +'&monthFlag=' + glMonthFlag, {
+            fetch('@Url.Action("GetGeneralHealthChartDatas", "HHApi_HealthReport")?memberId='+@Model.MemberID +'&monthFlag=' + glMonthFlag.Val, {
                     method: "GET",
             }).then(response => response.json()).then(data => {
                 $("#titleMonth").text(data.YearMonth)
                 monthlyGainedCalsArr.CurrVal = data.GainedCalsByMonth;
-                monthlyBurnedCalsArr = data.MonthlyBurnedCals;
-                monthlySubstratedGainedCalsArr =data.MonthlySubstratedGained
-                monthlyDaysArr = data.MonthlyDays;
-                monthlyWeightsArr = data.MonthlyWeights;
-                console.log(monthlyGainedCalsArr.CurrVal);
-                console.log(monthlyBurnedCalsArr);
-                console.log(monthlyDaysArr);
+                monthlyDaysArr.CurrVal = data.MonthlyDays;
+                monthlyBurnedCalsArr.CurrVal = data.MonthlyBurnedCals;
+                monthlySubstratedGainedCalsArr.CurrVal =data.MonthlySubstratedGained
+                monthlyWeightsArr.CurrVal = data.MonthlyWeights;
+                monthlyGainedWaterArr.CurrVal = data.MonthlyGainedWater;
+                MonthlySuggestedWaterLogRangesArr.CurrVal = data.MonthlySuggestedWaterLogRanges
+                monthlyTDEEsArr.CurrVal = data.MonthlyTDEEs
+                monthlyIsSuccessArr.CurrVal =data.MonthlyIsSuccess
+                CheckSelectedOption()
+                $('#editDoneModal').modal('hide')
 
                  })
         }
-        //====================================
-       
-
-      
 
 
+        function CheckSelectedOption()
+        {
+
+            if ($("#btnShowWater").hasClass("primary")) {
+                monthlyGainedWaterArr.letMeKnow()
+                MonthlySuggestedWaterLogRangesArr.letMeKnow()
+                generalChart.options.scales.x.stacked = false
+                generalChart.options.scales.y.stacked = false
+                generalChart.options.scales.y.grid.color = 'rgba(0, 89, 179,1)'
 
 
 
-    </script>
-}
+
+                //generalChart.options.scale.y1.stacked = false
+
+
+            }
+            else {
+                //generalChart.options.scale.x.stacked = true
+                //generalChart.options.scale.y.stacked = true
+                generalChart.data.datasets[3].data = null
+                generalChart.data.datasets[4].data = null
+                generalChart.data.datasets[5].data = null
+                generalChart.update();
+            }
+            if ($("#btnShowWeight").hasClass("primary")) {
+                monthlyWeightsArr.letMeKnow()
+                generalChart.options.scales.x.stacked = false
+                generalChart.options.scales.y.stacked = false
+                generalChart.options.scales.y.max =60
+                generalChart.options.scales.y.min = 30
+
+                generalChart.options.scales.y.grid.color = 'rgba(255, 209, 5, 1)'
+
+
+            }
+            else {
+                generalChart.options.scales.y.max = 3500
+                generalChart.options.scales.y.min = 0
+
+                generalChart.data.datasets[2].data = null
+
+                generalChart.update();
+            }
+            if ($("#btnShowGained").hasClass("primary") && $("#btnShowBurned").hasClass("primary")) {
+                monthlySubstratedGainedCalsArr.letMeKnow()
+                monthlyBurnedCalsArr.letMeKnow()
+                monthlyTDEEsArr.letMeKnow()
+
+                generalChart.options.scales.x.stacked = true
+                generalChart.options.scales.y.stacked = true
+                generalChart.options.scales.y.grid.color = "rgba(60, 120, 0, 1)"
+
+            }
+            else if ($("#btnShowGained").hasClass("primary")) {
+                generalChart.data.datasets[0].data = monthlyGainedCalsArr.CurrVal
+                generalChart.data.datasets[1].data = null
+                generalChart.update();
+                monthlyTDEEsArr.letMeKnow()
+                generalChart.options.scales.x.stacked = true
+                generalChart.options.scales.y.stacked = true
+                generalChart.options.scales.y.grid.color = "rgba(60, 120, 0, 1)"
+
+
+            }
+            else if ($("#btnShowBurned").hasClass("primary")) {
+                generalChart.data.datasets[0].data = null
+                generalChart.data.datasets[1].data = monthlyBurnedCalsArr.CurrVal
+                generalChart.data.datasets[6].data = null
+                generalChart.data.datasets[7].data = null
+
+                generalChart.update();
+                generalChart.options.scales.x.stacked = true
+                generalChart.options.scales.y.stacked = true
+                generalChart.options.scales.y.grid.color = "rgba(60, 120, 0, 1)"
+
+
+            }
+            else {
+                generalChart.data.datasets[0].data = null
+                generalChart.data.datasets[1].data = null
+                generalChart.data.datasets[6].data = null
+                generalChart.data.datasets[7].data = null
+
+                generalChart.update();
+                generalChart.options.scales.x.stacked = true
+                generalChart.options.scales.y.stacked = true
+
+            }
+
+           //----------
+            //if ($("#btnShowWeight").hasClass("primary")) {
+            //    monthlyWeightsArr.letMeKnow()
+            //}
+            //else {
+            //    generalChart.data.datasets[2].data = null
+            //    generalChart.update();
+            //}
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+        </script>
+    }

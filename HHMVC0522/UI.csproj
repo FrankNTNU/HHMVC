@@ -139,15 +139,11 @@
     <Content Include="Areas\Admin\Content\Barcode\6e740d8cca7748079.png" />
     <Content Include="Areas\Admin\Content\Barcode\a29e5a09b16c4ff9a.png" />
     <Content Include="Areas\Admin\Content\Barcode\dd5796acf7f84242a.png" />
-    <Content Include="Areas\Admin\Content\CartImages\1d0323fe-65a3-47dd-962f-53226e71f352cocoDrink1.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\3f249f4e-50e7-4bef-8b9a-b405cdfab1c3coffee2.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\4eb11526-2861-413b-932c-46806b33c2b8BK_FrenchFries_detail.png" />
-    <Content Include="Areas\Admin\Content\CartImages\4eb86db6-b013-4fbe-9d49-d13f1ca74dc9flywheel.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\5321cf4d-3700-4cbd-8f3b-1cfecd75b473bread.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\8dc56d25-b0b4-49ff-ac0d-9ac9bf2b1c8fdonut1.jpeg" />
-    <Content Include="Areas\Admin\Content\CartImages\9de5e2ce-7973-4c37-af07-9598da520558coffee.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\b5e068a1-473f-4969-9f5c-a8db733b42a2bigmac.jpg" />
-    <Content Include="Areas\Admin\Content\CartImages\cac3758a-0c2c-4a8b-93c8-dc43ebbbddf6fries2.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\159fe7b7-e26d-43be-a8d1-27a37d1827e8bread.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\63797bf5-efd2-4213-8531-5a3b91eec72fstarbucks.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\a952f37f-4730-4c56-84d4-1ff4ec850c5dfries2.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\aa9756af-ac61-4985-97a7-8297a7406a6cbigmac.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\bed2d377-a6e5-4e30-9230-7ea13237b02eworkoutGloves.jpg" />
     <Content Include="Areas\Admin\Content\CSS\adminlte.min.css" />
     <Content Include="Areas\Admin\Content\CSS\all.min.css" />
     <Content Include="Areas\Admin\Content\CSS\bootstrap-4.min.css" />
@@ -156,6 +152,7 @@
     <Content Include="Areas\Admin\Content\CSS\icheck-bootstrap.min.css" />
     <Content Include="Areas\Admin\Content\CSS\responsive.bootstrap4.min.css" />
     <Content Include="Areas\Admin\Content\CSS\tempusdominus-bootstrap-4.min.css" />
+    <Content Include="Areas\Admin\Content\GiftImages\0c90b562-1a24-4ec5-a354-802acf6de780weightTrain.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\1d0323fe-65a3-47dd-962f-53226e71f352cocoDrink1.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\2c01724e-61d2-4bb6-8317-e770cbff9d2aworkoutShirt.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\3f249f4e-50e7-4bef-8b9a-b405cdfab1c3coffee2.jpg" />
@@ -168,6 +165,7 @@
     <Content Include="Areas\Admin\Content\GiftImages\b5e068a1-473f-4969-9f5c-a8db733b42a2bigmac.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\cac3758a-0c2c-4a8b-93c8-dc43ebbbddf6fries2.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\cee02b37-8f94-4731-9834-c93e53bf6d5fteaEggs.jpg" />
+    <Content Include="Areas\Admin\Content\GiftImages\d9956c3d-f613-4374-bde0-6577dfea506abigmac.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\f856422c-d5ed-4ffc-865e-85a6e39d94edoolong.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\fc2008d5-ff1c-4179-81d8-4e7c53fedcf0starbucks.jpg" />
     <Content Include="Areas\Admin\Content\icon\approve.png" />
@@ -458,8 +456,10 @@
     <Content Include="Areas\Admin\Content\PostImages\61d654ed-c450-464d-8355-df5cf1e4a514workout.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\6497b55a-13a2-46e1-b0c8-26f6b3b45bd9gift.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\7c1469aa-2d2a-4c43-8c86-d9aeaab9685abooks.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\9a12a30b-05c8-4a6d-92ca-46f8d73d7906PlantBasedMilks_Lead.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\9a387752-da1f-4387-9fe4-b1a0ba2f6e18protein.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\9c64e3d0-40c6-40e4-add3-f40ad025fecdmoney.jpg" />
+    <Content Include="Areas\Admin\Content\PostImages\9e50a121-112c-4a02-9459-2d9a3947a260healthImg.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\a57053eb-772a-46e1-9552-b3214eda9e3ceatingFruit.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\a99f1d12-ba34-4cd5-8c71-1b768d9dc220health2.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\a9ce1170-6010-4bfc-8ed9-1043bd9885e9veggie.jpg" />
@@ -470,9 +470,14 @@
     <Content Include="Areas\Admin\Content\PostImages\defaultImg.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\e9c5f14a-462f-4ac8-b08f-22d61fea0f5afruitCubes.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\ea82d513-e3bd-4200-aca1-352b9af80e3dbooks.jpg" />
+    <Content Include="Areas\Admin\Content\tempimage\dietLog.jpg" />
+    <Content Include="Areas\Admin\Content\tempimage\gift.jpg" />
     <Content Include="Areas\Admin\Content\tempimage\healthImg.png" />
+    <Content Include="Areas\Admin\Content\tempimage\HHLogo.png" />
     <Content Include="Areas\Admin\Content\tempimage\hLogo.png" />
     <Content Include="Areas\Admin\Content\tempimage\hLogoRed.jpg" />
+    <Content Include="Areas\Admin\Content\tempimage\personalInfo.jpg" />
+    <Content Include="Areas\Admin\Content\tempimage\workout.jpg" />
     <Content Include="Areas\Admin\Content\UserImage\0442a875-bc36-4d35-aa71-d89cf419b947user5.png" />
     <Content Include="Areas\Admin\Content\UserImage\05d8b14d-fc47-470d-bbb1-efe86c47b3a9user1.png" />
     <Content Include="Areas\Admin\Content\UserImage\13aacd3b-7979-4124-bfd8-0ec43dda6464user9.png" />
@@ -499,9 +504,13 @@
     <Content Include="Areas\Admin\Content\webfonts\fa-regular-400.svg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-solid-900.svg" />
     <Content Include="Content\color\default.css" />
+    <Content Include="Content\css\demo.css" />
     <Content Include="Content\css\dietAddMeal.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\dataTables.bootstrap5.min.css" />
+    <Content Include="Content\css\flexslider-rtl-min.css" />
+    <Content Include="Content\css\flexslider-rtl.css" />
+    <Content Include="Content\css\flexslider.css" />
     <Content Include="Content\css\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Content\css\font-awesome-4.7.0\css\font-awesome.min.css" />
     <Content Include="Content\css\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
@@ -535,6 +544,7 @@
     <Content Include="Content\Images\Infography\riceBowlImg.jpg" />
     <Content Include="Content\Images\Infography\riceBowlImg2.jpg" />
     <Content Include="Content\Images\Infography\riceBowlImg3.jpg" />
+    <Content Include="Content\Images\loadingDots.gif" />
     <Content Include="Content\Images\MealOptionImages\07419b26-8464-41d6-b00e-f5058bbc03d8G07.png" />
     <Content Include="Content\Images\MealOptionImages\0fb9e7d4-95fb-4388-8e77-62273c2a5ae1M02.jpg" />
     <Content Include="Content\Images\MealOptionImages\1648c6ba-aac8-4325-87f8-6e9b73a3d76eG02.png" />
@@ -577,6 +587,9 @@
     <Content Include="Content\Images\MealOptionImages\meat.jpg" />
     <Content Include="Content\Images\MealOptionImages\sale.jpg" />
     <Content Include="Content\Images\MealOptionImages\shinf.jpg" />
+    <Content Include="Content\Images\ProgramImages\goodLuckImg.jpg" />
+    <Content Include="Content\Images\ProgramImages\programRefImg.jpeg" />
+    <Content Include="Content\Images\ProgramImages\sorriImg.jpg" />
     <Content Include="Content\Images\TagCategoriesImages\14739ea7-f2d5-4f1f-9ec8-83a801825c09早午餐 %282%29.jpg" />
     <Content Include="Content\Images\TagCategoriesImages\19f6bc72-3e43-459b-9eaa-da32ba009f14點心.jpg" />
     <Content Include="Content\Images\TagCategoriesImages\20824055-5a09-416b-850f-0ea753bb63e0894894198.jpg" />
@@ -672,6 +685,7 @@
     <Content Include="Content\img\slides\refine\slide3.png" />
     <Content Include="Content\img\small-avatar.png" />
     <Content Include="Content\img\ui.totop.png" />
+    <Content Include="Content\js\bootstrap-slider.min.js" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\Gift\GiftList.cshtml" />
     <Content Include="Areas\Admin\Views\Gift\AddGift.cshtml" />
@@ -682,6 +696,8 @@
     <Content Include="Areas\Admin\Views\Contact\Contact.cshtml" />
     <Content Include="Areas\Admin\Content\webfonts\BarcodeFont.ttf" />
     <Content Include="Areas\Admin\Views\MainPage\MainPage.cshtml" />
+    <Content Include="Content\css\fonts\flexslider-icon.ttf" />
+    <Content Include="Content\css\fonts\flexslider-icon.woff" />
     <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
@@ -708,10 +724,13 @@
     <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.theme.min.css" />
     <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\LICENSE.txt" />
     <Content Include="Content\js\chart.min.js" />
+    <Content Include="Content\js\chartjs-plugin-datalabels.min.js" />
     <Content Include="Content\js\HHRadarChart.js" />
     <Content Include="Content\js\breakpoints.min.js" />
     <Content Include="Content\js\browser.min.js" />
     <Content Include="Content\js\DeleteRecord.js" />
+    <Content Include="Content\js\html2pdf.bundle.min.js" />
+    <Content Include="Content\js\jquery.flexslider-min.js" />
     <Content Include="Content\js\jquery.likebtn.js" />
     <Content Include="Content\js\dataTables.bootstrap5.min.js" />
     <Content Include="Content\js\jquery-3.5.1.js" />
@@ -721,6 +740,9 @@
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\main.js" />
     <Content Include="Content\js\popper.min.js" />
+    <Content Include="Content\js\shBrushJScript.js" />
+    <Content Include="Content\js\shBrushXml.js" />
+    <Content Include="Content\js\shCore.js" />
     <Content Include="Content\js\util.js" />
     <Content Include="Content\moment-js\moment-with-locales.js" />
     <Content Include="Content\moment-js\moment-with-locales.min.js" />
@@ -774,9 +796,11 @@
     </Compile>
     <Compile Include="Models\Calculator.cs" />
     <Compile Include="Models\CMealAutoComplete.cs" />
+    <Compile Include="Models\DebugHelper.cs" />
     <Compile Include="Models\HealthCalculator.cs" />
     <Compile Include="Models\MemberHealthProfile.cs" />
     <Compile Include="Models\MemberProfile.cs" />
+    <Compile Include="Models\ViewModelGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CMealTagCategoryViewModel.cs" />
     <Compile Include="ViewModels\CreateDietLogViewModel.cs" />
@@ -941,7 +965,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\HHDiet\Create.cshtml" />
     <Content Include="Views\HHPrograms\RegisterProgram.cshtml" />
-    <Content Include="Views\HHPrograms\ShowActiveProgram.cshtml" />
     <Content Include="Views\HHGiftShop\MyGiftShop2.cshtml" />
     <Content Include="Views\HHGiftCard\ShowGiftList.cshtml" />
     <Content Include="Views\HHDiet\MealStyleList.cshtml" />
@@ -979,6 +1002,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.healthhelperweb - Web Deploy.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.IISProfile.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">

@@ -34,5 +34,15 @@ namespace BLL
         {
             return dao.GetWeeklySuggestedWaterLogRanges(memberId, date);
         }
+
+        public int[][] GetMonthlySuggestedWaterLogRanges(int memberId, DateTime date)
+        {
+            return dao.GetMonthlySuggestedWaterLogRanges(memberId, date);
+
+        }
+        public int[] GetMonthlyGainedWater(int memberId, DateTime date)
+        {
+            return dao.GetMonthlyGainedWater(memberId, date);
+        }
     }
 }

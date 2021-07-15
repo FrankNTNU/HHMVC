@@ -167,6 +167,7 @@
     <Compile Include="Point.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PointDAO.cs" />
     <Compile Include="Post.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>

@@ -25,6 +25,9 @@ namespace BLL
             return dietLogDAO.GetDietLogsByMemberID(memberID);
         }
 
+
+
+
         public List<int> GetMonthlyGainedCals(int memberId, DateTime date)
         {
             return dietLogDAO.GetMonthlyGainedCals(memberId, date);
@@ -32,7 +35,7 @@ namespace BLL
 
         public IQueryable<DietLog> GetDietLogsByDate(int memberID, string date)
         {
-            dietLogDAO.GetDietLogsByDate(memberID, date);
+            
 
 
             return dietLogDAO.GetDietLogsByDate(memberID, date);
@@ -105,6 +108,10 @@ namespace BLL
 
         }
 
+        //public int[] GetNearby7DaysTdeeOrProgramMax(int memberID, string date)
+        //{
+        //    return dietLogDAO.GetNearby7DaysTdeeOrProgramMax(memberID, date);
+        //}
 
         public int[] Past7DaysGainedCalFromDate(int memberID, string date)  //todo customMealCal
         {

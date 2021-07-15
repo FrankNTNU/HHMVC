@@ -61,6 +61,15 @@ namespace BLL
             return dao.IsLikedMeal(memberId, mealId);
         }
 
+        public IQueryable<int> GuessMealIDsMemberWants(int memberId)
+        {
+            return dao.GuessMealIDsMemberWants(memberId);
 
+        }
+
+        public IEnumerable<int> GetFitSuggestionMealIDs()
+        {
+            return dao.GetFitSuggestionMealIDs();
+        }
     }
 }

@@ -118,6 +118,7 @@ namespace UI.Controllers
         {
 
             Member member = mbBLL.GetMemberByMemberID(memberId);
+            Program program = pBLL.GetCurrentProgram(memberId);
             MemberForDietDTO mDto = new MemberForDietDTO(DateTime.Now.ToString(CDictionary.MMddyyyy))
             {
                 MemberID = member.ID,
@@ -126,9 +127,24 @@ namespace UI.Controllers
                 Gender = member.Gender,
                 Height = member.Height
             };
+            if (program != null)
+            {
+                mDto.ActivityLevelID = program.ActivityLevelID;
+                mDto.Program = new ProgramDTO()
+                {
+                    Name = program.Name,
+                    StartDate = program.StartDate,
+                    EndDate = program.EndDate,
+                    TargetWeight = program.TargetWeight,
+                    InitialWeight = program.InitialWeight,
+
+                };
+            }
 
 
             List<DietLogViewModel> dietLogVModels = new List<DietLogViewModel>();
+           
+
             foreach (DietLog dl in dlBLL.GetDietLogsToday(mDto.MemberID))
             {
 
@@ -222,7 +238,17 @@ namespace UI.Controllers
             return Json(Session[CDictionary.KEY_DIETLOGCART_ITEMS], JsonRequestBehavior.AllowGet);
         }
 
+        
 
+         public JsonResult GetFitSuggestionMealIDs()
+        {
+            return Json(mBLL.GetFitSuggestionMealIDs(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GuessMealIDsMemberWants(int memberId)
+        {
+            return Json(mBLL.GuessMealIDsMemberWants(memberId), JsonRequestBehavior.AllowGet);
+        }
         public JsonResult SentTempListToDB(MixedDietLogDTO[] mixedDietLogs)
         {
             foreach (MixedDietLogDTO item in mixedDietLogs)

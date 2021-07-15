@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
-
+using System.Data.Entity;
 
 namespace DAL
 {
@@ -40,7 +40,7 @@ namespace DAL
 
         }
 
-        public double[] GetMonthlyWeights(int memberId, DateTime date)
+        public double[] GetMonthlyRecordedWeights(int memberId, DateTime date)
         {
             int howManyDays = DateTime.DaysInMonth(date.Year, date.Month);
             double[] weights = new double[howManyDays];
@@ -59,14 +59,72 @@ namespace DAL
             return weights;
         }
 
+        public double[] GetMonthlyFilledWeights(int memberId, DateTime date)
+        {
+            int howManyDays = DateTime.DaysInMonth(date.Year, date.Month);
+
+            double[] weights = new double[howManyDays];
+            var WeightsOfTheMonth = db.WeightLogs
+               .Where(wl => wl.MemberID == memberId && wl.UpdatedDate.Month == date.Month && wl.UpdatedDate.Year == date.Year)
+               .OrderBy(wl => wl.UpdatedDate).Select(wl =>
+                new
+                {
+                    day = wl.UpdatedDate.Day,
+                    weight = wl.Weight
+                });
+            foreach (var weight in WeightsOfTheMonth)
+            {
+                weights[weight.day - 1] = weight.weight;
+            }
+            if (weights[0] == 0)
+            {
+                DateTime firstDateOfTheMonth = new DateTime(date.Year, date.Month, 1);
+                weights[0] = db.WeightLogs
+                  .Where(wl => wl.MemberID == memberId && DbFunctions.TruncateTime(wl.UpdatedDate) < firstDateOfTheMonth)
+                  .OrderByDescending(wl => wl.UpdatedDate).FirstOrDefault().Weight;
+            }
+            for (int i = 0; i < howManyDays; i++)
+            {
+                if (weights[i] == 0)
+                {
+                    for (int k = i; k >= 0; k--)
+                    {
+                        if (weights[k] > 0)
+                        {
+                            weights[i] = weights[k];
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return weights;
+        }
+
         public void AddWeightLogViaProgramRegister(int memberID, int weight)
         {
-            //if (db.WeightLogs.FirstOrDefault(wl => wl.MemberID == memberID && wl.UpdatedDate.ToString(CDictionary.MMddyyyy) == DateTime.Now.ToString(CDictionary.MMddyyyy)) != null)
-            //{
-            //    int k = 0;
-            //}
-            //else { 
-            //}
+            var weightLogOfToday = db.WeightLogs.FirstOrDefault(wl => wl.MemberID == memberID && DbFunctions.TruncateTime(wl.UpdatedDate) == DateTime.Today);
+            if (weightLogOfToday != null)
+            {
+                weightLogOfToday.Weight = weight;
+                weightLogOfToday.UpdatedDate = DateTime.Now;
+
+                db.SaveChanges();
+            }
+
+            
+            else
+            {
+                WeightLog entity = new WeightLog()
+                {
+                    MemberID = memberID,
+                    Weight = (double)weight,
+                    UpdatedDate = DateTime.Now
+
+                };
+                db.WeightLogs.Add(entity);
+                db.SaveChanges();
+            }
         }
     }
 }

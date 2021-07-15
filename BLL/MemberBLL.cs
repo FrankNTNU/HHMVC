@@ -15,5 +15,10 @@ namespace BLL
         {
             return dao.GetMemberByMemberID(memberID);
         }
+
+        public void UpdateActivityLevel(int memberID, int activityLevelId)
+        {
+             dao.UpdateActivityLevel(memberID, activityLevelId);
+        }
     }
 }

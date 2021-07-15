@@ -2,10 +2,13 @@
 @using DTO.ViewModels
 @using DAL
 @using System
+@using UI.ViewModels
+
+
 @model DTO.CreateDietLogViewModel
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/HomeLayout2_0622.cshtml";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 @section Styles{
     <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
@@ -13,11 +16,15 @@
     <link href="~/Content/css/dietAddMeal.css" rel="stylesheet" />
     <link href="~/Content/css/stylesPlay.css" rel="stylesheet" />
     <link href="~/Content/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-
+    <link href="~/Content/css/flexslider.css" rel="stylesheet" />
+    <link href="~/Content/css/flexslider-rtl.css" rel="stylesheet" />
+    @*<link href="~/Content/css/flexslider-rtl-min.css" rel="stylesheet" />*@
     <style>
 
 
-
+        a .flex-next {
+            background-color: red;
+        }
 
         .styleIcon {
             width: 110px;
@@ -72,16 +79,18 @@
         <div class="col-8 col-sm-8 col-lg-10 p-1 justify-content-center">
             <a href="/Home2/Index" class="logo" style="text-decoration: none;">
                 <div class="h-50">
-                    <strong id="logoText" style="font-size:1.7em;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">飲食歷史紀錄</strong>
+                    <strong id="logoText" style="font-size:1.7em;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">紀錄飲食</strong>
                 </div>
 
 
             </a>
         </div>
     </div>
+
 </header>
 
-<div class="my-5">
+
+<div class="flexslider carousel px-4 pt-3 pb-0 mb-1">
     <ul class="slides">
         @{
 
@@ -89,8 +98,9 @@
             foreach (MealTagCategory mCtgy in Model.tagsCategories)
             {
                 <li>
-                    <figure class="styleIcon ">
-                        @*<a href=""><img src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" height="280" /></a>*@
+                    @*class="mealTagImg pb-5"*@
+                    <figure class="pb-0">
+                        @*class="styleIcon "*@
 
                         <a href="@Url.Action("MealStyleList", "HHDiet", new { id = mCtgy.ID })">
                             <img class="tagImg " src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" height="280">
@@ -106,26 +116,25 @@
     </ul>
 
 </div>
+<div class="row  mb-5 ">
 
+    <div class="col-9 pr-4" bottom="0" style="position:relative">
+        <div class="row gtr-uniform pr-4">
 
-<div class="row mt-4 mb-5">
-
-    <div class="col-9" bottom="0" style="position:relative">
-        <div class="row gtr-uniform ">
-
-            <div class="col-6 col-12-xsmall">
-                <input type="text" id="txtSearchMeal" data-mealOptId="" name="mealKeyword" value="" placeholder="Name" />   @*name="demo-name"*@
+            <div class="col-5 col-12-xsmall">
+                <input type="text" id="txtSearchMeal" data-mealOptId="" name="mealKeyword" value="" placeholder="" />   @*name="demo-name"*@
             </div>
             <div class="col-2 col-12-xsmall">
-                <input type="button" id="btnSearchMeal" value="查詢" class="btn btn-default" />
+                <input style="width:100%" type="button" id="btnSearchMeal" value="查詢" class="btn btn-default" />
+
             </div>
 
-            <div class="col-2 ">
-                <select name="demo-category" id="likedListSelect">
+            <div class="col-4 ">
+                <select style="width:100%" name="demo-category" id="likedListSelect">
                 </select>
             </div>
 
-            <div class="col-2 col-12-xsmall">
+            <div class="col-1 col-12-xsmall">
 
                 <input type="button" id="btnMealNotFound" class="btn btn-default" data-toggle="modal" data-target="#addModal" value="找不到">
 
@@ -135,9 +144,9 @@
             </div>
 
         </div>
-        <div class=" bg-white p-3 py-2  my-4 shadow-sm" style="bottom: 0; border-radius: 0.9em; ">
+        <div class=" bg-white py-1 mt-3 mb-4 shadow-sm" style="bottom: 0; border-radius: 0.9em; ">
 
-            <div class="my-xl-4">
+            <div class="my-xl-4 pl-3 ">
                 @{
                     if (Model.MemberHealthProfile.CurrProgram != null)
                     {
@@ -171,7 +180,6 @@
                     <div class="col">宵夜: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.BedtimeSnackGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.BedtimeSnackGainedPercent%)</span></div>
 
                 </div>
-                <div class="col-2" id="presentingStatus"><span style="color: #f56a6a">目前表現: </span></div>
 
             </div>
 
@@ -246,7 +254,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="7" class="text-right">
+                        <td colspan="8" class="text-right">
                             總卡路里: <span id="tempTotalCal"></span>
                         </td>
                     </tr>
@@ -256,30 +264,22 @@
 
             <input type="button" id="btnSendToDB" value="確認送出" class="btn btn-default" />
         </div>
-        @*<div class="pb-2" style="position:absolute; bottom:0">
 
-                以獲取卡路里
-                <div class="read_progress">
-                    <div id="read_progress_bar" class="read_progress_bar transition"></div>
-                </div>
-                將獲取卡路里
-                <div class="read_progress ">
-                    <div id="temp_read_progress_bar" class="read_progress_bar transition"></div>
-                </div>
-            </div>*@
 
         <div class="  col-11" style="position: absolute; bottom: 0; ">
             <div class="pb-2">
-                以獲取卡路里
+
+                已獲取卡路里 <span id="spanProgressBarGainedRemender" style="float: right; color: red; visibility: hidden ">已超過上限</span>
                 <div class="progress ">
-                    <div class="progress-bar" id="gainedCalsProgressBar" role="progressbar" style="background-color: rgba(60, 120, 0, 0.4); width: @Model.MemberHealthProfile.GainedCalDatas.AllDayGainedPercent% " aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+
+                    <div class="progress-bar" id="gainedCalsProgressBar" role="progressbar" style="background-color: rgba(255,0, 0, 0); width: 0% " aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
             <div>
 
-                將獲取卡路里
+                將獲取卡路里<span id="spanProgressBarTempRemender" style="float: right; color: red; visibility: hidden">將超過上限</span>
                 <div class="progress ">
-                    <div class="progress-bar" id="tempToGainedCalsProgressBar" role="progressbar" style="background-color: rgba(255, 255, 255,0.6); width: 0%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar" id="tempToGainedCalsProgressBar" role="progressbar" style="background-color: rgba(0,0, 0, 0); width: 0%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
         </div>
@@ -287,24 +287,24 @@
     </div>
     <div class="mealInfoDiv col-3 px-0   bg-white " style="bottom: 0; border-radius: 0.9em; overflow: hidden; box-shadow: 5px 5px 30px #E0E0E0 ">
         <input type="hidden" value="" id="hiddenMealID" />
-        <div style="height:23em">
+        <div style="height:25em">
 
-            <img id="mealInfoImage" src="~/Content/Images/MealOptionImages/mealDefault.jpg" height="100%" />
+            <img id="mealInfoImage" src="~/Content/Images/MealOptionImages/mealDefault.jpg" style="height:100%" />
         </div>
-        <ul class="list-group-flush mx-3 mb-3">
+        <ul class="list-group-flush px-3 pb-3 ">
             <li class="list-group-item"><h4 id="mealInfoName">餐點名稱</h4></li>
             <li class="list-group-item">每單位卡路里(大卡): <span style="float:right" id="mealInfoCal"></span></li>
             <li class="list-group-item">單位: <span style="float:right" id="mealInfoUnitName"></span></li>
-            <li class="list-group-item">碳水化合物含量(公克):<a href="@Url.Action("MealStyleList", "HHDiet")">a</a> <span id="mealInfoCarbs" style="float:right"></span></li>
-            <li class="list-group-item">蛋白質含量(公克):<a href="@Url.Action("MealStyleList", "HHDiet")">a</a> <span id="mealInfoProtein" style="float:right"></span></li>
-            <li class="list-group-item">脂肪含量(公克):<a href="@Url.Action("MealStyleList", "HHDiet")">a</a> <span id="mealInfoFat" style="float:right"></span></li>
-            <li class="list-group-item">糖含量(公克):<<a href="@Url.Action("MealStyleList", "HHDiet")">a</a> <span id="mealInfoSugar" style="float:right"></span></li>
-            <li class="list-group-item">鈉含量(豪克):<a href="@Url.Action("MealStyleList", "HHDiet")">a</a> <span id="mealInfoNa" style="float:right"></span></li>
+            <li class="list-group-item">碳水化合物含量(公克): <span class="nutritrionInfo" id="mealInfoCarbs" style="float:right"></span></li>
+            <li class="list-group-item">蛋白質含量(公克): <span class="nutritrionInfo" id="mealInfoProtein" style="float:right"></span></li>
+            <li class="list-group-item">脂肪含量(公克): <span class="nutritrionInfo" id="mealInfoFat" style="float:right"></span></li>
+            <li class="list-group-item">糖含量(公克): <span class="nutritrionInfo" id="mealInfoSugar" style="float:right"></span></li>
+            <li class="list-group-item">鈉含量(豪克): <span class="nutritrionInfo" id="mealInfoNa" style="float:right"></span></li>
 
         </ul>
 
 
-        <ul class="actions mx-3 mb-3 pt-3" style="border-top: solid #f56a6a 2.5px ">
+        <ul class="actions px-3 pb-3 pt-3" style="border-top: solid #f56a6a 2.5px ">
             <li id="addToTempList" class="col-6 text-center" style="border-right: solid #f56a6a 2px;color: #f56a6a">加入</li>
             <li id="btnToggleLiked" class="col-6 text-center" style="color: #f56a6a"><i id="fontLike" class="far fa-heart 2em"></i></li>
         </ul>
@@ -320,15 +320,15 @@
 
 
     <div class="row">
-        <div class="col-4" style="height: 400px; width: 400px; margin: auto ">
+        <div class="col-4 pb-5 px-3" style="height: 500px; width: 500px; margin: auto ">
             <h3 style="text-align:center">暴飲暴食?</h3>
             <canvas id="past7DayBarID"></canvas>
         </div>
-        <div class="col-4" style="height: 400px; width: 400px; margin: auto ">
+        <div class="col-4" style="height: 500px; width: 500px; margin: auto ">
             <h3 style="text-align:center">飲食時段分配圖</h3>
             <canvas id="CalRadarID"></canvas>
         </div>
-        <div class="col-4" style="height: 400px; width: 400px; margin: auto ">
+        <div class="col-4" style="height: 500px; width: 500px; margin: auto ">
             <h3 style="text-align:center">營養攝取分配圖</h3>
 
             <canvas id="NutritionRadarID"></canvas>
@@ -339,41 +339,86 @@
 
 </div>
 
-<section>
-    <div>
-        <span>
-            <h2 style="float:left">今日紀錄</h2>
-            <a href='@Url.Action("DietLogsHistory", "HHDietHistory")'><input type="button" value="修改" class="btn btn-default" style=" float:right" /></a>
 
-        </span>
-        <table id="realDiletLogTable" class="table ">
-            <thead>
-                <tr>
-                    <th>餐點圖片</th>
-                    <th>時段</th>
-                    <th>品名</th>
-                    <th>每單位卡路里含量</th>
-                    <th>單位</th>
-                    <th>份量</th>
-                    <th>總卡路里</th>
-                </tr>
-            </thead>
-            <tbody>
-                @Html.Partial("_DietLogsHistoryPartial", Model.TodayDietLogs)
+<div class="mt-lg-5">
+    <span>
+        <h2 style="float:left">今日紀錄</h2>
+        <a href='@Url.Action("DietLogsHistory", "HHDietHistory")'><input type="button" value="修改" class="btn btn-default" style=" float:right" /></a>
 
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="6" class="text-right">
-                        總卡路里:  <span class="todayTotalGainedReal">0</span>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
+    </span>
+    <table id="realDiletLogTable" class="table pt-5">
+        <thead>
+            <tr>
+                <th>餐點圖片</th>
+                <th>時段</th>
+                <th>品名</th>
+                <th>每單位卡路里含量</th>
+                <th>單位</th>
+                <th>份量</th>
+                <th>總卡路里</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (DietLogViewModel dl in Model.DietLogsOfTheDate)
+                {
+                    <tr data-dietLogId="@dl.ID" data-IsCustomeUploaded="@dl.IsCustomUploaded ">
+                        <td class="mealImg">
+                            @{
+                                if (dl.IsCustomUploaded == true)
+                                {
+                                    <img src="~/Content/Images/CustomerMealUploadImages/@dl.MealImage" width="108" height="85" />
+
+                                }
+                                else
+                                {
+                                    <img src="~/Content/Images/MealOptionImages/@dl.MealImage" width="108" height="85" />
+
+                                }
+
+                            }
 
 
-</section>
+
+
+                        </td>
+
+                        <td>
+                            @dl.TimesOfDayName
+                        </td>
+                        <td class="mealName">
+                            @dl.MealName
+                        </td>
+                        <td class="mealCal">
+                            @dl.MealCal
+                        </td>
+                        <td class="mealUnitName">
+                            @dl.MealUnitName
+                        </td>
+                        <td class="portion">
+                            @dl.Portion
+                        </td>
+                        <td>
+                            @dl.MealTotalGainedCal
+                        </td>
+
+
+                    </tr>
+                }
+            }
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7" class="text-right">
+                    總卡路里:  <span class="todayTotalGainedReal">@Model.MemberHealthProfile.GainedCalDatas.AllDayGained</span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+
 
 <!-- Modal -->
 
@@ -383,37 +428,42 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">自傳餐點 <span></span></h5>
+                <h3 class="modal-title" id="exampleModalLabel">使用者自傳飲食 <span></span></h3>
+                <input type="button" class="btn btn-default  " data-dismiss="modal" value="X" />
 
             </div>
             <div class="modal-body">
+                <p  style="color:#f56a6a">感謝您上傳飲食，我們會盡可能幫您補上此餐點的詳細營養資訊。</p>
                 <form id="CustomerAddMeal" name="CustomerAddMeal">
                     <input type="hidden" id="MealOptionID" name="ID" value=-1 />
                     <div class="form-group">
                         <label for="txtName">餐點名稱</label>
-                        <input class="form-control" type="text" name="Name" id="txtName" placeholder="請輸入餐點名稱包含店家名" />
+                        <input class="form-control" type="text" name="Name" id="txtName"  placeholder="請輸入餐點名稱(可包含店家名)" />
                     </div>
                     <div class="form-group">
                         <label for="numCal">卡路里含量</label>
-                        <input class="form-control" type="number" name="Calories" id="numCal" placeholder="卡路里" />
+                        <input class="form-control" type="number" name="Calories" id="numCal" placeholder="單位: 大卡" />
                     </div>
                     <div class="form-group">
                         <label for="numCal">單位名稱</label>
-                        <input class="form-control" type="text" name="UnitName" id="txtUnitName" placeholder="單位名稱" />
+                        <input class="form-control" type="text" name="UnitName" id="txtUnitName" placeholder="例如: 個" />
                     </div>
 
 
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <label for="inputFileImg">選擇照片</label>
                         <input type="file" class="form-control-file" id="inputFileImg" name="Image" onchange="readURL(this);">
-                    </div>
+                    </div>*@
                 </form>
 
                 <img id="imgFromUser" src="~/Content/Images/MealDefaultImages/defaultCustomeMeal.jpg" width="100%" />
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
-                <button type="button" class="btn btn-default" id="btnNewCustomerMeal">送出</button>
+            <div class="modal-footer ">
+                
+                
+                
+                    <input type="button" class="btn btn-default fit " data-dismiss="modal" id="btnNewCustomerMeal" value="送出" />
+                
             </div>
         </div>
     </div>
@@ -429,13 +479,39 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
     <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.4/themes/blitzer/jquery-ui.css" />
-
+    <script src="~/Content/js/bootstrap-slider.min.js"></script>
+    <script src="~/Content/js/jquery.flexslider-min.js"></script>
+    @*<script src="~/Content/js/shCore.js"></script>
+        <script src="~/Content/js/shBrushXml.js"></script>
+        <script src="~/Content/js/shBrushJScript.js"></script>*@
     <script>
+          @{
+                 string colorRGBA = "";
+                 string IsReminderSpanVisible = "hidden";
+                 if (@Model.MemberHealthProfile.GainedCalDatas.AllDayGained > @Model.MemberHealthProfile.ProgramMaxCalOrTDEE)
+                 {
+                     IsReminderSpanVisible = "visible";
+
+                     colorRGBA = "rgba(255, 0 , 0, 0.9)";
+                 }
+                 else if (Model.MemberHealthProfile.GainedCalDatas.AllDayGained > Model.MemberHealthProfile.ProgramMaxCalOrTDEE * 0.75)
+                 {
+                     colorRGBA = "rgba(255, 213, 5, 0.9)";
+                 }
+                 else
+                 {
+                     colorRGBA = "rgba(60, 120, 0, 0.9)";
+
+                 }
+                }
+
+            @*$("#spanProgressBarGainedRemender").css("visibility", "@IsReminderSpanVisible"  );    //todo doesn't work
+            $("#gainedCalsProgressBar").css("background-color", "@colorRGBA" );
+            $("#gainedCalsProgressBar").css("background-color", "rgba(255,0 , 0, 1)");*@
 
 
-
-
-            function readURL(input) {
+        function readURL(input) {
+            16
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
 
@@ -452,21 +528,41 @@
 
 
 
+        Chart.defaults.font.size = 16;
 
 
         $(document).ready(function () {
-          
-            
+            SetTempInfoDefaut()
+
+            dayGainedCalPercent.letMeKnow()
             UpdateLikedList()
             GetTimesOfDay()
-            SetTempInfoDefaut()
             GetTempDietLogsSession()
-            DynamicTempChange()
+            //DynamicTempChange()
+            SetChartSizes()
 
 
 
 
         })
+        function SetChartSizes() {
+        }
+
+        //chart.canvas.parentNode.style.height = '128px';
+        //chart.canvas.parentNode.style.width = '128px';
+
+        $("#exampleModalLabel").on("click", (e) => {
+          
+            
+            $("#txtName").val("桂冠芝麻湯圓")
+
+            $("#numCal").val("77.8")
+            $("#txtUnitName").val("顆")
+
+        })
+
+
+
 
       function GetTempDietLogsSession() {
              fetch('@Url.Action("GetSession", "HHApi_DietLog")', {
@@ -502,6 +598,8 @@
         var suggestedNutritionRangesArr = JSON.parse(suggestedNutritionRanges);
         var GainedNutritionsPer = '@Html.Raw(Json.Encode(Model.MemberHealthProfile.GainedNutritionDatas.GainedNutritionsPercents))';
         var dayGainedCalPer = '@Html.Raw(Json.Encode(Model.MemberHealthProfile.GainedCalDatas.AllDayGainedPercent))';
+        var pastWeekDaysFromTheDate = '@Html.Raw(Json.Encode(Model.MemberHealthProfile.GetPastWeekDaysFromTheDate))';
+        var pastWeekDaysFromTheDateArr = JSON.parse(pastWeekDaysFromTheDate);
 
         var timesOfDays = null;
         var tempTotal = 0;
@@ -510,6 +608,9 @@
         var tempDnGainedCal = 0
         var tempSnGainedCal = 0
         var tempBedSnGainedCal = 0
+        var tempProteinPer = 0;
+        var tempCarbsPer = 0
+        var tempFatPer = 0
 
 
         var past7DaysGainedCalsArr = {
@@ -517,6 +618,7 @@
             letMeKnow() {
                 past7DayBarChart.data.datasets[0].data = this.value
                 past7DayBarChart.update();
+
                 $(".todayTotalGainedReal").text(this.value[this.value.length - 1])
 
 
@@ -559,7 +661,20 @@
             value: JSON.parse(dayGainedCalPer),
             letMeKnow() {
                 $("#gainedCalsProgressBar").css("width", this.value + "%")
-                if (this.value >= 100) { $("#gainedCalsProgressBar").css("background-color", "rgba(255,0 , 0, 0.9)") }
+                if (this.value >= 100) {
+                    $("#gainedCalsProgressBar").css("background-color", "rgba(255,0 , 0, 0.9)");
+
+                    $("#spanProgressBarGainedRemender").css("visibility", 'visible');
+
+                } else if (this.value >= 75) {
+                    $("#gainedCalsProgressBar").css("background-color", "rgba(255, 213, 5, 0.9)");
+
+                }
+                else {
+                    $("#gainedCalsProgressBar").css("background-color", "rgba(60, 120, 0, 0.9)");
+
+
+                }
 
                 $("#realGainedPer").text(`(${this.value}%)`)
             }
@@ -593,7 +708,19 @@
         }
 
 
+        $(window).load(function () {
+          
 
+
+            $('.flexslider').flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: false,
+                slideshow: false,
+                itemWidth: 120,
+                itemMargin: 35
+            });
+        });
 
 
 
@@ -605,10 +732,15 @@
              tempLchGainedCal = 0
              tempDnGainedCal = 0
              tempSnGainedCal = 0
-             tempBedSnGainedCal = 0
+            tempBedSnGainedCal = 0
+            tempProteinPer = 0;
+            tempCarbsPer = 0
+             tempFatPer = 0
             $("#tempTotalCal").text(tempTotal)
             $("#tempToGainedCalsProgressBar").css("background-color", "rgba(255, 255, 255,0.6)")
             $("#tempToGainedCalsProgressBar").css("width", "0%")
+            $("#spanProgressBarTempRemender").css("visibility", 'hidden');
+
 
         }
 
@@ -626,8 +758,7 @@
 
         json.forEach((item, index, arr) => {
 
-            alert(item.Date)
-            alert(arr)
+            
             //todo render
         })
     }
@@ -642,12 +773,11 @@
 
 
     $("#btnNewCustomerMeal").click(() => {
-
         const obj = $("#CustomerAddMeal").serializeObject()
         latestMeal.Meal =obj
         //let customImgPath = $("#inputFileImg").val()
         //AddTempDietLogRow(latestMeal.Meal, customImgPath)
-        $('#addModal').modal('hide')
+
     })
         $(function () {
             $("#txtSearchMeal").autocomplete({
@@ -677,7 +807,7 @@
                     return ""
 
                 },
-                minLength:2,
+                minLength:1,
 
             })
         })
@@ -699,6 +829,11 @@
                })
             SetInputEleDeFault()
         })
+
+
+
+
+
 
         function AddTempDietLogRow(latestMeal, customImgPath)   //add file name
         {
@@ -731,7 +866,7 @@
 
             function LeadingZero(monthOrDay) {
                 let fixedVal = monthOrDay;
-                if (monthOrDay.length< 10) {
+                if (monthOrDay.length< 2) {
                     fixedVal = "0" + monthOrDay
                 }
 
@@ -902,7 +1037,17 @@
                 return;
             }
             $("#tempToGainedCalsProgressBar").css("width", tempToGainedPer + "%")
-            if (tempToGainedPer >= 100) { $("#tempToGainedCalsProgressBar").css("background-color", "rgba(255,0 , 0, 0.1)") }
+            if (tempToGainedPer >= 100) {
+                $("#tempToGainedCalsProgressBar").css("background-color", "rgba(255,0 , 0, 0.1)");
+                $("#spanProgressBarTempRemender").css("visibility", 'visible');
+
+            }
+            else if (tempToGainedPer >= 75) {
+                $("#tempToGainedCalsProgressBar").css("background-color", "rgba(255, 213, 5, 0.2)");
+            } else {
+                $("#tempToGainedCalsProgressBar").css("background-color", "rgba(60, 120, 0, 0.07)");
+
+            }
 
             //----------------------------------------------------------------------
 
@@ -971,12 +1116,13 @@
 
         var CalRadarChart = new Chart(CalRadarEle, {
             type: 'radar',
+
             data: {
 
 
                 labels: ['早餐', '午餐', '點心', '晚餐', '宵夜'],
                 datasets: [{
-                    label: '目前攝取 (單位 %): ',
+                    label: '目前攝取(單位: %)',
                     data: todGainedCalsPerArr.Arr,
                     backgroundColor: [
                         'rgba(245, 145, 145, 0.2)'
@@ -987,7 +1133,7 @@
                     borderWidth: 1
                 },
                 {
-                    label: '即將攝取 (單位 %): ',
+                    label: '即將攝取(單位: %)',
                     //data: [bfPer, lchPer, snPer, dnPer, bedSnPer],
                     backgroundColor: [
                         'rgba(0, 99, 132, 0)'
@@ -999,13 +1145,21 @@
                 }]
             },
             options: {
-                responsive: true,
+                scales: {
+                    r: {
+                        pointLabels: {
+                            font: {
+                                size: 16,
+                            },
+                        },
 
-                scale: {
-                    min: 0,
-                    max: 60,
+                        Min: 0,
+                        Max: 70,
 
-                },
+                    },
+
+
+                }
             },
 
 
@@ -1020,7 +1174,7 @@
             data: {
                 labels: ['蛋白質', '碳水化合物', '脂肪'],
                 datasets: [{
-                    label: 'Min (單位 %): ',
+                    label: '建議攝取下限',
                     data: suggestedNutritionRangesArr[0],
 
 
@@ -1034,7 +1188,7 @@
                     borderWidth: 0.1
                 },
                 {
-                    label: '攝取分布 (單位 %): ',
+                    label: '目前攝取分配(單位: %)',
                     data: GainedNutritionsPerArr.Arr,
                     backgroundColor: [
                         'rgba(252, 223, 32, 0.3)'
@@ -1045,7 +1199,7 @@
                     borderWidth: 2
                 },
                 {
-                    label: 'Max(單位 %): ',
+                    label: '建議攝取上限',
                     data: suggestedNutritionRangesArr[1],
                     backgroundColor: [
                         'rgba(112, 112, 112, 0.1)'
@@ -1058,13 +1212,26 @@
                 }]
             },
             options: {
-                responsive: true,
+                scales: {
+                    r: {
+                        pointLabels: {
+                            font: {
+                                size: 16,
+                            },
+                        },
 
-                scale: {
-                    min: 0,
-                    max: 60,
+                        ticks: {
+                            beginAtZero: true,
+                            max: 70,
+                            min: 0,
+                            stepSize: 10
+                        }
 
-                },
+
+                    },
+
+
+                }
             },
 
 
@@ -1079,9 +1246,9 @@
         var past7DayBarChart = new Chart(past7DayBarEle, {
             type: 'bar',
             data: {
-                labels: ['今天-6','今天-5','今天-4', '今天-3', '今天-2', '今天-1', '今天'],
+                labels: pastWeekDaysFromTheDateArr,
                 datasets: [{
-                    label: '過去七天攝取 (單位 KCal): ',
+                    label: '過去七日攝取(單位: 大卡)',
                     data: past7DaysGainedCalsArr.Arr,
                     backgroundColor: [
                         'rgba(112, 112, 112, 0.1)',
@@ -1110,10 +1277,10 @@
             },
             options: {
                 responsive: true,
-
+                maintainAspectRatio: false,
                 scale: {
                     min: 0,
-                    max: @Model.MemberHealthProfile.TDEE*1.5,
+                    max: 3000
 
                 },
             },
@@ -1199,11 +1366,16 @@
             $("#mealInfoName").html(mealVModel.Name)
             $("#mealInfoCal").html(Math.round(mealVModel.Calories))
             $("#mealInfoUnitName").html(mealVModel.UnitName)
-            $("#mealInfoCarbs").html(Math.round(mealVModel.Carbs))
-            $("#mealInfoProtein").html(Math.round(mealVModel.Protein))
-            $("#mealInfoFat").html(Math.round(mealVModel.Fat))
-            $("#mealInfoNa").html(Math.round(mealVModel.Na))
-            $("#mealInfoSugar").html(Math.round(mealVModel.Sugar))
+            if (mealVModel.ID <= 0) {
+                $(".nutritrionInfo").html("")
+            } else {
+                $("#mealInfoCarbs").html(Math.round(mealVModel.Carbs))
+                $("#mealInfoProtein").html(Math.round(mealVModel.Protein))
+                $("#mealInfoFat").html(Math.round(mealVModel.Fat))
+                $("#mealInfoNa").html(Math.round(mealVModel.Na))
+                $("#mealInfoSugar").html(Math.round(mealVModel.Sugar))
+            }
+
             if (mealVModel.IsLiked == true) {
                 $("#fontLike").removeClass("far").addClass("fas");
             }

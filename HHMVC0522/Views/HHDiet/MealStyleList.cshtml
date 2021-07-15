@@ -3,7 +3,7 @@
 @using DTO
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/HomeLayout2_0622.cshtml";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 @section Styles{
     <script src="https://kit.fontawesome.com/8e104d5e19.js" crossorigin="anonymous"></script>
@@ -11,6 +11,8 @@
 
     <link href="~/Content/css/dietAddMeal.css" rel="stylesheet" />
     <link href="~/Content/css/stylesPlay.css" rel="stylesheet" />
+    <link href="~/Content/css/flexslider.css" rel="stylesheet" />
+    <link href="~/Content/css/flexslider-rtl.css" rel="stylesheet" />
 
     <style>
 
@@ -27,95 +29,85 @@
     </style>
 }
 
-@*<header id="header">
-    <div id="frame" class="my-xl-4">
-        <ul class="slides">
-            @{
-
-
-                foreach (MealTagCategory mCtgy in Model.TagsCategories)
-                {
-                    <li class="mealTagImg">
-                        <figure class="styleIcon">
-                            <img src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" data-ctgyID="@mCtgy.ID" height="280" class="mTagImg">
-                            <figcaption>
-                                @mCtgy.Name
-                            </figcaption>
-                        </figure>
-                    </li>
-
-
-                }
-            }
-        </ul>
-    </div>
-</header>*@
 
 
 
 <header id="header" style="background-color: #fff0f0; width: 100%; padding-right: 0px; overflow: hidden; " class="pt-3 pb-4 m-0  col-12">
     @*<div class="row col-12 d-flex" style="width: 100%; padding-right: 0px">*@
 
-    <div >
-        <ul class="slides">
-            @{
 
-
-                foreach (MealTagCategory mCtgy in Model.TagsCategories)
-                {
-                    <li class="mealTagImg">
-                        <figure class="styleIcon">
-                            <img src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" data-ctgyID="@mCtgy.ID" height="280" class="mTagImg">
-                            <figcaption>
-                                @mCtgy.Name
-                            </figcaption>
-                        </figure>
-                    </li>
-
-
-                }
-            }
-        </ul>
-
-    </div>
 </header>
+<div class="flexslider carousel px-4 pt-3 pb-0 mb-1">
+    <ul class="slides">
+        @{
 
 
+            foreach (MealTagCategory mCtgy in Model.TagsCategories)
+            {
+                <li >
+                    <figure class="pb-0">
+                        <img src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" data-ctgyID="@mCtgy.ID" height="280" class="mTagImg">
+                        <figcaption>
+                            @mCtgy.Name
+                        </figcaption>
+                    </figure>
+                </li>
 
 
-<div class=" bg-white p-3 py-2  my-4 shadow-sm mb-lg-5" style="bottom: 0;   ">
+            }
+        }
+    </ul>
+
+</div>
+
+
+<div class="py-4">
+
     <div class="row ">
-        <div class="col-6">
+        <div class="col-4">
             <h1 id="hTagName" style="float:left">@Model.TheMealStyle.MealStyleName</h1>
         </div>
-        <div class="col-6 row">
-            <div class="col-3">
-                <span style="color: #f56a6a"><span id="" style="font-weight: bold ;font-size:16px">暫存累計熱量: </span></span>
-            </div>         
+        <div class="col-8 row">
+
+            <div class="col-3" style="color: #f56a6a">
+
+                <label>剩餘熱量額度: </label>
+
+
+
+                <span class="h2"> @Model.RemainActiveCal </span>大卡
+
+            </div>
+            <div class="col-3" style="color: #f56a6a">
+
+                <label>目前累計熱量: </label>
+
+
+
+                <span class="h2">@Model.TodayGainedCals </span>大卡
+
+            </div>
             <div class="col-3" style="color: #f56a6a">
                 @{
                     if (Model.MemberProfile.CurrProgram != null)
                     {
-                        <label>我的挑戰上限</label>
+                        <label>我的挑戰上限: </label>
 
 
                     }
                     else
                     {
-                        <label>我的TDEE</label>
+                        <label>我的TDEE: </label>
                     }
                 }
-                <span> @Model.MemberProfile.ProgramMaxCalOrTDEE</span>
+                <span class="h2"> @Model.MemberProfile.ProgramMaxCalOrTDEE </span>大卡
 
             </div>
-            
-            <div class="col-3">
-                <span style="color: #f56a6a"><i class="fa-solid fa-heart"></i><span id="LikedCount" style="font-weight: bold ;font-size:16px"></span></span>
 
-            </div>
+
             <div class="col-3">
                 <a href="@Url.Action("Create", "HHDiet")">
-                    <input type="button" id="TempListCount" value="" class="btn btn-default " style="font-size:16px" />
+                    <input type="button" id="TempListCount" value="" class="btn btn-default " style="font-size:16px ;width:100%" />
                 </a>
             </div>
 
@@ -123,9 +115,10 @@
 
     </div>
     <div class="row py-md-3">
-        <div class="col-6 col-md-6">
+        <div class="col-6 col-md-6 row">
             <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
         </div>
+
         <div class="col-6 col-md-6">
             <select id="selSort" class="form-control">
                 <option selected disabled value="0">排序條件</option>
@@ -141,30 +134,55 @@
             </select>
         </div>
     </div>
-</div>
-
-
-<div class="row">
-    <input type="button" id="btnAllMeals" class="button primary large col-4" value="全部餐點">
-
-    <input type="button" id="btnShowTDEE" class="button large col-4" value="TDEE">
 
 
 
-    @{
-        if (Model.MemberProfile.CurrProgram != null)
-        {
-            <input type="button" id="btnLightProMeals" class="button large col-4" value="符合計畫">
+    <div class="row">
+        <input type="button" id="btnAllMeals" class="button primary large col-4 " value="全部餐點">
 
+        <input type="button" id="btnShowTDEE" class="button large col-4" value="TDEE">
+
+
+
+        @{
+            if (Model.MemberProfile.CurrProgram != null)
+            {
+                <input type="button" id="btnLightProMeals" class="button large col-4" value="符合計畫">
+
+            }
+            else
+            {
+                <input type="button" id="btnLightProMeals" class="button large col-4" value="輕食一下">
+            }
         }
-        else
-        {
-            <input type="button" id="btnLightProMeals" class="button large col-4" value="輕食一下">
+    </div>
+    <div class="row" style="color: #f56a6a">
+        <div id="divBtnNoteAll" class=" col-4">以下為此分類全部餐點</div>
+        <div id="divBtnNoteTDEE" class=" col-4" style="visibility:hidden">為您提供不超過TDEE的餐點選擇</div>
+        @{
+            if (Model.MemberProfile.CurrProgram != null)
+            {
+                <div id="divBtnNoteProOrLight" class=" col-4" style="visibility:hidden">為您提供符合 @Model.MemberProfile.CurrProgram.Name 減脂計畫餐點選擇</div>
+
+            }
+            else
+            {
+                <div id="divBtnNoteProOrLight" class=" col-4" style="visibility:hidden">選擇以下餐點 您將省下TDEE 5%的熱量</div>
+            }
         }
-    }
+
+
+
+
+
+    </div>
+    <div class="row pt-3" id="divAllMealOnlyBtns" style="display:none">
+        <input type="button" id="btnGuess" class="button   col-2" value="猜你會想吃">
+
+        <input type="button" id="btnFitSuggestion" class="button  col-2" value="減脂推薦">
+    </div>
+
 </div>
-
-
 
 <div id="mealList" class="row gx-5 mt-lg-4">
 
@@ -173,13 +191,56 @@
 </div>
 
 @section Scripts{
+    <script src="~/Content/js/chart.min.js"></script>
+    <script src="~/Content/js/jquery-ui.js"></script>
+    <script src="~/Content/js/popper.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
+    <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.4/themes/blitzer/jquery-ui.css" />
+    <script src="~/Content/js/bootstrap-slider.min.js"></script>
+    <script src="~/Content/js/jquery.flexslider-min.js"></script>
     <script>
+        $(window).load(function () {
 
-        var glCurrMealTagID;
 
-        $(document).ready(() => {
-            glCurrMealTagID =@Model.TheMealStyle.MealStyleID
-            UpdateLikedCount()
+
+            $('.flexslider').flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: false,
+                slideshow: false,
+                itemWidth: 120,
+                itemMargin: 35
+            });
+        });
+
+
+            var glCurrMealTagID = {
+                value: null,
+                letMeKnow() {
+                    $("#divAllMealOnlyBtns").css("display", 'none')
+                    if (this.value == 54) //ID54 is All Meals
+                    {
+
+                        $("#divAllMealOnlyBtns").css("display", '')
+                    }
+                },
+                get ID() {
+                    return this.value;
+                },
+                set ID(value) {
+                    this.value = value;
+                    this.letMeKnow();
+                }
+            }
+
+            $(document).ready(() => {
+
+                glCurrMealTagID.ID =@Model.TheMealStyle.MealStyleID ;
+
+
             GetTempDietLogsSession()
 
         })
@@ -192,7 +253,7 @@
              }).then(response => response.json()).then(data => {
                  let showTempCount = 0;
                  if (data != 0) { showTempCount = data.length;}
-                 $("#TempListCount").val("暫存飲食清單: " + showTempCount)
+                 $("#TempListCount").val("返回暫存飲食清單: " + showTempCount)
             })
 
         }
@@ -203,40 +264,100 @@
         $("#btnShowTDEE").click(QueryMeetRequredMeals)
         $("#btnLightProMeals").click(QueryMeetRequredMeals)
 
-        function QueryMeetRequredMeals() {
+            function QueryMeetRequredMeals() {
+                $("#divAllMealOnlyBtns :button").removeClass("primary");
             $(this).addClass("primary").siblings().removeClass("primary");
-            let theUrl = null
+            let calMaxToProvide = null
             switch ($(this).attr("id")) {
                 case "btnAllMeals":
-                    theUrl = '@Url.Action("GetMealsByTag", "HHApi_DietLog")?mealTagID=' + glCurrMealTagID
+                    $("#divBtnNoteAll").css("visibility", "visible").siblings().css("visibility", "hidden");
+
                     break;
                 case "btnShowTDEE":
+                    $("#divBtnNoteTDEE").css("visibility", "visible").siblings().css("visibility", "hidden");
+                    calMaxToProvide = @Model.MemberProfile.TDEE-@Model.TodayGainedCals ;
 
-                    theUrl = '@Url.Action("GetMealsByTDEE", "HHApi_DietLog")?memberHProfile=' + @Model.MemberProfile + '&mealTagID=' + glCurrMealTagID
+
                     break;
 
                 case "btnLightProMeals":
-                    theUrl = '@Url.Action("GetMealsByProOrLight", "HHApi_DietLog")?memberHProfile=' +  @Model.MemberProfile  + '&mealTagID=' + glCurrMealTagID
+                    $("#divBtnNoteProOrLight").css("visibility", "visible").siblings().css("visibility", "hidden");
+                    if (@Model.MemberProfile.ProgramMaxCalOrTDEE<@Model.MemberProfile.TDEE) {   //has Program
+                        calMaxToProvide = @Model.MemberProfile.ProgramMaxCalOrTDEE-@Model.TodayGainedCals ;
+                    }
+                    else
+                    {
+                        calMaxToProvide = @Model.MemberProfile.TDEE * 0.95 -@Model.TodayGainedCals   ;  //has No Program   0.9
+                    }
                     break;
 
             }
-            $.ajax({
-                type: "GET",
-                url: theUrl,
-                contentType: "html"
-            }).done(function (items) {
-                if (items.length == 0) {
-                    $("#mealList").html('<p style="color: #f56a6a">今天已經吃太多了 沒有符合的餐點:*)</p>')
-                    return
+
+            if (calMaxToProvide == null) {
+                $(".divMealOpt").css("display", "");
+            }
+            else {
+                $(".divMealOpt").each(function (index, element) {
+                let mealCal = $(this).find(".mealInfoCal").text();
+                {
+                    if (mealCal <= calMaxToProvide) {
+                        $(this).css("display", "");
+                    } else {
+                        $(this).css("display", "none");
+                    }
                 }
-                $("#mealList").html("")
-                items.forEach(item => {
-                    $("#mealList").append(MealOptViewMaker(item))
+
+            });
+
+            }
+            }
+            $("#btnFitSuggestion").click(() => {
+                $("#btnAllMeals").addClass("primary").siblings().removeClass("primary");
+                $("#btnFitSuggestion").addClass("primary").siblings().removeClass("primary")
+
+                 fetch('@Url.Action("GetFitSuggestionMealIDs", "HHApi_DietLog")', {
+                    method: "GET",
+                 }).then(response => response.json()).then(items => {
+                     alert(items)
+                         //$('.divMealOpt').each(function (index, element) {
+
+
+                         //    if (items.includes(parseInt($(this).find(".hiddenMealID").val())))
+                         //    {
+                         //           $(this).css("display", '')
+                         //    }
+                         //    else {
+                         //        $(this).css("display", 'none')
+                         //    }
+
+                         //})
 
                 })
             })
 
-        }
+            $("#btnGuess").click(() => {
+                $("#btnAllMeals").addClass("primary").siblings().removeClass("primary");
+                $("#btnGuess").addClass("primary").siblings().removeClass("primary")
+                 fetch('@Url.Action("GuessMealIDsMemberWants", "HHApi_DietLog")?memberId=' +@Model.MemberProfile.MemberID, {
+                    method: "GET",
+                 }).then(response => response.json()).then(items => {
+                     console.log(items)
+                         $('.divMealOpt').each(function (index, element) {
+
+
+                             if (items.includes(parseInt($(this).find(".hiddenMealID").val())))
+                             {
+                                    $(this).css("display", '')
+                             }
+                             else {
+                                 $(this).css("display", 'none')
+                             }
+
+                         })
+
+                })
+
+            })
 
         $("#mealList").on("click", ".btnToggleLiked", (e) => {
             mealID = $(e.currentTarget).parent().parent().find(".hiddenMealID").val()
@@ -256,7 +377,6 @@
                   }
 
 
-                 UpdateLikedCount()
                  })
 
 
@@ -312,60 +432,58 @@
                 url: '@Url.Action("GetMealsByTag", "HHApi_DietLog")?mealTagID=' + mealTagID +'&memberId='+@Model.MemberProfile.MemberID,  //todo
                 contentType: "html"
             }).done(function (items) {
-                glCurrMealTagID = mealTagID
+                glCurrMealTagID.ID = mealTagID
                 $("#mealList").html(items)
                $("#hTagName").text($(e.currentTarget).parent().find("figcaption").html())
+                $("#btnAllMeals").addClass("primary").siblings().removeClass("primary");
+                //below btn and note reset
+                $("#btnAllMeals").addClass("primary").siblings().removeClass("primary");
+                $("#divBtnNoteAll").css("visibility", "visible").siblings().css("visibility", "hidden");
+                //=========
+
+
+
+            })
+        })
+
+            $("#searchText").click(() => {
+                $("#btnAllMeals").addClass("primary").siblings().removeClass("primary");
+
+                $("#divBtnNoteAll").css("visibility", "visible").siblings().css("visibility", "hidden");
+
+
+})
+
+
+
+
+            $("#searchText").keyup(() => {
+
+            let keyword = $("#searchText").val();
+
+
+
+            $('.divMealOpt').each(function (index, element)
+            {
+
+                    if ($(this).find(".mealInfoName").text().includes(keyword)) {
+
+                        $(this).css("display", '')
+                    } else { $(this).css("display", 'none') }
+
 
             })
         })
 
 
 
-
-
-        function MealOptViewMaker(item) {
-            const itemViewHtml =
-                `<div class="col-3">`+
-                `<div class="mealInfoDiv  px-0 mb-5  bg-white " style="bottom: 0; border-radius: 0.9em; overflow: hidden; box-shadow: 5px 5px 30px #E0E0E0 ">`+
-                `<input type="hidden" value=${item.ID} class="hiddenMealID" />` +
-                `<div style="height:20em">` +
-                `<img id="mealInfoImage" src="/Content/Images/MealOptionImages/${item.Image}" height="100%"  />` +
-                `</div >` +
-                `<ul class="list-group-flush mx-3 mb-3" style="border-bottom: solid #f56a6a 2.5px">`+
-                `<li class="list-group-item"><h4 id="mealInfoName class="mealInfoName" >${item.Name}</h4></li>`+
-                `<li class="list-group-item">每單位卡路里(大卡): <span style="float:right" id="mealInfoCal" class="mealInfoCal">${Math.round(item.Calories)}</span></li>`+
-                `<li class="list-group-item">單位: <span style="float:right" id="mealInfoUnitName" class="mealInfoUnitName">${item.UnitName}</span></li>`+
-                `<li class="list-group-item">碳水化合物含量(公克): <span id="mealInfoCarbs" style="float:right">${Math.round(item.Carbs)}</span></li>`+
-                `<li class="list-group-item">蛋白質含量(公克): <span id="mealInfoProtein" style="float:right">${Math.round(item.Protein)}</span></li>`+
-                `<li class="list-group-item">脂肪含量(公克): <span id="mealInfoFat" style="float:right">${Math.round(item.Fat)}</span></li>` +
-                `<li class="list-group-item">糖含量(公克): <span id="mealInfoSugar" style="float:right">${Math.round(item.Sugar)}</span></li>` +
-                `<li class="list-group-item">鈉含量(豪克): <span id="mealInfoNa" style="float:right">${Math.round(item.Na)}</span></li>` +
-                `</ul>`+
-                `<ul class="actions mx-3 mb-3">`+
-                    `<li  class="addToTempList col-6 text-center" style="border-right: solid #f56a6a 2px;color: #f56a6a">加入</li>`+
-                    `<li class="btnToggleLiked col-6 text-center" style="color: #f56a6a">最愛</li>`+
-                `</ul>`+
-                `</div>` +
-                `</div>`
-
-
-            return itemViewHtml
-        }
-
-
-        $("#searchText").keyup(() => {
-            console.log($("#searchText").val())
-
-
-        })
-
         //==============================
 
 
-        function UpdateLikedCount() {
+        @*function UpdateLikedCount() {
             $.ajax({
                 type: "GET",
-                url: '@Url.Action("GetLikedList", "HHApi_DietLog")?memberId=' + 17,  //todo
+                url: '@Url.Action("GetLikedList", "HHApi_DietLog")?memberId=' + @Model.MemberProfile.MemberID,  //.todo
                 contentType: "html"
             }).done(function (datas) {
                 //likedMeals = datas
@@ -377,7 +495,7 @@
                 })
 
 
-        }
+        }*@
 
         $("#selSort").change(function () {
 
@@ -395,7 +513,7 @@
                     theClass = ".mealInfoCal";
                     order = highToLow;
                     break;
-                case '3': //依蛋白質含量排序: 低 -> 高                   
+                case '3': //依蛋白質含量排序: 低 -> 高
                     theClass = ".mealInfoProtein";
                     order = lowToHigh;
                     break;
