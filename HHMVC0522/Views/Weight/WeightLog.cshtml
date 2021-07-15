@@ -433,7 +433,10 @@
 
                 yAxis: {
                     title: {
-                        text: '體重(kgs)'
+                        text: "體重(kgs)",
+                        style: {
+                            fontSize: "20px"
+                        }
                     }
                 },
 
@@ -448,7 +451,10 @@
                 legend: {
                     layout: 'vertical',
                     align: 'right',
-                    verticalAlign: 'middle'
+                    verticalAlign: 'middle',
+                    itemStyle: {
+                        fontSize: "20px"
+                    }
                 },
 
                 plotOptions: {
@@ -460,7 +466,7 @@
                 },
 
                 series: [{
-                    name: '@Session["Name"]',
+                    name: userName,
                     data: @Html.Raw(ViewBag.initialWeightLog)
                 }],
 
