@@ -25,8 +25,48 @@
             height: 25px;
             width: 25px;
         }
+        .lightenUpEffect {
+            background-color: aquamarine;
+            color: black;
+        }
+        .inactiveEffect {
+            background-color: rgba(0,0,0,0.6);
+            color: #70d48b;
+        }
+        .topRightCorner {
+            position: absolute;
+            top: 7%;
+            right: 7%;
+            transform: translate(-50%, -50%);
+            border-radius: 15px;
+            height: 28px;
+            width: 28px;
+        }
+            .topRightCorner:hover {
+                background-color: aquamarine;
+                color: black;
+                cursor: pointer;
+            }
+        .deleteTopRight {
+            background-color: rgba(0,0,0,0.5);
+            color: #ff7c6e;
+            position: absolute; 
+            top: 15%;
+            transform: translate(10%, -50%);
+            border-radius: 15px;
+            height: 20px;
+            width: 22px;
+            padding-top: 3px;
+        }
+            .deleteTopRight:hover {
+                background-color: lightcoral;
+                color: white;
+                cursor: pointer;
+            }
+        .addCartButton:hover {
+            background-color: aquamarine;
+        }
         .crownIcon {
-            
             color: rgba(255, 212, 20,1);
             border-radius: 15px;
             height: 25px;
@@ -44,14 +84,11 @@
             <h2 style="font-size: 1.8em"><i class="fas fa-gift"> </i> 禮物商店</h2>
         </div>
         <div class="col-2 col-sm-3 col-md-2 align-self-end justify-content-end d-none d-sm-block">
-            @if (Session["ID"] != null)
-            {<a href="~/FrontGift/GiftCart?userID=@Session["ID"]"><label class="button primary"><i class="fas fa-shopping-cart"> </i> 檢視已兌換</label></a>
-            }
-            else
-            {
-                <a href="~/Home2/Login"><label class="button primary">登入</label></a>
+            @if (Session["ID"] == null)
+            {<a href="~/Home2/Login"><label class="button primary">登入</label></a>
 
             }
+           
         </div>
     </div>
 </header><header id="header" class="m-0 p-0"></header>
@@ -60,31 +97,54 @@
          <section class="pt-2">
              <div class="col-12 d-flex p-0">
                  <div class="d-sm-none" style="width:100%">
-                     @if (Session["ID"] != null)
-                     {<a href="~/FrontGift/GiftCart?userID=@Session["ID"]"><label class="button primary" style="width:100%"><i class="fas fa-shopping-cart"> </i> 檢視已兌換</label></a>
-                     }
-                     else
+                     @if (Session["ID"] == null)
                      {
                          <a href="~/Home2/Login"><label class="button primary" style="width:100%">登入</label></a>
 
                      }
                  </div>
              </div>
-            
+
              @if (Session["ID"] != null)
              {
                  <div class="col-12 mb-2" style="text-align:center;font-size:1.2em">
-                     <i class="far fa-user"> </i> <strong>@Session["Name"]</strong> 目前擁有 <strong>
+                     <i class="far fa-user"> </i> <strong>@Session["Name"]</strong> 目前擁有 <strong style="color: orange ">
                          @Session["Points"]
                      </strong>點
                  </div>
+                 <div class="box mb-2 pt-2 pb-3" style="border: 2px dashed #ffd2cf">
+                     <p style="text-align:center;color:lightcoral;font-weight:bold;font-size:1.2em" class="pt-0"><i class="fas fa-shopping-cart"></i> 您的購物車 <a class="button defualt" style="float:right" id="clearCartButton"><i class="fas fa-trash-alt"></i></a></p>
+
+
+                     <div class="row">
+                         <div class="col-12" id="cartListDiv" style="text-align:center"></div>
+
+                     </div>
+
+                 </div>
+                 <div class="row">
+                     <div class="col-12 col-sm-6" style="text-align: center">
+                         <div style="width:100%;">
+                             <a><label class="button primary" style="width:100%" id="checkOutButton"><i class="fas fa-shopping-cart"> </i> 馬上兌換</label></a>
+
+                         </div>
+                     </div>
+                     <div class="col-12 col-sm-6 " style="text-align: center">
+                         <div style="width:100%;">
+                             <a href="~/FrontGift/GiftCart?userID=@Session["ID"]"><label class="button default" style="width:100%"><i class="fas fa-shopping-cart"> </i> 已兌換禮物</label></a>
+
+                         </div>
+                     </div>
+                 </div>
+                 
              }
+
              <div class="row" style="margin-bottom:5px">
                  <div class="col-12 col-md-6 mb-1">
                      <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
                  </div>
                  <div class="col-6 col-md-3 mb-1">
-                     <select id="searchFilter" class="form-control">
+                     <select id="searchFilter">
                          <option selected value=0>不排序</option>
                          <option value=1>點數: 低 => 高</option>
                          <option value=2>點數: 高 => 低</option>
@@ -93,45 +153,39 @@
                      </select>
                  </div>
                  <div class="col-6 col-md-3 mt-2">
-                     <input type="checkbox" class="form-control" id="premiumCheckbox"/>
-                     <label for="premiumCheckbox"><i class="fas fa-crown crownIcon"></i> 會員商品</label>
+                     <input type="checkbox" class="form-control" id="premiumCheckbox" />
+                     <label for="premiumCheckbox"><i class="fas fa-crown crownIcon"></i> 黃金會員專屬</label>
 
                  </div>
              </div>
-             <div class="row" id="resultList">
 
-             </div>
              <div class="row" id="cartList">
                  @foreach (var item in Model)
                  {
-                 <div class="col-6 col-sm-4 col-md-4 col-lg-3 mb-4" style="text-align:center">
-                     @if (item.EndDate < DateTime.Today)
-                     {
-                         <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
-                             <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%;opacity:0.3" />
-                             <div class="centered"><h5>已截止</h5></div>
-                         </a>
-                     }
-                     else if (item.IsPremium)
-                     { <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
-                             <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%" /><div class="corner"><i class="fas fa-crown"></i></div>
-                         </a>
-                     }
-                     else
-                     {
-                         <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
-                             <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%" />
-                         </a>
-                     }
+                     <div class="col-6 col-sm-4 col-md-4 col-lg-3 mb-4" style="text-align:center">
+                        
+                         @if (item.IsPremium)
+                         {<a href="~/FrontGift/GiftDetail/@item.ID" class="image">
+                                 <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%" /><div class="corner"><i class="fas fa-crown"></i></div>
+                             </a>
+                             <div class="topRightCorner inactiveEffect" data-id="@item.ID" data-image="../Areas/Admin/Content/GiftImages/@item.Image"><i class="far fa-check-circle"></i></div>
+                         }
+                         else
+                         {
+                             <a href="~/FrontGift/GiftDetail/@item.ID" class="image">
+                                 <img src="~/Areas/Admin/Content/GiftImages/@item.Image" alt="" style="max-width:100%;max-height:100%" />
+                             </a>
+                             <div class="topRightCorner inactiveEffect" data-id="@item.ID" data-image="../Areas/Admin/Content/GiftImages/@item.Image"><i class="far fa-check-circle"></i></div>
+                         }
+                         <div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">
+                             <label style="font-weight: bolder;font-size:1em;display: inline-block;margin:0px">
+                                 @item.Points 點
+                             </label>
+                         </div>
+                         <strong style="text-align: center">@item.Name</strong>
+                         <p>剩餘 @item.Quantity 件</p>
 
-                     <div class="button fit" style="pointer-events: none;font-size: 1.4em;line-height: 1.5em;height: auto;text-align: center;padding:unset">
-                         <label style="font-weight: bolder;font-size:1em;display: inline-block;margin:0px">
-                             @item.Points 點
-                         </label>
                      </div>
-                     <strong style="text-align: center">@item.Name</strong>
-                     <p>剩餘 @item.Quantity 件</p>
-                 </div>
                  }
              </div>
 
@@ -139,8 +193,107 @@
 
 @section Scripts {
     <script>
-        var timeOut = null;
+        var giftItems = [];
+        var cartItems = @Html.Raw(Json.Encode(@Session["giftCartItems"]));
+        var totalPrice = 0;
         $(document).ready(function () {
+            showAddCartButton();
+            showCartList();
+            function showAddCartButton() {
+                $("#cartList").find('.topRightCorner').each(function (item) {
+                        itemId = $(this).data('id');
+                    if (cartItems.some(i => i.ID == itemId)) {
+                        $(this).removeClass('inactiveEffect');
+                        $(this).addClass('lightenUpEffect');
+                    }
+                    else {
+                        $(this).removeClass('lightenUpEffect');
+                        $(this).addClass('inactiveEffect');
+                    }
+                })
+            }
+            function showCartList() {
+                $('#cartListDiv').empty();
+                console.log(cartItems);
+                $.each(cartItems, function (index, value) {
+                    let giftImage = value.Image;
+                    let giftId = value.ID;
+                    let cartImage = $("<img />")
+                        .attr("src", "../Areas/Admin/Content/GiftImages/" + giftImage)
+                        .css("max-width", "15%")
+                        .css("min-width", "8%")
+                        .addClass("mr-2").attr('id', giftId)
+                    $("<i></i>").addClass("far fa-times-circle deleteTopRight")
+                        .attr("id", giftId).appendTo("#cartListDiv");
+                    $("<a></a>").attr("href", "../FrontGift/GiftDetail/" + value.ID)
+                        .append(cartImage).appendTo('#cartListDiv');
+                });
+            }
+            if (performance.navigation.type == 2) {
+                location.reload(true);
+            }
+            function GetTotalPrice() {
+                totalPrice = 0;
+                $.each(cartItems, function (index, value) {
+                    totalPrice += value.Points;
+                })
+                return totalPrice;
+            }
+            $(document).on('click', '.deleteTopRight', function () {
+                let giftIdToDeleted = $(this).attr("id");
+                $("#cartListDiv").find(".deleteTopRight").each(function (index, value) {
+                    if ($(value).attr('id') == giftIdToDeleted) {
+                        value.nextSibling.remove();
+                        value.remove();
+                        cartItems = cartItems.filter((item) => item.ID != giftIdToDeleted);
+                        RemoveFromCart(giftIdToDeleted);
+                        showAddCartButton();
+                    }
+                });})
+
+            $('#clearCartButton').click(function () {
+                $.ajax({
+                    url: "/FrontGift/ClearTempCart",
+                    success: function (result) {
+                        cartItems = [];
+                        showCartList();
+                        showAddCartButton();
+                    }
+                })
+            });
+            $('#checkOutButton').click(function () {
+                if (GetTotalPrice() == 0) {
+                    alert("請先加入購物車");
+                    return;
+                }
+                let answer = confirm("總共是 " + GetTotalPrice() + " 點");
+                if (!answer) return;
+                let itemsToBeCheckedOut = JSON.stringify(cartItems);
+                $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    type: 'POST',
+                    url: '/FrontGift/CheckOut',
+                    data: itemsToBeCheckedOut,
+                    success: function (response) {
+                        console.log(response);
+                        if (response == "success") {
+                            $.ajax({
+                                url: "/FrontGift/ClearTempCart",
+                                success: function (result) {
+                                    cartItems = [];
+                                    showCartList();
+                                    showAddCartButton();
+                                }
+                            })
+                            window.location.href = "../FrontGift/GiftCart/?userID=" + '@Session["ID"]';
+                        }
+                        else
+                            alert("餘額不足");
+                    }
+                });
+            })
+            var timeOut = null;
             $('#premiumCheckbox').change(function () {
                 var isChecked = $('#premiumCheckbox').prop('checked');
                 var text = $('#searchText').val();
@@ -148,7 +301,6 @@
                 $('#cartList').html('');
                 callAjax(text, sortingMethod, isChecked);
             })
-
             $('#searchText').keyup(function () {
                 if (timeOut != null) {
                     clearTimeout(timeOut);
@@ -160,7 +312,6 @@
                     var isChecked = $('#premiumCheckbox').prop('checked');
                     $('#cartList').html('');
                     callAjax(text, sortingMethod, isChecked);
-
                 }, 200)
                 return false;
             })
@@ -170,7 +321,6 @@
                 var isChecked = $('#premiumCheckbox').prop('checked');
                 $('#cartList').html('');
                 callAjax(text, sortingMethod, isChecked);
-                
             })
             function callAjax(text, sortingMethod, isChecked) {
                 $.ajax({
@@ -181,6 +331,7 @@
                             populateList(value);
                         })
                         $('#cartList').show();
+                        showAddCartButton();
                     }
                 })
             }
@@ -195,7 +346,6 @@
                     .attr("src", "../Areas/Admin/Content/GiftImages/" + value.Image)
                     .css("max-width", "100%")
                     .css("max-height", "100%");
-
                 let crownDiv = $("<div></div>").addClass("corner");
                 let crownIcon = $("<i></i>").addClass("fas fa-crown");
                 crownIcon.appendTo(crownDiv);
@@ -203,6 +353,10 @@
                     crownDiv.appendTo(imageDiv);
                 }
                 imageContent.appendTo(imageDiv);
+                let addCartDiv = $("<div></div>").addClass("topRightCorner inactiveEffect")
+                    .data('id', value.ID).appendTo(resultDiv);
+                $("<i></i>").addClass("far fa-check-circle").appendTo(addCartDiv);
+
                 let pointDiv = $("<div></div>").addClass("button fit mt-1")
                     .css("pointer-events", "none")
                     .css("font-size", "1.4em")
@@ -218,7 +372,75 @@
                     .text(value.Name).appendTo(resultDiv);
                 $("<p></p>").text("剩餘" + value.Quantity + "件").appendTo(resultDiv);
                 $("#cartList").append(resultDiv);
-               }
-        })
+            }
+            function checkIfSameItemExist(giftId) {
+                return new Promise(function (resolve, reject) {
+                    $.ajax({
+                        url: "/FrontGift/IsSameItemExist?giftId=" + giftId,
+                        success: function (result) {
+                            resolve(result == "yes");
+                        }
+                    })
+                });
+            }
+            $(document).on('click', '.topRightCorner', function () {
+                var userID = '@Session["ID"]';
+                if (userID == '') {
+                    alert("請先登入");
+                    return;
+                }
+                var giftId = $(this).data('id');
+
+                $(this).toggleClass("inactiveEffect");
+                $(this).toggleClass("lightenUpEffect");
+                let removedItem = $(this);
+                checkIfSameItemExist(giftId).then(function (result) {
+                    if (result) {
+                        alert("已經兌換過該禮物");
+                        RemoveFromCart(giftId);
+                        showAddCartButton();
+                        $(removedItem).removeClass('lightenUpEffect');
+                        $(removedItem).addClass('inactiveEffect');
+                        return;
+                    }
+                })
+                if ($(this).hasClass('lightenUpEffect')) {
+                    if (cartItems.length >= 5) {
+                        alert("購物車中最多五件");
+                        $(this).toggleClass("inactiveEffect");
+                        $(this).toggleClass("lightenUpEffect");
+                        return;
+                    }
+                    if (!cartItems.some(i => i.ID == giftId)) {
+                        AddToCart(giftId);
+                    }
+                }
+                else {
+                    if (cartItems.some(i => i.ID == giftId)) {
+                        RemoveFromCart(giftId);
+                    }
+                }
+
+            })
+            function AddToCart(id) {
+                $.ajax({
+                    url: "/FrontGift/AddToTempCart/?giftId=" + id,
+                    success: function (result) {
+                        cartItems = JSON.parse(result);
+                        showCartList();
+                    }
+                })
+            }
+            function RemoveFromCart(id) {
+                $.ajax({
+                    url: "/FrontGift/RemoveFromTempCart/?giftId=" + id,
+                    success: function (result) {
+                        cartItems = JSON.parse(result);
+                        showCartList();
+                    }
+                })
+            }
+        });
+
     </script>
 }

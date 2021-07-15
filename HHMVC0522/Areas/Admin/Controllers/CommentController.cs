@@ -33,7 +33,12 @@ namespace UI.Areas.Admin.Controllers
         public ActionResult ApproveComment(int ID)
         {
             commentBLL.ApproveComment(ID);
-            return RedirectToAction("UnapprovedComments", "Comment");
+            return RedirectToAction("AllComments", "Comment");
+        }
+        public ActionResult HideComment(int ID)
+        {
+            commentBLL.HideComment(ID);
+            return RedirectToAction("AllComments", "Comment");
         }
         public JsonResult DeleteComment(int ID)
         {

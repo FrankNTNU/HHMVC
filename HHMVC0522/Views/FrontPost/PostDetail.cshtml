@@ -322,9 +322,9 @@
 }
 @helper DisplayComment(CommentDTO item)
 {
-    if (item.IsApproved || (item.MemberID == (Session["ID"] == null ? 0 : (int)Session["ID"])))
-    {
-        
+if (item.IsApproved || (item.MemberID == (Session["ID"] == null ? 0 : (int)Session["ID"])))
+{
+    if (!item.IsApproved) { return; }
         <div class="row pl-1" style="width: 100%;margin-bottom:10px;" id="commentArea">
 
             @if (item.PostID == 0)
@@ -340,13 +340,13 @@
             </div>
             <div style="border: 1px solid #ff6b6b; border-radius: 10px; background-color: #fff5f5 ;" class="p-1 pr-3 pl-3" id="dialogArea">
                 @if (item.SentimentScore > 0.8)
-                {<p style="font-size: small; color: #635c5c" class="m-0">本則留言可能還有敏感用字</p> <a style="border-style: none;" class="button continueReadButton"><span>繼續閱讀</span></a>
+                {<p style="font-size: small; color: #635c5c" class="m-0">本則留言可能含有敏感用詞</p> <a style="border-style: none;" class="button continueReadButton"><span>繼續閱讀</span></a>
                     <div class="mb-1 sensitiveDetail hideContent">
                         <strong>@item.Name</strong> @item.AddDate.ToString("yyyy/MM/dd") <span style="background-color:lightgoldenrodyellow;white-space:nowrap">@item.Title</span>&nbsp<span>
-    @if (!item.IsApproved)
+    @*@if (!item.IsApproved)
     {
-        <span class="button primary" style="opacity:0.5;cursor:default;margin-right:10px;font-size:0.65em"> 核准中...</span>
-    }
+        <span class="button primary" style="opacity:0.5;cursor:default;margin-right:10px;font-size:0.65em"> 審核中...</span>
+    }*@
 
     @if (Session["ID"] != null)
     {
@@ -450,13 +450,13 @@
             if (result != "") {
                 console.log(result);
                 if (result == "AddSuccess") {
-                    toastr.success("成功留言，待審查中");
+                    toastr.success("成功留言");
                 }
                 else if (result == "UpdateSuccess") {
-                    toastr.success("修改成功，待審查中");
+                    toastr.success("修改成功");
                 }
                 else if (result == "ReplySuccess") {
-                    toastr.success("回覆成功，待審查中");
+                    toastr.success("回覆成功");
                 }
                 else if (result == "DeleteSuccess") {
                     toastr.success("刪除成功");

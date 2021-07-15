@@ -21,16 +21,8 @@ namespace UI.Areas.Admin.Controllers
         // 
         public ActionResult MainPage() // 主畫面的動作
         {
-            // 寫一個取得會員總人數的方法
-            // 取得方法之後將數字丟給頁面
-
-            // 1. 定義一個工廠(BLL)實體
             CountBLL countBLL = new CountBLL();
-            // 2. 定義一個CountDTO實體
-            CountDTO countDTO = new CountDTO();
-            // 3. 設定countDTO裡面的屬性
-            countDTO = countBLL.GetCounts();
-            // 4. 把countDTO丟給View頁面
+            CountDTO countDTO = countBLL.GetCounts();
             return View(countDTO);
         }
     }

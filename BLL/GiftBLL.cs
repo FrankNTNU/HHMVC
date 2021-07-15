@@ -34,6 +34,12 @@ namespace BLL
             model.AddDate = DateTime.Today;
             return giftDAO.UpdateGift(model);
         }
+
+        public List<GiftDTO> GetFrontGifts()
+        {
+            return giftDAO.GetFrontGifts();
+        }
+
         public string DeleteGift(int ID)
         {
             return giftDAO.DeleteGift(ID);

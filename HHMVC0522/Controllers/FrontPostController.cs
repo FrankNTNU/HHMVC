@@ -324,7 +324,8 @@ namespace UI.Controllers
         }
         public ActionResult DeleteComment(int ID, int postID)
         {
-            commentBLL.DeleteComment(ID);
+            //commentBLL.DeleteComment(ID);
+            commentBLL.HideComment(ID);
             TempData["State"] = "DeleteSuccess";
             ModelState.Clear();
             return RedirectToAction("PostDetail/" + postID, "FrontPost");

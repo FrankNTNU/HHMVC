@@ -95,6 +95,7 @@
                     <th>負面指數</th>
                     <th>受檢舉</th>
                     <th>核准</th>
+                    <th>隱蔽</th>
                     <th>刪除</th>
                 </tr>
             </thead>
@@ -155,7 +156,20 @@
                             已核准
                         </td>
                     }
-
+                    @if (item.IsApproved)
+                    {
+                        <td align="center" valign="middle">
+                            <a href="../Comment/HideComment/@item.ID">
+                                <img src="~/Areas/Admin/Content/icon/lockIcon.png" />
+                            </a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td align="center" valign="middle">
+                            已隱蔽
+                        </td>
+                    }
                     <td align="center" valign="middle">
                         <a href="#">
                             <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../Comment/DeleteComment/', @item.ID)" />
@@ -172,6 +186,7 @@
                     <th>負面指數</th>
                     <th>受舉報</th>
                     <th>核准</th>
+                    <th>隱蔽</th>
                     <th>刪除</th>
                 </tr>
             </tfoot>
