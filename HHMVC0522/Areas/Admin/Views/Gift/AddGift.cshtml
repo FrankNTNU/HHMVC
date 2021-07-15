@@ -19,6 +19,9 @@
 <br />
 <div class="card-footer">
     <button type="submit" class="btn btn-primary" onclick="window.location.href='../Gift/GiftList'">所有禮物</button>
+    <input type="text" id="storeInfo" value="<p>World Gym是您健身教練課程的首選，擁有專業的健身教練團對，特過靈活與客製化的多方位訓練菜單，幫助您快速達到想要的體態與目標</p><p> <strong>兌換門市</strong>: World Gym 世界健身俱樂部 <span style = 'color:#e74c3c'> 台北站前店</span ></p ><p><strong>課程資訊</strong>: &nbsp;2021/10/20 至 2021/10/27，14:00 - 15:00，時數 7小時。</p><p><strong>地點資訊</strong>:</p><p><iframe  height='100%' src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.6419591556282!2d121.51364131500654!3d25.046221983966728!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a972e62142b9%3A0xc604be2b7676d208!2zV29ybGQgR3ltIOS4lueVjOWBpei6q-S_seaogumDqCDlj7DljJfnq5nliY3lupc!5e0!3m2!1szh-TW!2stw!4v1625718683849!5m2!1szh-TW!2stw' width='100%' style='border:0;'></iframe></p>" style="display:none">
+    <button class="btn btn-success ml-2" id="demoButton">快速新增</button>
+
 </div>
 <section class="content">
     <div class="row">
@@ -35,6 +38,33 @@
     </div>
 </section>
 @section Scripts {
+<script>
+    $('#demoButton').on('click', function () {
+        console.log("You've clicked on the demo button.")
+        $('#giftNameTB').val('重訊課程')
+        $('#pointTB').val('1450')
+        $('#stockNumTB').val('50')
+        $('#endDateTB').val('2021/10/05');
+        
+        var copyText = $('#storeInfo').val();
+        console.log(copyText);
+        /* Select the text field */
+       
+        var textArea = document.createElement("textarea");
+        textArea.value = copyText;
+        document.body.appendChild(textArea);
+        textArea.select();
 
-    
+        try {
+            var successful = document.execCommand('copy');
+            var msg = successful ? 'successful' : 'unsuccessful';
+            console.log('Copying text command was ' + msg);
+        } catch (err) {
+            console.log('Oops, unable to copy', err);
+        }
+        document.body.removeChild(textArea);
+        /* Copy the text inside the text field */
+
+    })
+    </script>    
 }

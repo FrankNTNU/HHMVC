@@ -554,9 +554,9 @@
                             </ul>
                         </li>
                         <li>
-                            <span class="opener"><i class="fas fa-file" style="width:30px"></i> 貼文</span>
+                            <span class="opener"><i class="fas fa-file" style="width:30px"></i> 文章</span>
                             <ul>
-                                <li><a href="~/FrontPost/AllPosts" style="text-decoration:none"><i class="far fa-file" style="width:30px"></i> 所有貼文</a></li>
+                                <li><a href="~/FrontPost/AllPosts" style="text-decoration:none"><i class="far fa-file" style="width:30px"></i> 所有文章</a></li>
                                 @if (Session["ID"] != null)
                                 {
 
@@ -634,7 +634,7 @@
     </div>
     <!--=============================================================-->
     <!--ForServiceDemo===============================================-->
-    <div class="demoService">
+    @*<div class="demoService">
         <div class="demoButtonService" onclick="autoInputForService(msgs1)">阿舊</div>
         <div class="loginButton" onclick="login1()">阿舊</div>
         <div class="loginButton" onclick="login2()">路飛</div>
@@ -642,7 +642,7 @@
         <div class="loginButton" onclick="login4()">山治</div>
         <div class="loginButton" onclick="login5()">frank</div>
         <div class="loginButton" onclick="login6()">zzzz</div>
-    </div>
+    </div>*@
     <!--=============================================================-->
     <!-- Scripts -->
    
@@ -1070,7 +1070,7 @@
                 }
             }).done(function (data) {
 
-                alert(data.Result);
+                //alert(data.Result);
 
                 $("#serviceGroupId").val(data.GroupId);
 

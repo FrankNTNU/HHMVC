@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 
 namespace DTO
 {
@@ -17,6 +18,7 @@ namespace DTO
         public HttpPostedFileBase UploadImage { get; set; }
         public int Points { get; set; }
         public int Quantity { get; set; }
+        //public string Deadline { get; set; }
         public DateTime AddDate { get; set; }
         [Required(ErrorMessage = "請輸入下架日期")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]

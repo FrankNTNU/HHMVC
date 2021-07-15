@@ -15,7 +15,10 @@ namespace DAL
             => db.Comments.Where(x => x.IsApproved == false).Count();      
 
         public int GetUnapprovedPostCount()
-            => db.Posts.Where(x => x.IsApproved == false).Count();    
+            => db.Posts.Where(x => x.IsApproved == false).Count();
+
+        public int GetUnapprovedDietLogCount()
+            => db.TempCustomerMealOptions.Count();
 
         public int GetNewMemberCount()
         {

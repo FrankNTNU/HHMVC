@@ -17,6 +17,30 @@ namespace DAL
                 List<Gift> gifts = db.Gifts.ToList();
                 foreach (var item in gifts)
                 {
+                GiftDTO dto = new GiftDTO();
+                dto.ID = item.ID;
+                dto.Name = item.Name;
+                dto.Image = item.Image;
+                    dto.Points = item.Points;
+                    dto.Quantity = item.Quantity;
+                    dto.AddDate = item.AddDate;
+                    dto.EndDate = item.EndDate;
+                dto.Store = item.Store;
+                    dto.IsPremium = item.IsPremium;
+                    giftList.Add(dto);
+            }
+            }
+            return giftList;
+        }
+
+        public List<GiftDTO> GetFrontGifts()
+        {
+            List<GiftDTO> giftList = new List<GiftDTO>();
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                List<Gift> gifts = db.Gifts.Where(x => x.EndDate >= DateTime.Today).ToList();
+                foreach (var item in gifts)
+                {
                     GiftDTO dto = new GiftDTO();
                     dto.ID = item.ID;
                     dto.Name = item.Name;
@@ -32,6 +56,7 @@ namespace DAL
             }
             return giftList;
         }
+
         public void AddGift(Gift gift)
         {
             using (HealthHelperEntities db = new HealthHelperEntities())
@@ -140,12 +165,12 @@ namespace DAL
         public List<GiftDTO> GetGifts(string text)
         {
             List<GiftDTO> dtoList = new List<GiftDTO>();
-            using (HealthHelperEntities db = new HealthHelperEntities()) 
+            using (HealthHelperEntities db = new HealthHelperEntities())
             {
                 List<Gift> gifts = db.Gifts.Where(x => x.Name.Contains(text) && x.EndDate > DateTime.Today).ToList();
                 foreach (var item in gifts)
                 {
-                    GiftDTO dto = new GiftDTO();
+                GiftDTO dto = new GiftDTO();
                     dto.ID = item.ID;
                     dto.Name = item.Name;
                     dto.Points = item.Points;
@@ -185,7 +210,7 @@ namespace DAL
                 Gift gift = db.Gifts.FirstOrDefault(x => x.ID == model.ID);
                 gift.Name = model.Name;
                 if(model.Image != null)
-                {
+        {
                     oldImagePath = gift.Image;
                     gift.Image = model.Image;
                 }
@@ -195,20 +220,20 @@ namespace DAL
                 gift.EndDate = model.EndDate;
                 gift.Store = model.Store;
                 gift.IsPremium = model.IsPremium;
-                db.SaveChanges();
-            }
+            db.SaveChanges();
+        }
             return oldImagePath;
         }
         public string DeleteGift(int ID)
         {
             string oldImagePath = "";
             using (HealthHelperEntities db = new HealthHelperEntities())
-            {
+        {
                 Gift gift = db.Gifts.FirstOrDefault(x => x.ID == ID);
                 oldImagePath = gift.Image;
-                db.Gifts.Remove(gift);
-                db.SaveChanges();
-            }
+            db.Gifts.Remove(gift);
+            db.SaveChanges();
+        }
             return oldImagePath;
         }
     }

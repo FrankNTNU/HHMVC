@@ -34,6 +34,12 @@ namespace BLL
             model.AddDate = DateTime.Today;
             return giftDAO.UpdateGift(model);
         }
+
+        public List<GiftDTO> GetFrontGifts()
+        {
+            return giftDAO.GetFrontGifts();
+        }
+
         public string DeleteGift(int ID)
         {
             return giftDAO.DeleteGift(ID);
@@ -64,7 +70,7 @@ namespace BLL
             if (isPremium) list = list.Where(x => x.IsPremium == isPremium).ToList();
             List<GiftDTO> dtoList = new List<GiftDTO>();
             foreach (Gift item in list)
-            {
+        {
                 GiftDTO dto = new GiftDTO();
                 dto.ID = item.ID;
                 dto.Name = item.Name;

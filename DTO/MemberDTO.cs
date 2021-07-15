@@ -56,5 +56,8 @@ namespace DTO
         public int MealCount { get; set; }
         public double Weight { get; set; }
         public string ActiveCode { get; set; }
+        public List<MemberDetailDTO> Members { get; set; }
+        //public List<StatusDetailDTO> Statuses { get; set; }
+        //public List<ActivityLevelDetailDTO> ActivityLevels { get; set; }
     }
 }

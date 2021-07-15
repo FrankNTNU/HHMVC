@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DAL;
 
 namespace UI.Areas.Admin.Controllers
 {
@@ -37,9 +38,9 @@ namespace UI.Areas.Admin.Controllers
             if (model.UploadImage == null)
             {
                 ViewBag.ProcessState = General.Messages.ImageMissing;
-            }
+        }
             else if (ModelState.IsValid)
-            {
+        {
                 string ext = Path.GetExtension(model.UploadImage.FileName);
                 if (ext != ".png" && ext != ".jpg" && ext != ".jpeg")
                 {
@@ -50,7 +51,7 @@ namespace UI.Areas.Admin.Controllers
                 Bitmap resizedImage = new Bitmap(image, 500, 500); // 設定長寬
                 string uniqueNumber = Guid.NewGuid().ToString(); // 設定唯一字串
                 string fileName = uniqueNumber + model.UploadImage.FileName; // 圖片路徑  = 唯一字串 + 圖片檔名
-                
+
                 model.Image = fileName; // 把圖片路徑存在DTO的屬性
                 
                 if (giftBLL.AddGift(model))
@@ -59,9 +60,9 @@ namespace UI.Areas.Admin.Controllers
                     ModelState.Clear();
                     resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/GiftImages/" + fileName)); // 存在資料夾
                     model = new GiftDTO();
-                }
+        }
                 else
-                {
+        {
                     ViewBag.ProcessState = General.Messages.GeneralError;
                 }
             }
@@ -78,6 +79,7 @@ namespace UI.Areas.Admin.Controllers
             model.EndDate = model.EndDate.Date;
             return View(model);
         }
+
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult UpdateGift(GiftDTO model)
@@ -93,18 +95,18 @@ namespace UI.Areas.Admin.Controllers
                     HttpPostedFileBase postedFile = model.UploadImage;
                     string ext = Path.GetExtension(postedFile.FileName);
                     if (ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".gif")
-                    {
+        {
                         Bitmap userImage = new Bitmap(postedFile.InputStream);
                         if (Math.Abs(((double)userImage.Height / userImage.Width) - 1) > 0.25)
-                        {
+            {
                             ViewBag.ProcessState = General.Messages.WrongImageSize;
                             
                             return View(model);
                         }
                         Bitmap resizedImage = new Bitmap(userImage, 500, 500);
-                        string uniqueNumber = Guid.NewGuid().ToString();
+                string uniqueNumber = Guid.NewGuid().ToString();
                         string fileName = uniqueNumber + postedFile.FileName;
-                        resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/GiftImages/" + fileName));
+                resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/GiftImages/" + fileName));
                         model.Image = fileName;
                     }
                     string oldImagePath = giftBLL.UpdateGift(model);
@@ -139,7 +141,7 @@ namespace UI.Areas.Admin.Controllers
             }
             giftBLL = new GiftBLL();
             return Json("");
-        }
+            }
         public JsonResult DeleteGiftCart(int ID)
         {
             string imagePath = giftCartBLL.DeleteCart(ID);
@@ -151,7 +153,7 @@ namespace UI.Areas.Admin.Controllers
             }
             giftCartBLL = new GiftCartBLL();
             return Json("");
-        }
+            }
         GiftCartBLL giftCartBLL = new GiftCartBLL();
 
         public ActionResult GiftCarts()
