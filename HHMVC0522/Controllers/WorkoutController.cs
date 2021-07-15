@@ -56,7 +56,7 @@ namespace UI.Controllers
             int age = (zeroTime + (taipeiToday - member.Birthdate)).Year - 1;
 
             //pal
-            decimal pal = 0;
+            decimal pal = 1.2m;
 
             int al = 0;
 
