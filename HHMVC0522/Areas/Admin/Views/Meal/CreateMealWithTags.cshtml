@@ -14,17 +14,22 @@
     </ol>
 </section>
 <br />
-<div class="card-footer">
-    <button type="submit" class="btn btn-primary" id="demo" onclick="demo">DEMO</button>
+<div class="row">
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary" id="demo2" onclick="demo2">DEMO_C</button>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary" id="demo" onclick="demo">DEMO_DATA</button>
+    </div>
 </div>
-<div class="card-footer">
+@*<div class="card-footer">
     <button type="submit" class="btn btn-primary" id="check" onclick="check">check</button>
-</div>
-<span id="test"></span>
+</div>*@
+
 @using (Html.BeginForm("CreateMealWithTags", "Meal", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-<form>
+<form id="form">
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -32,9 +37,10 @@
             <div class="form-group col-4">
                 <label>餐點名稱</label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "Name", @name = "Name" } })
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "name", @name = "Name" })
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "Name" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "Name" })
                 </div>
+                <span id="test"></span>
             </div>
         </div>
         <div class="row">
@@ -43,14 +49,16 @@
                 <div>
                     @Html.EditorFor(model => model.Calories, new { htmlAttributes = new { @class = "form-control", @id = "Calories" } })
                     @Html.ValidationMessageFor(model => model.Calories, "", new { @class = "text-danger", @id = "Calories" })
+                    <span id="sp_Calories"></span>
                 </div>
             </div>
             <div class="form-group col-4">
                 <label>餐點份量</label>
                 <div>
                     @Html.EditorFor(model => model.UnitName, new { htmlAttributes = new { @class = "form-control", @id = "UnitName" } })
-                    @Html.ValidationMessageFor(model => model.UnitName, "", new { @class = "text-danger", @id = "Unitname" })
+                    @Html.ValidationMessageFor(model => model.UnitName, "", new { @class = "text-danger", @id = "UnitName" })
                 </div>
+                <span id="sp_Unitname"></span>
             </div>
             <div class="col-4"></div>
         </div>
@@ -65,7 +73,7 @@
             <img id="preview_progressbarTW_img" src="#" />
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             <label>標籤</label>
             <div class="col-md-10">
                 <div class="checkbox">
@@ -90,6 +98,32 @@
 
                 </div>
             </div>
+        </div>*@
+        <div class="form-group">
+            <label>標籤</label>
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @{
+                        int countA = 0;
+                        foreach (var item in Model.DTags)
+                        {
+                            countA = countA + 1;
+                            if (countA == 5)
+                            {
+                                <br />
+                                countA = 0;
+                            }
+                            <label>
+                                <input type="checkbox"
+                                       name="tags"
+                                       id="@item.Key"
+                                       value="@item.Key" />@item.Value
+                                </label>
+                            }
+                    }
+
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="form-group col-3">
@@ -98,6 +132,7 @@
                     @Html.EditorFor(model => model.Fat, new { htmlAttributes = new { @class = "form-control", @id = "Fat" } })
                     @Html.ValidationMessageFor(model => model.Fat, "", new { @class = "text-danger", @id = "Fat" })
                 </div>
+                <span id="sp_Fat"></span>
             </div>
 
             <div class="form-group col-3">
@@ -106,6 +141,7 @@
                     @Html.EditorFor(model => model.Protein, new { htmlAttributes = new { @class = "form-control", @id = "Protein" } })
                     @Html.ValidationMessageFor(model => model.Protein, "", new { @class = "text-danger", @id = "Protein" })
                 </div>
+                <span id="sp_Protein"></span>
             </div>
 
             <div class="form-group col-3">
@@ -114,6 +150,7 @@
                     @Html.EditorFor(model => model.Carbs, new { htmlAttributes = new { @class = "form-control", @id = "Carbs" } })
                     @Html.ValidationMessageFor(model => model.Carbs, "", new { @class = "text-danger", @id = "Carbs" })
                 </div>
+                <span id="sp_Carbs"></span>
             </div>
         </div>
         <div class="row">
@@ -123,9 +160,19 @@
                     @Html.EditorFor(model => model.Sugar, new { htmlAttributes = new { @class = "form-control", @id = "Sugar" } })
                     @Html.ValidationMessageFor(model => model.Sugar, "", new { @class = "text-danger", @id = "Sugar" })
                 </div>
+                <span id="sp_Sugar"></span>
             </div>
 
             <div class="form-group col-3">
+                <label>鈉</label>
+                <div>
+                    @Html.EditorFor(model => model.Na, new { htmlAttributes = new { @class = "form-control", @id = "Na" } })
+                    @Html.ValidationMessageFor(model => model.Na, "", new { @class = "text-danger", @id = "Na" })
+                </div>
+                <span id="sp_Na"></span>
+            </div>
+
+            <div class="form-group col-3" style="display:none">
                 <label>維生素A</label>
                 <div>
                     @Html.EditorFor(model => model.VitA, new { htmlAttributes = new { @class = "form-control", @id = "VitA" } })
@@ -133,7 +180,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-3">
+            <div class="form-group col-3" style="display:none">
                 <label>維生素B</label>
                 <div>
                     @Html.EditorFor(model => model.VitB, new { htmlAttributes = new { @class = "form-control", @id = "VitB" } })
@@ -141,7 +188,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="display:none">
             <div class="form-group col-3">
                 <label>維生素C</label>
                 <div>
@@ -166,16 +213,8 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group col-3">
-                <label>鈉</label>
-                <div>
-                    @Html.EditorFor(model => model.Na, new { htmlAttributes = new { @class = "form-control", @id = "Na" } })
-                    @Html.ValidationMessageFor(model => model.Na, "", new { @class = "text-danger", @id = "Na" })
-                </div>
-            </div>
-
-            <div class="form-group col-3">
+        <div class="row" style="display:none">
+            <div class="form-group col-3" style="display:none">
                 <label>鉀</label>
                 <div>
                     @Html.EditorFor(model => model.Potassium, new { htmlAttributes = new { @class = "form-control", @id = "K" } })
@@ -191,7 +230,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group col-3">
+        <div class="form-group col-3" style="display:none">
             <label>鐵</label>
             <div>
                 @Html.EditorFor(model => model.Icon, new { htmlAttributes = new { @class = "form-control", @id = "Fe" } })
@@ -205,7 +244,7 @@
         </div>*@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="新增餐點" class="btn btn-default"/>
+                <input type="button" value="新增餐點" class="btn btn-default" id="pass" />
             </div>
         </div>
     </div>
@@ -224,6 +263,14 @@
     <script src="~/Areas/Admin/Content/JS/jquery.min.js"></script>
     <script>
 
+        var ifNamePass = false;
+        var ifCaloriesPass = false;
+        var ifUnitnamePass = false;
+        var ifFatPass = false;
+        var ifNaPass = false;
+        var ifCarbsPass = false;
+        var ifSugarPass = false;
+        var ifProteinPass = false;
     $("#progressbarTWInput").change(function () {
 
         readURL(this);
@@ -240,42 +287,339 @@
         }
     }
     $("#demo").click(function (event) {
-        $('#Name').val("四季沙拉(麥當勞)");
-        $('#Calories').val("31");
-        $('#UnitName').val("份");
-        $('#Fat').val("0.2");
-        $('#Protein').val("0.8");
-        $('#Carbs').val("6.7");
-        $('#Sugar').val("4.4");
-        $('#Na').val("29");
+        $('#Name').val("烤地瓜");
+        $('#Calories').val("288");
+        $('#UnitName').val("條");
+        $('#Fat').val("0.4");
+        $('#Protein').val("3.2");
+        $('#Carbs').val("69");
+        $('#Sugar').val("12");
+        $('#Na').val("128");
+        checkname();
+        checkUnitName();
+        checkProtein();
+        checkCarbs();
+        checkSugar();
+        checkNa();
+        checkFat();
+        checkCalories();
     });
-    $("#check").click(function (event) {
-        const MealName = $("#Name").val()
-        console.log(MealName);
-        $.ajax({
-            type: "GET",
-            url: '@Url.Action("checkMaelName", "Meal")?userInput=' + MealName,
-            contentType:"html",
-            success: function (result) {
-                console.log(result);
-                if (result == "True") {
-                    $("#test").text("餐點名稱已存在").css("color","red")
-                    $("#Name").css("border-color","red")
+        $("#demo2").click(function (event) {
+            $('#Name').val("");
+            $('#Calories').val("");
+            $('#UnitName').val("");
+            $('#Fat').val("");
+            $('#Protein').val("");
+            $('#Carbs').val("");
+            $('#Sugar').val("");
+            $('#Na').val("");
+        });
+
+        $("#Name").focusout(function () {
+            var MealName = $("#Name").val();
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("checkMaelName", "Meal")?userInput=' + MealName,
+                contentType:"html",
+                //參數名稱/txt的內容
+                success: function (result) {
+                    if (result == "True") {
+                        $("#test").text("餐點名稱已存在").css("color", "red");
+                        ifNamePass = false;
+                        console.log(ifNamePass);
+                    }
+                    else if (MealName == "") {
+                        $("#test").text("餐點不可為空白").css("color", "red");
+                        ifNamePass = false;
+                    }
+                    else {
+                        $("#test").text("餐點名稱可使用").css("color","green");
+                        ifNamePass = true;
+                        console.log(ifNamePass);
+                    }
+                }
+            })
+        });
+        $("#UnitName").focusout(function () {
+            var UnitName = $("#UnitName").val();
+                if (UnitName == "") {
+                    $("#sp_Unitname").text("份量不可為空白").css("color", "red");
+                    ifUnitnamePass = false;
+                    console.log("Unit空白")
                 }
                 else {
-                    $("#test").text("餐點名稱可使用")
-                    //form.submit();
+                    $("#sp_Unitname").text("");
+                    ifUnitnamePass = true;
+                    console.log("Unit可用")
                 }
+        });
+
+        var numberCheck = /[0-9]+/;
+        //卡路里
+        $("#Calories").focusout(function () {
+            var Calories = $("#Calories").val();
+            if (numberCheck.test(Calories)) {
+                ifCaloriesPass = true;
+                $("#sp_Calories").text("");
+            }
+            else if (Calories == "") {
+                ifCaloriesPass = false;
+                $("#sp_Calories").text("欄位不可為空白").css("color", "red");
+            }
+            else {
+                ifCaloriesPass = false;
+                $("#sp_Calories").text("請輸入數字").css("color", "red");
+            }
+        });
+        //脂肪
+        $("#Fat").focusout(function () {
+            var Fat = $("#Fat").val();
+            if (numberCheck.test(Fat)) {
+                ifFatPass = true;
+                $("#sp_Fat").text("");
+            }
+            else if (Fat == "") {
+                ifFatPass = false;
+                $("#sp_Fat").text("欄位不可為空白").css("color","red");
+            }
+            else {
+                ifFatPass = false;
+                $("#sp_Fat").text("請輸入數字").css("color", "red");
+            }
+        });
+        //鈉
+        $("#Na").focusout(function () {
+            var Na = $("#Na").val();
+            if (numberCheck.test(Na)) {
+                ifNaPass = true;
+                $("#sp_Na").text("");
+            }
+            else if (Na == "") {
+                ifNaPass = false;
+                $("#sp_Na").text("欄位不可為空白").css("color", "red");
+            }
+            else {
+                ifNaPass = false;
+                $("#sp_Na").text("請輸入數字").css("color", "red");
+            }
+        });
+        //糖
+        $("#Sugar").focusout(
+            function () {
+            var Sugar = $("#Sugar").val();
+            if (numberCheck.test(Sugar)) {
+                ifSugarPass = true;
+                $("#sp_Sugar").text("");
+            }
+            else if (Sugar == "") {
+                ifSugarPass = false;
+                $("#sp_Sugar").text("欄位不可為空白").css("color", "red");
+            }
+            else {
+                ifSugarPass = false;
+                $("#sp_Sugar").text("請輸入數字").css("color", "red");
+            }
+            }
+        );
+        //碳水化合物
+        $("#Carbs").focusout(function () {
+            var Carbs = $("#Carbs").val();
+            if (numberCheck.test(Carbs)) {
+                ifCarbsPass = true;
+                $("#sp_Carbs").text("");
+            }
+            else if (Carbs == "") {
+                ifCarbsPass = false;
+                $("#sp_Carbs").text("欄位不可為空白").css("color", "red");
+            }
+            else {
+                ifCarbsPass = false;
+                $("#sp_Carbs").text("請輸入數字").css("color", "red");
+            }
+        });
+        //蛋白質
+        $("#Protein").focusout(function () {
+            var Protein = $("#Protein").val();
+            if (numberCheck.test(Protein)) {
+                ifCProteinPass = true;
+                $("#sp_Protein").text("");
+            }
+            else if (Protein == "") {
+                ifProteinPass = false;
+                $("#sp_Protein").text("欄位不可為空白").css("color", "red");
+            }
+            else {
+                ifProteinPass = false;
+                $("#sp_Protein").text("請輸入數字").css("color", "red");
+            }
+        });
+        //=====[ Submit ]===============================================
+        $("#pass").click(function (event) {
+            checkname();
+            checkUnitName();
+            checkProtein();
+            checkCarbs();
+            checkSugar();
+            checkNa();
+            checkFat();
+            checkCalories();
+            if (ifNamePass && ifCaloriesPass && ifUnitnamePass && ifFatPass && ifNaPass && ifCarbsPass && ifSugarPass && ifProteinPass) {
+                    console.log("傳送");
+                    $("form").submit();
+                
+            }
+            else {
+                console.log("不傳送");
             }
         })
-    })
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("Name").addEventListener("blur", checkname);
-        });
+        //======================================================
         function checkname() {
-            let nameObj = document.getElementById("Name");
-            let nameObjVal = nameObj.val;
-
+             var MealName = $("#Name").val();
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("checkMaelName", "Meal")?userInput=' + MealName,
+                contentType:"html",
+                //參數名稱/txt的內容
+                success: function (result) {
+                    if (result == "True") {
+                        $("#test").text("餐點名稱已存在").css("color", "red");
+                        ifNamePass = false;
+                        console.log(ifNamePass);
+                    }
+                    else if (MealName=="") {
+                        $("#test").text("餐點不可為空白").css("color", "red");
+                        ifNamePass = false;
+                    }
+                    else {
+                        $("#test").text("").css("color","green");
+                        ifNamePass = true;
+                        console.log("Name is OK"+ifNamePass);
+                    }
+                }
+            })
         }
+        function checkUnitName() {
+            var UnitName = $("#UnitName").val();
+            if (UnitName == "") {
+                $("#sp_Unitname").text("份量不可為空白").css("color","red");
+                ifUnitnamePass = false;
+            }
+            else {
+                $("#sp_Unitname").text("");
+                ifUnitnamePass = true;
+                console.log("Unitname is OK"+ifUnitnamePass);
+            }
+        }
+        function checkProtein() {
+            var Protein = $("#Protein").val();
+            if (numberCheck.test(Protein)) {
+                ifProteinPass = true;
+                $("#sp_Protein").text("");
+                console.log("Protein is OK"+ifProteinPass);
+            }
+            else if (Protein == "") {
+                ifProteinPass = false;
+                $("#sp_Protein").text("欄位不可為空白").css("color", "red");
+            }
+            else {
+                ifProteinPass = false;
+                $("#sp_Protein").text("請輸入數字").css("color", "red");
+            }
+        }
+        function checkCarbs() {
+            var Carbs = $("#Carbs").val();
+            if (numberCheck.test(Carbs)) {
+                ifCarbsPass = true;
+                $("#sp_Carbs").text("");
+                console.log("Carbs is OK"+ifCarbsPass);
+            }
+            else if (Carbs == "") {
+                ifCarbsPass = false;
+                $("#sp_Carbs").text("欄位不可為空白").css("color", "red");
+            }
+            else {
+                ifCarbsPass = false;
+                $("#sp_Carbs").text("請輸入數字").css("color", "red");
+            }
+        }
+        function checkNa() {
+            var Na = $("#Na").val();
+            if (numberCheck.test(Na)) {
+                ifNaPass = true;
+                $("#sp_Na").text("");
+                console.log("Na is OK"+ifNaPass);
+            }
+            else if (Na == "") {
+                ifNaPass = false;
+                $("#sp_Na").text("欄位不可為空白").css("color", "red");
+            }
+            else {
+                ifNaPass = false;
+                $("#sp_Na").text("請輸入數字").css("color", "red");
+            }
+        }
+        function checkSugar() {
+            var Sugar = $("#Sugar").val();
+            if (numberCheck.test(Sugar)) {
+                ifSugarPass = true;
+                $("#sp_Sugar").text("");
+                console.log("Sugar is OK"+ifSugarPass);
+            }
+            else if (Sugar == "") {
+                ifSugarPass = false;
+                $("#sp_Sugar").text("欄位不可為空白").css("color", "red");
+            }
+            else {
+                ifSugarPass = false;
+                $("#sp_Sugar").text("請輸入數字").css("color", "red");
+            }
+        }
+        function checkFat() {
+            var Fat = $("#Fat").val();
+            if (numberCheck.test(Fat)) {
+                ifFatPass = true;
+                $("#sp_Fat").text("");
+                console.log("Fat is OK"+ifFatPass);
+            }
+            else if (Fat == "") {
+                ifFatPass = false;
+                $("#sp_Fat").text("欄位不可為空白").css("color", "red");
+            }
+            else {
+                ifFatPass = false;
+                $("#sp_Fat").text("請輸入數字").css("color", "red");
+            }
+        }
+        function checkCalories() {
+            var Calories = $("#Calories").val();
+            if (numberCheck.test(Calories)) {
+                ifCaloriesPass = true;
+                $("#sp_Calories").text("");
+                console.log("Calories is OK"+ifCaloriesPass);
+            }
+            else if (Calories == "") {
+                ifCaloriesPass = false;
+                $("#sp_Calories").text("欄位不可為空白").css("color", "red");
+            }
+            else {
+                ifCaloriesPass = false;
+                $("#sp_Calories").text("請輸入數字").css("color", "red");
+            }
+        }
+
+
+
+
+
+        //document.addEventListener("DOMContentLoaded", function () {
+        //    document.getElementById("Name").addEventListener("blur", checkname);
+        //});
+        //function checkname() {
+        //    let nameObj = document.getElementById("Name");
+        //    let nameObjVal = nameObj.val;
+
+        //}
+
+
     </script>
 }

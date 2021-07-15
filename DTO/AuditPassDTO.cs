@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace DTO
 {
@@ -27,7 +28,8 @@ namespace DTO
         //For MealOption
         public string Name { get; set; }
         public float Calories { get; set; }
-        public string Image { get; set; }
+        public string MealOptionImage { get; set; }
+        public HttpPostedFileBase MealOptionUpLoadImage { get; set; } // Uploaded image
         public int NutrientID { get; set; }
         public string UnitName { get; set; }
         public string IsVisable { get; set; }

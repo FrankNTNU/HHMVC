@@ -25,15 +25,15 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="row">
-    <div class="form-group col-4">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div>
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        <div class="form-group col-4">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div>
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "Name" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "Name" })
+            </div>
         </div>
-    </div>
-    <div>
-    </div>
+        <div>
+        </div>
     </div>
     <div class="row">
         <div class="form-group col-4">
@@ -67,7 +67,7 @@
             <img id="preview_progressbarTW_img" src="#" />
         </div>
     </div>
-    <div class="form-group">
+    @*<div class="form-group">
         <label>標籤：</label>
         <div class="col-md-10">
             <div class="checkbox">
@@ -101,6 +101,47 @@
                                            name="tags"
                                            id="@item.ID"
                                            value="@item.ID" />@item.Name
+                                    </label>
+                                }
+                            }
+                }
+            </div>
+        </div>
+    </div>*@
+    <div class="form-group">
+        <label>標籤：</label>
+        <div class="col-md-10">
+            <div class="checkbox">
+                @{
+                    string[] TagStringArray = Model.TagStringListArray;
+                    int count = 0;
+                    foreach (var item in Model.DTags)
+                    {
+
+                        count = count + 1;
+                        if (count == 5)
+                        {
+                            <br />
+                            count = 0;
+                        }
+                        bool checkTags = ((IList)TagStringArray).Contains(item.Value);
+                        if (checkTags)
+                        {
+                            <label>
+                                <input type="checkbox"
+                                       name="tags"
+                                       id="@item.Key"
+                                       value="@item.Key"
+                                       checked="true" />@item.Value
+                                </label>
+                            }
+                            else
+                            {
+                                <label>
+                                    <input type="checkbox"
+                                           name="tags"
+                                           id="@item.Key"
+                                           value="@item.Key" />@item.Value
                                     </label>
                                 }
                             }
@@ -143,6 +184,5 @@
             console.log()
         }
     }
-
 </script>
 }

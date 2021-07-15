@@ -15,18 +15,16 @@ namespace DTO
         public string Name { get; set; }
         [Required(ErrorMessage = "請輸入餐點熱量")]
         public int Calories { get; set; }
-        public List<TagCategoryDetailDTO> Tags { get; set; }
+      //  public List<TagCategoryDetailDTO> Tags { get; set; }
+        public List<string> myTagList { get; set; }
+        public Dictionary<int,string> DTags { get; set; }
         public string MealOptionImage { get; set; }
         public HttpPostedFileBase MealOptionUpLoadImage { get; set; } // Uploaded image
         
         public string UnitName { get; set; }
-        [Required(ErrorMessage = "請選取餐點標籤")]
         public TagCategoryDetailDTO TagCategoryDetail { get; set; }
-        [Required(ErrorMessage = "請選取餐點標籤")]
         public string TagStringList { get; set; }
-        [Required(ErrorMessage = "請選取餐點標籤")]
         public string[] TagStringListArray { get; set; }
-        [Required(ErrorMessage = "請選取餐點標籤")]
         public List<TagCategoryDetailDTO> TagList { get; set; }
         public string TagName { get; set; }
         public string TagImage { get; set; }

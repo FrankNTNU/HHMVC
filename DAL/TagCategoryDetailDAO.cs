@@ -47,6 +47,9 @@ namespace DAL
         //}
         public void AddTag(MealTagCategory entity)
         {
+            var list = db.MealTagCategories.OrderBy(x=>x.HHOrder).ToList();
+            int listNumber = list.Count -1;
+            int orderNumber = (int)list[listNumber].HHOrder + 1;
             db.MealTagCategories.Add(entity);
             db.SaveChanges();
         }
@@ -61,12 +64,12 @@ namespace DAL
             db.SaveChanges();
             return deleteImagePass;
         }
-        public void AddMealTags(int mealID,string[] Tags)
+        public void AddMealTags(int mealID,List<string> Tags)
         {
             List<MealTagDTO> Taglist = new List<MealTagDTO>();
             MealTagDTO mealTagDTO = new MealTagDTO();
             MealTag mealTag = new MealTag();
-            for(int i = 0; i < Tags.Length ; i++)
+            for(int i = 0; i < Tags.Count ; i++)
             {
                 mealTag.MealOptionID = mealID;
                 mealTag.MealTagCategoriesID = Convert.ToInt32(Tags[i]);
@@ -121,6 +124,16 @@ namespace DAL
                 dtoList.Add(dto);
             }
             return dtoList;
+        }
+        public Dictionary<int,string> getDTags()
+        {
+            var list = db.MealTagCategories.ToList();
+            Dictionary<int, string> Dtags = new Dictionary<int, string>();
+            foreach (var item in list)
+            {
+                Dtags.Add(item.ID, item.Name);
+            }
+            return Dtags;
         }
         public bool HasTag(int mealID, int categoryID)
         {
@@ -233,6 +246,21 @@ namespace DAL
             {
 
                 throw ex;
+            }
+        }
+        public bool checkTagName(string userInput)
+        {
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                var tag = db.MealTagCategories.Any(x => x.Name == userInput);
+                if (tag)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
         //public void AddMealTags(int mealID, string[] Tags)

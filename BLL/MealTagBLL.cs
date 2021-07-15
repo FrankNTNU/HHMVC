@@ -22,6 +22,10 @@ namespace BLL
 
             return dao.GetTagByID(id);
         }
+        //public List<string> AddTags(List<string> list)
+        //{
+        //    return "";
+        //}
 
     }
 }
