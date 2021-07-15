@@ -9,6 +9,7 @@ namespace DTO
     public class CountDTO
     {
         public int UserCount { get; set; }
+        public int UnapprovedDietLogCount { get; set; }
         public int UnapprovedCommentCount { get; set; }
         public int UnapprovedPostCount { get; set; }
         public int NewMemberCount { get; set; }

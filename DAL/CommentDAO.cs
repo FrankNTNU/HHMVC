@@ -53,6 +53,20 @@ namespace DAL
             return dtoList;
         }
 
+        public void HideComment(int commentID)
+        {
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                Comment comment = db.Comments.FirstOrDefault(x => x.ID == commentID);
+                if (comment == null) return;
+                comment.IsApproved = false;
+                db.Comments.Attach(comment);
+                var entry = db.Entry(comment);
+                entry.State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
+
         public CommentDTO GetComment(int commentID)
         {
             CommentDTO commentDTO = new CommentDTO();
@@ -159,7 +173,7 @@ namespace DAL
             comment.Name = model.Name;
             comment.Title = model.Title;
             comment.CommentContent = model.CommentContent;
-            comment.IsApproved = false;
+            comment.IsApproved = true;
             comment.AddDate = DateTime.Today;
             comment.SentimentScore = GetSentimentScores(model);
             db.Comments.Attach(comment);

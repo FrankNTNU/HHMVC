@@ -71,8 +71,7 @@ namespace BLL
             comment.Title = model.Comment.Title;
             comment.CommentContent = model.Comment.CommentContent;
             comment.AddDate = DateTime.Now;
-            comment.IsApproved = false;
-            //comment.Rating = 1;
+            comment.IsApproved = true;
             commentDAO.AddComment(comment);
             return true;
         }
@@ -182,7 +181,7 @@ namespace BLL
                 AddDate = DateTime.Today,
                 ParentCommentID = model.ParentCommentID,
                 MemberID = model.MemberID,
-                IsApproved = false
+                IsApproved = true
             };
             postDAO.AddReply(comment);
         }

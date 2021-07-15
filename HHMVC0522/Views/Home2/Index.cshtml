@@ -73,30 +73,35 @@
     </div>
 </header><header id="header" class="m-0 p-0"></header>
 <!-- Banner -->
-<section id="banner" class="pt-3 pb-2">
+<section class="p-0 pt-3 pb-2">
     <div class="row">
-        <div class="col-12 col-lg-6 mb-3" id="bannerText">
-            @if (Session["ID"] != null)
-            {
-                <h2>
-                    <i class="far fa-flag"></i>
-                    Hi, @Session["Name"]<br />
-                    歡迎回到 HealthHelper，<br />你的健康管理助手
-                </h2>
-            }
-            else
-            {
-                <h2>
-                    歡迎來到<span style="font-size:0.9em"> HealthHelper</span>
-
-                </h2>
-                <h2>登入以啟用更多功能</h2>
-            }
-            <div class="actions pt-2 m-auto">
-                @if (Session["ID"] == null)
+        <div class="col-12 col-lg-6 mb-2" id="bannerText" >
+            <div class="p-2 " style="border-radius: 10px; height: 100% ">
+                @if (Session["ID"] != null)
                 {
-                    <a href="~/Home2/Login" class="button primary big mr-5" style="text-decoration: none"><i class="fas fa-user"></i> 登入</a>}<a href="#" class="button big" style="text-decoration: none"><i class="fas fa-book"></i> 遊戲規則</a>
+                    <h2>
+                        <i class="far fa-flag"></i>
+                        Hi, @Session["Name"]<br />
+                        歡迎回到 HealthHelper，<br />你的健康管理助手
+                    </h2>
+                }
+                else
+                {
+                    <h2>
+                        歡迎來到<span style="font-size:0.9em"> HealthHelper</span>
+
+                    </h2>
+                    <h2>登入以啟用更多功能</h2>
+                }
+                <div class=" pt-2">
+                    @if (Session["ID"] == null)
+                    {
+                        <a href="~/Home2/Login" class="button primary" style="text-decoration: none; "><i class="fas fa-user"></i> 登入</a>}
+                    
+                    <a href="#" class="button big" style="text-decoration: none;background-color:white"><i class="fas fa-book"></i> 遊戲規則</a>
+                </div>
             </div>
+
 
 
         </div>
@@ -148,7 +153,7 @@
 
 <!-- Section -->
 
-<section class="pt-5 pb-5">
+<section class="pt-2 pb-5">
     @if (Session["ID"] != null)
     {
         <header class="row">

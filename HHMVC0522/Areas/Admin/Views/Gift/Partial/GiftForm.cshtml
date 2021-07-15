@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-12 form-group">
             <label>禮物名稱</label>
-            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "禮物名稱" })
+            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "禮物名稱", @id = "giftNameTB" })
             @Html.ValidationMessageFor(x => x.Name, "", new { @style = "color:red" })
         </div>
        
@@ -21,19 +21,19 @@
     <div class="row">
         <div class="col-1 form-group">
             <label>會員限定</label>
-            @Html.CheckBoxFor(x => x.IsPremium, new { @class = "form-control" })
+            @Html.CheckBoxFor(x => x.IsPremium, new { @class = "form-control", @id = "isPremiumCB" })
         </div>
         <div class="col-3">
             <div class="form-group">
                 <label>兌換點數</label>
-                @Html.TextBoxFor(x => x.Points, new { @class = "form-control", @placeholder = "兌換所需點數", @type = "number" })
+                @Html.TextBoxFor(x => x.Points, new { @class = "form-control", @placeholder = "兌換所需點數", @type = "number", @id = "pointTB" })
                 @Html.ValidationMessageFor(x => x.Points, "", new { @style = "color:red" })
             </div>
         </div>
         <div class="col-3">
             <div class="form-group">
                 <label>庫存數量</label>
-                @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", @placeholder = "庫存數量", @type = "number" })
+                @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", @placeholder = "庫存數量", @type = "number", @id = "stockNumTB" })
                 @Html.ValidationMessageFor(x => x.Quantity, "", new { @style = "color:red" })
             </div>
         </div>
@@ -42,7 +42,7 @@
                 <div class="form-group">
                     <label>下架日期</label>
                     <div class="input-group">
-                        @Html.TextBoxFor(x => x.EndDate, "{0:yyyy/MM/dd}", new { @class = "form-control"})
+                        @Html.TextBoxFor(x => x.EndDate, "{0:yyyy/MM/dd}", new { @class = "form-control", @id = "endDateTB" })
                     </div>
                 </div>
                 @Html.ValidationMessageFor(x => x.EndDate, "", new { @style = "color:red" })
@@ -54,7 +54,7 @@
 
     <div class="form-group">
         <label>商家及資訊</label>
-        @Html.TextAreaFor(x => x.Store, new { @class = "form-control ckeditor", @placeholder = "通路商家", @rows = 8 })
+        @Html.TextAreaFor(x => x.Store, new { @class = "form-control ckeditor", @placeholder = "通路商家", @rows = 8, @id = "storeInfoTA", @value= "Hi" })
         @Html.ValidationMessageFor(x => x.Store, "", new { @style = "color:red" })
     </div>
 
@@ -93,9 +93,4 @@
     </div>
 
 </div>
-
-@section Scripts
-{
-  
-}
 

@@ -70,5 +70,10 @@ namespace BLL
             public static int NegativeCount { get => CommentDAO.GetNegativeCount(); }
 
         }
+
+        public void HideComment(int commentID)
+        {
+            commentDAO.HideComment(commentID);
+        }
     }
 }
