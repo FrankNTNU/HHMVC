@@ -14,6 +14,7 @@ namespace DAL
     
     public partial class Program
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Program()
         {
             this.Points = new HashSet<Point>();
@@ -32,6 +33,7 @@ namespace DAL
     
         public virtual ActivityLevel ActivityLevel { get; set; }
         public virtual Member Member { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Point> Points { get; set; }
         public virtual Status Status { get; set; }
     }

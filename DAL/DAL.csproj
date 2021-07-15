@@ -250,6 +250,9 @@
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="NutrientDAO.cs" />
+    <Compile Include="Order.cs">
+      <DependentUpon>HHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Point.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>

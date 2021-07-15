@@ -14,6 +14,7 @@ namespace DAL
     
     public partial class WorkoutCategory
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public WorkoutCategory()
         {
             this.WorkoutPreferences = new HashSet<WorkoutPreference>();
@@ -23,7 +24,9 @@ namespace DAL
         public int ID { get; set; }
         public string Name { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkoutPreference> WorkoutPreferences { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Workout> Workouts { get; set; }
     }
 }

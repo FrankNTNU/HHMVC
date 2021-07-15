@@ -12,13 +12,13 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Table
+    public partial class Order
     {
         public int ID { get; set; }
         public int MemberID { get; set; }
-        public int GetEvents { get; set; }
-        public System.DateTime GetEventsDateTime { get; set; }
-        public int StatusID { get; set; }
-        public Nullable<int> ProgramID { get; set; }
+        public string OrderNumber { get; set; }
+        public string OrderTime { get; set; }
+        public bool OrderStatus { get; set; }
+        public string PaidTime { get; set; }
     }
 }

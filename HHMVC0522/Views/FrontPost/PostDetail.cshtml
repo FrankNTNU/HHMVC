@@ -339,7 +339,7 @@ if (item.IsApproved || (item.MemberID == (Session["ID"] == null ? 0 : (int)Sessi
                 <img src="~/Areas/Admin/Content/UserImage/@item.MemberImage" style="width:50px" />
             </div>
             <div style="border: 1px solid #ff6b6b; border-radius: 10px; background-color: #fff5f5 ;" class="p-1 pr-3 pl-3" id="dialogArea">
-                @if (item.SentimentScore > 0.8)
+                @if (item.SentimentScore > 0.9)
                 {<p style="font-size: small; color: #635c5c" class="m-0">本則留言可能含有敏感用詞</p> <a style="border-style: none;" class="button continueReadButton"><span>繼續閱讀</span></a>
                     <div class="mb-1 sensitiveDetail hideContent">
                         <strong>@item.Name</strong> @item.AddDate.ToString("yyyy/MM/dd") <span style="background-color:lightgoldenrodyellow;white-space:nowrap">@item.Title</span>&nbsp<span>
