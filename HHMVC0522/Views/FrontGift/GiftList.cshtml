@@ -253,7 +253,7 @@
 
             $('#clearCartButton').click(function () {
                 $.ajax({
-                    url: "/FrontGift/ClearTempCart",
+                    url: "../FrontGift/ClearTempCart",
                     success: function (result) {
                         cartItems = [];
                         showCartList();
@@ -273,13 +273,13 @@
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     type: 'POST',
-                    url: '/FrontGift/CheckOut',
+                    url: '../FrontGift/CheckOut',
                     data: itemsToBeCheckedOut,
                     success: function (response) {
                         console.log(response);
                         if (response == "success") {
                             $.ajax({
-                                url: "/FrontGift/ClearTempCart",
+                                url: "../FrontGift/ClearTempCart",
                                 success: function (result) {
                                     cartItems = [];
                                     showCartList();
@@ -424,7 +424,7 @@
             })
             function AddToCart(id) {
                 $.ajax({
-                    url: "/FrontGift/AddToTempCart/?giftId=" + id,
+                    url: "../FrontGift/AddToTempCart/?giftId=" + id,
                     success: function (result) {
                         cartItems = JSON.parse(result);
                         showCartList();
@@ -433,7 +433,7 @@
             }
             function RemoveFromCart(id) {
                 $.ajax({
-                    url: "/FrontGift/RemoveFromTempCart/?giftId=" + id,
+                    url: "../FrontGift/RemoveFromTempCart/?giftId=" + id,
                     success: function (result) {
                         cartItems = JSON.parse(result);
                         showCartList();
