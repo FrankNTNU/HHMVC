@@ -158,6 +158,10 @@
         #btnReload {
             border-radius: calc(0.9em - 5px);
         }
+
+        #highChart > div, #highChart > div > svg {
+            width: 100% !important;
+        }
     </style>
 }
 
@@ -202,7 +206,7 @@
                     </table>
                 </div>
             </div>
-            <div class="myBox col-12" style="min-height:400px">
+            <div class="myBox col-12">
                 <div class="myInnerBox">
                     <div style="width:100%; display:flex; flex-wrap:wrap; align-items:center; grid-row-gap:10px; column-gap:10px">
                         <div id="mySliderContainer">
@@ -222,7 +226,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="highChart"></div>
+                    <div id="highChart" style="margin:10px"></div>
                 </div>
             </div>
         </div>

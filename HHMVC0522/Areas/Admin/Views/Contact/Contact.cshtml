@@ -300,7 +300,7 @@
                     .appendTo(dialogDiv);
 
                 $("<img/>").addClass("direct-chat-img")
-                    .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                    .attr("src", "../Areas/Admin/Content/UserImage/" + image)
                     .appendTo(dialogDiv);
 
                 $("<div></div>").addClass("direct-chat-text")
@@ -319,7 +319,7 @@
                     .appendTo(dialogDiv);
 
                 $("<img/>").addClass("direct-chat-img")
-                    .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                    .attr("src", "../Areas/Admin/Content/UserImage/" + image)
                     .appendTo(dialogDiv);
 
                 $("<div></div>").addClass("direct-chat-text")
@@ -374,7 +374,7 @@
                     $.each(result, function (index, value) {
 
                         let cell1 = $("<td></td>")
-                            .append($("<img />").attr("src", "/Areas/Admin/Content/UserImage/" + value.ImagePath)
+                            .append($("<img />").attr("src", "../Areas/Admin/Content/UserImage/" + value.ImagePath)
                                 .addClass("direct-chat-img"));
 
                         let cell2 = $("<td></td>").append(value.GroupID);

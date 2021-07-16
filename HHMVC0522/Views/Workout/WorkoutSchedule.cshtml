@@ -451,7 +451,7 @@
                     </div>
                 </div>
             </div>
-            <div id="check" class="myBox operate col-lg-6 col-md-12 col-sm-12 col-12">
+            <div id="check" class="myBox operate col-lg-6 col-md-12 col-sm-12 col-12" style="display:flex; flex-direction:column">
                 <div class="myInnerBox" style="margin-bottom: 30px; padding: 0px">
                     <div id="checkTitle">今日運動排程</div>
                     <div id="checkRow" class="row innerRow">
@@ -459,7 +459,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="myInnerBox" style="padding: 0px">
+                <div class="myInnerBox" style="padding: 0px; flex: 1; ">
                     <div id="scheduleTitle" style="position:relative">未來7天運動排程<div id="btnToWorkoutLog">預定排程</div></div>
                     <div id="scheduleRow" class="row innerRow">
                         <div id="innerSchedulekRow" class="scrollDiv2">
@@ -883,7 +883,7 @@
             });
 
             $("#btnToWorkoutLog").click(function () {
-                window.location.href = "/Workout/WorkoutLog";
+                window.location.href = "WorkoutLog";
             });
         });
 

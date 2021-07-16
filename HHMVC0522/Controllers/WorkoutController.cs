@@ -116,7 +116,7 @@ namespace UI.Controllers
         {
             
             var q = dbContext.WorkoutLogs
-                .Where(wl => wl.MemberID.ToString() == User.Identity.Name).AsEnumerable()
+                .Where(wl => wl.MemberID.ToString() == User.Identity.Name).ToList()
                 .Select(wl =>
                 {
                     bool isPreference = dbContext.WorkoutPreferences.Where(wp => wp.MemberID.ToString() == User.Identity.Name)

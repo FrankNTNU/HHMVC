@@ -258,7 +258,7 @@ namespace UI.Controllers
                             userName = "客服人員",
                             message = gc.Message,
                             timeStamp = gc.TimeStamp.ToString("M/d HH:mm"),
-                            image = "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png"
+                            image = "2763b7f7-9732-433e-8b71-7aa81889063fuser2.png"
                         };
                     }
                     else
@@ -275,7 +275,7 @@ namespace UI.Controllers
                         {
                             connId = UserStatic.ServiceGroups[groupId].AdminConnId;
                             userName = "客服人員";
-                            image = "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png";
+                            image = "2763b7f7-9732-433e-8b71-7aa81889063fuser2.png";
                         }
                         else
                         {
@@ -323,7 +323,7 @@ namespace UI.Controllers
 
             Context.Clients.Group(groupId)
                     .receive("", "客服人員", answer.Answer, timeStamp.ToString("M/d HH:mm")
-                        , "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png", groupId
+                        , "2763b7f7-9732-433e-8b71-7aa81889063fuser2.png", groupId
                         , notReadCount);
 
             dbContext.GroupChats.Add(new GroupChat
@@ -369,7 +369,7 @@ namespace UI.Controllers
 
             Context.Clients.Group(groupId)
                     .receive("", "客服人員", promptQna.Answer, timeStamp.ToString("M/d HH:mm")
-                        , "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png", groupId
+                        , "2763b7f7-9732-433e-8b71-7aa81889063fuser2.png", groupId
                         , notReadCount);
 
             dbContext.GroupChats.Add(new GroupChat
