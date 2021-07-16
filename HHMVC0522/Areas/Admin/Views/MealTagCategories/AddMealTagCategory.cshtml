@@ -15,13 +15,14 @@
     </ol>
 </section>
 <br />
-<div class="card-footer">
-    <button type="submit" class="btn btn-primary" id="demo_clear">DEMO_C</button>
+<div class="row">
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary" id="demo_clear">DEMO_C</button>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary" id="demo">DEMO_DATA</button>
+    </div>
 </div>
-<div class="card-footer">
-    <button type="submit" class="btn btn-primary" id="demo">DEMO_DATA</button>
-</div>
-
 @using (Html.BeginForm("AddMealTagCategory", "MealTagCategories", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()

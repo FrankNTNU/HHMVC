@@ -287,14 +287,14 @@
         checkName();
     });
         $("#demo_2").click(function (event) {
-            $('#Name').val("四季沙拉(麥當勞)2");
-            $('#Calories').val("31");
+            $('#Name').val("雞蛋糕");
+            $('#Calories').val("79.27");
             $('#UnitName').val("份");
-            $('#Fat').val("0.2");
-            $('#Protein').val("0.8");
-            $('#Carbs').val("6.7");
-            $('#Sugar').val("4.4");
-            $('#Na').val("29");
+            $('#Fat').val("4.23");
+            $('#Protein').val("5.8");
+            $('#Carbs').val("4.97");
+            $('#Sugar').val("0");
+            $('#Na').val("0");
             checkName();
         });
      $("#Name").focusout(function () {
@@ -315,7 +315,7 @@
                         ifNamePass = false;
                     }
                     else {
-                        $("#test").text("餐點名稱可使用").css("color","green");
+                        $("#test").text("").css("color","green");
                         ifNamePass = true;
                         console.log(ifNamePass);
                     }
@@ -340,7 +340,7 @@
                         ifNamePass = false;
                     }
                     else {
-                        $("#test").text("餐點名稱可使用").css("color","green");
+                        $("#test").text("").css("color","green");
                         ifNamePass = true;
                         console.log(ifNamePass);
                     }
