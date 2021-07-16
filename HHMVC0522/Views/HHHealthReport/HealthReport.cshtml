@@ -15,23 +15,18 @@
 
 
 }
-<header id="header" style=" background-color: #fff0f0; width: 100%; padding-right: 0px" class="pt-5 pb-1 m-0 col-12">
-    <div class="row col-12 d-flex" style="width: 100%; padding-right: 0px">
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
 
-        <div class="col-4 col-sm-4 col-lg-2 p-2" style="text-align:center">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:100px;width:100%"></a>
+        <div class="col-3 col-sm-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
-        <div class="col-8 col-sm-8 col-lg-10 p-1 justify-content-center">
-            <a href="/Home2/Index" class="logo" style="text-decoration: none;">
-                <div class="h-50">
-                    <strong id="logoText" style="font-size:1.7em;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">飲食歷史紀錄</strong>
-                </div>
-
-
-            </a>
+        <div class="col-8 col-sm-7 col-lg-8 p-1 align-self-center">
+            <h2 style="font-size:1.8em"><i class="fas fa-chart-bar" style="width:30px"></i> 綜合圖表</h2>
         </div>
+
     </div>
-</header>
+</header><header id="header" class="m-0 p-0"></header>
 
 
 <div class="row my-4">
@@ -44,75 +39,75 @@
     <div class="col-2 ">
         <input type="button" id="btnThisMonth" value="本月紀錄" class="btn btn-default fit" />
 
-       
+
     </div>
 </div>
-    <div class="col-12  shadow bg-white mt-5" style="border-radius: 0.9em; height:850px; margin: auto">
-        <div class="d-flex justify-content-between mb-4 pt-3">
-            <input type="button" id="btnPrevMonth" value="<" class="btn btn-default" />
+<div class="col-12  shadow bg-white mt-5" style="border-radius: 0.9em; height:850px; margin: auto">
+    <div class="d-flex justify-content-between mb-4 pt-3">
+        <input type="button" id="btnPrevMonth" value="<" class="btn btn-default" />
 
-            <h1 id="titleMonth" style="display:inline">@Model.YearMonth</h1>
+        <h1 id="titleMonth" style="display:inline">@Model.YearMonth</h1>
 
 
-            <input type="button" id="btnNextMonth" value=">" class="btn btn-default" />
-
-        </div>
-        <canvas id="generalChart" class="pb-5"></canvas>
+        <input type="button" id="btnNextMonth" value=">" class="btn btn-default" />
 
     </div>
+    <canvas id="generalChart" class="pb-5"></canvas>
 
-    <div class="row my-5" style="display:flex;justify-content:center">
-        <div class="col-6 row">
-            <div class="col-6 p-1">
-                <input type="button" id="btnShowWater" value="水" class="button  fit " />
-            </div>
-            <div class="col-6  p-1">
-                <input type="button" id="btnShowWeight" value="體重" class="button  fit " />
-            </div>
+</div>
+
+<div class="row my-5" style="display:flex;justify-content:center">
+    <div class="col-6 row">
+        <div class="col-6 p-1">
+            <input type="button" id="btnShowWater" value="水" class="button  fit " />
         </div>
-        <div id="btnsCals" class="col-6 row">
-            <div class="col-6  p-1">
-                <input type="button" id="btnShowGained" value="攝取" class="button primary  fit" />
-            </div>
-            <div class="col-6  p-1">
-
-                <input type="button" id="btnShowBurned" value="消耗" class="button  primary fit" />
-            </div>
-
+        <div class="col-6  p-1">
+            <input type="button" id="btnShowWeight" value="體重" class="button  fit " />
         </div>
     </div>
+    <div id="btnsCals" class="col-6 row">
+        <div class="col-6  p-1">
+            <input type="button" id="btnShowGained" value="攝取" class="button primary  fit" />
+        </div>
+        <div class="col-6  p-1">
 
-    <div id="editDoneModal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-
-
-
-                    <h5 class="modal-title">資料載入中...</h5>
-                </div>
-                <div class="modal-body">
-                    <img src="/Content/Images/loadingDots.gif" />
-
-                </div>
-                <div class="modal-footer">
-                    @* <input type="button" value="確定" class="btn btn-default fit" onclick="function CloseThisModal(){$('#editDoneModal').modal('hide')};CloseThisModal()" />*@
-
-                </div>
-            </div>
+            <input type="button" id="btnShowBurned" value="消耗" class="button  primary fit" />
         </div>
 
     </div>
-    @section Scripts{
-        <script src="~/Content/js/chart.min.js"></script>
-        <script src="~/Content/js/jquery-ui.js"></script>
-        <script src="~/Content/js/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script src="~/Content/js/chartjs-plugin-datalabels.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</div>
 
-        <script>
+<div id="editDoneModal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+
+
+
+                <h5 class="modal-title">資料載入中...</h5>
+            </div>
+            <div class="modal-body">
+                <img src="/Content/Images/loadingDots.gif" />
+
+            </div>
+            <div class="modal-footer">
+                @* <input type="button" value="確定" class="btn btn-default fit" onclick="function CloseThisModal(){$('#editDoneModal').modal('hide')};CloseThisModal()" />*@
+
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+    <script src="~/Content/js/chart.min.js"></script>
+    <script src="~/Content/js/jquery-ui.js"></script>
+    <script src="~/Content/js/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Content/js/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
             var monthlyGainedCals = '@Html.Raw(Json.Encode(Model.GainedCalsByMonth))';
 
             var monthlyDays = '@Html.Raw(Json.Encode(Model.MonthlyDays))';
@@ -764,5 +759,5 @@
 
 
 
-        </script>
-    }
+    </script>
+}

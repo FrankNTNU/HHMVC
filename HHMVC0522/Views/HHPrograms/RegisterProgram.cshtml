@@ -20,14 +20,15 @@
 <header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
     <div class="row" style="width: 100%; padding-right: 20px">
 
-        <div class="col-4 col-sm-4 col-md-3 col-lg-2 p-2 p-0" style="text-align:center">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
+        <div class="col-3 col-sm-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
-
+        <div class="col-8 col-sm-7 col-lg-8 p-1 align-self-center">
+            <h2 style="font-size:1.8em"><i class="fas fa-pen-nib" style="width:30px"></i> 減脂計畫</h2>
+        </div>
 
     </div>
 </header><header id="header" class="m-0 p-0"></header>
-
 
 
 
@@ -88,18 +89,16 @@
 
     </div>
 </div>-->
-
-
 <!-- Modal -->
 <div class="modal fade" id="ProgramCalculating" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title" id="programPending">計畫審核中...</h3>
-               
+
             </div>
-            <div class="modal-body" style="display:flex;justify-content:center" >
-                <img id="pendingImg" style="max-width: 100%; max-height: 100%; " src="~/Content/Images/loadingDots.gif"/>
+            <div class="modal-body" style="display:flex;justify-content:center">
+                <img id="pendingImg" style="max-width: 100%; max-height: 100%; " src="~/Content/Images/loadingDots.gif" />
             </div>
             <div class="modal-footer">
                 <p id="pendingReminder"></p>
@@ -138,15 +137,15 @@
 
             $("#pendingImg").attr("src", "/Content/Images/loadingDots.gif")
 
-            
+
         });
 
-      
+
     $(function BindingJSevents() {
         $("#ProName").on("click", (e) => {
             console.log($(e.currentTarget))
             $(e.currentTarget).val("我一定要變瘦追到隔壁大樓的小花!")
-            
+
         })
         $(".datepicker").datepicker({
             minDate: "+14",
@@ -158,7 +157,7 @@
 
             $("#ProgramCalculating").modal('show')
             const formData = new FormData(document.RegisterProgramForm)
-            
+
             fetch('@Url.Action("RegisterProgram", "HHApi_Program")', {
                 method: "POST",
                 body: formData
@@ -166,7 +165,7 @@
                 $("#mainProgramContent").html(data)
                 if ($("#hiddenHasProgram").val() == "true") {
                     $("#programPending").text("恭喜你! 減脂計畫註冊成功 加油!")
-                    $("#pendingImg").attr("src", "/Content/Images/ProgramImages/goodLuckImg.jpg")                   
+                    $("#pendingImg").attr("src", "/Content/Images/ProgramImages/goodLuckImg.jpg")
                     $("#pendingReminder").text("提醒您, 我們也為您新增了一筆起始體重紀錄以及更新您的活動量紀錄 祝您好運!")
                 } else {
                     $("#programPending").text("註冊失敗... 這樣減脂太不健康啦!")
@@ -196,7 +195,7 @@
         })
 
     })
-            
+
 
      //========================BELOW WATERLOG=======================
         @*$("#btnWaterLogTemp").on("click", () => {
@@ -280,7 +279,7 @@
                             'rgba(0, 89, 179,1)',
                         ],
                         borderWidth: 3
-                       
+
                     },
                     {
                         label: '建議攝取上限(單位: 毫升)',
@@ -294,7 +293,7 @@
                         fill: true,
                         lineTension: 0.5,
                         radius: 0,
-                     
+
                     }
 
                 ]

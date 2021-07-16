@@ -70,24 +70,18 @@
 
 <!--</header>-->
 
-<header id="header" style=" background-color: #fff0f0; width: 100%; padding-right: 0px" class="pt-5 pb-1 m-0 col-12">
-    <div class="row col-12 d-flex" style="width: 100%; padding-right: 0px">
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
 
-        <div class="col-4 col-sm-4 col-lg-2 p-2" style="text-align:center">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:100px;width:100%"></a>
+        <div class="col-3 col-sm-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
-        <div class="col-8 col-sm-8 col-lg-10 p-1 justify-content-center">
-            <a href="/Home2/Index" class="logo" style="text-decoration: none;">
-                <div class="h-50">
-                    <strong id="logoText" style="font-size:1.7em;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">紀錄飲食</strong>
-                </div>
-
-
-            </a>
+        <div class="col-8 col-sm-7 col-lg-8 p-1 align-self-center">
+            <h2 style="font-size:1.8em"><i class="fas fa-pen"> </i> 紀錄飲食</h2>
         </div>
+
     </div>
-
-</header>
+</header><header id="header" class="m-0 p-0"></header>
 
 
 <div class="flexslider carousel px-4 pt-3 pb-0 mb-1">
@@ -433,12 +427,12 @@
 
             </div>
             <div class="modal-body">
-                <p  style="color:#f56a6a">感謝您上傳飲食，我們會盡可能幫您補上此餐點的詳細營養資訊。</p>
+                <p style="color:#f56a6a">感謝您上傳飲食，我們會盡可能幫您補上此餐點的詳細營養資訊。</p>
                 <form id="CustomerAddMeal" name="CustomerAddMeal">
                     <input type="hidden" id="MealOptionID" name="ID" value=-1 />
                     <div class="form-group">
                         <label for="txtName">餐點名稱</label>
-                        <input class="form-control" type="text" name="Name" id="txtName"  placeholder="請輸入餐點名稱(可包含店家名)" />
+                        <input class="form-control" type="text" name="Name" id="txtName" placeholder="請輸入餐點名稱(可包含店家名)" />
                     </div>
                     <div class="form-group">
                         <label for="numCal">卡路里含量</label>
@@ -451,19 +445,19 @@
 
 
                     @*<div class="form-group">
-                        <label for="inputFileImg">選擇照片</label>
-                        <input type="file" class="form-control-file" id="inputFileImg" name="Image" onchange="readURL(this);">
-                    </div>*@
+                            <label for="inputFileImg">選擇照片</label>
+                            <input type="file" class="form-control-file" id="inputFileImg" name="Image" onchange="readURL(this);">
+                        </div>*@
                 </form>
 
                 <img id="imgFromUser" src="~/Content/Images/MealDefaultImages/defaultCustomeMeal.jpg" width="100%" />
             </div>
             <div class="modal-footer ">
-                
-                
-                
-                    <input type="button" class="btn btn-default fit " data-dismiss="modal" id="btnNewCustomerMeal" value="送出" />
-                
+
+
+
+                <input type="button" class="btn btn-default fit " data-dismiss="modal" id="btnNewCustomerMeal" value="送出" />
+
             </div>
         </div>
     </div>
@@ -552,8 +546,8 @@
         //chart.canvas.parentNode.style.width = '128px';
 
         $("#exampleModalLabel").on("click", (e) => {
-          
-            
+
+
             $("#txtName").val("桂冠芝麻湯圓")
 
             $("#numCal").val("77.8")
@@ -600,7 +594,8 @@
         var dayGainedCalPer = '@Html.Raw(Json.Encode(Model.MemberHealthProfile.GainedCalDatas.AllDayGainedPercent))';
         var pastWeekDaysFromTheDate = '@Html.Raw(Json.Encode(Model.MemberHealthProfile.GetPastWeekDaysFromTheDate))';
         var pastWeekDaysFromTheDateArr = JSON.parse(pastWeekDaysFromTheDate);
-
+        var tODPriorAvgPer = '@Html.Raw(Json.Encode(Model.MemberHealthProfile.GainedCalDatas.TODPriorAvgPercents))';
+        var tODPriorAvgPerArr = JSON.parse(tODPriorAvgPer);
         var timesOfDays = null;
         var tempTotal = 0;
         var tempBfGainedCal = 0
@@ -709,7 +704,7 @@
 
 
         $(window).load(function () {
-          
+
 
 
             $('.flexslider').flexslider({
@@ -758,7 +753,7 @@
 
         json.forEach((item, index, arr) => {
 
-            
+
             //todo render
         })
     }
@@ -1142,7 +1137,22 @@
                         'rgba(0, 99, 132, 1)'
                     ],
                     borderWidth: 1
-                }]
+                    },
+
+                {
+                        label: '即將攝取(單位: %)',
+                    data: tODPriorAvgPerArr,
+                        backgroundColor: [
+                            'rgba(122, 122, 122, 0.1)'
+                        ],
+                        borderColor: [
+                            'rgba(122, 122,122, 0.1)'
+                        ],
+                        borderWidth: 1
+                    }
+
+
+                ]
             },
             options: {
                 scales: {
@@ -1152,9 +1162,8 @@
                                 size: 16,
                             },
                         },
-
-                        Min: 0,
-                        Max: 70,
+                        min: 0,
+                        max: 70,
 
                     },
 
@@ -1219,14 +1228,8 @@
                                 size: 16,
                             },
                         },
-
-                        ticks: {
-                            beginAtZero: true,
-                            max: 70,
-                            min: 0,
-                            stepSize: 10
-                        }
-
+                        min: 0,
+                        max: 60,
 
                     },
 
@@ -1263,12 +1266,12 @@
 
                     ],
                     borderColor: [
-                        'rgba(112, 112, 112, 0.3)',
-                        'rgba(112, 112, 112, 0.3)',
-                        'rgba(112, 112, 112, 0.3)',
-                        'rgba(112, 112, 112, 0.3)',
-                        'rgba(112, 112, 112, 0.3)',
-                        'rgba(112, 112, 112, 0.3)',
+                        'rgba(112, 112, 112, 1)',
+                        'rgba(112, 112, 112, 1)',
+                        'rgba(112, 112, 112, 1)',
+                        'rgba(112, 112, 112, 1)',
+                        'rgba(112, 112, 112, 1)',
+                        'rgba(112, 112, 112, 1)',
                         'rgba(60, 120, 0, 1)',
 
                     ],

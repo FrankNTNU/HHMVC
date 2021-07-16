@@ -15,23 +15,18 @@
     </style>
 
 }
-<header id="header" style=" background-color: #fff0f0; width: 100%; padding-right: 0px" class="pt-5 pb-1 m-0 col-12">
-    <div class="row col-12 d-flex" style="width: 100%; padding-right: 0px">
+<header style="background-color: #fff0f0; width: 100%; padding-right: 0px " class="pt-5 pb-1 m-0 col-12">
+    <div class="row" style="width: 100%; padding-right: 20px">
 
-        <div class="col-4 col-sm-4 col-lg-2 p-2" style="text-align:center">
-            <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:100px;width:100%"></a>
+        <div class="col-3 col-sm-3 col-lg-2 p-2 p-0" style="text-align:center">
+            <a href="~/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
-        <div class="col-8 col-sm-8 col-lg-10 p-1 justify-content-center">
-            <a href="/Home2/Index" class="logo" style="text-decoration: none;">
-                <div class="h-50">
-                    <strong id="logoText" style="font-size:1.7em;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">飲食歷史紀錄</strong>
-                </div>
-
-
-            </a>
+        <div class="col-8 col-sm-7 col-lg-8 p-1 align-self-center">
+            <h2 style="font-size:1.8em"><i class="fas fa-history" style="width:30px"></i> 飲食歷史</h2>
         </div>
+
     </div>
-</header>
+</header><header id="header" class="m-0 p-0"></header>
 
 
 
@@ -170,7 +165,7 @@
                     <th>
                         餐點圖片
                     </th>
-        
+
                     <th>
                         時段
                     </th>
@@ -191,14 +186,14 @@
                     </th>
 
 
-                    @{ if (Model.NeedDeleteEditOpts ==true)
+                    @{ if (Model.NeedDeleteEditOpts == true)
                         {
-                                        <th>
-                                            
-                                        </th>
+                            <th>
+
+                            </th>
                         }
                     }
-                    
+
                 </tr>
             </thead>
             <tbody>
@@ -242,7 +237,7 @@
                         <td>
                             @(item.MealCal * item.Portion)
                         </td>
-                      
+
                         <td>
                             @*<input type="button" style="display: inline" value="修改" class="btn btn-default btnEditDietLog" />*@
                             <input type="button" class="btn btn-default btnEditDietLog" data-toggle="modal" data-target=".bd-example-modal-sm" value="修改">
@@ -265,7 +260,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLabel">修改飲食紀錄嗎?</h4>
-                <input type="button" class="btn btn-default" data-dismiss="modal" value="X"/>
+                <input type="button" class="btn btn-default" data-dismiss="modal" value="X" />
             </div>
             <div class="modal-body">
                 <img id="modalImg" src="" style="width:100%" />
@@ -293,7 +288,7 @@
 
             </div>
             <div class="modal-footer">
-                <input type="button"  class="btn  btn-default fit" id="btnEditDietLogConfirm" value="確定"/>
+                <input type="button" class="btn  btn-default fit" id="btnEditDietLogConfirm" value="確定" />
             </div>
         </div>
     </div>
@@ -313,7 +308,7 @@
 
             </div>
             <div class="modal-footer">
-               @* <input type="button" value="確定" class="btn btn-default fit" onclick="function CloseThisModal(){$('#editDoneModal').modal('hide')};CloseThisModal()" />*@
+                @* <input type="button" value="確定" class="btn btn-default fit" onclick="function CloseThisModal(){$('#editDoneModal').modal('hide')};CloseThisModal()" />*@
 
             </div>
         </div>
@@ -379,7 +374,7 @@
 
          //=================================
 
-          
+
 
         //====================================================================
 
@@ -527,7 +522,7 @@
             }).catch(err => console.log(err))
                 console.log($(e.currentTarget))
                 $('#editModal').modal('hide')
-                
+
                 $('#editDoneModal .modal-title').text('資料修改中...')
 
                 $('#editDoneModal').modal('show')
@@ -574,9 +569,8 @@
                                     size: 16,
                                 },
                             },
-
-                            Min: 0,
-                            Max: 70,
+                            min: 0,
+                            max: 70,
 
                         },
 
@@ -641,7 +635,7 @@
                         borderWidth: 0.1
                     }]
                 },
-               
+
                 options: {
                     responsive: true,
 
@@ -652,14 +646,8 @@
                                     size: 16,
                                 },
                             },
-
-                            ticks: {
-                                beginAtZero: true,
-                                max:70,
-                                min: 0,
-                                stepSize: 10
-                            }
-                            
+                            min: 0,
+                            max: 60,
 
                         },
 
@@ -867,7 +855,7 @@
         $('#numPortion').change(() => {
             let x = parseInt($('#modalMealCal').text())
             let y = $('#numPortion').val()
-           
+
             $('#modalMealTotal').text(x * y)
 
 
@@ -878,7 +866,7 @@
             function GetDateDietLogsByDateAjex(flagAmount, date) {
 
                 //$("#titleCurrDate").html('<img src="/Content/Images/loadingDots.gif" height="100" />')
-                
+
 
             fetch('@Url.Action("GetDateDietLogsByDateFlag", "HHApi_DietLogsHistory")?memberId=' +@Model.MemberID+'&flagAmount=' + flagAmount + '&date=' + date, {
                     method: "GET",
