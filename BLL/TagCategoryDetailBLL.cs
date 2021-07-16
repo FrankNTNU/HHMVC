@@ -50,21 +50,33 @@ namespace BLL
             list = dao.GetTagsForAddMeal();
             return list;
         }
+        public Dictionary<int,string> getDTags()
+        {
+            TagCategoryDetailDAO dao = new TagCategoryDetailDAO();
+            return dao.getDTags();
+        }
         public List<MealDetailDTO> GetMealsByTag(int ID)
         {
             MealDAO dao = new MealDAO();
             return dao.GetMealsByTag(ID);
         }
-        public void AddMealTags(int mealID,string[] Tags)
+        public void AddMealTags(int mealID,List<string> Tags)
         {
             TagCategoryDetailDAO dao = new TagCategoryDetailDAO();
             dao.AddMealTags(mealID, Tags);
         }
+
         public void UpdateMealTags(int mealID,string[] Tags)
         {
             TagCategoryDetailDAO dao = new TagCategoryDetailDAO();
             dao.UpdateMealTags(mealID, Tags);
 
+        }
+        public bool checkTagName(string userInput)
+        {
+            TagCategoryDetailDAO dao = new TagCategoryDetailDAO();
+            bool check = dao.checkTagName(userInput);
+            return check;
         }
         //public void AddMealTags(int mealID, string[] Tags)
         //{

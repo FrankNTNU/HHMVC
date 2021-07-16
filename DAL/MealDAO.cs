@@ -143,7 +143,6 @@ namespace DAL
                 dto.TagCategoryDetail = GetTagCategory(dto.ID);
                 dto.TagName = dto.TagCategoryDetail.Name;
                 dto.TagImage = dto.TagCategoryDetail.Image;
-                //dto.Deadline = gift.Deadline;
 
                 return dto;
             }
@@ -177,7 +176,7 @@ namespace DAL
                 string tags = mealTagDAO.GetTagsListInString(dto.ID);
                 dto.TagStringList = tags;
                 dto.TagStringListArray = tags.Split('/');
-                dto.Tags = dtoList;
+                //dto.Tags = dtoList;
                 return dto;
 
 

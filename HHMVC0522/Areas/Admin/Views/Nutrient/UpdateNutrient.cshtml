@@ -73,8 +73,15 @@
                     @Html.ValidationMessageFor(model => model.Sugar, "", new { @class = "text-danger", @id = "Sugar" })
                 </div>
             </div>
-
             <div class="form-group col-3">
+                <label>鈉</label>
+                <div>
+                    @Html.EditorFor(model => model.Na, new { htmlAttributes = new { @class = "form-control", @id = "Na" } })
+                    @Html.ValidationMessageFor(model => model.Na, "", new { @class = "text-danger", @id = "Na" })
+                </div>
+            </div>
+
+            <div class="form-group col-3" style="display:none">
                 <label>維生素A</label>
                 <div>
                     @Html.EditorFor(model => model.VitA, new { htmlAttributes = new { @class = "form-control", @id = "VitA" } })
@@ -82,7 +89,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-3">
+            <div class="form-group col-3" style="display:none">
                 <label>維生素B</label>
                 <div>
                     @Html.EditorFor(model => model.VitB, new { htmlAttributes = new { @class = "form-control", @id = "VitB" } })
@@ -90,7 +97,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="display:none">
             <div class="form-group col-3">
                 <label>維生素C</label>
                 <div>
@@ -115,15 +122,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group col-3">
-                <label>鈉</label>
-                <div>
-                    @Html.EditorFor(model => model.Na, new { htmlAttributes = new { @class = "form-control", @id = "Na" } })
-                    @Html.ValidationMessageFor(model => model.Na, "", new { @class = "text-danger", @id = "Na" })
-                </div>
-            </div>
-
+        <div class="row" style="display:none">
             <div class="form-group col-3">
                 <label>鉀</label>
                 <div>
@@ -140,7 +139,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="display:none">
             <div class="form-group col-3">
                 <label>鐵</label>
                 <div>
@@ -169,11 +168,11 @@
     <script>
 
         $("#demo").click(function (event) {
-            $('#Fat').val("26");
-            $('#Protein').val("8.1");
-            $('#Carbs').val("66");
+            $('#Fat').val("30");
+            $('#Protein').val("9");
+            $('#Carbs').val("67");
             $('#Sugar').val("1.6");
-            $('#Na').val("399.5");
+            $('#Na').val("400.5");
         });
     </script>
 }

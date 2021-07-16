@@ -11,7 +11,7 @@
     Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 @section Styles{
-    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />*@
 
     <link href="~/Content/css/dietAddMeal.css" rel="stylesheet" />
     <link href="~/Content/css/stylesPlay.css" rel="stylesheet" />
@@ -83,335 +83,337 @@
     </div>
 </header><header id="header" class="m-0 p-0"></header>
 
-
-<div class="flexslider carousel px-4 pt-3 pb-0 mb-1">
-    <ul class="slides">
-        @{
-
-
-            foreach (MealTagCategory mCtgy in Model.tagsCategories)
-            {
-                <li>
-                    @*class="mealTagImg pb-5"*@
-                    <figure class="pb-0">
-                        @*class="styleIcon "*@
-
-                        <a href="@Url.Action("MealStyleList", "HHDiet", new { id = mCtgy.ID })">
-                            <img class="tagImg " src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" height="280">
-                        </a>
-
-                        <figcaption>
-                            @mCtgy.Name
-                        </figcaption>
-                    </figure>
-                </li>
-            }
-        }
-    </ul>
-
-</div>
-<div class="row  mb-5 ">
-
-    <div class="col-9 pr-4" bottom="0" style="position:relative">
-        <div class="row gtr-uniform pr-4">
-
-            <div class="col-5 col-12-xsmall">
-                <input type="text" id="txtSearchMeal" data-mealOptId="" name="mealKeyword" value="" placeholder="" />   @*name="demo-name"*@
-            </div>
-            <div class="col-2 col-12-xsmall">
-                <input style="width:100%" type="button" id="btnSearchMeal" value="查詢" class="btn btn-default" />
-
-            </div>
-
-            <div class="col-4 ">
-                <select style="width:100%" name="demo-category" id="likedListSelect">
-                </select>
-            </div>
-
-            <div class="col-1 col-12-xsmall">
-
-                <input type="button" id="btnMealNotFound" class="btn btn-default" data-toggle="modal" data-target="#addModal" value="找不到">
-
-
-
-
-            </div>
-
-        </div>
-        <div class=" bg-white py-1 mt-3 mb-4 shadow-sm" style="bottom: 0; border-radius: 0.9em; ">
-
-            <div class="my-xl-4 pl-3 ">
+<section class="pt-2 pb-5">
+    
+        <div class="flexslider carousel px-4 pt-3 pb-0 mb-1">
+            <ul class="slides">
                 @{
-                    if (Model.MemberHealthProfile.CurrProgram != null)
+
+
+                    foreach (MealTagCategory mCtgy in Model.tagsCategories)
                     {
-                        <h3 style="display:inline">@Model.MemberHealthProfile.CurrProgram.Name  @(Math.Ceiling((Model.MemberHealthProfile.CurrProgram.EndDate- Model.MemberHealthProfile.CurrProgram.StartDate).TotalDays))日挑戰計劃(倒數@(Math.Ceiling((Model.MemberHealthProfile.CurrProgram.EndDate-DateTime.Now).TotalDays))天)</h3>
-                        @Html.ActionLink("挑戰細節", "RegisterProgram", "HHPrograms", null, null)
-                        <div class="row pt-3">
-                            <div class="col-4">挑戰上限: <span class=" h2" style="color:#f56a6a">@Model.MemberHealthProfile.ProgramMaxCalOrTDEE</span> 大卡</div>
-                            <div class="col-4">目前攝取: <span class="h2 todayTotalGainedReal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.AllDayGained</span> 大卡<span id="realGainedPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.AllDayGainedPercent%)</span></div>
-                            <div class="col-4">TDEE: <span class=" h2" style="color:#f56a6a"> @Model.MemberHealthProfile.TDEE</span> 大卡</div>
+                        <li>
+                            @*class="mealTagImg pb-5"*@
+                            <figure class="pb-0">
+                                @*class="styleIcon "*@
 
-                        </div>
+                                <a href="@Url.Action("MealStyleList", "HHDiet", new { id = mCtgy.ID })">
+                                    <img class="tagImg " src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" height="280">
+                                </a>
 
-                    }
-                    else
-                    {
-                        <h3 style="display: inline">飲食日常紀錄</h3>
-                        @Html.ActionLink("來註冊挑戰吧", "RegisterProgram", "HHPrograms", null, null)
-
-                        <div class="row pt-3">
-                            <div class="col-4">TDEE: <span class=" h2" style="color:#f56a6a">@Model.MemberHealthProfile.TDEE</span> 大卡</div>
-                            <div class="col-4">目前攝取: <span class="todayTotalGainedReal h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.AllDayGained</span> 大卡<span id="realGainedPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.AllDayGainedPercent%)</span></div>
-                        </div>
-
+                                <figcaption>
+                                    @mCtgy.Name
+                                </figcaption>
+                            </figure>
+                        </li>
                     }
                 }
-                <div class="row pt-2">
-                    <div class="col">早餐: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.BreakfastGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.BreakfastGainedPercent%)</span></div>
-                    <div class="col">午餐: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.LunchGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.LunchGainedPercent%)</span></div>
-                    <div class="col">點心: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.SnackGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.SnackGainedPercent%)</span></div>
-                    <div class="col">晚餐: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.DinnerGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.DinnerGainedPercent%)</span></div>
-                    <div class="col">宵夜: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.BedtimeSnackGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.BedtimeSnackGainedPercent%)</span></div>
+            </ul>
+
+        </div>
+    
+    <div class="row  mb-5 ">
+
+        <div class="col-9 pr-4" bottom="0" style="position:relative">
+            <div class="row gtr-uniform pr-4">
+
+                <div class="col-5 col-12-xsmall">
+                    <input type="text" id="txtSearchMeal" data-mealOptId="" name="mealKeyword" value="" placeholder="" />   @*name="demo-name"*@
+                </div>
+                <div class="col-2 col-12-xsmall">
+                    <input style="width:100%" type="button" id="btnSearchMeal" value="查詢" class="btn btn-default" />
+
+                </div>
+
+                <div class="col-4 ">
+                    <select style="width:100%" name="demo-category" id="likedListSelect">
+                    </select>
+                </div>
+
+                <div class="col-1 col-12-xsmall">
+
+                    <input type="button" id="btnMealNotFound" class="btn btn-default" data-toggle="modal" data-target="#addModal" value="找不到">
+
+
+
 
                 </div>
 
             </div>
+            <div class=" bg-white py-1 mt-3 mb-4 shadow-sm" style="bottom: 0; border-radius: 0.9em; ">
 
-
-
-
-        </div>
-        <div>
-            <h2>暫存飲食紀錄</h2>
-            <table id="tempDietLogTable" class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>日期</th>
-                        <th>時段</th>
-                        <th>品名</th>
-                        <th>每單位卡路里含量</th>
-                        <th>單位</th>
-                        <th>份量</th>
-                        <th>總卡路里</th>
-                        <th>刪除</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{ if (Model.TempDietLogs != null)
+                <div class="my-xl-4 pl-3 ">
+                    @{
+                        if (Model.MemberHealthProfile.CurrProgram != null)
                         {
-                            foreach (MixedDietLogDTO item in Model.TempDietLogs)
+                            <h3 style="display:inline">@Model.MemberHealthProfile.CurrProgram.Name  @(Math.Ceiling((Model.MemberHealthProfile.CurrProgram.EndDate- Model.MemberHealthProfile.CurrProgram.StartDate).TotalDays))日挑戰計劃(倒數@(Math.Ceiling((Model.MemberHealthProfile.CurrProgram.EndDate-DateTime.Now).TotalDays))天)</h3>
+                            @Html.ActionLink("挑戰細節", "RegisterProgram", "HHPrograms", null, null)
+                            <div class="row pt-3">
+                                <div class="col-4">挑戰上限: <span class=" h2" style="color:#f56a6a">@Model.MemberHealthProfile.ProgramMaxCalOrTDEE</span> 大卡</div>
+                                <div class="col-4">目前攝取: <span class="h2 todayTotalGainedReal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.AllDayGained</span> 大卡<span id="realGainedPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.AllDayGainedPercent%)</span></div>
+                                <div class="col-4">TDEE: <span class=" h2" style="color:#f56a6a"> @Model.MemberHealthProfile.TDEE</span> 大卡</div>
+
+                            </div>
+
+                        }
+                        else
+                        {
+                            <h3 style="display: inline">飲食日常紀錄</h3>
+                            @Html.ActionLink("來註冊挑戰吧", "RegisterProgram", "HHPrograms", null, null)
+
+                            <div class="row pt-3">
+                                <div class="col-4">TDEE: <span class=" h2" style="color:#f56a6a">@Model.MemberHealthProfile.TDEE</span> 大卡</div>
+                                <div class="col-4">目前攝取: <span class="todayTotalGainedReal h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.AllDayGained</span> 大卡<span id="realGainedPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.AllDayGainedPercent%)</span></div>
+                            </div>
+
+                        }
+                    }
+                    <div class="row pt-2">
+                        <div class="col">早餐: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.BreakfastGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.BreakfastGainedPercent%)</span></div>
+                        <div class="col">午餐: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.LunchGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.LunchGainedPercent%)</span></div>
+                        <div class="col">點心: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.SnackGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.SnackGainedPercent%)</span></div>
+                        <div class="col">晚餐: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.DinnerGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.DinnerGainedPercent%)</span></div>
+                        <div class="col">宵夜: <span class="realTODCals h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.BedtimeSnackGained</span>大卡<span class="realTODPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.BedtimeSnackGainedPercent%)</span></div>
+
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+            <div>
+                <h2>暫存飲食紀錄</h2>
+                <table id="tempDietLogTable" class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>時段</th>
+                            <th>品名</th>
+                            <th>每單位卡路里含量</th>
+                            <th>單位</th>
+                            <th>份量</th>
+                            <th>總卡路里</th>
+                            <th>刪除</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ if (Model.TempDietLogs != null)
                             {
-                                string theMonth = item.Date.Substring(0, 2);
-                                if (theMonth.StartsWith("0"))
+                                foreach (MixedDietLogDTO item in Model.TempDietLogs)
                                 {
-                                    theMonth = theMonth.Substring(1);
-                                }
-                                string theDay = item.Date.Substring(2, 2);
-                                if (theDay.StartsWith("0"))
-                                {
-                                    theDay = theDay.Substring(1);
+                                    string theMonth = item.Date.Substring(0, 2);
+                                    if (theMonth.StartsWith("0"))
+                                    {
+                                        theMonth = theMonth.Substring(1);
+                                    }
+                                    string theDay = item.Date.Substring(2, 2);
+                                    if (theDay.StartsWith("0"))
+                                    {
+                                        theDay = theDay.Substring(1);
 
-                                }
+                                    }
 
 
-                                <tr data-MealOptionID=@item.MealOptionID>
-                                    <td class="date">
-                                        <input type="number" style="width: 4em" class="year" value="@item.Date.Substring(4,4)" />/
-                                        <input type="number" class="month" style="width: 3em" value="@theMonth" />/
-                                        <input type="number" class="day" style="width: 3em" value="@theDay" />
-                                    </td>
-                                    <td>
-                                        <select class="tempTimeOfDay">
-                                            @{ foreach (var tod in Model.TimesOfDays)
-                                                {
-                                                    <option value="@tod.ID">@tod.Name</option>
+                                    <tr data-MealOptionID=@item.MealOptionID>
+                                        <td class="date">
+                                            <input type="number" style="width: 4em" class="year" value="@item.Date.Substring(4,4)" />/
+                                            <input type="number" class="month" style="width: 3em" value="@theMonth" />/
+                                            <input type="number" class="day" style="width: 3em" value="@theDay" />
+                                        </td>
+                                        <td>
+                                            <select class="tempTimeOfDay">
+                                                @{ foreach (var tod in Model.TimesOfDays)
+                                                    {
+                                                        <option value="@tod.ID">@tod.Name</option>
+                                                    }
                                                 }
-                                            }
-                                        </select>
-                                    </td>
-                                    <td class="mealName">@item.Name</td>
-                                    <td class="perUnitMealCal">@item.Calories</td>
-                                    <td class="mealUnitName">@item.UnitName</td>
-                                    <td class="tempPortion"><input type="number" value=@item.Portion min="0" max="30" /></td>
-                                    <td class="tempMealTotalCal">@item.Calories</td>
-                                    <td><button type="button" class="tempBtnDel button primary fit"> 刪除 </button></td>
-                                </tr>
+                                            </select>
+                                        </td>
+                                        <td class="mealName">@item.Name</td>
+                                        <td class="perUnitMealCal">@item.Calories</td>
+                                        <td class="mealUnitName">@item.UnitName</td>
+                                        <td class="tempPortion"><input type="number" value=@item.Portion min="0" max="30" /></td>
+                                        <td class="tempMealTotalCal">@item.Calories</td>
+                                        <td><button type="button" class="tempBtnDel button primary fit"> 刪除 </button></td>
+                                    </tr>
 
+
+                                }
 
                             }
 
                         }
 
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="8" class="text-right">
+                                總卡路里: <span id="tempTotalCal"></span>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+
+                <input type="button" id="btnSendToDB" value="確認送出" class="btn btn-default" />
+            </div>
+
+
+            <div class="  col-11" style="position: absolute; bottom: 0; ">
+                <div class="pb-2">
+
+                    已獲取卡路里 <span id="spanProgressBarGainedRemender" style="float: right; color: red; visibility: hidden ">已超過上限</span>
+                    <div class="progress ">
+
+                        <div class="progress-bar" id="gainedCalsProgressBar" role="progressbar" style="background-color: rgba(255,0, 0, 0); width: 0% " aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div>
+
+                    將獲取卡路里<span id="spanProgressBarTempRemender" style="float: right; color: red; visibility: hidden">將超過上限</span>
+                    <div class="progress ">
+                        <div class="progress-bar" id="tempToGainedCalsProgressBar" role="progressbar" style="background-color: rgba(0,0, 0, 0); width: 0%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="mealInfoDiv col-3 px-0   bg-white " style="bottom: 0; border-radius: 0.9em; overflow: hidden; box-shadow: 5px 5px 30px #E0E0E0 ">
+            <input type="hidden" value="" id="hiddenMealID" />
+            <div style="height:25em">
+
+                <img id="mealInfoImage" src="~/Content/Images/MealOptionImages/mealDefault.jpg" style="height:100%" />
+            </div>
+            <ul class="list-group-flush px-3 pb-3 ">
+                <li class="list-group-item"><h4 id="mealInfoName">餐點名稱</h4></li>
+                <li class="list-group-item">每單位卡路里(大卡): <span style="float:right" id="mealInfoCal"></span></li>
+                <li class="list-group-item">單位: <span style="float:right" id="mealInfoUnitName"></span></li>
+                <li class="list-group-item">碳水化合物含量(公克): <span class="nutritrionInfo" id="mealInfoCarbs" style="float:right"></span></li>
+                <li class="list-group-item">蛋白質含量(公克): <span class="nutritrionInfo" id="mealInfoProtein" style="float:right"></span></li>
+                <li class="list-group-item">脂肪含量(公克): <span class="nutritrionInfo" id="mealInfoFat" style="float:right"></span></li>
+                <li class="list-group-item">糖含量(公克): <span class="nutritrionInfo" id="mealInfoSugar" style="float:right"></span></li>
+                <li class="list-group-item">鈉含量(豪克): <span class="nutritrionInfo" id="mealInfoNa" style="float:right"></span></li>
+
+            </ul>
+
+
+            <ul class="actions px-3 pb-3 pt-3" style="border-top: solid #f56a6a 2.5px ">
+                <li id="addToTempList" class="col-6 text-center" style="border-right: solid #f56a6a 2px;color: #f56a6a">加入</li>
+                <li id="btnToggleLiked" class="col-6 text-center" style="color: #f56a6a"><i id="fontLike" class="far fa-heart 2em"></i></li>
+            </ul>
+
+
+
+
+        </div>
+    </div>
+
+
+    <div style="border-radius: 0.9em; " class="shadow bg-white py-3">
+
+
+        <div class="row">
+            <div class="col-4 pb-5 px-3" style="height: 500px; width: 500px; margin: auto ">
+                <h3 style="text-align:center">暴飲暴食?</h3>
+                <canvas id="past7DayBarID"></canvas>
+            </div>
+            <div class="col-4" style="height: 500px; width: 500px; margin: auto ">
+                <h3 style="text-align:center">飲食時段分配圖</h3>
+                <canvas id="CalRadarID"></canvas>
+            </div>
+            <div class="col-4" style="height: 500px; width: 500px; margin: auto ">
+                <h3 style="text-align:center">營養攝取分配圖</h3>
+
+                <canvas id="NutritionRadarID"></canvas>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="mt-lg-5">
+        <span>
+            <h2 style="float:left">今日紀錄</h2>
+            <a href='@Url.Action("DietLogsHistory", "HHDietHistory")'><input type="button" value="修改" class="btn btn-default" style=" float:right" /></a>
+
+        </span>
+        <table id="realDiletLogTable" class="table pt-5">
+            <thead>
+                <tr>
+                    <th>餐點圖片</th>
+                    <th>時段</th>
+                    <th>品名</th>
+                    <th>每單位卡路里含量</th>
+                    <th>單位</th>
+                    <th>份量</th>
+                    <th>總卡路里</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (DietLogViewModel dl in Model.DietLogsOfTheDate)
+                    {
+                        <tr data-dietLogId="@dl.ID" data-IsCustomeUploaded="@dl.IsCustomUploaded ">
+                            <td class="mealImg">
+                                @{
+                                    if (dl.IsCustomUploaded == true)
+                                    {
+                                        <img src="~/Content/Images/CustomerMealUploadImages/@dl.MealImage" width="108" height="85" />
+
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/Images/MealOptionImages/@dl.MealImage" width="108" height="85" />
+
+                                    }
+
+                                }
+
+
+
+
+                            </td>
+
+                            <td>
+                                @dl.TimesOfDayName
+                            </td>
+                            <td class="mealName">
+                                @dl.MealName
+                            </td>
+                            <td class="mealCal">
+                                @dl.MealCal
+                            </td>
+                            <td class="mealUnitName">
+                                @dl.MealUnitName
+                            </td>
+                            <td class="portion">
+                                @dl.Portion
+                            </td>
+                            <td>
+                                @dl.MealTotalGainedCal
+                            </td>
+
+
+                        </tr>
                     }
-
-
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="8" class="text-right">
-                            總卡路里: <span id="tempTotalCal"></span>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-
-
-            <input type="button" id="btnSendToDB" value="確認送出" class="btn btn-default" />
-        </div>
-
-
-        <div class="  col-11" style="position: absolute; bottom: 0; ">
-            <div class="pb-2">
-
-                已獲取卡路里 <span id="spanProgressBarGainedRemender" style="float: right; color: red; visibility: hidden ">已超過上限</span>
-                <div class="progress ">
-
-                    <div class="progress-bar" id="gainedCalsProgressBar" role="progressbar" style="background-color: rgba(255,0, 0, 0); width: 0% " aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div>
-            <div>
-
-                將獲取卡路里<span id="spanProgressBarTempRemender" style="float: right; color: red; visibility: hidden">將超過上限</span>
-                <div class="progress ">
-                    <div class="progress-bar" id="tempToGainedCalsProgressBar" role="progressbar" style="background-color: rgba(0,0, 0, 0); width: 0%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <div class="mealInfoDiv col-3 px-0   bg-white " style="bottom: 0; border-radius: 0.9em; overflow: hidden; box-shadow: 5px 5px 30px #E0E0E0 ">
-        <input type="hidden" value="" id="hiddenMealID" />
-        <div style="height:25em">
-
-            <img id="mealInfoImage" src="~/Content/Images/MealOptionImages/mealDefault.jpg" style="height:100%" />
-        </div>
-        <ul class="list-group-flush px-3 pb-3 ">
-            <li class="list-group-item"><h4 id="mealInfoName">餐點名稱</h4></li>
-            <li class="list-group-item">每單位卡路里(大卡): <span style="float:right" id="mealInfoCal"></span></li>
-            <li class="list-group-item">單位: <span style="float:right" id="mealInfoUnitName"></span></li>
-            <li class="list-group-item">碳水化合物含量(公克): <span class="nutritrionInfo" id="mealInfoCarbs" style="float:right"></span></li>
-            <li class="list-group-item">蛋白質含量(公克): <span class="nutritrionInfo" id="mealInfoProtein" style="float:right"></span></li>
-            <li class="list-group-item">脂肪含量(公克): <span class="nutritrionInfo" id="mealInfoFat" style="float:right"></span></li>
-            <li class="list-group-item">糖含量(公克): <span class="nutritrionInfo" id="mealInfoSugar" style="float:right"></span></li>
-            <li class="list-group-item">鈉含量(豪克): <span class="nutritrionInfo" id="mealInfoNa" style="float:right"></span></li>
-
-        </ul>
-
-
-        <ul class="actions px-3 pb-3 pt-3" style="border-top: solid #f56a6a 2.5px ">
-            <li id="addToTempList" class="col-6 text-center" style="border-right: solid #f56a6a 2px;color: #f56a6a">加入</li>
-            <li id="btnToggleLiked" class="col-6 text-center" style="color: #f56a6a"><i id="fontLike" class="far fa-heart 2em"></i></li>
-        </ul>
-
-
-
-
-    </div>
-</div>
-
-
-<div style="border-radius: 0.9em; " class="shadow bg-white py-3">
-
-
-    <div class="row">
-        <div class="col-4 pb-5 px-3" style="height: 500px; width: 500px; margin: auto ">
-            <h3 style="text-align:center">暴飲暴食?</h3>
-            <canvas id="past7DayBarID"></canvas>
-        </div>
-        <div class="col-4" style="height: 500px; width: 500px; margin: auto ">
-            <h3 style="text-align:center">飲食時段分配圖</h3>
-            <canvas id="CalRadarID"></canvas>
-        </div>
-        <div class="col-4" style="height: 500px; width: 500px; margin: auto ">
-            <h3 style="text-align:center">營養攝取分配圖</h3>
-
-            <canvas id="NutritionRadarID"></canvas>
-        </div>
-
-    </div>
-
-
-</div>
-
-
-<div class="mt-lg-5">
-    <span>
-        <h2 style="float:left">今日紀錄</h2>
-        <a href='@Url.Action("DietLogsHistory", "HHDietHistory")'><input type="button" value="修改" class="btn btn-default" style=" float:right" /></a>
-
-    </span>
-    <table id="realDiletLogTable" class="table pt-5">
-        <thead>
-            <tr>
-                <th>餐點圖片</th>
-                <th>時段</th>
-                <th>品名</th>
-                <th>每單位卡路里含量</th>
-                <th>單位</th>
-                <th>份量</th>
-                <th>總卡路里</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                foreach (DietLogViewModel dl in Model.DietLogsOfTheDate)
-                {
-                    <tr data-dietLogId="@dl.ID" data-IsCustomeUploaded="@dl.IsCustomUploaded ">
-                        <td class="mealImg">
-                            @{
-                                if (dl.IsCustomUploaded == true)
-                                {
-                                    <img src="~/Content/Images/CustomerMealUploadImages/@dl.MealImage" width="108" height="85" />
-
-                                }
-                                else
-                                {
-                                    <img src="~/Content/Images/MealOptionImages/@dl.MealImage" width="108" height="85" />
-
-                                }
-
-                            }
-
-
-
-
-                        </td>
-
-                        <td>
-                            @dl.TimesOfDayName
-                        </td>
-                        <td class="mealName">
-                            @dl.MealName
-                        </td>
-                        <td class="mealCal">
-                            @dl.MealCal
-                        </td>
-                        <td class="mealUnitName">
-                            @dl.MealUnitName
-                        </td>
-                        <td class="portion">
-                            @dl.Portion
-                        </td>
-                        <td>
-                            @dl.MealTotalGainedCal
-                        </td>
-
-
-                    </tr>
                 }
-            }
 
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="7" class="text-right">
-                    總卡路里:  <span class="todayTotalGainedReal">@Model.MemberHealthProfile.GainedCalDatas.AllDayGained</span>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-</div>
-
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7" class="text-right">
+                        總卡路里:  <span class="todayTotalGainedReal">@Model.MemberHealthProfile.GainedCalDatas.AllDayGained</span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</section>
 
 
 <!-- Modal -->

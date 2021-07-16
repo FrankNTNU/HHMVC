@@ -127,6 +127,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Image" Type="nvarchar(max)" />
+          <Property Name="HHOrder" Type="int" />
         </EntityType>
         <EntityType Name="MealTags">
           <Key>
@@ -1153,6 +1154,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HHOrder" Type="Int32" />
           <NavigationProperty Name="MealTags" Relationship="Self.FK_MealTags_MealTagCategories" FromRole="MealTagCategories" ToRole="MealTags" />
         </EntityType>
         <EntityType Name="MealTag">
@@ -2225,6 +2227,7 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="HHOrder" ColumnName="HHOrder" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
