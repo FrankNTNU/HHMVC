@@ -62,7 +62,7 @@
                                 }
                                 else
                                 {
-                                    <label>隱藏中</label>
+                                    <label>下架中</label>
                                 }
                             }
                         </td>
@@ -80,11 +80,11 @@
                         @{
                             if (item.IsVisable == "True")
                             {
-                                @Html.ActionLink("隱藏餐點", "HiddenMeal", new { id = item.ID })
+                                @Html.ActionLink("下架餐點", "HiddenMeal", new { id = item.ID })
                             }
                             else
                             {
-                                @Html.ActionLink("顯示餐點", "DisplayMeal", new { id = item.ID })
+                                @Html.ActionLink("上架餐點", "DisplayMeal", new { id = item.ID })
                             }
                         }
                     </td>

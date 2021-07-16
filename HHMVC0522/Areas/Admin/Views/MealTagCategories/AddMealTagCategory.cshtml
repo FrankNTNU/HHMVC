@@ -15,10 +15,14 @@
     </ol>
 </section>
 <br />
-<div class="card-footer">
-    <button type="submit" class="btn btn-primary" id="demo" onclick="demo">DEMO</button>
+<div class="row">
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary" id="demo_clear">DEMO_C</button>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary" id="demo">DEMO_DATA</button>
+    </div>
 </div>
-
 @using (Html.BeginForm("AddMealTagCategory", "MealTagCategories", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -35,6 +39,7 @@
                         @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" ,@id="Name" } })
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "Name" })
                     </div>
+                    <span id="sp_Name"></span>
                 </div>
                 
 
@@ -61,10 +66,10 @@
                 @Html.ActionLink("Back to List", "Index")
             </div>
 @section Scripts{
-            <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+            @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>
             <script src="~/Scripts/jquery.validate.min.js"></script>
             <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-            <script src="~/Areas/Admin/Content/JS/jquery.min.js"></script>
+            <script src="~/Areas/Admin/Content/JS/jquery.min.js"></script>*@
             <script>
 
                 $("#progressbarTWInput").change(function () {
@@ -83,9 +88,67 @@
                     }
                 }
                 $("#demo").click(function (event) {
-                    $('#Name').val("素食");
+                    $('#Name').val("泰式");
+                    checkname();
+                });
+                $("#demo_clear").click(function (event) {
+                    $('#Name').val("");
+                    console.log($("#Name").val())
+                    checkname();
                 });
 
+                ifNamePass = false;
+         $("#Name").focusout(function () {
+             var TagName = $("#Name").val();
+             console.log(TagName);
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("checkTagName", " MealTagCategories")?userInput=' + TagName,
+                contentType:"html",
+                //參數名稱/txt的內容
+                success: function (result) {
+                    if (result == "True") {
+                        $("#sp_Name").text("此標籤名稱已存在").css("color", "red");
+                        ifNamePass = false;
+                        console.log(ifNamePass);
+                    }
+                    else if (TagName == "") {
+                        $("#sp_Name").text("名稱不可為空白").css("color", "red");
+                        ifNamePass = false;
+                    }
+                    else {
+                        $("#sp_Name").text("此名稱可以使用").css("color","green");
+                        ifNamePass = true;
+                        console.log(ifNamePass);
+                    }
+                }
+            })
+         });
+                 function checkname() {
+             var tagName = $("#Name").val();
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("checkTagName", "MealTagCategories")?userInput=' + tagName,
+                contentType:"html",
+                //參數名稱/txt的內容
+                success: function (result) {
+                    if (result == "True") {
+                        $("#sp_Name").text("標籤名稱已存在").css("color", "red");
+                        ifNamePass = false;
+                        console.log(ifNamePass);
+                    }
+                    else if (tagName=="") {
+                        $("#sp_Name").text("標籤名稱不可為空白").css("color", "red");
+                        ifNamePass = false;
+                    }
+                    else {
+                        $("#sp_Name").text("此名稱可使用").css("color","green");
+                        ifNamePass = true;
+                        console.log("Name is OK"+ifNamePass);
+                    }
+                }
+            })
+        }
             </script>
          }
 

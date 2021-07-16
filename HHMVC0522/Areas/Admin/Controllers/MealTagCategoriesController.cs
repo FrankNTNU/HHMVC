@@ -58,7 +58,7 @@ namespace UI.Areas.Admin.Controllers
                     System.IO.File.Delete(imageFullPath);
                 }
             }
-            return View();
+            return RedirectToAction("MealTagCategroiesList");
         }
         public ActionResult UpadteTags(int ID)
         {
@@ -127,6 +127,11 @@ namespace UI.Areas.Admin.Controllers
 
             return View(mealDto);
         }
-
+        public bool checkTagName(string userInput)
+        {
+            TagCategoryDetailBLL bll = new TagCategoryDetailBLL();
+            bool check = bll.checkTagName(userInput);
+            return check;
+        }
     }
 }

@@ -35,6 +35,11 @@ namespace BLL
             TempCustomerMealOptionDAO dao = new TempCustomerMealOptionDAO();
             dao.auditNotPassed(ID);
         }
+        public void ReView(int ID)
+        {
+            TempCustomerMealOptionDAO dao = new TempCustomerMealOptionDAO();
+            dao.ReView(ID);
+        }
         public AuditPassDTO GetTempCustomerMealOption(int ID)
         {
             TempCustomerMealOptionDAO dao = new TempCustomerMealOptionDAO();
@@ -45,7 +50,7 @@ namespace BLL
             MealDetailDTO mealDetailDTO = new MealDetailDTO();
             mealDetailDTO.Name = dto.Name;
             mealDetailDTO.Calories = (int)dto.Calories;
-            mealDetailDTO.MealOptionImage = dto.ImagePath;
+            mealDetailDTO.MealOptionImage = dto.MealOptionImage;
             mealDetailDTO.UnitName = dto.UnitName;
             mealDetailDTO.Fat = dto.Fat;
             mealDetailDTO.Protein = dto.Protein;
@@ -75,7 +80,7 @@ namespace BLL
             dietLogBLL.Add_Hui(dietLogDTO);
 
             TempCustomerMealOptionDAO dao = new TempCustomerMealOptionDAO();
-            dao.Update(dto.ID,mealID);
+            dao.Update(dto.ID,mealID,dto.Name,(int)dto.Calories);
 
         }
     }

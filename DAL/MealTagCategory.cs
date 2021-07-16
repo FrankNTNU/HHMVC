@@ -23,6 +23,7 @@ namespace DAL
         public int ID { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
+        public Nullable<int> HHOrder { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MealTag> MealTags { get; set; }

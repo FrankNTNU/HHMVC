@@ -123,6 +123,12 @@ namespace DAL
             tempCustomerMealOption.StatusID = 12;
             db.SaveChanges();
         }
+        public void ReView(int ID)
+        {
+            TempCustomerMealOption tempCustomerMealOption = db.TempCustomerMealOptions.First(x => x.ID == ID);
+            tempCustomerMealOption.StatusID = 2;
+            db.SaveChanges();
+        }
         public AuditPassDTO GetTempCustomerMealOption(int ID)
         {
             AuditPassDTO dto = new AuditPassDTO();
@@ -159,13 +165,14 @@ namespace DAL
 
             return dto;
         }
-        public void Update(int ID,int mealID)
+        public void Update(int ID,int mealID,string Name,int Calories)
         {
             TempCustomerMealOption tempCustomerMealOption = db.TempCustomerMealOptions.First(x => x.ID == ID);
             tempCustomerMealOption.MealOptionID = mealID;
             tempCustomerMealOption.StatusID = 13;
+            tempCustomerMealOption.Name = Name;
+            tempCustomerMealOption.Calories = Calories;
             db.SaveChanges();
         }
-
     }
 }

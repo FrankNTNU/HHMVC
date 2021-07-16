@@ -52,11 +52,12 @@ namespace UI.Areas.Admin.Controllers
         {
             TagCategoryDetailBLL tagBll = new TagCategoryDetailBLL();
             MealDetailDTO mealDetailDTO = new MealDetailDTO();
-            mealDetailDTO.Tags = tagBll.GetTagForAddMeal();
+            //mealDetailDTO.Tags = tagBll.GetTagForAddMeal();
+            mealDetailDTO.DTags = tagBll.getDTags();
             return View(mealDetailDTO);
         }
         [HttpPost]
-        public ActionResult CreateMealWithTags(MealDetailDTO mealDetailDTO,string[] tags)
+        public ActionResult CreateMealWithTags(MealDetailDTO mealDetailDTO,List<string> tags)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +83,8 @@ namespace UI.Areas.Admin.Controllers
             else
             {
                 TagCategoryDetailBLL tagBll = new TagCategoryDetailBLL();
-                mealDetailDTO.Tags = tagBll.GetTagForAddMeal();
+                //mealDetailDTO.Tags = tagBll.GetTagForAddMeal();
+                mealDetailDTO.DTags = tagBll.getDTags();
                 return View(mealDetailDTO);
             }
 
@@ -141,9 +143,11 @@ namespace UI.Areas.Admin.Controllers
         public ActionResult UpdateWithTags(int id)
         {
             MealBLL mealbll = new MealBLL();
-            TagCategoryDetailBLL tagCategoryDetailBLL = new TagCategoryDetailBLL();
             MealDetailDTO dto = new MealDetailDTO();
+            TagCategoryDetailBLL tagBll = new TagCategoryDetailBLL();
+            //mealDetailDTO.Tags = tagBll.GetTagForAddMeal();
             dto = mealbll.GetMealWithTags(id);
+            dto.DTags = tagBll.getDTags();
             return View(dto);
         }
         [HttpPost]
@@ -170,6 +174,7 @@ namespace UI.Areas.Admin.Controllers
                     System.IO.File.Delete(imageFullPath);
                 }
             }
+            
             return RedirectToAction("List");
         }
 
