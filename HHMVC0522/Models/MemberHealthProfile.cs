@@ -26,13 +26,13 @@ namespace UI.Models
         private WaterLogDatasViewModel _waterLogDatasViewModel;
         private GeneralPerformancesViewModel _generalPerformanceViewModel;
         private bool _needGeneralReport;
-
+        private WeightLog _weight;
         public MemberHealthProfile(MemberForDietDTO mDto, string date ,bool needGeneralReport) {
             _date = date;
             _memberForDiet = mDto;
             _needGeneralReport = needGeneralReport;
             _gainedCalTheDate = dlBLL.GetGainedCalByDate(date, mDto.MemberID);
-
+            _weight = wBLL.GetLatestWeightByMemberIdPriorDate(MemberID, _date);
 
 
             _gainedCalDatas = new GainedCaloriesViewModel(_memberForDiet.MemberID, _date, ProgramMaxCalOrTDEE, _gainedCalTheDate);
@@ -55,7 +55,7 @@ namespace UI.Models
 
 
         
-        public decimal Weight { get { return (decimal)wBLL.GetLatestWeightByMemberIdPriorDate(MemberID, _date).Weight; } }  
+        public decimal Weight { get { return  (decimal)_weight.Weight ; } }  
 
         public ProgramDTO CurrProgram { get { return _memberForDiet.Program; } }
 
@@ -80,11 +80,36 @@ namespace UI.Models
 
         public int[] GetNearby7DaysGainedCal { get { return dlBLL.GetNearby7DaysGainedCal(MemberID, _date); } }
 
+        //public int[] GetNearby7DaysTdeeOrProgramMax { get 
+        //    { 
+        //        return dlBLL.GetNearby7DaysTdeeOrProgramMax(MemberID, _date); 
+        //    } 
+        //}
+
+
         public GainedNutritionViewModel GainedNutritionDatas { get { return _gainedNutritionDatas; } }  
 
         public WaterLogDatasViewModel WaterLogDatas { get { return _waterLogDatasViewModel; } }
 
         public GeneralPerformancesViewModel GeneralPerformances { get { return _needGeneralReport? _generalPerformanceViewModel: null; }}
+
+        public string[] GetNearbyWeekDays 
+        {
+            get 
+            {
+                DateTime theDate = DateTime.ParseExact(_date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture);
+                return Calculator.GetNearbyWeekDays(theDate); 
+            } 
+        }
+
+        public string[] GetPastWeekDaysFromTheDate
+        {
+            get
+            {
+                DateTime theDate = DateTime.ParseExact(_date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture);
+                return Calculator.GetPastWeekDaysFromTheDate(theDate);
+            }
+        }
 
 
 

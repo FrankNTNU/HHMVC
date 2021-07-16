@@ -168,9 +168,15 @@ namespace DAL
 
         public double Past7DaysWorkoutBurnedCalsFromDate(int memberId, DateTime date)
         {
-            DateTime startDay = date.AddDays(-6);
-            double burnCalsTotal = db.WorkoutLogs.Where(wo => wo.MemberID == memberId && DbFunctions.TruncateTime(wo.WorkoutTime) >= startDay && DbFunctions.TruncateTime(wo.WorkoutTime) <= date)
+            double burnCalsTotal = 0;
+            DateTime startDay = date.AddDays(-6); // todo if has record 
+
+            if (db.WorkoutLogs.Where(wo => wo.MemberID == memberId).Any(wo => DbFunctions.TruncateTime(wo.WorkoutTime) >= startDay && DbFunctions.TruncateTime(wo.WorkoutTime) <= date) == true)
+            {
+                burnCalsTotal = db.WorkoutLogs.Where(wo => wo.MemberID == memberId && DbFunctions.TruncateTime(wo.WorkoutTime) >= startDay && DbFunctions.TruncateTime(wo.WorkoutTime) <= date)
                  .Sum(wo => wo.Workout.Calories * wo.WorkoutHours * wo.Member.WeightLogs.Where(w => DbFunctions.TruncateTime(w.UpdatedDate) <= date).OrderByDescending(w => DbFunctions.TruncateTime(w.UpdatedDate)).Select(w => w.Weight).FirstOrDefault());
+            }
+                
             return burnCalsTotal;
         }
     }

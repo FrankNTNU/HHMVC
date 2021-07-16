@@ -14,7 +14,73 @@
     </ol>
 </section>
 <br />
+<!-- Info boxes -->
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-comment"></i></span>
 
+            <div class="info-box-content">
+                <span class="info-box-text">總評論數</span>
+                <span class="info-box-number">
+                    @BLL.CommentBLL.CommentStatistics.CommentCount
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-pen"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">待審核筆數</span>
+                <span class="info-box-number">
+                    @BLL.CommentBLL.CommentStatistics.UnapprovedCount
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix hidden-md-up"></div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-down"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">負面評論</span>
+                <span class="info-box-number">
+                    @BLL.CommentBLL.CommentStatistics.NegativeCount
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-exclamation-triangle"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">已檢舉的評論數</span>
+                <span class="info-box-number">
+                    @BLL.CommentBLL.CommentStatistics.ReportedCount
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
 <div class="card">
     <!--</div>-->
     <!-- /.row -->
@@ -23,12 +89,13 @@
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>標題</th>
                     <th>留言者</th>
-                    <th>文章標題</th>
-                    <th>內容</th>
+                    <th><span style="background-color: #fff6cf ">文章標題</span><br />與留言內容</th>
                     <th>新增日期</th>
+                    <th>負面指數</th>
+                    <th>受檢舉</th>
                     <th>核准</th>
+                    <th>隱蔽</th>
                     <th>刪除</th>
                 </tr>
             </thead>
@@ -36,18 +103,44 @@
                 @foreach (var item in Model)
                 {
                 <tr id="a_@item.ID">
-                    <td>@item.Title</td>
                     <td>
                         @item.MemberName
                     </td>
-                    <td>
-                        @item.PostTitle
-                    </td>
-                    <td>
+
+                    <td style="max-width:450px">
+                        <span style="background-color: #ffed9c">@item.PostTitle</span><br />
                         @Html.Raw(item.CommentContent)
                     </td>
                     <td>
                         @item.AddDate.ToString("yyyy.MM.dd")
+                    </td>
+                    @if (item.SentimentScore >= 0.8)
+                    {
+                        <td style="color:red; background-color:antiquewhite">
+
+                            @String.Format("{0:0.00}", @item.SentimentScore)
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+
+                            @String.Format("{0:0.00}", @item.SentimentScore)
+
+                        </td>
+                    }
+
+                    <td>
+                        @if (item.IsReported == true)
+                        {
+                            <a href="../Comment/ClearReport?commentID=@item.ID">
+                                <span>消除舉報</span>
+                            </a>
+                        }
+                        else
+                        { <span>否</span>}
+
                     </td>
                     @if (!item.IsApproved)
                     {
@@ -63,7 +156,20 @@
                             已核准
                         </td>
                     }
-
+                    @if (item.IsApproved)
+                    {
+                        <td align="center" valign="middle">
+                            <a href="../Comment/HideComment/@item.ID">
+                                <img src="~/Areas/Admin/Content/icon/lockIcon.png" />
+                            </a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td align="center" valign="middle">
+                            已隱蔽
+                        </td>
+                    }
                     <td align="center" valign="middle">
                         <a href="#">
                             <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../Comment/DeleteComment/', @item.ID)" />
@@ -74,12 +180,13 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th>標題</th>
                     <th>內容</th>
-                    <th>文章標題</th>
-                    <th>內容</th>
+                    <th><span style="background-color: #fff6cf ">文章標題</span><br />與留言內容</th>
                     <th>新增日期</th>
+                    <th>負面指數</th>
+                    <th>受舉報</th>
                     <th>核准</th>
+                    <th>隱蔽</th>
                     <th>刪除</th>
                 </tr>
             </tfoot>
@@ -90,3 +197,7 @@
 </div>
 <script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>
 <!-- /.card -->
+@section Scripts
+{
+
+}

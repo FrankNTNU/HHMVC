@@ -97,7 +97,9 @@ namespace UI.Controllers
             {
                 memberID = (int)Session["ID"];
             }
-            MealStyleListViewModel model = new MealStyleListViewModel(memberID, id);
+            Program program = pBLL.GetCurrentProgram(memberID);
+
+            MealStyleListViewModel model = new MealStyleListViewModel(memberID, id, program);
             return View(model);
         }
 

@@ -32,6 +32,31 @@ namespace DAL
             }
             return giftList;
         }
+
+        public List<GiftDTO> GetFrontGifts()
+        {
+            List<GiftDTO> giftList = new List<GiftDTO>();
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                List<Gift> gifts = db.Gifts.Where(x => x.EndDate >= DateTime.Today).ToList();
+                foreach (var item in gifts)
+                {
+                    GiftDTO dto = new GiftDTO();
+                    dto.ID = item.ID;
+                    dto.Name = item.Name;
+                    dto.Image = item.Image;
+                    dto.Points = item.Points;
+                    dto.Quantity = item.Quantity;
+                    dto.AddDate = item.AddDate;
+                    dto.EndDate = item.EndDate;
+                    dto.Store = item.Store;
+                    dto.IsPremium = item.IsPremium;
+                    giftList.Add(dto);
+                }
+            }
+            return giftList;
+        }
+
         public void AddGift(Gift gift)
         {
             using (HealthHelperEntities db = new HealthHelperEntities())

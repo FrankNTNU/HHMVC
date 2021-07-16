@@ -17,6 +17,8 @@ namespace UI.ViewModels
         TimeOfDayBLL todBLL = new TimeOfDayBLL();
         CustomerMealBLL cmBLL = new CustomerMealBLL();
         MemberBLL mbBLL = new MemberBLL();
+        ProgramBLL pBLL = new ProgramBLL();
+        ViewModelGenerator vmGenerator = new ViewModelGenerator();
 
 
         private int _memberID;
@@ -39,6 +41,7 @@ namespace UI.ViewModels
         private MemberHealthProfile _GetMemberHealthProfile(int memberId,string date, bool needReport)
         {
             Member member = mbBLL.GetMemberByMemberID(memberId);
+            Program program = pBLL.GetCurrentProgram(memberId);
             MemberForDietDTO mDto = new MemberForDietDTO(_date)
             {
                 MemberID = member.ID,
@@ -47,6 +50,19 @@ namespace UI.ViewModels
                 Gender = member.Gender,
                 Height = member.Height,
             };
+            if (program != null)
+            {
+                mDto.ActivityLevelID = program.ActivityLevelID;
+                mDto.Program = new ProgramDTO()
+                {
+                    Name = program.Name,
+                    StartDate = program.StartDate,
+                    EndDate = program.EndDate,
+                    TargetWeight = program.TargetWeight,
+                    InitialWeight = program.InitialWeight
+                };
+            }
+
             MemberHealthProfile memberProfile = new MemberHealthProfile(mDto, date, needReport);
             return memberProfile;
         }
@@ -85,31 +101,18 @@ namespace UI.ViewModels
 
         public int DayDifference { get { return _dayDifference; } }
         public string Date { get { return _date; } }
+        public DateTime DateDT { get {
+                return  DateTime.ParseExact(Date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture);
+                ;
+            } }
 
         public List<DietLogViewModel> DietLogsOfTheDate { get {
-                return GetDietLogsByDate(_memberID, _date);
+                return vmGenerator.GetDietLogsByDate(_memberID, _date);
             } }
 
 
 
-        private List<DietLogViewModel> GetDietLogsByDate(int memberId, string date)
-        {
-            List<DietLogViewModel> dietLogVModels = new List<DietLogViewModel>();
-
-            foreach (DietLog dl in dlBLL.GetDietLogsByDate(memberId,  date))
-            {
-                dietLogVModels.Add(new DietLogViewModel(dl));
-            }
-
-            foreach (TempCustomerMealOption dl in cmBLL.GetCustomerMealByDate(memberId, date))
-            {
-                DietLogViewModel model = new DietLogViewModel(dl);
-                dietLogVModels.Add(model);
-            }
-            dietLogVModels.OrderBy(vm => vm.TimesOfDayID).ThenBy(vm => vm.MealTotalGainedCal);
-            return dietLogVModels;
-        }
-
+     
 
         public MemberHealthProfile MemberHealthProfile { get { return _memberProfile; } }
 

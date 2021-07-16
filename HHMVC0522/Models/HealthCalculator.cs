@@ -20,9 +20,13 @@ namespace UI.Models
                 case 6:
                     PAL = 1.2m;
                     break;
+                case 4:
+                    PAL = 1.2m;
+                    break;
                 case 1:
                     PAL = 1.4m;
                     break;
+                
                 case 2:
                     PAL = 1.6m;
                     break;
@@ -33,11 +37,11 @@ namespace UI.Models
             decimal TDEE ;
             if (member.Gender)
             {
-                TDEE = (10 * weight + 6.25m * (decimal)member.Height + 5 * (decimal)age - 5) * PAL;
+                TDEE = (10 * weight + 6.25m * (decimal)member.Height - 5 * (decimal)age + 5) * PAL;
             }
             else
             {
-                TDEE = (10 * weight + 6.25m * (decimal)member.Height + 5 * (decimal)age - 161) * PAL;
+                TDEE = (10 * weight + 6.25m * (decimal)member.Height - 5 * (decimal)age - 161) * PAL;
             }
 
             return TDEE;

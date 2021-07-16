@@ -15,6 +15,7 @@ namespace BLL
         {
             CountDTO countDTO = new CountDTO();
             countDTO.UserCount = countDAO.GetUserCount();
+            countDTO.UnapprovedDietLogCount = countDAO.GetUnapprovedDietLogCount();
             countDTO.UnapprovedCommentCount = countDAO.GetUnapprovedCommentCount();
             countDTO.UnapprovedPostCount = countDAO.GetUnapprovedPostCount();
             countDTO.NewMemberCount = countDAO.GetNewMemberCount();

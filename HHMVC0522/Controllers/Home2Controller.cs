@@ -250,7 +250,10 @@ namespace UI.Controllers
 
             if (program != null)
             {
-                context.Session["ProgramFrozen"] = 7 - (DateTime.Today - program.EndDate.Date).Days;
+                int passedDays = (DateTime.Today - program.EndDate.Date).Days < 0 
+                    ? 0 : (DateTime.Today - program.EndDate.Date).Days;
+
+                context.Session["ProgramFrozen"] = 7 - passedDays;
             }
             else
             {

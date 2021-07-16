@@ -8,7 +8,11 @@ namespace UI.ViewModels
 {
     public class WorkoutSuggestViewModel
     {
-        //public List<string> Suggestion { get; set; } = new List<string>();
+        public List<string> winnerFavorite { get; set; } = new List<string>();
+
+        public string winnerDaysOfWeek { get; set; }
+
+        public string winnerHoursOfDay { get; set; }
 
         public string Warning { get; set; }
 

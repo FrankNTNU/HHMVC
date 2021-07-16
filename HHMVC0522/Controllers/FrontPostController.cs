@@ -324,7 +324,8 @@ namespace UI.Controllers
         }
         public ActionResult DeleteComment(int ID, int postID)
         {
-            commentBLL.DeleteComment(ID);
+            //commentBLL.DeleteComment(ID);
+            commentBLL.HideComment(ID);
             TempData["State"] = "DeleteSuccess";
             ModelState.Clear();
             return RedirectToAction("PostDetail/" + postID, "FrontPost");
@@ -354,6 +355,12 @@ namespace UI.Controllers
                 ViewBag.ProcessState = General.Messages.EmptyArea;
                 return View(model);
             }
+        }
+        public string ReportComment(int commentID)
+        {
+            commentBLL.ReportComment(commentID);
+            TempData["State"] = "ReportSent";
+            return "";
         }
     }
 }

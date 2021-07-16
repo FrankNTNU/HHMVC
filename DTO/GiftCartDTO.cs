@@ -22,5 +22,6 @@ namespace DTO
         public string BarcodeImage { get; set; }
         public bool IsExpired { get; set; } = false;
 
+        public int Points { get; set; }
     }
 }

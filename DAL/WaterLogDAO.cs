@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
-
+using System.Data.Entity;
 
 namespace DAL
 {
     public class WaterLogDAO : HHContext
     {
+        WeightLogDAO wDao = new WeightLogDAO();
         public bool HasWaterLogByDate(int memberId, string date)
         {
             return db.WaterLogs.Any(wl => wl.MemberID == memberId && wl.Date == date);
@@ -38,7 +39,39 @@ namespace DAL
 
         }
 
-        public int[][] GetWeeklySuggestedWaterLogRanges(int memberId, string date)
+        public int[] GetMonthlyGainedWater(int memberId, DateTime date)
+        {
+            int howManyDays = DateTime.DaysInMonth(date.Year, date.Month);
+            DateTime theDate = new DateTime(date.Year, date.Month, 1);
+            string[] dates = new string[howManyDays];
+            for (int i = 0; i < howManyDays; i++)
+            {
+                dates[i] = theDate.AddDays(i).ToString(CDictionary.MMddyyyy);
+            }
+            int[] result = new int[howManyDays];
+            var logsOfTheMonth = db.WaterLogs
+                .Where(wl => wl.MemberID == memberId && dates.Contains(wl.Date))
+                .Select(wl =>
+                   new
+                   {
+                      wl.Date,
+                       wl.WaterAmount
+                   });
+
+
+            for(int i = 0;i< howManyDays;i++)
+            {
+                string _date = dates[i];
+                if (logsOfTheMonth.FirstOrDefault(wl => wl.Date == _date) != null)
+                {
+                    result[i] += logsOfTheMonth.FirstOrDefault(wl => wl.Date == _date).WaterAmount;
+                }
+            }
+
+            return result;
+        }
+
+        public int[][] GetWeeklySuggestedWaterLogRanges(int memberId, string date) //todo upgrade
         {
             DateTime theDate = DateTime.ParseExact(date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture);
             DayOfWeek dw = theDate.DayOfWeek;
@@ -61,6 +94,19 @@ namespace DAL
 
         }
 
+
+        public int[][] GetMonthlySuggestedWaterLogRanges(int memberId, DateTime date) //todo upgrade /
+        {
+            int[][] ranges = new int[2][];
+            double[] weights = wDao.GetMonthlyFilledWeights(memberId, date);
+            
+            ranges[0] = weights.Select(w => (int)Math.Round(w * 30)).ToArray();
+            ranges[1] = weights.Select(w => (int)Math.Round(w * 40)).ToArray();
+
+            return ranges;
+        }
+
+
         private int[] GetSuggestedWaterLogByDate(int memberId, string date)
         {
             WeightLog latestWeightLogByDate = null;
@@ -82,14 +128,29 @@ namespace DAL
             DateTime theDate = DateTime.ParseExact(date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture);
 
             DayOfWeek dw = theDate.DayOfWeek;
-            int daysToAdded = -((int)dw + 6) % 7;           
+            int daysToAdded = -((int)dw + 6) % 7;
+            string[] dates = new string[7];
             int[] WeeklyWaterLogs = new int[7];
-            for (int i = 0; i < WeeklyWaterLogs.Length; i++)
+            for (int i = 0; i < 7; i++)
             {
                 string currDate = theDate.AddDays(daysToAdded).ToString(CDictionary.MMddyyyy);
-                WeeklyWaterLogs[i] = GetWaterLogByDate(memberId, currDate);
+                dates[i] = currDate;
                 daysToAdded ++;
             }
+             var waterRecord = db.WaterLogs.Where(wl => wl.MemberID == memberId && dates.Contains(wl.Date)).GroupBy(wl=>wl.Date).Select(wl=> new { 
+              date = wl.Key,
+                  waterAmount = wl.Sum(o => o.WaterAmount)
+              });
+            for (int i = 0; i < 7; i++)
+            {
+                string _date = dates[i];
+                if (waterRecord.FirstOrDefault(r => r.date == _date) != null)
+                {
+                    WeeklyWaterLogs[i] += waterRecord.FirstOrDefault(r => r.date == _date).waterAmount;
+                }
+                
+            }
+
             return WeeklyWaterLogs;
         }
 

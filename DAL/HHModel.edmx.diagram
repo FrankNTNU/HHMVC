@@ -4,39 +4,39 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ae9d7185d0764bac9d3ae494c4ded432" Name="Diagram1">
-        <EntityTypeShape EntityType="HealthHelperModel.ActivityLevel" Width="1.5" PointX="0.75" PointY="23.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Comment" Width="1.5" PointX="5.25" PointY="25.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.DietLog" Width="1.5" PointX="8.25" PointY="25.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.GiftCart" Width="1.5" PointX="5.25" PointY="31.25" IsExpanded="true" />
+      <Diagram DiagramId="67260fa5d39245459d51e6123cf6c490" Name="Diagram1">
+        <EntityTypeShape EntityType="HealthHelperModel.ActivityLevel" Width="1.5" PointX="0.75" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Comment" Width="1.5" PointX="5.25" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.DietLog" Width="1.5" PointX="8.25" PointY="26.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.GiftCart" Width="1.5" PointX="5.25" PointY="32" IsExpanded="true" />
         <EntityTypeShape EntityType="HealthHelperModel.Gift" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.GroupChat" Width="1.5" PointX="5.25" PointY="22.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Group" Width="1.5" PointX="3" PointY="32.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.LikedMeal" Width="1.5" PointX="8.25" PointY="22.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.LikedPost" Width="1.5" PointX="8.25" PointY="30.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.MealOption" Width="1.5" PointX="6" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.MealTagCategory" Width="1.5" PointX="6" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.MealTag" Width="1.5" PointX="8.25" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Member" Width="1.5" PointX="3" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.GroupChat" Width="1.5" PointX="5.25" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Group" Width="1.5" PointX="3" PointY="32.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.LikedMeal" Width="1.5" PointX="8.25" PointY="23" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.LikedPost" Width="1.5" PointX="8.25" PointY="31" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.MealOption" Width="1.5" PointX="6" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.MealTagCategory" Width="1.5" PointX="6" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.MealTag" Width="1.5" PointX="8.25" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Member" Width="1.5" PointX="3" PointY="24" IsExpanded="true" />
         <EntityTypeShape EntityType="HealthHelperModel.ModelCollection" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Nutrient" Width="1.5" PointX="3.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Nutrient" Width="1.5" PointX="3.75" PointY="9" IsExpanded="true" />
         <EntityTypeShape EntityType="HealthHelperModel.Order" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Point" Width="1.5" PointX="11.25" PointY="26" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.PostCategory" Width="1.5" PointX="9" PointY="15.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.PostImage" Width="1.5" PointX="13.5" PointY="22.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Post" Width="1.5" PointX="11.25" PointY="21.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Program" Width="1.5" PointX="11.25" PointY="29.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Status" Width="1.5" PointX="0.75" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Point" Width="1.5" PointX="11.25" PointY="26.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.PostCategory" Width="1.5" PointX="9" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.PostImage" Width="1.5" PointX="13.5" PointY="22.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Post" Width="1.5" PointX="11.25" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Program" Width="1.5" PointX="11.25" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Status" Width="1.5" PointX="0.75" PointY="26.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HealthHelperModel.sysdiagram" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HealthHelperModel.Table" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.TempCustomerMealOption" Width="1.5" PointX="5.25" PointY="17.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.TimesOfDay" Width="1.5" PointX="3" PointY="18.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.WaterLog" Width="1.5" PointX="5.25" PointY="60.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.WeightLog" Width="1.5" PointX="5.25" PointY="63" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.WorkoutCategory" Width="1.5" PointX="3.75" PointY="14.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.WorkoutLog" Width="1.5" PointX="8.25" PointY="17.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.WorkoutPreference" Width="1.5" PointX="8.25" PointY="33.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HealthHelperModel.Workout" Width="1.5" PointX="6" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.TempCustomerMealOption" Width="1.5" PointX="5.25" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.TimesOfDay" Width="1.5" PointX="3" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.WaterLog" Width="1.5" PointX="5.25" PointY="62" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.WeightLog" Width="1.5" PointX="5.25" PointY="64.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.WorkoutCategory" Width="1.5" PointX="3.75" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.WorkoutLog" Width="1.5" PointX="8.25" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.WorkoutPreference" Width="1.5" PointX="8.25" PointY="34" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthHelperModel.Workout" Width="1.5" PointX="6" PointY="13.75" IsExpanded="true" />
         <AssociationConnector Association="HealthHelperModel.FK_Members_ActivityLevels" ManuallyRouted="false" />
         <AssociationConnector Association="HealthHelperModel.FK_Programs_ActivityLevels" ManuallyRouted="false" />
         <AssociationConnector Association="HealthHelperModel.FK_Workouts_ActivityLevels" ManuallyRouted="false" />

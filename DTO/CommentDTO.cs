@@ -27,10 +27,13 @@ namespace DTO
         public int? ParentCommentID { get; set; }
         public List<CommentDTO> ChildComments { get; set; }
         public int Level { get; set; } = 0;
+        public bool? IsReported { get; set; } = false;
+        public double? SentimentScore { get; set; }
     }
     public static class NestedComments 
     {
         public static int Level { get; set; } = 0;
     }
-
+    
+    
 }

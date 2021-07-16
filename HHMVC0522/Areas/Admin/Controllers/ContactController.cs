@@ -102,7 +102,7 @@ namespace UI.Areas.Admin.Controllers
                 {
                     ImagePath = member.Image,
                     GroupID = sg.Key,
-                    UserName = member.UserName,
+                    UserName = member.Name,
                     PreMsgCount = preMsgCount
                 };
             }).ToList();
@@ -236,7 +236,7 @@ namespace UI.Areas.Admin.Controllers
                         {
                             Member member = dbContext.Members.SingleOrDefault(m => m.ID == gc.MemberID);
                             connId = UserStatic.ServiceGroups[groupId].UserConnId;
-                            userName = member.UserName;
+                            userName = member.Name;
                             image = member.Image;
                         }
 

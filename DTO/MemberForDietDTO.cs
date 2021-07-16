@@ -10,10 +10,11 @@ namespace DTO
     public class MemberForDietDTO
     {
         private string _date;
-        public MemberForDietDTO(string date) {
+        public MemberForDietDTO(string date)
+        {
             _date = date;
         }
-        public int MemberID { get; set;  }
+        public int MemberID { get; set; }
         public DateTime Birthdate { get; set; }
 
         public int ActivityLevelID { get; set; }

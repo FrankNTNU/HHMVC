@@ -93,6 +93,11 @@ namespace BLL
             memberDAO.GetNewPassword(email, password);
             
         }
+
+        public void UpdateActivityLevel(int memberID, int activityLevelId)
+        {
+            memberDAO.UpdateActivityLevel(memberID, activityLevelId);
+        }
     }
 }
 

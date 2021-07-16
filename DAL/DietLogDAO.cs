@@ -74,68 +74,93 @@ namespace DAL
 
         public int[] Past7DaysGainedCalFromDate( int memberID, string date) //todo need better
         {
-            deBug("Past7DaysGainedCalFromDate");
+            //deBug("Past7DaysGainedCalFromDate");
 
-            DateTime d = DateTime.Now;
-                
-                DateTime theDate = DateTime.ParseExact(date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture);
+            string[] dates = new string[7];
             int[] GaineCalsPast7days = new int[7];
+            DateTime theDate = DateTime.ParseExact(date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture);
+            for (int i = -6; i <= 0; i++)
+            {
+                dates[i + 6] = theDate.AddDays(i).ToString(CDictionary.MMddyyyy);
+            }
+
+            var qH = db.DietLogs.Where(dl => dl.MemberID == memberID)
+                .Where(dl => dates.Contains(dl.Date)).GroupBy(dl => dl.Date).Select(dl => new { date = dl.Key, cals = dl.Sum(o => o.MealOption.Calories * o.Portion) });
+            //------
+            var qM = db.TempCustomerMealOptions.Where(dl => dl.MemberID == memberID && dl.StatusID != CDictionary.StatusAprove).Where(dl => dates.Contains(dl.Date)).GroupBy(dl => dl.Date).Select(dl => new { date = dl.Key, cals = dl.Sum(o => o.Calories * o.Portion) });
+            //========
             for (int i = 0; i < 7; i++)
             {
-                string currDay = theDate.AddDays(-i).ToString(CDictionary.MMddyyyy);
-
-                GaineCalsPast7days[i] = (int)GetGainedCalByDate(currDay, memberID);
-
+                string _date = dates[i];
+                if (qH.FirstOrDefault(r => r.date == _date) != null)
+                {
+                    GaineCalsPast7days[i] += (int)Math.Round(qH.FirstOrDefault(r => r.date == _date).cals);
+                }
+                if (qM.FirstOrDefault(r => r.date == _date) != null)
+                {
+                    GaineCalsPast7days[i] += (int)Math.Round(qM.FirstOrDefault(r => r.date == _date).cals);
+                }
             }
-            Array.Reverse(GaineCalsPast7days);
-
-            d = DateTime.Now;
-
             return GaineCalsPast7days;
-
         }
-        IDictionary<string, int> debugDictionary = new Dictionary<string, int>();
+        //IDictionary<string, int> debugDictionary = new Dictionary<string, int>();
 
-        private void deBug(string funcName)
-        {
-            if (!debugDictionary.ContainsKey(funcName))
-            {
-                debugDictionary[funcName] = 1;
-            }
-            else {
-                debugDictionary[funcName] += 1;
-            }
-            foreach (var r in debugDictionary.Select(i => $"{i.Key}: {i.Value}").ToList()) {
-                Debug.WriteLine(r);
-            };
-            //Debug.WriteLine(debugDictionary.ToString());
-            Debug.WriteLine("\n-----------------------\n");
+        //private void deBug(string funcName)
+        //{
+        //    if (!debugDictionary.ContainsKey(funcName))
+        //    {
+        //        debugDictionary[funcName] = 1;
+        //    }
+        //    else
+        //    {
+        //        debugDictionary[funcName] += 1;
+        //    }
+        //    foreach (var r in debugDictionary.Select(i => $"{i.Key}: {i.Value}").ToList())
+        //    {
+        //        Debug.WriteLine(r);
+        //    };
+        //    //Debug.WriteLine(debugDictionary.ToString());
+        //    Debug.WriteLine("\n-----------------------\n");
 
-        }
+        //}
+
+
+
         public int[]  GetNearby7DaysGainedCal(int memberID, string date)
         {
-            deBug("GetNearby7DaysGainedCal");
-            DateTime d = DateTime.Now;
-
-            DateTime theDate = DateTime.ParseExact(date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture);
+           // deBug("GetNearby7DaysGainedCal");
+            string[] dates = new string[7];
             int[] Nearby7DaysGainedCals = new int[7];
-            for (int i = -3; i <=3; i++)
+            DateTime theDate = DateTime.ParseExact(date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture);
+            for (int i = -3; i <= 3; i++)
             {
-                string currDay = theDate.AddDays(i).ToString(CDictionary.MMddyyyy);
-                Nearby7DaysGainedCals[i + 3] = (int)GetGainedCalByDate(currDay, memberID);
-
-
+                dates[i+3] = theDate.AddDays(i).ToString(CDictionary.MMddyyyy);
             }
-            d = DateTime.Now;
-
+            
+            var qH = db.DietLogs.Where(dl => dl.MemberID == memberID )
+                .Where(dl => dates.Contains(dl.Date)).GroupBy(dl => dl.Date).Select(dl => new { date =dl.Key, cals = dl.Sum(o => o.MealOption.Calories * o.Portion) });
+            //------
+            var qM = db.TempCustomerMealOptions.Where(dl => dl.MemberID == memberID && dl.StatusID != CDictionary.StatusAprove).Where(dl => dates.Contains(dl.Date)).GroupBy(dl => dl.Date).Select(dl => new { date = dl.Key, cals = dl.Sum(o => o.Calories * o.Portion) });
+            //========
+            for(int i=0;i<7;i++)
+            {
+                string _date = dates[i];
+                if (qH.FirstOrDefault(r => r.date == _date) != null)
+                {
+                    Nearby7DaysGainedCals[i] += (int)Math.Round(qH.FirstOrDefault(r => r.date == _date).cals);
+                }
+                if (qM.FirstOrDefault(r => r.date == _date) != null)
+                {
+                    Nearby7DaysGainedCals[i] += (int)Math.Round(qM.FirstOrDefault(r => r.date == _date).cals);
+                }
+            }
             return Nearby7DaysGainedCals;
-
         }
 
         public double GetPriorAvgGainedCalTODByDate(string date, int memberId, int todId)
         {
             DateTime dd = DateTime.Now;
-            deBug("GetPriorAvgGainedCalTODByDate");
+           // deBug("GetPriorAvgGainedCalTODByDate");
 
             DateTime theDate = DateTime.ParseExact(date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture);
             var datesFromHH = db.DietLogs.Where(dl=>dl.MemberID == memberId && dl.TimeOfDayID == todId)
@@ -182,7 +207,7 @@ namespace DAL
 
         public double GetPriorAvgGainedCalByDate(string date, int memberId)
         {
-            deBug("GetPriorAvgGainedCalByDate");
+           // deBug("GetPriorAvgGainedCalByDate");
             DateTime dd = DateTime.Now;
 
             DateTime theDate = DateTime.ParseExact(date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture);
@@ -256,7 +281,7 @@ namespace DAL
 
         public double GetGainedProtein(int memberID, string date)
         {
-            deBug("GetGainedProtein");
+            //deBug("GetGainedProtein");
 
             DateTime d = DateTime.Now;
 
@@ -272,7 +297,7 @@ namespace DAL
 
         public double GetGainedCarbs(int memberID, string date)
         {
-            deBug("GetGainedCarbs");
+            //deBug("GetGainedCarbs");
 
             DateTime d = DateTime.Now;
 
@@ -288,7 +313,7 @@ namespace DAL
 
         public double GetGainedSugar(int memberID, string date)
         {
-            deBug("GetGainedCarbs");
+           // deBug("GetGainedCarbs");
 
             DateTime d = DateTime.Now;
 
@@ -303,7 +328,7 @@ namespace DAL
 
         public double GetGainedFat(int memberID, string date)
         {
-            deBug("GetGainedFat");
+            //deBug("GetGainedFat");
             DateTime d = DateTime.Now;
 
             if (HasHHDietLogsByDate(memberID, date))
@@ -317,7 +342,7 @@ namespace DAL
 
         public double GetGainedNa(int memberID, string date)
         {
-            deBug("GetGainedNa");
+           // deBug("GetGainedNa");
 
             DateTime d = DateTime.Now;
 
@@ -332,7 +357,7 @@ namespace DAL
 
         public double GetGainedCalByDateTimeOfDay(int memberID, string date, int timeOfDayID)   
         {
-            deBug("GetGainedCalByDateTimeOfDay");
+           // deBug("GetGainedCalByDateTimeOfDay");
 
             DateTime d = DateTime.Now;
 
@@ -358,13 +383,13 @@ namespace DAL
         }
 
         public bool HasCustomUploadedNonApprovedMealsByDate(int memberID, string date)
-        {            deBug("HasCustomUploadedNonApprovedMealsByDate");
+        {           // deBug("HasCustomUploadedNonApprovedMealsByDate");
 
             return db.TempCustomerMealOptions.Any(tcm => tcm.MemberID == memberID && tcm.Date == date && tcm.StatusID !=CDictionary.StatusAprove);
         }
 
         public bool HasCustomUploadedNonApprovedMealsByDateTOD(int memberID, string date, int todId)
-        {            deBug("HasCustomUploadedNonApprovedMealsByDateTOD");
+        {           // deBug("HasCustomUploadedNonApprovedMealsByDateTOD");
 
             return db.TempCustomerMealOptions
                 .Any(tcm => tcm.MemberID == memberID && tcm.Date == date && tcm.TimeOfDayID == todId && tcm.StatusID != CDictionary.StatusAprove);
@@ -372,21 +397,21 @@ namespace DAL
 
         public bool HasHHDietLogsByDate( int memberID, string date)
         {           
-            deBug("HasHHDietLogsByDate");
+            //deBug("HasHHDietLogsByDate");
 
             return db.DietLogs.Where(dl=>dl.MemberID == memberID).Any(dl => dl.Date == date);
         }
 
         public bool HasHHDietLogsByDateTOD(int memberID, string date, int todId)
         {
-            deBug("HasHHDietLogsByDateTOD");
+           // deBug("HasHHDietLogsByDateTOD");
 
             return db.DietLogs.Where(dl => dl.MemberID == memberID && dl.Date == date).Any(dl => dl.TimeOfDayID == todId);
         }
 
         public double GetGainedCalByDate(string date, int memberID)
         {
-            deBug("GetGainedCalByDate");
+            //deBug("GetGainedCalByDate");
 
             DateTime d = DateTime.Now;
 

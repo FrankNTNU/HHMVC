@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using UI.ViewModels;
 using DTO;
+using System.Globalization;
 
 namespace UI.Controllers
 {
@@ -55,7 +56,7 @@ namespace UI.Controllers
             int age = (zeroTime + (taipeiToday - member.Birthdate)).Year - 1;
 
             //pal
-            decimal pal = 0;
+            decimal pal = 1.2m;
 
             int al = 0;
 
@@ -88,11 +89,11 @@ namespace UI.Controllers
             decimal TDEE = 0;
             if (member.Gender)
             {
-                TDEE = (10 * weight + 6.25m * (decimal)member.Height + 5 * (decimal)age - 5) * pal;
+                TDEE = (10 * weight + 6.25m * (decimal)member.Height - 5 * (decimal)age + 5) * pal;
             }
             else
             {
-                TDEE = (10 * weight + 6.25m * (decimal)member.Height + 5 * (decimal)age - 161) * pal;
+                TDEE = (10 * weight + 6.25m * (decimal)member.Height - 5 * (decimal)age - 161) * pal;
             }
 
             return TDEE;
@@ -104,6 +105,8 @@ namespace UI.Controllers
 
         public ActionResult WorkoutLog()
         {
+            ViewBag.SuccessRate = calcSuccessRate();
+
             return View(dbContext.Workouts.ToList());
         }
 
@@ -147,9 +150,28 @@ namespace UI.Controllers
             bool isPreference = dbContext.WorkoutPreferences.Where(wp => wp.MemberID.ToString() == UserID)
                 .Any(wp => wp.WorkoutCategoryID == workout.WorkoutCategoryID); ;
 
+            string activityLevel = "";
+
+            if (workout.ActivityLevelID == 1)
+            {
+                activityLevel = "【低強度】運動";
+            }
+            else if (workout.ActivityLevelID == 2)
+            {
+                activityLevel = "【中強度】運動";
+            }
+            else if (workout.ActivityLevelID == 3)
+            {
+                activityLevel = "【高強度】運動";
+            }
+            else if (workout.ActivityLevelID == 6)
+            {
+                activityLevel = "【緩和】運動";
+            }
+
             return Json(new 
             { 
-                Al = workout.ActivityLevel.Description, 
+                Al = activityLevel, 
                 Wc = workout.WorkoutCategory.Name,
                 IsPreference = isPreference
             });
@@ -196,6 +218,8 @@ namespace UI.Controllers
 
             dbContext.WorkoutLogs.Add(wl);
 
+            
+
             try
             {
                 dbContext.SaveChanges();
@@ -205,7 +229,7 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            return Json(new { Result = "success", Error = "none", ID = wl.ID });
+            return Json(new { Result = "success", Error = "none", ID = wl.ID, SuccessRate = calcSuccessRate() });
 
         }
 
@@ -229,7 +253,7 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            return Json(new { Result = "success", Error = "none" });
+            return Json(new { Result = "success", Error = "none", SuccessRate = calcSuccessRate() });
 
         }
 
@@ -305,8 +329,20 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            return Json(new { Result = "success", Error = "none" });
+            return Json(new { Result = "success", Error = "none", SuccessRate = calcSuccessRate() });
 
+        }
+
+        private string calcSuccessRate()
+        {
+            var wlList = dbContext.WorkoutLogs
+                .Where(wl => wl.MemberID.ToString() == User.Identity.Name);
+
+            decimal wlCount = wlList.Where(wl => wl.StatusID == 5 || wl.StatusID == 6).Count();
+
+            decimal successCount = wlList.Where(wl => wl.StatusID == 5).Count();
+
+            return ((successCount / wlCount) * 100).ToString("#0.0") + "%";
         }
 
         [HttpPost]
@@ -328,11 +364,62 @@ namespace UI.Controllers
 
         //======================================================
         //WorkoutSchedule Page
-
-        //todo QnA Maker是否可運用
         public ActionResult WorkoutSchedule()
         {
             WorkoutSuggestViewModel vm = new WorkoutSuggestViewModel();
+
+            //================================================================
+            //ProgramWinner
+            var winnerPrograms = dbContext.Programs.Where(prg => prg.StatusID == 5).ToList();
+
+            List<WorkoutLog> winnerWorkoutLogs = new List<WorkoutLog>();
+
+            winnerPrograms.ForEach(wprg => 
+            {
+                winnerWorkoutLogs.AddRange(dbContext.WorkoutLogs.Where(wl => wl.MemberID == wprg.MemberID
+                    && DbFunctions.TruncateTime(wl.WorkoutTime) >= DbFunctions.TruncateTime(wprg.StartDate)
+                    && DbFunctions.TruncateTime(wl.WorkoutTime) <= DbFunctions.TruncateTime(wprg.EndDate)).ToList());
+            });
+
+            //winnerFavorite
+            vm.winnerFavorite = winnerWorkoutLogs
+                .GroupBy(wl => wl.Workout).Select(group => new
+                {
+                    group.Key,
+                    Count = group.Count()
+                })
+                .OrderByDescending(group => group.Count).Select(group => group.Key.Name).Take(5).ToList();
+
+            //winnerDaysOfWeek
+            CultureInfo myCI = new CultureInfo("en-US");
+            Calendar cal = myCI.Calendar;
+
+            vm.winnerDaysOfWeek = winnerWorkoutLogs
+                .GroupBy(wl => new
+                {
+                    wl.MemberID,
+                    wl.WorkoutTime.Year,
+                    weekOfYear = cal.GetWeekOfYear(wl.WorkoutTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday)
+                })
+                .Select(group => new
+                {
+                    Count = group.Count()
+                })
+                .Average(c => c.Count).ToString("0.00");
+
+            //winnerHoursOfDay
+            vm.winnerHoursOfDay = winnerWorkoutLogs
+                .GroupBy(wl => new
+                {
+                    wl.MemberID,
+                    wl.WorkoutTime.Date
+                })
+                .Select(group => new
+                {
+                    Hours = group.Sum(wl => wl.WorkoutHours)
+                })
+                .Average(h => h.Hours).ToString("0.00");
+
 
             DateTime today = DateTime.Now;
             string todayString = today.ToString("MMddyyyy");
