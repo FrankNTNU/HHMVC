@@ -4,7 +4,7 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/HomeLayout2_0622.cshtml";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml";
 }
 @section Styles{
     @*<link href="~/Content/css/dietAddMeal.css" rel="stylesheet" />
@@ -34,45 +34,52 @@
 
 
 
-         <div id="mainProgramContent" class="col-8 justify-content-center" style="margin:0 auto; margin-top:2em">
-             @{if (Model.HasActiveProgram)
-                 {
-                     @Html.Partial("_ShowProgramPartial", Model.ProgramView)
-                 }
-                 else
-                 {
-                     @Html.Partial("_RegisterProgramPartial", Model.RegisterView)
-                 }     
-             }
-         </div>
+<div id="mainProgramContent" class="col-8 justify-content-center" style="margin:0 auto; margin-top:2em">
+    @{if (Model.HasActiveProgram)
+        {
+            @Html.Partial("_ShowProgramPartial", Model.ProgramView)
+        }
+        else
+        {
+            @Html.Partial("_RegisterProgramPartial", Model.RegisterView)
+        }
+    }
+</div>
 
 
 
 <!-- Large modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg" id="btnWaterLogTemp">WaterLog Temp_Button</button>
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg" id="btnWaterLogTemp">WaterLog Temp_Button</button>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">我的水Log <span></span></h5>
+            <div class="modal-header" style="display:flex; justify-content:center">
+                <h3 class="modal-title" id="exampleModalLabel">今天喝水了嗎 <span></span></h3>
             </div>
             <div class="modal-body">
                 <form id="FrmWaterLog" name="WaterLog">
                     <input type="hidden" id="MemberID" name="MemberID" value="@Model.MemberID" />
                     <div class="form-group">
-                        <label for="numWaterAmount">喝水量</label>
-                        <input class="form-control" type="number" name="WaterAmount" id="numWaterAmount" placeholder="mL" />
+                        <label for="numWaterAmount">請輸入喝水量</label>
+                        <div class=" row">
+                            <div class="col-10">
+                                <input class="form-control fit" type="number" name="WaterAmount" id="numWaterAmount" placeholder="單位: 毫升" />
+                            </div>
+                            <div class="col-2">
+                                <input type="button" class="btn btn-default fit" id="btnSendWaterLog" value="送出" />
+                            </div>
+                        </div>
                     </div>
                 </form>
-                <button type="button" class="btn btn-default" id="btnSendWaterLog">送出</button>
                 <canvas id="WaterLine" height="100" width="200"></canvas>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+                <input type="button" class="btn btn-default fit" data-dismiss="modal" id="btnSendWaterLog" value="關閉" />
+
             </div>
 
 
@@ -80,11 +87,29 @@
         </div>
 
     </div>
+</div>-->
+
+
+<!-- Modal -->
+<div class="modal fade" id="ProgramCalculating" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="programPending">計畫審核中...</h3>
+               
+            </div>
+            <div class="modal-body" style="display:flex;justify-content:center" >
+                <img id="pendingImg" style="max-width: 100%; max-height: 100%; " src="~/Content/Images/loadingDots.gif"/>
+            </div>
+            <div class="modal-footer">
+                <p id="pendingReminder"></p>
+                <input type="button" id="closeModal" value="確定" class="btn btn-default fit" />
+
+            </div>
+        </div>
+    </div>
 </div>
 
-
-
-@*<button onclick="test()">test</button>*@
 
 @section Scripts{
 
@@ -100,16 +125,29 @@
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>   @*FOR WATERLOG*@
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>   FOR WATERLOG
 
 
     @*----------------------------------*@
 
     <script>
-    
+        closeModal
+        $("#closeModal").click(() => {
+            $("#ProgramCalculating").modal("hide")
+            $("#programPending").text("計畫審核中...")
 
+            $("#pendingImg").attr("src", "/Content/Images/loadingDots.gif")
+
+            
+        });
+
+      
     $(function BindingJSevents() {
-
+        $("#ProName").on("click", (e) => {
+            console.log($(e.currentTarget))
+            $(e.currentTarget).val("我一定要變瘦追到隔壁大樓的小花!")
+            
+        })
         $(".datepicker").datepicker({
             minDate: "+14",
             maxDate: "+180",
@@ -118,13 +156,24 @@
         $("#btnSendRegister").on("click", (e) => {
             e.preventDefault()
 
+            $("#ProgramCalculating").modal('show')
             const formData = new FormData(document.RegisterProgramForm)
-
+            
             fetch('@Url.Action("RegisterProgram", "HHApi_Program")', {
                 method: "POST",
                 body: formData
             }).then(response => response.text()).then(data => {
                 $("#mainProgramContent").html(data)
+                if ($("#hiddenHasProgram").val() == "true") {
+                    $("#programPending").text("恭喜你! 減脂計畫註冊成功 加油!")
+                    $("#pendingImg").attr("src", "/Content/Images/ProgramImages/goodLuckImg.jpg")                   
+                    $("#pendingReminder").text("提醒您, 我們也為您新增了一筆起始體重紀錄以及更新您的活動量紀錄 祝您好運!")
+                } else {
+                    $("#programPending").text("註冊失敗... 這樣減脂太不健康啦!")
+                    $("#pendingImg").attr("src", "/Content/Images/ProgramImages/sorriImg.jpg")
+
+                }
+
                 BindingJSevents()
 
             })
@@ -147,10 +196,10 @@
         })
 
     })
-
+            
 
      //========================BELOW WATERLOG=======================
-        $("#btnWaterLogTemp").on("click", () => {
+        @*$("#btnWaterLogTemp").on("click", () => {
             fetch('@Url.Action("GetWeeklyWateLogChartDatas", "HHApi_WaterLog")?memberId=' + @Model.MemberID + '&date='+ "@Model.Today", {
                 method: "GET",
             }).then(response => response.json()).then(datas => {
@@ -204,45 +253,48 @@
         var WaterLineChar = new Chart(WaterLineChartEle, {
             type: 'line',
             data: {
-                labels: ['Mon','Tue','Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                labels: ['周一', '周二','周三', '周四', 'ˋ周五', '周六', '周日'],
                 datasets: [{
-                    label: '建議攝取量下限 (單位: 毫升):',
-                    fillColor: "rgba(220,220,220,0.1)",
-                    strokeColor: "rgba(220,220,220,0.1)",
-                    pointColor: "rgba(220,220,220,0.1)",
-                    pointStrokeColor: "rgba(220,220,220,0.1)",
+                    label: '建議攝取下限(單位: 毫升)',
+                    backgroundColor: [
+                        "rgba(220,220,220,0.3)"
+
+                    ],
+                    borderColor: [
+                        'rgba(220,220,220,0)',
+                    ],
                     fill: true,
-                    lineTension: 0.4,
-                    radius: 2
-                    //borderWidth: 1
+                    lineTension: 0.5,
+                    radius: 0
                 },
                     {
-                        label: '攝取量 (單位: 毫升):',
-                        fillColor: 'rgba(130, 192, 192,0.2)',
-                        strokeColor: 'rgba(130, 192, 192,0.2)',
-                        pointColor: 'rgba(130, 192, 192,0.2)',
-                        pointStrokeColor: 'rgba(130, 192, 192,0.2)',
+                        label: '攝取量(單位: 毫升)',
                         fill: true,
-                        lineTension: 0.4,
-                        radius: 2,
+                        lineTension: 0.5,
+                        radius: 0,
                         backgroundColor: [
-                            'rgba(57, 200, 219,0.2)'
+                            "rgba(0, 76, 153,0.3)"
 
                         ],
-                        //borderWidth: 1
+                        borderColor: [
+                            'rgba(0, 89, 179,1)',
+                        ],
+                        borderWidth: 3
+                       
                     },
                     {
-                        label: '建議攝取量上限 (單位: 毫升):',
-                        //data: [20, 80, 60, 90, 30, 50, 60],
-                        fillColor: "rgba(220,220,220,0.1)",
-                        strokeColor: "rgba(220,220,220,0.1)",
-                        pointColor: "rgba(220,220,220,0.1)",
-                        pointStrokeColor: "rgba(220,220,220,0.1)",
-                        fill: true,
-                        lineTension: 0.4,
-                        radius: 2
+                        label: '建議攝取上限(單位: 毫升)',
+                        backgroundColor: [
+                            "rgba(220,220,220,0.3)"
 
-                        //borderWidth: 1
+                        ],
+                        borderColor: [
+                            'rgba(220,220,220,0)',
+                        ],
+                        fill: true,
+                        lineTension: 0.5,
+                        radius: 0,
+                     
                     }
 
                 ]
@@ -253,12 +305,12 @@
 
                 scale: {
                     min: 0,
-                    max: 4000,
+                    //max: 4000,
 
                 },
             },
 
-        });
+        });*@
 
 
      //========================WATERLOG END=========================

@@ -12,13 +12,11 @@
     <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
     <style>
         .direct-chat-messages .right > .direct-chat-text::after {
-            border-left-color: #f56a6a;
-            color: #f56a6a;
+            border-left-color: #FF8040;
         }
 
         .direct-chat-messages :not(.right) > .direct-chat-text::before {
-            border-right-color: plum;
-            color: plum;
+            border-right-color: rgba(177,91,255,1);
         }
 
         .direct-chat-messages a {
@@ -30,6 +28,41 @@
             color: white !important;
         }
 
+        .direct-chat-msg.right {
+            text-align: right;
+        }
+
+        .direct-chat-text {
+            display: inline-block;
+            margin: 0px 0px 0px 10px;
+            text-align: left !important;
+            max-width:80%;
+        }
+
+        .direct-chat-msg.right .direct-chat-text {
+            margin: 0px 10px 0px 0px;
+        }
+
+        .nameAndTime {
+            display:flex;
+            flex-basis: 100%;
+            align-items: baseline;
+        }
+
+        .nameAndTime.right {
+            flex-direction:row-reverse;
+        }
+
+        .name {
+            font-size: 1.2em;
+        }
+
+        .timeStamp {
+            font-size: 0.4em;
+            font-style: italic;
+            margin: 0px 5px;
+        }
+
         #sidebar {
             width: 15em !important;
         }
@@ -38,6 +71,7 @@
             /*border: solid 2px gray;
             border-radius: 10px;*/
             padding: 15px;
+            position:relative;
         }
 
         .myInnerBox {
@@ -172,10 +206,20 @@
         }
 
         .demoButton {
-            background-color: cornflowerblue;
+            background-color: #97CBFF;
             color: white;
-            padding: 5px;
+            padding: 5px 10px;
             border-radius: 10px;
+        }
+
+        @*================================*@
+
+        #sendmessage {
+            font-size: 1em;
+            height: 44px;
+            line-height: 44px;
+            text-align:center;
+            padding: 0px;
         }
 
     </style>
@@ -187,7 +231,7 @@
             <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
-            <h2><i class="fas fa-sms"></i> 減重聊天群</h2>
+            <h2 style="font-size: 1.8em"><i class="fas fa-sms"></i> 減重聊天群</h2>
         </div>
         <div class="col-2 col-sm-4 col-md-3 col-lg-2 align-self-end justify-content-end d-none d-sm-block">
             <label id="newGroup" class="button primary"><i class="fas fa-sms"></i>新增聊天群</label>
@@ -196,7 +240,6 @@
 </header>
 <header id="header" class="m-0 p-0"></header>
 <section class="pt-2 container row">
-    
     <div class="myBox col-md-4" style="display:flex; flex-direction:column">
         <div class="myInnerBox" style="margin-bottom:30px">
             <div id="groupsTitle">群組</div>
@@ -207,12 +250,11 @@
         <div class="myInnerBox">
             <div id="membersTitle">群組成員</div>
             <div id="members" class="chat-members">
-
             </div>
         </div>
     </div>
     <div class="col-md-8 myBox">
-        <div style="height:auto">
+        <div style="height:auto; position:relative; left:1px;">
             <!-- DIRECT CHAT WARNING -->
             <div class="card direct-chat direct-chat-warning">
                 <div class="card-header button primary" style="cursor:default; pointer-events:none">
@@ -245,15 +287,20 @@
 <div id="groupDetail">
     請輸入聊天群名稱和體重區間：
     <input type="text" id="groupName" autocomplete="off" placeholder="聊天群名稱"/>
+    <div>初始體重<span id="initWeight" style="color: #f56a6a">@ViewBag.initWeight</span>kg</div>
     <input type="text" id="weight1" placeholder="體重"/>kg~<input type="text" id="weight2" placeholder="體重"/>kg
     <div id="difficulty">您的挑戰難度為<span></span></div>
 </div>
 <!--Demo=====================================================-->
 <div class="demo">
-    <div class="demoButton" onclick="autoInputMsgs3()">enchi</div>
-    <div class="demoButton" onclick="autoInputMsgs4()">wevmn</div>
-    <div class="demoButton" onclick="autoInputMsgs5()">frank</div>
-    <div class="demoButton" onclick="autoInputMsgs6()">zzzz</div>
+    <div class="demoButton" onclick="autoInput(ajuMsgs)">阿舊</div>
+    <div class="demoButton" onclick="autoInput(msgs3)">路飛</div>
+    <div class="demoButton" onclick="autoInput(msgs4)">索隆</div>
+    <div class="demoButton" onclick="autoInput(msgs5)">山治</div>
+    @*<div class="demoButton" onclick="newGroup1()">草帽團</div>
+    <div class="demoButton" onclick="newGroup2()">紳士團</div>*@
+    @*<div class="demoButton" onclick="autoInputMsgs6()">frank</div>
+        <div class="demoButton" onclick="autoInputMsgs7()">zzzz</div>*@
 </div>
 <!--=========================================================-->
 @section scripts {
@@ -350,7 +397,7 @@
 
             }, 1500);
 
-            
+
         });
 
         function write(userName, message, isSelf, timeStamp, image) {
@@ -358,9 +405,9 @@
             if (isSelf) {
                 let dialogDiv = $("<div></div>").addClass("direct-chat-msg");
 
-                $("<div></div>").addClass("direct-chat-infos clearfix")
-                    .append($("<span></span>").addClass("direct-chat-name float-left").text(userName))
-                    .append($("<span></span>").addClass("direct-chat-timestamp float-right").text(timeStamp))
+                $("<div></div>").addClass("nameAndTime")
+                    .append($("<span></span>").addClass("name").text(userName))
+                    .append($("<span></span>").addClass("timeStamp").text(timeStamp))
                     .appendTo(dialogDiv);
 
                 $("<img/>").addClass("direct-chat-img")
@@ -368,7 +415,7 @@
                     .appendTo(dialogDiv);
 
                 $("<div></div>").addClass("direct-chat-text")
-                    .css("background-color", "plum").css("color", "white").css("border-color", "plum")
+                    .css("background-color", "#B15BFF").css("color", "white").css("border-color", "#B15BFF")
                     .text(message)
                     .appendTo(dialogDiv);
 
@@ -377,9 +424,9 @@
             } else {
                 let dialogDiv = $("<div></div>").addClass("direct-chat-msg right");
 
-                    $("<div></div>").addClass("direct-chat-infos clearfix")
-                        .append($("<span></span>").addClass("direct-chat-name float-right").text(userName))
-                        .append($("<span></span>").addClass("direct-chat-timestamp float-left").text(timeStamp))
+                    $("<div></div>").addClass("nameAndTime right")
+                        .append($("<span></span>").addClass("name").text(userName))
+                        .append($("<span></span>").addClass("timeStamp").text(timeStamp))
                         .appendTo(dialogDiv);
 
                     $("<img/>").addClass("direct-chat-img")
@@ -387,7 +434,7 @@
                         .appendTo(dialogDiv);
 
                     $("<div></div>").addClass("direct-chat-text")
-                        .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
+                        .css("background-color", "#FF8040").css("color", "white").css("border-color", "#f56a6a")
                         .text(message)
                     .appendTo(dialogDiv);
 
@@ -397,7 +444,7 @@
         }
 
         function AddToChatGroup() {
-            
+
             //Set groupId When Return
             if ($("#groupId").val() == "") {
 
@@ -418,6 +465,11 @@
 
             //New Group
             $("#newGroup").click(function () {
+
+                if (@Json.Encode(ViewBag.initWeight) == null) {
+                    alert("您沒有進行挑戰");
+                    return;
+                }
 
                 if ($("#groupId").val() != "") {
                     if (!confirm("確定離開目前群組嗎？")) {
@@ -560,7 +612,7 @@
                     return;
                 }
 
-                p2 = $.ajax({
+                $.ajax({
                     url: "SendMessage",
                     type: "POST",
                     data: {
@@ -568,9 +620,9 @@
                         groupId: $("#groupId").val(),
                         message: $("#message").val()
                     }
-                }).promise();
+                });
             });
-            
+
         }
 
         //todo Load Group Messages
@@ -615,60 +667,30 @@
 
         //ForDemo================================
 
-        let p2;
+        //let promiseForDemo2;
 
-        function autoInputMsgs3() {
-            msgs = [
-                "我減了2公斤耶",
-                "沒有人？...",
-                "去揪一些人來"
-            ];
+        let ajuMsgs = [
+            "可以在「聯絡我們」功能詢問客服喔",
+            "聽說排程成功可獲得點數"
+        ];
 
-            autoInput(msgs);
-        }
+        let msgs3 = [
+            "剛剛登入時，系統提醒我已經7天沒紀錄體重了，請問要去哪裡紀錄？",
+            "對啊，應該要去問問客服人員"
+        ];
 
-        function autoInputMsgs4() {
-            msgs = [
-                "我也減了2公斤耶",
-                "真巧",
-                "一起努力吧"
-            ];
+        let msgs4 = [
+                "系統跳出對話框，說我喜好類型沒有設定，要去哪設定啊？"
+        ];
 
-            autoInput(msgs);
-        }
+        let msgs5 = [
+                "奇怪，剛剛有獲得點數，我是怎麼獲得的啊？"
+        ];
 
-        function autoInputMsgs5() {
-            msgs = [
-                "加不了另一個群組",
-                "只好自己開一個",
-                "等等看有沒有人會進來"
-            ];
-
-            autoInput(msgs);
-        }
-
-        function autoInputMsgs6() {
-            msgs = [
-                "可以進來耶",
-                "我減了3公斤",
-                "你呢？"
-            ];
-
-            autoInput(msgs);
-        }
-
-        function autoInput(msgs) {
-            $("#message").val(msgs[0]);
+        async function autoInput(msgs) {
+            $("#message").val(msgs.shift());
             $("#sendmessage").click();
-            p2.then(function () {
-                $("#message").val(msgs[1]);
-                $("#sendmessage").click()
-                return p2;
-            })
-            .then(function () {
-                $("#message").val(msgs[2]);
-                $("#sendmessage").click()
-            });
         }
+
     </script>
 }

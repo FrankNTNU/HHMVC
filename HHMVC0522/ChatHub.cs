@@ -22,8 +22,6 @@ namespace UI
 
             string fromPage = Context.Headers["referer"].Split('/')[3].ToLower();
 
-            UserHandler.ConnectedIds.Add(Context.ConnectionId);
-
             UserDetail user = null;
             bool isAdded = false;
 
@@ -33,7 +31,7 @@ namespace UI
                 {
                     isAdded = true;
                     user = User;
-                    user.Role = fromPage == "admin" ? "admin" : "customer";
+                    user.Role = (fromPage == "admin") ? "admin" : "customer";
                     break;
                 }
             }
@@ -44,7 +42,7 @@ namespace UI
                 {
                     ConnID = Context.ConnectionId,
                     UserID = Context.User.Identity.Name,
-                    Role = fromPage == "admin" ? "admin" : "customer"
+                    Role = (fromPage == "admin") ? "admin" : "customer"
                 };
                 UserStatic.ConnectedUsers.Add(user);
             }
@@ -93,18 +91,17 @@ namespace UI
         public override Task OnDisconnected(bool stopCalled = true)
         {
             UserDetail disconntectedUser = UserStatic.ConnectedUsers
-                .FirstOrDefault(x => x.ConnID == Context.ConnectionId);
+                .SingleOrDefault(x => x.ConnID == Context.ConnectionId);
             UserStatic.ConnectedUsers.Remove(disconntectedUser);
-            UserHandler.ConnectedIds.Remove(Context.ConnectionId);
 
             //For CustomerService
             Member member = dbContext.Members
                 .SingleOrDefault(m => m.ID.ToString() == Context.User.Identity.Name);
 
-            try
-            {   //When Admin disconnect, only remove AdminConnId and AdminId
-                if (disconntectedUser == null) return null; //Frank暫時加上去
-                if (disconntectedUser.Role == "Admin")
+            //try
+            //{
+                //When Admin disconnect, only remove AdminConnId and AdminId
+                if (disconntectedUser != null && disconntectedUser.Role == "admin")
                 {
                     foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                     {
@@ -113,14 +110,13 @@ namespace UI
                             Groups.Remove(UserStatic.ServiceGroups[groupId].AdminConnId, groupId);
 
                             UserStatic.ServiceGroups[groupId].AdminConnId = "";
-                            UserStatic.ServiceGroups[groupId].AdminId = "0";
+                            UserStatic.ServiceGroups[groupId].AdminId = "";
 
-                            dbContext.SaveChanges();
                         }
                     }
                 }
                 //When User disconnect, remove ServiceGroup
-                else if (disconntectedUser.Role == "customer")
+                else if (disconntectedUser != null && disconntectedUser.Role == "customer")
                 {
                     foreach (var groupId in UserStatic.ServiceGroups.Keys.ToList())
                     {
@@ -132,7 +128,7 @@ namespace UI
                             {
                                 Groups.Remove(UserStatic.ServiceGroups[groupId].AdminConnId, groupId);
                             }
-                            
+
                             UserStatic.ServiceGroups.Remove(groupId);
 
                             dbContext.Groups.SingleOrDefault(g => g.ID.ToString() == groupId).IsAlive = false;
@@ -141,17 +137,16 @@ namespace UI
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                string filePath = @"C:\Users\enchi\Desktop\Error2.txt";
+            //}
+            //catch (Exception ex)
+            //{
+            //    string filePath = @"C:\Users\enchi\Desktop\Error2.txt";
 
-                using (StreamWriter writer = new StreamWriter(filePath, true))
-                {
-                    writer.WriteLine(DateTime.Now.ToString("M/d HH:mm") + " Message : " + ex.Message);
-                }
-            }
-
+            //    using (StreamWriter writer = new StreamWriter(filePath, true))
+            //    {
+            //        writer.WriteLine(DateTime.Now.ToString("M/d HH:mm") + " Message : " + ex.ToString());
+            //    }
+            //}
             return base.OnDisconnected(stopCalled);
         }
 

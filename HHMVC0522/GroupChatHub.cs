@@ -20,12 +20,12 @@ namespace UI
         public override Task OnConnected()
         {
             
-            UserHandler.ConnectedIds.Add(Context.ConnectionId);
+            //UserHandler.ConnectedIds.Add(Context.ConnectionId);
 
             UserDetail user = null;
             bool isAdded = false;
 
-            foreach (var User in UserStatic.ConnectedUsers)
+            foreach (var User in UserStatic.ChatGroupUsers)
             {
                 if (User.ConnID == Context.ConnectionId && User.UserID == Context.User.Identity.Name)
                 {
@@ -42,8 +42,9 @@ namespace UI
                 {
                     ConnID = Context.ConnectionId,
                     UserID = Context.User.Identity.Name,
+                    Role = "customer"
                 };
-                UserStatic.ConnectedUsers.Add(user);
+                UserStatic.ChatGroupUsers.Add(user);
             }
             
             //==================================================
@@ -73,41 +74,30 @@ namespace UI
 
         public override Task OnDisconnected(bool stopCalled = true)
         {
-            UserDetail disconntectedUser = UserStatic.ConnectedUsers
-                .FirstOrDefault(x => x.ConnID == Context.ConnectionId);
-            UserStatic.ConnectedUsers.Remove(disconntectedUser);
-            UserHandler.ConnectedIds.Remove(Context.ConnectionId);
+            UserDetail disconntectedUser = UserStatic.ChatGroupUsers
+                .SingleOrDefault(x => x.ConnID == Context.ConnectionId);
+            UserStatic.ChatGroupUsers.Remove(disconntectedUser);
+            //UserHandler.ConnectedIds.Remove(Context.ConnectionId);
 
             //========================================================
             //恩旗
             //For GroupChats
             //Remove User From UserChatGroups
-            try
+
+            foreach (var groupId in UserStatic.UserChatGroups.Keys.ToList())
             {
-                foreach (var groupId in UserStatic.UserChatGroups.Keys.ToList())
+                foreach (var chatMember in UserStatic.UserChatGroups[groupId].GroupMembers.ToList())
                 {
-                    foreach (var chatMember in UserStatic.UserChatGroups[groupId].GroupMembers.ToList())
+                    if (chatMember.ConnID == Context.ConnectionId)
                     {
-                        if (chatMember.ConnID == Context.ConnectionId)
-                        {
-                            Groups.Remove(Context.ConnectionId, groupId);
-                            UserStatic.UserChatGroups[groupId].GroupMembers.Remove(chatMember);
-                        }
-
-                        ChatGroupController.RemoveGroup(this.dbContext, groupId);
+                        Groups.Remove(Context.ConnectionId, groupId);
+                        UserStatic.UserChatGroups[groupId].GroupMembers.Remove(chatMember);
                     }
+
+                    ChatGroupController.RemoveGroup(this.dbContext, groupId);
                 }
             }
-            catch (Exception ex)
-            {
-                string filePath = @"C:\Users\enchi\Desktop\Error1.txt";
-
-                using (StreamWriter writer = new StreamWriter(filePath, true))
-                {
-                    writer.WriteLine(DateTime.Now.ToString("M/d HH:mm") + " Message : " + ex.Message);
-                }
-            }
-
+            
             return base.OnDisconnected(stopCalled);
         }
 

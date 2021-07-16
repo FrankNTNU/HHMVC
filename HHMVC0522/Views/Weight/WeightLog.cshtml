@@ -84,7 +84,7 @@
             }
         }
 
-        #newTitle, #editTitle {
+        #newTitle, #editTitle, #tableTitle, #weightChartTitle {
             font-size: 2em;
             font-weight: 600;
             color: #f56a6a;
@@ -124,13 +124,40 @@
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            margin-left: auto;
-            width: 320px;
+            /*margin-right: 20px;*/
+            width: 320px !important;
             height: 56px;
             border: solid 1px #f56a6a;
-            border-radius: 5px
+            border-radius: calc(0.9em - 5px);
+            flex:1;
+            box-sizing:border-box;
         }
 
+        #btnEdit, #btnNew {
+            height: 50px;
+            line-height: 50px;
+            font-size: 1.2em;
+            border-radius: calc(0.9em - 5px);
+        }
+
+        #btnNew {
+            background-color: #2894FF;
+        }
+
+        #btnEdit {
+            background-color: #02DF82;
+        }
+
+        #btnEdit.cantEdit {
+            border: solid 2px #02DF82;
+            color: #02DF82 !important;
+            background-color: white;
+            box-sizing: border-box;
+        }
+
+        #btnReload {
+            border-radius: calc(0.9em - 5px);
+        }
     </style>
 }
 
@@ -140,7 +167,7 @@
             <a href="/Home2/Index"><img src="~/Areas/Admin/Content/tempimage/hLogoRed.jpg" style="max-width:90px;width:100%"></a>
         </div>
         <div class="col-6 col-sm-6 col-lg-8 p-1 align-self-center">
-            <h2><i class="fas fa-weight"></i> 體重紀錄</h2>
+            <h2 style="font-size: 1.8em"><i class="fas fa-weight"></i> 體重紀錄</h2>
         </div>
     </div>
 </header>
@@ -149,27 +176,28 @@
     <div id="mainDiv">
         <div id="mainRow" class="row">
             <div class="myBox col-md-5 col-sm-12 col-12" style="display:flex; flex-direction:column">
-                <div class="myInnerBox operate" style="margin-bottom:30px">
+                <div class="myInnerBox operate" style="flex: 1; margin-bottom:30px">
                     <div id="newTitle">新增體重紀錄</div>
                     <div class="form-group" style="margin-bottom:10px; margin-top:auto">
-                        <label for="wgtForNew" style="width:100%; font-size:20px">今天的體重</label>
+                        <label for="wgtForNew" style="width:100%; font-size:20px">今天 的體重</label>
                         <input type="text" id="wgtForNew" placeholder="現在多重呢" style="display:inline-block; width:80%">
                         <label style="display: inline-block; font-size: 20px"> kg</label>
                     </div>
-                    <div id="btnNew" class="button primary fit" style="font-size:1em; margin-top:auto">新增</div>
+                    <div id="btnNew" class="button primary fit" style="margin-top:auto">新增</div>
                 </div>
-                <div class="myInnerBox operate">
+                <div class="myInnerBox operate" style="flex: 1">
                     <div id="editTitle">修改體重紀錄</div>
                     <div class="form-group" style="margin-bottom:10px; margin-top:auto">
                         <label for="wgtForEdit" style="width:100%; font-size:20px"><span id="wgtDateForEdit">某一天</span> 的體重</label>
                         <input type="text" id="wgtForEdit" placeholder="當時多重呢" style="display:inline-block; width:80%">
                         <label style="display: inline-block; font-size: 20px"> kg</label>
                     </div>
-                    <div id="btnEdit" class="button primary fit" style="font-size:1em; margin-top:auto">修改</div>
+                    <div id="btnEdit" class="button primary fit" style="margin-top:auto">修改</div>
                 </div>
             </div>
             <div class="myBox col-md-7 col-sm-12 col-12" style="min-height:450px">
                 <div class="myInnerBox" style="height:100%">
+                    <div id="tableTitle">體重紀錄表</div>
                     <table id="weightTable" class="display responsive nowrap" style="width:100%">
                     </table>
                 </div>
@@ -185,8 +213,13 @@
                             <div style="height:1px; flex-basis:100%"></div>
                             <div id="slider-range"></div>
                         </div>
-                        <div id="btnReload" class="button primary" style="display:inline-block; font-size:1em;">
-                            更新圖表
+                        <div style="width:320px; flex:1">
+                            <div id="weightChartTitle">體重變化折線圖</div>
+                        </div>
+                        <div style="width:320px; flex:1; display:flex">
+                            <div id="btnReload" class="button primary" style="display:inline-block; font-size:1em; margin-left:auto">
+                                更新圖表
+                            </div>
                         </div>
                     </div>
                     <div id="highChart"></div>
@@ -208,14 +241,16 @@
     <script type="text/javascript" src="~/Content/moment-js/moment.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.src.js"></script>
     @*<script src="~/Content/jquery-ui-monthpicker/jquery.mtz.monthpicker.js"></script>*@
-    <script>
+<script>
 
         var minDate = null, maxDate = null;
         var token = null;
 
         $(function () {
 
-            console.log(@ViewBag.initialWeightLog);
+            var userName = "@Html.Raw(Session["Name"])";
+
+            //console.log(@ViewBag.initialWeightLog);
 
             var form = $('#weightForm');
             token = $('input[name="__RequestVerificationToken"]', form).val();
@@ -389,7 +424,7 @@
             let chart = Highcharts.chart('highChart', {
 
                 title: {
-                    text: $("#startMonth").text() + " 至 " + $("#endMonth").text() + " 期間的體重變化"
+                    text: $("#startMonth").text() + " 至 " + $("#endMonth").text()
                 },
 
                 subtitle: {
@@ -398,7 +433,10 @@
 
                 yAxis: {
                     title: {
-                        text: 'Weight(kgs)'
+                        text: "體重(kgs)",
+                        style: {
+                            fontSize: "20px"
+                        }
                     }
                 },
 
@@ -413,7 +451,10 @@
                 legend: {
                     layout: 'vertical',
                     align: 'right',
-                    verticalAlign: 'middle'
+                    verticalAlign: 'middle',
+                    itemStyle: {
+                        fontSize: "20px"
+                    }
                 },
 
                 plotOptions: {
@@ -425,7 +466,7 @@
                 },
 
                 series: [{
-                    name: '@Session["UserName"]',
+                    name: userName,
                     data: @Html.Raw(ViewBag.initialWeightLog)
                 }],
 
@@ -452,7 +493,7 @@
             $("#btnReload").click(function () {
 
                 chart.setTitle({
-                    text: $("#startMonth").text() + " 至 " + $("#endMonth").text() + " 期間的體重變化"
+                    text: $("#startMonth").text() + " 至 " + $("#endMonth").text()
                 });
 
                 let monthArray = GetMonthArray($("#startMonth").text(), $("#endMonth").text());
@@ -496,12 +537,12 @@
                 if (updatedDate.getTime() < d7b.getTime() || updatedDate.getTime() >= tomorrow.getTime()) {
 
                     $("#wgtForEdit").attr("disabled", true);
-                    $("#btnEdit").text("無法修改").removeClass("primary").attr("disabled", true);
+                    $("#btnEdit").text("無法修改").addClass("cantEdit").attr("disabled", true);
 
                 } else {
 
                     $("#wgtForEdit").removeAttr("disabled", true);
-                    $("#btnEdit").text("修改").addClass("primary").removeAttr("disabled");
+                    $("#btnEdit").text("修改").removeClass("cantEdit").removeAttr("disabled");
                 }
             });
 
@@ -633,5 +674,5 @@
                 return 1;
             }
         };
-    </script>
+</script>
 }

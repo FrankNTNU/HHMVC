@@ -587,9 +587,13 @@
     <Content Include="Areas\Admin\Content\webfonts\fa-regular-400.svg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-solid-900.svg" />
     <Content Include="Content\color\default.css" />
+    <Content Include="Content\css\demo.css" />
     <Content Include="Content\css\dietAddMeal.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\dataTables.bootstrap5.min.css" />
+    <Content Include="Content\css\flexslider-rtl-min.css" />
+    <Content Include="Content\css\flexslider-rtl.css" />
+    <Content Include="Content\css\flexslider.css" />
     <Content Include="Content\css\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Content\css\font-awesome-4.7.0\css\font-awesome.min.css" />
     <Content Include="Content\css\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
@@ -623,6 +627,7 @@
     <Content Include="Content\Images\Infography\riceBowlImg.jpg" />
     <Content Include="Content\Images\Infography\riceBowlImg2.jpg" />
     <Content Include="Content\Images\Infography\riceBowlImg3.jpg" />
+    <Content Include="Content\Images\loadingDots.gif" />
     <Content Include="Content\Images\MealOptionImages\07419b26-8464-41d6-b00e-f5058bbc03d8G07.png" />
     <Content Include="Content\Images\MealOptionImages\0fb9e7d4-95fb-4388-8e77-62273c2a5ae1M02.jpg" />
     <Content Include="Content\Images\MealOptionImages\1648c6ba-aac8-4325-87f8-6e9b73a3d76eG02.png" />
@@ -665,6 +670,9 @@
     <Content Include="Content\Images\MealOptionImages\meat.jpg" />
     <Content Include="Content\Images\MealOptionImages\sale.jpg" />
     <Content Include="Content\Images\MealOptionImages\shinf.jpg" />
+    <Content Include="Content\Images\ProgramImages\goodLuckImg.jpg" />
+    <Content Include="Content\Images\ProgramImages\programRefImg.jpeg" />
+    <Content Include="Content\Images\ProgramImages\sorriImg.jpg" />
     <Content Include="Content\Images\TagCategoriesImages\14739ea7-f2d5-4f1f-9ec8-83a801825c09早午餐 %282%29.jpg" />
     <Content Include="Content\Images\TagCategoriesImages\19f6bc72-3e43-459b-9eaa-da32ba009f14點心.jpg" />
     <Content Include="Content\Images\TagCategoriesImages\20824055-5a09-416b-850f-0ea753bb63e0894894198.jpg" />
@@ -765,6 +773,7 @@
     <Content Include="Content\jquery-ui-scrollbar\jquery.scrollbar.css" />
     <Content Include="Content\jquery-ui-scrollbar\jquery.scrollbar.min.js" />
     <Content Include="Content\js\ASPSnippets_Pager.min.js" />
+    <Content Include="Content\js\bootstrap-slider.min.js" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\Gift\GiftList.cshtml" />
     <Content Include="Areas\Admin\Views\Gift\AddGift.cshtml" />
@@ -809,6 +818,8 @@
     <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListNotProceeded.cshtml" />
     <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListPassed.cshtml" />
     <Content Include="Areas\Admin\Views\TempCustomerMealOption\TempCustomerMealOptionListFailed.cshtml" />
+    <Content Include="Content\css\fonts\flexslider-icon.ttf" />
+    <Content Include="Content\css\fonts\flexslider-icon.woff" />
     <None Include="Content\jquery-3.6.0\jquery-3.6.0.intellisense.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.js" />
     <Content Include="Content\jquery-3.6.0\jquery-3.6.0.min.js" />
@@ -835,10 +846,13 @@
     <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\jquery-ui.theme.min.css" />
     <Content Include="Content\jquery-ui\jquery-ui-1.12.1.custom\LICENSE.txt" />
     <Content Include="Content\js\chart.min.js" />
+    <Content Include="Content\js\chartjs-plugin-datalabels.min.js" />
     <Content Include="Content\js\HHRadarChart.js" />
     <Content Include="Content\js\breakpoints.min.js" />
     <Content Include="Content\js\browser.min.js" />
     <Content Include="Content\js\DeleteRecord.js" />
+    <Content Include="Content\js\html2pdf.bundle.min.js" />
+    <Content Include="Content\js\jquery.flexslider-min.js" />
     <Content Include="Content\js\jquery.likebtn.js" />
     <Content Include="Content\js\dataTables.bootstrap5.min.js" />
     <Content Include="Content\js\jquery-3.5.1.js" />
@@ -848,6 +862,9 @@
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\main.js" />
     <Content Include="Content\js\popper.min.js" />
+    <Content Include="Content\js\shBrushJScript.js" />
+    <Content Include="Content\js\shBrushXml.js" />
+    <Content Include="Content\js\shCore.js" />
     <Content Include="Content\js\util.js" />
     <Content Include="Content\moment-js\moment-with-locales.js" />
     <Content Include="Content\moment-js\moment-with-locales.min.js" />
@@ -873,6 +890,7 @@
     <Content Include="Scripts\jquery.signalR-2.4.2.min.js" />
     <Content Include="Views\Shared\_MealOptionViewModelPartial.cshtml" />
     <None Include="Properties\PublishProfiles\HealthHelper - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
@@ -927,10 +945,12 @@
     </Compile>
     <Compile Include="Models\Calculator.cs" />
     <Compile Include="Models\CMealAutoComplete.cs" />
+    <Compile Include="Models\DebugHelper.cs" />
     <Compile Include="Models\HealthCalculator.cs" />
     <Compile Include="Models\MemberHealthProfile.cs" />
     <Compile Include="Models\MemberProfile.cs" />
     <Compile Include="HHDictionary.cs" />
+    <Compile Include="Models\ViewModelGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CMealTagCategoryViewModel.cs" />
     <Compile Include="ViewModels\CreateDietLogViewModel.cs" />
@@ -1096,7 +1116,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\HHDiet\Create.cshtml" />
     <Content Include="Views\HHPrograms\RegisterProgram.cshtml" />
-    <Content Include="Views\HHPrograms\ShowActiveProgram.cshtml" />
     <Content Include="Views\HHGiftShop\MyGiftShop2.cshtml" />
     <Content Include="Views\HHGiftCard\ShowGiftList.cshtml" />
     <Content Include="Views\HHDiet\MealStyleList.cshtml" />

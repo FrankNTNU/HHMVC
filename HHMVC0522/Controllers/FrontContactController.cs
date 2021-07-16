@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using Microsoft.Azure.CognitiveServices.Knowledge.QnAMaker;
 using Microsoft.Azure.CognitiveServices.Knowledge.QnAMaker.Models;
 using System.Threading.Tasks;
+using System.Net.Mail;
 
 namespace UI.Controllers
 {
@@ -37,47 +38,16 @@ namespace UI.Controllers
             return View();
         }
 
-        //=======================================================================
-        //恩旗
-        [HttpPost]
-        //public async Task<ActionResult> Chat(string connId, string message)
-        //{
-        //    HealthHelperEntities dbContext = new HealthHelperEntities();
-            
-        //    List<string> adminConnIds = UserStatic.ConnectedUsers.Select(cu => new
-        //    {
-        //        cu.ConnID,
-        //        UserID = int.Parse(cu.UserID)
-        //    }).Where(cu => dbContext.Members.SingleOrDefault(cu1 => cu1.ID == cu.UserID).IsAdmin)
-        //        .Select(cu => cu.ConnID).ToList();
-
-        //    var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-
-        //    //todo AI認知服務
-        //    if (adminConnIds.Count == 0)
-        //    {
-        //        string answer = await GetAnsFromKB(message);
-        //        context.Clients.Client(connId).ReceiveFromService(answer);
-        //    }
-        //    else
-        //    {
-        //        context.Clients.Client(adminConnIds[rn.Next(0, adminConnIds.Count)])
-        //            .ReceiveFromCustomer(connId, Session["UserName"], Session["ImagePath"], message);
-        //    }    
-
-        //    return View();
-        //}
-
         //==============================================================
         //恩旗
         //GetAnswers From Knowledge Base
 
-        private async Task<string> GetAnsFromKB(string message) {
+        private async Task<QnASearchResult> GetAnsFromKB(string message, string qnaId) {
 
-            string kbId = "acd4f593-dc0c-43ef-b658-77546c18ef5f";
-            var authoringKey = "b2ab1e830f1548c38bec03719a4bcabf";
-            var authoringURL = "https://msit130myqnamaker.cognitiveservices.azure.com/";
-            var queryingURL = "https://msit130myqnamaker.azurewebsites.net";
+            string kbId = "37836933-78da-43c1-a7b4-638fc07e773a";
+            var authoringKey = "7b80c902130142feb525e207863c6925";
+            var authoringURL = "https://msit130myqnamakerservice.cognitiveservices.azure.com/";
+            var queryingURL = "https://msit130myappserviceforqnamaker.azurewebsites.net";
 
             //===============================================================
             //Get QueryKey
@@ -94,11 +64,52 @@ namespace UI.Controllers
 
             //================================================================
             //Get Answer from KB
-            var response = await runtimeClient.Runtime
-                .GenerateAnswerAsync(kbId, new QueryDTO { Question = message });
+            if (message != null)
+            {
+                var response = await runtimeClient.Runtime
+                    .GenerateAnswerAsync(kbId, new QueryDTO { Question = message });
 
-            return response.Answers[0].Answer;
+                return response.Answers[0];
+            }
+            else
+            {
+                var response = await runtimeClient.Runtime
+                    .GenerateAnswerAsync(kbId, new QueryDTO { QnaId = qnaId });
+
+                return response.Answers[0];
+            }
+
+            
         }
+
+        //private async Task<QnASearchResult> GetAnsByQnaId(string qnaId)
+        //{
+
+        //    string kbId = "37836933-78da-43c1-a7b4-638fc07e773a";
+        //    var authoringKey = "7b80c902130142feb525e207863c6925";
+        //    var authoringURL = "https://msit130myqnamakerservice.cognitiveservices.azure.com/";
+        //    var queryingURL = "https://msit130myappserviceforqnamaker.azurewebsites.net";
+
+        //    //===============================================================
+        //    //Get QueryKey
+        //    var client = new QnAMakerClient(new ApiKeyServiceClientCredentials(authoringKey))
+        //    { Endpoint = authoringURL };
+
+        //    var endpointKeysObject = await client.EndpointKeys.GetKeysAsync();
+        //    var primaryQueryEndpointKey = endpointKeysObject.PrimaryEndpointKey;
+
+        //    //================================================================
+        //    //New RuntimeClient
+        //    var runtimeClient = new QnAMakerRuntimeClient(new EndpointKeyServiceClientCredentials(primaryQueryEndpointKey))
+        //    { RuntimeEndpoint = queryingURL };
+
+        //    //================================================================
+        //    //Get Answer from KB
+        //    var response = await runtimeClient.Runtime
+        //        .GenerateAnswerAsync(kbId, new QueryDTO { QnaId = qnaId });
+
+        //    return response.Answers[0];
+        //}
 
         [HttpPost]
         public JsonResult AddToServiceGroup(string connId)
@@ -187,8 +198,12 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public async Task SendMessage(string connId, string groupId, string message)
+        public async Task<JsonResult> SendMessage(string connId, string groupId, string message)
         {
+            if (UserStatic.ServiceGroups[groupId].UserConnId != connId)
+            {
+                return Json(new { Result = "已開啟新頁面，請在新頁面聯絡客服" });
+            }
 
             var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
@@ -197,7 +212,7 @@ namespace UI.Controllers
             DateTime timeStamp = DateTime.Now;
 
             Context.Clients.Group(groupId)
-                .receive(connId, member.UserName, message, timeStamp.ToString("M/d HH:mm"), member.Image, groupId);
+                .receive(connId, member.Name, message, timeStamp.ToString("M/d HH:mm"), member.Image, groupId);
             
             dbContext.GroupChats.Add(new GroupChat
             {
@@ -216,11 +231,12 @@ namespace UI.Controllers
 
             if (admins.Count == 0)
             {
-                Task<string> answerTask = GetAnsFromKB(message);
-
+                //QnA Maker replys
+                Task<QnASearchResult> answerTask = GetAnsFromKB(message, null);
                 await Task.Run(() => ReplyByOnAMaker(answerTask, groupId, timeStamp));
             }
 
+            return Json(new { Result = "Success"});
         }
 
         public JsonResult GetGroupMsgs(string groupId)
@@ -265,7 +281,7 @@ namespace UI.Controllers
                         {
                             Member member = dbContext.Members.SingleOrDefault(m => m.ID == gc.MemberID);
                             connId = UserStatic.ServiceGroups[groupId].UserConnId;
-                            userName = member.UserName;
+                            userName = member.Name;
                             image = member.Image;
                         }
 
@@ -297,26 +313,77 @@ namespace UI.Controllers
         }
 
         [NonAction]
-        private void ReplyByOnAMaker(Task<string> answerTask, string groupId, DateTime timeStamp)
+        private void ReplyByOnAMaker(Task<QnASearchResult> answerTask, string groupId, DateTime timeStamp)
         {
-            string answer = answerTask.Result;
+            int notReadCount = IncreaseNotReadCount(groupId);
+
+            QnASearchResult answer = answerTask.Result;
 
             var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
             Context.Clients.Group(groupId)
-                    .receive("", "客服人員", answer, timeStamp.ToString("M/d HH:mm"), "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png", groupId);
+                    .receive("", "客服人員", answer.Answer, timeStamp.ToString("M/d HH:mm")
+                        , "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png", groupId
+                        , notReadCount);
 
             dbContext.GroupChats.Add(new GroupChat
             {
                 GroupID = int.Parse(groupId),
                 MemberID = null,
-                Message = answer,
+                Message = answer.Answer,
                 TimeStamp = timeStamp
             });
 
             dbContext.SaveChanges();
+
+            ShowPrompt(answer, groupId);
+
         }
 
+        //when user click prompt
+        [HttpPost]
+        public async Task SelectPrompt(string connId, string groupId, string qnaId) {
+            
+            Task<QnASearchResult> promptTask = GetAnsFromKB(null, qnaId);
+
+            Member member = dbContext.Members.SingleOrDefault(m => m.ID.ToString() == User.Identity.Name);
+
+            DateTime timeStamp = DateTime.Now;
+
+            var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+
+            QnASearchResult promptQna = await promptTask;
+
+            Context.Clients.Group(groupId)
+                .receive(connId, member.Name, promptQna.Questions[0], timeStamp.ToString("M/d HH:mm"), member.Image, groupId);
+
+            dbContext.GroupChats.Add(new GroupChat
+            {
+                GroupID = int.Parse(groupId),
+                MemberID = int.Parse(User.Identity.Name),
+                Message = promptTask.Result.Questions[0],
+                TimeStamp = timeStamp
+            });
+
+            int notReadCount = IncreaseNotReadCount(groupId);
+
+            Context.Clients.Group(groupId)
+                    .receive("", "客服人員", promptQna.Answer, timeStamp.ToString("M/d HH:mm")
+                        , "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png", groupId
+                        , notReadCount);
+
+            dbContext.GroupChats.Add(new GroupChat
+            {
+                GroupID = int.Parse(groupId),
+                MemberID = null,
+                Message = promptQna.Answer,
+                TimeStamp = timeStamp
+            });
+
+            dbContext.SaveChanges();
+
+            ShowPrompt(promptQna, groupId);
+        }
 
         [HttpPost]
         public void ResetNotReadCount(string groupId)
@@ -336,7 +403,45 @@ namespace UI.Controllers
                 UserStatic.ServiceNotRead.Add(User.Identity.Name, new Dictionary<string, int>());
                 UserStatic.ServiceNotRead[User.Identity.Name].Add(groupId, 0);
             }
-            
+        }
+
+        private int IncreaseNotReadCount(string groupId) {
+            //===================================================
+            //ServiceNotRead
+            string user = UserStatic.ServiceGroups[groupId].GroupName;
+
+            if (UserStatic.ServiceNotRead.ContainsKey(user)
+                && UserStatic.ServiceNotRead[user].ContainsKey(groupId))
+            {
+                UserStatic.ServiceNotRead[user][groupId]++;
+            }
+            else if (UserStatic.ServiceNotRead.ContainsKey(user)
+                && !UserStatic.ServiceNotRead[user].ContainsKey(groupId))
+            {
+                UserStatic.ServiceNotRead[user].Add(groupId, 1);
+            }
+            else
+            {
+                UserStatic.ServiceNotRead.Add(user, new Dictionary<string, int>());
+                UserStatic.ServiceNotRead[user].Add(groupId, 1);
+            }
+
+            return UserStatic.ServiceNotRead[user][groupId];
+            //==================================================================
+        }
+
+        private void ShowPrompt(QnASearchResult answer, string groupId)
+        {
+            var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+
+            if (answer.Context != null)
+            {
+                foreach (var prompt in answer.Context.Prompts)
+                {
+                    Context.Clients.Group(groupId)
+                        .receivePrompt(prompt.DisplayText, prompt.QnaId);
+                }
+            }
         }
     }
 }

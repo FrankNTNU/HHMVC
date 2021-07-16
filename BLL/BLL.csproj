@@ -185,6 +185,7 @@
     <Compile Include="MealBLL.cs" />
     <Compile Include="MealTagBLL.cs" />
     <Compile Include="MemberBLL.cs" />
+    <Compile Include="PointBLL.cs" />
 
     <Compile Include="NutrientBLL.cs" />
     <Compile Include="PostBLL.cs" />

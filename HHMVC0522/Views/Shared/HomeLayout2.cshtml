@@ -17,6 +17,11 @@
 
     <link rel="stylesheet" href="~/Content/css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    @*for waterLog*@
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    @*for waterLog Above*@
     <link href="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
 
 
@@ -77,8 +82,8 @@
     @*ForCustomerService==========================*@
 
     #chatPanel {
-        width: 300px;
-        height: 400px;
+        width: 340px;
+        height: 450px;
         position: fixed;
         bottom: 20px;
         right: 20px;
@@ -95,21 +100,11 @@
 
     .chatHeader {
         display: flex;
+        column-gap: 5px;
         padding: 10px;
         background-color: #f56a6a;
         color: white;
         margin:0px;
-    }
-
-    #notRead {
-        visibility:hidden;
-        margin-left: auto;
-        background-color: white;
-        color: #f56a6a;
-        padding: 5px 7px;
-        line-height: 1em;
-        height: calc(1em + 10px);
-        text-align: center;
     }
 
     #notReadForSidebar {
@@ -133,36 +128,36 @@
         margin: 5px auto;
     }
 
-    #collapse {
-        background-color: white;
-        color: #f56a6a;
-        padding: 5px;
-        line-height: 1em;
-        height: calc(1em + 10px);
-        text-align: center;
+    #notRead {
+        visibility: hidden;
+        margin-left: auto;
     }
 
-    #closePanel {
+    #notRead, #collapse, #showChatModal, #closePanel {
+        display:flex;
+        justify-content:center;
+        align-items:center;
         background-color: white;
         color: #f56a6a;
-        padding: 5px 7px;
-        line-height: 1em;
-        height: calc(1em + 10px);
-        text-align: center;
+        border-radius: 2px;
+        width: 25px;
+        height: 25px;
     }
 
     .chatBody {
         border-bottom: solid 1px gray;
-        flex-basis: 100%;
-        background-color:white;
+        flex: 1 1 0;
+        min-height: 0;
+        background-color: white;
     }
 
     #serviceChatBox {
         position: relative;
-        height: 290px;
+        height: 100%;
         overflow: auto;
         scroll-behavior: smooth;
         padding:0px 5px;
+        border:none;
     }
 
     .messageRow {
@@ -197,29 +192,54 @@
 
     .selfText, .otherText {
         padding: 5px;
-        width:100%;
+        /*width:100%;*/
         margin: 0px;
+        color: white !important;
     }
 
-    .selfText a:link, .otherText a:link, .selfText a:visited, .otherText a:visited {
+    .selfText p, .otherText p {
+        margin-bottom: 0px;
+    }
+
+    .selfText ul, .otherText ul {
+        margin-left:10px;
+        margin-bottom: 0px;
+    }
+
+    .selfText ul li, .otherText ul li {
+        padding-left: 0px;
+    }
+
+    .selfText strong, .otherText strong {
+        color: white !important;
+    }
+
+    .promptDiv a:link, .promptDiv a:visited, .selfText a:link, .otherText a:link, .selfText a:visited, .otherText a:visited {
         color: white;
         text-decoration: underline;
     }
 
-    .selfText a:hover, .otherText a:hover {
+    .promptDiv a:hover, .selfText a:hover, .otherText a:hover {
         color: aqua !important;
     }
 
     .ArrowToLeft, .ArrowToRight {
+        display:flex;
+        align-items: center;
         position:relative;
-        width:100%;
+        width:80%;
+    }
+
+    .ArrowToRight {
+        flex-direction:row-reverse;
     }
 
     .ArrowToLeft::before {
         content: "\25C2";
-        color: plum;
+        color: #B15BFF;
         position: absolute;
         left: -9px;
+        top: 0.25em;
     }
 
     .ArrowToRight::after {
@@ -227,6 +247,7 @@
         color: #f56a6a;
         position: absolute;
         right: -9px;
+        top: 0.25em;
     }
 
     .textDiv {
@@ -237,6 +258,97 @@
 
     .textDiv.reverse {
         flex-direction:row-reverse;
+    }
+
+    .promptDiv {
+        display:flex;
+        justify-content:center;
+        margin: 5px 0px;
+        padding: 0px 0px 5px 0px;
+    }
+
+    .promptButton {
+        width: max-content;
+        background-color: #2894FF;
+        color: white;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .nameAndTime {
+        display:flex;
+        flex-basis: 100%;
+        align-items: baseline;
+    }
+
+    .nameAndTime.right {
+        flex-direction:row-reverse;
+    }
+
+    .name {
+        font-size: 1.2em;
+    }
+
+    .timeStamp {
+        font-size: 0.4em;
+        font-style: italic;
+        margin: 0px 5px;
+    }
+
+    #sendServiceMessage {
+        font-size: 1em;
+        width: 80px;
+        height: 44px;
+        line-height: 44px;
+        text-align: center;
+        padding: 0px;
+    }
+    @*Modal============================================*@
+    /* The Modal (background) */
+    #chatModal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+        justify-content: center;
+        align-items: center;
+    }
+
+    #chatPanel.ModalChatPanel {
+        bottom: unset;
+        right: unset;
+        width: calc(50% + 3px);
+        height: calc(60% + 1px) !important;
+        box-shadow: none;
+    }
+
+    #chatPanel.ModalChatPanel .chatHeader {
+        font-size: 1.2em;
+    }
+
+    #chatPanel.ModalChatPanel #sendServiceMessage {
+        font-size: 1.2em;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    #chatPanel.ModalChatPanel #serviceChatBox {
+        font-size: 1.2em;
+    }
+
+    #chatPanel.ModalChatPanel #serviceMessage {
+        font-size: 1.2em;
+    }
+
+    #chatPanel.ModalChatPanel .notReadText {
+        font-size: 1.1em;
     }
 
     @*ForScrollbar=====================================*@
@@ -265,6 +377,7 @@
         a {
             border-bottom: none;
         }
+
         img {
             border-radius: 15px 15px;
         }
@@ -296,20 +409,21 @@
         .demoService {
             display: flex;
             position: fixed;
-            left: 35em !important;
+            left: 45em !important;
             bottom: 50px;
             column-gap:10px;
+            z-index: 100;
         }
 
         .demoButtonService {
-            background-color: darkseagreen;
+            background-color: #D0D0D0;
             color: white;
             padding: 5px;
             border-radius: 10px;
         }
 
         .loginButton {
-            background-color: darksalmon;
+            background-color: #BEBEBE;
             color: white;
             padding: 5px;
             border-radius: 10px;
@@ -348,7 +462,7 @@
         <!-- Main -->
         <div id="main">
             <div class="inner">
-               
+
                 @RenderBody()
             </div>
         </div>
@@ -382,8 +496,10 @@
                                             <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>
                                         }
                                     </li>
-                                    <li><a href="#" style="text-decoration:none"><i class="fas fa-chart-area" style="width:30px"></i> 綜合圖表</a></li>
+                                    <li><a href="~/HHHealthReport/HealthReport" style="text-decoration:none"><i class="fas fa-chart-bar" style="width:30px"></i> 綜合圖表</a></li>
+
                                     <li><a href="~/Home2/UserPoints" style="text-decoration:none"><i class="fas fa-coins" style="width:30px"></i> 儲值管理</a></li>
+
 
                                 </ul>
 
@@ -407,7 +523,11 @@
 
                             </li>
 
+                            <li>
+                                <span data-toggle="modal" data-target=".bd-example-modal-lg" id="btnWaterLogPro"><i class="fas fa-tint" style="width:30px"></i> 補水計畫</span>
 
+
+                            </li>
                             <li>
                                 <span class="opener"><i class="fas fa-dumbbell" style="width:30px"></i> 運動</span>
                                 <ul>
@@ -422,11 +542,24 @@
                                         }
                                     </li>
 
+
+
                                 </ul>
 
                             </li>
 
-                            <li><a href="~/HHDiet/Create" style="text-decoration:none"><i class="fas fa-fist-raised" style="width:30px"></i> 挑戰</a></li>
+                            <li>
+                                <span class="opener"><i class="fas fa-fist-raised" style="width:30px"></i> 挑戰</span>
+                                <ul>
+
+                                    <li><a href="~/HHPrograms/RegisterProgram" style="text-decoration:none"><i class="fas fa-pen-nib" style="width:30px"></i> 減脂計畫</a></li>
+
+
+
+                                </ul>
+
+                            </li>
+
  
                             if (Session["InProgram"] != null && (bool)Session["InProgram"])
                             {
@@ -496,16 +629,20 @@
     </div>
     <!--=============================================================-->
     <!--CustomerService==============================================-->
+    <div id="chatModal"></div>
     <div id="chatPanel" style="display:none">
         <div class="chatHeader">
             <div>聯絡客服：</div>
-            <div id="notRead" class="button">
+            <div id="notRead">
                 <span></span>
             </div>
-            <div id="collapse" class="button">
+            <div id="collapse">
                 <i class="fas fa-minus"></i>
             </div>
-            <div id="closePanel" class="button">
+            <div id="showChatModal">
+                <i class="fas fa-expand-arrows-alt"></i>
+            </div>
+            <div id="closePanel">
                 <i class="fas fa-times"></i>
             </div>
         </div>
@@ -520,28 +657,205 @@
             <div id="sendServiceMessage" class="button primary">送出</div>
         </div>
     </div>
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+
+                <div class="modal-header" style="display:flex; justify-content:center">
+                    <h3 class="modal-title" id="exampleModalLabel">今天喝水了嗎 <span></span></h3>
+                </div>
+                <div class="modal-body">
+                    <form id="FrmWaterLog" name="WaterLog">
+                        <input type="hidden" id="MemberID" name="MemberID" value="@Session["ID"]" />
+                        <div class="form-group">
+                            <label for="numWaterAmount">請輸入喝水量</label>
+                            <div class=" row">
+                                <div class="col-10">
+                                    <input class="form-control fit" type="number" name="WaterAmount" id="numWaterAmount" placeholder="單位: 毫升" />
+                                </div>
+                                <div class="col-2">
+                                    <input type="button" class="btn btn-default fit" id="btnSendWaterLog" value="送出" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <canvas id="WaterPro" height="100" width="200"></canvas>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default fit" data-dismiss="modal" id="btnSendWaterLog" value="關閉" />
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+
     <!--=============================================================-->
     <!--ForServiceDemo===============================================-->
     @*<div class="demoService">
-        <div class="demoButtonService" onclick="autoInputMsgs1()">enchi</div>
-        <div class="demoButtonService" onclick="autoInputMsgs2()">wevmn</div>
-        <div class="loginButton" onclick="login1()">enchi</div>
-        <div class="loginButton" onclick="login2()">wevmn</div>
-        <div class="loginButton" onclick="login3()">frank</div>
-        <div class="loginButton" onclick="login4()">zzzz</div>
-        <div class="loginButton" onclick="login5()">Wily</div>
+        <div class="demoButtonService" onclick="autoInputForService(msgs1)">阿舊</div>
+        <div class="loginButton" onclick="login1()">阿舊</div>
+        <div class="loginButton" onclick="login2()">路飛</div>
+        <div class="loginButton" onclick="login3()">索隆</div>
+        <div class="loginButton" onclick="login4()">山治</div>
+        <div class="loginButton" onclick="login5()">frank</div>
+        <div class="loginButton" onclick="login6()">zzzz</div>
     </div>*@
     <!--=============================================================-->
     <!-- Scripts -->
-   
+
     <script src="~/Content/js/jquery.min.js"></script>
     <script src="~/Content/js/browser.min.js"></script>
     <script src="~/Content/js/breakpoints.min.js"></script>
     <script src="~/Content/js/util.js"></script>
     <script src="~/Content/js/main.js"></script>
+    @*for waterLog*@
+    <script src="~/Content/js/chart.min.js"></script>   @*FOR WATERLOG*@
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>   @*FOR WATERLOG*@
     <script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
+
+    
+
+    <script>
+
+        //========================BELOW WATERLOG=======================
+    $("#btnWaterLogPro").on("click", () => {
+            fetch('@Url.Action("GetWeeklyWateLogChartDatas", "HHApi_WaterLog")?memberId=' +@Session["ID"] + '&date='+ "@DateTime.Now.ToString(CDictionary.MMddyyyy)", {
+                method: "GET",
+            }).then(response => response.json()).then(datas => {
+                RenderWeeklyWaterLogsChart_Suggested(WaterProChar, datas.WeeklyWaterLogSuggestedRanges)
+                RenderWeeklyWaterLogsChart_Gained(WaterProChar, datas.WeeklyWaterLogGaineds)
+
+            })
+
+        })
+
+
+
+
+    $("#btnSendWaterLog").on("click", () => {
+
+
+        const formData = new FormData(document.WaterLog)
+
+            fetch('@Url.Action("SendWaterLog", "HHApi_WaterLog")', {
+                method: "POST",
+                body: formData
+            }).then(response => response.json()).then(updatedWaterLog => {
+                RenderWeeklyWaterLogsChart_Gained(WaterProChar, updatedWaterLog)
+
+
+            })
+        $("#numWaterAmount").val("");
+    })
+
+    function RenderWeeklyWaterLogsChart_Suggested(chart, datas)
+    {
+
+        chart.data.datasets[0].data = datas[0]
+        chart.data.datasets[2].data = datas[1]
+
+        chart.update();
+
+    }
+
+
+
+    function RenderWeeklyWaterLogsChart_Gained(chart, datas) {
+
+        chart.data.datasets[1].data = datas
+        chart.update();
+    }
+
+
+    var WaterProChartEle = document.getElementById('WaterPro').getContext('2d')
+
+        var WaterProChar = new Chart(WaterProChartEle, {
+            type: 'line',
+            data: {
+                labels: ['周一', '周二','周三', '周四', 'ˋ周五', '周六', '周日'],
+                datasets: [{
+                    label: '建議攝取下限(單位: 毫升)',
+                    backgroundColor: [
+                        "rgba(220,220,220,0.3)"
+
+                    ],
+                    borderColor: [
+                        'rgba(220,220,220,0)',
+                    ],
+                    fill: true,
+                    lineTension: 0.5,
+                    radius: 0
+                },
+                    {
+                        label: '攝取量(單位: 毫升)',
+                        fill: true,
+                        lineTension: 0.5,
+                        radius: 0,
+                        backgroundColor: [
+                            "rgba(0, 76, 153,0.3)"
+
+                        ],
+                        borderColor: [
+                            'rgba(0, 89, 179,1)',
+                        ],
+                        borderWidth: 3
+
+                    },
+                    {
+                        label: '建議攝取上限(單位: 毫升)',
+                        backgroundColor: [
+                            "rgba(220,220,220,0.3)"
+
+                        ],
+                        borderColor: [
+                            'rgba(220,220,220,0)',
+                        ],
+                        fill: true,
+                        lineTension: 0.5,
+                        radius: 0,
+
+                    }
+
+                ]
+            },
+
+            options: {
+                responsive: true,
+
+                scale: {
+                    min: 0,
+                    //max: 4000,
+
+                },
+            },
+
+        });
+
+
+     //========================WATERLOG END=========================
+    </script>
+
+
+
+
+    @*for waterLog Above*@
+
+
+
+
+    
 
     @RenderSection("Scripts", required: false)
 
@@ -632,8 +946,24 @@
             connect();
         }
 
+
+        let isChatPanelClose = false;
+
         $("#collapse").click(function () {
+
+            if ($("#showChatModal i.fa-expand-arrows-alt").length == 0) {
+                isChatPanelClose = true;
+                closeChatModal();
+                $(".notReadText").remove();
+                $("#chatPanel").css("height", "45px");
+                $(".chatBody").hide();
+                $(".chatFooter").hide();
+                $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
+                return;
+            }
+
             if ($("#collapse i.fa-minus").length != 0) {
+                isChatPanelClose = true;
                 $(".chatBody").fadeOut(100, function () {
                     $("#chatPanel").animate({ height: 45 }, function () {
                         $(".chatFooter").fadeOut(0, function () {
@@ -644,13 +974,14 @@
                 })
             } else {
                 $("#chatPanel").animate({ height: 400 }, function () {
+                    isChatPanelClose = false;
                     $(".chatFooter").fadeIn(600, function () {
                         $("#collapse i").removeClass("fas fa-plus").addClass("fas fa-minus");
                         $(".chatBody").fadeIn(function () {
                             if ($(".notReadText").length != 0) {
                                 $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
                             }
-                            $("#notRead").css("visibility", "hidden");
+                            
                             ResetNotReadCount();
                         });
                     });
@@ -661,8 +992,16 @@
         $("#closePanel").click(function () {
             $("#chatPanel").css("display", "none");
 
+            if ($("#showChatModal i.fa-expand-arrows-alt").length == 0) {
+                closeChatModal();
+                $(".notReadText").remove();
+                return;
+            }
+
             if ($("#collapse i.fa-minus").length != 0) {
                 $(".notReadText").remove();
+            } else if ($("#notRead span").text() != "0") {
+                showNotReadForSidebar($("#notRead span").text());
             }
             
         });
@@ -672,19 +1011,104 @@
             $("#serviceNotify").css("display", "none");
 
             if ($("#collapse i.fa-minus").length != 0) {
+
+                if (isChatPanelClose) {
+                    $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
+                }
+
                 if ($(".notReadText").length != 0) {
                     $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
                 } else {
-                    $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
-                }
 
-                $("#notRead").css("visibility", "hidden");
-                ResetNotReadCount();
+                    if ($(".messageRow").last().length != 0) {
+
+                        $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".messageRow").last().position().top);
+
+                    }
+
+                    ResetNotReadCount();
+                }
             }
 
         });
+
         //=============================================================
+        //prompt link
+        $("#serviceChatBox").on("click", ".promptDiv a", function () {
+            $.ajax({
+                url: "/FrontContact/SelectPrompt",
+                type: "POST",
+                data: {
+                    connId: $.connection.hub.id,
+                    groupId: $("#serviceGroupId").val(),
+                    qnaId: $(this).attr("data-qnaId")
+                }
+            });
+        });
+
+        //=============================================================
+        //expend chatPanel
+
+        let oldScrollTop = 0;
+
+        $("#showChatModal").click(function () {
+
+            oldScrollTop = $("#serviceChatBox").scrollTop();
+
+            if ($("#collapse i.fa-minus").length == 0) {
+                //isChatPanelClose = true;
+                openChatModal();
+                $("#chatPanel").addClass("ModalChatPanel");
+                $(".chatBody").show();
+                $(".chatFooter").show();
+                $("#collapse i").removeClass("fas fa-plus").addClass("fas fa-minus");
+
+                if ($(".notReadText").length != 0) {
+                    $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
+                } else {
+                    $("#serviceChatBox").scrollTop(oldScrollTop);
+                }
+
+                ResetNotReadCount();
+                
+            } else if ($("#showChatModal i.fa-expand-arrows-alt").length != 0) {
+                //isChatPanelClose = false;
+                openChatModal();
+                $("#serviceChatBox").scrollTop(oldScrollTop);
+            } else {
+                closeChatModal();
+                $(".notReadText").remove();
+                $("#chatPanel").css("height", "400px");
+                $(".chatBody").show();
+                $(".chatFooter").show();
+                $("#serviceChatBox").scrollTop(oldScrollTop);
+            }
+
+        });
+        
+        $("#chatModal").click(function (event) {
+            if (event.target == this) {
+                closeChatModal();
+                $(".notReadText").remove();
+                if (isChatPanelClose) {
+                    $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
+                }
+            }
+        });
+
     });
+
+    function openChatModal() {
+        $("#chatPanel").addClass("ModalChatPanel").appendTo($("#chatModal"));
+        $("#showChatModal i").removeClass("fa-expand-arrows-alt").addClass("fa-compress-arrows-alt");
+        $("#chatModal").css("display", "flex");
+    }
+
+    function closeChatModal() {
+        $("#chatModal").css("display", "none");
+        $("#showChatModal i").removeClass("fa-compress-arrows-alt").addClass("fa-expand-arrows-alt");
+        $("#chatPanel").removeClass("ModalChatPanel").insertAfter($("#chatModal"));
+    }
 
     function alertProgramFrozen(programFrozen) {
 
@@ -819,10 +1243,22 @@
                 $("#serviceNotify").css("display", "inline-block");
                 $("#notReadForSidebar").text(notReadCount);
             } else {
+
                 writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
-                $("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
+
+                if ($(".messageRow").last().length != 0) {
+                    $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".messageRow").last().position().top);
+                    console.log($(".messageRow").last().position().top);
+                }
+
                 ResetNotReadCount();
             }
+        }
+
+        //receive prompt
+        chat2.client.receivePrompt = function (displayText, qnaId) {
+            writePrompt(displayText, qnaId);
+            //$("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
         }
 
         $.connection.hub.start().done(function () {
@@ -841,26 +1277,31 @@
 
                 LoadMessagesForService(data.NotReadCount);
                 showNotReadForSidebar(data.NotReadCount);
-            });
 
-            $("#sendServiceMessage").click(function () {
+                $("#sendServiceMessage").click(function () {
 
-                if ($("#serviceMessage").val() == "") {
-                    alert("請輸入訊息");
-                    return;
-                }
-
-                p1 = $.ajax({
-                    url: "/FrontContact/SendMessage",
-                    type: "POST",
-                    data: {
-                        connId: $.connection.hub.id,
-                        groupId: $("#serviceGroupId").val(),
-                        message: $("#serviceMessage").val()
+                    if ($("#serviceMessage").val() == "") {
+                        alert("請輸入訊息");
+                        return;
                     }
-                }).promise();
-            });
 
+                    $.ajax({
+                        url: "/FrontContact/SendMessage",
+                        type: "POST",
+                        data: {
+                            connId: $.connection.hub.id,
+                            groupId: $("#serviceGroupId").val(),
+                            message: $("#serviceMessage").val()
+                        },
+                        success: function (data) {
+                            if (data.Result != "Success") {
+                                alert(data.Result);
+                            }
+                        }
+                    });
+                });
+            });
+            
             if (typeof AddToChatGroup != "undefined") {
                 AddToChatGroup();
             }
@@ -870,12 +1311,15 @@
 
     function writeForService(userName, message, isSelf, timeStamp, image) {
 
+        var mdConverter = new showdown.Converter();
+            message = mdConverter.makeHtml(message);
+
         if (isSelf) {
             let dialogDiv = $("<div></div>").addClass("messageRow");
 
-            $("<div></div>").css("flex-basis", "100%")
-                .append($("<span></span>").css("float", "left").text(userName))
-                .append($("<span></span>").css("float", "right").text(timeStamp))
+            $("<div></div>").addClass("nameAndTime")
+                .append($("<span></span>").addClass("name").text(userName))
+                .append($("<span></span>").addClass("timeStamp").text(timeStamp))
                 .appendTo(dialogDiv);
 
             let textDiv = $("<div></div>").addClass("textDiv");
@@ -887,7 +1331,7 @@
             let innerTextDiv = $("<div></div>").addClass("ArrowToLeft").css("margin-right", "auto");
 
             $("<div></div>").addClass("selfText")
-                .css("background-color", "plum").css("color", "white").css("border-color", "plum")
+                .css("background-color", "#B15BFF").css("border-color", "#B15BFF")
                 .html(message)
                 .appendTo(innerTextDiv);
 
@@ -901,9 +1345,9 @@
         } else {
             let dialogDiv = $("<div></div>").addClass("messageRow");;
 
-            $("<div></div>").css("flex-basis", "100%")
-                .append($("<span></span>").css("float", "right").text(userName))
-                .append($("<span></span>").css("float", "left").text(timeStamp))
+            $("<div></div>").addClass("nameAndTime right")
+                .append($("<span></span>").addClass("name").text(userName))
+                .append($("<span></span>").addClass("timeStamp").text(timeStamp))
                 .appendTo(dialogDiv);
 
             let textDiv = $("<div></div>").addClass("textDiv reverse");
@@ -915,7 +1359,7 @@
             let innerTextDiv = $("<div></div>").addClass("ArrowToRight").css("margin-left", "auto");
 
             $("<div></div>").addClass("otherText")
-                .css("background-color", "#f56a6a").css("color", "white").css("border-color", "#f56a6a")
+                .css("background-color", "#FF8040").css("border-color", "#FF8040")
                 .html(message)
                 .appendTo(innerTextDiv);
 
@@ -927,6 +1371,14 @@
 
         }
 
+    }
+
+    //write prompt
+    function writePrompt(displayText, qnaId) {
+        let promptDiv = $("<div></div>").addClass("promptDiv");
+        let prompt = $("<div></div>").addClass("promptButton").appendTo(promptDiv);
+        $("<a></a>").attr("data-qnaId", qnaId).append(displayText).appendTo(prompt);
+        $("#serviceChatBox").append(promptDiv);
     }
 
     //todo Load Group Messages
@@ -955,7 +1407,11 @@
         }
     }
 
-    function ResetNotReadCount(){
+    function ResetNotReadCount() {
+
+        $("#notRead").css("visibility", "hidden");
+        $("#notRead span").text("0");
+
         $.ajax({
             url: "/FrontContact/ResetNotReadCount",
             type: "POST",
@@ -992,45 +1448,22 @@
 
     //ForDemo================================
 
-    let p1;
+    //let promiseForDemo1;
 
-    function autoInputMsgs1() {
-        msgs = [
-            "請問有客服人員在嗎？",
-            "我遇到了減重的問題",
-            "我這週爆胖了5公斤"
-        ];
+    msgs1 = [
+        "請問客服人員，TDEE是什麼？",
+        "請問客服人員，聽說運動執行成功可獲得點數，除此之外還有其他方法嗎？"
+    ];
 
-        autoInputForService(msgs);
-    }
 
-    function autoInputMsgs2() {
-        msgs = [
-            "客服人員給我出來",
-            "我想請你喝飲料",
-            "謝謝你幫我減了1公斤"
-        ];
-
-        autoInputForService(msgs);
-    }
-
-    function autoInputForService(msgs) {
-        $("#serviceMessage").val(msgs[0]);
+    async function autoInputForService(msgs) {
+        $("#serviceMessage").val(msgs.shift());
         $("#sendServiceMessage").click();
-        p1.then(function () {
-            $("#serviceMessage").val(msgs[1]);
-            $("#sendServiceMessage").click()
-            return p1;
-        })
-        .then(function () {
-            $("#serviceMessage").val(msgs[2]);
-            $("#sendServiceMessage").click()
-        });
     }
 
     function login1() {
-        $("#demo-email").val("bvwr@gmail.com");
-        $("#demo-pwd").val("2222");
+        $("#demo-email").val("Aju@gmail.com");
+        $("#demo-pwd").val("1111");
     }
 
     function login2() {
@@ -1039,19 +1472,25 @@
     }
 
     function login3() {
+        $("#demo-email").val("bvwr@gmail.com");
+        $("#demo-pwd").val("2222");
+    }
+
+    function login4() {
+        $("#demo-email").val("afjafe@gmail.com");
+        $("#demo-pwd").val("1");
+    }
+
+    function login5() {
         $("#demo-email").val("Frank666@gmail.com");
         $("#demo-pwd").val("1111");
     }
 
-    function login4() {
+    function login6() {
         $("#demo-email").val("zzzz@gmail.com");
         $("#demo-pwd").val("444");
     }
 
-    function login5() {
-        $("#demo-email").val("yyy@gmail.com");
-        $("#demo-pwd").val("222");
-    }
 </script>
 </body>
 </html>
