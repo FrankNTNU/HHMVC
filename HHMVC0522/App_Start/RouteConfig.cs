@@ -34,8 +34,19 @@ namespace HHMVC0522
               name: "DeleteComment",
               url: "{controller}/{action}/{ID}",
               defaults: new { controller = "Home2", action = "DeleteComment", ID = UrlParameter.Optional }
-            );
+          );
             
+            routes.MapRoute(
+               name: "Default",
+               url: "{controller}/{action}/{id}",
+               defaults: new { controller = "Home2", action = "Index", id = UrlParameter.Optional },
+               namespaces: new[]{"UI.Controllers"}
+           );
+
+
+
+
+
         }
     }
 }

@@ -75,6 +75,7 @@
         <AssociationConnector Association="HealthHelperModel.FK_Preference_WorkoutCategories" ManuallyRouted="false" />
         <AssociationConnector Association="HealthHelperModel.FK_Workouts_WorkoutCategories" ManuallyRouted="false" />
         <AssociationConnector Association="HealthHelperModel.FK_WorkoutLog_Workouts" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HealthHelperModel.Order" Width="1.5" PointX="0.75" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

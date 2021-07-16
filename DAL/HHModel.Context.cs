@@ -57,5 +57,6 @@ namespace DAL
         public virtual DbSet<WorkoutLog> WorkoutLogs { get; set; }
         public virtual DbSet<WorkoutPreference> WorkoutPreferences { get; set; }
         public virtual DbSet<Workout> Workouts { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
     }
 }

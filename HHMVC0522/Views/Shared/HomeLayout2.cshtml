@@ -481,47 +481,49 @@
                         <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-home" style="width:30px"></i> 首頁</a></li>
                         @if (Session["ID"] == null)
                         {
-                            <li><a href="~/Home2/Login" style="text-decoration:none"> <i class="fas fa-user" style="width:30px"></i> 登入</a></li>
-                        }
-                        else
-                        {
+                    <li><a href="~/Home2/Login" style="text-decoration:none"> <i class="fas fa-user" style="width:30px"></i> 登入</a></li> }
+                                else
+                                {
+                    <li>
+                        <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
+                        <ul>
                             <li>
-                                <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
+                                <span class="opener"><i class="fas fa-id-card" style="width:30px"></i> 會員資訊</span>
                                 <ul>
-                                    <li><a href="~/Member/EditMember?ID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 會員資訊</a></li>
-                                    <li>
-                                        <a href="~/Weight/WeightLog" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-weight" style="width:30px"></i> 體重管理</a>
-                                        @if (Session["NoWeightLog"] != null && (bool)Session["NoWeightLog"])
-                                        {   //if last 7 days has no weightlog, show this icon
-                                            <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>
-                                        }
-                                    </li>
-                                    <li><a href="~/HHHealthReport/HealthReport" style="text-decoration:none"><i class="fas fa-chart-bar" style="width:30px"></i> 綜合圖表</a></li>
-
-                                    <li><a href="~/Home2/UserPoints" style="text-decoration:none"><i class="fas fa-coins" style="width:30px"></i> 儲值管理</a></li>
+                                    <li><a href="~/Member/EditMember?ID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-user-edit" style="width:30px"></i> 資訊修改</a></li>
+                                    <li><a style="text-decoration:none" id="btnChangePwd" data-toggle="modal" data-target="#myModal"><i class="fas fa-edit" style="width:30px"></i> 密碼修改</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="~/Weight/WeightLog" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-weight" style="width:30px"></i> 體重管理</a>
+                                @if (Session["NoWeightLog"] != null && (bool)Session["NoWeightLog"])
+                                {   //if last 7 days has no weightlog, show this icon
+                    <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>}
+                            </li>
+                            <li><a href="~/HHHealthReport/HealthReport" style="text-decoration:none"><i class="fas fa-chart-bar" style="width:30px"></i> 綜合圖表</a></li>
+                            <li><a href="~/Home2/UserPoints" style="text-decoration:none"><i class="fas fa-coins" style="width:30px"></i> 點數管理</a></li>
 
 
                                 </ul>
 
-                            </li>
-                        }
+                    </li>}
                         <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-book" style="width:30px"></i> 遊戲規則</a></li>
 
 
                         @if (Session["ID"] != null)
                         {
 
-                            <li>
-                                <span class="opener"><i class="fas fa-utensils" style="width:30px"></i> 飲食</span>
-                                <ul>
+                    <li>
+                        <span class="opener"><i class="fas fa-utensils" style="width:30px"></i> 飲食</span>
+                        <ul>
 
-                                    <li><a href="~/HHDiet/Create" style="text-decoration:none"><i class="fas fa-pen" style="width:30px"></i> 紀錄飲食</a></li>
+                            <li><a href="~/HHDiet/Create" style="text-decoration:none"><i class="fas fa-pen" style="width:30px"></i> 紀錄飲食</a></li>
 
-                                    <li><a href="~/HHDietHistory/DietLogsHistory" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 飲食歷史</a></li>
+                            <li><a href="~/HHDietHistory/DietLogsHistory" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 飲食歷史</a></li>
 
-                                </ul>
+                        </ul>
 
-                            </li>
+                    </li>
 
                             <li>
                                 <span data-toggle="modal" data-target=".bd-example-modal-lg" id="btnWaterLogPro"><i class="fas fa-tint" style="width:30px"></i> 補水計畫</span>
@@ -532,21 +534,20 @@
                                 <span class="opener"><i class="fas fa-dumbbell" style="width:30px"></i> 運動</span>
                                 <ul>
 
-                                    <li><a href="~/Workout/WorkoutLog" style="text-decoration:none"><i class="fas fa-clipboard-list" style="width:30px"></i> 運動紀錄</a></li>
-                                    <li><a href="~/Workout/WorkoutSchedule" style="text-decoration:none"><i class="fas fa-running" style="width:30px"></i> 運動排程</a></li>
-                                    <li>
-                                        <a href="~/Workout/WorkoutPreferences" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-star" style="width:30px"></i> 喜好管理</a>
-                                        @if (Session["NoPreferences"] != null && (bool)Session["NoPreferences"])
-                                        {   //if last 7 days has no weightlog, show this icon
-                                            <i id="preferencesNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>
-                                        }
-                                    </li>
+                                            <li><a href="~/Workout/WorkoutLog" style="text-decoration:none"><i class="fas fa-clipboard-list" style="width:30px"></i> 運動紀錄</a></li>
+                                            <li><a href="~/Workout/WorkoutSchedule" style="text-decoration:none"><i class="fas fa-running" style="width:30px"></i> 運動排程</a></li>
+                                            <li>
+                                                <a href="~/Workout/WorkoutPreferences" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-star" style="width:30px"></i> 喜好管理</a>
+                                                @if (Session["NoPreferences"] != null && (bool)Session["NoPreferences"])
+                                                {   //if last 7 days has no weightlog, show this icon
+                                <i id="preferencesNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>}
+                                            </li>
 
 
 
                                 </ul>
 
-                            </li>
+                                    </li>
 
                             <li>
                                 <span class="opener"><i class="fas fa-fist-raised" style="width:30px"></i> 挑戰</span>
@@ -573,8 +574,7 @@
                                 <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 禮物店</a></li>
                                 @if (Session["ID"] != null)
                                 {
-                                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 已兌換禮物</a></li>
-                                }
+                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 已兌換禮物</a></li>}
 
                             </ul>
                         </li>
@@ -585,33 +585,56 @@
                                 @if (Session["ID"] != null)
                                 {
 
-                                    <li><a href="~/FrontPost/UserPostList" style="text-decoration:none"><i class="fas fa-user-edit" style="width:30px"></i> 我的貼文</a></li>
-                                }
+                    <li><a href="~/FrontPost/UserPostList" style="text-decoration:none"><i class="fas fa-user-edit" style="width:30px"></i> 我的貼文</a></li>}
                             </ul>
                         </li>
                         @if (Session["ID"] != null)
                         {
-                            <li style="position:relative">
-                                <a id="showContact" style="text-decoration:none; width:fit-content; display:inline-block"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a>
-                                <i id="serviceNotify" class="fa fa-comment" style="color: #f56a6a; display: none; position: relative; top:-7px; left: -3px; font-size: 25px;"></i><div id="notReadForSidebar"></div>
-                            </li>
+                    <li style="position:relative">
+                        <a id="showContact" style="text-decoration:none; width:fit-content; display:inline-block"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a>
+                        <i id="serviceNotify" class="fa fa-comment" style="color: #f56a6a; display: none; position: relative; top:-7px; left: -3px; font-size: 25px;"></i><div id="notReadForSidebar"></div>
+                    </li>}
+                        @if (Session["IsAdmin"]!=null)
+                        {
+                            if ((bool)Session["IsAdmin"])
+                            {
+                              <li><a href="~/Admin/Login/Index" style="text-decoration:none"><i class="fas fa-user-cog" style="width:30px"></i> 後台</a></li>}
                         }
 
                         @if (Session["ID"] != null)
                         {
-                            <li><a href="~/Admin/Login/Index" style="text-decoration:none"><i class="fas fa-user-cog" style="width:30px"></i> 後台</a></li>
-                        }
-
-                        @if (Session["ID"] != null)
-                        {
-                            <li><a href="~/Home2/Logout" style="text-decoration:none"><i class="fas fa-sign-out-alt" style="width:30px"></i> 登出</a></li>
-                        }
+                    <li><a href="~/Home2/Logout" style="text-decoration:none"><i class="fas fa-sign-out-alt" style="width:30px"></i> 登出</a></li>}
 
                     </ul>
                 </nav>
             </div>
         </div>
 
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style=" text-align:start">修改密碼</h4>
+                    <i class="fas fa-times-circle" data-dismiss="modal" style="font-size: 20px;cursor: pointer"></i>
+                    
+                </div>
+                <div class="modal-body">
+                    <input type="text" placeholder="請輸入舊密碼" style="margin-bottom:10px" id="oldPwd" /><br />
+                    <label id="error1" style="color:red"></label>
+                    <input type="text" placeholder="請輸入新密碼" style="margin-bottom:10px" id="newPwd" /><br />
+                    <input type="text" placeholder="確認新密碼" id="checkPwd" />
+                    <label id="error2" style="color:red"></label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="button primary" data-dismiss="modal" id="btnSubmitPwd">提交</button>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <!--dialog=======================================================-->
@@ -1003,7 +1026,7 @@
             } else if ($("#notRead span").text() != "0") {
                 showNotReadForSidebar($("#notRead span").text());
             }
-            
+
         });
 
         $("#showContact").click(function () {
@@ -1492,5 +1515,44 @@
     }
 
 </script>
+    }
+        //=====郁陞=====
+        $("#oldPwd").focusout(function () {
+            let oldPassword = $("#oldPwd").val();
+            console.log(oldPassword);
+            $.ajax({
+
+                url:"../Home2/CheckOldPwd",
+                type: "POST",
+                data: { oldPassword: oldPassword },
+                success: function (result) {
+                    if (!result) 
+                        $("#error1").text("舊密碼不對")
+                    else
+                        $("#error1").text("")
+                    }
+            })
+        })
+        $("#checkPwd").focusout(function () {
+            let checkPwd = $("#checkPwd").val();
+            let newPwd = $("#newPwd").val();
+            if (checkPwd != newPwd)
+                $("#error2").text("輸入密碼與新密碼不同")
+            else
+                $("#error2").text("")
+        })
+        $("#btnSubmitPwd").on("click", function () {
+            let newPwd = $("#newPwd").val();
+            $.ajax({
+                url: "../Home2/ChangePwd",
+                type:"POST",
+                data: { newPassword: newPwd },
+                success: function () {
+                    console.log("我進來了");
+                    window.alert("密碼已成功更新");
+                    }
+            })
+        })
+    </script>
 </body>
 </html>

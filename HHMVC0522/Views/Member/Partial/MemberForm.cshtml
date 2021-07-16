@@ -1,166 +1,198 @@
 ﻿
 @model DTO.MemberDTO
 <div class="box-body">
+    @if (ViewBag.IsUpdate == "true")
+    { }
+    else
+    {
+        <input type="button" id="btnDemo" name="btnDemo" value="Demo" />@*<input type="button" id="btnDemo2" name="btnDemo2" value="Demo2" />*@
+    }
+
     <div class="form-group">
         <label>使用者名稱</label>
-        @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "使用者名稱(作為登入帳號使用)" })
+        @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "使用者名稱(作為登入帳號使用)", @id = "txtUserName" })
         @Html.ValidationMessageFor(x => x.UserName, "", new { @style = "color:red" })
     </div>
-    <div class="form-group">
-        <label>密碼</label>
-        @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @placeholder = "密碼", @type = "password" })
-        @Html.ValidationMessageFor(x => x.Password, "", new { @style = "color:red" })
-    </div>
-    <div class="form-group">
-        <label>確認密碼</label>
-        @Html.TextBoxFor(x => x.RePassword, new { @class = "form-control", @placeholder = "再輸入一次密碼", @type = "password" })
-        @Html.ValidationMessageFor(x => x.RePassword, "", new { @style = "color:red" })
-    </div>
-    <div class="form-group">
-        <label>名稱</label>
-        @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "顯示名稱(他人看到的名稱)" })
-        @Html.ValidationMessageFor(x => x.Name, "", new { @style = "color:red" })
-    </div>
-    @if (ViewBag.Isupdate=="true")
+    @if (ViewBag.IsUpdate == "true")
     {
-        <label>使用者帳號(E-mail)</label>
-        <div class="row">
-            <div class="col-6">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    </div>
-                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "電子郵件", @type = "email", @id = "txtEmail", @readonly = "readonly" })
-                </div>
-                @Html.ValidationMessageFor(x => x.Email, "", new { @style = "color:red" })
-            </div>
-            <div class="col-6">
-                <label id="errorEmail"></label>
-            </div>
+        <div class="form-group">
+            <label hidden>密碼</label>
+            @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @placeholder = "密碼", @id = "txtPassword", @type="Hidden"})
+            @Html.ValidationMessageFor(x => x.Password, "", new { @style = "color:red" })
+        </div>
+        <div class="form-group">
+            <label hidden>確認密碼</label>
+            @*<input type="text" name="RePassword" placeholder = "再輸入一次密碼"/>*@
+            @Html.TextBoxFor(x => x.RePassword, new { @class = "form-control", @placeholder = "再輸入一次密碼", @type = "hidden", @id = "txtRePwd" })
+            @Html.ValidationMessageFor(x => x.Password, "", new { @style = "color:red" })
         </div>
     }
     else
     {
-        <label>E-mail</label>
-        <div class="row">
-            <div class="col-6">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    </div>
-                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "電子郵件", @type = "email", @id = "txtEmail"})
-                </div>
-                @Html.ValidationMessageFor(x => x.Email, "", new { @style = "color:red" })
-            </div>
-            <div class="col-6">
-                <label id="errorEmail"></label>
-            </div>
+        <div class="form-group">
+            <label>密碼</label>
+            @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @placeholder = "密碼", @type = "password", @id = "txtPassword" })
+            @Html.ValidationMessageFor(x => x.Password, "", new { @style = "color:red" })
+        </div>
+        <div class="form-group">
+            <label>確認密碼</label>
+            @Html.TextBoxFor(x => x.RePassword, new { @class = "form-control", @placeholder = "再輸入一次密碼", @type = "password", @id = "txtRePwd" })
+            @Html.ValidationMessageFor(x => x.RePassword, "", new { @style = "color:red" })
         </div>
     }
-<div class="row">
-    <div class="col-sm-6">
-        <div class="form-group">
-            <label>生日</label>
-            @Html.TextBoxFor(x => x.BirthDate, "{0:yyyy/MM/dd}", new { @class = "form-control", @placeholder = "2000/01/01" })
-        </div>
-        @Html.ValidationMessageFor(x => x.BirthDate, "", new { @style = "color:red" })
-    </div>
-    <div>
-    </div>
-    
-    <div class="col-sm-6">
-        <div class="form-group">
-            <label>性別</label>
-            <div class="form-check" style="padding:0">
-                <div class="row">
-                    <div class="col-6" style="background-color:aqua">
-                        @Html.RadioButtonFor(x => x.Gender, "True", new { @id = "male" })
-                        @Html.Label("male", "男")
-                    </div>
-                    <div class="col-6" style="background-color:lightpink">
-                        @Html.RadioButtonFor(x => x.Gender, "False", new { @id = "female" })
-                        @Html.Label("female", "女")
-                    </div>
-                </div>
-            </div>
-        </div>
-        @Html.ValidationMessageFor(x => x.Gender, "", new { @style = "color:red" })
-    </div>
-    <div class="col-sm-6">
-        <div class="form-group">
-            <label>身高</label>
-            @Html.TextBoxFor(x => x.Height, new { @class = "form-control", @placeholder = "身高(公分)" })
-            @Html.ValidationMessageFor(x => x.Height, "", new { @style = "color:red" })
-        </div>
-    </div>
-</div>
     <div class="form-group">
-        <label>手機號碼</label>
-        @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "手機/電話號碼" })
-        @Html.ValidationMessageFor(x => x.Phone, "", new { @style = "color:red" })
+            <label>名稱</label>
+            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "顯示名稱(他人看到的名稱)", @id = "txtName" })
+            @Html.ValidationMessageFor(x => x.Name, "", new { @style = "color:red" })
     </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <!-- select -->
-            <div class="form-group">
-                <label>運動強度</label>
-                @Html.DropDownList("ActivityLevelID", Model.ActivityLevels, "選擇運動強度", new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.ActivityLevelID, "", new { @style = "color:red" })
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="form-group">
-                <label>一日餐數</label>
-                @Html.TextBoxFor(x => x.MealCount, new { @class = "form-control", @placeholder = "一日食用餐數(1~5)" })
-                @Html.ValidationMessageFor(x => x.MealCount, "", new { @style = "color:red" })
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="form-group">
-                <label>體重</label>
-                @Html.TextBoxFor(x => x.Weight, new { @class = "form-control", @placeholder = "體重（公斤）" })
-                @Html.ValidationMessageFor(x => x.Weight, "", new { @style = "color:red" })
-            </div>
-        </div>
-    </div>
-    <div>
-
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="form-group">
-                @Html.LabelFor(x => x.UserImage)
-                <label>(建議照片長寬比為1:1)</label>
-                <div class="input-group">
-                    <div class="custom-file">
-                        <input type="file" name="UserImage" class="custom-file-input" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#UserImage')[0].src = window.URL.createObjectURL(this.files[0])" />
-                        <label class="custom-file-label" for="UserImage">選擇圖片</label>
+   @if (ViewBag.IsUpdate == "true")
+        {
+            <label>使用者帳號(E-mail)</label>
+            <div class="row">
+                <div class="col-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        </div>
+                        @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "電子郵件", @type = "email", @id = "txtEmail", @readonly = "readonly" })
                     </div>
-                    <br />
+                    @Html.ValidationMessageFor(x => x.Email, "", new { @style = "color:red" })
+                </div>
+                <div class="col-6">
+                    <label id="errorEmail"></label>
+                </div>
+            </div>
+        }
+        else
+        {
+            <label>E-mail</label>
+            <div class="row">
+                <div class="col-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        </div>
+                        @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "電子郵件", @type = "email", @id = "txtEmail" })
+                    </div>
+                    @Html.ValidationMessageFor(x => x.Email, "", new { @style = "color:red" })
+                </div>
+                <div class="col-6">
+                    <label id="errorEmail"></label>
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>生日</label>
+                    @Html.TextBoxFor(x => x.BirthDate, "{0:yyyy/MM/dd}", new { @class = "form-control", @placeholder = "2000/01/01", @id = "txtBirthday" })
+                </div>
+                @Html.ValidationMessageFor(x => x.BirthDate, "", new { @style = "color:red" })
+            </div>
+            <div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>性別</label>
+                    <div class="form-check" style="padding:0">
+                        <div class="row">
+                            <div class="col-6" @*style="background-color:aqua"*@>
+                                @Html.RadioButtonFor(x => x.Gender, "True", new { @id = "male" })
+                                @Html.Label("male", "男")
+                            </div>
+                            <div class="col-6" @*style="background-color:lightpink"*@>
+                                @Html.RadioButtonFor(x => x.Gender, "False", new { @id = "female" })
+                                @Html.Label("female", "女")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(x => x.Gender, "", new { @style = "color:red" })
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>身高</label>
+                    @Html.TextBoxFor(x => x.Height, new { @class = "form-control", @placeholder = "身高(公分)", @id = "txtHeight" })
+                    @Html.ValidationMessageFor(x => x.Height, "", new { @style = "color:red" })
                 </div>
             </div>
         </div>
-
-        <div class="col-sm-6">
-            @if (Model != null && Model.ImagePath != null) // Update image.
+        <div class="form-group">
+            <label>手機號碼</label>
+            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "手機/電話號碼", @id = "txtPhone" })
+            @Html.ValidationMessageFor(x => x.Phone, "", new { @style = "color:red" })
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <!-- select -->
+                <div class="form-group">
+                    <label>運動強度</label>
+                    @Html.DropDownList("ActivityLevelID", Model.ActivityLevels, "選擇運動強度", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.ActivityLevelID, "", new { @style = "color:red" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>一日餐數</label>
+                    @Html.TextBoxFor(x => x.MealCount, new { @class = "form-control", @placeholder = "一日食用餐數(1~5)", @id = "txtMeal" })
+                    @Html.ValidationMessageFor(x => x.MealCount, "", new { @style = "color:red" })
+                </div>
+            </div>
+            @if (ViewBag.IsUpdate != "true")
             {
-                <img src="~/Content/MemberImgs/@Model.ImagePath" width="200" height="200" id="UserImage" />
-
-
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>體重</label>
+                        @Html.TextBoxFor(x => x.Weight, new { @class = "form-control", @placeholder = "體重（公斤）", @id = "txtWeight" })
+                        @Html.ValidationMessageFor(x => x.Weight, "", new { @style = "color:red" })
+                    </div>
+                </div>
             }
-            else // Add image.
+            else
             {
-                <img src="" width="200" height="200" id="UserImage" />
+                <div>
+
+                </div>
             }
         </div>
-    </div>
+        <div>
 
-    <input type="number" hidden name="ID" value="@Model.ID" />
-    <div class="card-footer">
-        <button class="btn btn-primary" type="submit">儲存送出</button>
-    </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(x => x.UserImage)
+                    <label>(建議照片長寬比為1:1)</label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" name="UserImage" class="custom-file-input" accept="image/gif, image/jpeg, image/png, image/jpg" onchange="$('#UserImage')[0].src = window.URL.createObjectURL(this.files[0])" />
+                            <label class="custom-file-label" for="UserImage">選擇圖片</label>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
 
-</div>
+            <div class="col-sm-6">
+                @if (Model != null && Model.ImagePath != null) // Update image.
+                {
+                    <img src="~/Areas/Admin/Content/UserImage/@Model.ImagePath" width="200" height="200" id="UserImage" />
+
+
+                }
+                else // Add image.
+                {
+                    <img src="" width="200" height="200" id="UserImage" />
+                }
+            </div>
+        </div>
+
+        <input type="number" hidden name="ID" value="@Model.ID" />
+        <div class="card-footer">
+            <button class="button primary" type="submit" id="btnSubmit">儲存送出</button>
+        </div>
+
+    </div>
 
 
 

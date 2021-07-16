@@ -60,20 +60,20 @@
                                 @Html.DisplayFor(modelItem => item.ActivityLevel)
                             </td>
                             <td>
-                                <a href="/Admin/Workout/Edit/@item.ID">
+                                <a href="../Edit/@item.ID">
                                     <img src="~/Areas/Admin/Content/icon/update-icon.png" />
                                 </a>
                             </td>
                             <td>
                                 <a href="#">
-                                    <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/Workout/Delete/', @item.ID)" />
+                                    <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../Delete/', @item.ID)" />
                                 </a>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
-            <button  type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/Workout/Create/@ViewBag.CatID'">新增運動項目</button>
+            <button  type="submit" class="btn btn-primary" onclick="window.location.href='../Create/@ViewBag.CatID'">新增運動項目</button>
         </div>        
     </div>
     @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")

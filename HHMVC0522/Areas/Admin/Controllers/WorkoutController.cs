@@ -74,7 +74,7 @@ namespace UI.Areas.Admin.Controllers
 
             //int a = (int)dto.CategoryID;
             workoutBLL = new WorkoutBLL();
-            return RedirectToAction("List" /*+ catID.ToString()*/);
+            return RedirectToAction("List/6" /*+ catID.ToString()*/);
         }
         public ActionResult Edit(int ID)
         {
