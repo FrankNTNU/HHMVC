@@ -67,7 +67,7 @@
             <p style="text-align:center">查看點數獲取歷史紀錄</p>
         </div>
         <div class="col-12 col-md-4 mb-2">
-            <a href="#" id="pointsManagement">
+            <a href="~/Opay/Payment/" id="pointsManagement">
                 <img src="~/Content/pointsPage/pay.jpg" style="max-width:100%" class="image" />
             </a>
             <h3 style="text-align:center" class="m-2">升級會員</h3>
@@ -176,6 +176,9 @@
 {
     <script src="~/Content/js/ASPSnippets_Pager.min.js"></script>
     <script type="text/javascript">
+        $("#pointsManagement").on("click", function () {
+            window.confirm("即將進入儲值升級頁面");
+        })
         $("#pointsHistory").click(function () {
             $('html, body').animate({
                 scrollTop: $("#historyDiv").offset().top - 20

@@ -1,0 +1,93 @@
+﻿@model OpayCreateCreditOrder
+
+@{
+    ViewBag.Title = "Payment";
+}
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Payment
+                </h5>
+            </div>
+            <div class="modal-body">
+
+                <form id="formCreditCard" method="post" accept-charset="UTF-8"
+                      action="https://payment-stage.opay.tw/Cashier/AioCheckOut/V5" name="formCreditCard" hidden>
+
+                    MerchantID 商店代號:
+                    <input type="text" name="MerchantID" value="@Model.MerchantID" /><br />
+
+                    MerchantTradeNo 商店交易編號:
+                    <input type="text" name="MerchantTradeNo" value="@Model.MerchantTradeNo" /><br />
+
+                    MerchantTradeDate 商店交易時間:
+                    <input type="text" name="MerchantTradeDate" value="@Model.MerchantTradeDate" /><br />
+
+                    PaymentType 交易類型:
+                    <input type="text" name="PaymentType" value="@Model.PaymentType" /><br />
+
+                    TotalAmount 交易金額:
+                    <input type="text" name="TotalAmount" value="@Model.TotalAmount" /><br />
+
+                    TradeDesc 交易描述:
+                    <input type="text" name="TradeDesc" value="@Model.TradeDesc" /><br />
+
+                    ItemName 商品名稱:
+                    <input type="text" name="ItemName" value="@Model.ItemName" /><br />
+
+                    ReturnURL 付款完成通知回傳網址:
+                    <input type="text" name="ReturnURL" value="@Model.ReturnURL" /><br />
+
+                    ChoosePayment 預設付款方式:
+                    <input type="text" name="ChoosePayment" value="@Model.ChoosePayment" /><br />
+
+                    會員商店代碼:
+                    <input type="text" name="StoreID" value="@Model.StoreID" /><br />
+
+                    CreditInstallment 刷卡分期期數:
+                    <input type="text" name="CreditInstallment" value="@Model.CreditInstallment" /><br />
+
+                    InstallmentAmount 使用刷卡分期的付款金額:
+                    <input type="text" name="InstallmentAmount" value="@Model.InstallmentAmount" /><br />
+
+                    Redeem 信用卡是否使用紅利折抵:
+                    <input type="text" name="Redeem" value="@Model.Redeem" /><br />
+
+
+                    ClientBackURL Client端返回廠商網址:
+                    <input type="text" name="ClientBackURL" value="@Model.ClientBackURL" /><br />
+
+                    CheckMacValue 簽章類型:
+                    <input type="text" name="EncryptType" value="@Model.EncryptType" /><br />
+
+                    CheckMacValue 檢查碼:
+                    <input type="text" name="CheckMacValue" value="@Model.CheckMacValue" /><br />
+
+                    <input type="submit" value="送出訂單" />
+
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+
+        window.onload = function () {
+            var auto = setTimeout(function () { autoRefresh(); }, 100);
+
+            function submitform() {
+                document.forms["formCreditCard"].submit();
+            }
+
+            function autoRefresh() {
+                clearTimeout(auto);
+                auto = setTimeout(function () { submitform(); autoRefresh(); }, 10000);
+            }
+        }
+    </script>
+}

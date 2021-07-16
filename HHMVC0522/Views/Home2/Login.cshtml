@@ -16,140 +16,75 @@
         </div>
         <div class="col-8 col-sm-8 col-lg-10 p-1 align-self-center">
             <h2 style="font-size:1.8em"><i class="far fa-user"> </i> 使用者登入</h2>
-        </div>
-       
+        </div>        
     </div>
 </header><header id="header" class="m-0 p-0"></header>
 
 
 @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
 
-<div>
 
-    <p style="color:red">需註冊後才可使用Google登入</p><button type="button" id="btnSignIn" class="button default m-0">Google登入</button>
-    <!--用戶解除Google帳戶綁定時使用↓-->
-    @*<button type="button" id="btnDisconnect">斷連Google App</button>*@
-</div>
 
 <form action="@Url.Action("Login")" method="post">
-
-    <div class="row">
-        <div class="col-12">
-            @Html.ValidationMessageFor(x => x.Email, "", new { @style = "color:red" })
-            <br /><label>帳號(Email)</label>
-
-            <input type="text" name="Email" id="demo-email" value="" placeholder="登入帳號" style="height:50px" autocomplete="off" />
+    <input type="button" id="btnDemo3" name="btnDemo3" value="Demo" class="mt-2" />
+    <div>
+        <div class="row">
+            <div class="col-4">
+                @Html.ValidationMessageFor(x => x.Email, "", new { @style = "color:red"})
+                <br /><label>帳號(Email)：</label>
+                <input type="text" name="Email" id="demo-email" value="" placeholder="登入帳號" style="height:50px" autocomplete="off" />
+            </div>
         </div>
-        <div class="col-12">
+        <div>
             @Html.ValidationMessageFor(x => x.Password, "", new { @style = "color:red" })
-            <br /><label>密碼</label>
-
-            <input type="password" name="Password" id="demo-pwd" value="" placeholder="你的密碼" style="height:50px" />
-            <button type="button" id="btnNewPwd" class="button default m-0">忘記密碼</button>
+            <br /><label>密碼：</label>
         </div>
         <div class="row">
-            <div class="col-3">
-                <label>輸入右側驗證碼：</label>
+
+            <div class="col-4">
+                <input type="password" name="Password" id="demo-pwd" value="" placeholder="你的密碼" style="height:50px" />
             </div>
-            <div class="col-5">
-                <input type="text" name="code" />
-            </div>
-            <div class="col-3">
-                <img id="code" src="/Home2/GetValidateCode/" />
+            <div class="col-4">
+                <button type="button" id="btnNewPwd" class="button default m-0">忘記密碼</button>
             </div>
         </div>
-        <!-- Break -->
-        <!-- Break -->
-        <div class="col-12" style="margin-top:10px">
-            <ul class="actions">
-                <li style="font-size:1.1em"><input type="submit" value="登入" class="primary" /></li>
-                <li style="font-size:1.1em"><a class="button default m-0" href=" ~/Member/CreateMember">註冊新會員</a></li>
-            </ul>
+        <div class="mt-4">
+            <label>  輸入驗證碼：</label>
         </div>
+        <div class="row">
+            <div class="col-4">
+                <input type="text" name="code" placeholder="右方驗證碼" style="height:50px" />
+            </div>
+            <div class="col-6">
+                <img id="code" src="~/Home2/GetValidateCode/" />
+                <input type="button" id="btnCode" class="button default m-0" value="更新驗證碼" />
+            </div>
+        </div>
+        <!-- Break -->@*;font-size:1.1em"*@
+        <!-- Break -->@*; font-size: 1.1em*@
+        <div class="row">
+            <div class="col-12" style="margin-top:10px">
+                <input type="submit" value="登入" class="primary" style="width:150px " />
+                <a class="button default m-0" href=" ~/Member/CreateMember" style="width: 150px">註冊新會員</a>
+            </div>
+        </div>
+
         @if (ViewBag.ReturnUrl != null)
         {
-            <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
-        }
+<input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />}
     </div>
     <!--For Redirect-->
     @if (ViewBag.ReturnUrl != null)
     {
-        <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
-    }
+<input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />}
     <!--===========================================================-->
 </form>
 @section Scripts{
     <script src="~/Content/toastr/toastr.min.js"></script>
     <!-- 引用jQuery-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <!--從 Web.config檔 抓取Googl App Client ID-->
-    <script type="text/javascript">
-        let GoolgeApp_Cient_Id = "210856283403-257sicfc1u5afrca31mtevcc975u1dk5.apps.googleusercontent.com";
-        let id_token_to_userIDUrl = "@Url.Action("GoogleLogin","Home2")";
-    </script>
-    <!--引用Google Sign-in必須的.js，callback function(GoogleSigninInit)名稱自訂 -->
-    <script src="https://apis.google.com/js/platform.js?onload=GoogleSigninInit" async defer></script>
-
-    <!--以下請放置到*.js檔-->
-    <script type="text/javascript">
-        //jQuery處理button click event 當畫面DOM都載入時....
-        $(function () {
-            $("#btnSignIn").on("click", function () {
-                GoogleLogin();//Google 登入
-            });
-            $("#btnDisconnect").on("click", function () {
-                Google_disconnect();//和Google App斷連
-            });
-
-        });
-
-        function GoogleSigninInit() {
-            gapi.load('auth2', function () {
-                gapi.auth2.init({
-                    client_id: GoolgeApp_Cient_Id//必填，記得開發時期要開啟 Chrome開發人員工具 查看有沒有403錯誤(Javascript來源被禁止)
-                });
-                console.log(GoolgeApp_Cient_Id)
-            });//end gapi.load
-        }//end GoogleSigninInit function
-
-
-        function GoogleLogin() {
-            let auth2 = gapi.auth2.getAuthInstance();//取得GoogleAuth物件
-            auth2.signIn().then(function (GoogleUser) {
-                console.log("Google登入成功");
-                console.log(GoogleUser["dt"]["Nt"]);//抓email
-                let user_id = GoogleUser.getId();//取得user id，不過要發送至Server端的話，請使用↓id_token
-                let AuthResponse = GoogleUser.getAuthResponse(true);//true會回傳access token ，false則不會，自行決定。如果只需要Google登入功能應該不會使用到access token
-                let id_token = AuthResponse.id_token;//取得id_token
-                let Email = GoogleUser["dt"]["Nt"];
-                let GoogleID = user_id;
-                console.log(user_id);
-                AddGoogleID(Email, GoogleID);
-                $.ajax({
-                    url: id_token_to_userIDUrl,
-                    method: "post",
-                    data: { id_token: id_token },
-                    success: function () {
-                        window.location.href = "https://localhost:44327/Home2/Index";
-                    }
-                });//end $.ajax
-            },
-                function (error) {
-                    console.log("Google登入失敗");
-                    console.log(error);
-                });
-
-        }//end function GoogleLogin
-
-        function AddGoogleID(Email, GoogleID) {
-            $.ajax({
-                url: "AddGoogleID",
-                data: {
-                    email: Email,
-                    googleID: GoogleID
-                }//前面事動作裡的參數，後面是這邊的參數
-            })
-        }
+    
+    
+   <script>
 
         function GetNewPassword(Email) {
             $.ajax({
@@ -167,14 +102,19 @@
             let Email = $("#demo-email").val();
             GetNewPassword(Email)
         })
+        
+        $("#btnCode").on("click", function () {
+            reloadcode()
+        })
 
-
-        function Google_disconnect() {
-            let auth2 = gapi.auth2.getAuthInstance(); //取得GoogleAuth物件
-
-            auth2.disconnect().then(function () {
-                console.log('User disconnect.');
-            });
+        function reloadcode() {
+            document.getElementById("code").src = "../Home2/GetValidateCode?" + Math.random();
         }
+
+       $("#btnDemo3").on("click", function () {
+           $("#demo-email").val("Aju@gmail.com");
+           $("#demo-pwd").val("1111");
+       });
+        
     </script>
 }

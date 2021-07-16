@@ -149,7 +149,6 @@ namespace DAL
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
@@ -160,6 +159,8 @@ namespace DAL
             {
                 Workout workout = db.Workouts.First(x => x.ID == ID);
                 db.Workouts.Remove(workout);
+                db.Workouts.Attach(workout);
+                db.Entry(workout).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return true;
             }

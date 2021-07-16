@@ -55,7 +55,8 @@ namespace UI.Controllers
                     Session["Name"] = user.Name;
                     Session["ImagePath"] = user.ImagePath;
                     Session["UserName"] = user.UserName;
-
+                    Session["Points"] = user.Points;
+                    Session["IsAdmin"] = user.IsAdmin;
                     //====================================
                     //恩旗
                     //Use RedirectFromLoginPage to redirect
@@ -91,10 +92,11 @@ namespace UI.Controllers
                 {
                     Session["ID"] = user.ID;
                     Session["Name"] = user.Name;
-                    Session["ImagePath"] = user.ImagePath;                    
+                    Session["ImagePath"] = user.ImagePath;
+                    Session["Points"] = user.Points;
                     FormsAuthentication.RedirectFromLoginPage(user.ID.ToString(), false);
                     userBLL.ActivateUser(user.ID);
-                    return RedirectToAction("Index", "Home2");
+                    return Redirect("~/Home2/Index");
                 }
                 else
                 {
@@ -419,6 +421,7 @@ namespace UI.Controllers
                     Session["ID"] = user.ID;
                     Session["Name"] = user.Name;
                     Session["ImagePath"] = user.ImagePath;
+                    Session["Points"] = user.Points;
                     FormsAuthentication.RedirectFromLoginPage(user.ID.ToString(), false);
                     //return Redirect("/Home2/Index");
                     return null;
@@ -491,7 +494,7 @@ namespace UI.Controllers
                 using (Graphics g = Graphics.FromImage(map))
                 {
                     g.Clear(Color.White);
-                    g.DrawString(code, new Font("黑體", 18.0F), Brushes.Blue, new System.Drawing.Point(10, 8));
+                    g.DrawString(code, new Font("黑體", 22.0F), Brushes.Blue, new System.Drawing.Point(10, 8));
                     //繪製干擾線(數字代表幾條)
                     PaintInterLine(g, 10, map.Width, map.Height);
                 }
@@ -499,6 +502,31 @@ namespace UI.Controllers
             }
             data = ms.GetBuffer();
             return File(data, "image/jpeg");
+        }
+
+        [HttpPost]
+        public JsonResult ChangePwd(string newPassword)
+        {
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                int userID = (int)Session["ID"];
+                Member member = db.Members.FirstOrDefault(x => x.ID == userID);
+                member.Password = newPassword;
+                db.SaveChanges();
+            }           
+            return Json("");
+        }
+       [HttpPost]
+        public JsonResult CheckOldPwd(string oldPassword)
+        {
+            bool theSame = false;
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                int userID = (int)Session["ID"];
+                Member member = db.Members.FirstOrDefault(x => x.ID ==userID );
+                theSame = oldPassword == member.Password;
+            }
+            return Json(theSame);
         }
     }
 }

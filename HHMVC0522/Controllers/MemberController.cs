@@ -49,7 +49,7 @@ namespace UI.Controllers
                     model.ImagePath = fileName;
                     int userID =memberBLL.RegisterUser(model);
                     ViewBag.ProcessState = General.Messages.AddSuccess;
-                    resizedImage.Save(Server.MapPath("~/Content/MemberImgs/" + fileName));
+                    resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/UserImage/" + fileName));
                     ModelState.Clear();
                     
                     string activeCode = memberBLL.GetActiveCode(userID);
@@ -77,7 +77,7 @@ namespace UI.Controllers
             dto = memberBLL.GetMemberWithID(ID);
             dto.Statuses = StatusBLL.GetStatusesForDropDown();
             dto.ActivityLevels = ActivityLevelBLL.GetActivityLevelsForDropDown();
-            ViewBag.Isupdate = "true";
+            ViewBag.IsUpdate = "true";
             return View(dto);
         }
         [HttpPost]
@@ -106,13 +106,13 @@ namespace UI.Controllers
                         Bitmap resizedImage = new Bitmap(userImage, 256, 256);
                         string uniqueNumber = Guid.NewGuid().ToString();
                         string fileName = uniqueNumber + postedFile.FileName;
-                        resizedImage.Save(Server.MapPath("~/Content/UserImgs/" + fileName));
+                        resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/UserImage/" + fileName));
                         model.ImagePath = fileName;
                     }
                     string oldImagePath = memberBLL.EditMember(model);
                     if (model.UserImage != null)
                     {
-                        string oldImageFullPath = "~/Content/UserImgs/" + oldImagePath;
+                        string oldImageFullPath = "~/Areas/Admin/Content/UserImgs/" + oldImagePath;
                         if (System.IO.File.Exists(Server.MapPath(oldImageFullPath)))
                         {
                             System.IO.File.Delete(Server.MapPath(oldImageFullPath));
@@ -138,7 +138,8 @@ namespace UI.Controllers
                     Session["ImagePath"] = model.ImagePath;
                 }
             }
-            return View(model);
+            TempData["Success"] = "Update Success";
+            return RedirectToAction("Index","Home2");
         }
 
         public void SendConfirmEmail(string activeCode)

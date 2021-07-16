@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ECPay.Payment.Integration, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ECPay.Payment.Integration.1.0.0.8\lib\net45\ECPay.Payment.Integration.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -82,10 +85,31 @@
     <Reference Include="Microsoft.Azure.CognitiveServices.Knowledge.QnAMaker, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.CognitiveServices.Knowledge.QnAMaker.2.0.1\lib\net461\Microsoft.Azure.CognitiveServices.Knowledge.QnAMaker.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.5.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.5.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.5.0.0\lib\net461\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.5.0.0\lib\net461\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.5.0.0\lib\net461\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.5.0.0\lib\net461\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.2.0\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -119,14 +143,36 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.5.0.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -181,14 +227,16 @@
     <Content Include="Areas\Admin\Content\Barcode\6e740d8cca7748079.png" />
     <Content Include="Areas\Admin\Content\Barcode\a29e5a09b16c4ff9a.png" />
     <Content Include="Areas\Admin\Content\Barcode\dd5796acf7f84242a.png" />
-    <Content Include="Areas\Admin\Content\CartImages\1d0323fe-65a3-47dd-962f-53226e71f352cocoDrink1.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\0edbc09f-f7ee-4ac5-adfe-c06e0ca364e2bigmac.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\3f249f4e-50e7-4bef-8b9a-b405cdfab1c3coffee2.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\4eb11526-2861-413b-932c-46806b33c2b8BK_FrenchFries_detail.png" />
     <Content Include="Areas\Admin\Content\CartImages\4eb86db6-b013-4fbe-9d49-d13f1ca74dc9flywheel.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\5321cf4d-3700-4cbd-8f3b-1cfecd75b473bread.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\8d77f283-e646-4f1a-a9f8-a95110e90f89cocoDrink1.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\8dc56d25-b0b4-49ff-ac0d-9ac9bf2b1c8fdonut1.jpeg" />
     <Content Include="Areas\Admin\Content\CartImages\9de5e2ce-7973-4c37-af07-9598da520558coffee.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\cac3758a-0c2c-4a8b-93c8-dc43ebbbddf6fries2.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\d9956c3d-f613-4374-bde0-6577dfea506abigmac.jpg" />
     <Content Include="Areas\Admin\Content\CSS\adminlte.min.css" />
     <Content Include="Areas\Admin\Content\CSS\all.min.css" />
     <Content Include="Areas\Admin\Content\CSS\bootstrap-4.min.css" />
@@ -197,7 +245,6 @@
     <Content Include="Areas\Admin\Content\CSS\icheck-bootstrap.min.css" />
     <Content Include="Areas\Admin\Content\CSS\responsive.bootstrap4.min.css" />
     <Content Include="Areas\Admin\Content\CSS\tempusdominus-bootstrap-4.min.css" />
-    <Content Include="Areas\Admin\Content\GiftImages\0edbc09f-f7ee-4ac5-adfe-c06e0ca364e2bigmac.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\1d0323fe-65a3-47dd-962f-53226e71f352cocoDrink1.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\2c01724e-61d2-4bb6-8317-e770cbff9d2aworkoutShirt.jpg" />
     <Content Include="Areas\Admin\Content\GiftImages\3f249f4e-50e7-4bef-8b9a-b405cdfab1c3coffee2.jpg" />
@@ -539,6 +586,7 @@
     <Content Include="Areas\Admin\Content\UserImage\b5e21fea-d105-4df0-9d99-86f931a7fbddhappyLuby.jpg" />
     <Content Include="Areas\Admin\Content\UserImage\bea5e34a-9a65-4b4c-8a2a-7f6f7183c8d5user5.png" />
     <Content Include="Areas\Admin\Content\UserImage\d4bc6e2e-e3a0-40ff-8526-61e2610f4fc8hLogo.png" />
+    <Content Include="Areas\Admin\Content\UserImage\e9ea3c02-18f2-41ac-a647-578fd0ba12ff101.jpg" />
     <Content Include="Areas\Admin\Content\UserImage\e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png" />
     <Content Include="Areas\Admin\Content\webfonts\fa-brands-400.svg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-regular-400.svg" />
@@ -804,6 +852,8 @@
     <Content Include="Scripts\jquery.signalR-2.4.2.min.js" />
     <Content Include="Views\Shared\_MealOptionViewModelPartial.cshtml" />
     <None Include="Properties\PublishProfiles\HealthHelper - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\HealthHelper666 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
@@ -827,6 +877,7 @@
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
     <Compile Include="Controllers\HHGiftCardController.cs" />
     <Compile Include="Controllers\HHGiftShopController.cs" />
+    <Compile Include="Controllers\OpayController.cs" />
     <Compile Include="GroupChatHub.cs" />
     <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\ChatGroupController.cs" />
@@ -873,6 +924,8 @@
     <Compile Include="ViewModels\MemberBasicHealthProfile.cs" />
     <Compile Include="ViewModels\MemberDietReport.cs" />
     <Compile Include="ViewModels\MemberHealthViewModel.cs" />
+    <Compile Include="ViewModels\OpayCreateCreditOrder.cs" />
+    <Compile Include="ViewModels\PaidNotice.cs" />
     <Compile Include="ViewModels\ProfileAndTodayDietLogsViewModel.cs" />
     <Compile Include="ViewModels\ShowProgramViewModel.cs" />
     <Compile Include="ViewModels\RegisterProgramViewModel.cs" />
@@ -1065,6 +1118,7 @@
     <Content Include="Views\Home2\GoogleLogin.cshtml" />
     <Content Include="Views\Home2\LoginFirstTime.cshtml" />
     <Content Include="Views\Member\EditMember.cshtml" />
+    <Content Include="Views\Opay\Payment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1075,6 +1129,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.healthhelperweb - Web Deploy.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.IISProfile.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">

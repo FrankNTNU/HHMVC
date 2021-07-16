@@ -71,5 +71,18 @@ namespace UI.Areas.Admin.Controllers
             categoryBll = new WorkoutCategoryBLL();
             return RedirectToAction("List");
         }
+        public JsonResult IsCategoryExist(string text)
+        {
+            string exist = "";
+            if(categoryBll.IsCategoryExist(text))
+            {
+                exist = "true";
+            }
+            else
+            {
+                exist = "false";
+            }
+            return Json(exist, JsonRequestBehavior.AllowGet);
+        }
     }
 }

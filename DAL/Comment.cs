@@ -24,6 +24,8 @@ namespace DAL
         public Nullable<int> PostID { get; set; }
         public Nullable<int> ParentCommentID { get; set; }
         public string Name { get; set; }
+        public Nullable<bool> IsReported { get; set; }
+        public Nullable<double> SentimentScore { get; set; }
     
         public virtual Member Member { get; set; }
         public virtual Post Post { get; set; }
