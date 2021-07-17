@@ -406,6 +406,15 @@
         }
 
         @*ForServiceDemo=========================*@
+        #demoToggleButton {
+            display: inline-block;
+            background-color: #DCB5FF;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
         .demoService {
             display: flex;
             position: fixed;
@@ -416,17 +425,21 @@
         }
 
         .demoButtonService {
+            display:none;
             background-color: #D0D0D0;
             color: white;
             padding: 5px;
             border-radius: 10px;
+            cursor: pointer;
         }
 
         .loginButton {
+            display:none;
             background-color: #BEBEBE;
             color: white;
             padding: 5px;
             border-radius: 10px;
+            cursor: pointer;
         }
 </style>
 </head>
@@ -720,7 +733,9 @@
 
     <!--=============================================================-->
     <!--ForServiceDemo===============================================-->
+    
     <div class="demoService">
+        <div id="demoToggleButton" data-isopen="close">demo</div>
         <div class="demoButtonService" onclick="autoInputForService(msgs1)">阿舊</div>
         <div class="loginButton" onclick="login1()">阿舊</div>
         <div class="loginButton" onclick="login2()">路飛</div>
@@ -1116,6 +1131,16 @@
                 if (isChatPanelClose) {
                     $("#collapse i").removeClass("fas fa-minus").addClass("fas fa-plus");
                 }
+            }
+        });
+
+        $("#demoToggleButton").click(function () {
+            if ($(this).attr("data-isopen") == "close") {
+                $(".demoService > div:not(:first-child)").css("display", "inline-block");
+                $(this).attr("data-isopen", "open");
+            } else {
+                $(".demoService > div:not(:first-child)").css("display", "none");
+                $(this).attr("data-isopen", "close");
             }
         });
 
