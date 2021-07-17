@@ -78,6 +78,7 @@ namespace DAL
                 commentDTO.MemberID = comment.MemberID;
                 commentDTO.Name = comment.Name;
                 commentDTO.CommentContent = comment.CommentContent;
+
             }
             return commentDTO;
         }
@@ -149,7 +150,7 @@ namespace DAL
             }
             return dtoList;
         }
-        public double GetSentimentScores(CommentDTO comment)
+        public static double GetSentimentScores(CommentDTO comment)
         {
             var client = new TextAnalyticsClient(Constants.endpoint, Constants.credentials);
             string inputText = comment.CommentContent;
