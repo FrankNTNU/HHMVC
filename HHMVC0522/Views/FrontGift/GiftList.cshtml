@@ -113,7 +113,7 @@
                      </strong>點
                  </div>
                  <div class="box mb-2 pt-2 pb-3" style="border: 2px dashed #ffd2cf">
-                     <p style="text-align:center;color:lightcoral;font-weight:bold;font-size:1.2em" class="pt-0"><i class="fas fa-shopping-cart"></i> 您的購物車 <a class="button defualt" style="float:right" id="clearCartButton"><i class="fas fa-trash-alt"></i></a></p>
+                     <p style="text-align:center;color:lightcoral;font-weight:bold;font-size:1.2em" class="pt-0"><i class="fas fa-shopping-cart"></i> 您的兌換區 <a class="button defualt" style="float:right" id="clearCartButton"><i class="fas fa-trash-alt"></i></a></p>
 
 
                      <div class="row">
@@ -253,7 +253,7 @@
 
             $('#clearCartButton').click(function () {
                 $.ajax({
-                    url: "/FrontGift/ClearTempCart",
+                    url: "../FrontGift/ClearTempCart",
                     success: function (result) {
                         cartItems = [];
                         showCartList();
@@ -273,13 +273,13 @@
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     type: 'POST',
-                    url: '/FrontGift/CheckOut',
+                    url: '../FrontGift/CheckOut',
                     data: itemsToBeCheckedOut,
                     success: function (response) {
                         console.log(response);
                         if (response == "success") {
                             $.ajax({
-                                url: "/FrontGift/ClearTempCart",
+                                url: "../FrontGift/ClearTempCart",
                                 success: function (result) {
                                     cartItems = [];
                                     showCartList();
@@ -339,11 +339,11 @@
                 let resultDiv = $("<div></div>")
                     .addClass("col-6 col-sm-4 col-md-4 col-lg-3 mb-5")
                     .css("text-align", "center");
-                let imageDiv = $("<a></a>").attr("href", "GiftDetail/" + value.ID)
+                let imageDiv = $("<a></a>").attr("href", "../GiftDetail/" + value.ID)
                     .addClass("image")
                     .appendTo(resultDiv);
                 let imageContent = $("<img/>")
-                    .attr("src", "../Areas/Admin/Content/GiftImages/" + value.Image)
+                    .attr("src", "/Areas/Admin/Content/GiftImages/" + value.Image)
                     .css("max-width", "100%")
                     .css("max-height", "100%");
                 let crownDiv = $("<div></div>").addClass("corner");
@@ -376,7 +376,7 @@
             function checkIfSameItemExist(giftId) {
                 return new Promise(function (resolve, reject) {
                     $.ajax({
-                        url: "/FrontGift/IsSameItemExist?giftId=" + giftId,
+                        url: "../FrontGift/IsSameItemExist?giftId=" + giftId,
                         success: function (result) {
                             resolve(result == "yes");
                         }
@@ -424,7 +424,7 @@
             })
             function AddToCart(id) {
                 $.ajax({
-                    url: "/FrontGift/AddToTempCart/?giftId=" + id,
+                    url: "../FrontGift/AddToTempCart/?giftId=" + id,
                     success: function (result) {
                         cartItems = JSON.parse(result);
                         showCartList();
@@ -433,7 +433,7 @@
             }
             function RemoveFromCart(id) {
                 $.ajax({
-                    url: "/FrontGift/RemoveFromTempCart/?giftId=" + id,
+                    url: "../FrontGift/RemoveFromTempCart/?giftId=" + id,
                     success: function (result) {
                         cartItems = JSON.parse(result);
                         showCartList();

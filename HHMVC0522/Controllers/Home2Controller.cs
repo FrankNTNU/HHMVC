@@ -28,6 +28,8 @@ namespace UI.Controllers
         readonly MemberBLL memberBLL = new MemberBLL();
         public ActionResult Index()
         {
+            if (Session["ID"] != null)
+            { Session["Points"] = userBLL.GetPoints((int)Session["ID"]); }
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPosts();
 

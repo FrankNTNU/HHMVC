@@ -51,7 +51,7 @@ namespace DAL
                 dto.ActivityLevelID = user.ActivityLevelID;
                 dto.StatusID = user.StatusID;
                 dto.Name = user.Name;
-                dto.MealCount = (int)user.MealCount;
+                dto.MealCount = user.MealCount??0;
             }
             return dto;
         }

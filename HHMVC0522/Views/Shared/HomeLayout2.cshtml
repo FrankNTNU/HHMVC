@@ -720,7 +720,7 @@
 
     <!--=============================================================-->
     <!--ForServiceDemo===============================================-->
-    @*<div class="demoService">
+    <div class="demoService">
         <div class="demoButtonService" onclick="autoInputForService(msgs1)">阿舊</div>
         <div class="loginButton" onclick="login1()">阿舊</div>
         <div class="loginButton" onclick="login2()">路飛</div>
@@ -728,7 +728,7 @@
         <div class="loginButton" onclick="login4()">山治</div>
         <div class="loginButton" onclick="login5()">frank</div>
         <div class="loginButton" onclick="login6()">zzzz</div>
-    </div>*@
+    </div>
     <!--=============================================================-->
     <!-- Scripts -->
 
@@ -941,7 +941,7 @@
                     click: function () {
                         $("#dialogDiv").dialog("close");
                         $.ajax({
-                            url: "/Home2/SetDialogShownSession",
+                            url: "../Home2/SetDialogShownSession",
                             type: "POST"
                         });
 
@@ -1059,7 +1059,7 @@
         //prompt link
         $("#serviceChatBox").on("click", ".promptDiv a", function () {
             $.ajax({
-                url: "/FrontContact/SelectPrompt",
+                url: "../FrontContact/SelectPrompt",
                 type: "POST",
                 data: {
                     connId: $.connection.hub.id,
@@ -1138,7 +1138,7 @@
         $("#programFrozen span").text(programFrozen);
 
         $.ajax({
-            url: "/Home2/GetProgramWeight",
+            url: "../Home2/GetProgramWeight",
             type: "POST"
         }).done(function (data) {
 
@@ -1170,7 +1170,7 @@
                         if (confirm("確定送出嗎？")) {
 
                             $.ajax({
-                                url: "/Home2/SetResultWeight",
+                                url: "../Home2/SetResultWeight",
                                 type: "POST",
                                 data: {
                                     resultWeight: $("#resultWeight").val()
@@ -1190,7 +1190,7 @@
                     click: function () {
                         $("#programFrozen").dialog("close");
                         $.ajax({
-                            url: "/Home2/SetDialogShownSession",
+                            url: "../Home2/SetDialogShownSession",
                             type: "POST"
                         });
                     }
@@ -1287,7 +1287,7 @@
         $.connection.hub.start().done(function () {
 
             $.ajax({
-                url: "/FrontContact/AddToServiceGroup",
+                url: "../FrontContact/AddToServiceGroup",
                 type: "POST",
                 data: {
                     connId: $.connection.hub.id
@@ -1309,7 +1309,7 @@
                     }
 
                     $.ajax({
-                        url: "/FrontContact/SendMessage",
+                        url: "../FrontContact/SendMessage",
                         type: "POST",
                         data: {
                             connId: $.connection.hub.id,
@@ -1348,7 +1348,7 @@
             let textDiv = $("<div></div>").addClass("textDiv");
 
             $("<img/>").addClass("myImage").css("margin-left", "0px").css("margin-right", "10px")
-                .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                .attr("src", "../Areas/Admin/Content/UserImage/" + image)
                 .appendTo(textDiv);
 
             let innerTextDiv = $("<div></div>").addClass("ArrowToLeft").css("margin-right", "auto");
@@ -1376,7 +1376,7 @@
             let textDiv = $("<div></div>").addClass("textDiv reverse");
 
             $("<img/>").addClass("myImage").css("margin-right", "0px").css("margin-left", "10px")
-                .attr("src", "/Areas/Admin/Content/UserImage/" + image)
+                .attr("src", "../Areas/Admin/Content/UserImage/" + image)
                 .appendTo(textDiv);
 
             let innerTextDiv = $("<div></div>").addClass("ArrowToRight").css("margin-left", "auto");
@@ -1409,7 +1409,7 @@
 
         if ($("#serviceGroupId").val() != "") {
             $.ajax({
-                url: "/FrontContact/GetGroupMsgs",
+                url: "../FrontContact/GetGroupMsgs",
                 type: "POST",
                 data: {
                     groupId: $("#serviceGroupId").val()
@@ -1436,7 +1436,7 @@
         $("#notRead span").text("0");
 
         $.ajax({
-            url: "/FrontContact/ResetNotReadCount",
+            url: "../FrontContact/ResetNotReadCount",
             type: "POST",
             data: {
                 groupId: $("#serviceGroupId").val()
@@ -1515,7 +1515,7 @@
     }
 
 </script>
-    }
+    <script>
         //=====郁陞=====
         $("#oldPwd").focusout(function () {
             let oldPassword = $("#oldPwd").val();
