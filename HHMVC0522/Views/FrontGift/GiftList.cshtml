@@ -324,7 +324,7 @@
             })
             function callAjax(text, sortingMethod, isChecked) {
                 $.ajax({
-                    url: "GetSearchResult",
+                    url: "../FrontGift/GetSearchResult",
                     data: { name: text, sortBy: sortingMethod, isPremiumChecked: isChecked },
                     success: function (result) {
                         $.each(result, function (index, value) {
