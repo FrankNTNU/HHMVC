@@ -66,9 +66,9 @@ namespace DAL
         }
         public IQueryable<MealTagCategory> GetAllTags()
         {
-            var q = from mtc in db.MealTagCategories
-                    select mtc;
-            return q;
+            
+            return db.MealTagCategories.OrderBy(t => t.HHOrder).Select(t => t);
+
         }
 
 
