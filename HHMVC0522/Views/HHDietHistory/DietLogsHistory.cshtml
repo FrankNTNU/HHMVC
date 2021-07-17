@@ -43,7 +43,7 @@
 
 
     <div class="col-2 ">
-        <input type="button" id="btnToday" value="Today" class="btn btn-default fit" />
+        <input type="button" id="btnToday" value="今日紀錄" class="btn btn-default fit" />
     </div>
 
     <div class="col-2 ">
@@ -93,7 +93,7 @@
         </div>
         <div class="col-4  shadow bg-white " style="border-radius: 0.9em; height:650px;width: 450px; margin: auto">
 
-            <h3 style="text-align: center;  border-bottom: #f56a6a 2px solid">周周多喝水(單位: 毫升)</h3>
+            <h3 style="text-align: center;  border-bottom: #f56a6a 2px solid">周周多喝水</h3>
 
             <canvas class="pb-5" id="WaterLine"></canvas>
         </div>
@@ -124,11 +124,11 @@
 
                 </li>
                 <li class="list-group-item border-0">
-                    <div class="shadow-sm p-3  bg-white rounded">過去7天省下了: <span class="h2" id="spanCalSavedFromLastWeek" style="color:#f56a6a">@Model.MemberHealthProfile.GeneralPerformances.CalSavedFromLastWeek</span> 大卡,相當於<span class="spanRiceBowlsCount h2" id="spanRiceBowlComment" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GeneralPerformances.CalCommentFromLastWeek</span><img src="~/Content/Images/Infography/riceBowlImg2.jpg" width="80" /></div> @*mb-5*@
+                    <div class="shadow-sm p-3  bg-white rounded">過去7天飲食省下了: <span class="h2" id="spanCalSavedFromLastWeek" style="color:#f56a6a">@Model.MemberHealthProfile.GeneralPerformances.CalSavedFromLastWeek</span> 大卡,相當於<span class="spanRiceBowlsCount h2" id="spanRiceBowlComment" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GeneralPerformances.CalCommentFromLastWeek</span><img src="~/Content/Images/Infography/riceBowlImg2.jpg" width="80" /></div> @*mb-5*@
                 </li>
                 <li class="list-group-item border-0">
 
-                    <div class="shadow-sm p-3  bg-white rounded">運動消耗了: <span class="h2" id="spanPast7DaysWorkoutBurnedCals" style="color:#f56a6a">@Model.MemberHealthProfile.GeneralPerformances.Past7DaysWorkoutBurnedCals</span> 大卡,相當於 <span class="h2" id="spanRiceBowlCommentBURN" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GeneralPerformances.BurnedCalCommentFromLastWeek</span><img src="~/Content/Images/Infography/riceBowlImg2.jpg" width="80" /></div>
+                    <div class="shadow-sm p-3  bg-white rounded">過去7天運動消耗了: <span class="h2" id="spanPast7DaysWorkoutBurnedCals" style="color:#f56a6a">@Model.MemberHealthProfile.GeneralPerformances.Past7DaysWorkoutBurnedCals</span> 大卡,相當於 <span class="h2" id="spanRiceBowlCommentBURN" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GeneralPerformances.BurnedCalCommentFromLastWeek</span><img src="~/Content/Images/Infography/riceBowlImg2.jpg" width="80" /></div>
                 </li>
                 <li class="list-group-item border-0">
                     <div class="shadow-sm p-3  bg-white rounded">鈉攝取: <span id="spanTotalNa" style="color:#f56a6a">@Model.MemberHealthProfile.GeneralPerformances.GainedNa</span>(衛生署食品衛生處建議成人每日鈉總攝取量不要超過2400毫克)</div> @*mb-5*@
@@ -173,7 +173,7 @@
                         餐點名稱
                     </th>
                     <th>
-                        每單位卡路里(大卡)
+                        每單位卡路里(單位: 大卡)
                     </th>
                     <th>
                         單位名稱
@@ -182,7 +182,7 @@
                         份量
                     </th>
                     <th>
-                        總卡路里量
+                        總卡路里
                     </th>
 
 
@@ -601,7 +601,7 @@
                     labels: ['蛋白質', '碳水化合物', '脂肪'/*, '糖份', '鈉'*/],
                     datasets: [{
                         label: '建議攝取範圍',
-                        data: suggestedNutritionRangesArr[0],
+                        data: suggestedNutritionRangesArr,
                         backgroundColor: [
                             'rgba(100, 100, 100, 0.1)'
                         ]
@@ -622,18 +622,7 @@
                         ],
                         borderWidth: 2
                     },
-                    {
-
-                        data: suggestedNutritionRangesArr[1],
-                        backgroundColor: [
-                            'rgba(112, 112, 112, 0.1)'
-                        ]
-                        ,
-                        borderColor: [
-                            'rgba(112, 112, 112, 1)'
-                        ],
-                        borderWidth: 0.1
-                    }]
+                    ]
                 },
 
                 options: {
@@ -666,7 +655,7 @@
                 data: {
                     labels: ['一', '二', '三', '四', '五', '六', '日'],    /*周*/
                     datasets: [{
-                        label: '建議下限',
+                        label: '建議上下限(單位: 毫升)',
                         data: WeeklyWaterLogSuggestedRangesArr[0],
                         backgroundColor: [
                             "rgba(220,220,220,0.3)"
@@ -680,7 +669,7 @@
                         radius: 0
                     },
                     {
-                        label: '總攝水量',
+                        label: '總攝水量(單位: 毫升)',
                         data: WeeklyWaterLogGainedsArr,
                         fill: true,
                         lineTension: 0.5,
@@ -695,7 +684,7 @@
                         borderWidth: 3
                     },
                     {
-                        label: '建議上限',
+                        label: '建議上限(單位: 毫升)',
                         data: WeeklyWaterLogSuggestedRangesArr[1],
                         backgroundColor: [
                             "rgba(220,220,220,0.3)"
@@ -738,7 +727,7 @@
                 data: {
                     labels: GetNearbyWeekDaysArr,
                     datasets: [{
-                        label: '近七日攝取(單位: KCal)',
+                        label: '近七日熱量攝取(單位: 大卡)',
                         data: GetNearby7DaysGainedCalArr,
                         backgroundColor: [
                             'rgba(112, 112, 112, 0.1)',
@@ -769,10 +758,10 @@
                     scales: {
                         y: {
                             display: false,
-                                               },
+                           },
                         x: {
                             grid: { color: "rgba(122, 122, 122,0)" },
-}
+                            }
                     }
                 },
 

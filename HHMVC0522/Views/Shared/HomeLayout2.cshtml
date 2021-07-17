@@ -500,7 +500,6 @@
                                 {   //if last 7 days has no weightlog, show this icon
                     <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>}
                             </li>
-                            <li><a href="~/HHHealthReport/HealthReport" style="text-decoration:none"><i class="fas fa-chart-bar" style="width:30px"></i> 綜合圖表</a></li>
                             <li><a href="~/Home2/UserPoints" style="text-decoration:none"><i class="fas fa-coins" style="width:30px"></i> 點數管理</a></li>
 
 
@@ -547,7 +546,12 @@
 
                                 </ul>
 
-                                    </li>
+                            </li>
+                            <li>
+                                <a href="~/HHHealthReport/HealthReport" style="text-decoration:none"><span ><i class="fas fa-chart-bar" style="width:30px"></i> 綜合圖表</span></a>
+
+
+                            </li>
 
                             <li>
                                 <span class="opener"><i class="fas fa-fist-raised" style="width:30px"></i> 挑戰</span>
@@ -561,7 +565,7 @@
 
                             </li>
 
- 
+
                             if (Session["InProgram"] != null && (bool)Session["InProgram"])
                             {
                                 <li><a href="~/ChatGroup/GroupChat" style="text-decoration:none"><i class="fas fa-sms" style="width:30px"></i>減重聊天群</a></li>
@@ -686,7 +690,7 @@
 
 
                 <div class="modal-header" style="display:flex; justify-content:center">
-                    <h3 class="modal-title" id="exampleModalLabel">今天喝水了嗎 <span></span></h3>
+                    <h3 class="modal-title" id="exampleModalLabel">周周多喝水<span></span></h3>
                 </div>
                 <div class="modal-body">
                     <form id="FrmWaterLog" name="WaterLog">
