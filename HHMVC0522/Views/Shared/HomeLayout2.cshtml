@@ -1297,7 +1297,7 @@
 
                 if ($(".messageRow").last().length != 0) {
                     $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".messageRow").last().position().top);
-                    console.log($(".messageRow").last().position().top);
+                    //console.log($(".messageRow").last().position().top);
                 }
 
                 ResetNotReadCount();
@@ -1343,6 +1343,9 @@
                             message: $("#serviceMessage").val()
                         },
                         success: function (data) {
+
+                            //console.log(data.Admins);
+
                             if (data.Result != "Success") {
                                 alert(data.Result);
                             }

@@ -77,7 +77,7 @@ namespace UI.Areas.Admin.Controllers
         {
             //====================================================================
 
-            var userList = UserStatic.ServiceGroups.Where(sg => 
+            var userList = UserStatic.ServiceGroups.Where(sg =>
             {
                 bool isCustomer = true;
 
@@ -95,7 +95,7 @@ namespace UI.Areas.Admin.Controllers
             {
                 Member member = dbContext.Members.SingleOrDefault(m => m.ID.ToString() == sg.Value.GroupName);
 
-                int preMsgCount = dbContext.GroupChats.Count(gc => gc.GroupID.ToString() == sg.Key 
+                int preMsgCount = dbContext.GroupChats.Count(gc => gc.GroupID.ToString() == sg.Key
                     && gc.Group.IsAlive && gc.Group.IsService);
 
                 return new
