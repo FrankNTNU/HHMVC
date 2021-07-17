@@ -377,8 +377,11 @@ namespace DAL
             List<DietLog> winnerDietLogs = new List<DietLog>();
             winnerPrograms.ForEach(pg =>
             {
-                winnerDietLogs.AddRange(db.DietLogs.Where(dl => dl.MemberID == pg.MemberID).Where( dl=>
-                DateTime.ParseExact(dl.Date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture) >= DbFunctions.TruncateTime(pg.StartDate) && DateTime.ParseExact(dl.Date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture) <= DbFunctions.TruncateTime(pg.EndDate)).ToList());
+                DateTime st = (DateTime)pg.StartDate;
+              DateTime end = (DateTime)pg.EndDate;
+               
+
+            winnerDietLogs.AddRange(db.DietLogs.Where(dl => dl.MemberID == pg.MemberID).ToList().Where(dl => DateTime.ParseExact(dl.Date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture) >= st && DateTime.ParseExact(dl.Date, CDictionary.MMddyyyy, CultureInfo.InvariantCulture) <= end).ToList());
 
 
             });

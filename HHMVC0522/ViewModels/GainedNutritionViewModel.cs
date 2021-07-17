@@ -57,15 +57,13 @@ namespace UI.ViewModels
         }
 
 
-        public int[][] SuggestedNutritionsPercents
+        public int[] SuggestedNutritionsPercents
         {
             get
             {
                 
-                int[] rangeMin = { 40, 20, 20 };
-                int[] rangeMax = { 50, 30, 40 };
-                int[][] suggestedRange = { rangeMin, rangeMax };
-                return suggestedRange;
+                int[] range = { 45, 25, 30 };
+                return range;
             }
         }
 

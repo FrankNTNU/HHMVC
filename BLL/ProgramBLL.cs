@@ -35,6 +35,11 @@ namespace BLL
 
         }
 
+        public double GetSuccessRate()
+        {
+            return dao.GetSuccessRate();
+        }
+
         public void TerminateProgram(int programID)
         {
              dao.TerminateProgram(programID);
