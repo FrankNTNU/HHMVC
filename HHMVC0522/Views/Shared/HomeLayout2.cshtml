@@ -419,7 +419,7 @@
             display: flex;
             position: fixed;
             left: 45em !important;
-            bottom: 50px;
+            bottom: 15px;
             column-gap:10px;
             z-index: 100;
         }
@@ -441,6 +441,7 @@
             border-radius: 10px;
             cursor: pointer;
         }
+
 </style>
 </head>
 
@@ -736,8 +737,8 @@
     
     <div class="demoService">
         <div id="demoToggleButton" data-isopen="close">demo</div>
-        <div class="demoButtonService" onclick="autoInputForService(msgs1)">阿舊</div>
-        <div class="loginButton" onclick="login1()">阿舊</div>
+        <div class="demoButtonService" onclick="autoInputForService(msg1)">TDEE</div>
+        <div class="demoButtonService" onclick="autoInputForService(msg2)">點數獲得</div>
         <div class="loginButton" onclick="login2()">路飛</div>
         <div class="loginButton" onclick="login3()">索隆</div>
         <div class="loginButton" onclick="login4()">山治</div>
@@ -1498,14 +1499,12 @@
 
     //let promiseForDemo1;
 
-    msgs1 = [
-        "請問客服人員，TDEE是什麼？",
-        "請問客服人員，聽說運動執行成功可獲得點數，除此之外還有其他方法嗎？"
-    ];
+    msg1 = "請問客服人員，TDEE是什麼？";
+    msg2 = "請問客服人員，聽說運動執行成功可獲得點數，除此之外還有其他方法嗎？";
 
 
-    async function autoInputForService(msgs) {
-        $("#serviceMessage").val(msgs.shift());
+    async function autoInputForService(msg) {
+        $("#serviceMessage").val(msg);
         $("#sendServiceMessage").click();
     }
 
