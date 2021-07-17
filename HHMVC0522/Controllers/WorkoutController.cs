@@ -736,7 +736,7 @@ namespace UI.Controllers
             var q = dbContext.WorkoutLogs
                 .Where(wl => wl.MemberID.ToString() == UserID
                     && DbFunctions.TruncateTime(wl.WorkoutTime) == d).OrderBy(wl => wl.WorkoutTime)
-                .AsEnumerable()
+                .ToList()
                 .Select(wl => new
                 {
                     wl.ID,
