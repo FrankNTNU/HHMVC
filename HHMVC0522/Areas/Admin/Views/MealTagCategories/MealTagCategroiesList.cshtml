@@ -18,7 +18,7 @@
 <br />
 
 <div class="card-footer">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/MealTagCategories/AddMealTagCategory'">新增標籤</button>
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='../MealTagCategories/AddMealTagCategory'">新增標籤</button>
 </div>
 
 <div class="card">
@@ -47,13 +47,13 @@
                             @Html.ActionLink("查看餐點", "GetMealsByTag", new { id = item.ID })
                         </td>
                         <td align="center" valign="middle">
-                            <a href="/Admin/MealTagCategories/UpadteTags/@item.ID">
+                            <a href="../MealTagCategories/UpadteTags/@item.ID">
                                 <img src="~/Areas/Admin/Content/icon/update-icon.png" />
                             </a>
                         </td>
                         <td align="center" valign="middle">
                             <a href="#">
-                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('/Admin/MealTagCategories/Delete/', @item.ID)" />
+                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../MealTagCategories/Delete/', @item.ID)" />
                             </a>
                         </td>
                     </tr>

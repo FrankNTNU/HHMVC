@@ -26,235 +26,214 @@
     <button type="submit" class="btn btn-primary" id="check" onclick="check">check</button>
 </div>*@
 
-@using (Html.BeginForm("CreateMealWithTags", "Meal", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-<form id="form">
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="row">
-            <div class="form-group col-4">
-                <label>餐點名稱</label>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "Name" } })
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "Name" })
+<div style="margin-left:10px">
+    @using (Html.BeginForm("CreateMealWithTags", "Meal", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <form id="form">
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="form-group col-4">
+                        <label>餐點名稱</label>
+                        <div>
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "Name" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "Name" })
+                        </div>
+                        <span id="test"></span>
+                    </div>
                 </div>
-                <span id="test"></span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-4">
-                <label>卡路里</label>
+                <div class="row">
+                    <div class="form-group col-4">
+                        <label>卡路里</label>
+                        <div>
+                            @Html.EditorFor(model => model.Calories, new { htmlAttributes = new { @class = "form-control", @id = "Calories" } })
+                            @Html.ValidationMessageFor(model => model.Calories, "", new { @class = "text-danger", @id = "Calories" })
+                            <span id="sp_Calories"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-4">
+                        <label>餐點份量</label>
+                        <div>
+                            @Html.EditorFor(model => model.UnitName, new { htmlAttributes = new { @class = "form-control", @id = "UnitName" } })
+                            @Html.ValidationMessageFor(model => model.UnitName, "", new { @class = "text-danger", @id = "UnitName" })
+                        </div>
+                        <span id="sp_Unitname"></span>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+                <div class="form-group">
+                    <label>餐點圖片</label>
+                    <input type="file" name="MealOptionUpLoadImage" id="progressbarTWInput" accept="image/gif, image/jpeg, image/png" />
+                </div>
                 <div>
-                    @Html.EditorFor(model => model.Calories, new { htmlAttributes = new { @class = "form-control", @id = "Calories" } })
-                    @Html.ValidationMessageFor(model => model.Calories, "", new { @class = "text-danger", @id = "Calories" })
-                    <span id="sp_Calories"></span>
+                    <p>
+                        預覽圖:
+                    </p>
+                    <img id="preview_progressbarTW_img" src="#" />
                 </div>
-            </div>
-            <div class="form-group col-4">
-                <label>餐點份量</label>
-                <div>
-                    @Html.EditorFor(model => model.UnitName, new { htmlAttributes = new { @class = "form-control", @id = "UnitName" } })
-                    @Html.ValidationMessageFor(model => model.UnitName, "", new { @class = "text-danger", @id = "UnitName" })
-                </div>
-                <span id="sp_Unitname"></span>
-            </div>
-            <div class="col-4"></div>
-        </div>
-        <div class="form-group">
-            <label>餐點圖片</label>
-            <input type="file" name="MealOptionUpLoadImage" id="progressbarTWInput" accept="image/gif, image/jpeg, image/png" />
-        </div>
-        <div>
-            <p>
-                預覽圖:
-            </p>
-            <img id="preview_progressbarTW_img" src="#" />
-        </div>
 
-        @*<div class="form-group">
-            <label>標籤</label>
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @{
-                        int count = 0;
-                        foreach (var item in Model.Tags)
-                        {
-                            count = count + 1;
-                            if (count == 5)
-                            {
-                                <br />
-                                count = 0;
-                            }
-                            <label>
-                                <input type="checkbox"
-                                       name="tags"
-                                       id="@item.ID"
-                                       value="@item.ID" />@item.Name
-                                </label>
-                            }
-                    }
+                <div class="form-group">
+                    <label>標籤</label>
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            <div class="row col-5">
+                                @{
+                                    int countB = 0;
+                                    foreach (var item in Model.DTags)
+                                    {
+                                        countB = countB + 1;
+                                        if (countB == 5)
+                                        {
+                                            <br />
+                                            countB = 0;
+                                        }
+                                        <div class="col-3">
+                                            <input type="checkbox"
+                                                   name="tags"
+                                                   id="@item.Key"
+                                                   value="@item.Key" />
+                                            <label style="margin-left:5px">
+                                                @item.Value
+                                            </label>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-3">
+                        <label>脂肪</label>
+                        <div>
+                            @Html.EditorFor(model => model.Fat, new { htmlAttributes = new { @class = "form-control", @id = "Fat" } })
+                            @Html.ValidationMessageFor(model => model.Fat, "", new { @class = "text-danger", @id = "Fat" })
+                        </div>
+                        <span id="sp_Fat"></span>
+                    </div>
 
-                </div>
-            </div>
-        </div>*@
-        <div class="form-group">
-            <label>標籤</label>
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @{
-                        int countA = 0;
-                        foreach (var item in Model.DTags)
-                        {
-                            countA = countA + 1;
-                            if (countA == 5)
-                            {
-                                <br />
-                                countA = 0;
-                            }
-                            <label>
-                                <input type="checkbox"
-                                       name="tags"
-                                       id="@item.Key"
-                                       value="@item.Key" />@item.Value
-                                </label>
-                            }
-                    }
+                    <div class="form-group col-3">
+                        <label>蛋白質</label>
+                        <div>
+                            @Html.EditorFor(model => model.Protein, new { htmlAttributes = new { @class = "form-control", @id = "Protein" } })
+                            @Html.ValidationMessageFor(model => model.Protein, "", new { @class = "text-danger", @id = "Protein" })
+                        </div>
+                        <span id="sp_Protein"></span>
+                    </div>
 
+                    <div class="form-group col-3">
+                        <label>碳水化合物</label>
+                        <div>
+                            @Html.EditorFor(model => model.Carbs, new { htmlAttributes = new { @class = "form-control", @id = "Carbs" } })
+                            @Html.ValidationMessageFor(model => model.Carbs, "", new { @class = "text-danger", @id = "Carbs" })
+                        </div>
+                        <span id="sp_Carbs"></span>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-3">
-                <label>脂肪</label>
-                <div>
-                    @Html.EditorFor(model => model.Fat, new { htmlAttributes = new { @class = "form-control", @id = "Fat" } })
-                    @Html.ValidationMessageFor(model => model.Fat, "", new { @class = "text-danger", @id = "Fat" })
-                </div>
-                <span id="sp_Fat"></span>
-            </div>
+                <div class="row">
+                    <div class="form-group col-3">
+                        <label>糖</label>
+                        <div>
+                            @Html.EditorFor(model => model.Sugar, new { htmlAttributes = new { @class = "form-control", @id = "Sugar" } })
+                            @Html.ValidationMessageFor(model => model.Sugar, "", new { @class = "text-danger", @id = "Sugar" })
+                        </div>
+                        <span id="sp_Sugar"></span>
+                    </div>
 
-            <div class="form-group col-3">
-                <label>蛋白質</label>
-                <div>
-                    @Html.EditorFor(model => model.Protein, new { htmlAttributes = new { @class = "form-control", @id = "Protein" } })
-                    @Html.ValidationMessageFor(model => model.Protein, "", new { @class = "text-danger", @id = "Protein" })
-                </div>
-                <span id="sp_Protein"></span>
-            </div>
+                    <div class="form-group col-3">
+                        <label>鈉</label>
+                        <div>
+                            @Html.EditorFor(model => model.Na, new { htmlAttributes = new { @class = "form-control", @id = "Na" } })
+                            @Html.ValidationMessageFor(model => model.Na, "", new { @class = "text-danger", @id = "Na" })
+                        </div>
+                        <span id="sp_Na"></span>
+                    </div>
 
-            <div class="form-group col-3">
-                <label>碳水化合物</label>
-                <div>
-                    @Html.EditorFor(model => model.Carbs, new { htmlAttributes = new { @class = "form-control", @id = "Carbs" } })
-                    @Html.ValidationMessageFor(model => model.Carbs, "", new { @class = "text-danger", @id = "Carbs" })
-                </div>
-                <span id="sp_Carbs"></span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-3">
-                <label>糖</label>
-                <div>
-                    @Html.EditorFor(model => model.Sugar, new { htmlAttributes = new { @class = "form-control", @id = "Sugar" } })
-                    @Html.ValidationMessageFor(model => model.Sugar, "", new { @class = "text-danger", @id = "Sugar" })
-                </div>
-                <span id="sp_Sugar"></span>
-            </div>
+                    <div class="form-group col-3" style="display:none">
+                        <label>維生素A</label>
+                        <div>
+                            @Html.EditorFor(model => model.VitA, new { htmlAttributes = new { @class = "form-control", @id = "VitA" } })
+                            @Html.ValidationMessageFor(model => model.VitA, "", new { @class = "text-danger", @id = "VitA" })
+                        </div>
+                    </div>
 
-            <div class="form-group col-3">
-                <label>鈉</label>
-                <div>
-                    @Html.EditorFor(model => model.Na, new { htmlAttributes = new { @class = "form-control", @id = "Na" } })
-                    @Html.ValidationMessageFor(model => model.Na, "", new { @class = "text-danger", @id = "Na" })
+                    <div class="form-group col-3" style="display:none">
+                        <label>維生素B</label>
+                        <div>
+                            @Html.EditorFor(model => model.VitB, new { htmlAttributes = new { @class = "form-control", @id = "VitB" } })
+                            @Html.ValidationMessageFor(model => model.VitB, "", new { @class = "text-danger", @id = "VitB" })
+                        </div>
+                    </div>
                 </div>
-                <span id="sp_Na"></span>
-            </div>
+                <div class="row" style="display:none">
+                    <div class="form-group col-3">
+                        <label>維生素C</label>
+                        <div>
+                            @Html.EditorFor(model => model.VitC, new { htmlAttributes = new { @class = "form-control", @id = "VitC" } })
+                            @Html.ValidationMessageFor(model => model.VitC, "", new { @class = "text-danger", @id = "VitC" })
+                        </div>
+                    </div>
 
-            <div class="form-group col-3" style="display:none">
-                <label>維生素A</label>
-                <div>
-                    @Html.EditorFor(model => model.VitA, new { htmlAttributes = new { @class = "form-control", @id = "VitA" } })
-                    @Html.ValidationMessageFor(model => model.VitA, "", new { @class = "text-danger", @id = "VitA" })
-                </div>
-            </div>
+                    <div class="form-group col-3">
+                        <label>維生素D</label>
+                        <div>
+                            @Html.EditorFor(model => model.VitD, new { htmlAttributes = new { @class = "form-control", @id = "VitD" } })
+                            @Html.ValidationMessageFor(model => model.VitD, "", new { @class = "text-danger", @id = "VitD" })
+                        </div>
+                    </div>
 
-            <div class="form-group col-3" style="display:none">
-                <label>維生素B</label>
-                <div>
-                    @Html.EditorFor(model => model.VitB, new { htmlAttributes = new { @class = "form-control", @id = "VitB" } })
-                    @Html.ValidationMessageFor(model => model.VitB, "", new { @class = "text-danger", @id = "VitB" })
+                    <div class="form-group col-3">
+                        <label>維生素E</label>
+                        <div>
+                            @Html.EditorFor(model => model.VitE, new { htmlAttributes = new { @class = "form-control", @id = "VitE" } })
+                            @Html.ValidationMessageFor(model => model.VitE, "", new { @class = "text-danger", @id = "VitE" })
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row" style="display:none">
-            <div class="form-group col-3">
-                <label>維生素C</label>
-                <div>
-                    @Html.EditorFor(model => model.VitC, new { htmlAttributes = new { @class = "form-control", @id = "VitC" } })
-                    @Html.ValidationMessageFor(model => model.VitC, "", new { @class = "text-danger", @id = "VitC" })
-                </div>
-            </div>
+                <div class="row" style="display:none">
+                    <div class="form-group col-3" style="display:none">
+                        <label>鉀</label>
+                        <div>
+                            @Html.EditorFor(model => model.Potassium, new { htmlAttributes = new { @class = "form-control", @id = "K" } })
+                            @Html.ValidationMessageFor(model => model.Potassium, "", new { @class = "text-danger", @id = "K" })
+                        </div>
+                    </div>
 
-            <div class="form-group col-3">
-                <label>維生素D</label>
-                <div>
-                    @Html.EditorFor(model => model.VitD, new { htmlAttributes = new { @class = "form-control", @id = "VitD" } })
-                    @Html.ValidationMessageFor(model => model.VitD, "", new { @class = "text-danger", @id = "VitD" })
+                    <div class="form-group col-3">
+                        <label>鈣</label>
+                        <div>
+                            @Html.EditorFor(model => model.Calcium, new { htmlAttributes = new { @class = "form-control", @id = "Ca" } })
+                            @Html.ValidationMessageFor(model => model.Calcium, "", new { @class = "text-danger", @id = "Ca" })
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="form-group col-3">
-                <label>維生素E</label>
-                <div>
-                    @Html.EditorFor(model => model.VitE, new { htmlAttributes = new { @class = "form-control", @id = "VitE" } })
-                    @Html.ValidationMessageFor(model => model.VitE, "", new { @class = "text-danger", @id = "VitE" })
+                <div class="form-group col-3" style="display:none">
+                    <label>鐵</label>
+                    <div>
+                        @Html.EditorFor(model => model.Icon, new { htmlAttributes = new { @class = "form-control", @id = "Fe" } })
+                        @Html.ValidationMessageFor(model => model.Icon, "", new { @class = "text-danger", @id = "Fe" })
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row" style="display:none">
-            <div class="form-group col-3" style="display:none">
-                <label>鉀</label>
-                <div>
-                    @Html.EditorFor(model => model.Potassium, new { htmlAttributes = new { @class = "form-control", @id = "K" } })
-                    @Html.ValidationMessageFor(model => model.Potassium, "", new { @class = "text-danger", @id = "K" })
-                </div>
-            </div>
-
-            <div class="form-group col-3">
-                <label>鈣</label>
-                <div>
-                    @Html.EditorFor(model => model.Calcium, new { htmlAttributes = new { @class = "form-control", @id = "Ca" } })
-                    @Html.ValidationMessageFor(model => model.Calcium, "", new { @class = "text-danger", @id = "Ca" })
-                </div>
-            </div>
-        </div>
-        <div class="form-group col-3" style="display:none">
-            <label>鐵</label>
-            <div>
-                @Html.EditorFor(model => model.Icon, new { htmlAttributes = new { @class = "form-control", @id = "Fe" } })
-                @Html.ValidationMessageFor(model => model.Icon, "", new { @class = "text-danger", @id = "Fe" })
-            </div>
-        </div>
-        @*<div class="form-group">
+                @*<div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="button" value="新增餐點" class="btn btn-default" onclick="formSubmit(this.form)" />
             </div>
         </div>*@
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="新增餐點" class="btn btn-default" id="pass" />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="新增餐點" class="btn btn-default" id="pass" />
+                    </div>
+                </div>
             </div>
-        </div>
+        </form>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
     </div>
-</form>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
-
 
 @section Scripts{
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>

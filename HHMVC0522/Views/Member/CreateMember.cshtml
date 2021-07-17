@@ -28,11 +28,42 @@
                     //參數名稱/txt的內容
                     success: function (result) {
                         if (result == "true") {
-                            $("#errorEmail").text("此帳號已註冊過").css("color","red")
+                            $("#errorEmail").text("此帳號已註冊過").css("color", "red")
+                        }
+                        else {
+                            $("#errorEmail").text("")
                         }
                     }
                 })
             });
+        $("#btnDemo").on("click", function () {
+            $("#txtUserName").val("NewUser");
+            $("#txtPassword").val("123456");
+            $("#txtRePwd").val("123456");
+            $("#txtName").val("小新");
+            $("#txtEmail").val("kevinwang0501@gmail.com");
+            $("#txtBirthday").val("2000 / 01 / 01");            
+            $("#txtHeight").val("175");
+            $("#txtPhone").val("0900123456");
+            $("#txtMeal").val("3");
+            $("#txtWeight").val("80");
+        });
+        //$("#btnDemo2").on("click", function () {
+        //    //$("#txtUserName").val("NewUser");
+        //    //$("#txtPassword").val("NewUser");
+        //    //$("#txtRePwd").val("NewUser");
+        //    //$("#txtName").val("小新");
+        //    $("#txtEmail").val("t1234@hotmail.com");
+        //    //$("#txtBirthday").val("2000 / 01 / 01");
+        //    //$("radio").attr("checked", true);
+        //    //$("#txtHeight").val("175");
+        //    //$("#txtPhone").val("0900123456");
+        //    //$("#txtMeal").val("3");
+        //    //$("#txtWeight").val("80");
+        //})
+        $("#btnSubmit").on("click", function () {
+            window.alert("認證碼已寄到您的信箱")
+        })
 
     </script>
 }

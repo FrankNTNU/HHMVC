@@ -40,6 +40,7 @@ namespace DAL
                 dto.UserName = user.UserName;
                 dto.Height = user.Height;
                 dto.Password = user.Password;
+                dto.RePassword = user.Password;
                 dto.Email = user.Email;
                 dto.Phone = user.Phone;
                 dto.Gender = user.Gender;
@@ -50,6 +51,7 @@ namespace DAL
                 dto.ActivityLevelID = user.ActivityLevelID;
                 dto.StatusID = user.StatusID;
                 dto.Name = user.Name;
+                dto.MealCount = user.MealCount??0;
             }
             return dto;
         }

@@ -424,7 +424,10 @@ namespace DAL
         }
         public bool IsLikedMeal(int memberId, int mealId)
         {
-            return db.LikedMeals.Any(lm => lm.MemberID == memberId && lm.MealOptionID == mealId);
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                return db.LikedMeals.Any(lm => lm.MemberID == memberId && lm.MealOptionID == mealId);
+            }
         }
     }
 }

@@ -50,5 +50,6 @@ namespace DTO
 
         public string GoogleID { get; set; }
         public string ActiveCode { get; set; }
+        
     }
 }

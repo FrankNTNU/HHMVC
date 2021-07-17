@@ -34,8 +34,7 @@ namespace HHMVC0522
               name: "DeleteComment",
               url: "{controller}/{action}/{ID}",
               defaults: new { controller = "Home2", action = "DeleteComment", ID = UrlParameter.Optional }
-            );
-            
+          );
         }
     }
 }

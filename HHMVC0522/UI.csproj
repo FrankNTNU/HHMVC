@@ -50,6 +50,9 @@
     <Reference Include="Azure.Core, Version=1.16.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
       <HintPath>..\packages\Azure.Core.1.16.0\lib\net461\Azure.Core.dll</HintPath>
     </Reference>
+    <Reference Include="ECPay.Payment.Integration, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ECPay.Payment.Integration.1.0.0.8\lib\net45\ECPay.Payment.Integration.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -89,13 +92,31 @@
     <Reference Include="Microsoft.Azure.CognitiveServices.Knowledge.QnAMaker, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.CognitiveServices.Knowledge.QnAMaker.2.0.1\lib\net461\Microsoft.Azure.CognitiveServices.Knowledge.QnAMaker.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.5.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.5.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.5.0.0\lib\net461\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.5.0.0\lib\net461\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.5.0.0\lib\net461\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.5.0.0\lib\net461\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.2.0\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -132,8 +153,8 @@
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.6.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.5.0.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
@@ -149,8 +170,8 @@
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.6.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -163,7 +184,7 @@
     <Reference Include="System.Text.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Json.4.6.0\lib\net461\System.Text.Json.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -222,8 +243,11 @@
     <Content Include="Areas\Admin\Content\Barcode\6e740d8cca7748079.png" />
     <Content Include="Areas\Admin\Content\Barcode\a29e5a09b16c4ff9a.png" />
     <Content Include="Areas\Admin\Content\Barcode\dd5796acf7f84242a.png" />
+    <Content Include="Areas\Admin\Content\CartImages\04e83e92-1b9e-47c6-9c48-347837105616bigmac.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\0edbc09f-f7ee-4ac5-adfe-c06e0ca364e2bigmac.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\159fe7b7-e26d-43be-a8d1-27a37d1827e8bread.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\63797bf5-efd2-4213-8531-5a3b91eec72fstarbucks.jpg" />
+    <Content Include="Areas\Admin\Content\CartImages\807266b5-128b-4499-9a12-1d6b34be515fcoffee2.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\a952f37f-4730-4c56-84d4-1ff4ec850c5dfries2.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\aa9756af-ac61-4985-97a7-8297a7406a6cbigmac.jpg" />
     <Content Include="Areas\Admin\Content\CartImages\bed2d377-a6e5-4e30-9230-7ea13237b02eworkoutGloves.jpg" />
@@ -531,6 +555,74 @@
     <Content Include="Areas\Admin\Content\JS\sweetalert2.min.js" />
     <Content Include="Areas\Admin\Content\JS\tempusdominus-bootstrap-4.min.js" />
     <Content Include="Areas\Admin\Content\JS\vfs_fonts.js" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\00f14e2c-3dfd-4bae-b72a-793ec38d46f6apple.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\07419b26-8464-41d6-b00e-f5058bbc03d8G07.png" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\08098baa-a137-467f-9c68-9d4d38f7fd76薯條.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\0fb9e7d4-95fb-4388-8e77-62273c2a5ae1M02.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\15dbcd29-414c-4b26-b8f1-b79c817f1fc51500701744-1597029129_wn.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\1648c6ba-aac8-4325-87f8-6e9b73a3d76eG02.png" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\20761032-1fae-4aae-9a2b-a5d429345b0bM01.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\217ff0a5-e257-4d40-b6a6-408f3a36efa4G08.png" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\26f5a76f-4be9-4631-b89b-31cba2ab39b3白玉歐蕾.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\2f0dc379-a662-45e7-bd52-934475da6c89IMG20200617114202.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\3475cc17-b057-443f-abca-6f07327fa203bread.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\4143069e-cfed-49a0-b3bb-b33e2313490b1406480948-3163372718_n.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\49fa68f7-35b4-4cba-905b-d63110a9bfbdM13.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\4a88f330-2368-4b43-be44-25f342cc44b3tags.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\4c102ca9-d36a-46bd-b1f2-a7bd5c22a82b5cc62539c4060c2a0d2415485f4f47c0.png" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\4c2d53e1-fb99-4589-9cd7-971c6d2065b5M14.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\543ec2e1-9e17-4cfa-9106-9f94b74efc50G03.png" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\57720312-9349-4d43-9aa9-2f27358efd0aM16.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\57cfc62c-2603-430b-9324-d8046e19901e0602NEW.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\57f92bd5-53e1-44e5-937a-74a724bee7f3M15.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\5a10b2c6-0202-424f-8208-6606e87d5e44M03.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\65f523cb-e33f-4eb5-9bb7-a555c040b2c60201.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\6cfba608-5a20-4edf-b161-cb4d1311f9ab0201.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\71ca2460-cb03-4a70-9587-69287c0f005f3de4418191c5ddc0c79b9a0450b1c9e1.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\732234d3-cdc6-4e21-8798-40f6a97e16f3Banana.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\7714177b-7d91-4149-81be-673cb4b685691410606730-801923449.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\78fdc07c-622c-4e7d-9aa6-0a93ed7babbe可不可雪藏紅.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\79a9a4ee-58fa-438a-9e52-79e2f6e457ba2ZdEo3w.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\7bd54b16-35aa-4074-ab6e-ba8a3ad56c6bM09.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\7ce42a5e-db24-4122-b4c0-a3c889afb5b30201.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\7f0a509e-6c0c-4fca-a6c2-6a8dd9bd135bG04.png" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\85565dbc-c88f-422b-ba09-2e8edcd7e821春梅冰茶.jpeg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\8997b04b-a588-4a23-b46d-6c6102d4cd3cSalad-S.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\89edd50c-231d-4ff6-8b6d-903c36d4bb9dBanana.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\8aff7c51-ce3c-47a0-a74d-f265a2dae54aM04.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\9389ac02-3933-4e39-8013-e16f8c020a80家樂福廚房茶葉蛋-食譜成品照片.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\962e8958-d4dd-491e-b106-bbe34761a0baG06.png" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\982ff8ef-9f7e-4586-9ffe-9e52ff29eef1G05.png" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\9af8dfe6-64af-4d41-ba2e-f9fbd8304e870602NEW.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\a2bbacde-f03f-4458-b26c-fabedc24db15M05.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\af4e1492-1f9a-4912-bbc6-41991b373045M07.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\b2661b8f-1c38-42f8-9921-2d9ef6a523340201.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\bao.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\bfb7809d-6cbd-467a-b4f9-303a6443f039product-7-1_8.png" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\bigmac.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\c6689f65-69c7-4065-94ad-512e30bdbc65M08.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\c88e782f-8981-4e45-a032-e7786c17451520190824001525.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\ch.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\d14c1770-a45c-43c1-834d-8c94ce687b75G01.png" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\d9699760-8a52-4684-ab43-1a05b0a69d9671101.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\d96d7696-923c-4986-a598-3f14c7d19c705cc62539c4060c2a0d2415485f4f47c0.png" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\dd8e3210-6153-4d4d-8d1d-37c0f6d8dd80M10.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\ddb25e25-8d5b-4467-9aba-af554d88aeb61406480948-3163372718_n.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\de01922d-cb26-41d7-a93e-53c7b1f784e0M06.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\defaultCustomeMeal.jpg.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\dia.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\ding.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\dou.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\e703cd23-7783-42f8-acba-f550834ed0315cc62539c4060c2a0d2415485f4f47c0.png" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\eec7f23f-c735-4615-85e4-22f6894282e5messageImage_1624421116513.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\f7f479d9-a177-427b-9606-b8a9552f51ea春芽冷路.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\f8ce1148-f86a-4d67-8096-6489e3ed3498apple.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\food.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\Ice.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\mealDefault.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\meat.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\sale.jpg" />
+    <Content Include="Areas\Admin\Content\MealOptionImages\shinf.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\1aad9c8b-8e8c-4332-9fe5-deaac5134a7fgym.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\27d354e7-8b72-4c19-822e-acf3ce64ed25books.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\494540c3-68e1-4b2b-8bf9-1053d44bf7c3hamburger.jpg" />
@@ -553,6 +645,28 @@
     <Content Include="Areas\Admin\Content\PostImages\defaultImg.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\e9c5f14a-462f-4ac8-b08f-22d61fea0f5afruitCubes.jpg" />
     <Content Include="Areas\Admin\Content\PostImages\ea82d513-e3bd-4200-aca1-352b9af80e3dbooks.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\067821de-6b5a-41a9-a921-d71cd2462a52alltag.png" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\0c676116-09fe-4457-b73e-b64427104f1emoring.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\14739ea7-f2d5-4f1f-9ec8-83a801825c09早午餐 %282%29.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\19f6bc72-3e43-459b-9eaa-da32ba009f14點心.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\20824055-5a09-416b-850f-0ea753bb63e0894894198.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\26e99681-18c1-4dc2-8009-5551a15855090ead13b4-b727-4118-9146-4bfc62c234fe_i_image.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\41a07225-5d6c-4fdb-a17b-fe01dfaf6003韓式.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\42bb5b67-736c-4de4-b7d8-dfd9cf822ba9Salad-S.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\57af1ad7-f191-42b5-9ef0-01d1d6e42f89日式.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\6fa60c66-1501-4280-bc54-b45bd06b0963輕食.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\859569fa-01b2-4fa5-9322-b773e45349a60602NEW.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\9b6e4ab9-6bb1-43f8-85ea-5ae3a3ee3513GetImg.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\a01782b2-b643-4d9f-acf6-d8c0cbab39cdmaxresdefault.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\a18d2c6e-953c-457a-a9d4-899fc9288c562767503.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\ab8ed605-f644-4395-93b8-08005acf80f4湯.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\c7b5d912-1f78-4896-b2a7-e4b60a9b963dS__79134742.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\c856d991-9707-41f9-8341-2d66dac967687676878.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\cbddf8c7-aedb-47e2-8d01-16835df63a48161207-5006-02-xyDdI.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\cd6d963f-f29d-43fa-aadd-e9007b5a2f05素食.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\cf0ccee9-8212-47a1-9fe1-4bc00dd00acfS__79134742.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\d086e9be-2d66-446d-8167-c54017557d061406480948-3163372718_n.jpg" />
+    <Content Include="Areas\Admin\Content\TagCategoriesImages\fbf4b27e-2298-418b-b3f5-56fd9f1f219cw644.jpg" />
     <Content Include="Areas\Admin\Content\tempimage\dietLog.jpg" />
     <Content Include="Areas\Admin\Content\tempimage\gift.jpg" />
     <Content Include="Areas\Admin\Content\tempimage\healthImg.png" />
@@ -578,10 +692,12 @@
     <Content Include="Areas\Admin\Content\UserImage\74273af4-93e5-4018-84ab-0ca3203c84a9user5.png" />
     <Content Include="Areas\Admin\Content\UserImage\7a4f7c5d-00da-4583-86e4-52531f2872dcuser3.png" />
     <Content Include="Areas\Admin\Content\UserImage\84f2c871-9a61-4771-a402-de1ddcd9e781user11.png" />
+    <Content Include="Areas\Admin\Content\UserImage\9dc8a38b-8c98-4694-8239-813268efaa11小波.jpg" />
     <Content Include="Areas\Admin\Content\UserImage\af984b4d-b0c7-4411-a700-c7e9423bbdf7user13.png" />
     <Content Include="Areas\Admin\Content\UserImage\b5e21fea-d105-4df0-9d99-86f931a7fbddhappyLuby.jpg" />
     <Content Include="Areas\Admin\Content\UserImage\bea5e34a-9a65-4b4c-8a2a-7f6f7183c8d5user5.png" />
     <Content Include="Areas\Admin\Content\UserImage\d4bc6e2e-e3a0-40ff-8526-61e2610f4fc8hLogo.png" />
+    <Content Include="Areas\Admin\Content\UserImage\e9ea3c02-18f2-41ac-a647-578fd0ba12ff101.jpg" />
     <Content Include="Areas\Admin\Content\UserImage\e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png" />
     <Content Include="Areas\Admin\Content\webfonts\fa-brands-400.svg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-regular-400.svg" />
@@ -628,6 +744,7 @@
     <Content Include="Content\Images\Infography\riceBowlImg2.jpg" />
     <Content Include="Content\Images\Infography\riceBowlImg3.jpg" />
     <Content Include="Content\Images\loadingDots.gif" />
+    <Content Include="Content\Images\MealDefaultImages\defaultCustomeMeal.jpg" />
     <Content Include="Content\Images\MealOptionImages\07419b26-8464-41d6-b00e-f5058bbc03d8G07.png" />
     <Content Include="Content\Images\MealOptionImages\0fb9e7d4-95fb-4388-8e77-62273c2a5ae1M02.jpg" />
     <Content Include="Content\Images\MealOptionImages\1648c6ba-aac8-4325-87f8-6e9b73a3d76eG02.png" />
@@ -918,6 +1035,7 @@
     <Compile Include="Areas\Admin\Models\Attributes\LoginControl.cs" />
     <Compile Include="Controllers\HHGiftCardController.cs" />
     <Compile Include="Controllers\HHGiftShopController.cs" />
+    <Compile Include="Controllers\OpayController.cs" />
     <Compile Include="GroupChatHub.cs" />
     <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\ChatGroupController.cs" />
@@ -966,6 +1084,8 @@
     <Compile Include="ViewModels\MemberBasicHealthProfile.cs" />
     <Compile Include="ViewModels\MemberDietReport.cs" />
     <Compile Include="ViewModels\MemberHealthViewModel.cs" />
+    <Compile Include="ViewModels\OpayCreateCreditOrder.cs" />
+    <Compile Include="ViewModels\PaidNotice.cs" />
     <Compile Include="ViewModels\ProfileAndTodayDietLogsViewModel.cs" />
     <Compile Include="ViewModels\ShowProgramViewModel.cs" />
     <Compile Include="ViewModels\RegisterProgramViewModel.cs" />
@@ -1157,6 +1277,7 @@
     <Content Include="Views\Home2\GoogleLogin.cshtml" />
     <Content Include="Views\Home2\LoginFirstTime.cshtml" />
     <Content Include="Views\Member\EditMember.cshtml" />
+    <Content Include="Views\Opay\Payment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1179,8 +1300,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Content\JS\ckeditor\plugins\iframe\icons\hidpi\" />
-    <Folder Include="Areas\Admin\Content\MealOptionImages\" />
-    <Folder Include="Areas\Admin\Content\TagCategoriesImages\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Content\MemberImgs\" />

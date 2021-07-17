@@ -11,7 +11,7 @@
         <div class="col-md-9">
             @Html.Partial("~/Views/Shared/MessageForm.cshtml")
             <div class="box box-primary">
-                @using (Html.BeginForm("EditUser", "Member", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("EditMember", "Member", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                 {
                     @Html.Partial("Partial/MemberForm")
                 }

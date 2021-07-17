@@ -1,8 +1,6 @@
 ﻿
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/HomeLayout2.cshtml";
-}
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/HomeLayout2.cshtml"; }
 @model DTO.LayoutDTO
 
 
@@ -75,31 +73,31 @@
 <!-- Banner -->
 <section class="p-0 pt-3 pb-2">
     <div class="row">
-        <div class="col-12 col-lg-6 mb-2" id="bannerText" >
-            <div class="p-2 " style="border-radius: 10px; height: 100% ">
-                @if (Session["ID"] != null)
+        <div class="col-12 col-lg-6 mb-3" id="bannerText">
+            @if (Session["ID"] != null)
+            {
+<h2>
+    <i class="far fa-flag"></i>
+    Hi, @Session["Name"]<br />
+    歡迎回到 HealthHelper，<br />你的健康管理助手<br />
+    您目前可兌換禮品的點數為
+</h2><h1 style="color:lightcoral">@Session["Points"]點</h1> }
+            else
+            {
+<h2>
+    歡迎來到<span style="font-size:0.9em"> HealthHelper</span>
+
+</h2>
+                <h2>登入以啟用更多功能</h2>}
+            <div class="actions pt-2 m-auto">
+                @if (Session["ID"] == null)
                 {
-                    <h2>
-                        <i class="far fa-flag"></i>
-                        Hi, @Session["Name"]<br />
-                        歡迎回到 HealthHelper，<br />你的健康管理助手
-                    </h2>
-                }
+    <a href="~/Home2/Login" class="button primary big mr-5" style="text-decoration: none"><i class="fas fa-user"></i> 登入</a><p style="color:red">需註冊後才可使用Google登入</p><button type="button" id="btnSignIn" class="button default m-0">Google登入</button> }
                 else
                 {
-                    <h2>
-                        歡迎來到<span style="font-size:0.9em"> HealthHelper</span>
+    <a href="~/Opay/Payment/" class="button primary mr-3" style="text-decoration: none" id="">我要成為黃金會員</a><a href="#" class="button big" style="text-decoration: none;background-color:white;width:180px"><i class="fas fa-book"></i> 遊戲規則</a>
+                    <p style="color:red;font-size:20px">想增加點數嗎？<br />快按上方按鈕成為黃金會員吧<i class="far fa-kiss-wink-heart"></i></p>            }
 
-                    </h2>
-                    <h2>登入以啟用更多功能</h2>
-                }
-                <div class=" pt-2">
-                    @if (Session["ID"] == null)
-                    {
-                        <a href="~/Home2/Login" class="button primary" style="text-decoration: none; "><i class="fas fa-user"></i> 登入</a>}
-                    
-                    <a href="#" class="button big" style="text-decoration: none;background-color:white"><i class="fas fa-book"></i> 遊戲規則</a>
-                </div>
             </div>
 
 
@@ -121,19 +119,18 @@
                     </div>
                     @foreach (var item in Model.Carousels)
                     {
-                        <div class="carousel-item">
-                            <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image" style="        width: auto;
+        <div class="carousel-item">
+            <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image" style="        width: auto;
         margin: auto
 ">
-                                <img class="d-block w-100" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="First slide">
+                <img class="d-block w-100" src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="First slide">
 
-                                <div class="carousel-caption d-md-block">
-                                    <h5>@item.Title</h5>
-                                    <p>@item.ShortContent</p>
-                                </div>
-                            </a>
-                        </div>
-                    }
+                <div class="carousel-caption d-md-block">
+                    <h5>@item.Title</h5>
+                    <p>@item.ShortContent</p>
+                </div>
+            </a>
+        </div>}
                     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
@@ -230,14 +227,13 @@
     <div class="row">
         @foreach (var item in Model.Posts)
         {
-            <div class="col-12 col-md-6 col-lg-4">
+<div class="col-12 col-md-6 col-lg-4">
 
 
-                <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image">
-                    @if (item.ImagePath != "~/Content/img/slides/health1.jpg")
-                    {
-                        <img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="" style="max-width:100%" />
-                    }
+    <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image">
+        @if (item.ImagePath != "~/Content/img/slides/health1.jpg")
+        {
+<img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="" style="max-width:100%" /> }
 
                     else
                     {
@@ -255,8 +251,7 @@
     </div>
 </section>
 
-@functions{
-    IHtmlString DisplayIcon(string name)
+@functions{ IHtmlString DisplayIcon(string name)
     {
         if (name == "貼文") return Html.Raw(@DTO.Icons.Post);
         else if (name == "資訊") return Html.Raw(@DTO.Icons.Information);
@@ -271,7 +266,16 @@
     @*<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>*@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="~/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <!--從 Web.config檔 抓取Googl App Client ID-->
+    <script type="text/javascript">
+        let GoolgeApp_Cient_Id = "210856283403-257sicfc1u5afrca31mtevcc975u1dk5.apps.googleusercontent.com";
+        let id_token_to_userIDUrl = "@Url.Action("GoogleLogin","Home2")";
+    </script>
+    <!--引用Google Sign-in必須的.js，callback function(GoogleSigninInit)名稱自訂 -->
+    <script src="https://apis.google.com/js/platform.js?onload=GoogleSigninInit" async defer></script>
 
+    <!--以下請放置到*.js檔-->
     <script>
         $('.carousel').carousel({
             interval: 4000
@@ -301,6 +305,96 @@
                 }
 
 
+            }
+        })
+    </script>
+    <script type="text/javascript">
+        //jQuery處理button click event 當畫面DOM都載入時....
+        $(function () {
+            $("#btnSignIn").on("click", function () {
+                GoogleLogin();//Google 登入
+            });
+            $("#btnDisconnect").on("click", function () {
+                Google_disconnect();//和Google App斷連
+            });
+
+        });
+
+        function GoogleSigninInit() {
+            gapi.load('auth2', function () {
+                gapi.auth2.init({
+                    client_id: GoolgeApp_Cient_Id//必填，記得開發時期要開啟 Chrome開發人員工具 查看有沒有403錯誤(Javascript來源被禁止)
+                });
+                console.log(GoolgeApp_Cient_Id)
+            });//end gapi.load
+        }//end GoogleSigninInit function
+
+
+        function GoogleLogin() {
+            let auth2 = gapi.auth2.getAuthInstance();//取得GoogleAuth物件
+            auth2.signIn().then(function (GoogleUser) {
+                console.log("Google登入成功");
+                console.log(GoogleUser["dt"]["Nt"]);//抓email
+                let user_id = GoogleUser.getId();//取得user id，不過要發送至Server端的話，請使用↓id_token
+                let AuthResponse = GoogleUser.getAuthResponse(true);//true會回傳access token ，false則不會，自行決定。如果只需要Google登入功能應該不會使用到access token
+                let id_token = AuthResponse.id_token;//取得id_token
+                let Email = GoogleUser["dt"]["Nt"];
+                let GoogleID = user_id;
+                console.log(user_id);
+                AddGoogleID(Email, GoogleID);
+                $.ajax({
+                    url: id_token_to_userIDUrl,
+                    method: "post",
+                    data: { id_token: id_token },
+                    success: function () {
+                        window.location.href = "http://localhost/HealthHelper/Home2/Index";
+                    }
+                });//end $.ajax
+            },
+                function (error) {
+                    console.log("Google登入失敗");
+                    console.log(error);
+                });
+
+        }//end function GoogleLogin
+
+        function AddGoogleID(Email, GoogleID) {
+            $.ajax({
+                url: "AddGoogleID",
+                data: {
+                    email: Email,
+                    googleID: GoogleID
+                }//前面事動作裡的參數，後面是這邊的參數
+            })
+        }
+        function Google_disconnect() {
+            let auth2 = gapi.auth2.getAuthInstance(); //取得GoogleAuth物件
+
+            auth2.disconnect().then(function () {
+                console.log('User disconnect.');
+            });
+        }
+
+
+        /**/
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "text-align": "center",
+                "onclick": null,
+                "fadeIn": 300,
+                "fadeOut": 1000,
+                "timeOut": 5000,
+                "extendedTimeOut": 1000
+            }
+            var result = "@TempData["Success"]";
+            if (result != "") {
+                if (result == "Update Success") {
+                    toastr.success("更新成功");
+                }
             }
         })
     </script>

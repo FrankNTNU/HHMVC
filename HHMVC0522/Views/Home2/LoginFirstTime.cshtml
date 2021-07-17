@@ -26,19 +26,20 @@
 
 
 @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
-}
 
-<form action="@Url.Action("Login")" method="post">
 
+<form action="@Url.Action("LoginFirstTime")" method="post">
+
+    <input type="button" id="btnDemo2" name="btnDemo2" value="Demo" />
     <div class="row">
         <div class="col-12">
-            @Html.ValidationMessageFor(x => x.Email, "", new { @style = "color:red" })
+            @Html.ValidationMessageFor(x => x.Email, "", new { @style = "color:red" ,@id= "txtEmail2" })
             <br /><label>帳號</label>
 
             <input type="text" name="Email" id="demo-name" value="" placeholder="登入帳號" style="height:50px" autocomplete="off" />
         </div>
         <div class="col-12">
-            @Html.ValidationMessageFor(x => x.Password, "", new { @style = "color:red" })
+            @Html.ValidationMessageFor(x => x.Password, "", new { @style = "color:red", @id = "txtPassword2" })
             <br /><label>密碼</label>
 
             <input type="password" name="Password" id="demo-email" value="" placeholder="你的密碼" style="height:50px" />
@@ -47,16 +48,23 @@
             @Html.ValidationMessageFor(x => x.ActiveCode, "", new { @style = "color:red" })
             <br /><label>認證碼</label>
 
-            <input type="password" name="Password" id="demo-email" value="" placeholder="註冊信箱內的認證碼" style="height:50px" />
+            <input type="password" name="ActiveCode" id="demo-core" value="" placeholder="註冊信箱內的認證碼" style="height:50px" />
         </div>
         <!-- Break -->
         <!-- Break -->
         <div class="col-12" style="margin-top:10px">
             <ul class="actions">
                 <li style="font-size:1.1em"><input type="submit" value="登入" class="primary" /></li>
-                <li style="font-size:1.1em"><a class="button default m-0" href=" ~/Member/CreateMember">註冊新會員</a></li>
             </ul>
         </div>
     </div>
 </form>
+@section Scripts{
+    <script>
+        $("#btnDemo2").on("click", function () {
+            $("#txtEmail2").val("kevinwang05010404@gmail.com");
+            $("#txtPassword2").val("123456");         
+        });
+    </script>
+    }
 

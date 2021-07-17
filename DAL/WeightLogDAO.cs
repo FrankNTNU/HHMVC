@@ -103,6 +103,8 @@ namespace DAL
 
         public void AddWeightLogViaProgramRegister(int memberID, int weight)
         {
+            using(HealthHelperEntities db=new HealthHelperEntities())
+            {
             var weightLogOfToday = db.WeightLogs.FirstOrDefault(wl => wl.MemberID == memberID && DbFunctions.TruncateTime(wl.UpdatedDate) == DateTime.Today);
             if (weightLogOfToday != null)
             {
@@ -125,6 +127,8 @@ namespace DAL
                 db.WeightLogs.Add(entity);
                 db.SaveChanges();
             }
+            }
+
         }
 
         public void AddWeightLog(WeightLog weightLog)

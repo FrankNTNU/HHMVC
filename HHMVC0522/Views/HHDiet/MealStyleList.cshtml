@@ -7,7 +7,7 @@
 }
 @section Styles{
     <script src="https://kit.fontawesome.com/8e104d5e19.js" crossorigin="anonymous"></script>
-    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    
 
     <link href="~/Content/css/dietAddMeal.css" rel="stylesheet" />
     <link href="~/Content/css/stylesPlay.css" rel="stylesheet" />
@@ -44,171 +44,178 @@
 
     </div>
 </header><header id="header" class="m-0 p-0"></header>
-<div class="flexslider carousel px-4 pt-3 pb-0 mb-1">
-    <ul class="slides">
-        @{
 
-
-            foreach (MealTagCategory mCtgy in Model.TagsCategories)
-            {
-                <li>
-                    <figure class="pb-0">
-                        <img src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" data-ctgyID="@mCtgy.ID" height="280" class="mTagImg">
-                        <figcaption>
-                            @mCtgy.Name
-                        </figcaption>
-                    </figure>
-                </li>
-
-
-            }
-        }
-    </ul>
-
-</div>
-
-
-<div class="py-4">
-
-    <div class="row ">
-        <div class="col-4">
-            <h1 id="hTagName" style="float:left">@Model.TheMealStyle.MealStyleName</h1>
-        </div>
-        <div class="col-8 row">
-
-            <div class="col-3" style="color: #f56a6a">
-
-                <label>剩餘熱量額度: </label>
-
-
-
-                <span class="h2"> @Model.RemainActiveCal </span>大卡
-
-            </div>
-            <div class="col-3" style="color: #f56a6a">
-
-                <label>目前累計熱量: </label>
-
-
-
-                <span class="h2">@Model.TodayGainedCals </span>大卡
-
-            </div>
-            <div class="col-3" style="color: #f56a6a">
-                @{
-                    if (Model.MemberProfile.CurrProgram != null)
-                    {
-                        <label>我的挑戰上限: </label>
-
-
-                    }
-                    else
-                    {
-                        <label>我的TDEE: </label>
-                    }
-                }
-                <span class="h2"> @Model.MemberProfile.ProgramMaxCalOrTDEE </span>大卡
-
-            </div>
-
-
-            <div class="col-3">
-                <a href="@Url.Action("Create", "HHDiet")">
-                    <input type="button" id="TempListCount" value="" class="btn btn-default " style="font-size:16px ;width:100%" />
-                </a>
-            </div>
-
-        </div>
-
-    </div>
-    <div class="row py-md-3">
-        <div class="col-6 col-md-6 row">
-            <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
-        </div>
-
-        <div class="col-6 col-md-6">
-            <select id="selSort" class="form-control">
-                <option selected disabled value="0">排序條件</option>
-                <option value=1>依卡路里含量排序: 低 -> 高</option>
-                <option value=2>依卡路里含量排序: 高 -> 低</option>
-                <option value=3>依蛋白質含量排序: 低 -> 高</option>
-                <option value=4>依蛋白質含量排序: 高 -> 低</option>
-                <option value=5>依碳水化合物含量排序: 低 -> 高</option>
-                <option value=6>依碳水化合物含量排序: 高 -> 低</option>
-                <option value=7>依脂肪含量排序: 低 -> 高</option>
-                <option value=8>依脂肪含量排序: 高 -> 低</option>
-
-            </select>
-        </div>
-    </div>
-
-
-
-    <div class="row">
-        <input type="button" id="btnAllMeals" class="button primary large col-4 " value="全部餐點">
-
-        <input type="button" id="btnShowTDEE" class="button large col-4" value="TDEE">
-
-
-
-        @{
-            if (Model.MemberProfile.CurrProgram != null)
-            {
-                <input type="button" id="btnLightProMeals" class="button large col-4" value="符合計畫">
-
-            }
-            else
-            {
-                <input type="button" id="btnLightProMeals" class="button large col-4" value="輕食一下">
-            }
-        }
-    </div>
-    <div class="row" style="color: #f56a6a">
-        <div id="divBtnNoteAll" class=" col-4">以下為此分類全部餐點</div>
-        <div id="divBtnNoteTDEE" class=" col-4" style="visibility:hidden">為您提供不超過TDEE的餐點選擇</div>
-        @{
-            if (Model.MemberProfile.CurrProgram != null)
-            {
-                <div id="divBtnNoteProOrLight" class=" col-4" style="visibility:hidden">為您提供符合 @Model.MemberProfile.CurrProgram.Name 減脂計畫餐點選擇</div>
-
-            }
-            else
-            {
-                <div id="divBtnNoteProOrLight" class=" col-4" style="visibility:hidden">選擇以下餐點 您將省下TDEE 5%的熱量</div>
-            }
-        }
+         <section class="pt-2 pb-5">
 
 
 
 
+             <div class="flexslider carousel px-4 pt-3 pb-0 mb-1">
+                 <ul class="slides">
+                     @{
 
-    </div>
-    <div class="row pt-3" id="divAllMealOnlyBtns" style="display:none">
-        <input type="button" id="btnGuess" class="button   col-2" value="猜你會想吃">
 
-        <input type="button" id="btnFitSuggestion" class="button  col-2" value="減脂推薦">
-    </div>
+                         foreach (MealTagCategory mCtgy in Model.TagsCategories)
+                         {
+                             <li>
+                                 <figure class="pb-0">
+                                     <img src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" data-ctgyID="@mCtgy.ID" height="280" class="mTagImg">
+                                     <figcaption>
+                                         @mCtgy.Name
+                                     </figcaption>
+                                 </figure>
+                             </li>
 
-</div>
 
-<div id="mealList" class="row gx-5 mt-lg-4">
+                         }
+                     }
+                 </ul>
 
-    @Html.Partial("_MealOptionViewModelPartial", Model.TheMealStyle.Meals)
+             </div>
 
-</div>
 
-@section Scripts{
-    <script src="~/Content/js/chart.min.js"></script>
-    <script src="~/Content/js/jquery-ui.js"></script>
-    <script src="~/Content/js/popper.min.js"></script>
+             <div class="py-4">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
-    <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.4/themes/blitzer/jquery-ui.css" />
-    <script src="~/Content/js/bootstrap-slider.min.js"></script>
-    <script src="~/Content/js/jquery.flexslider-min.js"></script>
-    <script>
+                 <div class="row ">
+                     <div class="col-4">
+                         <h1 id="hTagName" style="float:left">@Model.TheMealStyle.MealStyleName</h1>
+                     </div>
+                     <div class="col-8 row">
+
+                         <div class="col-3" style="color: #f56a6a">
+
+                             <label>剩餘熱量額度: </label>
+
+
+
+                             <span class="h2"> @Model.RemainActiveCal </span>大卡
+
+                         </div>
+                         <div class="col-3" style="color: #f56a6a">
+
+                             <label>目前累計熱量: </label>
+
+
+
+                             <span class="h2">@Model.TodayGainedCals </span>大卡
+
+                         </div>
+                         <div class="col-3" style="color: #f56a6a">
+                             @{
+                                 if (Model.MemberProfile.CurrProgram != null)
+                                 {
+                                     <label>我的挑戰上限: </label>
+
+
+                                 }
+                                 else
+                                 {
+                                     <label>我的TDEE: </label>
+                                 }
+                             }
+                             <span class="h2"> @Model.MemberProfile.ProgramMaxCalOrTDEE </span>大卡
+
+                         </div>
+
+
+                         <div class="col-3">
+                             <a href="@Url.Action("Create", "HHDiet")">
+                                 <input type="button" id="TempListCount" value="" class="btn btn-default " style="font-size:16px ;width:100%" />
+                             </a>
+                         </div>
+
+                     </div>
+
+                 </div>
+                 <div class="row py-md-3">
+                     <div class="col-6 col-md-6 row">
+                         <input type="text" id="searchText" class="form-control" placeholder="關鍵字" style="height:40px" />
+                     </div>
+
+                     <div class="col-6 col-md-6">
+                         <select id="selSort" class="form-control">
+                             <option selected disabled value="0">排序條件</option>
+                             <option value=1>依卡路里含量排序: 低 -> 高</option>
+                             <option value=2>依卡路里含量排序: 高 -> 低</option>
+                             <option value=3>依蛋白質含量排序: 低 -> 高</option>
+                             <option value=4>依蛋白質含量排序: 高 -> 低</option>
+                             <option value=5>依碳水化合物含量排序: 低 -> 高</option>
+                             <option value=6>依碳水化合物含量排序: 高 -> 低</option>
+                             <option value=7>依脂肪含量排序: 低 -> 高</option>
+                             <option value=8>依脂肪含量排序: 高 -> 低</option>
+
+                         </select>
+                     </div>
+                 </div>
+
+
+
+                 <div class="row" >
+                     <input type="button" id="btnAllMeals" class="button primary large col-4" value="全部餐點">
+
+                     <input type="button" id="btnShowTDEE" class="button large col-4" value="TDEE">
+
+
+
+                     @{
+                         if (Model.MemberProfile.CurrProgram != null)
+                         {
+                             <input type="button" id="btnLightProMeals" class="button large col-4" value="符合計畫">
+
+                         }
+                         else
+                         {
+                             <input type="button" id="btnLightProMeals" class="button large col-4" value="輕食一下">
+                         }
+                     }
+                 </div>
+                 <div class="row" style="color: #f56a6a">
+                     <div id="divBtnNoteAll" class=" col-4">以下為此分類全部餐點</div>
+                     <div id="divBtnNoteTDEE" class=" col-4" style="visibility:hidden">為您提供不超過TDEE的餐點選擇</div>
+                     @{
+                         if (Model.MemberProfile.CurrProgram != null)
+                         {
+                             <div id="divBtnNoteProOrLight" class=" col-4" style="visibility:hidden">為您提供符合 @Model.MemberProfile.CurrProgram.Name 減脂計畫餐點選擇</div>
+
+                         }
+                         else
+                         {
+                             <div id="divBtnNoteProOrLight" class=" col-4" style="visibility:hidden">選擇以下餐點 您將省下TDEE 5%的熱量</div>
+                         }
+                     }
+
+
+
+
+
+                 </div>
+                 <div class="row pt-3" id="divAllMealOnlyBtns" style="display:none">
+                     <input type="button" id="btnGuess" class="button   col-2" value="猜你會想吃">
+
+                     <input type="button" id="btnFitSuggestion" class="button  col-2" value="減脂推薦">
+                 </div>
+
+             </div>
+
+             <div id="mealList" class="row gx-5 mt-lg-4">
+
+                 @Html.Partial("_MealOptionViewModelPartial", Model.TheMealStyle.Meals)
+
+             </div>
+         </section>
+
+             @section Scripts{
+                 <script src="~/Content/js/chart.min.js"></script>
+                 <script src="~/Content/js/jquery-ui.js"></script>
+                 <script src="~/Content/js/popper.min.js"></script>
+
+                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+                 <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
+                 <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
+                 <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.4/themes/blitzer/jquery-ui.css" />
+                 <script src="~/Content/js/bootstrap-slider.min.js"></script>
+                 <script src="~/Content/js/jquery.flexslider-min.js"></script>
+                 <script>
         $(window).load(function () {
 
 
@@ -564,7 +571,7 @@
 
 
 
-    </script>
-}
+                 </script>
+             }
 
 
