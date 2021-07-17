@@ -26,6 +26,7 @@ namespace UI.Controllers
                 StatusID = point.StatusID,
                 StatusName = point.Status.Name
             };
+           
             return dto;
         }
         public static int pageSize = 10;
