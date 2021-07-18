@@ -47,6 +47,11 @@ namespace UI.Controllers
         [HttpPost]
         public ActionResult Login(UserDTO model)
         {
+            if (TempData["code"] == null)
+            {
+                TempData["Message"] = "TempDataCodeNull";
+                return View(model);
+            }
             string code = Request.Form["code"].ToString();
             if (model.Email != null && model.Password != null)
             {
@@ -118,55 +123,6 @@ namespace UI.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index");
         }
-
-        public ActionResult PostDetail(int ID)
-        {
-            //layoutBLL = new LayoutBLL();
-            LayoutDTO layoutDTO = new LayoutDTO();
-            layoutDTO = layoutBLL.GetPostDetailPageItemWithID(ID);
-            return View(layoutDTO);
-        }
-
-        [HttpPost]
-        [ValidateInput(false)]
-
-        public ActionResult PostDetail(LayoutDTO model)
-        {
-
-            if (model.Comment.Name != null && model.Comment.Title != null && model.Comment.CommentContent != null)
-            {
-                if (postBLL.AddComment(model))
-                {
-                    ViewData["CommentState"] = "Success";
-                    ModelState.Clear();
-                }
-                else
-                {
-                    ViewData["CommentState"] = "Error";
-                    ViewBag.ProcessState = General.Messages.GeneralError;
-
-                }
-            }
-           
-            else
-            {
-                ViewData["CommentState"] = "Error";
-                ViewBag.ProcessState = General.Messages.EmptyArea;
-
-            }
-            LayoutDTO layoutDTO = new LayoutDTO();
-            layoutDTO = layoutBLL.GetPostDetailPageItemWithID(model.PostDetail.ID);
-            return View(layoutDTO);
-        }
-        CommentBLL commentBLL = new CommentBLL();
-        public ActionResult DeleteComment(int ID, int postID)
-        {
-            commentBLL.DeleteComment(ID);
-            ViewData["CommentState"] = "Success";
-            ModelState.Clear();
-            return RedirectToAction("PostDetail/" + postID, "Home2");
-        }
-
         //========================================================
         //恩旗
         //For dialog

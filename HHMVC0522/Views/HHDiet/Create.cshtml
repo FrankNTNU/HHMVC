@@ -21,7 +21,10 @@
     @*<link href="~/Content/css/flexslider-rtl-min.css" rel="stylesheet" />*@
     <style>
 
-
+        #bulbLink, #bulbLink:hover, #bulbLink:focus, #bulbLink:active {
+            text-decoration: none;
+            color: inherit;
+        }
 
       
     </style>
@@ -58,11 +61,11 @@
                     {
                         <li>
                             @*class="mealTagImg pb-5"*@
-                            <figure class="pb-0">
+                            <figure >
                                 @*class="styleIcon "*@
 
                                 <a href="@Url.Action("MealStyleList", "HHDiet", new { id = mCtgy.ID })">
-                                    <img class="tagImg " src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" height="280"  style="cursor:pointer">
+                                    <img class="tagImg " src="~/Content/Images/TagCategoriesImages/@mCtgy.Image"  style="cursor:pointer">
                                 </a>
 
                                 <figcaption >
@@ -112,6 +115,8 @@
                         {
                             <h3 style="display:inline">@Model.MemberHealthProfile.CurrProgram.Name  @(Math.Ceiling((Model.MemberHealthProfile.CurrProgram.EndDate- Model.MemberHealthProfile.CurrProgram.StartDate).TotalDays))日挑戰計劃(倒數@(Math.Ceiling((Model.MemberHealthProfile.CurrProgram.EndDate-DateTime.Now).TotalDays))天)</h3>
                             @Html.ActionLink("挑戰細節", "RegisterProgram", "HHPrograms", null, null)
+                            <span class="pr-4" style="float: right; color: #f56a6a">飲食建議<a id="bulbLink" href="~/HHDiet/MealStyleList/54"><i id="suggestBulb" class="far fa-lightbulb fa-2x" style="cursor:pointer"></i></a></span>
+
                             <div class="row pt-3">
                                 <div class="col-4">挑戰上限: <span class=" h2" style="color:#f56a6a">@Model.MemberHealthProfile.ProgramMaxCalOrTDEE</span> 大卡</div>
                                 <div class="col-4">目前攝取: <span class="h2 todayTotalGainedReal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.AllDayGained</span> 大卡<span id="realGainedPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.AllDayGainedPercent%)</span></div>
@@ -122,9 +127,9 @@
                         }
                         else
                         {
-                <h2 style="display: inline">飲食日常紀錄</h2>
+                            <h2 style="display: inline">飲食日常紀錄</h2>
                             @Html.ActionLink("來註冊挑戰吧", "RegisterProgram", "HHPrograms", null, null)
-
+                            <span class="pr-4" style="float: right; color: #f56a6a">飲食建議<a id="bulbLink" href="~/HHDiet/MealStyleList/54"><i id="suggestBulb" class="far fa-lightbulb fa-2x" style="cursor:pointer"></i></a></span>
                             <div class="row pt-3">
                                 <div class="col-4">TDEE: <span class=" h2" style="color:#f56a6a">@Model.MemberHealthProfile.TDEE</span> 大卡</div>
                                 <div class="col-4">目前攝取: <span class="todayTotalGainedReal h2" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.AllDayGained</span> 大卡<span id="realGainedPer" style="color:#f56a6a">(@Model.MemberHealthProfile.GainedCalDatas.AllDayGainedPercent%)</span></div>
@@ -229,7 +234,7 @@
             <div class="  col-11" style="position: absolute; bottom: 0; ">
                 <div class="pb-2">
 
-                    已獲取卡路里 <span id="spanProgressBarGainedRemender" style="float: right; color: red; visibility: hidden ">已超過上限</span>
+                    今日已獲取卡路里比例<span id="spanProgressBarGainedRemender" style="float: right; color: red; visibility: hidden ">已超過上限</span>
                     <div class="progress ">
 
                         <div class="progress-bar" id="gainedCalsProgressBar" role="progressbar" style="background-color: rgba(255,0, 0, 0); width: 0% " aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
@@ -237,7 +242,7 @@
                 </div>
                 <div>
 
-                    將獲取卡路里<span id="spanProgressBarTempRemender" style="float: right; color: red; visibility: hidden">將超過上限</span>
+                    今日將獲取卡路里比例<span id="spanProgressBarTempRemender" style="float: right; color: red; visibility: hidden">將超過上限</span>
                     <div class="progress ">
                         <div class="progress-bar" id="tempToGainedCalsProgressBar" role="progressbar" style="background-color: rgba(0,0, 0, 0); width: 0%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
@@ -269,7 +274,7 @@
                 <li id="btnToggleLiked" class="col-6 text-center" style="color: #f56a6a"><i id="fontLike" style="cursor: pointer;" class="far fa-heart  fa-lg"></i></li>
             </ul>
 
-
+            
 
 
         </div>
@@ -432,12 +437,12 @@
 
 @section Scripts{
     <script src="~/Content/js/chart.min.js"></script>
-    <script src="~/Content/js/jquery-ui.js"></script>
+    @*<script src="~/Content/js/jquery-ui.js"></script>*@
     <script src="~/Content/js/popper.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
+  @*  <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>*@
+    @*<script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>*@
     <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.4/themes/blitzer/jquery-ui.css" />
     <script src="~/Content/js/bootstrap-slider.min.js"></script>
     <script src="~/Content/js/jquery.flexslider-min.js"></script>
@@ -472,6 +477,13 @@
         $("#fontLike").hover(function () {
             $(this).addClass("fa-2x");
         });
+        $("#suggestBulb").hover(function () {
+            $(this).removeClass("far").removeClass("fa-lightbulb").addClass("fas").addClass("fa-lightbulb");
+        });
+        $("#suggestBulb").mouseleave(function () {
+            $(this).addClass("far").addClass("fa-lightbulb").removeClass("fas").remove("fa-lightbulb");
+        });
+        
         $("#fontLike").mouseleave(function () {
             $(this).removeClass("fa-2x");
         });
@@ -483,7 +495,7 @@
         });
         
         function readURL(input) {
-            16
+            
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
 
@@ -512,8 +524,39 @@
             GetTempDietLogsSession()
             DynamicTempChange()
             SetChartSizes()
+            //$(window).load(function () {
 
 
+
+            //    $('.flexslider').flexslider({
+            //        animation: "slide",
+            //        controlNav: false,
+            //        animationLoop: false,
+            //        slideshow: false,
+            //        itemWidth: 125,
+            //        itemMargin: 40
+            //    });
+
+            //});
+            var myslider = $('.flexslider');
+
+            // code for init
+            $(myslider).flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: false,
+                slideshow: false,
+                itemWidth: 125,
+                itemMargin: 40
+            });
+
+            // code for resize flexslider
+            $(window).bind('resize', function () {
+                setTimeout(function () {
+                    var slider = $(myslider).data('flexslider');
+                    slider.resize();
+                }, 1000);
+            });
 
 
         })
@@ -680,19 +723,8 @@
         }
 
 
-        $(window).load(function () {
+        
 
-
-
-            $('.flexslider').flexslider({
-                animation: "slide",
-                controlNav: false,
-                animationLoop: false,
-                slideshow: false,
-                itemWidth: 125,
-                itemMargin: 40
-            });
-        });
 
 
 
@@ -757,7 +789,7 @@
             $("#txtSearchMeal").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: "/HHApi_DietLog/GetMealNameByKeyword",
+                        url: "../HHApi_DietLog/GetMealNameByKeyword",
                         data: "{'mealKeyword':'" + request.term + "'}",
                         datatype: "json",
                         type:"POST",
@@ -776,12 +808,15 @@
                     });
                 },
 
+
                 select: function (event, ui) {
                     $(this).attr("data-mealOptId", ui.item.value)
                     $(this).val(ui.item.label)
                     return false
 
                 },
+                triggerSelectOnValidInput: false,
+
                 minLength:1,
 
             })
@@ -866,9 +901,9 @@
                     $("#realDiletLogTable tbody").html("")
                     //var TodayTotalGainedRealCal = 0
                     dietLogs.forEach((dietlog) => {
-                        let mealImgPathPrefix = "/Content/Images/MealOptionImages/";
+                        let mealImgPathPrefix = "../Content/Images/MealOptionImages/";
                         if (dietlog.IsCustomUploaded == true) {
-                            mealImgPathPrefix = "/Content/Images/CustomerMealUploadImages/";
+                            mealImgPathPrefix = "../Content/Images/CustomerMealUploadImages/";
                         }
 
                         const cell1 = `<td><img width="108" height="85" src ='${mealImgPathPrefix}${dietlog.MealImage}'/></td>`
@@ -1349,8 +1384,8 @@
         function UpdateMealInfo(mealVModel) {
             if (!mealVModel) { SetMealInfoDefault(); return;}
             $("#hiddenMealID").val(mealVModel.ID)
-            let mealImgPath =  `/Content/Images/MealOptionImages/${mealVModel.Image}`;
-            if (mealVModel.ID <= 0) {mealImgPath = "/Content/Images/MealDefaultImages/defaultCustomeMeal.jpg"}
+            let mealImgPath =  `../Content/Images/MealOptionImages/${mealVModel.Image}`;
+            if (mealVModel.ID <= 0) {mealImgPath = "../Content/Images/MealDefaultImages/defaultCustomeMeal.jpg"}
             $("#mealInfoImage").attr("src",mealImgPath)
             $("#mealInfoName").html(mealVModel.Name)
             $("#mealInfoCal").html(Math.round(mealVModel.Calories))

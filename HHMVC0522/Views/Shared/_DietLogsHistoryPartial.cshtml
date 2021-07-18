@@ -5,12 +5,7 @@
 @using System.Globalization
 
 
-@*<input id="hiddenTODPercents" type="hidden" value="" />
-<input id="hiddenTODPriorAvgPercents" type="hidden" value="" />
-<input id="hiddenGainedNutritionsPercents" type="hidden" value="" />
-<input id="hiddenGetNearby7DaysGainedCal" type="hidden" value="" />
-<input id="hiddenGetNearbyWeekDays" type="hidden" value="" />
-<input id="hiddenWaterLogDatas" type="hidden" value="" />*@
+
 
 <script>
 
@@ -29,12 +24,6 @@
      WeeklyWaterLogSuggestedRanges = '@Html.Raw(Json.Encode(Model.MemberHealthProfile.WaterLogDatas.WeeklyWaterLogSuggestedRanges))';
       WeeklyWaterLogSuggestedRangesArr = JSON.parse(WeeklyWaterLogSuggestedRanges);
 
-    //$("#hiddenTODPercents").val(TODPercentsArr)
-    //$("#hiddenTODPriorAvgPercents").val(TODPriorAvgPercentsArr)
-    //$("#hiddenGainedNutritionsPercents").val(GainedNutritionsPercentsArr)
-    //$("#hiddenGetNearby7DaysGainedCal").val(GetNearby7DaysGainedCalArr)
-    //$("#hiddenGetNearbyWeekDays").val(GetNearbyWeekDaysArr)
-    //$("#hiddenWaterLogDatas").val(WaterLogDatasArr)
 
 
 </script>
@@ -49,8 +38,8 @@
     <input type="button" id="btnNextDay" value=">" class="btn btn-default" />
 
 </div>
-<div class="row  pb-3 mt-4" style="height: 700px;">
-    <div class="col-4  shadow bg-white " style="border-radius: 0.9em; height: 650px; width: 450px; margin: auto ">
+<div class="row  pb-3 mt-4 " @*style="height: 690px;"*@>
+    <div class="customRoundBorder pl-0 " style="border-radius: 0.9em; height: 680px; width: 450px; margin: auto  ">
 
         @*height: 400px*@
         <h3 style="text-align: center;   border-bottom: #f56a6a 2px solid">本日吃多?少?</h3>
@@ -58,42 +47,42 @@
 
         <ul class="list-group list-group-flush" id="ulTODGained">
             <li class="list-group-item border-0">
-                <div class="shadow-sm p-3  bg-white rounded">全天: <span id="spanTotalCal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.AllDayGained</span> 大卡,比平常攝取多/少 <span id="spanTotalCalRate" class=" h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GainedCalDatas.AllDayGainedGrowthRate%</span></div> @*mb-5*@
+                <div class="customBorder  p-3">全天: <span id="spanTotalCal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.AllDayGained</span> 大卡,比平常攝取多/少 <span id="spanTotalCalRate" class=" h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GainedCalDatas.AllDayGainedGrowthRate%</span></div> @*mb-5*@
             </li>
             <li class="list-group-item border-0">
-                <div class="shadow-sm p-3  bg-white rounded">早餐: <span class="spanTodCal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.TODGaineds[0]</span> 大卡,比平常攝取多/少 <span class="spanTodCalRate h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GainedCalDatas.TODGainedGrowthRates[0]%</span></div> @*mb-5*@
+                <div class="  p-3  customBorder ">早餐: <span class="spanTodCal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.TODGaineds[0]</span> 大卡,比平常攝取多/少 <span class="spanTodCalRate h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GainedCalDatas.TODGainedGrowthRates[0]%</span></div> @*mb-5*@
             </li>
             <li class="list-group-item border-0">
-                <div class="shadow-sm p-3  bg-white rounded">午餐: <span class="spanTodCal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.TODGaineds[1]</span> 大卡,比平常攝取多/少 <span class="spanTodCalRate h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GainedCalDatas.TODGainedGrowthRates[1]%</span></div> @*mb-5*@
+                <div class="  p-3 customBorder ">午餐: <span class="spanTodCal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.TODGaineds[1]</span> 大卡,比平常攝取多/少 <span class="spanTodCalRate h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GainedCalDatas.TODGainedGrowthRates[1]%</span></div> @*mb-5*@
             </li>
             <li class="list-group-item border-0">
-                <div class="shadow-sm p-3  bg-white rounded">點心: <span class="spanTodCal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.TODGaineds[2]</span> 大卡,比平常攝取多/少 <span class="spanTodCalRate h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GainedCalDatas.TODGainedGrowthRates[2]%</span></div> @*mb-5*@
+                <div class=" p-3   customBorder ">點心: <span class="spanTodCal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.TODGaineds[2]</span> 大卡,比平常攝取多/少 <span class="spanTodCalRate h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GainedCalDatas.TODGainedGrowthRates[2]%</span></div> @*mb-5*@
             </li>
             <li class="list-group-item border-0">
-                <div class="shadow-sm p-3  bg-white rounded">晚餐: <span class="spanTodCal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.TODGaineds[3]</span> 大卡,比平常攝取多/少 <span class="spanTodCalRate h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GainedCalDatas.TODGainedGrowthRates[3]%</span></div> @*mb-5*@
+                <div class="  p-3  customBorder ">晚餐: <span class="spanTodCal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.TODGaineds[3]</span> 大卡,比平常攝取多/少 <span class="spanTodCalRate h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GainedCalDatas.TODGainedGrowthRates[3]%</span></div> @*mb-5*@
             </li>
             <li class="list-group-item border-0">
-                <div class="shadow-sm p-3  bg-white rounded">宵夜: <span class="spanTodCal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.TODGaineds[4]</span> 大卡,比平常攝取多/少 <span class="spanTodCalRate h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GainedCalDatas.TODGainedGrowthRates[4]%</span></div> @*mb-5*@
+                <div class="  p-3  customBorder ">宵夜: <span class="spanTodCal" style="color:#f56a6a">@Model.MemberHealthProfile.GainedCalDatas.TODGaineds[4]</span> 大卡,比平常攝取多/少 <span class="spanTodCalRate h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GainedCalDatas.TODGainedGrowthRates[4]%</span></div> @*mb-5*@
             </li>
 
         </ul>
     </div>
-    <div class="col-4  shadow bg-white " style="border-radius: 0.9em; height:650px;width: 450px; margin: auto">
+    <div class="pl-0 customRoundBorder shadow bg-white " style="border-radius: 0.9em; height: 680px; width: 450px; margin: auto ">
 
-        <h3 style="text-align: center;  border-bottom: #f56a6a 2px solid">周周多喝水(單位: 毫升)</h3>
+        <h3 style="text-align: center;  border-bottom: #f56a6a 2px solid">周周多喝水</h3>
 
-        <canvas class="pb-5" id="WaterLine"></canvas>
+        <canvas class="pb-5 px-3" id="WaterLine"></canvas>
     </div>
-    <div class="col-4  shadow bg-white " style="border-radius: 0.9em; height: 650px; width: 450px; margin: auto ">
+    <div class="pl-0 customRoundBorder shadow bg-white " style="border-radius: 0.9em; height: 680px; width: 450px; margin: auto  ">
 
         @*height: 400px*@
         <h3 style="text-align: center;  border-bottom: #f56a6a 2px solid">綜觀表現</h3>
         <ul class="list-group list-group-flush" id="ulGeneralPfmc">
             <li class="list-group-item border-0">
-                <div class="shadow-sm p-3  bg-white rounded"><span id="spanProNameOrDaily">@Model.MemberHealthProfile.GeneralPerformances.ProgramNameOrDailyLog</span>挑戰: <span id="spanIsDailySuccess" class="h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GeneralPerformances.IsSuccessDay[0]</span> <span id="spanIsDailySuccessComment">@Model.MemberHealthProfile.GeneralPerformances.IsSuccessDay[1]</span></div> @*mb-5*@
+                <div class=" p-3 customBorder"><span id="spanProNameOrDaily">@Model.MemberHealthProfile.GeneralPerformances.ProgramNameOrDailyLog</span>挑戰: <span id="spanIsDailySuccess" class="h2" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GeneralPerformances.IsSuccessDay[0]</span> <span id="spanIsDailySuccessComment">@Model.MemberHealthProfile.GeneralPerformances.IsSuccessDay[1]</span></div> @*mb-5*@
             </li>
             <li class="list-group-item border-0">
-                <div class="shadow-sm p-3  bg-white rounded">
+                <div class=" p-3  customBorder">
                     體重: <span id="spanCurrWeight" style="color:#f56a6a">@Model.MemberHealthProfile.GeneralPerformances.CurrentWeight</span> 公斤,跟7天前比較<span class="h2" style="color:#f56a6a; font-style:italic" id="spanWeightComment">@Model.MemberHealthProfile.GeneralPerformances.WeightComment</span>
                     <span id="spanWeightUpOrDown">
                         @{
@@ -111,14 +100,14 @@
 
             </li>
             <li class="list-group-item border-0">
-                <div class="shadow-sm p-3  bg-white rounded">過去7天省下了: <span class="h2" id="spanCalSavedFromLastWeek" style="color:#f56a6a">@Model.MemberHealthProfile.GeneralPerformances.CalSavedFromLastWeek</span> 大卡,相當於<span class="spanRiceBowlsCount h2" id="spanRiceBowlComment" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GeneralPerformances.CalCommentFromLastWeek</span><img src="~/Content/Images/Infography/riceBowlImg2.jpg" width="80" /></div> @*mb-5*@
+                <div class=" p-3 customBorder ">過去7天飲食省下了: <span class="h2" id="spanCalSavedFromLastWeek" style="color:#f56a6a">@Model.MemberHealthProfile.GeneralPerformances.CalSavedFromLastWeek</span> 大卡,相當於<span class="spanRiceBowlsCount h2" id="spanRiceBowlComment" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GeneralPerformances.CalCommentFromLastWeek</span><img src="~/Content/Images/Infography/riceBowlImg2.jpg" width="80" /></div> @*mb-5*@
             </li>
             <li class="list-group-item border-0">
 
-                <div class="shadow-sm p-3  bg-white rounded">運動消耗了: <span class="h2" id="spanPast7DaysWorkoutBurnedCals" style="color:#f56a6a">@Model.MemberHealthProfile.GeneralPerformances.Past7DaysWorkoutBurnedCals</span> 大卡,相當於 <span class="h2" id="spanRiceBowlCommentBURN" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GeneralPerformances.BurnedCalCommentFromLastWeek</span><img src="~/Content/Images/Infography/riceBowlImg2.jpg" width="80" /></div>
+                <div class=" p-3 customBorder">過去7天運動消耗了: <span class="h2" id="spanPast7DaysWorkoutBurnedCals" style="color:#f56a6a">@Model.MemberHealthProfile.GeneralPerformances.Past7DaysWorkoutBurnedCals</span> 大卡,相當於 <span class="h2" id="spanRiceBowlCommentBURN" style="color:#f56a6a; font-style:italic">@Model.MemberHealthProfile.GeneralPerformances.BurnedCalCommentFromLastWeek</span><img src="~/Content/Images/Infography/riceBowlImg2.jpg" width="80" /></div>
             </li>
             <li class="list-group-item border-0">
-                <div class="shadow-sm p-3  bg-white rounded">鈉攝取: <span id="spanTotalNa" style="color:#f56a6a">@Model.MemberHealthProfile.GeneralPerformances.GainedNa</span>(衛生署食品衛生處建議成人每日鈉總攝取量不要超過2400毫克)</div> @*mb-5*@
+                <div class=" p-3 customBorder ">鈉攝取: <span id="spanTotalNa" style="color:#f56a6a">@Model.MemberHealthProfile.GeneralPerformances.GainedNa</span>(衛生署食品衛生處建議成人每日鈉總攝取量不要超過2400毫克)</div> @*mb-5*@
             </li>
 
         </ul>
@@ -126,22 +115,25 @@
 </div>
 
 <div class="row pb-3 mt-4 ">
-    <div class="col-4  shadow bg-white " style="border-radius: 0.9em; height: 450px; width: 450px; margin: auto">
+    <div class="pl-0 customRoundBorder shadow bg-white " style="border-radius: 0.9em; height: 480px; width: 450px; margin: auto ">
         <h3 style="text-align: center;  border-bottom: #f56a6a 2px solid">暴飲暴食?</h3>
 
-        <canvas class="pb-5" id="Nearby7DayBarID"></canvas>
+        <canvas class="pb-5 px-3" id="Nearby7DayBarID"></canvas>
     </div>
-    <div class="col-4  shadow bg-white " style="border-radius: 0.9em; height: 450px; width: 450px; margin: auto ">
+    <div class="pl-0 customRoundBorder shadow bg-white " style="border-radius: 0.9em; height: 480px; width: 450px; margin: auto ">
         <h3 style="text-align: center;  border-bottom: #f56a6a 2px solid">飲食時段分配圖</h3>
 
         <canvas id="CalRadarID"></canvas>
     </div>
-    <div class="col-4  shadow bg-white " style="border-radius: 0.9em; height: 450px; width: 450px; margin: auto ">
+    <div class="pl-0 customRoundBorder shadow bg-white " style="border-radius: 0.9em; height: 480px; width: 450px; margin: auto  ">
         <h3 style="text-align: center;  border-bottom: #f56a6a 2px solid">營養攝取分配圖</h3>
 
         <canvas id="NutritionRadarID"></canvas>
     </div>
 </div>
+
+
+
 
 
 

@@ -201,7 +201,7 @@
             display: flex;
             position: fixed;
             left: 20em !important;
-            bottom: 50px;
+            bottom: 15px;
             column-gap:10px;
         }
 
@@ -210,8 +210,17 @@
             color: white;
             padding: 5px 10px;
             border-radius: 10px;
+            cursor: pointer;
         }
 
+        .gruopButton {
+            display: inline-block;
+            background-color: #FFB5B5;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
         @*================================*@
 
         #sendmessage {
@@ -297,10 +306,8 @@
     <div class="demoButton" onclick="autoInput(msgs3)">路飛</div>
     <div class="demoButton" onclick="autoInput(msgs4)">索隆</div>
     <div class="demoButton" onclick="autoInput(msgs5)">山治</div>
-    @*<div class="demoButton" onclick="newGroup1()">草帽團</div>
-    <div class="demoButton" onclick="newGroup2()">紳士團</div>*@
-    @*<div class="demoButton" onclick="autoInputMsgs6()">frank</div>
-        <div class="demoButton" onclick="autoInputMsgs7()">zzzz</div>*@
+    <div class="gruopButton" onclick="strawHat()">草帽團</div>
+    <div class="gruopButton" onclick="gentleman()">紳士團</div>
 </div>
 <!--=========================================================-->
 @section scripts {
@@ -690,6 +697,18 @@
         async function autoInput(msgs) {
             $("#message").val(msgs.shift());
             $("#sendmessage").click();
+        }
+
+        function strawHat() {
+            $("#groupName").val("草帽團");
+            $("#weight1").val("50");
+            $("#weight2").val("60");
+        }
+
+        function gentleman() {
+            $("#groupName").val("紳士團");
+            $("#weight1").val("50");
+            $("#weight2").val("60");
         }
 
     </script>

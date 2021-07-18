@@ -227,7 +227,7 @@ namespace UI.Controllers
             //Online Admins List
             var admins = UserStatic.ConnectedUsers
                 .Where(cu => cu.Role == "admin" && cu.UserID != User.Identity.Name)
-                .Select(cu => cu).ToList();
+                .ToList();
 
             if (admins.Count == 0)
             {

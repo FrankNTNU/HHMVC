@@ -736,7 +736,7 @@ namespace UI.Controllers
             var q = dbContext.WorkoutLogs
                 .Where(wl => wl.MemberID.ToString() == UserID
                     && DbFunctions.TruncateTime(wl.WorkoutTime) == d).OrderBy(wl => wl.WorkoutTime)
-                .AsEnumerable()
+                .ToList()
                 .Select(wl => new
                 {
                     wl.ID,
@@ -864,7 +864,7 @@ namespace UI.Controllers
             {
                 wc.ID,
                 wc.Name
-            }).ToList());
+            }).OrderBy(wc => wc.ID).ToList());
 
             ViewData["JsonWc"] = JsonWc;
 
@@ -879,7 +879,7 @@ namespace UI.Controllers
                 {
                     wcid = w.WorkoutCategoryID,
                     Name = w.Name
-                }).ToList());
+                }).OrderBy(w => w.wcid).ToList());
 
             ViewData["JsonW"] = JsonW;
 

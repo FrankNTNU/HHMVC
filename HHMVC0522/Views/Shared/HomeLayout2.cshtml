@@ -14,9 +14,13 @@
     <title>HealthHelper 你的健康管理助手</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-
+    <link rel="shortcut icon" type="image/jpg" href="~/Content/ico/favicon.ico" />
     <link rel="stylesheet" href="~/Content/css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+
+
     @*for waterLog*@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
@@ -27,7 +31,7 @@
 
     @RenderSection("Styles", required: false)
 
-<style>
+    <style>
     @*恩旗=====================================*@
     #dialogDiv, #programFrozen, #fanfare {
         display: none;
@@ -142,6 +146,10 @@
         border-radius: 2px;
         width: 25px;
         height: 25px;
+    }
+
+    #collapse, #showChatModal, #closePanel {
+        cursor: pointer;
     }
 
     .chatBody {
@@ -308,7 +316,7 @@
     #chatModal {
         display: none; /* Hidden by default */
         position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
+        z-index: 100; /* Sit on top */
         left: 0;
         top: 0;
         width: 100%; /* Full width */
@@ -406,29 +414,42 @@
         }
 
         @*ForServiceDemo=========================*@
+        #demoToggleButton {
+            display: inline-block;
+            background-color: #DCB5FF;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
         .demoService {
             display: flex;
             position: fixed;
             left: 45em !important;
-            bottom: 50px;
+            bottom: 15px;
             column-gap:10px;
             z-index: 100;
         }
 
         .demoButtonService {
+            display:none;
             background-color: #D0D0D0;
             color: white;
             padding: 5px;
             border-radius: 10px;
+            cursor: pointer;
         }
 
         .loginButton {
+            display:none;
             background-color: #BEBEBE;
             color: white;
             padding: 5px;
             border-radius: 10px;
+            cursor: pointer;
         }
-</style>
+    </style>
 </head>
 
 <!--恩旗-->
@@ -724,9 +745,11 @@
 
     <!--=============================================================-->
     <!--ForServiceDemo===============================================-->
+    
     <div class="demoService">
-        <div class="demoButtonService" onclick="autoInputForService(msgs1)">阿舊</div>
-        <div class="loginButton" onclick="login1()">阿舊</div>
+        <div id="demoToggleButton" data-isopen="close">demo</div>
+        <div class="demoButtonService" onclick="autoInputForService(msg1)">TDEE</div>
+        <div class="demoButtonService" onclick="autoInputForService(msg2)">點數獲得</div>
         <div class="loginButton" onclick="login2()">路飛</div>
         <div class="loginButton" onclick="login3()">索隆</div>
         <div class="loginButton" onclick="login4()">山治</div>
@@ -1123,6 +1146,16 @@
             }
         });
 
+        $("#demoToggleButton").click(function () {
+            if ($(this).attr("data-isopen") == "close") {
+                $(".demoService > div:not(:first-child)").css("display", "inline-block");
+                $(this).attr("data-isopen", "open");
+            } else {
+                $(".demoService > div:not(:first-child)").css("display", "none");
+                $(this).attr("data-isopen", "close");
+            }
+        });
+
     });
 
     function openChatModal() {
@@ -1275,7 +1308,7 @@
 
                 if ($(".messageRow").last().length != 0) {
                     $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".messageRow").last().position().top);
-                    console.log($(".messageRow").last().position().top);
+                    //console.log($(".messageRow").last().position().top);
                 }
 
                 ResetNotReadCount();
@@ -1321,6 +1354,9 @@
                             message: $("#serviceMessage").val()
                         },
                         success: function (data) {
+
+                            //console.log(data.Admins);
+
                             if (data.Result != "Success") {
                                 alert(data.Result);
                             }
@@ -1477,14 +1513,12 @@
 
     //let promiseForDemo1;
 
-    msgs1 = [
-        "請問客服人員，TDEE是什麼？",
-        "請問客服人員，聽說運動執行成功可獲得點數，除此之外還有其他方法嗎？"
-    ];
+    msg1 = "請問客服人員，TDEE是什麼？";
+    msg2 = "請問客服人員，聽說運動執行成功可獲得點數，除此之外還有其他方法嗎？";
 
 
-    async function autoInputForService(msgs) {
-        $("#serviceMessage").val(msgs.shift());
+    async function autoInputForService(msg) {
+        $("#serviceMessage").val(msg);
         $("#sendServiceMessage").click();
     }
 

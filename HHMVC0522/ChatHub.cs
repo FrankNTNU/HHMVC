@@ -21,6 +21,10 @@ namespace UI
         {
 
             string fromPage = Context.Headers["referer"].Split('/')[3].ToLower();
+            if (fromPage == "healthhelper")
+            {
+                fromPage = Context.Headers["referer"].Split('/')[4].ToLower();
+            }
 
             UserDetail user = null;
             bool isAdded = false;

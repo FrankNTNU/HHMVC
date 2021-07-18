@@ -47,6 +47,7 @@ namespace UI.Controllers
             }
             else { 
             pBLL.RegisterProgram(program);
+            Session["InProgram"] = true;
             wlBLL.AddWeightLogViaProgramRegister(program.MemberID, program.InitialWeight);
             mBLL.UpdateActivityLevel(program.MemberID, program.ActivityLevelID);
             return RegisterOrShowProgramByMemberID(program.MemberID);
