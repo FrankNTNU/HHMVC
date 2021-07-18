@@ -89,7 +89,7 @@ namespace UI.Controllers
                     if (order != null)
                     {
                         int memberID = order.MemberID;
-                        order.PaidTime = DateTime.Now.ToString();
+                        order.PaidTime =p.PaymentDate;
                         order.OrderStatus = true;                       
                         Member member = db.Members.FirstOrDefault(x => x.ID == memberID);
                         member.Points += newPremiumPoints;

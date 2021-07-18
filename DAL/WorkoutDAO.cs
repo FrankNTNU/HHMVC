@@ -68,10 +68,15 @@ namespace DAL
             return workoutDTOList;
         }
 
-        //public int GetCatIDByWorkID(int iD)
-        //{
-            
-        //}
+        public int GetCatIDByWorkID(int iD)
+        {
+            Workout workout = db.Workouts.FirstOrDefault(x => x.ID == iD);
+            int catID = workout.WorkoutCategoryID;
+
+            return catID;
+        }
+
+
 
         //public WorkoutCategoryDTO GetWorkoutItemWithID(object iD)
         //{
@@ -155,19 +160,14 @@ namespace DAL
 
         public bool Delete(int ID)
         {
-            try
+            using (HealthHelperEntities db = new HealthHelperEntities())
             {
                 Workout workout = db.Workouts.First(x => x.ID == ID);
                 db.Workouts.Remove(workout);
-                db.Workouts.Attach(workout);
-                db.Entry(workout).State = System.Data.Entity.EntityState.Modified;
+                //db.Workouts.Attach(workout);
+                //db.Entry(workout).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return true;
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
             }
         }
 

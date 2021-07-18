@@ -65,8 +65,8 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="#">
-                                    <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../Delete/', @item.ID)" />
+                                <a>
+                                    <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../Delete/', @item.ID,'Workout/List/@ViewBag.CatID')" />
                                 </a>
                             </td>
                         </tr>
@@ -80,7 +80,8 @@
 </div>
 
 @section Scripts{
-    <script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>    
+    <script src="~/Areas/Admin/Content/JS/DeleteRecord2.js"></script> 
+
     } 
 
 

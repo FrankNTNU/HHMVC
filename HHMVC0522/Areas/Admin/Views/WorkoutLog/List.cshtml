@@ -14,8 +14,8 @@
 </section>
 <br />
 @*<div class="card-footer">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/WorkoutLog/Create'">新增運動紀錄</button>
-</div>*@
+        <button type="submit" class="btn btn-primary" onclick="window.location.href='/Admin/WorkoutLog/Create'">新增運動紀錄</button>
+    </div>*@
 <div class="card">
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
@@ -58,7 +58,7 @@
                         <td align="center" valign="middle">
 
                             <a href="#">
-                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../Delete/', @item.ID)" />
+                                <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../Delete/', @item.ID,'WorkoutLog/List')" />
                             </a>
 
                         </td>
@@ -70,5 +70,7 @@
     @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
 </div>
 
-<script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>
+@section Scripts{
+    <script src="~/Areas/Admin/Content/JS/DeleteRecord2.js"></script>
+}
 

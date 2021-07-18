@@ -628,6 +628,7 @@
     <Content Include="Areas\Admin\Content\JS\dataTables.bootstrap4.min.js" />
     <Content Include="Areas\Admin\Content\JS\dataTables.buttons.min.js" />
     <Content Include="Areas\Admin\Content\JS\dataTables.responsive.min.js" />
+    <Content Include="Areas\Admin\Content\JS\DeleteRecord2.js" />
     <Content Include="Areas\Admin\Content\JS\DeleteRecord.js" />
     <Content Include="Areas\Admin\Content\JS\demo.js" />
     <Content Include="Areas\Admin\Content\JS\jquery.dataTables.min.js" />

@@ -68,14 +68,15 @@
                     <img id="preview_progressbarTW_img" src="#" />
                 </div>
             </div>
-            @*<div class="form-group">
-                    <label>標籤：</label>
-                    <div class="col-md-10">
-                        <div class="checkbox">
+            <div class="form-group">
+                <label>標籤：</label>
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        <div class="row col-5">
                             @{
                                 string[] TagStringArray = Model.TagStringListArray;
                                 int count = 0;
-                                foreach (var item in Model.Tags)
+                                foreach (var item in Model.DTags)
                                 {
 
                                     count = count + 1;
@@ -84,69 +85,33 @@
                                         <br />
                                         count = 0;
                                     }
-                                    bool checkTags = ((IList)TagStringArray).Contains(item.Name);
+                                    bool checkTags = ((IList)TagStringArray).Contains(item.Value);
                                     if (checkTags)
                                     {
-                                        <label>
-                                            <input type="checkbox"
-                                                   name="tags"
-                                                   id="@item.ID"
-                                                   value="@item.ID"
-                                                   checked="true" />@item.Name
-                                            </label>
-                                        }
-                                        else
-                                        {
+                                        <div class="col-3">
                                             <label>
                                                 <input type="checkbox"
                                                        name="tags"
-                                                       id="@item.ID"
-                                                       value="@item.ID" />@item.Name
+                                                       id="@item.Key"
+                                                       value="@item.Key"
+                                                       checked="true" />@item.Value
                                                 </label>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-3">
+                                                <label>
+                                                    <input type="checkbox"
+                                                           name="tags"
+                                                           id="@item.Key"
+                                                           value="@item.Key" />@item.Value
+                                                    </label>
+                                                </div>
                                             }
                                         }
                             }
                         </div>
-                    </div>
-                </div>*@
-            <div class="form-group">
-                <label>標籤：</label>
-                <div class="col-md-10">
-                    <div class="checkbox">
-                        @{
-                            string[] TagStringArray = Model.TagStringListArray;
-                            int count = 0;
-                            foreach (var item in Model.DTags)
-                            {
-
-                                count = count + 1;
-                                if (count == 5)
-                                {
-                                    <br />
-                                    count = 0;
-                                }
-                                bool checkTags = ((IList)TagStringArray).Contains(item.Value);
-                                if (checkTags)
-                                {
-                                    <label>
-                                        <input type="checkbox"
-                                               name="tags"
-                                               id="@item.Key"
-                                               value="@item.Key"
-                                               checked="true" />@item.Value
-                                        </label>
-                                    }
-                                    else
-                                    {
-                                        <label>
-                                            <input type="checkbox"
-                                                   name="tags"
-                                                   id="@item.Key"
-                                                   value="@item.Key" />@item.Value
-                                            </label>
-                                        }
-                                    }
-                        }
                     </div>
                 </div>
             </div>

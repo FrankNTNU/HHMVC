@@ -84,9 +84,14 @@ namespace BLL
             return WorkoutDAO.GetWorkoutNamesForDropDown();
         }
 
-        //public int GetCatIDByWorkID(int ID)
+        //public int GetCatIDByWorkID(int iD)
         //{
-        //    return dao.GetCatIDByWorkID(ID);
+        //    throw new NotImplementedException();
         //}
+
+        public int GetCatIDByWorkID(int ID)
+        {
+            return dao.GetCatIDByWorkID(ID);
+        }
     }
 }
