@@ -22,44 +22,8 @@
     <style>
 
 
-        a .flex-next {
-            background-color: red;
-        }
 
-        .styleIcon {
-            width: 110px;
-            height: 110px;
-            /*border: 1px solid gray;*/
-            margin: 0 20px
-        }
-
-            .styleIcon img {
-                width: 100%;
-            }
-
-        read_progress {
-            /* position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;*/
-            height: 20px;
-            /*background: rgba(0,0,0,.3);*/
-            background: #E0E0E0;
-        }
-
-        .read_progress_bar {
-            height: 20px;
-            width: 0%;
-            transition: width,1s
-        }
-
-        #read_progress_bar {
-            background: #81C0C0;
-        }
-
-        #temp_read_progress_bar {
-            background: #F0F0F0;
-        }
+      
     </style>
 }
 
@@ -85,8 +49,8 @@
 
 <section class="pt-2 pb-5">
     
-        <div class="flexslider carousel px-4 pt-3 pb-0 mb-1">
-            <ul class="slides">
+        <div class="flexslider  px-5 pt-3 pb-0 mb-1">
+            <ul class="slides m-0 p-0">
                 @{
 
 
@@ -98,10 +62,10 @@
                                 @*class="styleIcon "*@
 
                                 <a href="@Url.Action("MealStyleList", "HHDiet", new { id = mCtgy.ID })">
-                                    <img class="tagImg " src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" height="280">
+                                    <img class="tagImg " src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" height="280"  style="cursor:pointer">
                                 </a>
 
-                                <figcaption>
+                                <figcaption >
                                     @mCtgy.Name
                                 </figcaption>
                             </figure>
@@ -140,7 +104,7 @@
                 </div>
 
             </div>
-            <div class=" bg-white py-1 mt-3 mb-4 shadow-sm" style="bottom: 0; border-radius: 0.9em; ">
+            <div class="  py-1 mt-3 mb-4 " style="bottom: 0; border-radius: 0.9em; box-shadow: 5px 5px 10px #E0E0E0 ">
 
                 <div class="my-xl-4 pl-3 ">
                     @{
@@ -158,7 +122,7 @@
                         }
                         else
                         {
-                            <h3 style="display: inline">飲食日常紀錄</h3>
+                <h2 style="display: inline">飲食日常紀錄</h2>
                             @Html.ActionLink("來註冊挑戰吧", "RegisterProgram", "HHPrograms", null, null)
 
                             <div class="row pt-3">
@@ -184,13 +148,13 @@
 
             </div>
             <div>
-                <h2>暫存飲食紀錄</h2>
+                <h3>暫存飲食紀錄</h3>
                 <table id="tempDietLogTable" class="table table-sm">
                     <thead>
                         <tr>
                             <th>日期</th>
                             <th>時段</th>
-                            <th>品名</th>
+                            <th>餐點名稱</th>
                             <th>每單位卡路里含量</th>
                             <th>單位</th>
                             <th>份量</th>
@@ -217,7 +181,7 @@
 
 
                                     <tr data-MealOptionID=@item.MealOptionID>
-                                        <td class="date">
+                                        <td class="date ">
                                             <input type="number" style="width: 4em" class="year" value="@item.Date.Substring(4,4)" />/
                                             <input type="number" class="month" style="width: 3em" value="@theMonth" />/
                                             <input type="number" class="day" style="width: 3em" value="@theDay" />
@@ -231,7 +195,7 @@
                                                 }
                                             </select>
                                         </td>
-                                        <td class="mealName">@item.Name</td>
+                                        <td class="mealName ">@item.Name</td>
                                         <td class="perUnitMealCal">@item.Calories</td>
                                         <td class="mealUnitName">@item.UnitName</td>
                                         <td class="tempPortion"><input type="number" value=@item.Portion min="0" max="30" /></td>
@@ -281,7 +245,7 @@
             </div>
 
         </div>
-        <div class="mealInfoDiv col-3 px-0   bg-white " style="bottom: 0; border-radius: 0.9em; overflow: hidden; box-shadow: 5px 5px 30px #E0E0E0 ">
+        <div class="mealInfoDiv col-3 px-0    " style="bottom: 0; border-radius: 0.9em; overflow: hidden; box-shadow: 5px 5px 30px #E0E0E0 ">
             <input type="hidden" value="" id="hiddenMealID" />
             <div style="height:25em">
 
@@ -300,9 +264,9 @@
             </ul>
 
 
-            <ul class="actions px-3 pb-3 pt-3" style="border-top: solid #f56a6a 2.5px ">
-                <li id="addToTempList" class="col-6 text-center" style="border-right: solid #f56a6a 2px;color: #f56a6a">加入</li>
-                <li id="btnToggleLiked" class="col-6 text-center" style="color: #f56a6a"><i id="fontLike" class="far fa-heart 2em"></i></li>
+            <ul class="actions px-3 pb-3 pt-3" style="border-top: solid #f56a6a 2.5px ;height:60px" >
+                <li id="addToTempList" class="col-6 text-center" style="border-right: solid #f56a6a 2px; color: #f56a6a; cursor: pointer;">加入</li>
+                <li id="btnToggleLiked" class="col-6 text-center" style="color: #f56a6a"><i id="fontLike" style="cursor: pointer;" class="far fa-heart  fa-lg"></i></li>
             </ul>
 
 
@@ -312,22 +276,22 @@
     </div>
 
 
-    <div style="border-radius: 0.9em; " class="shadow bg-white py-3">
+    <div style="border-radius: 0.9em; box-shadow: 5px 5px 30px #E0E0E0" class=" bg-white py-3 pr-3">
 
 
-        <div class="row">
-            <div class="col-4 pb-5 px-3" style="height: 500px; width: 500px; margin: auto ">
+        <div class="row" style="display: flex; align-items: flex-start" >
+            <div class="col-4 pb-5 pl-5 my-0" style="height: 450px; width: 500px; margin: auto ">
                 <h3 style="text-align:center">暴飲暴食?</h3>
-                <canvas id="past7DayBarID"></canvas>
+                <canvas id="past7DayBarID" ></canvas>
             </div>
             <div class="col-4" style="height: 500px; width: 500px; margin: auto ">
                 <h3 style="text-align:center">飲食時段分配圖</h3>
                 <canvas id="CalRadarID"></canvas>
             </div>
-            <div class="col-4" style="height: 500px; width: 500px; margin: auto ">
+            <div class="col-4 " style="height: 500px; width: 500px; margin: auto ">
                 <h3 style="text-align:center">營養攝取分配圖</h3>
 
-                <canvas id="NutritionRadarID"></canvas>
+                <canvas id="NutritionRadarID" ></canvas>
             </div>
 
         </div>
@@ -347,7 +311,7 @@
                 <tr>
                     <th>餐點圖片</th>
                     <th>時段</th>
-                    <th>品名</th>
+                    <th>餐點名稱</th>
                     <th>每單位卡路里含量</th>
                     <th>單位</th>
                     <th>份量</th>
@@ -505,7 +469,19 @@
             $("#gainedCalsProgressBar").css("background-color", "@colorRGBA" );
             $("#gainedCalsProgressBar").css("background-color", "rgba(255,0 , 0, 1)");*@
 
-
+        $("#fontLike").hover(function () {
+            $(this).addClass("fa-2x");
+        });
+        $("#fontLike").mouseleave(function () {
+            $(this).removeClass("fa-2x");
+        });
+        $("#addToTempList").hover(function () {
+            $(this).addClass("h5").addClass("font-weight-bold");
+        });
+        $("#addToTempList").mouseleave(function () {
+            $(this).removeClass("h5").removeClass("font-weight-bold");
+        });
+        
         function readURL(input) {
             //16
                 if (input.files && input.files[0]) {
@@ -534,7 +510,7 @@
             UpdateLikedList()
             GetTimesOfDay()
             GetTempDietLogsSession()
-            //DynamicTempChange()
+            DynamicTempChange()
             SetChartSizes()
 
 
@@ -550,10 +526,9 @@
         $("#exampleModalLabel").on("click", (e) => {
 
 
-            $("#txtName").val("桂冠芝麻湯圓")
-
-            $("#numCal").val("77.8")
-            $("#txtUnitName").val("顆")
+            $("#txtName").val("古早味球狀雞蛋糕")
+            $("#numCal").val("80")
+            $("#txtUnitName").val("份")
 
         })
 
@@ -714,8 +689,8 @@
                 controlNav: false,
                 animationLoop: false,
                 slideshow: false,
-                itemWidth: 120,
-                itemMargin: 35
+                itemWidth: 125,
+                itemMargin: 40
             });
         });
 
@@ -771,9 +746,11 @@
 
     $("#btnNewCustomerMeal").click(() => {
         const obj = $("#CustomerAddMeal").serializeObject()
+        $("#txtName").val("")
+        $("#numCal").val("")
+        $("#txtUnitName").val("")
         latestMeal.Meal =obj
-        //let customImgPath = $("#inputFileImg").val()
-        //AddTempDietLogRow(latestMeal.Meal, customImgPath)
+       
 
     })
         $(function () {
@@ -789,7 +766,7 @@
                             response($.map(data, function (item)
                             {
                                 return {
-                                    label: item.MealName, value: item.MealOptionID, data: item
+                                    label: item.MealName, value: item.MealOptionID/*, data: item*/
                                 }
 
                             }))
@@ -801,7 +778,8 @@
 
                 select: function (event, ui) {
                     $(this).attr("data-mealOptId", ui.item.value)
-                    return ""
+                    $(this).val(ui.item.label)
+                    return false
 
                 },
                 minLength:1,
@@ -1142,7 +1120,7 @@
                     },
 
                 {
-                        label: '即將攝取(單位: %)',
+                        label: '平日平均攝取(單位: %)',
                     data: tODPriorAvgPerArr,
                         backgroundColor: [
                             'rgba(122, 122, 122, 0.1)'
@@ -1185,8 +1163,8 @@
             data: {
                 labels: ['蛋白質', '碳水化合物', '脂肪'],
                 datasets: [{
-                    label: '建議攝取下限',
-                    data: suggestedNutritionRangesArr[0],
+                    label: '建議攝取分配(單位: %)',
+                    data: suggestedNutritionRangesArr,
 
 
                     backgroundColor: [
@@ -1208,19 +1186,21 @@
                         'rgba(252, 223, 32, 1)'
                     ],
                     borderWidth: 2
-                },
-                {
-                    label: '建議攝取上限',
-                    data: suggestedNutritionRangesArr[1],
-                    backgroundColor: [
-                        'rgba(112, 112, 112, 0.1)'
-                    ]
-                    ,
-                    borderColor: [
-                        'rgba(112, 112, 112, 1)'
-                    ],
-                    borderWidth: 0.1
-                }]
+                    }
+                    
+                //,{
+                //    label: '建議攝取上限',
+                //    data: suggestedNutritionRangesArr[1],
+                //    backgroundColor: [
+                //        'rgba(112, 112, 112, 0.1)'
+                //    ]
+                //    ,
+                //    borderColor: [
+                //        'rgba(112, 112, 112, 1)'
+                //    ],
+                //    borderWidth: 0.1
+                //    }
+                ]
             },
             options: {
                 scales: {
@@ -1253,7 +1233,7 @@
             data: {
                 labels: pastWeekDaysFromTheDateArr,
                 datasets: [{
-                    label: '過去七日攝取(單位: 大卡)',
+                    label: '過去七日熱量攝取(單位: 大卡)',
                     data: past7DaysGainedCalsArr.Arr,
                     backgroundColor: [
                         'rgba(112, 112, 112, 0.1)',
@@ -1283,11 +1263,15 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                scale: {
-                    min: 0,
-                    max: 3000
+                scales: {
+                    y: {
+                        display: false,
+                    },
+                    x: {
+                        grid: { color: "rgba(122, 122, 122,0)" },
+                    }
+                }
 
-                },
             },
 
 

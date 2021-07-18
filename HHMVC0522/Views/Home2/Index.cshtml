@@ -294,17 +294,11 @@
                 "timeOut": 5000,
                 "extendedTimeOut": 1000
             }
-            var result = "@TempData["State"]";
-            console.log(result);
+            var result = "@TempData["Sucess"]";
             if (result != "") {
-                if (result == "AddPostSuccess") {
-                    toastr.success("發布成功，待審核中");
+                if (result == "Update Success") {
+                    toastr.success("更新成功");
                 }
-                else if (result == "DeleteSuccess") {
-                    toastr.success("刪除成功");
-                }
-
-
             }
         })
     </script>

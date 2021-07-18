@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class CommentBLL
+    public class 
+        CommentBLL
     {
         CommentDAO commentDAO = new CommentDAO();
 

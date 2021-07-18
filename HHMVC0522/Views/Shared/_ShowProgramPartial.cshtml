@@ -4,7 +4,7 @@
     <div class="p-2" style="background-color: #f56a6a">
         <h3 id="currProgramName" style="color:white; display:flex;justify-content:center">@Model.CurrProgram.Name 減脂計畫</h5>
     </div>
-    <input id="hiddenHasProgram"type="hidden" value="true" />
+    <input id="hiddenHasProgram" type="hidden" value="true" />
 
     <div>
         <input type="hidden" id="currProgramId" value="@Model.CurrProgram.ID">
@@ -19,16 +19,37 @@
             @*<li class="list-group-item">我的活動等級: <span style="float:right" id="">@Model.CurrProgram.ActivityLevel.Description</span></li>*@
 
         </ul>
+
+
+
+
         <div class="row">
             <div class="col-9 pl-5">
-                <p>TDEE:<span style="color:#f56a6a " class="h2">111 大卡</span></p>
+                    <b class="pl-3 ">挑戰細節及提醒:</b>
+                    <ul>
+                        <li>
+                            TDEE:<span style="color:#f56a6a " class="h2">@Model.TDEE 大卡</span>
+                        </li>
 
-                <p>我的每日目標上限:<span style="color:#f56a6a " class="h2">111 大卡</span></p>
-                <p><span id="btnTerminateProgram" style="color: lightgray">取消計畫</span></p>
+                        <li>
+                            每日熱量上限:<span style="color:#f56a6a " class="h2">@Model.ProgramMax 大卡</span></p>
+                        </li>
+                        <li>
+                            當天攝取熱量扣除消耗熱量小於每日熱量上限，即為<span class="h3" style="color: #f56a6a">當日挑戰成功</span>
+                        </li>
+                        <li>
+                            計劃成功最高可獲得點數
+                            <span class="h3" style="color: #f56a6a">1000</span> 點
+                        </li>
+                    </ul>
+
+                
+
+                <p class="pl-3"><span id="btnTerminateProgram" style="color: lightgray">取消計畫</span></p>
 
             </div>
             <div class="col-3">
-                <img src="~/Content/Images/ProgramImages/programRefImg.jpeg" width="200"/>
+                <img src="~/Content/Images/ProgramImages/programRefImg.jpeg" width="200" />
             </div>
         </div>
     </div>

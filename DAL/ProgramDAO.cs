@@ -29,6 +29,13 @@ namespace DAL
             return db.Programs.Any(p => p.MemberID == memberID && p.StatusID == 1);
         }
 
+        public double GetSuccessRate()
+        {
+            var rate = ((double)db.Programs.Where(pr => pr.StatusID == 5).Count() / (double)db.Programs.Where(pr=>pr.StatusID!=1).Count())*100;
+
+            return Math.Round(rate, 1);
+        }
+
         public void RegisterProgram(Program p)
         {
             db.Programs.Add(p);

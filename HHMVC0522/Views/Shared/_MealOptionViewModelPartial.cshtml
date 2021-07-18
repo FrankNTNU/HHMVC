@@ -22,9 +22,9 @@
                     <li class="list-group-item">鈉含量(豪克): <span id="mealInfoNa" class="mealInfoNa"style="float:right">@Math.Round(m.Na)</span></li>
                 </ul>
 
-                <ul class="actions mx-3 mb-3">
-                    <li class="addToTempList col-6 text-center" style="border-right: solid #f56a6a 2px;color: #f56a6a">加入</li>
-                    <li class="btnToggleLiked col-6 text-center" style="color: #f56a6a">
+                <ul class="actions mx-3 mb-3" style="height:30px">
+                    <li class="addToTempList col-6 text-center" style="color: #f56a6a; cursor: pointer;">加入</li>
+                    <li class="btnToggleLiked col-6 text-center" style="border-left: solid #f56a6a 2px; color: #f56a6a; cursor: pointer;">
                         @{
                             if (m.isLiked)
                             {

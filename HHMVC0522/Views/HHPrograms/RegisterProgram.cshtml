@@ -12,7 +12,6 @@
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
-    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
     <style>
     </style>
 }
@@ -33,84 +32,47 @@
 
 
 
+         <section class="pt-2 pb-5">
 
 
-<div id="mainProgramContent" class="col-8 justify-content-center" style="margin:0 auto; margin-top:2em">
-    @{if (Model.HasActiveProgram)
-        {
-            @Html.Partial("_ShowProgramPartial", Model.ProgramView)
-        }
-        else
-        {
-            @Html.Partial("_RegisterProgramPartial", Model.RegisterView)
-        }
-    }
-</div>
+             <div id="mainProgramContent" class="col-8 justify-content-center" style="margin:0 auto; margin-top:2em">
+                 @{if (Model.HasActiveProgram)
+                     {
+                         @Html.Partial("_ShowProgramPartial", Model.ProgramView)
+                     }
+                     else
+                     {
+                         @Html.Partial("_RegisterProgramPartial", Model.RegisterView)
+                     }
+                 }
+             </div>
+         </section>
 
+    <!-- Modal -->
+    <div class="modal fade" id="ProgramCalculating" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="programPending">計畫審核中...</h3>
 
-
-<!-- Large modal -->
-<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg" id="btnWaterLogTemp">WaterLog Temp_Button</button>
-
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-
-            <div class="modal-header" style="display:flex; justify-content:center">
-                <h3 class="modal-title" id="exampleModalLabel">今天喝水了嗎 <span></span></h3>
-            </div>
-            <div class="modal-body">
-                <form id="FrmWaterLog" name="WaterLog">
-                    <input type="hidden" id="MemberID" name="MemberID" value="@Model.MemberID" />
-                    <div class="form-group">
-                        <label for="numWaterAmount">請輸入喝水量</label>
-                        <div class=" row">
-                            <div class="col-10">
-                                <input class="form-control fit" type="number" name="WaterAmount" id="numWaterAmount" placeholder="單位: 毫升" />
-                            </div>
-                            <div class="col-2">
-                                <input type="button" class="btn btn-default fit" id="btnSendWaterLog" value="送出" />
-                            </div>
-                        </div>
+                </div>
+                <div class="modal-body" style="display:flex;justify-content:center">
+                    <img id="pendingImg" style="max-width: 100%; max-height: 100%; " src="~/Content/Images/loadingDots.gif" />
+                </div>
+                <div class="modal-footer row">
+                    <div class="col-12">
+                        <p id="pendingReminder"></p>
                     </div>
-                </form>
-                <canvas id="WaterLine" height="100" width="200"></canvas>
-
-            </div>
-            <div class="modal-footer">
-                <input type="button" class="btn btn-default fit" data-dismiss="modal" id="btnSendWaterLog" value="關閉" />
-
-            </div>
-
-
-
-        </div>
-
-    </div>
-</div>-->
-<!-- Modal -->
-<div class="modal fade" id="ProgramCalculating" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="programPending">計畫審核中...</h3>
-
-            </div>
-            <div class="modal-body" style="display:flex;justify-content:center">
-                <img id="pendingImg" style="max-width: 100%; max-height: 100%; " src="~/Content/Images/loadingDots.gif" />
-            </div>
-            <div class="modal-footer">
-                <p id="pendingReminder"></p>
-                <input type="button" id="closeModal" value="確定" class="btn btn-default fit" />
-
+                    <div class="col-12">
+                        <input type="button" id="closeModal" value="確定" class="btn btn-default fit" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-@section Scripts{
+    @section Scripts{
 
 
     @*-----------------Ttool built them used?--------*@
@@ -127,7 +89,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>   FOR WATERLOG
 
 
-    @*----------------------------------*@
+        @*----------------------------------*@
 
     <script>
         //closeModal
@@ -137,6 +99,7 @@
 
             $("#pendingImg").attr("src", "/Content/Images/loadingDots.gif")
 
+            $("#pendingReminder").text("")
 
         });
 
@@ -197,124 +160,8 @@
     })
 
 
-     //========================BELOW WATERLOG=======================
-        @*$("#btnWaterLogTemp").on("click", () => {
-            fetch('@Url.Action("GetWeeklyWateLogChartDatas", "HHApi_WaterLog")?memberId=' + @Model.MemberID + '&date='+ "@Model.Today", {
-                method: "GET",
-            }).then(response => response.json()).then(datas => {
-                RenderWeeklyWaterLogsChart_Suggested(WaterLineChar, datas.WeeklyWaterLogSuggestedRanges)
-                RenderWeeklyWaterLogsChart_Gained(WaterLineChar, datas.WeeklyWaterLogGaineds)
 
-            })
+        </script>
 
-        })
-
-
-
-
-    $("#btnSendWaterLog").on("click", () => {
-
-
-        const formData = new FormData(document.WaterLog)
-
-            fetch('@Url.Action("SendWaterLog", "HHApi_WaterLog")', {
-                method: "POST",
-                body: formData
-            }).then(response => response.json()).then(updatedWaterLog => {
-                RenderWeeklyWaterLogsChart_Gained(WaterLineChar, updatedWaterLog)
-
-
-            })
-        $("#numWaterAmount").val("");
-    })
-
-    function RenderWeeklyWaterLogsChart_Suggested(chart, datas)
-    {
-
-        chart.data.datasets[0].data = datas[0]
-        chart.data.datasets[2].data = datas[1]
-
-        chart.update();
 
     }
-
-
-
-    function RenderWeeklyWaterLogsChart_Gained(chart, datas) {
-
-        chart.data.datasets[1].data = datas
-        chart.update();
-    }
-
-
-    var WaterLineChartEle = document.getElementById('WaterLine').getContext('2d')
-
-        var WaterLineChar = new Chart(WaterLineChartEle, {
-            type: 'line',
-            data: {
-                labels: ['周一', '周二','周三', '周四', 'ˋ周五', '周六', '周日'],
-                datasets: [{
-                    label: '建議攝取下限(單位: 毫升)',
-                    backgroundColor: [
-                        "rgba(220,220,220,0.3)"
-
-                    ],
-                    borderColor: [
-                        'rgba(220,220,220,0)',
-                    ],
-                    fill: true,
-                    lineTension: 0.5,
-                    radius: 0
-                },
-                    {
-                        label: '攝取量(單位: 毫升)',
-                        fill: true,
-                        lineTension: 0.5,
-                        radius: 0,
-                        backgroundColor: [
-                            "rgba(0, 76, 153,0.3)"
-
-                        ],
-                        borderColor: [
-                            'rgba(0, 89, 179,1)',
-                        ],
-                        borderWidth: 3
-
-                    },
-                    {
-                        label: '建議攝取上限(單位: 毫升)',
-                        backgroundColor: [
-                            "rgba(220,220,220,0.3)"
-
-                        ],
-                        borderColor: [
-                            'rgba(220,220,220,0)',
-                        ],
-                        fill: true,
-                        lineTension: 0.5,
-                        radius: 0,
-
-                    }
-
-                ]
-            },
-
-            options: {
-                responsive: true,
-
-                scale: {
-                    min: 0,
-                    //max: 4000,
-
-                },
-            },
-
-        });*@
-
-
-     //========================WATERLOG END=========================
-
-    </script>
-
-
-}

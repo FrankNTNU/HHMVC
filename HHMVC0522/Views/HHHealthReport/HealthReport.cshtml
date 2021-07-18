@@ -5,7 +5,6 @@
 }
 
 @section Styles{
-    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         #sliderNode .slider-handle {
@@ -28,86 +27,87 @@
     </div>
 </header><header id="header" class="m-0 p-0"></header>
 
+         <section class="pt-2 pb-5">
 
-<div class="row my-4">
-    <div class="col-1  ">
-        <span class="h4" style="color:#f56a6a">日期拉軸</span>
-    </div>
-    <div class="col-9  ">
-        <input style="width:100%" id="ex6" type="text" data-slider-min="-11" data-slider-id="sliderNode" data-slider-max="0" data-slider-step="1" data-slider-value="0" data-slider-handle="square" />
-    </div>
-    <div class="col-2 ">
-        <input type="button" id="btnThisMonth" value="本月紀錄" class="btn btn-default fit" />
-
-
-    </div>
-</div>
-<div class="col-12  shadow bg-white mt-5" style="border-radius: 0.9em; height:850px; margin: auto">
-    <div class="d-flex justify-content-between mb-4 pt-3">
-        <input type="button" id="btnPrevMonth" value="<" class="btn btn-default" />
-
-        <h1 id="titleMonth" style="display:inline">@Model.YearMonth</h1>
+             <div class="row my-4">
+                 <div class="col-1  ">
+                     <span class="h4" style="color:#f56a6a">日期拉軸</span>
+                 </div>
+                 <div class="col-9  ">
+                     <input style="width:100%" id="ex6" type="text" data-slider-min="-11" data-slider-id="sliderNode" data-slider-max="0" data-slider-step="1" data-slider-value="0" data-slider-handle="square" />
+                 </div>
+                 <div class="col-2 ">
+                     <input type="button" id="btnThisMonth" value="本月紀錄" class="btn btn-default fit" />
 
 
-        <input type="button" id="btnNextMonth" value=">" class="btn btn-default" />
+                 </div>
+             </div>
+             <div class="col-12  shadow bg-white mt-5" style="border-radius: 0.9em; height:850px; margin: auto">
+                 <div class="d-flex justify-content-between mb-4 pt-3">
+                     <input type="button" id="btnPrevMonth" value="<" class="btn btn-default" />
 
-    </div>
-    <canvas id="generalChart" class="pb-5"></canvas>
-
-</div>
-
-<div class="row my-5" style="display:flex;justify-content:center">
-    <div class="col-6 row">
-        <div class="col-6 p-1">
-            <input type="button" id="btnShowWater" value="水" class="button  fit " />
-        </div>
-        <div class="col-6  p-1">
-            <input type="button" id="btnShowWeight" value="體重" class="button  fit " />
-        </div>
-    </div>
-    <div id="btnsCals" class="col-6 row">
-        <div class="col-6  p-1">
-            <input type="button" id="btnShowGained" value="攝取" class="button primary  fit" />
-        </div>
-        <div class="col-6  p-1">
-
-            <input type="button" id="btnShowBurned" value="消耗" class="button  primary fit" />
-        </div>
-
-    </div>
-</div>
-
-<div id="editDoneModal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
+                     <h1 id="titleMonth" style="display:inline">@Model.YearMonth</h1>
 
 
+                     <input type="button" id="btnNextMonth" value=">" class="btn btn-default" />
 
-                <h5 class="modal-title">資料載入中...</h5>
+                 </div>
+                 <canvas id="generalChart" class="pb-5"></canvas>
+
+             </div>
+
+             <div class="row my-5" style="display:flex;justify-content:center">
+                 <div class="col-6 row">
+                     <div class="col-6 p-1">
+                         <input type="button" id="btnShowWater" value="水" class="button  fit " />
+                     </div>
+                     <div class="col-6  p-1">
+                         <input type="button" id="btnShowWeight" value="體重" class="button  fit " />
+                     </div>
+                 </div>
+                 <div id="btnsCals" class="col-6 row">
+                     <div class="col-6  p-1">
+                         <input type="button" id="btnShowGained" value="攝取" class="button primary  fit" />
+                     </div>
+                     <div class="col-6  p-1">
+
+                         <input type="button" id="btnShowBurned" value="消耗" class="button  primary fit" />
+                     </div>
+
+                 </div>
+             </div>
+         </section>
+    <div id="editDoneModal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+
+
+
+                    <h5 class="modal-title">資料載入中...</h5>
+                </div>
+                <div class="modal-body">
+                    <img src="/Content/Images/loadingDots.gif" />
+
+                </div>
+                <div class="modal-footer">
+                    @* <input type="button" value="確定" class="btn btn-default fit" onclick="function CloseThisModal(){$('#editDoneModal').modal('hide')};CloseThisModal()" />*@
+
+                </div>
             </div>
-            <div class="modal-body">
-                <img src="/Content/Images/loadingDots.gif" />
-
-            </div>
-            <div class="modal-footer">
-                @* <input type="button" value="確定" class="btn btn-default fit" onclick="function CloseThisModal(){$('#editDoneModal').modal('hide')};CloseThisModal()" />*@
-
-            </div>
         </div>
+
     </div>
+    @section Scripts{
+        <script src="~/Content/js/chart.min.js"></script>
+        <script src="~/Content/js/jquery-ui.js"></script>
+        <script src="~/Content/js/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="~/Content/js/chartjs-plugin-datalabels.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-</div>
-@section Scripts{
-    <script src="~/Content/js/chart.min.js"></script>
-    <script src="~/Content/js/jquery-ui.js"></script>
-    <script src="~/Content/js/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="~/Content/js/chartjs-plugin-datalabels.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script>
+        <script>
             var monthlyGainedCals = '@Html.Raw(Json.Encode(Model.GainedCalsByMonth))';
 
             var monthlyDays = '@Html.Raw(Json.Encode(Model.MonthlyDays))';
@@ -557,7 +557,7 @@
                                 display: true,
                                 position: 'left',
                                 min: 0,
-                                max: 3500,
+                                max: 3000,
                                 grid: { color: "rgba(122, 122, 122,0.1)"},
 
 
@@ -568,7 +568,7 @@
                             display: false,
                             position: 'right',
                             min: 0,
-                            max: 3500,
+                            max: 3000,
 
 
                         },
@@ -685,7 +685,7 @@
 
             }
             else {
-                generalChart.options.scales.y.max = 3500
+                generalChart.options.scales.y.max =3000
                 generalChart.options.scales.y.min = 0
 
                 generalChart.data.datasets[2].data = null
@@ -759,5 +759,5 @@
 
 
 
-    </script>
-}
+        </script>
+    }

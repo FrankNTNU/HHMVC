@@ -12,7 +12,7 @@ namespace UI.ViewModels
     {
 
         WeightLogBLL wlBLL = new WeightLogBLL();
-
+        ProgramBLL pBLL = new ProgramBLL();
         private int _MemberID;
         public RegisterProgramViewModel(int memberID) {
 
@@ -24,6 +24,8 @@ namespace UI.ViewModels
 
         public IEnumerable<SelectListItem> ActivityLevelsSelectListItem { get { return ActivityLevelBLL.GetActivityLevelsForDropDown(); } }
 
+
+        public double SuccessRate { get { return pBLL.GetSuccessRate(); } }
 
         public double MemberLatestWeight
         {

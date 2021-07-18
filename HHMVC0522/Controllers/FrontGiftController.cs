@@ -87,8 +87,6 @@ namespace UI.Controllers
         [Authorize]
         public ActionResult GiftCart(int userID)
         {
-            if (Session["ID"] == null)
-                return Redirect("~/Home2/Login");
             UserBLL userBLL = new UserBLL();
             Session["Points"] = userBLL.GetPoints((int)Session["ID"]);
             List<GiftCartDTO> carts = new List<GiftCartDTO>();

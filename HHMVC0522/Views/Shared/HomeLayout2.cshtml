@@ -14,7 +14,7 @@
     <title>HealthHelper 你的健康管理助手</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-
+    <link rel="shortcut icon" type="image/jpg" href="~/Content/ico/favicon.ico" />
     <link rel="stylesheet" href="~/Content/css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     @*for waterLog*@
@@ -27,7 +27,7 @@
 
     @RenderSection("Styles", required: false)
 
-<style>
+    <style>
     @*恩旗=====================================*@
     #dialogDiv, #programFrozen, #fanfare {
         display: none;
@@ -518,7 +518,6 @@
                                 {   //if last 7 days has no weightlog, show this icon
                     <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>}
                             </li>
-                            <li><a href="~/HHHealthReport/HealthReport" style="text-decoration:none"><i class="fas fa-chart-bar" style="width:30px"></i> 綜合圖表</a></li>
                             <li><a href="~/Home2/UserPoints" style="text-decoration:none"><i class="fas fa-coins" style="width:30px"></i> 點數管理</a></li>
 
 
@@ -565,7 +564,12 @@
 
                                 </ul>
 
-                                    </li>
+                            </li>
+                            <li>
+                                <a href="~/HHHealthReport/HealthReport" style="text-decoration:none"><span ><i class="fas fa-chart-bar" style="width:30px"></i> 綜合圖表</span></a>
+
+
+                            </li>
 
                             <li>
                                 <span class="opener"><i class="fas fa-fist-raised" style="width:30px"></i> 挑戰</span>
@@ -579,7 +583,7 @@
 
                             </li>
 
- 
+
                             if (Session["InProgram"] != null && (bool)Session["InProgram"])
                             {
                                 <li><a href="~/ChatGroup/GroupChat" style="text-decoration:none"><i class="fas fa-sms" style="width:30px"></i>減重聊天群</a></li>
@@ -704,7 +708,7 @@
 
 
                 <div class="modal-header" style="display:flex; justify-content:center">
-                    <h3 class="modal-title" id="exampleModalLabel">今天喝水了嗎 <span></span></h3>
+                    <h3 class="modal-title" id="exampleModalLabel">周周多喝水<span></span></h3>
                 </div>
                 <div class="modal-body">
                     <form id="FrmWaterLog" name="WaterLog">

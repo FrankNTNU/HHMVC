@@ -20,18 +20,15 @@
             <h2><i class="far fa-edit"></i> 回覆留言</h2>
         </div>
         <div class="col-2 col-sm-4 col-md-3 col-lg-2 align-self-end justify-content-end d-none d-sm-block">
-
             <a href="~/FrontPost/PostDetail?ID=@ViewBag.CurrentPostID"><label class="button primary"><i class="fas fa-pen"></i> 返回貼文</label></a>
-
         </div>
     </div>
 </header><header id="header" class="m-0 p-0 mb-2"></header>
 
-
 @Html.Partial("~/Areas/Admin/Views/Shared/MessageForm.cshtml")
+
 <form action="@Url.Action("ReplyToComment")" method="post">
     <input hidden value="@Model.ID" name="ID" />
-
     <div class="row gtr-uniform">
         <div class="col-6 col-12-xsmall">
             <label>暱稱</label>
@@ -43,29 +40,38 @@
             <label>標題</label>
             @Html.TextBoxFor(x => x.Title, new { @placeholder = "你的留言標題", @style = "height: 45px;" })            
             @Html.ValidationMessageFor(x => x.Title, "", new { @style = "color:red" })
-
         </div>
-
         <!-- Break -->
         <div class="col-12">
             <label>內容</label>
             @Html.TextAreaFor(x => x.CommentContent, new { @row = 6, @class = "ckeditor", @style = "width:305px;" })
             @Html.ValidationMessageFor(x => x.CommentContent, "", new { @style = "color:red" })
-
         </div>
         <!-- Break -->
         <div class="col-12">
             <ul class="actions">
-                <li style="font-size:1.1em"><input type="submit" value="提交" class="primary" /></li>
-            </ul>
+                <li style="font-size:1.1em"><input type="submit" value="提交" class="primary" /> <a class="button default" id="demoReplyButton">快速回覆</a></li>
+            </ul>           
         </div>
     </div>
 </form>
-
+<input type="text" id="CommentContentText" value="<h3><strong><span style='color:red;'>7</span>-<span style='color:green'>11</span></strong>燕麥奶咖啡也很好喝!</h3>" style="display:none">
 
 
 @section Scripts{
-
     <script src="~/Areas/Admin/Content/JS/ckeditor/ckeditor.js"></script>
-
+    <script>
+        $('#demoReplyButton').click(function () {
+            $('#Name').val('7-11常客');
+            $('#Title').val('全家的我也沒喝過');
+            var copyText = $('#CommentContentText').val();
+            console.log(copyText);
+            var textArea = document.createElement("textarea");
+            textArea.value = copyText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        })
+    </script>
 }
