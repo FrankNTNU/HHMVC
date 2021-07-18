@@ -208,7 +208,7 @@
                     $('#searchFilter').val("-1");
                     $.ajax({
                         type: "post",
-                        url: "GetCarts?text=" + text,
+                        url: "../FrontGift/GetCarts?text=" + text,
                         contentType: "html",
                         success: function (result) {
                             $.each(result, function (index, value) {
@@ -227,7 +227,7 @@
                 $('#cartList').html('');
                 $.ajax({
                     type: "post",
-                    url: "GetOrderedCarts?isAscending=" + isAscending,
+                    url: "../FrontGift/GetOrderedCarts?isAscending=" + isAscending,
                     contentType: "html",
                     success: function (result) {
                         $.each(result, function (index, value) {

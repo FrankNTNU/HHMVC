@@ -61,11 +61,11 @@
                     {
                         <li>
                             @*class="mealTagImg pb-5"*@
-                            <figure class="pb-0">
+                            <figure >
                                 @*class="styleIcon "*@
 
                                 <a href="@Url.Action("MealStyleList", "HHDiet", new { id = mCtgy.ID })">
-                                    <img class="tagImg " src="~/Content/Images/TagCategoriesImages/@mCtgy.Image" width="360" height="280"  style="cursor:pointer">
+                                    <img class="tagImg " src="~/Content/Images/TagCategoriesImages/@mCtgy.Image"  style="cursor:pointer">
                                 </a>
 
                                 <figcaption >
@@ -524,8 +524,39 @@
             GetTempDietLogsSession()
             DynamicTempChange()
             SetChartSizes()
+            //$(window).load(function () {
 
 
+
+            //    $('.flexslider').flexslider({
+            //        animation: "slide",
+            //        controlNav: false,
+            //        animationLoop: false,
+            //        slideshow: false,
+            //        itemWidth: 125,
+            //        itemMargin: 40
+            //    });
+
+            //});
+            var myslider = $('.flexslider');
+
+            // code for init
+            $(myslider).flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: false,
+                slideshow: false,
+                itemWidth: 125,
+                itemMargin: 40
+            });
+
+            // code for resize flexslider
+            $(window).bind('resize', function () {
+                setTimeout(function () {
+                    var slider = $(myslider).data('flexslider');
+                    slider.resize();
+                }, 1000);
+            });
 
 
         })
@@ -692,19 +723,8 @@
         }
 
 
-        $(window).load(function () {
+        
 
-
-
-            $('.flexslider').flexslider({
-                animation: "slide",
-                controlNav: false,
-                animationLoop: false,
-                slideshow: false,
-                itemWidth: 125,
-                itemMargin: 40
-            });
-        });
 
 
 
@@ -788,12 +808,15 @@
                     });
                 },
 
+
                 select: function (event, ui) {
                     $(this).attr("data-mealOptId", ui.item.value)
                     $(this).val(ui.item.label)
                     return false
 
                 },
+                triggerSelectOnValidInput: false,
+
                 minLength:1,
 
             })

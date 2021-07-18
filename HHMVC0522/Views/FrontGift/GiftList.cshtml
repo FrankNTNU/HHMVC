@@ -324,7 +324,7 @@
             })
             function callAjax(text, sortingMethod, isChecked) {
                 $.ajax({
-                    url: "GetSearchResult",
+                    url: "../FrontGift/GetSearchResult",
                     data: { name: text, sortBy: sortingMethod, isPremiumChecked: isChecked },
                     success: function (result) {
                         $.each(result, function (index, value) {
@@ -339,11 +339,11 @@
                 let resultDiv = $("<div></div>")
                     .addClass("col-6 col-sm-4 col-md-4 col-lg-3 mb-5")
                     .css("text-align", "center");
-                let imageDiv = $("<a></a>").attr("href", "../GiftDetail/" + value.ID)
+                let imageDiv = $("<a></a>").attr("href", "../FrontGift/GiftDetail/" + value.ID)
                     .addClass("image")
                     .appendTo(resultDiv);
                 let imageContent = $("<img/>")
-                    .attr("src", "/Areas/Admin/Content/GiftImages/" + value.Image)
+                    .attr("src", "../Areas/Admin/Content/GiftImages/" + value.Image)
                     .css("max-width", "100%")
                     .css("max-height", "100%");
                 let crownDiv = $("<div></div>").addClass("corner");
