@@ -29,9 +29,9 @@ namespace DAL
         {
             if (id == 54) //ID 54為"所有餐點"
             {
-                return db.MealOptions.OrderBy(m => m.Calories).Select(mt => mt);
+                return db.MealOptions.Where(m => m.IsVisable == "True").OrderBy(m => m.Calories).Select(mt => mt);
             }
-            return db.MealTags.Where(mt => mt.MealTagCategoriesID == id).OrderBy(m => m.MealOption.Calories).Select(mt => mt.MealOption);
+            return db.MealTags.Where(mt => mt.MealTagCategoriesID == id && mt.MealOption.IsVisable == "True").OrderBy(m => m.MealOption.Calories).Select(mt => mt.MealOption);
         }
 
         public List<TagCategoryDetailDTO> GetTagCategoryList(int ID)

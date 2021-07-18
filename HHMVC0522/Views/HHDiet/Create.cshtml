@@ -85,7 +85,7 @@
             <div class="row gtr-uniform pr-4">
 
                 <div class="col-5 col-12-xsmall">
-                    <input type="text" id="txtSearchMeal" data-mealOptId="" name="mealKeyword" value="" placeholder="" />   @*name="demo-name"*@
+                    <input type="text" id="txtSearchMeal" data-mealOptId="" name="mealKeyword" value="" placeholder="請輸入關鍵字" />   @*name="demo-name"*@
                 </div>
                 <div class="col-2 col-12-xsmall">
                     <input style="width:100%" type="button" id="btnSearchMeal" value="查詢" class="btn btn-default" />
@@ -873,6 +873,9 @@
 
         })
 
+        $("#txtSearchMeal").dblclick(() => {
+            $("#txtSearchMeal").val("可");
+        })
 
             function LeadingZero(monthOrDay) {
                 let fixedVal = monthOrDay;

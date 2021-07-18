@@ -13,7 +13,7 @@ function Delete() {
             success: function () {
                 $("#a_" + ID).fadeOut();
                 $("#modalmessage").modal('hide');
-                window.location.href = "../Admin/" + LastUrl;
+                window.location.href = "../" + LastUrl;
             }
         })
 }

@@ -540,7 +540,9 @@
                             <li><a href="~/HHDiet/Create" style="text-decoration:none"><i class="fas fa-pen" style="width:30px"></i> 紀錄飲食</a></li>
 
                             <li><a href="~/HHDietHistory/DietLogsHistory" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 飲食歷史</a></li>
-
+                            <li>
+                                <a href="~/HHDiet/MealStyleList/54" style="text-decoration:none"><i class="fas fa-lightbulb" style="width:30px"></i> 建議飲食</a>
+                            </li>
                         </ul>
 
                     </li>
@@ -842,11 +844,12 @@
 
                     ],
                     borderColor: [
-                        'rgba(220,220,220,0)',
+                        'rgba(100,100,100,1)',
                     ],
                     fill: true,
                     lineTension: 0.5,
-                    radius: 0
+                    radius: 0,
+                    borderWidth: 0.3,
                 },
                     {
                         label: '攝取量(單位: 毫升)',
@@ -870,12 +873,12 @@
 
                         ],
                         borderColor: [
-                            'rgba(220,220,220,0)',
+                            'rgba(100,100,100,1)',
                         ],
                         fill: true,
                         lineTension: 0.5,
                         radius: 0,
-
+                        borderWidth: 0.3,
                     }
 
                 ]
