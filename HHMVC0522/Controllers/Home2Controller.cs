@@ -24,10 +24,11 @@ namespace UI.Controllers
         // GET: Home2
         readonly LayoutBLL layoutBLL = new LayoutBLL();
         readonly PostBLL postBLL = new PostBLL();
-        readonly UserBLL userBLL = new UserBLL();
+        UserBLL userBLL = new UserBLL();
         readonly MemberBLL memberBLL = new MemberBLL();
         public ActionResult Index()
         {
+            userBLL = new UserBLL();
             if (Session["ID"] != null)
             { Session["Points"] = userBLL.GetPoints((int)Session["ID"]); }
             LayoutDTO layoutDTO = new LayoutDTO();

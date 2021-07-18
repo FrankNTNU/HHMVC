@@ -36,13 +36,13 @@
             @Html.ValidationMessageFor(x => x.Email, "", new { @style = "color:red" ,@id= "txtEmail2" })
             <br /><label>帳號</label>
 
-            <input type="text" name="Email" id="demo-name" value="" placeholder="登入帳號" style="height:50px" autocomplete="off" />
+            <input type="text" name="Email" id="demo-email" value="" placeholder="登入帳號" style="height:50px" autocomplete="off" />
         </div>
         <div class="col-12">
             @Html.ValidationMessageFor(x => x.Password, "", new { @style = "color:red", @id = "txtPassword2" })
             <br /><label>密碼</label>
 
-            <input type="password" name="Password" id="demo-email" value="" placeholder="你的密碼" style="height:50px" />
+            <input type="password" name="Password" id="demo-pwd" value="" placeholder="你的密碼" style="height:50px" />
         </div>
         <div class="col-12">
             @Html.ValidationMessageFor(x => x.ActiveCode, "", new { @style = "color:red" })
@@ -62,8 +62,8 @@
 @section Scripts{
     <script>
         $("#btnDemo2").on("click", function () {
-            $("#txtEmail2").val("kevinwang05010404@gmail.com");
-            $("#txtPassword2").val("123456");         
+            $("#demo-email").val("kevinwang05010404@gmail.com");
+            $("#demo-pwd").val("123456");         
         });
     </script>
     }

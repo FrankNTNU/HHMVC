@@ -69,12 +69,11 @@ namespace UI.Areas.Admin.Controllers
         public ActionResult Delete(int ID)
         {
             //WorkoutItemDTO dto = new WorkoutItemDTO();
-            //int catID = workoutBLL.GetCatIDByWorkID(ID);
+            int catID = workoutBLL.GetCatIDByWorkID(ID);
             workoutBLL.Delete(ID);
-
             //int a = (int)dto.CategoryID;
-            workoutBLL = new WorkoutBLL();
-            return RedirectToAction("List/6" /*+ catID.ToString()*/);
+            //workoutBLL = new WorkoutBLL();
+            return RedirectToAction("List", new { ID = catID });
         }
         public ActionResult Edit(int ID)
         {
@@ -91,7 +90,7 @@ namespace UI.Areas.Admin.Controllers
             workoutBLL.Update(model);
             int a = (int)model.CategoryID;
             workoutBLL = new WorkoutBLL();
-            return RedirectToAction("List/"+a.ToString());
+            return RedirectToAction("List",new {ID=a });
         }
     }
 }

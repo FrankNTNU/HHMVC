@@ -10,7 +10,7 @@
     <style>
         @@font-face {
             font-family: 'BarcodeFont';
-            src: url('../Areas/Admin/Content/webfonts/BarcodeFont.ttf')
+            src: url('/HealthHelper/Areas/Admin/Content/webfonts/BarcodeFont.ttf')
         }
 
         tbody td {
@@ -186,8 +186,7 @@
                 if (result == "Success") {
                     toastr.success("成功將條碼寄送至信箱");
                 }
-                else {
-                    toastr.error("失敗");
+                else {                   
                 }
             }
         })
@@ -208,7 +207,7 @@
                     $('#searchFilter').val("-1");
                     $.ajax({
                         type: "post",
-                        url: "../FrontGift/GetCarts?text=" + text,
+                        url: "/HealthHelper/FrontGift/GetCarts?text=" + text,
                         contentType: "html",
                         success: function (result) {
                             $.each(result, function (index, value) {
@@ -227,7 +226,7 @@
                 $('#cartList').html('');
                 $.ajax({
                     type: "post",
-                    url: "../FrontGift/GetOrderedCarts?isAscending=" + isAscending,
+                    url: "/HealthHelper/FrontGift/GetOrderedCarts?isAscending=" + isAscending,
                     contentType: "html",
                     success: function (result) {
                         $.each(result, function (index, value) {
@@ -244,7 +243,7 @@
                 $("<img/>")
                     .addClass("image")
                     .css("max-width", "200px").css("width", "100%")
-                    .attr("src", "../Areas/Admin/Content/CartImages/" + value.Image)
+                    .attr("src", "/HealthHelper/Areas/Admin/Content/CartImages/" + value.Image)
                     .appendTo(resultDiv);
 
                 let infoDiv = $("<div></div>").addClass("col-12 col-sm-8 col-md-8");
@@ -287,7 +286,7 @@
                     let sendBtn = $("<td></td>").css("vertical-align", "middle").css("text-align", "end").appendTo(fourthRow);
 
                     let icon = $("<i></i>").addClass("fas fa-envelope");
-                    let link = $("<a/>").attr("href", "../FrontGift/SendBarcode?barcode=" + value.Barcode)
+                    let link = $("<a/>").attr("href", "/HealthHelper/FrontGift/SendBarcode?barcode=" + value.Barcode)
                         .addClass("button default m-0")
                         .css("text-decoration", "none")
                         .text(" 寄給我 ")

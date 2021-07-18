@@ -50,6 +50,7 @@ namespace DAL
             var list = db.MealTagCategories.OrderBy(x=>x.HHOrder).ToList();
             int listNumber = list.Count -1;
             int orderNumber = (int)list[listNumber].HHOrder + 1;
+            entity.HHOrder = orderNumber;
             db.MealTagCategories.Add(entity);
             db.SaveChanges();
         }
@@ -127,7 +128,8 @@ namespace DAL
         }
         public Dictionary<int,string> getDTags()
         {
-            var list = db.MealTagCategories.ToList();
+            
+            var list = db.MealTagCategories.OrderBy(x => x.HHOrder).ToList();
             Dictionary<int, string> Dtags = new Dictionary<int, string>();
             foreach (var item in list)
             {
@@ -230,7 +232,19 @@ namespace DAL
                 //    }
                 //}
             }
-
+            if (Tags != null)
+            {
+                if (mealTagDTOList.Count() == 0)
+                {
+                    for (int i = 0; i < Tags.Length; i++)
+                    {
+                        if (!HasTag(mealID, Convert.ToInt32(Tags[i]))) //沒有這個標籤
+                        {
+                            AddTag(mealID, Convert.ToInt32(Tags[i])); //新增標籤
+                        }
+                    }
+                }
+            }
         }
         public void AddTag(int mealID, int categoryID)
         {

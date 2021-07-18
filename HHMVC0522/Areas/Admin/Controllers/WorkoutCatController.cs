@@ -66,13 +66,14 @@ namespace UI.Areas.Admin.Controllers
         public ActionResult Delete(int ID)
         {
             categoryBll = new WorkoutCategoryBLL();
-            WorkoutCategoryDTO dto = new WorkoutCategoryDTO();
+            //WorkoutCategoryDTO dto = new WorkoutCategoryDTO();
             categoryBll.Delete(ID);
-            categoryBll = new WorkoutCategoryBLL();
+            //categoryBll = new WorkoutCategoryBLL();
             return RedirectToAction("List");
         }
         public JsonResult IsCategoryExist(string text)
         {
+            categoryBll = new WorkoutCategoryBLL();
             string exist = "";
             if(categoryBll.IsCategoryExist(text))
             {

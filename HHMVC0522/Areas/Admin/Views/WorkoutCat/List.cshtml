@@ -15,7 +15,7 @@
 </section>
 <br>
 <div class="card-footer">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='../Create'">新增運動類別</button>
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='../WorkoutCat/Create'">新增運動類別</button>
 </div>
 @*<p>
     @Html.ActionLink("新增類別", "Create")
@@ -43,14 +43,14 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                <a href="../Edit/@item.ID">
+                                <a href="../WorkoutCat/Edit/@item.ID">
                                     <img src="~/Areas/Admin/Content/icon/update-icon.png" />
                                 </a>
                                 @*@Html.ActionLink("修改", "Edit", new { id = item.ID }, new { @class = "btn btn-success" })*@
                             </td>
                             <td>
                                 <a href="#">
-                                    <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../Delete/', @item.ID)" />
+                                    <img src="~/Areas/Admin/Content/icon/close-icon.png" onclick="AskQuestion('../WorkoutCat/Delete/', @item.ID,'WorkoutCat/List')" />
                                 </a>
                                 @*@Html.ActionLink("刪除", "Delete", new { id = item.ID }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger" })*@
                             </td>
@@ -62,7 +62,9 @@
     </div>
     @Html.Partial("~/Areas/Admin/Views/Shared/ModalMessage.cshtml")
 </div>
+@section Scripts{
+    <script src="~/Areas/Admin/Content/JS/DeleteRecord2.js"></script>    
+    }
 
-<script src="~/Areas/Admin/Content/JS/DeleteRecord.js"></script>
 
 

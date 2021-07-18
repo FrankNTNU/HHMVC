@@ -17,6 +17,10 @@
     <link rel="shortcut icon" type="image/jpg" href="~/Content/ico/favicon.ico" />
     <link rel="stylesheet" href="~/Content/css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+
+
     @*for waterLog*@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
@@ -445,8 +449,7 @@
             border-radius: 10px;
             cursor: pointer;
         }
-
-</style>
+    </style>
 </head>
 
 <!--恩旗-->
@@ -537,7 +540,9 @@
                             <li><a href="~/HHDiet/Create" style="text-decoration:none"><i class="fas fa-pen" style="width:30px"></i> 紀錄飲食</a></li>
 
                             <li><a href="~/HHDietHistory/DietLogsHistory" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 飲食歷史</a></li>
-
+                            <li>
+                                <a href="~/HHDiet/MealStyleList/54" style="text-decoration:none"><i class="fas fa-lightbulb" style="width:30px"></i> 建議飲食</a>
+                            </li>
                         </ul>
 
                     </li>
@@ -839,11 +844,12 @@
 
                     ],
                     borderColor: [
-                        'rgba(220,220,220,0)',
+                        'rgba(100,100,100,1)',
                     ],
                     fill: true,
                     lineTension: 0.5,
-                    radius: 0
+                    radius: 0,
+                    borderWidth: 0.3,
                 },
                     {
                         label: '攝取量(單位: 毫升)',
@@ -867,12 +873,12 @@
 
                         ],
                         borderColor: [
-                            'rgba(220,220,220,0)',
+                            'rgba(100,100,100,1)',
                         ],
                         fill: true,
                         lineTension: 0.5,
                         radius: 0,
-
+                        borderWidth: 0.3,
                     }
 
                 ]
