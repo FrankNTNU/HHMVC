@@ -15,15 +15,15 @@
     </ol>
 </section>
 <br />
-<div class="row">
-    <div class="card-footer">
-        <button type="submit" class="btn btn-primary" onclick="window.location.href='../Admin/TempCustomerMealOption/TempCustomerMealOptionListNotProceeded'">待審核項目</button>
+<div class="row" style="margin-left:10px;margin-bottom:5px">
+    <div class="col-1">
+        <button type="submit" class="btn btn-primary" onclick="window.location.href='../TempCustomerMealOption/TempCustomerMealOptionListNotProceeded'">待審核項目</button>
     </div>
-    <div class="card-footer">
-        <button type="submit" class="btn btn-primary" onclick="window.location.href='../Admin/TempCustomerMealOption/TempCustomerMealOptionListFailed'">審核未通過項目</button>
+    <div class="col-1">
+        <button type="submit" class="btn btn-primary" onclick="window.location.href='../TempCustomerMealOption/TempCustomerMealOptionListFailed'"><span style="white-space: nowrap">審核未通過項目</span></button>
     </div>
-    <div class="card-footer">
-        <button type="submit" class="btn btn-primary" onclick="window.location.href='../Admin/TempCustomerMealOption/TempCustomerMealOptionListTest3'">回列表</button>
+    <div class="col-1" style="margin-left:30px">
+        <button type="submit" class="btn btn-primary" onclick="window.location.href='../TempCustomerMealOption/TempCustomerMealOptionListTest3'">回列表</button>
     </div>
 </div>
 <div class="card">
@@ -48,64 +48,63 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Calories)
+                    </td>
+                    @if (item.StatusID != 12)
+                    {
                         <td>
-                            @Html.DisplayFor(modelItem => item.Name)
+                            @Html.DisplayFor(modelItem => item.stausName)
                         </td>
+                    }
+                    @if (item.StatusID == 12)
+                    {
                         <td>
-                            @Html.DisplayFor(modelItem => item.Calories)
+                            <p>審核未通過</p>
                         </td>
-                        @if (item.StatusID != 12)
-                        {
-                            <td>
-                                @Html.DisplayFor(modelItem => item.stausName)
-                            </td>
-                        }
-                        @if (item.StatusID == 12)
-                        {
-                            <td>
-                                <p>審核未通過</p>
-                            </td>
-                        }
+                    }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MealOptionID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MemberID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EditTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TimeOfDayID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Portion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitName)
+                    </td>
+                    @if (item.StatusID == 2)
+                    {
                         <td>
-                            @Html.DisplayFor(modelItem => item.MealOptionID)
+                            @Html.ActionLink("進行審核", "audit", new { id = item.ID })
                         </td>
+                    }
+                    @if (item.StatusID == 12)
+                    {
                         <td>
-                            @Html.DisplayFor(modelItem => item.MemberID)
+                            @Html.ActionLink("重新審核", "audit", new { id = item.ID })
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EditTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Date)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TimeOfDayID)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Portion)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.UnitName)
-                        </td>
-                        @if (item.StatusID == 2)
-                        {
-                            <td>
-                                @Html.ActionLink("進行審核", "audit", new { id = item.ID })|
-                                @Html.ActionLink("審核不通過", "auditNotPassed", new { id = item.ID })
-                            </td>
-                        }
-                        @if (item.StatusID == 12)
-                        {
-                            <td>
-                                @Html.ActionLink("重新審核", "auditNotPassed", new { id = item.ID })
-                            </td>
-                        }
-                        @if (item.StatusID == 13)
-                        {
-                            <td>審核已通過</td>
-                        }
-                    </tr>
+                    }
+                    @if (item.StatusID == 13)
+                    {
+                        <td>審核已通過</td>
+                    }
+                </tr>
                 }
             </tbody>
             <tfoot>
