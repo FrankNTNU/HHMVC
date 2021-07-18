@@ -31,7 +31,7 @@
 
              <div class="row my-4">
                  <div class="col-1  ">
-                     <span class="h4" style="color:#f56a6a">日期拉軸</span>
+                     <span class="h4" style="color:#f56a6a">月份拉軸</span>
                  </div>
                  <div class="col-9  ">
                      <input style="width:100%" id="ex6" type="text" data-slider-min="-11" data-slider-id="sliderNode" data-slider-max="0" data-slider-step="1" data-slider-value="0" data-slider-handle="square" />
@@ -42,7 +42,7 @@
 
                  </div>
              </div>
-             <div class="col-12  shadow bg-white mt-5" style="border-radius: 0.9em; height:850px; margin: auto">
+             <div class="col-12    mt-5" style="border-radius: 0.9em; height:850px; margin: auto; box-shadow: 5px 5px 20px #E0E0E0  " >
                  <div class="d-flex justify-content-between mb-4 pt-3">
                      <input type="button" id="btnPrevMonth" value="<" class="btn btn-default" />
 
@@ -59,19 +59,19 @@
              <div class="row my-5" style="display:flex;justify-content:center">
                  <div class="col-6 row">
                      <div class="col-6 p-1">
-                         <input type="button" id="btnShowWater" value="水" class="button  fit " />
+                         <input type="button" id="btnShowWater" value="補水紀錄" class="button  fit " />
                      </div>
                      <div class="col-6  p-1">
-                         <input type="button" id="btnShowWeight" value="體重" class="button  fit " />
+                         <input type="button" id="btnShowWeight" value="體重總表" class="button  fit " />
                      </div>
                  </div>
                  <div id="btnsCals" class="col-6 row">
                      <div class="col-6  p-1">
-                         <input type="button" id="btnShowGained" value="攝取" class="button primary  fit" />
+                         <input type="button" id="btnShowGained" value="飲食攝取" class="button primary  fit" />
                      </div>
                      <div class="col-6  p-1">
 
-                         <input type="button" id="btnShowBurned" value="消耗" class="button  primary fit" />
+                         <input type="button" id="btnShowBurned" value="運動消耗" class="button  primary fit" />
                      </div>
 
                  </div>
@@ -87,7 +87,7 @@
                     <h5 class="modal-title">資料載入中...</h5>
                 </div>
                 <div class="modal-body">
-                    <img src="/Content/Images/loadingDots.gif" />
+                    <img src="../Content/Images/loadingDots.gif" />
 
                 </div>
                 <div class="modal-footer">
@@ -125,17 +125,18 @@
 
 
         var slider = new Slider("#ex6"
-        //    , {
-        //    formatter: function (value) {
-        //        const today = new Date();
-        //        const theDate = new Date();
-        //        // Add 1 Day
-        //        theDate.setDate(today.getDate() + value);
+            , {
+            formatter: function (value) {
+                const today = new Date();
+                const theDate = new Date();
+                    theDate.setMonth(today.getMonth() + value);
+                    const monthValue = theDate.getMonth()+1;
 
 
-        //        return theDate.toISOString().substring(0, 10);
-        //    }
-        //}
+
+                    return monthValue+"月";
+            }
+        }
         );
         slider.on("slideStop", function (sliderValue) {
             glMonthFlag.Val = sliderValue
@@ -383,7 +384,7 @@
                     labels: monthlyDaysArr.CurrVal,
                     datasets: [{
                         type: 'bar',
-                        label: '攝取 (單位 KCal): ',
+                        label: '飲食攝取(大卡)',
                         data: monthlySubstratedGainedCalsArr.CurrVal,
                         backgroundColor: [
 
@@ -399,7 +400,7 @@
                     }, {
                         type: 'bar',
 
-                            label: '消耗 (單位 KCal): ',
+                        label: '運動消耗(大卡)',
                         data: monthlyBurnedCalsArr.CurrVal,
                             backgroundColor: [
                                 'rgba(120, 120, 120, 0.4)',
@@ -418,7 +419,7 @@
                         {
                             type: 'line',
                             radius:0,
-                            label: '體重 (單位 Kg): ',
+                            label: '體重(公斤)',
                             data: monthlyWeightsArr.CurrVal,
                             backgroundColor: [
                                 'rgba(120, 120, 120, 0.2)',
@@ -439,7 +440,7 @@
                         {
                             type: 'line',
                             data: monthlyGainedWaterArr.CurrVal,
-                            label: '攝取量 (單位: 毫升):',
+                            label: '水攝取量(毫升)',
 
                             fill: true,
                             lineTension: 0.5,
@@ -456,7 +457,7 @@
                         {
                             type: 'line',
                             data: MonthlySuggestedWaterLogRangesArr.CurrVal[0],
-                            label: '建議攝取量下限 (單位: 毫升):',
+                            label: '飲水建議下限(毫升)',
                             //fillColor: "rgba(220,220,220,0.1)",
                             //strokeColor: "rgba(220,220,220,0.1)",
                             //pointColor: "rgba(220,220,220,0.1)",
@@ -477,7 +478,7 @@
                         {
                             type: 'line',
                             data: MonthlySuggestedWaterLogRangesArr.CurrVal[1],
-                            label: '建議攝取量上限 (單位: 毫升):',
+                            label: '飲水建議上限(毫升)',
                             //data: [20, 80, 60, 90, 30, 50, 60],
                             //fillColor: "rgba(220,220,220,0.1)",
                             //strokeColor: "rgba(220,220,220,0.1)",
@@ -499,7 +500,7 @@
                             type: 'line',
                             data: monthlyTDEEsArr.CurrVal,
                             borderDash: [10, 5],
-                            label: 'TDEE:',
+                            label: 'TDEE(大卡)',
                             //data: [20, 80, 60, 90, 30, 50, 60],
                             //fillColor: "rgba(220,220,220,0.1)",
                             //strokeColor: "rgba(220,220,220,0.1)",
@@ -521,7 +522,7 @@
                             type: 'line',
                             data: monthlyBMR.CurrVal,
                             borderDash: [10, 5],
-                            label: 'BMR:',
+                            label: 'BMR(大卡)',
                             //data: [20, 80, 60, 90, 30, 50, 60],
                             //fillColor: "rgba(220,220,220,0.1)",
                             //strokeColor: "rgba(220,220,220,0.1)",
@@ -529,7 +530,7 @@
                             //pointStrokeColor: "rgba(220,220,220,0.1)",
 
                             borderColor: [
-                                'rgba(235, 117, 0,0.7)',
+                                'rgba(235, 117, 0,0.3)',
                             ],
 
                             lineTension: 0.5,
