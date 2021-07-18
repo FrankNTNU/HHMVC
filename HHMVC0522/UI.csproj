@@ -786,6 +786,7 @@
     <Content Include="Areas\Admin\Content\UserImage\d4bc6e2e-e3a0-40ff-8526-61e2610f4fc8hLogo.png" />
     <Content Include="Areas\Admin\Content\UserImage\e9ea3c02-18f2-41ac-a647-578fd0ba12ff101.jpg" />
     <Content Include="Areas\Admin\Content\UserImage\e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png" />
+    <Content Include="Areas\Admin\Content\UserImage\H小編.jpg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-brands-400.svg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-regular-400.svg" />
     <Content Include="Areas\Admin\Content\webfonts\fa-solid-900.svg" />

@@ -255,10 +255,10 @@ namespace UI.Controllers
                         return new
                         {
                             connId = "",
-                            userName = "客服人員",
+                            userName = "H小編",
                             message = gc.Message,
                             timeStamp = gc.TimeStamp.ToString("M/d HH:mm"),
-                            image = "2763b7f7-9732-433e-8b71-7aa81889063fuser2.png"
+                            image = "H小編.jpg"
                         };
                     }
                     else
@@ -274,8 +274,8 @@ namespace UI.Controllers
                         if (admin != null || customer == null)
                         {
                             connId = UserStatic.ServiceGroups[groupId].AdminConnId;
-                            userName = "客服人員";
-                            image = "2763b7f7-9732-433e-8b71-7aa81889063fuser2.png";
+                            userName = "H小編";
+                            image = "H小編.jpg";
                         }
                         else
                         {
@@ -322,8 +322,8 @@ namespace UI.Controllers
             var Context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
 
             Context.Clients.Group(groupId)
-                    .receive("", "客服人員", answer.Answer, timeStamp.ToString("M/d HH:mm")
-                        , "2763b7f7-9732-433e-8b71-7aa81889063fuser2.png", groupId
+                    .receive("", "H小編", answer.Answer, timeStamp.ToString("M/d HH:mm")
+                        , "H小編.jpg", groupId
                         , notReadCount);
 
             dbContext.GroupChats.Add(new GroupChat
@@ -368,8 +368,8 @@ namespace UI.Controllers
             int notReadCount = IncreaseNotReadCount(groupId);
 
             Context.Clients.Group(groupId)
-                    .receive("", "客服人員", promptQna.Answer, timeStamp.ToString("M/d HH:mm")
-                        , "2763b7f7-9732-433e-8b71-7aa81889063fuser2.png", groupId
+                    .receive("", "H小編", promptQna.Answer, timeStamp.ToString("M/d HH:mm")
+                        , "H小編.jpg", groupId
                         , notReadCount);
 
             dbContext.GroupChats.Add(new GroupChat
