@@ -236,7 +236,7 @@ namespace UI.Controllers
                 await Task.Run(() => ReplyByOnAMaker(answerTask, groupId, timeStamp));
             }
 
-            return Json(new { Result = "Success"});
+            return Json(new { Result = "Success", Users = UserStatic.ConnectedUsers });
         }
 
         public JsonResult GetGroupMsgs(string groupId)

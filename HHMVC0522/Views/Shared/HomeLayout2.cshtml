@@ -928,9 +928,18 @@
     //=====================================================
     //恩旗
     //Show NoWeightLog dialog
-
+    let urlPrefix = ".."
 
     $(function () {
+        //set ajax url prefix
+        
+        if (window.location.href.split("/").length == 4) {
+            urlPrefix = "/HealthHelper";
+        } else if (window.location.href.split("/").length == 7) {
+            urlPrefix = "../..";
+        }
+
+        console.log(urlPrefix);
 
         var userId = "@Html.Raw(User.Identity.Name)";
 
@@ -976,7 +985,7 @@
                     click: function () {
                         $("#dialogDiv").dialog("close");
                         $.ajax({
-                            url: "../Home2/SetDialogShownSession",
+                            url: urlPrefix + "/Home2/SetDialogShownSession",
                             type: "POST"
                         });
 
@@ -1094,7 +1103,7 @@
         //prompt link
         $("#serviceChatBox").on("click", ".promptDiv a", function () {
             $.ajax({
-                url: "../FrontContact/SelectPrompt",
+                url: urlPrefix + "/FrontContact/SelectPrompt",
                 type: "POST",
                 data: {
                     connId: $.connection.hub.id,
@@ -1183,7 +1192,7 @@
         $("#programFrozen span").text(programFrozen);
 
         $.ajax({
-            url: "../Home2/GetProgramWeight",
+            url: urlPrefix + "/Home2/GetProgramWeight",
             type: "POST"
         }).done(function (data) {
 
@@ -1215,7 +1224,7 @@
                         if (confirm("確定送出嗎？")) {
 
                             $.ajax({
-                                url: "../Home2/SetResultWeight",
+                                url: urlPrefix + "/Home2/SetResultWeight",
                                 type: "POST",
                                 data: {
                                     resultWeight: $("#resultWeight").val()
@@ -1235,7 +1244,7 @@
                     click: function () {
                         $("#programFrozen").dialog("close");
                         $.ajax({
-                            url: "../Home2/SetDialogShownSession",
+                            url: urlPrefix + "/Home2/SetDialogShownSession",
                             type: "POST"
                         });
                     }
@@ -1329,10 +1338,13 @@
             //$("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
         }
 
+        //query string
+        $.connection.hub.qs = "role=customer";
+
         $.connection.hub.start().done(function () {
 
             $.ajax({
-                url: "../FrontContact/AddToServiceGroup",
+                url: urlPrefix + "/FrontContact/AddToServiceGroup",
                 type: "POST",
                 data: {
                     connId: $.connection.hub.id
@@ -1354,7 +1366,7 @@
                     }
 
                     $.ajax({
-                        url: "../FrontContact/SendMessage",
+                        url: urlPrefix + "/FrontContact/SendMessage",
                         type: "POST",
                         data: {
                             connId: $.connection.hub.id,
@@ -1363,7 +1375,7 @@
                         },
                         success: function (data) {
 
-                            //console.log(data.Admins);
+                            console.log(data.Users);
 
                             if (data.Result != "Success") {
                                 alert(data.Result);
@@ -1396,7 +1408,7 @@
             let textDiv = $("<div></div>").addClass("textDiv");
 
             $("<img/>").addClass("myImage").css("margin-left", "0px").css("margin-right", "10px")
-                .attr("src", "../Areas/Admin/Content/UserImage/" + image)
+                .attr("src", urlPrefix + "/Areas/Admin/Content/UserImage/" + image)
                 .appendTo(textDiv);
 
             let innerTextDiv = $("<div></div>").addClass("ArrowToLeft").css("margin-right", "auto");
@@ -1424,7 +1436,7 @@
             let textDiv = $("<div></div>").addClass("textDiv reverse");
 
             $("<img/>").addClass("myImage").css("margin-right", "0px").css("margin-left", "10px")
-                .attr("src", "../Areas/Admin/Content/UserImage/" + image)
+                .attr("src", urlPrefix + "/Areas/Admin/Content/UserImage/" + image)
                 .appendTo(textDiv);
 
             let innerTextDiv = $("<div></div>").addClass("ArrowToRight").css("margin-left", "auto");
@@ -1457,7 +1469,7 @@
 
         if ($("#serviceGroupId").val() != "") {
             $.ajax({
-                url: "../FrontContact/GetGroupMsgs",
+                url: urlPrefix + "/FrontContact/GetGroupMsgs",
                 type: "POST",
                 data: {
                     groupId: $("#serviceGroupId").val()
@@ -1484,7 +1496,7 @@
         $("#notRead span").text("0");
 
         $.ajax({
-            url: "../FrontContact/ResetNotReadCount",
+            url: urlPrefix + "/FrontContact/ResetNotReadCount",
             type: "POST",
             data: {
                 groupId: $("#serviceGroupId").val()
