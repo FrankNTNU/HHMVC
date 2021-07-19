@@ -26,17 +26,61 @@ namespace UI.Controllers
         readonly PostBLL postBLL = new PostBLL();
         UserBLL userBLL = new UserBLL();
         readonly MemberBLL memberBLL = new MemberBLL();
+        public static class Format
+        {
+            public static string DateAndYear = "MMddyyyy";
+        }
         public ActionResult Index()
         {
             userBLL = new UserBLL();
             if (Session["ID"] != null)
-            { Session["Points"] = userBLL.GetPoints((int)Session["ID"]); }
+            {
+                int userID = (int)Session["ID"];
+                Session["Points"] = userBLL.GetPoints(userID);
+                Session["Calories"] = new DietLogBLL().GetGainedCalByDate(DateTime.Now.ToString(Format.DateAndYear), userID);
+                Session["TDEE"] = GetTDEE(userID);
+                Session["Percentage"] = (((double)Session["Calories"] / (double)Session["TDEE"]) * 100).ToString().Substring(0, 2) + "%";
+            }
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPosts();
 
             return View(layoutDTO);
         }
+        public double GetTDEE(int memberID)
+        {
+            Member member = new MemberBLL().GetMemberByMemberID(memberID);
+            Program program = new ProgramBLL().GetCurrentProgram(memberID);
+            MemberForDietDTO mDto = new MemberForDietDTO(DateTime.Now.ToString(CDictionary.MMddyyyy))
+            {
+                MemberID = member.ID,
+                Birthdate = member.Birthdate,
+                ActivityLevelID = member.ActivityLevelID,
+                Gender = member.Gender,
+                Height = member.Height,
 
+            };
+            double weight = 60;
+            if (program != null)
+            {
+                mDto.ActivityLevelID = program.ActivityLevelID;
+                mDto.Program = new ProgramDTO()
+                {
+                    Name = program.Name,
+                    StartDate = program.StartDate,
+                    EndDate = program.EndDate,
+                    TargetWeight = program.TargetWeight,
+                    InitialWeight = program.InitialWeight,
+
+                };
+                weight = program.InitialWeight;
+            }
+            else
+            {
+                weight = new WeightLogDAO().GetLatestWeightByMemberID(memberID).Weight;
+            }
+            
+            return (double)UI.Models.HealthCalculator.TDEE(mDto, mDto.Age, (decimal)weight);
+        }
         public ActionResult Login(string ReturnUrl)
         {
             ViewBag.ReturnUrl = ReturnUrl;
