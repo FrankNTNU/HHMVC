@@ -24,7 +24,8 @@
         }
 
         .myInnerBox {
-            min-height: 350px;
+            display: flex;
+            flex-direction: column;
             border: solid 1px #f56a6a;
             border-radius: 0.9em;
             padding: 5px;
@@ -62,7 +63,12 @@
 
         #wSource, #wTarget, #wcSource, #wcTarget {
             margin:10px;
-            height:100%;
+            min-height: 300px;
+        }
+
+        #innerWcSource, #innerWcTarget, #innerWSource, #innerWTarget {
+            display: flex;
+            flex-wrap: wrap;
         }
 
         .item {
@@ -81,7 +87,7 @@
             float:left;
         }
 
-        #wSource > .item, #wTarget > .item {
+        #innerWSource > .item, #innerWTarget > .item {
             border: solid 2px #2894FF;
             background-color: white;
             color: #2894FF;
@@ -142,14 +148,18 @@
             <div class="row col-12" id="wcBox" style="padding:0; position:relative; left:20px;">
                 <div class="myInnerBox  col-md-5 col-sm-12 col-12">
                     <div class="title">運動類型</div>
-                    <div id="wcSource"></div>
+                    <div id="wcSource">
+                        <div id="innerWcSource"></div>
+                    </div>
                 </div>
                 <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
                     <i class="fas fa-arrows-alt-h" style="font-size:100px; color:gray"></i>
                 </div>
                 <div class="myInnerBox  col-md-5 col-sm-12 col-12">
                     <div class="title">喜好類型</div>
-                    <div id="wcTarget"></div>
+                    <div id="wcTarget">
+                        <div id="innerWcTarget"></div>
+                    </div>
                 </div>
                 <div id="divider" class="col-12 row">
                     <div class="col-5 arrowDown">
@@ -162,14 +172,18 @@
                 </div>
                 <div class="myInnerBox  col-md-5 col-sm-12 col-12">
                     <div class="title">類型包含項目</div>
-                    <div id="wSource"></div>
+                    <div id="wSource">
+                        <div id="innerWSource"></div>
+                    </div>
                 </div>
                 <div class="myBox col-md-2 col-sm-12 col-12" style="display:flex; align-items:center; justify-content:center">
 
                 </div>
                 <div class="myInnerBox col-md-5 col-sm-12 col-12">
                     <div class="title">喜好包含項目</div>
-                    <div id="wTarget"></div>
+                    <div id="wTarget">
+                        <div id="innerWTarget"></div>
+                    </div>
                 </div>
             </div>
             
@@ -222,9 +236,9 @@
                     /*.addClass("button").addClass("primary")*/;
 
                 if ($.inArray(wcArray[i].ID, wpArray) != -1) {
-                    $(wcDiv).addClass("selected").appendTo("#wcTarget");
+                    $(wcDiv).appendTo("#innerWcTarget");
                 } else {
-                    $(wcDiv).appendTo("#wcSource");
+                    $(wcDiv).appendTo("#innerWcSource");
                 }
             }
 
@@ -236,9 +250,9 @@
                     /*.addClass("button").addClass("primary")*/;
 
                 if ($.inArray(wArray[i].wcid, wpArray) != -1) {
-                    $(wDiv).addClass("selected").appendTo("#wTarget");
+                    $(wDiv).appendTo("#innerWTarget");
                 } else {
-                    $(wDiv).appendTo("#wSource");
+                    $(wDiv).appendTo("#innerWSource");
                 }
             }
 
@@ -247,22 +261,22 @@
 
             $("#wcSource").on("mouseenter", "div[data-wc]", function () {
                 let wc = $(this).data("wc");
-                $("#wSource > div[data-wcid=" + wc + "]").addClass("highlight");
+                $("#innerWSource > div[data-wcid=" + wc + "]").addClass("highlight");
             });
 
             $("#wcSource").on("mouseleave", "div[data-wc]", function () {
                 let wc = $(this).data("wc");
-                $("#wSource > div[data-wcid=" + wc + "]").removeClass("highlight");
+                $("#innerWSource > div[data-wcid=" + wc + "]").removeClass("highlight");
             });
 
             $("#wcTarget").on("mouseenter", "div[data-wc]", function () {
                 let wc = $(this).data("wc");
-                $("#wTarget > div[data-wcid=" + wc + "]").addClass("highlight");
+                $("#innerWTarget > div[data-wcid=" + wc + "]").addClass("highlight");
             });
 
             $("#wcTarget").on("mouseleave", "div[data-wc]", function () {
                 let wc = $(this).data("wc");
-                $("#wTarget > div[data-wcid=" + wc + "]").removeClass("highlight");
+                $("#innerWTarget > div[data-wcid=" + wc + "]").removeClass("highlight");
             });
 
             //=====================================================================
@@ -280,13 +294,13 @@
 
                     if ($(this).has(ui.draggable).length > 0) {
                         let wc = ui.draggable.data("wc");
-                        $("#wTarget > div[data-wcid=" + wc + "]").removeClass("highlight");
+                        $("#innerWTarget > div[data-wcid=" + wc + "]").removeClass("highlight");
                         return;
                     }
 
                     ui.draggable.clone().fadeOut("fast", function () {
                         $(this).fadeIn("fast");
-                    }).appendTo($(this)).draggable({
+                    }).appendTo($("#innerWcTarget")).draggable({
                         containment: "#wcBox",
                         helper: "clone",
                         opacity: 0.5
@@ -298,12 +312,12 @@
 
                     let wc = ui.draggable.data("wc");
 
-                    $("#wSource > div[data-wcid=" + wc + "]").clone().fadeOut("fast", function () {
+                    $("#innerWSource > div[data-wcid=" + wc + "]").clone().fadeOut("fast", function () {
                         $(this).fadeIn("fast");
                         $(this).removeClass("highlight");
-                    }).appendTo("#wTarget");
+                    }).appendTo("#innerWTarget");
 
-                    $("#wSource > div[data-wcid=" + wc + "]").fadeOut("slow", function () {
+                    $("#innerWSource > div[data-wcid=" + wc + "]").fadeOut("slow", function () {
                         $(this).remove();
                     });
                 }
@@ -315,13 +329,13 @@
 
                     if ($(this).has(ui.draggable).length > 0) {
                         let wc = ui.draggable.data("wc");
-                        $("#wSource > div[data-wcid=" + wc + "]").removeClass("highlight");
+                        $("#innerWSource > div[data-wcid=" + wc + "]").removeClass("highlight");
                         return;
                     }
 
                     ui.draggable.clone().fadeOut("fast", function () {
                         $(this).fadeIn("fast");
-                    }).appendTo($(this)).draggable({
+                    }).appendTo($("#innerWcSource")).draggable({
                         containment: "#wcBox",
                         helper: "clone",
                         opacity: 0.5
@@ -333,12 +347,12 @@
 
                     let wc = ui.draggable.data("wc");
 
-                    $("#wTarget > div[data-wcid=" + wc + "]").clone().fadeOut("fast", function () {
+                    $("#innerWTarget > div[data-wcid=" + wc + "]").clone().fadeOut("fast", function () {
                         $(this).fadeIn("fast");
                         $(this).removeClass("highlight");
-                    }).appendTo("#wSource");
+                    }).appendTo("#innerWSource");
 
-                    $("#wTarget > div[data-wcid=" + wc + "]").fadeOut("slow", function () {
+                    $("#innerWTarget > div[data-wcid=" + wc + "]").fadeOut("slow", function () {
                         $(this).remove();
                     });
                 }
@@ -351,7 +365,7 @@
                 var form = $('#wpForm');
                 var token = $('input[name="__RequestVerificationToken"]', form).val();
                 let wps = [];
-                $("#wcTarget").children(".item").each(function () {
+                $("#innerWcTarget").children(".item").each(function () {
                     wps.push($(this).attr("data-wc"));
                 });
 

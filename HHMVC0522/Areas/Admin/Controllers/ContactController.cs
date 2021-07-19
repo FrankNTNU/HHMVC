@@ -177,8 +177,8 @@ namespace UI.Areas.Admin.Controllers
             DateTime timeStamp = DateTime.Now;
 
             Context.Clients.Group(groupId)
-                .receive(connId, "客服人員", message, timeStamp.ToString("M/d HH:mm"), 
-                    "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png", groupId, UserStatic.ServiceNotRead[user][groupId]);
+                .receive(connId, "H小編", message, timeStamp.ToString("M/d HH:mm"), 
+                    "H小編.jpg", groupId, UserStatic.ServiceNotRead[user][groupId]);
 
             
             dbContext.GroupChats.Add(new GroupChat
@@ -209,10 +209,10 @@ namespace UI.Areas.Admin.Controllers
                         return new
                         {
                             connId = UserStatic.ServiceGroups[groupId].AdminConnId,
-                            userName = "客服人員",
+                            userName = "H小編",
                             message = gc.Message,
                             timeStamp = gc.TimeStamp.ToString("M/d HH:mm"),
-                            image = "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png"
+                            image = "H小編.jpg"
                         };
                     }
                     else
@@ -229,8 +229,8 @@ namespace UI.Areas.Admin.Controllers
                         if (admin != null || customer == null)
                         {
                             connId = UserStatic.ServiceGroups[groupId].AdminConnId;
-                            userName = "客服人員";
-                            image = "e9ec5c93-c442-4d6d-96d1-fc2fb8c570fcuser2.png";
+                            userName = "H小編";
+                            image = "H小編.jpg";
                         }
                         else
                         {
