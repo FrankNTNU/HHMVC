@@ -500,57 +500,78 @@
                 <!-- Search -->
                 <!-- Menu -->
                 <nav id="menu" style="margin:0px">
-                    <header class="major">
-                        <h2>選單</h2>
+                    @if (Session["ID"] != null)
+                    {
+                   
+                        <header class="major">
+                            <h2 class="mb-2"><img src="~/Areas/Admin/Content/UserImage/@Session["ImagePath"]" style="max-width:45%"/> @Session["Name"]</h2>
+                        </header>
+                        <ul>
+                            <li>今日攝取熱量: <br />@Session["Calories"] 卡<br />
+                            <div class="progress">
+                               
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: @Session["Percentage"];" aria-valuenow="@Session["Calories"]" aria-valuemin="0" aria-valuemax="@Session["TDEE"]"></div>
+                                    
+                               
+                                                                  </div></li>
+                            <li>目前點數: <br /><i class="fas fa-hospital-symbol" style="color: #fcba03"></i> @Session["Points"] </li>
+                        </ul>
+                    
+                    }
+
+                    <header class="major mt-3">
+                        <h2 class="mb-3">選單</h2>
                     </header>
                     <ul style="font-size: 1.3em;">
                         <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-home" style="width:30px"></i> 首頁</a></li>
                         @if (Session["ID"] == null)
                         {
-                    <li><a href="~/Home2/Login" style="text-decoration:none"> <i class="fas fa-user" style="width:30px"></i> 登入</a></li> }
-                                else
-                                {
-                    <li>
-                        <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
-                        <ul>
+                            <li><a href="~/Home2/Login" style="text-decoration:none"> <i class="fas fa-user" style="width:30px"></i> 登入</a></li>
+                        }
+                        else
+                        {
                             <li>
-                                <span class="opener"><i class="fas fa-id-card" style="width:30px"></i> 會員資訊</span>
+                                <span class="opener"><i class="fas fa-user" style="width:30px"></i> 會員</span>
                                 <ul>
-                                    <li><a href="~/Member/EditMember?ID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-user-edit" style="width:30px"></i> 資訊修改</a></li>
-                                    <li><a style="text-decoration:none" id="btnChangePwd" data-toggle="modal" data-target="#myModal"><i class="fas fa-edit" style="width:30px"></i> 密碼修改</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="~/Weight/WeightLog" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-weight" style="width:30px"></i> 體重管理</a>
-                                @if (Session["NoWeightLog"] != null && (bool)Session["NoWeightLog"])
-                                {   //if last 7 days has no weightlog, show this icon
-                    <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>}
-                            </li>
-                            <li><a href="~/Home2/UserPoints" style="text-decoration:none"><i class="fas fa-coins" style="width:30px"></i> 點數管理</a></li>
+                                    <li>
+                                        <span class="opener"><i class="fas fa-id-card" style="width:30px"></i> 會員資訊</span>
+                                        <ul>
+                                            <li><a href="~/Member/EditMember?ID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-user-edit" style="width:30px"></i> 資訊修改</a></li>
+                                            <li><a style="text-decoration:none" id="btnChangePwd" data-toggle="modal" data-target="#myModal"><i class="fas fa-edit" style="width:30px"></i> 密碼修改</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="~/Weight/WeightLog" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-weight" style="width:30px"></i> 體重管理</a>
+                                        @if (Session["NoWeightLog"] != null && (bool)Session["NoWeightLog"])
+                                        {   //if last 7 days has no weightlog, show this icon
+                                            <i id="weightNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>}
+                                    </li>
+                                    <li><a href="~/Home2/UserPoints" style="text-decoration:none"><i class="fas fa-coins" style="width:30px"></i> 點數管理</a></li>
 
 
                                 </ul>
 
-                    </li>}
+                            </li>
+                        }
                         <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-book" style="width:30px"></i> 遊戲規則</a></li>
 
 
                         @if (Session["ID"] != null)
                         {
 
-                    <li>
-                        <span class="opener"><i class="fas fa-utensils" style="width:30px"></i> 飲食</span>
-                        <ul>
-
-                            <li><a href="~/HHDiet/Create" style="text-decoration:none"><i class="fas fa-pen" style="width:30px"></i> 紀錄飲食</a></li>
-
-                            <li><a href="~/HHDietHistory/DietLogsHistory" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 飲食歷史</a></li>
                             <li>
-                                <a href="~/HHDiet/MealStyleList/54" style="text-decoration:none"><i class="fas fa-lightbulb" style="width:30px"></i> 建議飲食</a>
-                            </li>
-                        </ul>
+                                <span class="opener"><i class="fas fa-utensils" style="width:30px"></i> 飲食</span>
+                                <ul>
 
-                    </li>
+                                    <li><a href="~/HHDiet/Create" style="text-decoration:none"><i class="fas fa-pen" style="width:30px"></i> 紀錄飲食</a></li>
+
+                                    <li><a href="~/HHDietHistory/DietLogsHistory" style="text-decoration:none"><i class="fas fa-history" style="width:30px"></i> 飲食歷史</a></li>
+                                    <li>
+                                        <a href="~/HHDiet/MealStyleList/54" style="text-decoration:none"><i class="fas fa-lightbulb" style="width:30px"></i> 建議飲食</a>
+                                    </li>
+                                </ul>
+
+                            </li>
 
                             <li>
                                 <span data-toggle="modal" data-target=".bd-example-modal-lg" id="btnWaterLogPro"><i class="fas fa-tint" style="width:30px"></i> 補水計畫</span>
@@ -561,14 +582,14 @@
                                 <span class="opener"><i class="fas fa-dumbbell" style="width:30px"></i> 運動</span>
                                 <ul>
 
-                                            <li><a href="~/Workout/WorkoutLog" style="text-decoration:none"><i class="fas fa-clipboard-list" style="width:30px"></i> 運動紀錄</a></li>
-                                            <li><a href="~/Workout/WorkoutSchedule" style="text-decoration:none"><i class="fas fa-running" style="width:30px"></i> 運動排程</a></li>
-                                            <li>
-                                                <a href="~/Workout/WorkoutPreferences" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-star" style="width:30px"></i> 喜好管理</a>
-                                                @if (Session["NoPreferences"] != null && (bool)Session["NoPreferences"])
-                                                {   //if last 7 days has no weightlog, show this icon
-                                <i id="preferencesNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>}
-                                            </li>
+                                    <li><a href="~/Workout/WorkoutLog" style="text-decoration:none"><i class="fas fa-clipboard-list" style="width:30px"></i> 運動紀錄</a></li>
+                                    <li><a href="~/Workout/WorkoutSchedule" style="text-decoration:none"><i class="fas fa-running" style="width:30px"></i> 運動排程</a></li>
+                                    <li>
+                                        <a href="~/Workout/WorkoutPreferences" style="text-decoration:none; display:inline-block; position:relative"><i class="fas fa-star" style="width:30px"></i> 喜好管理</a>
+                                        @if (Session["NoPreferences"] != null && (bool)Session["NoPreferences"])
+                                        {   //if last 7 days has no weightlog, show this icon
+                                            <i id="preferencesNotify" class="fa fa-comment" style="color:#f56a6a; display:inline-block; position:relative; top:-7px; left:-3px; font-size:25px"></i>}
+                                    </li>
 
 
 
@@ -576,7 +597,7 @@
 
                             </li>
                             <li>
-                                <a href="~/HHHealthReport/HealthReport" style="text-decoration:none"><span ><i class="fas fa-chart-bar" style="width:30px"></i> 綜合圖表</span></a>
+                                <a href="~/HHHealthReport/HealthReport" style="text-decoration:none"><span><i class="fas fa-chart-bar" style="width:30px"></i> 綜合圖表</span></a>
 
 
                             </li>
@@ -606,7 +627,8 @@
                                 <li><a href="~/FrontGift/GiftList" style="text-decoration:none"><i class="fas fa-gift" style="width:30px"></i> 禮物店</a></li>
                                 @if (Session["ID"] != null)
                                 {
-                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 已兌換禮物</a></li>}
+                                    <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 已兌換禮物</a></li>
+                                }
 
                             </ul>
                         </li>
@@ -617,25 +639,29 @@
                                 @if (Session["ID"] != null)
                                 {
 
-                    <li><a href="~/FrontPost/UserPostList" style="text-decoration:none"><i class="fas fa-user-edit" style="width:30px"></i> 我的貼文</a></li>}
+                                    <li><a href="~/FrontPost/UserPostList" style="text-decoration:none"><i class="fas fa-user-edit" style="width:30px"></i> 我的貼文</a></li>
+                                }
                             </ul>
                         </li>
                         @if (Session["ID"] != null)
                         {
-                    <li style="position:relative">
-                        <a id="showContact" style="text-decoration:none; width:fit-content; display:inline-block"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a>
-                        <i id="serviceNotify" class="fa fa-comment" style="color: #f56a6a; display: none; position: relative; top:-7px; left: -3px; font-size: 25px;"></i><div id="notReadForSidebar"></div>
-                    </li>}
-                        @if (Session["IsAdmin"]!=null)
+                            <li style="position:relative">
+                                <a id="showContact" style="text-decoration:none; width:fit-content; display:inline-block"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a>
+                                <i id="serviceNotify" class="fa fa-comment" style="color: #f56a6a; display: none; position: relative; top:-7px; left: -3px; font-size: 25px;"></i><div id="notReadForSidebar"></div>
+                            </li>
+                        }
+                        @if (Session["IsAdmin"] != null)
                         {
                             if ((bool)Session["IsAdmin"])
                             {
-                              <li><a href="~/Admin/Login/Index" style="text-decoration:none"><i class="fas fa-user-cog" style="width:30px"></i> 後台</a></li>}
+                                <li><a href="~/Admin/Login/Index" style="text-decoration:none"><i class="fas fa-user-cog" style="width:30px"></i> 後台</a></li>
+                            }
                         }
 
                         @if (Session["ID"] != null)
                         {
-                    <li><a href="~/Home2/Logout" style="text-decoration:none"><i class="fas fa-sign-out-alt" style="width:30px"></i> 登出</a></li>}
+                            <li><a href="~/Home2/Logout" style="text-decoration:none"><i class="fas fa-sign-out-alt" style="width:30px"></i> 登出</a></li>
+                        }
 
                     </ul>
                 </nav>
