@@ -39,7 +39,8 @@ namespace UI.Controllers
                 Session["Points"] = userBLL.GetPoints(userID);
                 Session["Calories"] = new DietLogBLL().GetGainedCalByDate(DateTime.Now.ToString(Format.DateAndYear), userID);
                 Session["TDEE"] = GetTDEE(userID);
-                Session["Percentage"] = (((double)Session["Calories"] / (double)Session["TDEE"]) * 100).ToString().Substring(0, 2) + "%";
+                double percentage = (double)Session["Calories"] / (double)Session["TDEE"] * 100;
+                Session["Percentage"] = percentage != 0 ? percentage.ToString().Substring(0, 2) + "%" : "0%";
             }
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPosts();
