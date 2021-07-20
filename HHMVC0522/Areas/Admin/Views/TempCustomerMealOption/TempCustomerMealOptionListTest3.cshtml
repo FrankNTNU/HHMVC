@@ -90,14 +90,13 @@
                     @if (item.StatusID == 2)
                     {
                         <td>
-                            @Html.ActionLink("進行審核", "audit", new { id = item.ID })|
-                            @Html.ActionLink("審核不通過", "auditNotPassed", new { id = item.ID })
+                            @Html.ActionLink("進行審核", "audit", new { id = item.ID })
                         </td>
                     }
                     @if (item.StatusID == 12)
                     {
                         <td>
-                            @Html.ActionLink("重新審核", "ReViwe", new { id = item.ID })
+                            @Html.ActionLink("重新審核", "audit", new { id = item.ID })
                         </td>
                     }
                     @if (item.StatusID == 13)
