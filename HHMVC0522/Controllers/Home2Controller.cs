@@ -40,7 +40,8 @@ namespace UI.Controllers
                 Session["Points"] = userBLL.GetPoints(userID);
                 Session["Calories"] = new DietLogBLL().GetGainedCalByDate(DateTime.Now.ToString(Format.DateAndYear), userID);
                 Session["TDEE"] = GetTDEE(userID);
-                Session["Percentage"] = (((double)Session["Calories"] / (double)Session["TDEE"]) * 100).ToString().Substring(0, 2) + "%";
+                double percentage = (double)Session["Calories"] / (double)Session["TDEE"] * 100;
+                Session["Percentage"] = percentage != 0 ? percentage.ToString().Substring(0, 2) + "%" : "0%";
             }
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPosts();
@@ -77,12 +78,12 @@ namespace UI.Controllers
             }
             else
             {
-                weight = new WeightLogDAO().GetLatestWeightByMemberID(memberID).Weight;
+                WeightLog log = new WeightLogDAO().GetLatestWeightByMemberID(memberID);
+                weight = log != null ? log.Weight : weight;
             }
-
+            
             return (double)UI.Models.HealthCalculator.TDEE(mDto, mDto.Age, (decimal)weight);
         }
-
         public ActionResult Login(string ReturnUrl)
         {
             ViewBag.ReturnUrl = ReturnUrl;
@@ -380,7 +381,12 @@ namespace UI.Controllers
                 .SingleOrDefault(prg => prg.MemberID.ToString() == User.Identity.Name
                 && prg.StatusID == 3);
 
-            return Json(new { initWeight = program.InitialWeight, tgtWeight = program.TargetWeight });
+            return Json(new
+            {
+                initWeight = program.InitialWeight,
+                tgtWeight = program.TargetWeight,
+                programName = program.Name
+            });
         }
         //=========================================================
 

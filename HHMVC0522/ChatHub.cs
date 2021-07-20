@@ -20,11 +20,13 @@ namespace UI
         public override Task OnConnected()
         {
 
-            string fromPage = Context.Headers["referer"].Split('/')[3].ToLower();
-            if (fromPage == "healthhelper")
-            {
-                fromPage = Context.Headers["referer"].Split('/')[4].ToLower();
-            }
+            //string fromPage = Context.Headers["referer"].Split('/')[3].ToLower();
+            //if (fromPage == "healthhelper")
+            //{
+            //    fromPage = Context.Headers["referer"].Split('/')[4].ToLower();
+            //}
+
+            string role = Context.QueryString["role"];
 
             UserDetail user = null;
             bool isAdded = false;
@@ -35,7 +37,8 @@ namespace UI
                 {
                     isAdded = true;
                     user = User;
-                    user.Role = (fromPage == "admin") ? "admin" : "customer";
+                    //user.Role = (fromPage == "admin") ? "admin" : "customer";
+                    user.Role = role;
                     break;
                 }
             }
@@ -46,7 +49,8 @@ namespace UI
                 {
                     ConnID = Context.ConnectionId,
                     UserID = Context.User.Identity.Name,
-                    Role = (fromPage == "admin") ? "admin" : "customer"
+                    //Role = (fromPage == "admin") ? "admin" : "customer"
+                    Role = role
                 };
                 UserStatic.ConnectedUsers.Add(user);
             }

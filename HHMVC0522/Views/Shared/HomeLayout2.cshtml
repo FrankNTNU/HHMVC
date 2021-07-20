@@ -32,10 +32,13 @@
     @RenderSection("Styles", required: false)
 
     <style>
-    @*恩旗=====================================*@
-    #dialogDiv, #programFrozen, #fanfare {
-        display: none;
-    }
+        .CalorieValueStyle {
+            padding-bottom: 0px;
+        }
+        @*恩旗=====================================*@
+        #dialogDiv, #programFrozen, #fanfare {
+            display: none;
+        }
 
     #resultWeight {
         display: inline-block;
@@ -502,33 +505,32 @@
                 <nav id="menu" style="margin:0px">
                     @if (Session["ID"] != null)
                     {
-
+                   
                         <header class="major">
-                            <h2 class="mb-2"><img src="~/Areas/Admin/Content/UserImage/@Session["ImagePath"]" style="max-width:45%" /> @Session["Name"]</h2>
+                            <h2 class="mb-2"><img src="~/Areas/Admin/Content/UserImage/@Session["ImagePath"]" style="max-width:45%"/> <span style="white-space:nowrap">@Session["Name"]</span></h2>
                         </header>
                         <ul>
-                            <li>
-                                今日攝取熱量: <br />@Session["Calories"] 卡<br />
-                                <div class="progress">
-
-                                    <div class="progress-bar bg-danger" role="progressbar" style="width: @Session["Percentage"];" aria-valuenow="@Session["Calories"]" aria-valuemin="0" aria-valuemax="@Session["TDEE"]"></div>
-
-
-                                </div>
-                            </li>
+                            <li>今日攝取熱量: <br /><span id="CalorieValue" class="p-0 pb-1" >@Session["Calories"] 卡</span>
+                            <div class="progress">
+                               
+                                <div class="progress-bar" role="progressbar" style="width: @Session["Percentage"];" aria-valuenow="@Session["Calories"]" aria-valuemin="0" aria-valuemax="@Session["TDEE"]" id="CalorieBar"></div>
+                                    
+                               
+                                                                  </div></li>
                             <li>目前點數: <br /><i class="fas fa-hospital-symbol" style="color: #fcba03"></i> @Session["Points"] </li>
                         </ul>
-
+                    
                     }
-                    <header class="major mt-4">
-                        <h2 class="mb-1">選單</h2>
+
+                    <header class="major mt-3">
+                        <h2 class="mb-3">選單</h2>
                     </header>
                     <ul style="font-size: 1.3em;">
                         <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-home" style="width:30px"></i> 首頁</a></li>
                         @if (Session["ID"] == null)
                         {
                             <li><a href="~/Home2/Login" style="text-decoration:none"> <i class="fas fa-user" style="width:30px"></i> 登入</a></li>
- }
+                        }
                         else
                         {
                             <li>
@@ -553,7 +555,7 @@
                                 </ul>
 
                             </li>
-}
+                        }
                         <li><a href="~/Home2/Index" style="text-decoration:none"><i class="fas fa-book" style="width:30px"></i> 遊戲規則</a></li>
 
 
@@ -597,11 +599,8 @@
                                 </ul>
 
                             </li>
-                            <li>
-                                <a href="~/HHHealthReport/HealthReport" style="text-decoration:none"><span><i class="fas fa-chart-bar" style="width:30px"></i> 綜合圖表</span></a>
-
-
-                            </li>
+                            <li><a href="~/HHHealthReport/HealthReport" style="text-decoration:none"><i class="fas fa-chart-bar" style="width:30px"></i> 綜合圖表</a></li>
+                            
 
                             <li>
                                 <span class="opener"><i class="fas fa-fist-raised" style="width:30px"></i> 挑戰</span>
@@ -629,7 +628,7 @@
                                 @if (Session["ID"] != null)
                                 {
                                     <li><a href="~/FrontGift/GiftCart?userID=@Session["ID"]" style="text-decoration:none"><i class="fas fa-shopping-cart" style="width:30px"></i> 已兌換禮物</a></li>
-}
+                                }
 
                             </ul>
                         </li>
@@ -641,28 +640,28 @@
                                 {
 
                                     <li><a href="~/FrontPost/UserPostList" style="text-decoration:none"><i class="fas fa-user-edit" style="width:30px"></i> 我的貼文</a></li>
-}
+                                }
                             </ul>
                         </li>
                         @if (Session["ID"] != null)
                         {
                             <li style="position:relative">
-                                <a id="showContact" style="text-decoration:none; width:fit-content; display:inline-block"><i class="fas fa-comments" style="width:30px"></i> 聯絡我們</a>
+                                <a id="showContact" style="text-decoration:none; width:fit-content; display:inline-block"><i class="fas fa-comments" style="width:30px"></i> 聯絡客服</a>
                                 <i id="serviceNotify" class="fa fa-comment" style="color: #f56a6a; display: none; position: relative; top:-7px; left: -3px; font-size: 25px;"></i><div id="notReadForSidebar"></div>
                             </li>
-}
+                        }
                         @if (Session["IsAdmin"] != null)
                         {
                             if ((bool)Session["IsAdmin"])
                             {
                                 <li><a href="~/Admin/Login/Index" style="text-decoration:none"><i class="fas fa-user-cog" style="width:30px"></i> 後台</a></li>
-}
+                            }
                         }
 
                         @if (Session["ID"] != null)
                         {
                             <li><a href="~/Home2/Logout" style="text-decoration:none"><i class="fas fa-sign-out-alt" style="width:30px"></i> 登出</a></li>
-}
+                        }
 
                     </ul>
                 </nav>
@@ -699,6 +698,7 @@
     <!--dialog=======================================================-->
     <div id="dialogDiv"><ul></ul></div>
     <div id="programFrozen">
+        <span id="programName" style="color: #f56a6a"></span>&nbsp;減脂計畫<br />
         挑戰已結束，請輸入目前體重<br />
         (還剩下&nbsp;<span style="color: #f56a6a"></span>&nbsp;天)：<br />
         <div>初始體重<span id="initWeight" style="color: #f56a6a"></span>kg/目標體重<span id="tgtWeight" style="color: #f56a6a"></span>kg</div>
@@ -714,7 +714,7 @@
     <div id="chatModal"></div>
     <div id="chatPanel" style="display:none">
         <div class="chatHeader">
-            <div>聯絡客服：</div>
+            <div>客服H小編：</div>
             <div id="notRead">
                 <span></span>
             </div>
@@ -810,7 +810,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
 
     
-
+    <script>
+        // Left side bar data.
+        $(document).ready(function () {
+            let userID = "@Session["ID"]";
+            if (userID != null) {
+                let percentage = "@Session["Percentage"]".substr(0, 2);
+                console.log("percentage = ");
+                console.log(percentage);
+                if (percentage >= 100) {
+                    $("#CalorieBar").css("background-color", "rgba(255,0 , 0, 0.9)");
+                }
+                else if (percentage >= 75) {
+                    $("#CalorieBar").css("background-color", "rgba(255, 213, 5, 0.9)");
+                }
+                else {
+                    $("#CalorieBar").css("background-color", "rgba(60, 120, 0, 0.9)");
+                }
+            }
+    })
+    </script>
     <script>
 
         //========================BELOW WATERLOG=======================
@@ -947,7 +966,7 @@
 
     <!--恩旗-->
 <script language="JavaScript">
-
+    
     $(window).on("unload", function () {
         $.cookies.del('.ASPXAUTH');
     });
@@ -955,9 +974,21 @@
     //=====================================================
     //恩旗
     //Show NoWeightLog dialog
-
+    let urlPrefix = ".."
 
     $(function () {
+        //set ajax url prefix
+
+        if (window.location.href.split("/").length == 4) {
+            urlPrefix = "/HealthHelper";
+        } else if (window.location.href.split("/").length == 5
+                && window.location.href.split("/")[4] == "") {
+            urlPrefix = "/HealthHelper";
+        } else if (window.location.href.split("/").length == 7) {
+            urlPrefix = "../..";
+        }
+
+        console.log(urlPrefix);
 
         var userId = "@Html.Raw(User.Identity.Name)";
 
@@ -969,7 +1000,7 @@
 
         var dialogShown = @Json.Encode(Session["dialogShown"]);
         var pointShown = @Html.Raw(Request.Cookies["PointShown"] == null ? "false" : Request.Cookies["PointShown"].Value);
-        
+
         if (!pointShown && getPoints > 0) {
             let points = $("<span></span>").text(getPoints)
                 .addClass("points");
@@ -1003,7 +1034,7 @@
                     click: function () {
                         $("#dialogDiv").dialog("close");
                         $.ajax({
-                            url: "../Home2/SetDialogShownSession",
+                            url: urlPrefix + "/Home2/SetDialogShownSession",
                             type: "POST"
                         });
 
@@ -1066,7 +1097,7 @@
                             if ($(".notReadText").length != 0) {
                                 $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
                             }
-                            
+
                             ResetNotReadCount();
                         });
                     });
@@ -1121,7 +1152,7 @@
         //prompt link
         $("#serviceChatBox").on("click", ".promptDiv a", function () {
             $.ajax({
-                url: "../FrontContact/SelectPrompt",
+                url: urlPrefix + "/FrontContact/SelectPrompt",
                 type: "POST",
                 data: {
                     connId: $.connection.hub.id,
@@ -1155,7 +1186,7 @@
                 }
 
                 ResetNotReadCount();
-                
+
             } else if ($("#showChatModal i.fa-expand-arrows-alt").length != 0) {
                 //isChatPanelClose = false;
                 openChatModal();
@@ -1170,7 +1201,7 @@
             }
 
         });
-        
+
         $("#chatModal").click(function (event) {
             if (event.target == this) {
                 closeChatModal();
@@ -1210,10 +1241,11 @@
         $("#programFrozen span").text(programFrozen);
 
         $.ajax({
-            url: "../Home2/GetProgramWeight",
+            url: urlPrefix + "/Home2/GetProgramWeight",
             type: "POST"
         }).done(function (data) {
 
+            $("#programName").text(data.programName);
             $("#initWeight").text(data.initWeight);
             $("#tgtWeight").text(data.tgtWeight);
 
@@ -1242,7 +1274,7 @@
                         if (confirm("確定送出嗎？")) {
 
                             $.ajax({
-                                url: "../Home2/SetResultWeight",
+                                url: urlPrefix + "/Home2/SetResultWeight",
                                 type: "POST",
                                 data: {
                                     resultWeight: $("#resultWeight").val()
@@ -1262,7 +1294,7 @@
                     click: function () {
                         $("#programFrozen").dialog("close");
                         $.ajax({
-                            url: "../Home2/SetDialogShownSession",
+                            url: urlPrefix + "/Home2/SetDialogShownSession",
                             type: "POST"
                         });
                     }
@@ -1330,7 +1362,7 @@
                     $("#notReadForSidebar").text(notReadCount);
                 }
             } else if ($("#chatPanel").css("display") == "none") {
-                
+
                 writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
                 $(".notReadText").remove();
                 appendNotRead(notReadCount);
@@ -1356,10 +1388,13 @@
             //$("#serviceChatBox").scrollTop($("#serviceChatBox").prop("scrollHeight"));
         }
 
+        //query string
+        $.connection.hub.qs = "role=customer";
+
         $.connection.hub.start().done(function () {
 
             $.ajax({
-                url: "../FrontContact/AddToServiceGroup",
+                url: urlPrefix + "/FrontContact/AddToServiceGroup",
                 type: "POST",
                 data: {
                     connId: $.connection.hub.id
@@ -1381,7 +1416,7 @@
                     }
 
                     $.ajax({
-                        url: "../FrontContact/SendMessage",
+                        url: urlPrefix + "/FrontContact/SendMessage",
                         type: "POST",
                         data: {
                             connId: $.connection.hub.id,
@@ -1390,7 +1425,7 @@
                         },
                         success: function (data) {
 
-                            //console.log(data.Admins);
+                            console.log(data.Users);
 
                             if (data.Result != "Success") {
                                 alert(data.Result);
@@ -1399,7 +1434,7 @@
                     });
                 });
             });
-            
+
             if (typeof AddToChatGroup != "undefined") {
                 AddToChatGroup();
             }
@@ -1423,7 +1458,7 @@
             let textDiv = $("<div></div>").addClass("textDiv");
 
             $("<img/>").addClass("myImage").css("margin-left", "0px").css("margin-right", "10px")
-                .attr("src", "../Areas/Admin/Content/UserImage/" + image)
+                .attr("src", urlPrefix + "/Areas/Admin/Content/UserImage/" + image)
                 .appendTo(textDiv);
 
             let innerTextDiv = $("<div></div>").addClass("ArrowToLeft").css("margin-right", "auto");
@@ -1451,7 +1486,7 @@
             let textDiv = $("<div></div>").addClass("textDiv reverse");
 
             $("<img/>").addClass("myImage").css("margin-right", "0px").css("margin-left", "10px")
-                .attr("src", "../Areas/Admin/Content/UserImage/" + image)
+                .attr("src", urlPrefix + "/Areas/Admin/Content/UserImage/" + image)
                 .appendTo(textDiv);
 
             let innerTextDiv = $("<div></div>").addClass("ArrowToRight").css("margin-left", "auto");
@@ -1484,7 +1519,7 @@
 
         if ($("#serviceGroupId").val() != "") {
             $.ajax({
-                url: "../FrontContact/GetGroupMsgs",
+                url: urlPrefix + "/FrontContact/GetGroupMsgs",
                 type: "POST",
                 data: {
                     groupId: $("#serviceGroupId").val()
@@ -1494,7 +1529,7 @@
                     $("#serviceChatBox").html("");
 
                     $.each(data, function (i, msg) {
-                        
+
                         writeForService(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
 
                     });
@@ -1511,7 +1546,7 @@
         $("#notRead span").text("0");
 
         $.ajax({
-            url: "../FrontContact/ResetNotReadCount",
+            url: urlPrefix + "/FrontContact/ResetNotReadCount",
             type: "POST",
             data: {
                 groupId: $("#serviceGroupId").val()
