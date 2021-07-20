@@ -243,8 +243,10 @@
                 }
             }
             //================================================
-            //send message
+            //query string
+            $.connection.hub.qs = "role=admin";
 
+            //connect
             $.connection.hub.start().done(function () {
 
                 //Auto add to ServiceGroups
