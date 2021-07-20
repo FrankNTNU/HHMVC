@@ -643,11 +643,19 @@
                         StatusID: status
                     },
                     success: function (data) {
+                        if (data.Result == "Success") {
 
-                        alert(data.Result);
-                        table.ajax.reload();
-                        $("#successRate").text(data.SuccessRate);
-
+                            if (status == 4) {
+                                alert("預定運動紀錄成功");
+                            } else if (status == 5) {
+                                alert("新增運動紀錄成功");
+                            }
+                            
+                            table.ajax.reload();
+                            $("#successRate").text(data.SuccessRate);
+                        } else {
+                            alert(data.Error);
+                        }
                     }
                 });
             });
@@ -675,9 +683,13 @@
                         ID: wlid
                     },
                     success: function (data) {
-                        alert(data.Result);
-                        table.ajax.reload();
-                        $("#successRate").text(data.SuccessRate);
+                        if (data.Result == "Success") {
+                            alert("刪除運動紀錄成功");
+                            table.ajax.reload();
+                            $("#successRate").text(data.SuccessRate);
+                        } else {
+                            alert(data.Error);
+                        }
                     }
                 });
             });
@@ -728,9 +740,13 @@
                         StatusID: $("#wStatusForEdit").val()
                     },
                     success: function (data) {
-                        alert(data.Result);
-                        table.ajax.reload();
-                        $("#successRate").text(data.SuccessRate);
+                        if (data.Result == "Success") {
+                            alert("修改運動紀錄成功");
+                            table.ajax.reload();
+                            $("#successRate").text(data.SuccessRate);
+                        } else {
+                            alert(data.Error);
+                        }
                     }
                 });
             });

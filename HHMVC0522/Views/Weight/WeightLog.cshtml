@@ -571,12 +571,16 @@
                         Weight: parseFloat($("#wgtForNew").val())
                     },
                     success: function (data) {
-                        alert(data.Result);
-                        //alert("Error：" + data.Error);
-                        table.ajax.reload();
+                        if (data.Result == "Success") {
+                            alert("新增體重紀錄成功");
 
-                        if ($("#weightNotify").length) {
-                            $("#weightNotify").remove();
+                            table.ajax.reload();
+
+                            if ($("#weightNotify").length) {
+                                $("#weightNotify").remove();
+                            }
+                        } else {
+                            alert(data.Error);
                         }
                     }
                 });
@@ -607,9 +611,12 @@
                         Weight: parseFloat($("#wgtForEdit").val())
                     },
                     success: function (data) {
-                        alert(data.Result);
-                        //alert("Error：" + data.Error);
-                        table.ajax.reload();
+                        if (data.Result == "Success") {
+                            alert("修改體重紀錄成功");
+                            table.ajax.reload();
+                        } else {
+                            alert(data.Error);
+                        }
                     }
                 });
             });

@@ -548,7 +548,7 @@
                                 },
                                 success: function (data) {
                                     if (data.Result == "Success") {
-                                        alert(data.Result);
+                                        alert("新增聊天群成功");
                                         $("#groupName").val("");
                                         $("#weight1").val("");
                                         $("#weight2").val("");
@@ -601,7 +601,7 @@
                     },
                     success: function (data) {
                         if (data.Result == "Success") {
-                            alert(data.Result);
+                            alert("加入聊天群成功");
                             $("#groupId").val(data.GroupID);
                             $("#groupTitle").text(`聊天群組：${data.GroupName}`);
                             LoadMessages();

@@ -117,7 +117,7 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            return Json(new { Result = "success", Error = "none", ID = wgtl.ID});
+            return Json(new { Result = "Success", Error = "none", ID = wgtl.ID});
         }
 
         public JsonResult EditWeightLog(WeightLog wgtlToEdit)
@@ -139,7 +139,7 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            return Json(new { Result = "success", Error = "none"});
+            return Json(new { Result = "Success", Error = "none"});
         }
 
     }
