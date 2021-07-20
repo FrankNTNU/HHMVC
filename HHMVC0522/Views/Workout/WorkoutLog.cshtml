@@ -290,10 +290,10 @@
     </div>
 </section>
 <!--Demo=======================================================-->
-<div class="demo">
+@*<div class="demo">
     <div class="demoButton" onclick="autoInputMsgs3()">執行成功</div>
     <div class="demoButton" onclick="autoInputMsgs4()">走</div>
-</div>
+</div>*@
 <!--===========================================================-->
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "wlForm" }))
@@ -908,13 +908,13 @@
             }
         };
 
-        function autoInputMsgs3() {
-            $("#wlTable_filter label input").val("執行成功");
-        }
+        //function autoInputMsgs3() {
+        //    $("#wlTable_filter label input").val("執行成功");
+        //}
 
-        function autoInputMsgs4() {
-            $("#wlTable_filter label input").val("走");
-        }
+        //function autoInputMsgs4() {
+        //    $("#wlTable_filter label input").val("走");
+        //}
     </script>
 }
 
