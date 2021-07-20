@@ -32,10 +32,13 @@
     @RenderSection("Styles", required: false)
 
     <style>
-    @*恩旗=====================================*@
-    #dialogDiv, #programFrozen, #fanfare {
-        display: none;
-    }
+        .CalorieValueStyle {
+            padding-bottom: 0px;
+        }
+        @*恩旗=====================================*@
+        #dialogDiv, #programFrozen, #fanfare {
+            display: none;
+        }
 
     #resultWeight {
         display: inline-block;
@@ -507,10 +510,10 @@
                             <h2 class="mb-2"><img src="~/Areas/Admin/Content/UserImage/@Session["ImagePath"]" style="max-width:45%"/> <span style="white-space:nowrap">@Session["Name"]</span></h2>
                         </header>
                         <ul>
-                            <li>今日攝取熱量: <br />@Session["Calories"] 卡<br />
+                            <li>今日攝取熱量: <br /><span id="CalorieValue" class="p-0 pb-1" >@Session["Calories"] 卡</span>
                             <div class="progress">
                                
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: @Session["Percentage"];" aria-valuenow="@Session["Calories"]" aria-valuemin="0" aria-valuemax="@Session["TDEE"]" id="CalorieBar"></div>
+                                <div class="progress-bar" role="progressbar" style="width: @Session["Percentage"];" aria-valuenow="@Session["Calories"]" aria-valuemin="0" aria-valuemax="@Session["TDEE"]" id="CalorieBar"></div>
                                     
                                
                                                                   </div></li>
@@ -809,7 +812,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
 
     
-
+    <script>
+        // Left side bar data.
+        $(document).ready(function () {
+            let userID = "@Session["ID"]";
+            if (userID != null) {
+                let percentage = "@Session["Percentage"]".substr(0, 2);
+                console.log("percentage = ");
+                console.log(percentage);
+                if (percentage >= 100) {
+                    $("#CalorieBar").css("background-color", "rgba(255,0 , 0, 0.9)");
+                }
+                else if (percentage >= 75) {
+                    $("#CalorieBar").css("background-color", "rgba(255, 213, 5, 0.9)");
+                }
+                else {
+                    $("#CalorieBar").css("background-color", "rgba(60, 120, 0, 0.9)");
+                }
+            }
+    })
+    </script>
     <script>
 
         //========================BELOW WATERLOG=======================
@@ -946,7 +968,7 @@
 
     <!--恩旗-->
 <script language="JavaScript">
-
+    
     $(window).on("unload", function () {
         $.cookies.del('.ASPXAUTH');
     });
@@ -958,7 +980,7 @@
 
     $(function () {
         //set ajax url prefix
-        
+
         if (window.location.href.split("/").length == 4) {
             urlPrefix = "/HealthHelper";
         } else if (window.location.href.split("/").length == 5
@@ -980,7 +1002,7 @@
 
         var dialogShown = @Json.Encode(Session["dialogShown"]);
         var pointShown = @Html.Raw(Request.Cookies["PointShown"] == null ? "false" : Request.Cookies["PointShown"].Value);
-        
+
         if (!pointShown && getPoints > 0) {
             let points = $("<span></span>").text(getPoints)
                 .addClass("points");
@@ -1077,7 +1099,7 @@
                             if ($(".notReadText").length != 0) {
                                 $("#serviceChatBox").scrollTop($("#serviceChatBox").scrollTop() + $(".notReadText").position().top);
                             }
-                            
+
                             ResetNotReadCount();
                         });
                     });
@@ -1166,7 +1188,7 @@
                 }
 
                 ResetNotReadCount();
-                
+
             } else if ($("#showChatModal i.fa-expand-arrows-alt").length != 0) {
                 //isChatPanelClose = false;
                 openChatModal();
@@ -1181,7 +1203,7 @@
             }
 
         });
-        
+
         $("#chatModal").click(function (event) {
             if (event.target == this) {
                 closeChatModal();
@@ -1341,7 +1363,7 @@
                     $("#notReadForSidebar").text(notReadCount);
                 }
             } else if ($("#chatPanel").css("display") == "none") {
-                
+
                 writeForService(userName, message, $.connection.hub.id == connId, timeStamp, image);
                 $(".notReadText").remove();
                 appendNotRead(notReadCount);
@@ -1413,7 +1435,7 @@
                     });
                 });
             });
-            
+
             if (typeof AddToChatGroup != "undefined") {
                 AddToChatGroup();
             }
@@ -1508,7 +1530,7 @@
                     $("#serviceChatBox").html("");
 
                     $.each(data, function (i, msg) {
-                        
+
                         writeForService(msg.userName, msg.message, $.connection.hub.id == msg.connId, msg.timeStamp, msg.image);
 
                     });
