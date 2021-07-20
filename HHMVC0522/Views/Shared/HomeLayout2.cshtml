@@ -504,13 +504,13 @@
                     {
                    
                         <header class="major">
-                            <h2 class="mb-2"><img src="~/Areas/Admin/Content/UserImage/@Session["ImagePath"]" style="max-width:45%"/> @Session["Name"]</h2>
+                            <h2 class="mb-2"><img src="~/Areas/Admin/Content/UserImage/@Session["ImagePath"]" style="max-width:45%"/> <span style="white-space:nowrap">@Session["Name"]</span></h2>
                         </header>
                         <ul>
                             <li>今日攝取熱量: <br />@Session["Calories"] 卡<br />
                             <div class="progress">
                                
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: @Session["Percentage"];" aria-valuenow="@Session["Calories"]" aria-valuemin="0" aria-valuemax="@Session["TDEE"]"></div>
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: @Session["Percentage"];" aria-valuenow="@Session["Calories"]" aria-valuemin="0" aria-valuemax="@Session["TDEE"]" id="CalorieBar"></div>
                                     
                                
                                                                   </div></li>
