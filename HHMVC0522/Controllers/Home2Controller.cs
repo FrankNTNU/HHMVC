@@ -77,7 +77,8 @@ namespace UI.Controllers
             }
             else
             {
-                weight = new WeightLogDAO().GetLatestWeightByMemberID(memberID).Weight;
+                WeightLog log = new WeightLogDAO().GetLatestWeightByMemberID(memberID);
+                weight = log != null ? log.Weight : weight;
             }
             
             return (double)UI.Models.HealthCalculator.TDEE(mDto, mDto.Age, (decimal)weight);

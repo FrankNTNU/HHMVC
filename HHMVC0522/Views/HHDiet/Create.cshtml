@@ -633,7 +633,7 @@
             letMeKnow() {
                 past7DayBarChart.data.datasets[0].data = this.value
                 past7DayBarChart.update();
-
+                //past7DaysGainedCalsArr.Arr()[6] => 今天攝取熱量
                 $(".todayTotalGainedReal").text(this.value[this.value.length - 1])
 
 
@@ -676,22 +676,27 @@
             value: JSON.parse(dayGainedCalPer),
             letMeKnow() {
                 $("#gainedCalsProgressBar").css("width", this.value + "%")
+                $("#CalorieValue").empty();
                 if (this.value >= 100) {
-                    $("#gainedCalsProgressBar").css("background-color", "rgba(255,0 , 0, 0.9)");
-
+                    $("#gainedCalsProgressBar").css("background-color", "rgba(255,0 , 0, 0.9)"); //red
+                    $("#CalorieBar").css("background-color", "rgba(255,0 , 0, 0.9)");
                     $("#spanProgressBarGainedRemender").css("visibility", 'visible');
 
                 } else if (this.value >= 75) {
-                    $("#gainedCalsProgressBar").css("background-color", "rgba(255, 213, 5, 0.9)");
-
+                    $("#gainedCalsProgressBar").css("background-color", "rgba(255, 213, 5, 0.9)"); //yellow
+                    $("#CalorieBar").css("background-color", "rgba(255, 213, 5, 0.9)");
                 }
                 else {
-                    $("#gainedCalsProgressBar").css("background-color", "rgba(60, 120, 0, 0.9)");
-
-
+                    $("#gainedCalsProgressBar").css("background-color", "rgba(60, 120, 0, 0.9)");//green
+                    $("#CalorieBar").css("background-color", "rgba(60, 120, 0, 0.9)");
                 }
 
-                $("#realGainedPer").text(`(${this.value}%)`)
+                $("#realGainedPer").text(`(${this.value}%)`);
+                $("#CalorieBar").css("width", this.value + "%");
+                $("#CalorieValue").empty();
+                $("#CalorieValue").text(past7DaysGainedCalsArr.value[6] + " 卡");
+                //past7DaysGainedCalsArr.value[6] => 今天攝取熱量
+
             }
             ,
             get Val() {
@@ -940,7 +945,6 @@
                     //=======
                     dayGainedCalPercent.Val = report.DietProfile.GainedCalDatas.AllDayGainedPercent;
 
-
                     //=======
 
 
@@ -953,7 +957,7 @@
             SetTempInfoDefaut()
              @{Session[CDictionary.KEY_DIETLOGCART_ITEMS] = null;}
              $("#tempDietLogTable tbody").empty()
-
+            
 
 
 
