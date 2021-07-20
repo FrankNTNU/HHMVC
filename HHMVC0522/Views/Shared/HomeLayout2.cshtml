@@ -961,6 +961,9 @@
         
         if (window.location.href.split("/").length == 4) {
             urlPrefix = "/HealthHelper";
+        } else if (window.location.href.split("/").length == 5
+                && window.location.href.split("/")[4] == "") {
+            urlPrefix = "/HealthHelper";
         } else if (window.location.href.split("/").length == 7) {
             urlPrefix = "../..";
         }
