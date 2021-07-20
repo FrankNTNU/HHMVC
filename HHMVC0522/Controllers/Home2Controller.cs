@@ -380,7 +380,12 @@ namespace UI.Controllers
                 .SingleOrDefault(prg => prg.MemberID.ToString() == User.Identity.Name
                 && prg.StatusID == 3);
 
-            return Json(new { initWeight = program.InitialWeight, tgtWeight = program.TargetWeight });
+            return Json(new
+            {
+                initWeight = program.InitialWeight,
+                tgtWeight = program.TargetWeight,
+                programName = program.Name
+            });
         }
         //=========================================================
 
