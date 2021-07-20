@@ -206,7 +206,8 @@ namespace UI.Controllers
                 {
                     return Json(new 
                     { 
-                        Result = $"此運動時間區間已有其他紀錄\n(運動時間：{wl1.WorkoutTime}，運動項目：{wl1.Workout.Name})"
+                        Result = "failed",
+                        Error = $"此運動時間區間已有其他紀錄\n(運動時間：{wl1.WorkoutTime}，運動項目：{wl1.Workout.Name})"
                     });
                 }
             }
@@ -229,7 +230,7 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            return Json(new { Result = "success", Error = "none", ID = wl.ID, SuccessRate = calcSuccessRate() });
+            return Json(new { Result = "Success", Error = "none", ID = wl.ID, SuccessRate = calcSuccessRate() });
 
         }
 
@@ -253,7 +254,7 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            return Json(new { Result = "success", Error = "none", SuccessRate = calcSuccessRate() });
+            return Json(new { Result = "Success", Error = "none", SuccessRate = calcSuccessRate() });
 
         }
 
@@ -303,7 +304,8 @@ namespace UI.Controllers
                 {
                     return Json(new
                     {
-                        Result = $"此運動時間區間已有其他紀錄\n(運動時間：{wl1.WorkoutTime}，運動項目：{wl1.Workout.Name})"
+                        Result = "failed",
+                        Error = $"此運動時間區間已有其他紀錄\n(運動時間：{wl1.WorkoutTime}，運動項目：{wl1.Workout.Name})"
                     });
                 }
             }
@@ -329,7 +331,7 @@ namespace UI.Controllers
                 return Json(new { Result = "failed", Error = ex.Message });
             }
 
-            return Json(new { Result = "success", Error = "none", SuccessRate = calcSuccessRate() });
+            return Json(new { Result = "Success", Error = "none", SuccessRate = calcSuccessRate() });
 
         }
 
@@ -714,7 +716,7 @@ namespace UI.Controllers
 
             return Json(new 
             { 
-                Result = "success", 
+                Result = "Success", 
                 Error = "none", 
                 TDEEPercent = TDEEPercent,
                 IngestPercent = IngestPercent,
@@ -938,7 +940,7 @@ namespace UI.Controllers
                 return "failed";
             }
 
-            return "success";
+            return "Success";
         }
 
         //=========================================================

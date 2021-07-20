@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "Payment";
 }
+<div class="modal-body">
+    <h4 style="color:red">頁面跳轉中...</h4>
+    <img src="~/Content/Images/loadingDots.gif" />
+</div>
 <div class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -86,7 +90,7 @@
 
             function autoRefresh() {
                 clearTimeout(auto);
-                auto = setTimeout(function () { submitform(); autoRefresh(); }, 10000);
+                auto = setTimeout(function () { submitform(); autoRefresh(); }, 5000);
             }
         }
     </script>

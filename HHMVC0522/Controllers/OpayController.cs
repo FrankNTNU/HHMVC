@@ -30,7 +30,8 @@ namespace UI.Controllers
         {
             HttpClient client = new HttpClient();
             OpayCreateCreditOrder creditOrder = new OpayCreateCreditOrder();
-            var contast= string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+            var contast = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+                /*"http://localhost/HealthHelper/FrontGift/GiftList";*/
             creditOrder.MerchantID = "2000132";
             creditOrder.MerchantTradeNo = "Hh" + DateTime.Now.ToString("yyyyMMddHHmmssff");
             creditOrder.MerchantTradeDate = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");

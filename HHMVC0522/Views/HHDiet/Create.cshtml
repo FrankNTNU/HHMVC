@@ -65,7 +65,7 @@
                                 @*class="styleIcon "*@
 
                                 <a href="@Url.Action("MealStyleList", "HHDiet", new { id = mCtgy.ID })">
-                                    <img class="tagImg " src="~/Content/Images/TagCategoriesImages/@mCtgy.Image"  style="cursor:pointer">
+                                    <img class="tagImg " src="~/Areas/Admin/Content/TagCategoriesImages/@mCtgy.Image"  style="cursor:pointer">
                                 </a>
 
                                 <figcaption >
@@ -254,7 +254,7 @@
             <input type="hidden" value="" id="hiddenMealID" />
             <div style="height:25em">
 
-                <img id="mealInfoImage" src="~/Content/Images/MealOptionImages/mealDefault.jpg" style="height:100%" />
+                <img id="mealInfoImage" src="~/Areas/Admin/Content/MealOptionImages/mealDefault.jpg" style="height:100%" />
             </div>
             <ul class="list-group-flush px-3 pb-3 ">
                 <li class="list-group-item"><h4 id="mealInfoName">餐點名稱</h4></li>
@@ -337,7 +337,7 @@
                                     }
                                     else
                                     {
-                                        <img src="~/Content/Images/MealOptionImages/@dl.MealImage" width="108" height="85" />
+                                        <img src="~/Areas/Admin/Content/MealOptionImages/@dl.MealImage" width="108" height="85" />
 
                                     }
 
@@ -932,7 +932,7 @@
                     $("#realDiletLogTable tbody").html("")
                     //var TodayTotalGainedRealCal = 0
                     dietLogs.forEach((dietlog) => {
-                        let mealImgPathPrefix = "../Content/Images/MealOptionImages/";
+                        let mealImgPathPrefix = "../Areas/Admin/Content/MealOptionImages/";
                         if (dietlog.IsCustomUploaded == true) {
                             mealImgPathPrefix = "../Content/Images/CustomerMealUploadImages/";
                         }
@@ -1414,7 +1414,7 @@
         function UpdateMealInfo(mealVModel) {
             if (!mealVModel) { SetMealInfoDefault(); return;}
             $("#hiddenMealID").val(mealVModel.ID)
-            let mealImgPath =  `../Content/Images/MealOptionImages/${mealVModel.Image}`;
+            let mealImgPath =  `../Areas/Admin/Content/MealOptionImages/${mealVModel.Image}`;
             if (mealVModel.ID <= 0) {mealImgPath = "../Content/Images/MealDefaultImages/defaultCustomeMeal.jpg"}
             $("#mealInfoImage").attr("src",mealImgPath)
             $("#mealInfoName").html(mealVModel.Name)
@@ -1441,7 +1441,7 @@
 
         function SetMealInfoDefault() {
             $("#mealInfoName").html("餐點名稱")
-            $("#mealInfoImage").attr("src", "/Content/Images/MealOptionImages/mealDefault.jpg" )
+            $("#mealInfoImage").attr("src", "/Areas/Admin/Content/MealOptionImages/mealDefault.jpg" )
             $(".mealInfoDiv li span").html("")
         }
 

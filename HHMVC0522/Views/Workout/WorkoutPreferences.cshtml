@@ -377,9 +377,11 @@
                         "wps": wps
                     },
                     success: function (result) {
-                        alert(result);
-                        if (wps.length && $("#preferencesNotify").length) {
-                            $("#preferencesNotify").remove();
+                        if (result == "Success") {
+                            alert("修改喜好運動類型成功");
+                            if (wps.length && $("#preferencesNotify").length) {
+                                $("#preferencesNotify").remove();
+                            }
                         }
                     }
                 });

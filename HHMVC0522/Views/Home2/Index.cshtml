@@ -89,16 +89,16 @@
 
 </h2>
                 <h2>登入以啟用更多功能</h2>}
-            <div class="actions pt-2 m-auto">
-                @if (Session["ID"] == null)
-                {
-    <a href="~/Home2/Login" class="button primary big mr-5" style="text-decoration: none"><i class="fas fa-user"></i> 登入</a><p style="color:red">需註冊後才可使用Google登入</p><button type="button" id="btnSignIn" class="button default m-0">Google登入</button> }
-                else
-                {
-    <a href="~/Opay/Payment/" class="button primary mr-3" style="text-decoration: none" id="">我要成為黃金會員</a><a href="#" class="button big" style="text-decoration: none;background-color:white;width:180px"><i class="fas fa-book"></i> 遊戲規則</a>
-                    <p style="color:red;font-size:20px">想增加點數嗎？<br />快按上方按鈕成為黃金會員吧<i class="far fa-kiss-wink-heart"></i></p>            }
-
-            </div>
+        <div class="actions pt-2 m-auto">
+            @if (Session["ID"] == null)
+            {
+                <a href="~/Home2/Login" class="button primary big mr-5" style="text-decoration: none"><i class="fas fa-user"></i> 登入</a><p style="color:red">需註冊後才可使用Google登入</p><button type="button" id="btnSignIn" class="button default m-0">Google登入</button> }
+            else
+            {
+                <a href="~/Opay/Payment/" class="button primary mr-3" style="text-decoration: none" id="btnOpay">我要成為黃金會員</a><a href="#" class="button big" style="text-decoration: none;background-color:white;width:180px"><i class="fas fa-book"></i> 遊戲規則</a>
+                <p style="color:red;font-size:20px">想增加點數嗎？<br />快按上方按鈕成為黃金會員吧<i class="far fa-kiss-wink-heart"></i></p>}
+            @*data-toggle="modal" data-target="#OpayModal"*@
+        </div>
 
 
 
@@ -227,13 +227,13 @@
     <div class="row">
         @foreach (var item in Model.Posts)
         {
-<div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-6 col-lg-4">
 
 
-    <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image">
-        @if (item.ImagePath != "~/Content/img/slides/health1.jpg")
-        {
-<img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="" style="max-width:100%" /> }
+                <a href="@Url.Action("PostDetail", "FrontPost", new { @ID = item.ID })" class="image">
+                    @if (item.ImagePath != "~/Content/img/slides/health1.jpg")
+                    {
+                        <img src="~/Areas/Admin/Content/PostImages/@item.ImagePath" alt="" style="max-width:100%" /> }
 
                     else
                     {
@@ -249,6 +249,22 @@
             </div>
         }
     </div>
+    <!--<div id="OpayModal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style=" text-align:start">頁面載入中...</h5>
+                </div>
+                <div class="modal-body">
+                    <img src="~/Content/Images/loadingDots.gif" />
+
+                </div>
+                <div class="modal-footer">-->
+                    @* <input type="button" value="確定" class="btn btn-default fit" onclick="function CloseThisModal(){$('#editDoneModal').modal('hide')};CloseThisModal()" />*@
+                <!--</div>
+            </div>
+        </div>
+    </div>-->
 </section>
 
 @functions{ IHtmlString DisplayIcon(string name)
@@ -280,7 +296,7 @@
         $('.carousel').carousel({
             interval: 4000
         })
-
+        window.onload = function () { console.log("我回來了") };
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -368,6 +384,9 @@
                 console.log('User disconnect.');
             });
         }
+        //$("#btnOpay").on("click", function () {
+        //    $.ajax()
+        //})
 
 
         /**/
