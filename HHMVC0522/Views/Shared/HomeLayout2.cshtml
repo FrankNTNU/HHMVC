@@ -813,21 +813,39 @@
     <script>
         // Left side bar data.
         $(document).ready(function () {
-            let userID = "@Session["ID"]";
+            window.onload = (event) => {
+                let userID = "@Session["ID"]";
+                console.log("userID = " + userID);
+            let percentage;
             if (userID != null) {
-                let percentage = "@Session["Percentage"]".substr(0, 2);
-                console.log("percentage = ");
-                console.log(percentage);
-                if (percentage >= 100) {
-                    $("#CalorieBar").css("background-color", "rgba(255,0 , 0, 0.9)");
-                }
-                else if (percentage >= 75) {
-                    $("#CalorieBar").css("background-color", "rgba(255, 213, 5, 0.9)");
-                }
-                else {
-                    $("#CalorieBar").css("background-color", "rgba(60, 120, 0, 0.9)");
-                }
+                $.ajax({
+                    url: "/HealthHelper/Home2/UpdatePercentageSession",
+                    contentType: JSON,
+                    success: function (result) {
+                        console.log("Value = " + result.Value);
+                        console.log("Percentage = " + result.Percentage);
+                        value = result.Value;
+                        percentage = result.Percentage;
+                        $("#CalorieBar").css("width", percentage);
+                        $("#CalorieValue").empty();
+                        $("#CalorieValue").text(value + " 卡");
+                        let percentageValue = parseInt(percentage.substring(0, percentage.length - 1));
+                        console.log("Percentage Value = " + percentageValue)
+                        if (percentageValue >= 100) {
+                            $("#CalorieBar").css("background-color", "rgba(255,0 , 0, 0.9)");
+                        }
+                        else if (percentageValue >= 75) {
+                            $("#CalorieBar").css("background-color", "rgba(255, 213, 5, 0.9)");
+                        }
+                        else {
+                            $("#CalorieBar").css("background-color", "rgba(60, 120, 0, 0.9)");
+                        }
+                    }
+                });
+
             }
+            }
+
     })
     </script>
     <script>
