@@ -36,16 +36,19 @@ namespace DAL
 
         public bool Add(Workout entity)
         {
-            try
+            using (HealthHelperEntities db = new HealthHelperEntities())
             {
-                db.Workouts.Add(entity);
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
+                try
+                {
+                    db.Workouts.Add(entity);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception ex)
+                {
 
-                throw ex;
+                    throw ex;
+                }
             }
         }
 
@@ -173,12 +176,15 @@ namespace DAL
 
         public void Update(Workout entity)
         {
-            Workout workout = db.Workouts.FirstOrDefault(x => x.ID == entity.ID);
-            workout.Name = entity.Name;
-            workout.Calories = entity.Calories;
-            workout.ActivityLevelID = entity.ActivityLevelID;
-            workout.WorkoutCategoryID = entity.WorkoutCategoryID;
-            db.SaveChanges();
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                Workout workout = db.Workouts.FirstOrDefault(x => x.ID == entity.ID);
+                workout.Name = entity.Name;
+                workout.Calories = entity.Calories;
+                workout.ActivityLevelID = entity.ActivityLevelID;
+                workout.WorkoutCategoryID = entity.WorkoutCategoryID;
+                db.SaveChanges();
+            }
         }
     }
 }

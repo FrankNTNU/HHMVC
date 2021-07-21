@@ -182,7 +182,8 @@ namespace BLL
                 AddDate = DateTime.Today,
                 ParentCommentID = model.ParentCommentID,
                 MemberID = model.MemberID,
-                IsApproved = true
+                IsApproved = true,
+                SentimentScore = CommentDAO.GetSentimentScores(model)
             };
             postDAO.AddReply(comment);
         }

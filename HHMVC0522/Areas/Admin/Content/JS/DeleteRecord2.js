@@ -11,9 +11,13 @@ function Delete() {
         {
             url: URL + ID,            
             success: function () {
+                console.log("成功")
                 $("#a_" + ID).fadeOut();
                 $("#modalmessage").modal('hide');
                 window.location.href = "../" + LastUrl;
+            },
+            error: function () {
+                console.log("錯誤")
             }
         })
 }

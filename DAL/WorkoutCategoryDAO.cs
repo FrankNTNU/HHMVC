@@ -40,24 +40,28 @@ namespace DAL
 
         public bool Add(WorkoutCategory entity)
         {
-            try
+            using (HealthHelperEntities db = new HealthHelperEntities())
             {
-                WorkoutCategoryDTO categoryDTO = new WorkoutCategoryDTO();
-                //var q = from p in db.WorkoutCategories
-                //                             select new
-                //                             {
-                //                                 categoryNames=p.Name
-                //                             };
-                //categoryDTO.categoryNames.Add(q.ToString());
-                db.WorkoutCategories.Add(entity);
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
+                try
+                {
+                    WorkoutCategoryDTO categoryDTO = new WorkoutCategoryDTO();
+                    //var q = from p in db.WorkoutCategories
+                    //                             select new
+                    //                             {
+                    //                                 categoryNames=p.Name
+                    //                             };
+                    //categoryDTO.categoryNames.Add(q.ToString());
+                    db.WorkoutCategories.Add(entity);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception ex)
+                {
 
-                throw ex;
+                    throw ex;
+                }
             }
+
         }
 
         public WorkoutCategoryDTO GetWorkoutCayWithID(int ID)
@@ -74,28 +78,34 @@ namespace DAL
 
         public void Update(WorkoutCategory entity)
         {
-            try
-            {              
-                WorkoutCategory category = db.WorkoutCategories.First(x => x.ID == entity.ID);
-                if (category != null)
-                {
-                    category.Name = entity.Name;
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception ex)
+            using (HealthHelperEntities db = new HealthHelperEntities())
             {
+                try
+                {
+                    WorkoutCategory category = db.WorkoutCategories.First(x => x.ID == entity.ID);
+                    if (category != null)
+                    {
+                        category.Name = entity.Name;
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
 
-                throw ex;
+                    throw ex;
+                }
             }
         }
 
         public bool Delete(int ID)
         {
-            WorkoutCategory category = db.WorkoutCategories.First(x => x.ID == ID);
-            db.WorkoutCategories.Remove(category);
-            db.SaveChanges();
-            return true;
+            using (HealthHelperEntities db = new HealthHelperEntities())
+            {
+                WorkoutCategory category = db.WorkoutCategories.First(x => x.ID == ID);
+                db.WorkoutCategories.Remove(category);
+                db.SaveChanges();
+                return true;
+            }
         }
 
         public bool HasWorkouts(int ID)
