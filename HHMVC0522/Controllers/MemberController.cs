@@ -86,6 +86,10 @@ namespace UI.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.ProcessState = General.Messages.EmptyArea;
+                model.Statuses = StatusBLL.GetStatusesForDropDown();
+                model.ActivityLevels = ActivityLevelBLL.GetActivityLevelsForDropDown();
+                ViewBag.IsUpdate = "true";
+                return View(model);
             }
             else
             {
@@ -101,6 +105,7 @@ namespace UI.Controllers
                             ViewBag.ProcessState = General.Messages.WrongImageSize;
                             model.Statuses = StatusBLL.GetStatusesForDropDown();
                             model.ActivityLevels = ActivityLevelBLL.GetActivityLevelsForDropDown();
+                            ViewBag.IsUpdate = "true";
                             return View(model);
                         }
                         Bitmap resizedImage = new Bitmap(userImage, 256, 256);
@@ -127,19 +132,20 @@ namespace UI.Controllers
                     memberBLL = new MemberBLL();
                     ViewBag.ProcessState = General.Messages.UpdateSuccess;
                 }
-            }
-            model.Statuses = StatusBLL.GetStatusesForDropDown();
-            model.ActivityLevels = ActivityLevelBLL.GetActivityLevelsForDropDown();
-            if (Session["ID"] != null)
-            {
-                if ((int)Session["ID"] == model.ID) // Updated yourself
+                model.Statuses = StatusBLL.GetStatusesForDropDown();
+                model.ActivityLevels = ActivityLevelBLL.GetActivityLevelsForDropDown();
+                if (Session["ID"] != null)
                 {
-                    Session["Name"] = model.Name;
-                    Session["ImagePath"] = model.ImagePath;
+                    if ((int)Session["ID"] == model.ID) // Updated yourself
+                    {
+                        Session["Name"] = model.Name;
+                        Session["ImagePath"] = model.ImagePath;
+                    }
                 }
+                TempData["Success"] = "Update Success";
+                return RedirectToAction("Index", "Home2");
             }
-            TempData["Success"] = "Update Success";
-            return RedirectToAction("Index","Home2");
+            
         }
 
         public void SendConfirmEmail(string activeCode)
