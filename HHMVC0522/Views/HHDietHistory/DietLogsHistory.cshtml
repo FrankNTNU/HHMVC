@@ -678,7 +678,7 @@
                         ],
                         borderColor: [
                             'rgba(100,100,100,1)',
-                            
+
                         ],
                         fill: true,
                         lineTension: 0.5,
@@ -709,7 +709,7 @@
                         ],
                         borderColor: [
                               'rgba(100, 100, 100, 1)',
-                       
+
                         ],
                         fill: true,
                         lineTension: 0.5,
@@ -814,7 +814,38 @@
                     currRow.remove()
                     $('#editDoneModal .modal-title').text('資料刪除中...')
 
-                    $('#editDoneModal').modal('show')
+                    $('#editDoneModal').modal('show');
+                   
+           let userID = "@Session["ID"]";
+                console.log("userID = " + userID);
+            let percentage;
+            if (userID != null) {
+                $.ajax({
+                    url: "/HealthHelper/Home2/UpdatePercentageSession",
+                    contentType: JSON,
+                    success: function (result) {
+                        console.log("Value = " + result.Value);
+                        console.log("Percentage = " + result.Percentage);
+                        value = result.Value;
+                        percentage = result.Percentage;
+                        $("#CalorieBar").css("width", percentage);
+                        $("#CalorieValue").empty();
+                        $("#CalorieValue").text(value + " 卡");
+                        let percentageValue = parseInt(percentage.substring(0, percentage.length - 1));
+                        console.log("Percentage Value = " + percentageValue)
+                        if (percentageValue >= 100) {
+                            $("#CalorieBar").css("background-color", "rgba(255,0 , 0, 0.9)");
+                        }
+                        else if (percentageValue >= 75) {
+                            $("#CalorieBar").css("background-color", "rgba(255, 213, 5, 0.9)");
+                        }
+                        else {
+                            $("#CalorieBar").css("background-color", "rgba(60, 120, 0, 0.9)");
+                        }
+                    }
+                });
+
+            }
 
                 }
             })

@@ -41,12 +41,55 @@ namespace UI.Controllers
                 Session["Calories"] = new DietLogBLL().GetGainedCalByDate(DateTime.Now.ToString(Format.DateAndYear), userID);
                 Session["TDEE"] = GetTDEE(userID);
                 double percentage = (double)Session["Calories"] / (double)Session["TDEE"] * 100;
-                Session["Percentage"] = percentage != 0 ? percentage.ToString().Substring(0, 2) + "%" : "0%";
+                if (percentage == 0) Session["Percentage"] = "0%";
+                else
+                {
+                    if (percentage.ToString().Substring(0, 2).Contains("."))
+                    {
+                        Session["Percentage"] = percentage.ToString().Substring(0, 1) + "%";
+                    }
+                    else
+                    {
+                        Session["Percentage"] = percentage.ToString().Substring(0, 2) + "%";
+                    }
+                }
             }
             LayoutDTO layoutDTO = new LayoutDTO();
             layoutDTO = layoutBLL.GetPosts();
 
             return View(layoutDTO);
+        }
+        public JsonResult UpdatePercentageSession()
+        {
+            if (Session["ID"] == null) return Json("");
+            int userID = (int)Session["ID"];
+            Session["Calories"] = new DietLogBLL().GetGainedCalByDate(DateTime.Now.ToString(Format.DateAndYear), userID);
+            Session["TDEE"] = GetTDEE(userID);
+            double percentage = (double)Session["Calories"] / (double)Session["TDEE"] * 100;
+            if (percentage == 0) Session["Percentage"] = "0%";
+            else
+            {
+                if (percentage.ToString().Substring(0, 2).Contains("."))
+                {
+                    Session["Percentage"] = percentage.ToString().Substring(0, 1) + "%";
+                }
+                else
+                {
+                    Session["Percentage"] = percentage.ToString().Substring(0, 2) + "%";
+                }
+            }
+            BarValues barValues = new BarValues()
+            {
+                Percentage = Session["Percentage"].ToString(),
+                Value = Session["Calories"].ToString()
+            };
+            return Json(barValues, JsonRequestBehavior.AllowGet);
+        }
+        public class BarValues
+        {
+            public string Percentage { get; set; }
+            public string Value { get; set; }
+
         }
         public double GetTDEE(int memberID)
         {

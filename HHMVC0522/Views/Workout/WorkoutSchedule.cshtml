@@ -658,25 +658,28 @@
                         //StatusID: 5
                     },
                     success: function (data) {
-                        alert(data.Result);
 
-                        $("#checkRow .button[data-wlid=" + wlid + "]").removeClass("primary")
-                            .text("執行成功").attr("disabled", true);
+                        if (data.Result == "Success") {
 
-                        $("#todayConsume").text(data.TodayConsume);
+                            alert("運動排程執行成功");
 
-                        chart.series[0].setData([{
-                            y: data.TDEEPercent
-                        }]);
+                            $("#checkRow .button[data-wlid=" + wlid + "]").removeClass("primary")
+                                .text("執行成功").attr("disabled", true);
 
-                        chart.series[1].setData([{
-                            y: data.IngestPercent
-                        }]);
+                            $("#todayConsume").text(data.TodayConsume);
 
-                        chart.series[2].setData([{
-                            y: data.ConsumePercent
-                        }]);
+                            chart.series[0].setData([{
+                                y: data.TDEEPercent
+                            }]);
 
+                            chart.series[1].setData([{
+                                y: data.IngestPercent
+                            }]);
+
+                            chart.series[2].setData([{
+                                y: data.ConsumePercent
+                            }]);
+                        }
                     }
                 });
 

@@ -449,7 +449,7 @@
     @*<script src="~/Content/js/shCore.js"></script>
         <script src="~/Content/js/shBrushXml.js"></script>
         <script src="~/Content/js/shBrushJScript.js"></script>*@
-    <script>
+<script>
           @{
                  string colorRGBA = "";
                  string IsReminderSpanVisible = "hidden";
@@ -483,7 +483,7 @@
         $("#suggestBulb").mouseleave(function () {
             $(this).addClass("far").addClass("fa-lightbulb").removeClass("fas").remove("fa-lightbulb");
         });
-        
+
         $("#fontLike").mouseleave(function () {
             $(this).removeClass("fa-2x");
         });
@@ -493,9 +493,9 @@
         $("#addToTempList").mouseleave(function () {
             $(this).removeClass("h5").removeClass("font-weight-bold");
         });
-        
+
         function readURL(input) {
-            
+
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
 
@@ -676,27 +676,50 @@
             value: JSON.parse(dayGainedCalPer),
             letMeKnow() {
                 $("#gainedCalsProgressBar").css("width", this.value + "%")
-                $("#CalorieValue").empty();
                 if (this.value >= 100) {
                     $("#gainedCalsProgressBar").css("background-color", "rgba(255,0 , 0, 0.9)"); //red
-                    $("#CalorieBar").css("background-color", "rgba(255,0 , 0, 0.9)");
                     $("#spanProgressBarGainedRemender").css("visibility", 'visible');
 
                 } else if (this.value >= 75) {
                     $("#gainedCalsProgressBar").css("background-color", "rgba(255, 213, 5, 0.9)"); //yellow
-                    $("#CalorieBar").css("background-color", "rgba(255, 213, 5, 0.9)");
                 }
                 else {
                     $("#gainedCalsProgressBar").css("background-color", "rgba(60, 120, 0, 0.9)");//green
-                    $("#CalorieBar").css("background-color", "rgba(60, 120, 0, 0.9)");
                 }
 
                 $("#realGainedPer").text(`(${this.value}%)`);
-                $("#CalorieBar").css("width", this.value + "%");
-                $("#CalorieValue").empty();
-                $("#CalorieValue").text(past7DaysGainedCalsArr.value[6] + " 卡");
-                //past7DaysGainedCalsArr.value[6] => 今天攝取熱量
 
+                //past7DaysGainedCalsArr.value[6] => 今天攝取熱量
+                let userID = "@Session["ID"]";
+                console.log("userID = " + userID);
+            let percentage;
+            if (userID != null) {
+                $.ajax({
+                    url: "/HealthHelper/Home2/UpdatePercentageSession",
+                    contentType: JSON,
+                    success: function (result) {
+                        console.log("Value = " + result.Value);
+                        console.log("Percentage = " + result.Percentage);
+                        value = result.Value;
+                        percentage = result.Percentage;
+                        $("#CalorieBar").css("width", percentage);
+                        $("#CalorieValue").empty();
+                        $("#CalorieValue").text(value + " 卡");
+                        let percentageValue = parseInt(percentage.substring(0, percentage.length - 1));
+                        console.log("Percentage Value = " + percentageValue)
+                        if (percentageValue >= 100) {
+                            $("#CalorieBar").css("background-color", "rgba(255,0 , 0, 0.9)");
+                        }
+                        else if (percentageValue >= 75) {
+                            $("#CalorieBar").css("background-color", "rgba(255, 213, 5, 0.9)");
+                        }
+                        else {
+                            $("#CalorieBar").css("background-color", "rgba(60, 120, 0, 0.9)");
+                        }
+                    }
+                });
+
+            }
             }
             ,
             get Val() {
@@ -728,7 +751,7 @@
         }
 
 
-        
+
 
 
 
@@ -787,7 +810,7 @@
         $("#numCal").val("")
         $("#txtUnitName").val("")
         latestMeal.Meal =obj
-       
+
 
     })
         $(function () {
@@ -957,7 +980,7 @@
             SetTempInfoDefaut()
              @{Session[CDictionary.KEY_DIETLOGCART_ITEMS] = null;}
              $("#tempDietLogTable tbody").empty()
-            
+
 
 
 
@@ -1229,7 +1252,7 @@
                     ],
                     borderWidth: 2
                     }
-                    
+
                 //,{
                 //    label: '建議攝取上限',
                 //    data: suggestedNutritionRangesArr[1],
@@ -1438,6 +1461,6 @@
 
 
 
-    </script>
+</script>
 
 }
