@@ -225,7 +225,7 @@
                                     }
                                     else
                                     {
-                                        <img src="~/Content/Images/MealOptionImages/@item.MealImage" width="108" height="85">
+                                        <img src="~/Areas/Admin/Content/MealOptionImages/@item.MealImage" width="108" height="85">
 
                                     }
                                 }
@@ -451,7 +451,7 @@
                         const cell1 = document.createElement('td')
 
                         const imgEle = document.createElement('img')
-                        imgEle.setAttribute("src", `~/Content/Images/MealOptionImages/${value.MealImagePath}`)
+                        imgEle.setAttribute("src", `~/Areas/Admin/Content/MealOptionImages/${value.MealImagePath}`)
                         imgEle.setAttribute("width", "108")
                         imgEle.setAttribute("height", "85")
                         cell1.appendChild(imgEle)
@@ -670,18 +670,20 @@
                 data: {
                     labels: ['一', '二', '三', '四', '五', '六', '日'],    /*周*/
                     datasets: [{
-                        label: '建議上下限(單位: 毫升)',
+                        label: '建議下限(單位: 毫升)',
                         data: WeeklyWaterLogSuggestedRangesArr[0],
                         backgroundColor: [
                             "rgba(220,220,220,0.3)"
 
                         ],
                         borderColor: [
-                            'rgba(220,220,220,0)',
+                            'rgba(100,100,100,1)',
                         ],
                         fill: true,
                         lineTension: 0.5,
-                        radius: 0
+                        radius: 0,
+                        borderWidth: 0.3,
+
                     },
                     {
                         label: '總攝水量(單位: 毫升)',
@@ -706,13 +708,13 @@
 
                         ],
                         borderColor: [
-                            'rgba(220,220,220,0)',
+                            'rgba(100,100,100,1)',
                         ],
                         fill: true,
                         lineTension: 0.5,
                         radius: 0,
 
-                        //borderWidth: 1
+                        borderWidth: 0.3
                     }
 
                     ]
