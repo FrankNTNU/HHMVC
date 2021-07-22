@@ -1,0 +1,104 @@
+﻿@model IEnumerable<DTO.DietLogDTO>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MemberID_Hui)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeOfDayID_Hui)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EditTime_Hui)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Portion_Hui)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.MealOptionID_Hui)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date_Hui)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.IsValid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MemberID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeOfDayID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Portion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MealOptionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>*@
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MemberID_Hui)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeOfDayID_Hui)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EditTime_Hui)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Portion_Hui)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.MealOptionID_Hui)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_Hui)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.IsValid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MemberID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeOfDayID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Portion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MealOptionID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>*@
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

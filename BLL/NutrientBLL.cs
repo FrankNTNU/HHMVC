@@ -10,6 +10,13 @@ namespace BLL
 {
     public class NutrientBLL
     {
+        public List<MealDetailDTO> GetOnlyNutrient()
+        {
+            List<MealDetailDTO> dto = new List<MealDetailDTO>();
+            NutrientDAO dao = new NutrientDAO();
+            dto = dao.GetOnlyNutrient();
+            return dto;
+        }
         public void Delete(int ID)
         {
             NutrientDAO dao = new NutrientDAO();

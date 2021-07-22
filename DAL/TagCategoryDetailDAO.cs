@@ -230,7 +230,19 @@ namespace DAL
                 //    }
                 //}
             }
-
+            if (Tags != null)
+            {
+                if (mealTagDTOList.Count() == 0)
+                {
+                    for (int i = 0; i < Tags.Length; i++)
+                    {
+                        if (!HasTag(mealID, Convert.ToInt32(Tags[i]))) //沒有這個標籤
+                        {
+                            AddTag(mealID, Convert.ToInt32(Tags[i])); //新增標籤
+                        }
+                    }
+                }
+            }
         }
         public void AddTag(int mealID, int categoryID)
         {

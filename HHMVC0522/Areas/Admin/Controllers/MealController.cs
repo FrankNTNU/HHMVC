@@ -124,7 +124,7 @@ namespace UI.Areas.Admin.Controllers
             if (dto.MealOptionUpLoadImage != null)
             {
                 Bitmap image = new Bitmap(dto.MealOptionUpLoadImage.InputStream);
-                Bitmap resizedImage = new Bitmap(image, 200, 500);
+                Bitmap resizedImage = new Bitmap(image, 250, 250);
                 string uniqueNumber = Guid.NewGuid().ToString();
                 string fileName = uniqueNumber + dto.MealOptionUpLoadImage.FileName;
                 resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/MealOptionImages/" + fileName));
@@ -156,7 +156,7 @@ namespace UI.Areas.Admin.Controllers
             if (dto.MealOptionUpLoadImage != null)
             {
                 Bitmap image = new Bitmap(dto.MealOptionUpLoadImage.InputStream);
-                Bitmap resizedImage = new Bitmap(image, 200, 500);
+                Bitmap resizedImage = new Bitmap(image, 250, 250);
                 string uniqueNumber = Guid.NewGuid().ToString();
                 string fileName = uniqueNumber + dto.MealOptionUpLoadImage.FileName;
                 resizedImage.Save(Server.MapPath("~/Areas/Admin/Content/MealOptionImages/" + fileName));

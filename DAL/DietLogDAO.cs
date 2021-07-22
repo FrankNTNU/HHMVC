@@ -11,6 +11,29 @@ namespace DAL
 {
     public class DietLogDAO : HHContext
     {
+        public List<DietLogDTO> GetAllDietLog()
+        {
+            var list = db.DietLogs.ToList();
+            List<DietLogDTO> ListDto = new List<DietLogDTO>();
+            foreach(var item in list)
+            {
+                DietLogDTO dto = new DietLogDTO();
+                dto.ID = item.ID;
+                dto.MemberID_Hui = item.MemberID;
+                dto.MealOptionID_Hui = item.MealOptionID;
+                dto.EditTime_Hui = item.EditTime;
+                dto.Date_Hui = item.Date;
+                ListDto.Add(dto);
+            }
+            return ListDto;
+        }
+        public void DeleteDietLog(int ID)
+        {
+            DietLog dietLog = db.DietLogs.First(x => x.ID == ID);
+            db.DietLogs.Remove(dietLog);
+
+            db.SaveChanges();
+        }
 
 
 

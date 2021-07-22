@@ -25,7 +25,16 @@ namespace BLL
             return dietLogDAO.GetDietLogsByMemberID(memberID);
         }
 
-
+        public List<DietLogDTO> GetAllDietLog()
+        {
+            DietLogDAO dao = new DietLogDAO();
+            return dao.GetAllDietLog();
+        }
+        public void DeleteDietLog(int ID)
+        {
+            DietLogDAO dao = new DietLogDAO();
+            dao.DeleteDietLog(ID);
+        }
 
 
         public List<int> GetMonthlyGainedCals(int memberId, DateTime date)

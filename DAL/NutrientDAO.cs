@@ -119,5 +119,27 @@ namespace DAL
             nutrient.Iron = entity.Icon;
             db.SaveChanges();
         }
+        public List<MealDetailDTO> GetOnlyNutrient()
+        {
+            var list = db.MealOptions.ToList();
+
+            List<MealDetailDTO> dtoList = new List<MealDetailDTO>();
+            foreach (var item in list)
+            {
+                MealDetailDTO dto = new MealDetailDTO();
+                dto.ID = item.ID;
+                dto.Name = item.Name;
+                dto.Calories = Convert.ToInt32(item.Calories);
+                dto.Nutrient = GetNutrient(dto.ID);
+                dto.NutrientID = dto.Nutrient.ID;
+                dto.Fat = dto.Nutrient.Fat;
+                dto.Protein = dto.Nutrient.Protein;
+                dto.Carbs = dto.Nutrient.Carbs;
+                dto.Sugar = dto.Nutrient.Sugar;
+                dto.Na = dto.Nutrient.Na;
+                dtoList.Add(dto);
+            }
+            return dtoList;
+        }
     }
 }

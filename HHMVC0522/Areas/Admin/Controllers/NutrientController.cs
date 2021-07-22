@@ -14,9 +14,9 @@ namespace UI.Areas.Admin.Controllers
         // GET: Admin/Nutrient
         public ActionResult List()
         {
-            MealBLL bll = new MealBLL();
+            NutrientBLL bll = new NutrientBLL();
             List<MealDetailDTO> dto = new List<MealDetailDTO>();
-            dto = bll.GetMeals();
+            dto = bll.GetOnlyNutrient();
 
             return View(dto);
         }
