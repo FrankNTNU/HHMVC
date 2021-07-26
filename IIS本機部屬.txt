@@ -1,0 +1,28 @@
+1.系統管理員執行VS
+2.開啟windows功能
+3.確認ASP.NET 4.8有勾
+4.IIS管理主控台有勾
+5.WWW服務全勾
+6.windows功能 WWW下的ASP.NET 4.7記得要勾
+7.執行"inetmgr"
+8. 應用程式集區有 DefaultAppPool 4.0 及 .Net v4.5 及 .Net v4.5 Classic
+9. VS方案總管 => 發佈
+10. IIS => Web Deploy
+11. 伺服器 localhost
+12. 網站名稱 Default Web Site/HealthHelper
+13. 目的URL http://localhost/HealthHelper
+14. 完成
+15. 更多動作 => 編輯 => 貼上連接字串
+16. IISProfile.pubxml => 新增設定轉換
+17. 會出現Web.IISProfile.config
+18. 貼上 appSettings
+19. 更多動作 => 預覽 => 開始預覽
+20. 預覽失敗可能是因為圖片沒加入專案
+21. 如果圖片虛線有紅色叉叉可把它刪掉
+22. 發佈
+
+Server=tcp:healthhelper.database.windows.net,1433;Initial Catalog=HealthHelper;Persist Security Info=False;User ID=HHAdmin;Password=HealthHelper666;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+
+<appSettings>
+	<add key="Environment" value="Test" xdt:Transform="SetAttributes" xdt:Locator="Match(key)"/>
+</appSettings>

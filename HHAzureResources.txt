@@ -1,0 +1,29 @@
+=====Azure資料庫伺服器資訊=====
+* 	伺服器名稱 (Server name):
+	healthhelper.database.windows.net
+* 	資料庫驗證 (Authentication):			
+	SQL Server Authentication
+* 	伺服器管理員帳號 (Server admin login):		
+	HHAdmin
+* 	密碼 (Password):		
+	HealthHelper666
+* 	資料庫名稱 (Database name):	
+	HealthHelper
+* 	本機IPv4 (Your IPv4):	
+	https://whatismyipaddress.com/
+* 	連線字串 (ConnectionString):
+	Server=tcp:healthhelper.database.windows.net,1433;Initial Catalog=HealthHelper;Persist Security Info=False;User ID=HHAdmin;Password=HealthHelper666;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+=====專題相關資訊=====
+* 	專題網址 (URL):
+	http://healthhelperweb.azurewebsites.net
+*	API網址 (URL for Web API): (以取得所有會員資料為例)
+	https://hhrestfulapi.azurewebsites.net/api/Members
+*	圖片URL (URL for image access): (已取得會員大頭照為例)
+	http://healthhelper.azurewebsites.net/Areas/Admin/Content/UserImage/3
+=====專題測試用信箱=====
+*	信箱 (Gmail): 
+	healthhelper666@gmail.com
+*	密碼 (Password): 
+	hhadmin666
+* 	姓名 (Last name + first name):
+	Admin HH

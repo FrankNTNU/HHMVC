@@ -293,9 +293,6 @@
     <Compile Include="Status.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>HHModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Table.cs">
       <DependentUpon>HHModel.tt</DependentUpon>
     </Compile>

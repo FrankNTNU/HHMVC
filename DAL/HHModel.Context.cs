@@ -47,7 +47,6 @@ namespace DAL
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Program> Programs { get; set; }
         public virtual DbSet<Status> Status { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Table> Tables { get; set; }
         public virtual DbSet<TempCustomerMealOption> TempCustomerMealOptions { get; set; }
         public virtual DbSet<TimesOfDay> TimesOfDays { get; set; }

@@ -1,0 +1,46 @@
+=====Azure資料庫伺服器資訊=====
+* 伺服器名稱: 				healthhelper.database.windows.net
+* 位置: 						(Asia Pacific) East Asia
+* 資料庫驗證:				SQL Server Authentication
+* 伺服器管理員帳號: 			HHAdmin
+* 密碼: 						HealthHelper666
+* 資料庫名稱:				HealthHelper
+* 本機IPv4:					https://whatismyipaddress.com/
+
+
+=====Azure SQL Dataserver Information=====
+* Server name: 				healthhelper.database.windows.net
+* Location: 				(Asia Pacific) East Asia
+* Authentication:			SQL Server Authentication
+* Server admin login: 		HHAdmin
+* Password: 				HealthHelper666
+* Database name: 			HealthHelper
+* Your IPv4:				https://whatismyipaddress.com/
+
+==================================================================================
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+
+dotnet user-secrets init
+
+dotnet user-secrets set HealthHelperConnection "Data Source=healthhelper.database.windows.net;Initial Catalog=HealthHelper;Persist Security Info=True;User ID=HHAdmin;Password=HealthHelper666"
+
+dotnet ef dbcontext scaffold Name=HealthHelperConnection Microsoft.EntityFrameworkCore.SqlServer -o Models
+
+Scaffold-DbContext "Data Source=healthhelper.database.windows.net;Initial Catalog=HealthHelper;Persist Security Info=True;User ID=HHAdmin;Password=HealthHelper666;MultipleActiveResultSets=True;Application Name=EntityFramework" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+Scaffold-DbContext -Force "Data Source=healthhelper.database.windows.net;Initial Catalog=HealthHelper;User ID=HHAdmin;Password=HealthHelper666;MultipleActiveResultSets=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+===================================================================================
+Install-Package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore
+Install-Package Microsoft.EntityFrameworkCore.SqlServer
+Install-Package Microsoft.EntityFrameworkCore.Tools
+
+Scaffold-DbContext "Data Source=.;Initial Catalog=dbDemo;Integrated Security=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+Scaffold-DbContext -Force "Data Source=.;Initial Catalog=dbDemo;Integrated Security=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+===================================================================================
+
+Scaffold-DbContext -Force "Data Source=.;Initial Catalog=Northwind;Integrated Security=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -t Customers
