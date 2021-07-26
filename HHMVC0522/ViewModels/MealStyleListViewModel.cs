@@ -16,7 +16,7 @@ namespace UI.ViewModels
         DietLogBLL dlBLL = new DietLogBLL();
         private MemberBasicHealthProfile _memberBasicHealthProfile;
         private MealStyleViewModel _mealTagInfo;
-        private IQueryable<MealOption> _styleMeals;
+        //private IQueryable<MealOption> _styleMeals;
         private double _todayGainedCals;
 
         public MealStyleListViewModel(int memberId, int mealStyleId, Program program)
