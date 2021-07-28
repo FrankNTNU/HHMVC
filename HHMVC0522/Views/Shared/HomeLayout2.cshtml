@@ -31,7 +31,7 @@
 
     @RenderSection("Styles", required: false)
 
-    <style>
+<style>
         .CalorieValueStyle {
             padding-bottom: 0px;
         }
@@ -461,7 +461,31 @@
             border-radius: 10px;
             cursor: pointer;
         }
-    </style>
+
+        @@media screen and (min-width: 1200px) {
+            body {
+                width: 1528px;
+            }
+        }
+
+        @@media screen and (min-width: 992px) and (max-width: 1200px) {
+            body {
+                width: 992px;
+            }
+        }
+
+        @@media screen and (min-width: 768px) and (max-width: 992px) {
+            body {
+                width: 768px;
+            }
+        }
+
+        @@media screen and (min-width: 576px) and (max-width: 768px) {
+            body {
+                width: 576px;
+            }
+        }
+</style>
 </head>
 
 <!--恩旗-->
@@ -489,7 +513,7 @@
 
 <!--================================================================-->
 
-<body class="is-preload" style="width: 1528px; margin: auto;">
+<body class="is-preload" style="margin: auto;">
     <!-- Wrapper -->
     <div id="wrapper">
         <!-- Main -->
